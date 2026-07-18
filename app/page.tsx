@@ -1,45 +1,92 @@
-import { Countdown } from "@/components/countdown"
-import { NotifyForm } from "@/components/notify-form"
+import { MapPin, Tag } from 'lucide-react'
+import { HcLogo } from '@/components/hc-logo'
+import { FeatureBadges } from '@/components/feature-badges'
+import { ContactCtas } from '@/components/contact-ctas'
+import { BrandStrip } from '@/components/brand-strip'
 
 export default function Page() {
-  // Launch date: 45 days from a fixed point so the countdown is meaningful
-  const launchDate = new Date("2026-09-01T00:00:00Z").getTime()
-
   return (
-    <main className="relative flex min-h-svh flex-col items-center justify-center overflow-hidden px-6 py-16">
-      {/* Header brand */}
-      <header className="absolute top-0 left-0 flex w-full items-center justify-between px-6 py-6 sm:px-10">
-        <span className="text-sm font-semibold tracking-tight text-foreground">Northwind</span>
-        <span className="text-xs font-medium uppercase tracking-widest text-muted-foreground">2026</span>
-      </header>
+    <main className="relative min-h-svh w-full overflow-hidden bg-background">
+      {/* Background image */}
+      <div className="absolute inset-0 z-0">
+        <img
+          src="/images/lock-hero.png"
+          alt=""
+          className="h-full w-full object-cover opacity-60"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/40"
+          aria-hidden="true"
+        />
+        <div
+          className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/70"
+          aria-hidden="true"
+        />
+      </div>
 
-      <div className="flex w-full max-w-2xl flex-col items-center text-center">
-        <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-border bg-card px-4 py-1.5 text-xs font-medium uppercase tracking-widest text-muted-foreground">
-          <span className="size-1.5 rounded-full bg-primary" aria-hidden="true" />
-          Launching soon
-        </span>
-
-        <h1 className="text-balance font-serif text-5xl font-normal tracking-tight text-foreground sm:text-7xl">
-          Something great is on the way
-        </h1>
-
-        <p className="mt-5 max-w-md text-pretty leading-relaxed text-muted-foreground">
-          {"We're putting the finishing touches on an experience worth waiting for. Be the first to know when we go live."}
-        </p>
-
-        <div className="mt-10">
-          <Countdown target={launchDate} />
-        </div>
-
-        <div className="mt-10 flex w-full flex-col items-center gap-3">
-          <NotifyForm />
-          <p className="text-xs text-muted-foreground">No spam, just a single launch-day email.</p>
+      {/* Launching soon ribbon */}
+      <div className="absolute right-6 top-0 z-20 sm:right-12">
+        <div className="relative flex flex-col items-center bg-gradient-to-b from-burgundy to-burgundy/70 px-5 pb-8 pt-5 text-center shadow-xl [clip-path:polygon(0_0,100%_0,100%_100%,50%_88%,0_100%)]">
+          <p className="text-xs font-bold uppercase leading-tight tracking-[0.2em] text-burgundy-foreground">
+            Website
+            <br />
+            Launching
+            <br />
+            Soon
+          </p>
         </div>
       </div>
 
-      <footer className="absolute bottom-0 left-0 w-full px-6 py-6 text-center text-xs text-muted-foreground sm:px-10">
-        {"\u00A9"} 2026 Northwind. All rights reserved.
-      </footer>
+      {/* Content */}
+      <div className="relative z-10 mx-auto flex min-h-svh max-w-6xl flex-col items-center px-6 py-12 sm:py-16">
+        <HcLogo className="w-full" />
+
+        <div className="mt-10 w-full max-w-3xl">
+          <h1 className="text-balance text-center font-serif text-5xl font-medium leading-[1.05] tracking-tight text-foreground sm:text-left sm:text-7xl">
+            Premium Hardware{' '}
+            <span className="block text-gold sm:inline">&amp; Digital Locks</span>
+          </h1>
+
+          <div
+            className="mx-auto mt-5 h-0.5 w-24 rounded-full bg-gold sm:mx-0"
+            aria-hidden="true"
+          />
+
+          <p className="mt-6 text-pretty text-center text-lg leading-relaxed text-muted-foreground sm:text-left">
+            Authorized Dealer for{' '}
+            <span className="font-semibold text-foreground">
+              Hafele, Dorset, Labacha &amp; Hettich
+            </span>{' '}
+            in Sakchi, Jamshedpur.
+          </p>
+        </div>
+
+        <div className="mt-10 w-full max-w-4xl">
+          <FeatureBadges />
+        </div>
+
+        <div className="mt-10 flex w-full max-w-4xl items-center justify-center gap-3 rounded-full border border-gold/40 bg-gold/5 px-6 py-3.5">
+          <Tag className="h-4 w-4 shrink-0 text-gold" aria-hidden="true" />
+          <p className="text-center text-xs font-bold uppercase tracking-wide text-gold sm:text-sm">
+            Special Pricing for Early Enquiries Prior to Full Launch
+          </p>
+        </div>
+
+        <div className="mt-8 w-full max-w-4xl">
+          <ContactCtas />
+        </div>
+
+        <div className="mt-12 w-full border-t border-border pt-8">
+          <BrandStrip />
+        </div>
+
+        <div className="mt-8 flex items-center justify-center gap-2 text-center">
+          <MapPin className="h-4 w-4 shrink-0 text-gold" aria-hidden="true" />
+          <p className="text-sm text-muted-foreground">
+            1/18, Kashidih, near Baradwari Durga Puja Maidan, Sakchi, Jamshedpur - 831001
+          </p>
+        </div>
+      </div>
     </main>
   )
 }

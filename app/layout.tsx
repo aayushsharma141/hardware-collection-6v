@@ -1,22 +1,22 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
-import { Instrument_Sans, Instrument_Serif } from 'next/font/google'
+import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 
-const instrumentSans = Instrument_Sans({
+const inter = Inter({
   subsets: ['latin'],
   variable: '--font-sans',
 })
 
-const instrumentSerif = Instrument_Serif({
+const playfair = Playfair_Display({
   subsets: ['latin'],
-  weight: '400',
   variable: '--font-serif',
 })
 
 export const metadata: Metadata = {
-  title: 'Coming Soon | Northwind',
-  description: 'Something great is on the way. Sign up to be the first to know when we launch.',
+  title: 'Hardware Collection | Premium Hardware & Digital Locks - Sakchi, Jamshedpur',
+  description:
+    'Authorized dealer for Hafele, Dorset, Labacha & Hettich in Sakchi, Jamshedpur. Premium hardware and digital locks. Website launching soon.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -38,11 +38,8 @@ export const metadata: Metadata = {
 }
 
 export const viewport: Viewport = {
-  colorScheme: 'light dark',
-  themeColor: [
-    { media: '(prefers-color-scheme: light)', color: 'white' },
-    { media: '(prefers-color-scheme: dark)', color: 'black' },
-  ],
+  colorScheme: 'dark',
+  themeColor: '#0d0b09',
 }
 
 export default function RootLayout({
@@ -51,7 +48,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`bg-background ${instrumentSans.variable} ${instrumentSerif.variable}`}>
+    <html lang="en" className={`bg-background ${inter.variable} ${playfair.variable}`}>
       <body className="font-sans antialiased">
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
