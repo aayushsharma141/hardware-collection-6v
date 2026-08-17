@@ -1,0 +1,22 @@
+version: "3.0"
+product_strategy:
+  name: "Strategic Product Alignment Matrix"
+  description: "Guides feature prioritization based on quarterly company goals, competitive positioning, and growth vectors."
+
+strategic_pillars:
+  - id: "pillar-growth"
+    name: "Conversion & User Acquisition"
+    weight: 0.40
+  - id: "pillar-retention"
+    name: "Product Quality & UX Magic"
+    weight: 0.35
+  - id: "pillar-efficiency"
+    name: "Infrastructure & Technical Debt"
+    weight: 0.25
+
+prioritization_matrix:
+  rICE_scoring:
+    reach_weight: 1.0
+    impact_weight: 2.0
+    confidence_weight: 1.5
+    effort_weight: 1.0

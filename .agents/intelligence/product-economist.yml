@@ -1,0 +1,62 @@
+version: "3.1"
+product_economist:
+  name: "Product Economic Model — Multi-Dimensional Value Framework"
+  description: "Evaluates features across multiple value dimensions. Single ROI no longer auto-rejects work because strategic investments have negative short-term ROI by design."
+
+value_classification:
+  description: "All features must declare their primary and secondary value type before economic evaluation begins."
+  types:
+    Revenue:
+      economics_model: "roi_formula"
+      rejection_threshold: "roi < 1.20"
+    Retention:
+      economics_model: "roi_formula"
+      rejection_threshold: "roi < 0.90"
+    Trust:
+      economics_model: "strategic_value"
+      rejection_threshold: "none — requires Executive Review"
+    Compliance:
+      economics_model: "strategic_value"
+      rejection_threshold: "none — legally mandated work always approved"
+    Operational_Efficiency:
+      economics_model: "cost_reduction"
+      rejection_threshold: "payback_period > 18 months"
+    Developer_Productivity:
+      economics_model: "cost_reduction"
+      rejection_threshold: "payback_period > 12 months"
+    Technical_Debt_Reduction:
+      economics_model: "risk_reduction"
+      rejection_threshold: "none — evaluated by Risk Score only"
+    Accessibility:
+      economics_model: "strategic_value"
+      rejection_threshold: "none — compliance + trust baseline"
+    Strategic_Positioning:
+      economics_model: "strategic_value"
+      rejection_threshold: "requires Executive Review if cost > $5000"
+    Innovation:
+      economics_model: "learning_value"
+      rejection_threshold: "none — time-boxed spikes always approved"
+    Platform_Capability:
+      economics_model: "strategic_value"
+      rejection_threshold: "none — enables future Revenue features"
+
+multi_dimension_scoring:
+  dimensions:
+    - name: Business Value
+      description: "Expected revenue, retention, and market positioning impact"
+    - name: Engineering Cost
+      description: "Dev hours, token budget, and complexity estimate"
+    - name: Risk
+      description: "Security, compliance, regression, and rollback risk"
+    - name: Opportunity Cost
+      description: "What we cannot build if we build this instead"
+    - name: Strategic Alignment
+      description: "Alignment with the 3 strategic pillars in product-strategy.yml"
+    - name: Learning Value
+      description: "What validated knowledge does this generate about our users or market?"
+    - name: Confidence
+      description: "How well-evidenced is the assumption driving this feature?"
+
+roi_formula:
+  formula: "(Expected_Revenue + User_Value) / (Dev_Cost + Maintenance_Drag + Risk_Cost)"
+  note: "Only applied to Revenue and Retention value types. All other types use strategic_value model."

@@ -1,0 +1,39 @@
+version: "2.0"
+policy_id: "pol-design-001"
+name: "Executable Design System Constraints"
+enforcement_level: "blocker"
+
+executable_rules:
+  - id: "rule-typography-01"
+    name: "Allowed Typography System"
+    when:
+      file_pattern: "**/*.{tsx,jsx,css}"
+    require:
+      font_family_in: ["Inter", "Roboto", "Outfit"]
+      no_browser_default_fonts: true
+    otherwise:
+      severity: "blocker"
+      message: "Non-standard font family detected. Must use Inter, Roboto, or Outfit."
+
+  - id: "rule-tokens-01"
+    name: "Three-Layer Token Decoupling"
+    when:
+      component_type: "UIComponent"
+    require:
+      token_layer: "semantic"
+      foundation_direct_access: false
+    otherwise:
+      severity: "blocker"
+      message: "UI components MUST consume semantic tokens. Direct foundation token usage is prohibited."
+
+  - id: "rule-radius-01"
+    name: "Radius System Alignment"
+    when:
+      component: "Button"
+    require:
+      radius_max: 2
+      contrast_ratio_min: 4.5
+      tokenized: true
+    otherwise:
+      severity: "blocker"
+      message: "Button radius must be <= 2px and contrast ratio >= 4.5."

@@ -1,0 +1,274 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-bright": "#faf9fa",
+                "on-error-container": "#93000a",
+                "warning-gold": "#FFB503",
+                "secondary": "#825425",
+                "surface-variant": "#e3e2e3",
+                "on-secondary-fixed": "#2d1600",
+                "on-tertiary-fixed-variant": "#374e00",
+                "secondary-container": "#fec087",
+                "inverse-surface": "#2f3131",
+                "on-tertiary": "#ffffff",
+                "on-primary": "#ffffff",
+                "outline-variant": "#c1c7cb",
+                "on-secondary-container": "#794c1e",
+                "primary-container": "#042b37",
+                "inverse-primary": "#aaccdb",
+                "surface-container-highest": "#e3e2e3",
+                "error": "#ba1a1a",
+                "tertiary-fixed-dim": "#9ed900",
+                "surface-container-high": "#e8e8e9",
+                "primary-fixed": "#c5e8f8",
+                "on-secondary": "#ffffff",
+                "surface-tint": "#426370",
+                "inverse-on-surface": "#f1f0f1",
+                "outline": "#72787b",
+                "success-green": "#008060",
+                "on-primary-container": "#7293a2",
+                "on-surface": "#1a1c1d",
+                "charcoal-text": "#212326",
+                "on-secondary-fixed-variant": "#673d0f",
+                "on-primary-fixed-variant": "#2a4b58",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f4f3f4",
+                "primary": "#00151d",
+                "on-background": "#1a1c1d",
+                "secondary-fixed-dim": "#f8ba82",
+                "error-container": "#ffdad6",
+                "on-surface-variant": "#41484b",
+                "border-gray": "#D2D5D9",
+                "tertiary-fixed": "#b5f700",
+                "primary-fixed-dim": "#aaccdb",
+                "surface": "#faf9fa",
+                "surface-dim": "#dadadb",
+                "on-primary-fixed": "#001f29",
+                "error-red": "#D72C0D",
+                "surface-container": "#eeeeee",
+                "on-tertiary-container": "#719c00",
+                "shadow-teal": "#A8E8E2",
+                "surface-container-lowest": "#ffffff",
+                "secondary-fixed": "#ffdcc0",
+                "tertiary-container": "#1d2c00",
+                "on-tertiary-fixed": "#141f00",
+                "background": "#faf9fa",
+                "tertiary": "#0d1600"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "gutter": "1.5rem",
+                "margin-mobile": "1rem",
+                "margin-desktop": "2rem",
+                "unit": "4px"
+        },
+        "fontFamily": {
+                "headline-lg": [
+                        "Poppins"
+                ],
+                "body-md": [
+                        "Poppins"
+                ],
+                "body-lg": [
+                        "Poppins"
+                ],
+                "headline-xl": [
+                        "Poppins"
+                ],
+                "label-md": [
+                        "Poppins"
+                ],
+                "headline-lg-mobile": [
+                        "Poppins"
+                ],
+                "headline-md": [
+                        "Poppins"
+                ],
+                "headline-xl-mobile": [
+                        "Poppins"
+                ]
+        },
+        "fontSize": {
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "1.3",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "500"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "1.4",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "1.3",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "1.4",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-xl-mobile": [
+                        "32px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface-container-lowest/90 backdrop-blur-md border-b border-surface-variant"><div class="h-20 max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between"><div class="flex-shrink-0 flex items-center gap-2"><div class="w-10 h-10 bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-on-primary">architecture</span></div><span class="font-headline-md text-headline-md text-primary-container uppercase tracking-widest">Hardware Collection</span></div><nav class="hidden lg:flex items-center gap-gutter" data-active-classes="text-secondary border-b-2 border-secondary"><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors py-2" data-path="home" href="#">HOME</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors py-2" data-path="brands" href="#">BRANDS</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors py-2" data-path="products" href="#">PRODUCTS</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors py-2" data-path="catalogs" href="#">CATALOGS</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary-container transition-colors py-2" data-path="about" href="#">ABOUT</a><a aria-current="page" class="font-label-md transition-colors py-2 text-[#C08955] border-b-2 border-[#C08955]" data-path="contact" href="#">CONTACT</a></nav><div class="flex items-center gap-6"><a class="hidden md:flex items-center bg-[#C08955] px-6 py-3 text-white font-label-md text-label-md hover:bg-[#C08955]/90 transition-all" href="https://wa.me/919835190738">WHATSAPP INQUIRY</a><div class="w-8 h-8 rounded-full bg-primary-container flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="h-[1px] w-full bg-outline-variant/30"></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<section class="relative w-full min-h-[614px] flex items-end pb-16 lg:pb-32 px-margin-mobile lg:px-margin-desktop bg-surface-container-lowest">
+<div class="absolute inset-0 z-0">
+<div class="w-full h-full bg-cover bg-center" data-alt="High-end architectural hardware showroom interior, warm dramatic lighting highlighting premium door handles and fittings. Deep charcoal and warm wood tones, minimalist aesthetic, wide angle view." style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAFIxsRRGIHZ1fVtiNsWAvSfxrHxHYL5Livtfq3JRLBQcaelHzBFFKO4neJU03FRkKJF5kF3FSGs2nLK95gGYjAqW5RdPO0fOu4HQZ85m7sfl02fC8WtC3KQg7w8BvyE8XrJQ9Ac8AcvGEtzqSTd1ghl2KIb5GHvVldN1L143nwoN7Zjr7NSlyFyMiwj4drjTksMnVox2wVlEfrrv1GVJjwiNOcb0Gb4B-9f3iCgpxsOTap5gn_Y6Oc4Aik-_8g2XUNGDzatOpGTGNh')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-surface-container-lowest via-surface-container-lowest/80 to-transparent"></div>
+</div>
+<div class="relative z-10 max-w-4xl pt-40">
+<div class="flex items-center gap-4 mb-6">
+<div class="w-12 h-[1px] bg-primary-container"></div>
+<span class="font-label-md text-label-md text-primary-container tracking-widest uppercase">Contact &amp; Showroom</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl text-on-surface mb-8 max-w-3xl">Visit Our Sakchi Showroom.</h1>
+<p class="font-headline-md text-headline-md text-on-surface-variant max-w-2xl leading-relaxed">Experience Jamshedpur's finest collection of architectural hardware. Feel the weight, examine the finish, and consult with our experts.</p>
+</div>
+</section>
+<section class="w-full px-margin-mobile lg:px-margin-desktop py-24 bg-surface-container-lowest">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<!-- Showroom Details -->
+<div class="col-span-1 lg:col-span-5 space-y-16">
+<div>
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-8">Location &amp; Hours</h2>
+<div class="space-y-8">
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-[#BBFF00] text-3xl drop-shadow-md">location_on</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Address</h3>
+<p class="font-body-md text-body-md text-on-surface">1/18, Kashidih,<br/>Near Baradwari Durga Puja Maidan,<br/>Sakchi, Jamshedpur, Jharkhand 831001</p>
+</div>
+</div>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-[#BBFF00] text-3xl drop-shadow-md">schedule</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Opening Hours</h3>
+<p class="font-body-md text-body-md text-on-surface">Monday – Saturday<br/>10:00 AM – 8:00 PM<br/><span class="text-on-surface-variant">Sunday: Closed</span></p>
+</div>
+</div>
+<div class="flex gap-6">
+<span class="material-symbols-outlined text-[#BBFF00] text-3xl drop-shadow-md">call</span>
+<div>
+<h3 class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest mb-2">Direct Contact</h3>
+<p class="font-body-md text-body-md text-on-surface">+91 98351 90738</p>
+</div>
+</div>
+</div>
+<div class="mt-12 flex flex-col sm:flex-row gap-4">
+<a class="inline-flex items-center justify-center gap-2 bg-[#C08955] text-white px-8 py-4 font-label-md text-label-md uppercase tracking-wider hover:bg-[#C08955]/90 transition-colors shadow-md" href="https://wa.me/919835190738">
+<span class="material-symbols-outlined text-xl">chat</span>
+              Schedule a Visit
+            </a>
+<a class="inline-flex items-center justify-center gap-2 bg-transparent text-on-surface border border-outline-variant px-8 py-4 font-label-md text-label-md uppercase tracking-wider hover:border-primary-container hover:text-primary-container transition-colors" href="#">
+<span class="material-symbols-outlined text-xl">map</span>
+              Get Directions
+            </a>
+</div>
+</div>
+</div>
+<!-- Map & Image -->
+<div class="col-span-1 lg:col-span-7 space-y-gutter lg:-mt-24 relative z-20">
+<div class="aspect-[4/3] w-full bg-surface-container shadow-xl overflow-hidden group">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-700 group-hover:scale-105" data-location="1/18, Kashidih, Near Baradwari Durga Puja Maidan, Sakchi, Jamshedpur" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBivZvStxGtnT5MGkXb6vxf6a38mQAEaPtQ_pNPMN_5-VyVjZR2eKTQNWJHmcIdijEOmSMs6mRknC2M4rbPzQTCCRu8xEQ-3d1VGavf4mvYGDPLbjT1MQdI5SQWXsspZhtS3Fo-N5RGC0-CtJsy7MJmAm4KzG7-eWNWSLNqf9TXzFOy0o3Nkc8U8gngTwTsjbyle6dzGl6vdAboy3Uworm8c5B1uCBACxq3etzKrIaHHYYe8cxYxBq3ulvz5WUaqieEvytms9hmshq0')"></div>
+</div>
+<div class="aspect-[16/9] w-full bg-surface-container shadow-lg overflow-hidden group">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Exterior view of Hardware Collection showroom in Sakchi, Jamshedpur during early evening. Clean modern facade with illuminated signage, elegant window displays showing premium architectural fittings." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDG9dSt93-4tokgtAFbxMcugXdO0vNhFPclvzw1lrjgsv29RaBrBQAdWUdfjOo54B_I2IR6fAc7TS-BPU-MHHKvY8tMRuvL26G0UxZoICPtU7oCE-hXP_7KIf5m-K5GKRdK7xiouanHBUPcUIY2_uzZvWE33VYkiFHUTk1POKm_GuV2ktNX9d-5CTXKYJ2x-Asi2I7IdWcH9ZS8p_OKSr0UkduSOW2eILtKuTxt7KFE1xCtFh-W_2yHrGOF1GjO9HGE_UJ7dryZ-hkU"/>
+</div>
+</div>
+</div>
+</section>
+<section class="w-full px-margin-mobile lg:px-margin-desktop py-24 bg-surface-container-low">
+<div class="max-w-4xl mx-auto">
+<div class="text-center mb-16">
+<h2 class="font-headline-lg text-headline-lg text-on-surface mb-4">Project Inquiry</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Planning a renovation or new build? Let us know what you're looking for, and our experts will prepare recommendations for your visit.</p>
+</div>
+<form class="space-y-8 bg-surface-container-lowest p-8 lg:p-12 shadow-sm border border-surface-variant">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Full Name</label>
+<input class="w-full bg-transparent border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary-container transition-colors placeholder:text-on-surface-variant/40" placeholder="John Doe" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">Phone Number</label>
+<input class="w-full bg-transparent border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary-container transition-colors placeholder:text-on-surface-variant/40" placeholder="+91 XXXXX XXXXX" type="tel"/>
+</div>
+</div>
+<div class="space-y-4">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider block">Project Type (Select all that apply)</label>
+<div class="flex flex-wrap gap-4">
+<label class="cursor-pointer">
+<input class="peer sr-only" name="project_type" type="checkbox" value="kitchen"/>
+<div class="px-6 py-3 border border-outline-variant text-on-surface font-label-md text-label-md peer-checked:bg-primary-container peer-checked:text-white peer-checked:border-primary-container transition-colors">Modular Kitchen</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="project_type" type="checkbox" value="wardrobe"/>
+<div class="px-6 py-3 border border-outline-variant text-on-surface font-label-md text-label-md peer-checked:bg-primary-container peer-checked:text-white peer-checked:border-primary-container transition-colors">Wardrobe Systems</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="project_type" type="checkbox" value="doors"/>
+<div class="px-6 py-3 border border-outline-variant text-on-surface font-label-md text-label-md peer-checked:bg-primary-container peer-checked:text-white peer-checked:border-primary-container transition-colors">Door Hardware</div>
+</label>
+<label class="cursor-pointer">
+<input class="peer sr-only" name="project_type" type="checkbox" value="security"/>
+<div class="px-6 py-3 border border-outline-variant text-on-surface font-label-md text-label-md peer-checked:bg-primary-container peer-checked:text-white peer-checked:border-primary-container transition-colors">Digital Security</div>
+</label>
+</div>
+</div>
+<div class="space-y-2">
+<label class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider block">Additional Details</label>
+<textarea class="w-full bg-transparent border-b border-outline-variant py-3 font-body-md text-on-surface focus:outline-none focus:border-primary-container transition-colors placeholder:text-on-surface-variant/40 resize-none" placeholder="Tell us a bit about your project timeline or specific brands you are interested in..." rows="4"></textarea>
+</div>
+<button class="w-full bg-primary-container text-white py-5 font-label-md text-label-md uppercase tracking-widest hover:bg-primary-container/90 transition-colors shadow-md mt-4" type="submit">Submit Inquiry</button>
+</form>
+</div>
+</section>
+</div></main><footer class="w-full bg-primary-container text-white py-24"><div class="max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-8"><div class="space-y-4"><h3 class="font-headline-lg text-headline-lg">Hardware Collection</h3><p class="font-body-md text-white/80 max-w-xs">The premier architectural hardware showroom for Jamshedpur's finest designs.</p></div><div class="space-y-4"><h4 class="font-headline-md text-headline-md text-[#C08955]">CONTACT</h4><address class="not-italic font-body-md text-white/80 space-y-2">Sakchi, Jamshedpur<br/>+91 98351 90738<br/>contact@hardwarecollection.in</address></div><div class="space-y-4"><h4 class="font-headline-md text-headline-md text-[#C08955]">EXPLORE</h4><div class="grid grid-cols-2 gap-2 font-label-md text-label-md"><a class="hover:text-[#C08955] transition-colors" data-path="products" href="#">PRODUCTS</a><a class="hover:text-[#C08955] transition-colors" data-path="brands" href="#">BRANDS</a><a class="hover:text-[#C08955] transition-colors" data-path="catalogs" href="#">CATALOGS</a><a class="hover:text-[#C08955] transition-colors" data-path="contact" href="#">INQUIRY</a></div></div></div><div class="mt-8 pt-8 border-t border-white/10 max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop text-center font-label-md text-label-md opacity-60">© 2024 HARDWARE COLLECTION. ALL RIGHTS RESERVED.</div></footer><a class="fixed bottom-8 right-8 w-14 h-14 bg-[#BBFF00] text-primary-container rounded-full flex items-center justify-center shadow-lg z-[60] hover:scale-110 transition-transform" href="https://wa.me/919835190738"><span class="material-symbols-outlined text-[32px]">chat</span></a></body></html>

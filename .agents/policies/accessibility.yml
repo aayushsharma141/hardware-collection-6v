@@ -1,0 +1,26 @@
+version: "2.0"
+policy_id: "pol-a11y-001"
+name: "Executable Accessibility Guardrails"
+enforcement_level: "blocker"
+
+executable_rules:
+  - id: "rule-a11y-contrast-01"
+    name: "Text Contrast Requirement"
+    when:
+      element_type: "text"
+    require:
+      contrast_ratio_min: 4.5
+    otherwise:
+      severity: "blocker"
+      message: "Text element contrast ratio is below WCAG 2.1 AA minimum of 4.5:1."
+
+  - id: "rule-a11y-interactive-01"
+    name: "Interactive Focus and Labels"
+    when:
+      element_type: "interactive" # button, input, link
+    require:
+      has_focus_ring: true
+      has_aria_label_or_text: true
+    otherwise:
+      severity: "blocker"
+      message: "Interactive element missing visible focus indicator or accessible label."

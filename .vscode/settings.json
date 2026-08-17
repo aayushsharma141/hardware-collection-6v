@@ -1,0 +1,7 @@
+{
+  "window.title": "${dirty}${activeEditorShort}${separator}${rootName} [Hardware-Collection]",
+  "workbench.colorCustomizations": {
+    "titleBar.activeBackground": "#0f172a",
+    "titleBar.activeForeground": "#f8fafc"
+  }
+}

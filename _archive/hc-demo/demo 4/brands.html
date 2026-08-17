@@ -1,0 +1,285 @@
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<style>
+    @layer base {
+      html, body {
+        margin: 0;
+        padding: 0;
+        background-color: #0B0B0C;
+      }
+      body {
+        overscroll-behavior: none;
+      }
+      main > :first-child {
+        margin-top: 0 !important;
+      }
+      main > :last-child {
+        margin-bottom: 0 !important;
+      }
+    }
+    ::-webkit-scrollbar {
+      display: none;
+    }
+    .fade-in-line {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 1s cubic-bezier(0.16, 1, 0.3, 1), transform 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .reveal .fade-in-line {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .brand-logo-wall div {
+      opacity: 0.3;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+    .brand-logo-wall div:hover {
+      opacity: 1;
+      transform: scale(1.05);
+    }
+  </style>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "background": "#0B0B0C",
+            "primary": "#C8A96E", // Champagne Gold
+            "on-background": "#FFFFFF", // Silk White
+            "on-surface-variant": "#A6A6A6", // Stone Grey
+            "outline-variant": "#4d463a",
+            "surface-container": "#131314",
+            "surface-container-highest": "#1c1b1c"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.125rem",
+            "lg": "0.25rem",
+            "xl": "0.5rem",
+            "full": "0.75rem"
+          },
+          "fontFamily": {
+            "headline": ["Cormorant Garamond", "serif"],
+            "display": ["Cormorant Garamond", "serif"],
+            "body": ["DM Sans", "sans-serif"],
+            "label": ["DM Sans", "sans-serif"]
+          },
+          "spacing": {
+            "section": "160px"
+          }
+        }
+      }
+    }
+  </script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600;700&amp;family=DM+Sans:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+</head>
+<body class="bg-background font-body text-on-background selection:bg-primary selection:text-background">
+<header class="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-2xl border-b border-white/10">
+<div class="h-20 max-w-[1440px] mx-auto px-10 flex items-center justify-between">
+<div class="flex items-center gap-4">
+<img alt="Hardware Collection" class="h-8 w-auto object-contain brightness-0 invert" src="https://lh3.googleusercontent.com/aida/AP1WRLt0pZJK390xskHmdxvI8cQdH8anxfUmMAfTFOqzX_AJx6BPdKd_hBM57i_a9iCROobkOMEJBvnlfWG70CW2OCuJMB5uq8jRDXmjHwxLOPy4wf647UlgzVKlTDl49_9g0ie81ZZElgM_xrouo7NmYYaRpzDc_ME9GGKMmBlv-K0ZQ8nC9rNPk6py9523oNReVvfHqvq4o93bygXNLvUotKtcE39if86j1J01Sf9a_IvFe6qtqzDS4JR3Al0Yv5J8o03w4Diwm_eBnQ"/>
+<span class="font-headline text-xl tracking-[0.15em] text-white uppercase hidden sm:block">Hardware Collection</span>
+</div>
+<nav class="hidden lg:flex items-center gap-12">
+<a class="text-xs font-label uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" data-path="home" href="home.html">Home</a><a aria-current="page" class="uppercase tracking-widest transition-colors duration-300 text-primary font-medium" data-path="brands" href="brands.html">Brands</a><a class="text-xs font-label uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" data-path="collections" href="categories.html">Collections</a><a class="text-xs font-label uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" data-path="showroom" href="contact.html">Showroom</a><a class="text-xs font-label uppercase tracking-widest text-on-surface-variant hover:text-primary transition-colors duration-300" data-path="contact" href="contact.html">Contact</a>
+</nav>
+<div class="flex items-center gap-8">
+<a class="bg-primary text-background px-10 py-3 text-[10px] font-label font-bold uppercase tracking-[0.2em] hover:bg-white transition-all duration-500" href="#">Inquire</a>
+<div class="cursor-pointer hover:text-primary transition-colors"><span class="material-symbols-outlined text-[24px]">person</span></div>
+</div>
+</div>
+</header>
+<main class="w-full">
+<!-- Hero Section -->
+<div class="relative w-full h-[85vh] flex items-center justify-center bg-background overflow-hidden">
+<div class="absolute inset-0 z-0 bg-cover bg-center scale-110 transition-transform duration-[20s] linear" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBA_7hfx0hVRtKB-7W682l75ZyVW0HxDHCpKGUujJ0XBYWgZeGQTeSlWo0Rp_dZLtEVTUTE4Vjp60coq8tCCCTQ8tM1OsKo9nsuOLldKEw1Jh2HK4ay8l4XopYVUuUkgISTMI7OUfGZoRbOr0g3j4OgA1KECGzXWEOOLXWLR2OuLukA3KRKlJBzRM2zMiTHvaOXcJ5OwvmBr1XtP0PUB9Djh92WQ8BgsnPC6cE5Y39o2xQl9wM6M0YhpCTN4_u30sRrnouNiQAjluiY'); filter: brightness(0.4);"></div>
+<div class="absolute inset-0 z-10 bg-gradient-to-t from-background via-transparent to-background/20"></div>
+<div class="relative z-20 flex flex-col items-center justify-center text-center px-6 max-w-[1200px] mx-auto w-full pt-20">
+<div class="reveal">
+<span class="fade-in-line inline-block text-[10px] font-label uppercase tracking-[0.4em] text-primary mb-6" style="transition-delay: 0.1s;">Elite Curations</span>
+<h1 class="fade-in-line font-headline text-5xl md:text-8xl text-white tracking-[-0.02em] leading-[1.1] mb-8" style="transition-delay: 0.3s;">Authorized Partners</h1>
+<p class="fade-in-line font-body text-lg md:text-xl text-on-surface-variant max-w-3xl mx-auto leading-relaxed" style="transition-delay: 0.5s;">
+            A symphony of precision engineering and uncompromising aesthetic vision from the world's most distinguished architectural manufacturers.
+          </p>
+</div>
+</div>
+</div>
+<!-- Brand Sections -->
+<section class="py-section w-full bg-background relative overflow-hidden">
+<div class="max-w-[1440px] mx-auto px-10 flex flex-col gap-section">
+<!-- Hafele -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center reveal">
+<div class="lg:col-span-5 flex flex-col justify-center order-2 lg:order-1">
+<span class="fade-in-line text-[10px] font-label uppercase tracking-[0.3em] text-primary mb-4" style="transition-delay: 0.2s;">01 — Germany</span>
+<h2 class="fade-in-line font-headline text-4xl md:text-6xl text-white mb-6 uppercase tracking-tight" style="transition-delay: 0.3s;">Häfele</h2>
+<h3 class="fade-in-line font-headline text-xl text-primary italic mb-8" style="transition-delay: 0.4s;">Uncompromising German Precision</h3>
+<p class="fade-in-line font-body text-lg text-on-surface-variant mb-12 leading-relaxed" style="transition-delay: 0.5s;">
+              Defining the benchmark for architectural functionality. Häfele’s engineering ethos marries rigorous mechanical testing with sleek, minimalist forms. Every component is designed to vanish into the architecture.
+            </p>
+<a class="fade-in-line inline-flex items-center gap-6 text-[11px] font-label uppercase tracking-[0.2em] text-primary group" href="#" style="transition-delay: 0.6s;">
+              Explore Collection
+              <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-3 transition-transform duration-500">arrow_forward</span>
+</a>
+</div>
+<div class="lg:col-span-7 h-[650px] overflow-hidden order-1 lg:order-2 group">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-[3s] group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuALjhJZllu7QzMIDyzEre3WANAJOdE5vgnLhZ3fKub_IdOi6M8HtzHAYtyHqt3Kf9RurQpAszDU4iTgk-4iQAXprqwMhGHwG_D1lneAmT0PTWp34wylC21Mf9UNvo4rPrJaFgQEMYA5Rvtdx5YOhqew2kMkx2NmDOEElIgTA4WBm4hdv1LMhyTFqOlJxqJXJvNv_NJJ0lg3zaUFDndqPQAz7gRzpe5dCgnpyIhy8OoTc9bmJxB6JNQhkHNq82lA7q6qKxZQrGkdEbZp')"></div>
+</div>
+</div>
+<!-- Dorset -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center reveal">
+<div class="lg:col-span-7 h-[650px] overflow-hidden group">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-[3s] group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuC-GE7xMDfNyDhthuTMfxWqf1-IvDkCBX-Pa6wLD6viYZ9fX-4zoG95lAH7rrJ7xU7vhveIGuIX-rA9Wylay3j9vOQiRdLh8X3bfHuNxn5emdD9zRaQbGh70v3ZonfIEwHv33vh3yq9kv75g-BsBAI4ce2aRhb_wB5XGOZUl2ZQ0xX1XxZal1nE-kTbumSX0VuZpfeuB2ZGqiO4Zp-ETYx1ItJWnakyEf9majq4URbCEKfx3Yd_euf3VViQestnRyQc0F6KKQW1r0RA')"></div>
+</div>
+<div class="lg:col-span-5 flex flex-col justify-center">
+<span class="fade-in-line text-[10px] font-label uppercase tracking-[0.3em] text-primary mb-4" style="transition-delay: 0.2s;">02 — Global</span>
+<h2 class="fade-in-line font-headline text-4xl md:text-6xl text-white mb-6 uppercase tracking-tight" style="transition-delay: 0.3s;">Dorset</h2>
+<h3 class="fade-in-line font-headline text-xl text-primary italic mb-8" style="transition-delay: 0.4s;">Contemporary Architectural Solutions</h3>
+<p class="fade-in-line font-body text-lg text-on-surface-variant mb-12 leading-relaxed" style="transition-delay: 0.5s;">
+              Where bold geometry meets ergonomic perfection. Dorset collections are crafted for spaces that demand a statement, characterized by substantial weight and decisive lines.
+            </p>
+<a class="fade-in-line inline-flex items-center gap-6 text-[11px] font-label uppercase tracking-[0.2em] text-primary group" href="#" style="transition-delay: 0.6s;">
+              Explore Collection
+              <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-3 transition-transform duration-500">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Godrej -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 items-center reveal">
+<div class="lg:col-span-6 flex flex-col justify-center order-2 lg:order-1 lg:pr-12">
+<span class="fade-in-line text-[10px] font-label uppercase tracking-[0.3em] text-primary mb-4" style="transition-delay: 0.2s;">03 — Premium Security</span>
+<h2 class="fade-in-line font-headline text-4xl md:text-6xl text-white mb-6 uppercase tracking-tight" style="transition-delay: 0.3s;">Godrej Premium</h2>
+<h3 class="fade-in-line font-headline text-xl text-primary italic mb-8" style="transition-delay: 0.4s;">Advanced Security Meets Design</h3>
+<p class="fade-in-line font-body text-lg text-on-surface-variant mb-12 leading-relaxed" style="transition-delay: 0.5s;">
+              The intersection of impenetrable engineering and refined aesthetics. Godrej Premium elevates security into an object of desire, featuring biometric precision encased in alloys.
+            </p>
+<a class="fade-in-line inline-flex items-center gap-6 text-[11px] font-label uppercase tracking-[0.2em] text-primary group" href="#" style="transition-delay: 0.6s;">
+              Explore Collection
+              <span class="material-symbols-outlined text-[18px] transform group-hover:translate-x-3 transition-transform duration-500">arrow_forward</span>
+</a>
+</div>
+<div class="lg:col-span-6 h-[750px] overflow-hidden order-1 lg:order-2 group">
+<div class="w-full h-full bg-cover bg-center transition-transform duration-[3s] group-hover:scale-105" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuDMg2hpqP_T75yrnTVJ4H3KzEuCh8PQzaYnCVyTGZU4Ur31XlL06DIzsL4rxGc8kqEdlovGGIEyjEH1BntyX2vqFDRiIz1KfNY75R3ZKm7BD-Zp5ovqLloNMYPVI94lQN60LZLE2BilcpnUxKlN7nTGa16icRyxSxyu8fumqOzoZrdQsM-U9NqD5txqUYusaX9ooAA7MaDpRmw7snOoIBvINNLuaCHFVsP4kyMiJcZmaICzL2qcP2lTIUwy_oIs5-HnDqBbpQFjKFK3')"></div>
+</div>
+</div>
+<!-- Hettich & Kich -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 mb-12 reveal">
+<!-- Hettich -->
+<div class="relative group h-[550px] overflow-hidden flex items-end p-12">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-[3s] group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuALxxjaIJj82n0H2ANQ3_bt6U3UaNdU40MbsCEowe4yAeJ6-pe35JZgbOTYbl2YVJtlmX-NL1zIIMiUHDyqDaRQMp-Qz5NybArFA1zzBtqtOzCWanXRRh0SmXj-eb3ljD9LPtUMi4fcxKiXjLSl-VBTzfqDtugJj0yJvy0rB_TcaUleiRtS6T2FtUjN9Z4VYP2KQMVVbrwROqkyzRh5ExTJFFrOO1Q5zEz-C6AQTa6hkSpb_qqYfkad83SGCno0s7STY8kTSdFTnVL4')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent"></div>
+<div class="relative z-10 w-full">
+<span class="fade-in-line text-[10px] font-label uppercase tracking-[0.3em] text-primary mb-3 block">04 — Germany</span>
+<h3 class="fade-in-line font-headline text-3xl text-white mb-4 uppercase tracking-wider">Hettich</h3>
+<p class="fade-in-line font-body text-sm text-on-surface-variant max-w-sm mb-8 leading-relaxed">Fascinating solutions for modern living spaces, driven by kinetic perfection and technical superiority.</p>
+<a class="fade-in-line inline-flex items-center gap-4 text-[11px] font-label uppercase tracking-[0.2em] text-white hover:text-primary transition-colors" href="#">
+                View Brand <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+</div>
+<!-- Kich -->
+<div class="relative group h-[550px] overflow-hidden flex items-end p-12">
+<div class="absolute inset-0 bg-cover bg-center transition-transform duration-[3s] group-hover:scale-110" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBfNIfIlUQWRb41m_bofZ3Hsu8afMMlnor5xjBM7GTraYx92J6sFbshdc3RgML6dBj3yn09djvvVC3PdBRrCiJydutMcg9IZcyDINFedXsTHtm2c-JKAAUTvI3eSuzNoOeYjW2IBUId0Z4EZe9mFXkszlVSleW-s0Ex9IYfKESBlnx-65VeNfWqxd5CR7zyO9tTUo3kD-QqoexUJ2zGZl_I-SovIoMGKE-0wXZefW5q-RehNsfCw6q3dKetCRjQAyaCVzcQ-JH9NlEX')"></div>
+<div class="absolute inset-0 bg-gradient-to-t from-background/90 via-background/20 to-transparent"></div>
+<div class="relative z-10 w-full">
+<span class="fade-in-line text-[10px] font-label uppercase tracking-[0.3em] text-primary mb-3 block">05 — India</span>
+<h3 class="fade-in-line font-headline text-3xl text-white mb-4 uppercase tracking-wider">Kich</h3>
+<p class="fade-in-line font-body text-sm text-on-surface-variant max-w-sm mb-8 leading-relaxed">Pioneers in high-grade stainless steel architectural hardware, setting standards in structural durability.</p>
+<a class="fade-in-line inline-flex items-center gap-4 text-[11px] font-label uppercase tracking-[0.2em] text-white hover:text-primary transition-colors" href="#">
+                View Brand <span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Trade Access Section -->
+<section class="py-40 w-full bg-background relative overflow-hidden border-t border-white/5">
+<div class="max-w-3xl mx-auto px-10 text-center relative z-10 reveal">
+<span class="fade-in-line material-symbols-outlined text-primary text-[48px] mb-8 font-light" style="transition-delay: 0.1s;">vpn_key</span>
+<h2 class="fade-in-line font-headline text-4xl md:text-6xl text-white mb-8 tracking-tight" style="transition-delay: 0.2s;">Request Trade Access</h2>
+<p class="fade-in-line font-body text-on-surface-variant text-lg md:text-xl mb-12 leading-relaxed" style="transition-delay: 0.3s;">
+          Exclusive technical resources and dedicated concierge support for architects, interior designers, and luxury developers.
+        </p>
+<form class="fade-in-line flex flex-col sm:flex-row gap-0 max-w-xl mx-auto border-b border-white/20 focus-within:border-primary transition-colors" style="transition-delay: 0.4s;">
+<input class="flex-1 bg-transparent border-none text-white font-body px-0 py-4 focus:ring-0 placeholder:text-white/20 text-sm tracking-widest" placeholder="Professional Email Address" type="email"/>
+<button class="text-primary hover:text-white px-6 py-4 text-[11px] font-label font-bold uppercase tracking-[0.2em] transition-all duration-500 whitespace-nowrap" type="button">
+            Apply Now
+          </button>
+</form>
+</div>
+</section>
+</main>
+<footer class="w-full bg-background border-t border-white/5 pt-32 pb-16">
+<div class="max-w-[1440px] mx-auto px-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-16 lg:gap-24 mb-32">
+<div class="lg:col-span-4">
+<img alt="Logo" class="h-10 w-auto mb-10 brightness-0 invert opacity-80" src="https://lh3.googleusercontent.com/aida/AP1WRLt0pZJK390xskHmdxvI8cQdH8anxfUmMAfTFOqzX_AJx6BPdKd_hBM57i_a9iCROobkOMEJBvnlfWG70CW2OCuJMB5uq8jRDXmjHwxLOPy4wf647UlgzVKlTDl49_9g0ie81ZZElgM_xrouo7NmYYaRpzDc_ME9GGKMmBlv-K0ZQ8nC9rNPk6py9523oNReVvfHqvq4o93bygXNLvUotKtcE39if86j1J01Sf9a_IvFe6qtqzDS4JR3Al0Yv5J8o03w4Diwm_eBnQ"/>
+<p class="text-on-surface-variant leading-relaxed text-sm max-w-sm mb-12">
+            Architectural hardware curated for the global elite. A sanctuary of precision, aesthetics, and timeless craftsmanship.
+          </p>
+<div class="flex gap-8 text-on-surface-variant">
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">share</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">camera</span>
+<span class="material-symbols-outlined cursor-pointer hover:text-primary transition-colors">link</span>
+</div>
+</div>
+<div class="lg:col-span-2">
+<h4 class="font-headline text-lg text-primary mb-8 uppercase tracking-widest">Sitemap</h4>
+<ul class="space-y-6 text-[11px] font-label uppercase tracking-widest text-on-surface-variant">
+<li class="hover:text-white cursor-pointer transition-colors">Portfolio</li>
+<li class="hover:text-white cursor-pointer transition-colors">New Arrivals</li>
+<li class="hover:text-white cursor-pointer transition-colors">Bespoke Services</li>
+<li class="hover:text-white cursor-pointer transition-colors">Design Support</li>
+</ul>
+</div>
+<div class="lg:col-span-3">
+<h4 class="font-headline text-lg text-primary mb-8 uppercase tracking-widest">Showroom Jamshedpur</h4>
+<address class="not-italic text-sm text-on-surface-variant leading-[2] tracking-wide">
+            Sakchi Main Road, Jamshedpur<br/>
+            Jharkhand — 831001, India<br/><br/>
+<span class="text-white">+91 657 223 4567</span><br/>
+<span class="text-white">concierge@hardwarecollection.com</span>
+</address>
+</div>
+<div class="lg:col-span-3">
+<h4 class="font-headline text-lg text-primary mb-8 uppercase tracking-widest">Authorized Wall</h4>
+<div class="grid grid-cols-2 gap-px bg-white/5 brand-logo-wall">
+<div class="h-20 bg-background flex items-center justify-center text-[10px] tracking-[0.2em] font-bold text-white border border-white/5">HÄFELE</div>
+<div class="h-20 bg-background flex items-center justify-center text-[10px] tracking-[0.2em] font-bold text-white border border-white/5">DORSET</div>
+<div class="h-20 bg-background flex items-center justify-center text-[10px] tracking-[0.2em] font-bold text-white border border-white/5">BLUM</div>
+<div class="h-20 bg-background flex items-center justify-center text-[10px] tracking-[0.2em] font-bold text-white border border-white/5">HETTICH</div>
+</div>
+</div>
+</div>
+<div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-[10px] font-label uppercase tracking-[0.3em] text-on-surface-variant/40">
+<p>© 2024 Hardware Collection. Curating the Apex.</p>
+<div class="flex gap-12">
+<span class="hover:text-white cursor-pointer transition-colors">Privacy Policy</span>
+<span class="hover:text-white cursor-pointer transition-colors">Terms of Service</span>
+<span class="hover:text-white cursor-pointer transition-colors">Cookie Policy</span>
+</div>
+</div>
+</div>
+</footer>
+<script>
+    // Intersection Observer for scroll reveal animations
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.1
+    };
+
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal');
+        }
+      });
+    }, observerOptions);
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  </script>
+</body></html>

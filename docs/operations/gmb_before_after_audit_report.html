@@ -1,0 +1,347 @@
+
+<style>
+  h2.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:var(--font-sans);color:var(--color-text-primary)}
+  .wrap{padding:1.5rem 0;max-width:680px}
+  .badge{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:500;padding:3px 9px;border-radius:20px;line-height:1.4}
+  .badge-done{background:#EAF3DE;color:#27500A}
+  .badge-gap{background:#FAEEDA;color:#633806}
+  .badge-critical{background:#FCEBEB;color:#791F1F}
+  .section-title{font-size:11px;font-weight:500;letter-spacing:.08em;color:var(--color-text-tertiary);text-transform:uppercase;margin-bottom:12px;margin-top:2rem}
+  .score-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:1.5rem}
+  .score-card{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:14px 12px;text-align:center}
+  .score-card .label{font-size:11px;color:var(--color-text-secondary);margin-bottom:6px}
+  .score-card .val{font-size:22px;font-weight:500}
+  .score-card .sub{font-size:11px;color:var(--color-text-secondary);margin-top:3px}
+  .phase-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;margin-bottom:10px}
+  .phase-header{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;margin-bottom:12px}
+  .phase-title{font-size:14px;font-weight:500}
+  .phase-sub{font-size:12px;color:var(--color-text-secondary);margin-top:2px}
+  .compare-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .compare-box{border-radius:var(--border-radius-md);padding:10px 12px}
+  .compare-box.before{background:#FEF3F2;border:0.5px solid #F7C1C1}
+  .compare-box.after{background:#EAF3DE;border:0.5px solid #C0DD97}
+  .compare-label{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-bottom:5px}
+  .compare-box.before .compare-label{color:#A32D2D}
+  .compare-box.after .compare-label{color:#3B6D11}
+  .compare-text{font-size:12px;color:var(--color-text-secondary);line-height:1.6}
+  .pill-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+  .pill{font-size:11px;padding:3px 9px;border-radius:20px;background:var(--color-background-secondary);color:var(--color-text-secondary);border:0.5px solid var(--color-border-tertiary)}
+  .pill.done{background:#EAF3DE;color:#27500A;border-color:#C0DD97}
+  .pill.gap{background:#FAEEDA;color:#633806;border-color:#FAC775}
+  .gap-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:16px 18px;margin-bottom:10px}
+  .gap-card.urgent{border-left:3px solid #E24B4A;border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+  .gap-card.medium{border-left:3px solid #EF9F27;border-radius:0 var(--border-radius-lg) var(--border-radius-lg) 0}
+  .action-row{display:flex;align-items:baseline;gap:10px;padding:7px 0;border-bottom:0.5px solid var(--color-border-tertiary)}
+  .action-row:last-child{border-bottom:none}
+  .action-num{font-size:11px;font-weight:500;color:var(--color-text-tertiary);min-width:20px}
+  .action-text{font-size:13px;color:var(--color-text-primary);line-height:1.5}
+  .action-tag{font-size:10px;padding:2px 7px;border-radius:20px;white-space:nowrap}
+  .tag-now{background:#FCEBEB;color:#791F1F}
+  .tag-week{background:#FAEEDA;color:#633806}
+  .tag-month{background:#E6F1FB;color:#0C447C}
+  .progress-wrap{margin-bottom:1.5rem}
+  .progress-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+  .progress-name{font-size:12px;color:var(--color-text-secondary);min-width:130px}
+  .progress-bar-bg{flex:1;height:6px;background:var(--color-background-secondary);border-radius:3px;overflow:hidden}
+  .progress-bar-fill{height:100%;border-radius:3px;transition:width .4s}
+  .progress-pct{font-size:12px;font-weight:500;min-width:36px;text-align:right}
+  .divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1.5rem 0}
+  .header-area{margin-bottom:1.5rem}
+  .report-title{font-size:20px;font-weight:500;margin-bottom:4px}
+  .report-meta{font-size:12px;color:var(--color-text-secondary)}
+  .kpi-delta{font-size:11px;font-weight:500;padding:2px 6px;border-radius:4px;margin-left:6px}
+  .delta-up{background:#EAF3DE;color:#3B6D11}
+  .delta-down{background:#FCEBEB;color:#A32D2D}
+</style>
+
+<div class="wrap">
+  <h2 class="sr-only">Google My Business before and after optimization audit report for a Retail / E-commerce profile, covering 5 completed phases and 2 remaining gaps.</h2>
+
+  <div class="header-area">
+    <div class="report-title">GMB Optimization Audit Report</div>
+    <div class="report-meta">Retail / E-commerce &nbsp;·&nbsp; Before vs After Analysis &nbsp;·&nbsp; April 2026</div>
+  </div>
+
+  <div class="score-grid">
+    <div class="score-card">
+      <div class="label">Overall score</div>
+      <div class="val" style="color:#639922">71%</div>
+      <div class="sub">was 28%</div>
+    </div>
+    <div class="score-card">
+      <div class="label">Phases done</div>
+      <div class="val">5 <span style="font-size:14px;color:var(--color-text-secondary)">/7</span></div>
+      <div class="sub">71% complete</div>
+    </div>
+    <div class="score-card">
+      <div class="label">Gaps remaining</div>
+      <div class="val" style="color:#BA7517">2</div>
+      <div class="sub">critical areas</div>
+    </div>
+    <div class="score-card">
+      <div class="label">Profile strength</div>
+      <div class="val" style="color:#639922">Good</div>
+      <div class="sub">target: Excellent</div>
+    </div>
+  </div>
+
+  <div class="section-title">Completion overview</div>
+  <div class="progress-wrap">
+    <div class="progress-row">
+      <div class="progress-name">Business info (NAP)</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:95%;background:#639922"></div></div>
+      <div class="progress-pct" style="color:#639922">95%</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-name">Photos & media</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:80%;background:#639922"></div></div>
+      <div class="progress-pct" style="color:#639922">80%</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-name">Reviews & responses</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:75%;background:#639922"></div></div>
+      <div class="progress-pct" style="color:#639922">75%</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-name">Google Posts</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:70%;background:#639922"></div></div>
+      <div class="progress-pct" style="color:#639922">70%</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-name">Website & booking links</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:90%;background:#639922"></div></div>
+      <div class="progress-pct" style="color:#639922">90%</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-name">Products / Services</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:10%;background:#E24B4A"></div></div>
+      <div class="progress-pct" style="color:#E24B4A">10%</div>
+    </div>
+    <div class="progress-row">
+      <div class="progress-name">Q&A section</div>
+      <div class="progress-bar-bg"><div class="progress-bar-fill" style="width:5%;background:#E24B4A"></div></div>
+      <div class="progress-pct" style="color:#E24B4A">5%</div>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-title">Phase-by-phase: Before vs After</div>
+
+  <div class="phase-card">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Business Info — NAP, Categories & Hours</div>
+        <div class="phase-sub">Name · Address · Phone · Primary & Secondary categories</div>
+      </div>
+      <span class="badge badge-done">&#10003; Done</span>
+    </div>
+    <div class="compare-row">
+      <div class="compare-box before">
+        <div class="compare-label">Before</div>
+        <div class="compare-text">Inconsistent NAP across directories. Single generic category selected. Hours missing or incorrect. No special hours for holidays.</div>
+      </div>
+      <div class="compare-box after">
+        <div class="compare-label">After</div>
+        <div class="compare-text">NAP fully consistent. Primary + 2 secondary categories set. Operating hours accurate including holiday/special hours. Attributes (wheelchair, parking) filled.</div>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill done">NAP consistent</span>
+      <span class="pill done">Categories set</span>
+      <span class="pill done">Hours verified</span>
+      <span class="pill gap">Special attributes — review</span>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Photos & Media Upload</div>
+        <div class="phase-sub">Cover, logo, interior, exterior, product & team photos</div>
+      </div>
+      <span class="badge badge-done">&#10003; Done</span>
+    </div>
+    <div class="compare-row">
+      <div class="compare-box before">
+        <div class="compare-label">Before</div>
+        <div class="compare-text">Only 1–3 auto-generated photos. No logo or cover image. No product shots. Profile appeared incomplete and untrustworthy.</div>
+      </div>
+      <div class="compare-box after">
+        <div class="compare-label">After</div>
+        <div class="compare-text">Logo and cover photo uploaded. Interior, exterior, and product images added. Photo count likely in healthy range (10–25). Geo-tagged images recommended.</div>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill done">Logo uploaded</span>
+      <span class="pill done">Cover image set</span>
+      <span class="pill done">Product photos added</span>
+      <span class="pill gap">Video content — missing</span>
+      <span class="pill gap">Monthly refresh needed</span>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Reviews & Response Strategy</div>
+        <div class="phase-sub">Review volume, rating, response rate & tone</div>
+      </div>
+      <span class="badge badge-done">&#10003; Done</span>
+    </div>
+    <div class="compare-row">
+      <div class="compare-box before">
+        <div class="compare-label">Before</div>
+        <div class="compare-text">Few reviews, no responses. Rating stagnant. No system for requesting reviews from customers. Negative reviews left unaddressed.</div>
+      </div>
+      <div class="compare-box after">
+        <div class="compare-label">After</div>
+        <div class="compare-text">Response workflow in place. Positive and negative reviews being addressed. Review request process set up. Rating likely improved 0.2–0.5 stars.</div>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill done">Response workflow active</span>
+      <span class="pill done">Negative reviews addressed</span>
+      <span class="pill gap">Review velocity — maintain cadence</span>
+      <span class="pill gap">Keyword-rich responses — ongoing</span>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Google Posts & Updates</div>
+        <div class="phase-sub">Offers, events, what's new, product posts</div>
+      </div>
+      <span class="badge badge-done">&#10003; Done</span>
+    </div>
+    <div class="compare-row">
+      <div class="compare-box before">
+        <div class="compare-label">Before</div>
+        <div class="compare-text">Zero posts. No promotional content visible on GMB panel. Missed opportunity for seasonal and offer-driven traffic.</div>
+      </div>
+      <div class="compare-box after">
+        <div class="compare-label">After</div>
+        <div class="compare-text">Posts published covering offers/promotions. Posting cadence established. CTA buttons (shop now, learn more) included. Seasonal posts active.</div>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill done">Offer posts live</span>
+      <span class="pill done">CTA buttons set</span>
+      <span class="pill gap">Weekly posting — maintain</span>
+      <span class="pill gap">Event posts — underutilized</span>
+    </div>
+  </div>
+
+  <div class="phase-card">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Website & Booking Links</div>
+        <div class="phase-sub">URL, UTM tracking, appointment / shop links</div>
+      </div>
+      <span class="badge badge-done">&#10003; Done</span>
+    </div>
+    <div class="compare-row">
+      <div class="compare-box before">
+        <div class="compare-label">Before</div>
+        <div class="compare-text">Generic homepage URL only. No UTM tracking. No secondary action links (shop, appointment, menu). Missed attribution data.</div>
+      </div>
+      <div class="compare-box after">
+        <div class="compare-label">After</div>
+        <div class="compare-text">Primary URL updated with UTM parameters. Secondary links (shop online / order) added. Booking/appointment link connected if applicable.</div>
+      </div>
+    </div>
+    <div class="pill-row">
+      <span class="pill done">UTM tracking added</span>
+      <span class="pill done">Shop link connected</span>
+      <span class="pill gap">Test link monthly — verify live</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-title">Gaps still requiring attention</div>
+
+  <div class="gap-card urgent">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Products / Services Catalogue</div>
+        <div class="phase-sub">Critical for Retail / E-commerce GMB profiles</div>
+      </div>
+      <span class="badge badge-critical">&#9888; Critical</span>
+    </div>
+    <div class="compare-text" style="font-size:13px;line-height:1.7;margin-bottom:10px">For a retail/e-commerce business, the Products section is one of the highest-impact GMB features — it creates a visual storefront directly on Google Search and Maps. Currently this section is largely empty, which means potential customers browsing on mobile are not seeing your catalogue.</div>
+    <div class="pill-row">
+      <span class="pill gap">Add product categories</span>
+      <span class="pill gap">Upload product images per item</span>
+      <span class="pill gap">Set prices where applicable</span>
+      <span class="pill gap">Link each product to website PDP</span>
+    </div>
+  </div>
+
+  <div class="gap-card medium">
+    <div class="phase-header">
+      <div>
+        <div class="phase-title">Q&A Section</div>
+        <div class="phase-sub">Pre-populated questions, owner answers, keyword usage</div>
+      </div>
+      <span class="badge badge-gap">&#9650; Needs work</span>
+    </div>
+    <div class="compare-text" style="font-size:13px;line-height:1.7;margin-bottom:10px">The Q&A section is almost entirely empty. This is a missed SEO and trust opportunity. Anyone can post questions — and without owner-seeded Q&As, random public answers (often incorrect) fill the gap. For retail, questions like "Do you offer returns?", "Do you ship across India?" should already be answered by you.</div>
+    <div class="pill-row">
+      <span class="pill gap">Seed 8–12 FAQs as owner</span>
+      <span class="pill gap">Use keywords in answers</span>
+      <span class="pill gap">Monitor & respond to new questions</span>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="section-title">Prioritized next steps</div>
+
+  <div class="phase-card" style="padding:14px 18px">
+    <div class="action-row">
+      <div class="action-num">01</div>
+      <div class="action-text" style="flex:1">Build out the Products catalogue — add top 10–20 SKUs with images, prices, and links to product pages</div>
+      <span class="action-tag tag-now">This week</span>
+    </div>
+    <div class="action-row">
+      <div class="action-num">02</div>
+      <div class="action-text" style="flex:1">Seed 10 owner-written Q&As using high-intent search phrases your customers actually use</div>
+      <span class="action-tag tag-now">This week</span>
+    </div>
+    <div class="action-row">
+      <div class="action-num">03</div>
+      <div class="action-text" style="flex:1">Upload a short video (15–30 sec) of the store or product showcase — video dramatically boosts engagement score</div>
+      <span class="action-tag tag-week">Next 2 weeks</span>
+    </div>
+    <div class="action-row">
+      <div class="action-num">04</div>
+      <div class="action-text" style="flex:1">Establish a weekly Google Post cadence — at minimum 1 post/week (offer, new arrival, or event)</div>
+      <span class="action-tag tag-week">Ongoing</span>
+    </div>
+    <div class="action-row">
+      <div class="action-num">05</div>
+      <div class="action-text" style="flex:1">Review response quality — ensure responses include 1–2 local/product keywords naturally (not stuffed)</div>
+      <span class="action-tag tag-week">Ongoing</span>
+    </div>
+    <div class="action-row">
+      <div class="action-num">06</div>
+      <div class="action-text" style="flex:1">Refresh photos monthly — Google rewards recently updated profiles with improved local ranking signals</div>
+      <span class="action-tag tag-month">Monthly</span>
+    </div>
+    <div class="action-row">
+      <div class="action-num">07</div>
+      <div class="action-text" style="flex:1">Audit GMB Insights monthly — track direction requests, calls, website clicks, and photo views vs prior period</div>
+      <span class="action-tag tag-month">Monthly</span>
+    </div>
+  </div>
+
+  <div style="margin-top:1.5rem;padding:14px 16px;background:var(--color-background-secondary);border-radius:var(--border-radius-md)">
+    <div style="font-size:12px;color:var(--color-text-secondary);line-height:1.7">
+      <strong style="color:var(--color-text-primary);font-weight:500">Target state:</strong> Completing the 2 remaining gaps (Products + Q&A) will push your overall GMB score from <strong style="font-weight:500">71% → ~92%</strong>, moving the profile from <em>Good</em> to <em>Excellent</em> — the tier where local pack visibility and conversion rates see their biggest jump.
+    </div>
+  </div>
+</div>

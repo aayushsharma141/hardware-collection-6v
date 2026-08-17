@@ -1,0 +1,29 @@
+version: "1.0"
+assumption_registry:
+  name: "Product Assumption Registry"
+  description: "Captures every belief driving a product decision. Every feature should be traceable to at least one validated or explicitly unvalidated assumption."
+
+entries:
+  - id: "ASS-001"
+    title: "Luxury customers want instant pricing"
+    status: "UNVALIDATED"
+    created_by: "Product Team"
+    evidence:
+      - type: "Sales Call"
+        source: "Interview 14"
+        summary: "Prospect asked for pricing estimates before booking discovery call."
+    next_experiment: "A/B test estimator widget against call-to-action on pricing page"
+    features_dependent_on: ["Feature: Estimator Tool"]
+    confidence: 0.60
+
+  - id: "ASS-002"
+    title: "Dark mode reduces checkout abandonment on mobile"
+    status: "UNVALIDATED"
+    created_by: "UX Team"
+    evidence:
+      - type: "Benchmark"
+        source: "Industry report"
+        summary: "Mobile e-commerce apps with dark mode report 12% lower exit rates."
+    next_experiment: "A/B test dark mode toggle for mobile checkout users"
+    features_dependent_on: ["Feature: Dark Mode Toggle"]
+    confidence: 0.45

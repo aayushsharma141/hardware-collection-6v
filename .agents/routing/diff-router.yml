@@ -1,0 +1,25 @@
+# diff-router.yml
+# This file maps specific file paths or extensions to the specialist agents 
+# required for review when those files are modified.
+
+version: "1.0"
+routes:
+  - path: "**/*.tsx"
+    agents:
+      - "design-system-auditor"
+      - "accessibility-auditor"
+  - path: "apps/web/src/tokens/**/*.css"
+    agents:
+      - "design-system-auditor"
+  - path: "apps/web/src/analytics/events.ts"
+    agents:
+      - "telemetry-reviewer"
+  - path: "**/*auth*.ts"
+    agents:
+      - "security-auditor"
+  - path: "package.json"
+    agents:
+      - "security-auditor" # To check for vulnerable dependencies
+  - path: "docs/adr/*.md"
+    agents:
+      - "architecture-reviewer"

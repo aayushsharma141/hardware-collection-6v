@@ -1,0 +1,12 @@
+version: "1.0"
+policy_id: "pol-arch-001"
+name: "Clean Architecture Principles"
+enforcement_level: "blocker"
+rules:
+  modularity:
+    require_separation_of_concerns: true
+  dry:
+    max_code_duplication_percent: 10
+  telemetry:
+    require_analytics_event_map: true
+    strictly_typed: true

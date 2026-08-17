@@ -1,0 +1,26 @@
+version: "2.0"
+resource_manager:
+  name: "ProductOS Resource & Budget Controller"
+  description: "Enforces token budgets, context limits, and parallelism ceilings prior to agent dispatch."
+
+limits:
+  max_tokens_per_mission: 150000
+  max_cost_per_mission_usd: 1.50
+  max_parallel_agents: 4
+  max_context_window_usage_percent: 75
+
+budget_tiers:
+  low_complexity:
+    max_tokens: 30000
+    allowed_parallelism: 2
+  medium_complexity:
+    max_tokens: 75000
+    allowed_parallelism: 3
+  high_complexity:
+    max_tokens: 150000
+    allowed_parallelism: 4
+
+pre_flight_checks:
+  - "Verify context window <= 75% before dispatch"
+  - "Halt execution if cumulative mission tokens > max_tokens_per_mission"
+  - "Require human approval for high_complexity executions exceeding $1.50 budget"

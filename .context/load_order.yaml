@@ -1,0 +1,10 @@
+# Context Injection Hierarchy
+load_order:
+  - priority: 1
+    path: ".brain/mission.md"
+  - priority: 2
+    path: ".rules/coding.md"
+  - priority: 3
+    path: ".planning/STATE.md"
+  - priority: 4
+    path: ".planning/tasks/"

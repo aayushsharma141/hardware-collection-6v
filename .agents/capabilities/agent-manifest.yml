@@ -1,0 +1,86 @@
+version: "2.0"
+manifest:
+  name: "ProductOS Agent Capability Registry"
+  description: "Self-advertising capability graph enabling dynamic execution planning."
+
+agents:
+  design-system-auditor:
+    capabilities:
+      - "TokenValidation"
+      - "TypographyCompliance"
+      - "LayoutHierarchy"
+      - "MotionSystem"
+    requires:
+      - "Frontend"
+    produces:
+      - "DesignAuditReport"
+      - "TokenDiff"
+
+  accessibility-auditor:
+    capabilities:
+      - "WCAG21AA"
+      - "ARIA"
+      - "KeyboardNavigation"
+      - "ColorContrast"
+    requires:
+      - "Frontend"
+    produces:
+      - "AccessibilityReport"
+
+  security-auditor:
+    capabilities:
+      - "OWASP10"
+      - "JWTValidation"
+      - "XSSProtection"
+      - "SQLiScan"
+      - "DependencyAudit"
+    requires:
+      - "Backend"
+      - "Frontend"
+    produces:
+      - "SecurityAuditReport"
+
+  performance-auditor:
+    capabilities:
+      - "LighthouseAudit"
+      - "CoreWebVitals"
+      - "BundleSizeCheck"
+      - "LazyLoadingVerification"
+    requires:
+      - "Frontend"
+    produces:
+      - "PerformanceReport"
+
+  telemetry-reviewer:
+    capabilities:
+      - "PostHogEventMapping"
+      - "FunnelTracking"
+      - "TelemetrySchemaValidation"
+    requires:
+      - "AnalyticsMap"
+    produces:
+      - "TelemetryReport"
+
+  architecture-reviewer:
+    capabilities:
+      - "SOLIDCheck"
+      - "DRYCheck"
+      - "ADRCompliance"
+      - "GraphifyUpdate"
+    requires:
+      - "CodebaseMap"
+    produces:
+      - "ArchitectureReport"
+      - "ADR"
+
+  rollback-manager:
+    capabilities:
+      - "AutonomousRollback"
+      - "IncidentTriage"
+      - "RootCauseAnalysis"
+      - "RecoverySprintGeneration"
+    requires:
+      - "TelemetryAlert"
+    produces:
+      - "IncidentReport"
+      - "RecoverySprintPlan"

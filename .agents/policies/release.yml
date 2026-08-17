@@ -1,0 +1,10 @@
+version: "1.0"
+policy_id: "pol-rel-001"
+name: "Definition of Done (DoD) Release Gate"
+enforcement_level: "blocker"
+rules:
+  prerequisites:
+    - "All unit tests pass"
+    - "Reviewer Orchestrator approval (Ready for Release)"
+    - "ADR created if major architectural decision was made"
+    - "Changelog generated"

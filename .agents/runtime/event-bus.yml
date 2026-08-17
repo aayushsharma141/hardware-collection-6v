@@ -1,0 +1,52 @@
+version: "2.0"
+event_bus:
+  name: "ProductOS Runtime Event Bus"
+  description: "Asynchronous event bus triggering orchestrators and governance agents on system events."
+  
+events:
+  FeatureRequested:
+    description: "Emitted when a new feature goal or request is submitted."
+    handler: ".agents/orchestrators/mission-planner.md"
+    payload_schema:
+      title: string
+      description: string
+      author: string
+
+  GitPush:
+    description: "Emitted on code commit push to repository."
+    handler: ".agents/routing/diff-router.yml"
+    payload_schema:
+      commit_hash: string
+      branch: string
+      changed_files: array
+
+  ArchitectureChanged:
+    description: "Emitted when ADR or token foundation files are edited."
+    handler: ".agents/orchestrators/reviewer.md"
+    payload_schema:
+      adr_id: string
+      modified_tokens: array
+
+  TelemetryAlert:
+    description: "Emitted when production metrics breach thresholds (e.g. conversion drop, LCP spike)."
+    handler: ".agents/orchestrators/rollback-manager.md"
+    payload_schema:
+      metric_name: string
+      threshold: number
+      current_value: number
+      severity: string
+
+  ReleaseCandidateCreated:
+    description: "Emitted when a pull request reaches release candidate status."
+    handler: ".agents/orchestrators/release-manager.md"
+    payload_schema:
+      pr_id: number
+      target_version: string
+
+  PolicyFailed:
+    description: "Emitted when a blocker rule fails during agent review."
+    handler: ".agents/orchestrators/execution-planner.md"
+    payload_schema:
+      failed_rule: string
+      violating_file: string
+      remediation_agent: string

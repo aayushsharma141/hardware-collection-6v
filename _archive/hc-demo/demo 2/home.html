@@ -1,0 +1,365 @@
+<html lang="en"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        "colors": {
+                "surface-bright": "#faf9fa",
+                "on-error-container": "#93000a",
+                "warning-gold": "#FFB503",
+                "secondary": "#C08955",
+                "surface-variant": "#e3e2e3",
+                "on-secondary-fixed": "#2d1600",
+                "on-tertiary-fixed-variant": "#374e00",
+                "secondary-container": "#fec087",
+                "inverse-surface": "#2f3131",
+                "on-tertiary": "#ffffff",
+                "on-primary": "#ffffff",
+                "outline-variant": "#c1c7cb",
+                "on-secondary-container": "#ffffff",
+                "primary-container": "#042b37",
+                "inverse-primary": "#aaccdb",
+                "surface-container-highest": "#e3e2e3",
+                "error": "#ba1a1a",
+                "tertiary-fixed-dim": "#9ed900",
+                "surface-container-high": "#e8e8e9",
+                "primary-fixed": "#c5e8f8",
+                "on-secondary": "#ffffff",
+                "surface-tint": "#426370",
+                "inverse-on-surface": "#f1f0f1",
+                "outline": "#72787b",
+                "success-green": "#008060",
+                "on-primary-container": "#ffffff",
+                "on-surface": "#1a1c1d",
+                "charcoal-text": "#212326",
+                "on-secondary-fixed-variant": "#673d0f",
+                "on-primary-fixed-variant": "#2a4b58",
+                "on-error": "#ffffff",
+                "surface-container-low": "#f4f3f4",
+                "primary": "#042b37",
+                "on-background": "#1a1c1d",
+                "secondary-fixed-dim": "#f8ba82",
+                "error-container": "#ffdad6",
+                "on-surface-variant": "#41484b",
+                "border-gray": "#D2D5D9",
+                "tertiary-fixed": "#BBFF00",
+                "primary-fixed-dim": "#aaccdb",
+                "surface": "#ffffff",
+                "surface-dim": "#dadadb",
+                "on-primary-fixed": "#001f29",
+                "error-red": "#D72C0D",
+                "surface-container": "#f4f3f4",
+                "on-tertiary-container": "#719c00",
+                "shadow-teal": "#A8E8E2",
+                "surface-container-lowest": "#ffffff",
+                "secondary-fixed": "#ffdcc0",
+                "tertiary-container": "#1d2c00",
+                "on-tertiary-fixed": "#141f00",
+                "background": "#ffffff",
+                "tertiary": "#BBFF00"
+        },
+        "borderRadius": {
+                "DEFAULT": "0.125rem",
+                "lg": "0.25rem",
+                "xl": "0.5rem",
+                "full": "0.75rem"
+        },
+        "spacing": {
+                "gutter": "1.5rem",
+                "margin-mobile": "1rem",
+                "margin-desktop": "2rem",
+                "unit": "4px",
+                "section-padding": "120px",
+                "stack-md": "16px",
+                "stack-sm": "8px",
+                "stack-lg": "32px",
+        },
+        "fontFamily": {
+                "headline-lg": [
+                        "Poppins"
+                ],
+                "body-md": [
+                        "Poppins"
+                ],
+                "body-lg": [
+                        "Poppins"
+                ],
+                "headline-xl": [
+                        "Poppins"
+                ],
+                "label-md": [
+                        "Poppins"
+                ],
+                "headline-lg-mobile": [
+                        "Poppins"
+                ],
+                "headline-md": [
+                        "Poppins"
+                ],
+                "headline-xl-mobile": [
+                        "Poppins"
+                ]
+        },
+        "fontSize": {
+                "headline-lg": [
+                        "32px",
+                        {
+                                "lineHeight": "1.3",
+                                "fontWeight": "500"
+                        }
+                ],
+                "body-md": [
+                        "16px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "body-lg": [
+                        "18px",
+                        {
+                                "lineHeight": "1.6",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-xl": [
+                        "48px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "500"
+                        }
+                ],
+                "label-md": [
+                        "14px",
+                        {
+                                "lineHeight": "1.4",
+                                "fontWeight": "400"
+                        }
+                ],
+                "headline-lg-mobile": [
+                        "24px",
+                        {
+                                "lineHeight": "1.3",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-md": [
+                        "24px",
+                        {
+                                "lineHeight": "1.4",
+                                "fontWeight": "500"
+                        }
+                ],
+                "headline-xl-mobile": [
+                        "32px",
+                        {
+                                "lineHeight": "1.2",
+                                "fontWeight": "500"
+                        }
+                ]
+        }
+},
+    },
+  }
+</script></head><body class="bg-surface font-body-md text-body-md text-on-surface"><header class="fixed top-0 w-full z-50 bg-surface/90 backdrop-blur-md"><div class="h-20 max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop flex items-center justify-between"><div class="flex-shrink-0 flex items-center gap-2"><div class="w-10 h-10 bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary">architecture</span></div><span class="font-headline-md text-headline-md text-primary uppercase tracking-widest">Hardware Collection</span></div><nav class="hidden lg:flex items-center gap-gutter" data-active-classes="text-secondary border-b-2 border-secondary"><a aria-current="page" class="font-label-md transition-colors py-2 text-secondary border-b-2 border-secondary" data-path="home" href="#">HOME</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors py-2" data-path="brands" href="#">BRANDS</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors py-2" data-path="products" href="#">PRODUCTS</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors py-2" data-path="catalogs" href="#">CATALOGS</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors py-2" data-path="about" href="#">ABOUT</a><a class="font-label-md text-label-md text-on-surface-variant hover:text-primary transition-colors py-2" data-path="contact" href="#">CONTACT</a></nav><div class="flex items-center gap-6"><a class="hidden md:flex items-center bg-secondary px-6 py-3 text-on-secondary font-label-md text-label-md hover:bg-secondary/90 transition-all" href="https://wa.me/919835190738">WHATSAPP INQUIRY</a><div class="w-8 h-8 rounded-full bg-primary flex items-center justify-center"><span class="material-symbols-outlined text-on-primary text-[18px]">person</span></div></div></div><div class="h-[1px] w-full bg-outline-variant/30"></div></header><main class="w-full pt-20 bg-surface min-h-screen"><div class="flex flex-col w-full">
+<!-- Hero Section (Subtle overlapping layout, no background image hero as per guidelines unless explicitly needed for visual storytelling. Using a split panel high-impact design) -->
+<section class="relative w-full min-h-[870px] flex items-center justify-center bg-surface overflow-hidden">
+<!-- Decorative background element -->
+<div class="absolute top-0 right-0 w-3/4 h-full bg-surface-container rounded-bl-[120px] shadow-sm transform translate-x-1/4 -translate-y-10"></div>
+<div class="relative z-10 w-full max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<!-- Text Content -->
+<div class="lg:col-span-5 flex flex-col space-y-stack-lg pt-20 lg:pt-0">
+<div class="flex items-center gap-2">
+<div class="w-8 h-[1px] bg-outline"></div>
+<span class="font-label-md text-label-md text-outline uppercase tracking-[0.15em] [writing-mode:horizontal-tb]">Established 2004</span>
+</div>
+<h1 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-on-surface">
+          Jamshedpur’s <br/> Authorized Destination <br/> for Premium Hardware
+        </h1>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-md">
+          Authorized dealer for Hafele, Dorset, Godrej, and more. 20+ years of expertise in Sakchi, delivering unparalleled quality for your architectural spaces.
+        </p>
+<div class="pt-stack-sm flex items-center gap-6">
+<a class="inline-flex items-center justify-center bg-primary text-on-primary font-label-md text-label-md px-8 py-4 rounded-none hover:bg-primary/90 transition-colors shadow-md" href="https://wa.me/919835190738">
+            CHAT ON WHATSAPP
+            <span class="material-symbols-outlined ml-2 text-[20px]">arrow_forward</span>
+</a>
+</div>
+</div>
+<!-- Imagery -->
+<div class="lg:col-span-7 relative h-[500px] lg:h-[700px] mt-stack-lg lg:mt-0 w-full">
+<!-- Main Image -->
+<div class="absolute inset-0 right-10 top-10 bottom-10 z-10 shadow-xl overflow-hidden rounded-none">
+<img alt="Luxury Digital Lock" class="w-full h-full object-cover" data-alt="A highly detailed close-up of a sleek, minimalist digital door lock in brushed charcoal finish mounted on a premium walnut wood door. The lighting is cinematic and moody, casting soft highlights on the metallic surface, conveying approachability and luxury. The background is a slightly blurred, high-end residential interior." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQGMMyW6q6SUU-kivTEUZIOcSBdSr80DMiaWN7l3SriLxJ5r5-_iY6fJ2swBtqwq5XMhNN1YoyZh_T97oO7gBuIZI1e7oN3p4l4c1_BBEydZvxj4fuQbeQgda6JYYZpoBM0_j-IWRrJqCs0jgZQeUsPOh0kyzv09E69BBwZ5IBgioB-xISTsfUm3ajVK_lqiUn4UAdVqcDoxEO4RgDLO373-ucx75IRRt0GTN6ao44ydNRz131M_AqAzgyB9kEUHN8HYL56rWRoN99"/>
+</div>
+<!-- Secondary Image / Accent -->
+<div class="absolute bottom-0 right-0 w-2/5 h-2/5 z-20 shadow-lg border border-border-muted overflow-hidden bg-surface-container-lowest">
+<img alt="Modular Kitchen Hardware" class="w-full h-full object-cover" data-alt="A detailed shot of premium modular kitchen hardware. Soft-close hinges and drawer runners in a matte black finish, installed in a modern kitchen cabinet. Bright, natural lighting highlighting the precision engineering of the components." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwDuuSYrS-rYLYPHNlwmClVy8t3NK8mCC0tsR6VaejTWSzFy4HkRnN_f6xv6J9Rsi6vrkvKVTz-rvgFwMtkR9W_0KZl4zSdsUggSUx-MECiitaQJEqlDobXvVzcyoA0tg3UJ2q-LV9l-0RAjsa2sb_id9wyMHjd1CGmWHtXSAha-SbmX1x5Ai8W2jX2ObMwF6uKV5V5Uz42gm4S4Uge_mlNIl8B-ptUARqzVuzxptne_Y0xgyNUYjwzyshC7czYpx42Oe5PCV4XN-W"/>
+</div>
+</div>
+</div>
+</section>
+<!-- Authorized Brands Marquee (Structural shift via background color) -->
+<section class="w-full bg-surface-container-highest py-stack-lg overflow-hidden relative">
+<div class="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-surface-container-highest to-transparent z-10"></div>
+<div class="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-surface-container-highest to-transparent z-10"></div>
+<div class="max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop mb-stack-md text-center">
+<span class="font-label-md text-label-md text-on-surface-variant uppercase tracking-widest">Authorized Dealer For</span>
+</div>
+<div class="flex space-x-12 animate-[marquee_20s_linear_infinite] items-center whitespace-nowrap opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
+<!-- Text stand-ins for logos since we don't have image assets -->
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">HAFELE</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">DORSET</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">LABACHA</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">GODREJ</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">HETTICH</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">KICH</span>
+<!-- Repeat for smooth loop -->
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">HAFELE</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">DORSET</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">LABACHA</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">GODREJ</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">HETTICH</span>
+<span class="font-headline-lg text-headline-lg text-on-surface-variant px-8">KICH</span>
+</div>
+</section>
+<!-- Featured Categories (Bento Grid Style) -->
+<section class="w-full py-section-padding bg-surface">
+<div class="max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop">
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-stack-lg gap-stack-md">
+<div class="space-y-stack-sm max-w-2xl">
+<h2 class="font-headline-lg text-headline-lg text-on-surface">Curated Collections</h2>
+<p class="font-body-md text-body-md text-on-surface-variant">Explore our meticulously selected range of hardware, designed to elevate the functionality and aesthetic of your spaces.</p>
+</div>
+<a class="inline-flex items-center text-primary font-label-md text-label-md hover:text-primary/80 transition-colors" href="#">
+          VIEW ALL PRODUCTS <span class="material-symbols-outlined ml-1 text-[18px]">arrow_forward</span>
+</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter h-auto lg:h-[600px]">
+<!-- Large Card: Digital Locks -->
+<a class="md:col-span-12 lg:col-span-8 group relative block h-80 lg:h-full overflow-hidden bg-surface-container" href="#">
+<img alt="Digital Locks" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A wide, highly detailed architectural photograph of a modern, minimalist entryway featuring a luxury biometric digital door lock in matte brass. The door is solid oak. The lighting is natural, casting soft shadows, emphasizing the premium texture of the hardware." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfgx9qlCuTCKXmBpo71HFJJ4A50mONc-HEslzzM8eMnfIqh3g7iVmRTw-ahqNna-oRy3RUA0WgSszog0mQymhmBEpWk8yNCo1mOpNYCn7PsvkEKQ9hyBK5bH-835dQV8-zGlldj21MdhIdHCfygiFM4eRs4agWinEM8TAzKVe3QF6ORnHWY_wnhXB0EQrg8ORX9kqlSMogypTeZwnPph3IX4vtFyE1ZYvYQrApyNn8jmK1kuAgdSw_WaSeri-sgKmavdGAiJlXo8xK"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/80 via-background-dark/20 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-stack-lg w-full">
+<h3 class="font-headline-lg text-headline-lg text-surface-container-lowest mb-2">Digital Locks</h3>
+<p class="font-body-md text-body-md text-surface-container-lowest/80 max-w-md line-clamp-2">State-of-the-art security meets exceptional design with our range of biometric and smart locks.</p>
+</div>
+</a>
+<div class="md:col-span-12 lg:col-span-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-gutter h-full">
+<!-- Small Card 1: Modular Kitchen -->
+<a class="group relative block h-64 lg:h-[calc(50%-12px)] overflow-hidden bg-surface-container" href="#">
+<img alt="Modular Kitchen Hardware" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close up of a sleek, handle-less modular kitchen drawer being opened smoothly. Focus on the high-quality soft-closing runner mechanism in graphite grey against pristine white cabinetry. Bright, clean, and modern aesthetic." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxzY0Kjyo1KwW0FZkgV1CdLBxP6D1rRD4BtjOp5fx0qfvSNszVBcOpsqG5R8ThZzqbdY8yxoZkUon2C305mSIM-ow9J1ds2VyO2ovD3lwU3qyYBSmUVYz9xP3xumPtUiAqki1UuTQy1c7JXLc6XRLaeTq1V39TfVkvCR2pO7iHCKVgFuEA_wbLOt9eBwDpe-n0wZc-mJ7bnzgibDlBtX41OBBVJZeWuDPzS6auksvcpnJ2qHSm7s3ziGJkoE3M055doKQ7dxg0RpPy"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/70 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-stack-md w-full">
+<h3 class="font-headline-md text-headline-md text-surface-container-lowest">Modular Kitchen</h3>
+<p class="font-label-md text-label-md text-surface-container-lowest/70 mt-1">Precision engineered fittings.</p>
+</div>
+</a>
+<!-- Small Card 2: Luxury Sinks -->
+<a class="group relative block h-64 lg:h-[calc(50%-12px)] overflow-hidden bg-surface-container" href="#">
+<img alt="Luxury Sinks" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="A stunning, high-contrast image of a luxury matte black quartz kitchen sink integrated seamlessly into a white marble countertop. A sleek, minimal architectural faucet sits above it. Soft, directional lighting highlights the matte texture of the sink." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDuEsvwzOHaI9klxGwqllXFMpO1Og0lGao-SX72xleXFdNBFIM_4Uynuz5uPaoSulLAPFUO7moLt1Vvt1YAPDIbPKw4Bha52L7yGW1z9Kn9X3kRNhbPgjGDkYqJs_mR996XlfX5BJ9QfL0WrkQ3s0hQ56zMeWqWubBbpvqYG67xbSB0em_PLbqLMDWUmxlTLw7Janc-gpijbCJSmBezBMhgmDVW3dqdN8XQ83ikI1f2Wtl9R2lLVzU95voUD_Vnm8D7ps5ArfDOz8CF"/>
+<div class="absolute inset-0 bg-gradient-to-t from-background-dark/70 to-transparent"></div>
+<div class="absolute bottom-0 left-0 p-stack-md w-full">
+<h3 class="font-headline-md text-headline-md text-surface-container-lowest">Luxury Sinks</h3>
+<p class="font-label-md text-label-md text-surface-container-lowest/70 mt-1">Form and function perfectly aligned.</p>
+</div>
+</a>
+</div>
+</div>
+</div>
+</section>
+<!-- Trust Section (Data/Icon driven, no borders, relying on background shifts) -->
+<section class="w-full py-section-padding bg-surface-container">
+<div class="max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-stack-lg items-center">
+<div class="space-y-stack-lg">
+<div>
+<h2 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl text-on-surface mb-stack-sm">Why Hardware Collection?</h2>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-lg">For over two decades, architects and homeowners in Jamshedpur have trusted us to provide not just products, but engineered solutions for their spaces.</p>
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-stack-md">
+<div class="bg-surface p-stack-md shadow-sm">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center mb-stack-sm">
+<span class="material-symbols-outlined text-on-primary-fixed">verified</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-1">Authorized Dealer</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Direct partnerships with global brands ensure authenticity and full warranty support.</p>
+</div>
+<div class="bg-surface p-stack-md shadow-sm">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed flex items-center justify-center mb-stack-sm">
+<span class="material-symbols-outlined text-on-secondary-fixed">support_agent</span>
+</div>
+<h4 class="font-headline-md text-headline-md text-on-surface mb-1">Expert Consultation</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Our technical team assists in specifying the exact hardware for your complex structural needs.</p>
+</div>
+</div>
+</div>
+<div class="relative h-96 w-full lg:-mt-16 bg-surface shadow-md">
+<!-- Map placeholder using data-location -->
+<div class="w-full h-full bg-cover bg-center" data-location="Sakchi, Jamshedpur, India" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuBAqGJ2QrsA6D4DUmbA4n6ZqMAC3N1IMO22QH4PCSqzlWk0psAHC4jk8mOuR8WkIhNL1N2oEiDESn8yyj-FRFVqC85PSptS0pohjwy3onxdhbbxGXGSG2t9Js_40i2ZKRJ_gDnGr91dSYaRek0uiG3ey6wH5ebdTraOk4k_DZnORUC4-1YBhfJ9vCIO8i2a6P6lpvT8s80n-U4lwlXENebLhhIcOFJE3S3vW2ODGEzrZjIhHEycGqeHd3ubYMnveDfwvKlwF8XtOJQ6')"></div>
+<!-- Overlay Card -->
+<div class="absolute bottom-6 left-6 right-6 bg-surface p-stack-md shadow-lg flex items-center gap-4">
+<div class="w-10 h-10 bg-primary flex items-center justify-center shrink-0">
+<span class="material-symbols-outlined text-on-primary">storefront</span>
+</div>
+<div>
+<h4 class="font-headline-md text-headline-md text-on-surface text-base">Showroom Presence</h4>
+<p class="font-body-md text-body-md text-on-surface-variant text-sm">Visit our expansive gallery in Sakchi.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Lead Magnet Section (High contrast, asymmetric layout) -->
+<section class="w-full py-section-padding bg-primary text-on-primary relative overflow-hidden">
+<!-- Abstract decorative SVG -->
+<svg class="absolute right-0 top-0 h-full w-1/2 opacity-10 pointer-events-none" preserveaspectratio="none" viewbox="0 0 100 100">
+<path d="M0,100 L100,0 L100,100 Z" fill="currentColor"></path>
+</svg>
+<div class="max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop relative z-10">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter items-center">
+<div class="lg:col-span-5 relative">
+<!-- Placeholder for a 3D book or document mockup -->
+<div class="aspect-[3/4] max-w-sm mx-auto lg:mx-0 relative">
+<div class="absolute inset-0 bg-on-primary/20 transform translate-x-4 translate-y-4"></div>
+<img alt="Kitchen Guide PDF" class="relative z-10 w-full h-full object-cover shadow-2xl" data-alt="A minimalist, highly designed editorial booklet cover titled 'Modular Kitchen Secrets'. The cover features a stark, high-contrast abstract architectural line drawing in crimson and charcoal on an off-white background. The booklet is angled slightly, floating against a solid deep crimson background, casting a soft, realistic drop shadow." src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlxt522D6wRKL4AU6F_GegrpA9pKt2GOh_84zSqvx_Wb1oSQ9EO1h0rgBksUYcqXj3s3tniFXr6ZUxq2b4OpIdfe6WwO9Ua9__kpOkmpg6xUa_tDkA-slGfZRFdzMffekT4014yD0EIhRr5DHd4WiuEiBtZ8yyfB9PTu5pmwvRO5Dc4uOE7u6Y-bojbMUQ14DPvx5v03hoGwriX8wHmfMAFEzkIXjTK23sLhE44iN9rBb2Yo9FuHlz2QqgST8cHOKcSTcFL8S5PhPT"/>
+<!-- Floating accent -->
+<div class="absolute -right-6 top-12 bg-tertiary text-primary-container font-label-md text-label-md px-4 py-2 z-20 shadow-md transform rotate-3">
+               FREE GUIDE
+             </div>
+</div>
+</div>
+<div class="lg:col-span-7 space-y-stack-md mt-stack-lg lg:mt-0 lg:pl-12">
+<h2 class="font-headline-xl text-headline-xl-mobile lg:text-headline-xl">
+            5 Things Every Homeowner Must Know Before Buying a Modular Kitchen
+          </h2>
+<p class="font-body-md text-body-md text-on-primary-container max-w-xl text-lg">
+            Avoid costly mistakes. Download our comprehensive guide authored by hardware experts with 20 years of local experience. Learn about weight capacities, soft-close lifespans, and material grades.
+          </p>
+<form class="mt-stack-lg max-w-md space-y-4">
+<div class="relative">
+<input class="w-full bg-surface-container-lowest/10 border-b border-on-primary/30 py-4 px-2 text-on-primary placeholder-on-primary/50 focus:outline-none focus:border-on-primary transition-colors font-body-md text-body-md" placeholder="Enter your email address" type="email"/>
+</div>
+<button class="w-full bg-secondary text-on-secondary font-headline-md text-headline-md py-4 shadow-md hover:bg-secondary/90 transition-colors flex justify-center items-center gap-2" type="button">
+               DOWNLOAD PDF NOW
+               <span class="material-symbols-outlined text-[20px]">download</span>
+</button>
+<p class="font-label-md text-label-md text-on-primary/60 text-xs text-center mt-2">We respect your privacy. No spam.</p>
+</form>
+</div>
+</div>
+</div>
+</section>
+</div>
+<style>
+  /* Injecting necessary animation for marquee */
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+  .animate-\[marquee_20s_linear_infinite\] {
+    animation: marquee 20s linear infinite;
+  }
+</style></main><footer class="w-full bg-primary text-on-primary py-section-padding"><div class="max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop grid grid-cols-1 md:grid-cols-3 gap-stack-lg"><div class="space-y-stack-md"><h3 class="font-headline-lg text-headline-lg">Hardware Collection</h3><p class="font-body-md text-on-primary-container max-w-xs">The premier architectural hardware showroom for Jamshedpur's finest designs.</p></div><div class="space-y-stack-md"><h4 class="font-headline-md text-headline-md text-secondary">CONTACT</h4><address class="not-italic font-body-md text-on-primary-container space-y-2">Sakchi, Jamshedpur<br/>+91 98351 90738<br/>contact@hardwarecollection.in</address></div><div class="space-y-stack-md"><h4 class="font-headline-md text-headline-md text-secondary">EXPLORE</h4><div class="grid grid-cols-2 gap-2 font-label-md text-label-md"><a class="hover:text-secondary-fixed transition-colors" data-path="products" href="#">PRODUCTS</a><a class="hover:text-secondary-fixed transition-colors" data-path="brands" href="#">BRANDS</a><a class="hover:text-secondary-fixed transition-colors" data-path="catalogs" href="#">CATALOGS</a><a class="hover:text-secondary-fixed transition-colors" data-path="contact" href="#">INQUIRY</a></div></div></div><div class="mt-stack-lg pt-stack-md border-t border-on-primary/10 max-w-7xl mx-auto px-margin-mobile lg:px-margin-desktop text-center font-label-md text-label-md opacity-60">© 2024 HARDWARE COLLECTION. ALL RIGHTS RESERVED.</div></footer><a class="fixed bottom-8 right-8 w-14 h-14 bg-tertiary text-primary-container rounded-full flex items-center justify-center shadow-lg z-[60] hover:scale-110 transition-transform" href="https://wa.me/919835190738"><span class="material-symbols-outlined text-[32px]">chat</span></a></body></html>

@@ -1,0 +1,25 @@
+version: "3.0"
+organizational_memory:
+  name: "Cross-Functional Organizational Knowledge Store"
+  description: "Preserves customer interviews, support tickets, meeting decisions, rejected ideas, competitor moves, and postmortems."
+
+categories:
+  customer_interviews:
+    description: "Qualitative insights gathered from user research and sales calls."
+    entries: []
+
+  rejected_ideas:
+    description: "Features or architectural directions previously evaluated and rejected with rationale."
+    entries:
+      - id: "rej-001"
+        title: "Complex Multi-Tenant Subdomain Routing"
+        rejected_date: "2026-07-15"
+        reason: "Excessive maintenance drag and low user demand."
+
+  competitor_moves:
+    description: "Market intelligence and feature parity tracking."
+    entries: []
+
+  incidents_and_postmortems:
+    description: "Historical RCA reports and postmortems."
+    entries: []

@@ -1,0 +1,87 @@
+# Multi-Agent Registry for Hardware Collection
+project: "Hardware-Collection"
+agents:
+  - id: planner
+    role: "Sprint & Task Planning"
+    spec: "agents/planner.md"
+    tools: ["Read", "Write", "Planning"]
+  - id: architect
+    role: "System Architecture & ADRs"
+    spec: "agents/architect.md"
+    tools: ["Read", "Write"]
+  - id: backend
+    role: "Backend & Logic Implementation (Sanity / Next.js API Routes)"
+    spec: "agents/backend.md"
+    tools: ["Read", "Write", "Bash"]
+  - id: frontend
+    role: "UI & Component Engineering (Next.js / Tailwind CSS / Lucide)"
+    spec: "agents/frontend.md"
+    tools: ["Read", "Write", "Browser"]
+  - id: reviewer
+    role: "Code Quality & Security Audit"
+    spec: "agents/reviewer.md"
+    tools: ["Read", "Grep"]
+
+workflow_agents:
+  - id: accessibility_review
+    role: "WCAG Accessibility & Screen Reader Audit"
+    spec: "workflows/accessibility_review.md"
+  - id: analytics_review
+    role: "Event Analytics & Conversion Tracking Verification"
+    spec: "workflows/analytics_review.md"
+  - id: architecture_review
+    role: "System Architecture & Code Structure Audit"
+    spec: "workflows/architecture_review.md"
+  - id: audit_workflow
+    role: "Automated End-to-End Workflow Audit"
+    spec: "workflows/audit_workflow.md"
+  - id: browser_pov_audit
+    role: "Visual & Responsive UI Inspection"
+    spec: "workflows/browser_pov_audit.md"
+  - id: dependency_review
+    role: "Dependency Vulnerability & License Audit"
+    spec: "workflows/dependency_review.md"
+  - id: engineering_governance_review
+    role: "Engineering Quality & Code Standard Enforcement"
+    spec: "workflows/engineering_governance_review.md"
+  - id: graphify
+    role: "Component Dependency & Knowledge Graph Analysis"
+    spec: "workflows/graphify.md"
+  - id: performance_review
+    role: "PageSpeed, Bundle & Web Vitals Optimization"
+    spec: "workflows/performance_review.md"
+  - id: product_governance_review
+    role: "Product Requirements & Feature Governance"
+    spec: "workflows/product_governance_review.md"
+  - id: production_readiness
+    role: "Production Launch & Release Quality Gatekeeper"
+    spec: "workflows/production_readiness.md"
+  - id: security_review
+    role: "Security Hardening & Vulnerability Review"
+    spec: "workflows/security_review.md"
+  - id: testing_review
+    role: "Test Coverage & E2E Verification"
+    spec: "workflows/testing_review.md"
+
+orchestrators:
+  - id: decision-engine
+    role: "Autonomous Decision Protocol Engine"
+    spec: "orchestrators/decision-engine.md"
+  - id: execution-planner
+    role: "Task Execution & Wave Planner"
+    spec: "orchestrators/execution-planner.md"
+  - id: intake
+    role: "Task Triage & Requirement Breakdown"
+    spec: "orchestrators/intake.md"
+  - id: mission-planner
+    role: "High-Level Mission Strategic Planner"
+    spec: "orchestrators/mission-planner.md"
+  - id: release-manager
+    role: "Release Verification & Deployment Coordinator"
+    spec: "orchestrators/release-manager.md"
+  - id: rollback-manager
+    role: "Automated Fallback & Safety Operator"
+    spec: "orchestrators/rollback-manager.md"
+  - id: scheduler
+    role: "Background Task & Workflow Scheduler"
+    spec: "orchestrators/scheduler.md"

@@ -1,0 +1,50 @@
+version: "2.0"
+governance_metrics:
+  name: "ProductOS Self-Evaluation & Governance Telemetry"
+  description: "Tracking the performance, reliability, and accuracy of the operating system itself."
+
+metrics:
+  architecture_compliance_rate:
+    target: 95.0
+    current: 98.0
+    unit: "percent"
+
+  policy_violations_count:
+    target: 0
+    current: 3
+    unit: "count"
+
+  average_review_time_seconds:
+    target: 60.0
+    current: 48.0
+    unit: "seconds"
+
+  agent_agreement_rate:
+    target: 90.0
+    current: 94.0
+    unit: "percent"
+
+  false_positive_rate:
+    target: 5.0
+    current: 2.0
+    unit: "percent"
+
+  telemetry_coverage_rate:
+    target: 90.0
+    current: 91.0
+    unit: "percent"
+
+  definition_of_done_pass_rate:
+    target: 95.0
+    current: 96.0
+    unit: "percent"
+
+  regression_detection_accuracy:
+    target: 85.0
+    current: 89.0
+    unit: "percent"
+
+  human_override_rate:
+    target: 10.0
+    current: 4.0
+    unit: "percent"

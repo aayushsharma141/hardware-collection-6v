@@ -1,0 +1,12 @@
+version: "1.0"
+policy_id: "pol-sec-001"
+name: "OWASP Top 10 Safeguards"
+enforcement_level: "blocker"
+rules:
+  authentication:
+    require_jwt_validation: true
+  data_sanitization:
+    prevent_xss: true
+    prevent_sqli: true
+  secrets:
+    no_hardcoded_secrets: true

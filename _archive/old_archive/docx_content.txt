@@ -1,0 +1,622 @@
+--- CONTENT OF hardware_collection_dev_brief.docx ---
+DEVELOPER BRIEFING DOCUMENT
+Hardware Collection
+Sakchi, Jamshedpur — Premium Architectural Hardware Showroom
+Website: hardwarecollectionjsr.com   |   Stack: Next.js 14 + Tailwind CSS + Vercel
+2002
+Established
+Proprietorship Firm
+7,500
+Showroom Size
+Square Feet
+4.4★
+Google Rating
+55+ Reviews
+55%
+GMB Score
+Current (Target: 90%)
+01
+Executive Brief
+What every developer must understand before writing a single line of code
+Purpose of This Document
+This document serves as the authoritative technical and business reference for all developers, designers, and digital agents working on the Hardware Collection website project. It consolidates intelligence gathered from Google AI analysis, ChatGPT research sessions, competitor audits, the official 90-Day Strategy Roadmap, Justdial data, IndiaMART listings, Wikipedia, and direct business intelligence — giving every team member a single, verified source of truth before building.
+CRITICAL
+This is NOT a generic hardware store website. It is a lead-generation and trust engine for a premium, consultation-led retail showroom. Every design and code decision must serve that singular goal: convert local search traffic into WhatsApp inquiries, calls, and showroom visits.
+02
+Business Identity & Ground Reality
+Verified facts from IndiaMART, Justdial, Google Maps, and direct research
+Core Business Profile
+Legal Name
+Hardware Collection
+Business Type
+Proprietorship Firm — Wholesaler & Retailer
+Owner / Proprietor
+Mukesh Khandelwal
+Established
+2002 (per IndiaMART) | 21 Years in Business (per Justdial, 2026)
+Address
+1/18, Kashidih, near Baradwari Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand — 831001
+Phone / WhatsApp
++91 98351 90738
+Operating Hours
+10:00 AM – 8:00 PM, Monday to Sunday
+Showroom Size
+~7,500 sq ft (evolved from original 113 sq ft shop)
+Website
+None currently — target domain: hardwarecollectionjsr.com
+Google Rating
+4.4 stars (55+ reviews as of Q1 2026)
+Justdial Rating
+4.2 stars (55 ratings, 142 photos)
+GMB Completeness
+~55% — significant optimization opportunity
+Authorized Brand Portfolio
+Hardware Collection is an authorized dealer — not a grey-market reseller — for the following premium brands. This "authorized dealer" status is the single most powerful trust signal the website must communicate:
+Hafele
+Dorset
+Labacha
+Godrej
+Hettich / Kich
+German engineering, furniture fittings, modular kitchen systems, digital locks
+Premium digital door locks, biometric security, smart home access
+Luxury kitchen sinks, premium basin fittings, bath accessories
+Trusted Indian brand — locks, security systems, reliable hardware
+European furniture fittings, drawer systems, wardrobe hardware
+03
+Location Intelligence — Sakchi, Jamshedpur
+Why location context shapes every SEO, content, and UX decision
+About Sakchi — The Commercial Heart of Jamshedpur
+Sakchi is the oldest neighbourhood and the original settlement nucleus of Jamshedpur, India's first planned industrial city. Selected in December 1907 by Jamsetji Tata as the site for what would become Tata Steel, Sakchi has evolved over 115 years into the primary retail and commercial hub of the entire East Singhbhum district.
+City
+Jamshedpur, Jharkhand (Steel City of India)
+District
+East Singhbhum, Jharkhand
+Sakchi Population
+~60,000 (2025 estimate); Urban agglomeration: ~1.7 million
+Sakchi Market
+Largest and oldest market in Jamshedpur — 17.2 acres, 2,082+ registered shops
+Market Proximity
+0.1 km from Sakchi Bus Stand; 0.5 km from Tata Steel; 3.5 km from Bistupur
+Hardware Collection Pin
+Near Durga Puja Maidan, Kashidih — high-visibility commercial corridor
+Literacy Rate
+~86% (above Jharkhand average — educated, quality-conscious buyers)
+Key Nearby Areas
+Bistupur, Kadma, Jugsalai, Telco Colony, Adityapur, Sonari, Mango, Gamharia
+WHY THIS MATTERS
+Sakchi Market is a wholesale AND retail hub. Hardware Collection sits within walking distance of thousands of daily shoppers, contractors, and builders. The website must capture this intent by targeting Sakchi + Jamshedpur + nearby locality keywords aggressively — not just the brand name.
+04
+Product & Service Architecture
+What the store sells — and how the website must organize it
+Primary Product Categories
+Door Hardware
+Digital & manual locks, handles, hinges, door closers, stoppers, security systems
+Modular Kitchen
+Hafele cabinet fittings, soft-close drawers, pull-out systems, kitchen organizers, Labacha sinks
+Bathroom Fittings
+Shower systems, faucets, basin fittings, accessories, luxury bath hardware
+Wardrobe & Furniture
+Hettich sliding systems, wardrobe accessories, furniture legs, sofa hardware, glass fittings
+Architectural Hardware
+Mirrors, glass fittings, stainless steel accessories, interior finishing hardware
+Smart Home
+Biometric locks, RFID systems, WiFi-enabled digital locks (Hafele Smart Living), video doorbells
+Service Offerings (Beyond Product Sales)
+The business is NOT purely a product seller. These adjacent services represent high-value conversion opportunities the website must surface:
+Hardware consultation and product selection guidance for homeowners and renovation projects
+Modular kitchen planning assistance — product selection, brand guidance, layout advice
+Bulk supply to builders, architects, and independent contractors
+Same-day delivery available for in-stock items
+Accepts credit cards, debit cards, and NFC mobile payments
+05
+Target Audience Architecture
+The website must serve multiple customer journeys simultaneously
+Primary Audience Segments
+Homeowners & Renovators
+Interior Designers & Architects
+Builders & Contractors
+Walk-in Retail Customers
+Ages 30–55, middle-to-upper-middle class, investing in long-term property quality
+Professional procurement decision-makers sourcing premium branded hardware for clients
+Need reliable bulk-supply partner for apartment projects and independent construction
+General repair and replacement buyers; daily footfall from Sakchi market visitors
+Customer Psychology — Emotional Drivers
+Based on consumer psychology research and review analysis, customers buy from Hardware Collection for these underlying motivations. Marketing copy and CTA language must speak to these triggers:
+Security & Protection
+Digital locks and biometric access represent "protecting my family" — not just a product
+Status & Modernity
+Premium German fittings and soft-close drawers signal "I am a sophisticated homeowner"
+Expert Guidance
+Decision fatigue is real — customers want a trusted advisor, not just a warehouse
+Future-Proofing
+Modular kitchen investment = property value increase + resale ROI
+Effortless Elegance
+The physical sensation of soft-close, German-engineered hardware is a sensory selling point
+06
+Current Digital Maturity Assessment
+Baseline scores every developer must understand before building
+Digital Presence Audit (Pre-Build Baseline)
+Digital Asset
+Status / Score
+Diagnosis & Priority
+Google Business Profile (GMB)
+55% Complete
+HIGHEST PRIORITY — Missing: products, videos, posts, secondary categories, Q&A. Fixing this alone drives 80%+ of measurable lead growth.
+Google Maps Ranking
+Not in Top 3
+Currently in "Average" zone. Top 3 achievable in 90 days with systematic optimization per the roadmap.
+Website
+NONE
+Zero owned digital property. This is the immediate build objective. Domain: hardwarecollectionjsr.com
+WhatsApp Business
+Basic (unoptimized)
+Phone number active but no catalogue, no auto-replies, no labels system. Setup is Day 7-14 priority.
+Instagram
+Absent (Jamshedpur)
+Identity conflict: @hardwarecollection on Instagram belongs to a Kolkata-based firm. JSR handle needed.
+Facebook
+Not active
+Low priority. Build after GMB + WhatsApp + website foundation is solid.
+Justdial Listing
+Active, 4.2★
+Present but generic. No differentiation from commodity competitors. Needs branded photos + description.
+IndiaMART Listing
+Active (2002)
+Functional but positioned as wholesaler of generic items. Needs premium brand photography upgrade.
+Brand Clarity Score
+4 / 10
+Online identity does not match the premium offline showroom reality. Website will fix this.
+Trust Score
+7 / 10
+Strong local reviews save the score. Website + 200 reviews will push this to 9+.
+Authority Score
+5 / 10
+Brand authority is borrowed (Hafele, Dorset). Owned authority (expertise content) is non-existent online.
+07
+Website Specification for Developers
+Architecture, tech stack, content structure, and conversion requirements
+Tech Stack & Hosting
+Framework
+Next.js 14 (App Router recommended)
+Styling
+Tailwind CSS
+Deployment
+Vercel (free tier sufficient for initial launch)
+Domain
+hardwarecollectionjsr.com (chosen to avoid brand confusion with Kolkata entity)
+Hosting Cost
+~₹800–1,200/year for domain; Vercel hosting free or minimal
+Build Approach
+Vibe-coding friendly — use Cursor, Windsurf, or Bolt.new for AI-assisted development
+Performance Target
+Core Web Vitals: LCP < 2.5s, CLS < 0.1, FID < 100ms — mobile-first mandatory
+Primary CTA Channel
+WhatsApp deep links with pre-filled messages (wa.me/919835190738?text=...)
+Website Architecture — Page Structure
+This is a 1–3 page static site. No e-commerce. No admin panel. No database. The sole purpose is: establish trust, communicate authority, drive WhatsApp/call conversions.
+Section
+Content Requirements
+Conversion Goal & CTA
+Hero / Above Fold
+Store name + tagline ("Authorized Partner for Hafele, Dorset & Labacha in Jamshedpur"), hero image of showroom interior or product display, immediate trust signal (brand logos)
+Sticky WhatsApp button + "Call Now" — visible at all times
+Brand Trust Strip
+Logo row: Hafele | Dorset | Labacha | Godrej | Hettich | Kich with "Authorized Dealer" badge overlay
+Borrow brand equity instantly — builds authority in 3 seconds
+Product Categories
+6 category cards: Door Hardware / Modular Kitchen / Bathroom Fittings / Wardrobe Systems / Architectural Hardware / Smart Security — each with WhatsApp inquiry link
+"Enquire on WhatsApp" per category with pre-filled message text
+Why Choose Us
+4 trust pillars: 20+ Years Experience / Authorized Brands / Expert Consultation / Same-Day Delivery
+Removes buying objections; no CTA needed here
+Google Reviews Embed
+Real Google review widget or screenshot carousel with 4.4★ rating and select review excerpts
+Social proof — critical for high-ticket modular kitchen buyers
+About / Store Story
+Mukesh Khandelwal photo + brief story: "Started as a 113 sq ft shop, now 7,500 sq ft showroom serving Jamshedpur for 20+ years" — humanizes the brand
+Trust builder — no hard CTA; let story do the work
+Service Areas
+Text list + embedded Google Map: Sakchi, Bistupur, Kadma, Jugsalai, Telco, Adityapur, Sonari — local SEO value
+Google Map embed drives Direction Requests from GMB
+Contact / Footer
+NAP (Name/Address/Phone) EXACTLY matching GMB listing, business hours, WhatsApp button, embedded map, schema markup
+Final conversion — WhatsApp + Call + Directions triple CTA
+WhatsApp CTA Implementation
+Every section must have a WhatsApp CTA. Use pre-filled messages so the customer's first message is already written — reducing friction to zero:
+Hero CTA: wa.me/919835190738?text=Hi%2C+I%20want%20to%20visit%20your%20showroom%20in%20Sakchi
+Door Locks CTA: wa.me/919835190738?text=I%20need%20info%20on%20Dorset%20digital%20locks
+Modular Kitchen CTA: wa.me/919835190738?text=I%20need%20a%20modular%20kitchen%20hardware%20consultation
+Bathroom Fittings CTA: wa.me/919835190738?text=Please%20share%20bathroom%20fittings%20catalogue
+General Enquiry: wa.me/919835190738?text=Hi%20Hardware%20Collection%2C%20I%20found%20you%20on%20Google
+Critical SEO Requirements
+Title Tag
+Hardware Collection Sakchi | Authorized Hafele & Dorset Dealer Jamshedpur
+Meta Description
+Premium hardware showroom in Sakchi, Jamshedpur. Authorized dealer for Hafele, Dorset, Labacha & Godrej. Door locks, modular kitchen, bathroom fittings. Call +91 98351 90738.
+H1 Tag
+Jamshedpur's Authorized Hardware & Modular Kitchen Showroom — Sakchi
+Schema Markup
+LocalBusiness schema with NAP, opening hours, geo coordinates, brand list, aggregate rating
+Primary Keywords
+hardware shop Sakchi, bathroom fittings Jamshedpur, door handles dealer Sakchi, Hafele dealer Jamshedpur, Dorset lock dealer Jamshedpur, modular kitchen Sakchi
+Local Keywords
+Include: Bistupur, Kadma, Jugsalai, Telco, Adityapur, Sonari — in service areas section
+Image Alt Tags
+All images: "[Brand] [Product] at Hardware Collection Sakchi Jamshedpur"
+NAP Consistency
+Name/Address/Phone must be IDENTICAL to GMB listing — no variations whatsoever
+08
+Competitive Landscape
+Know the enemy — what the website must outposition
+Key Competitors in Jamshedpur Hardware Market
+Competitor
+Positioning
+Google Rating
+Key Strength
+Hardware Collection Advantage
+Harsh Plywood & Hardware
+Luxury Premium Showroom
+4.8★ / 160+ reviews
+High review volume; exclusive plywood brands
+Authorized multi-brand hardware specialist; deeper product range for doors/modular kitchen
+Sri Ram Hardware (Baridih/Jugsalai)
+Mass Market Reliability
+~4.0★
+Volume, affordability, multi-location
+Premium brand authority; consultation experience; smart home/digital lock expertise
+Jalaram Hardware (Bistupur)
+Industrial B2B Expert
+~4.0★
+B2B contractor supply; technical hardware
+Superior branded product range; consumer showroom experience; digital presence once built
+Balaji Plywood (Kasidih)
+General Hardware
+~4.2★
+Proximity to Hardware Collection
+Premium authorized brands; modular kitchen specialization; larger showroom
+COMPETITIVE MOAT
+Hardware Collection's website must explicitly communicate what no competitor does: "We are the ONLY authorized dealer in Sakchi for Hafele + Dorset + Labacha simultaneously." This combination moat is the #1 differentiator and must appear in the hero section, brand strip, and About section.
+09
+90-Day Digital Strategy Context
+How the website fits into the larger digital growth plan
+The 4-Pillar Local Conversion Funnel
+The website is Pillar 3 in a 4-pillar digital strategy. Developers must understand the full funnel to build the website correctly — every element should either support GMB ranking (SEO signals) or drive WhatsApp conversions (lead capture).
+#
+Pillar
+Timeline
+Goal
+Website's Role
+01
+Google Business Profile
+Days 1–7
+Capture high-intent buyers already searching "hardware shop Sakchi"
+Website URL in GMB profile boosts domain authority; Schema markup reinforces GMB signals
+02
+WhatsApp Business
+Days 7–14
+Convert search traffic into real inquiries (20–40% conversion rate)
+Every website CTA must link to WhatsApp — website feeds the WhatsApp conversion engine
+03
+Website / Landing Page
+Days 14–30
+Build long-term digital credibility, support SEO, enable advertising
+THE BUILD OBJECTIVE — trust engine, lead capture, SEO foundation
+04
+Instagram & Facebook
+Days 21–45
+Drive awareness, brand recall, feed Google search volume
+Website is the landing destination for all social traffic; must have fast mobile load time
+90-Day Performance Targets (For Developer KPI Alignment)
+200+
+Google Reviews
+From 55 baseline
+80–100
+Monthly Calls
+From ~15 baseline
+120+
+Direction Requests
+From ~30 baseline
++50%
+Store Visit Increase
+Over baseline
+300–600
+Website Visitors/mo
+Post-launch target
+20–40
+Website Leads/mo
+WhatsApp + Call
++200%
+GMB Profile Views
+With website URL
+Top 10
+Local SEO Ranking
+Key search terms
+10
+Critical Developer Mistakes to Avoid
+What has been explicitly ruled out — do not overbuild
+What This Website Must NOT Be
+DO NOT BUILD
+This is not an e-commerce site. No shopping cart. No product database. No complex admin panel. No inventory management system. No booking platform. No VPS hosting. No custom CMS. Building any of these is wasted effort and increased maintenance burden for a small retail business.
+WRONG APPROACH
+CORRECT APPROACH
+E-commerce store with cart and checkout
+Static landing page with WhatsApp CTAs per category
+Complex multi-page site with blog/CMS
+1–3 page static site (index + optional contact/about)
+VPS or managed server hosting
+Vercel free tier — zero server management
+Custom product management admin panel
+Google Business Profile product catalogue handles this
+Topic cluster SEO with 20+ blog posts
+GMB posts handle content; website handles schema SEO
+Email contact form with backend
+WhatsApp deep links — zero backend, instant response
+Heavy animation / JavaScript framework
+Performance-first — LCP < 2.5s, mobile load < 3s
+Separate CSS/JS files per component
+Single-file output — inline Tailwind, no bundle complexity
+11
+Quick Reference — Critical Data Points
+Copy-paste ready facts for development use
+Business Contact & Location Data
+Business Name (GMB)
+Hardware Collection
+Display Name (Website)
+Hardware Collection | Sakchi, Jamshedpur
+Full Address
+1/18, Kashidih, near Baradwari Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001
+Phone
++91 98351 90738
+WhatsApp URL
+https://wa.me/919835190738
+Target Domain
+https://hardwarecollectionjsr.com
+Opening Hours
+Monday–Sunday: 10:00 AM – 8:00 PM
+Google Maps
+https://maps.app.goo.gl/6qokJfpuQgfNwqZK9
+PIN Code
+831001
+District
+East Singhbhum, Jharkhand
+SEO Keyword Quick Reference
+Keyword
+Priority
+Search Intent
+Target Page
+hardware shop Sakchi
+CRITICAL
+Navigational + Transactional
+Homepage H1 + GMB
+bathroom fittings Jamshedpur
+CRITICAL
+Transactional
+Homepage + Product Section
+door handles dealer Sakchi
+HIGH
+Transactional
+Door Hardware Section
+Hafele dealer Jamshedpur
+HIGH
+Brand Transactional
+Brand Trust Strip + About
+Dorset digital lock Jamshedpur
+HIGH
+Brand Transactional
+Door Hardware Section
+Labacha sink Sakchi
+HIGH
+Brand Transactional
+Kitchen Section
+modular kitchen hardware Jamshedpur
+HIGH
+Transactional
+Kitchen Category Page
+hardware ki dukan Sakchi
+GROWING
+Hindi Local Intent
+Meta tags + GMB description
+kitchen hardware store Jamshedpur
+MEDIUM
+Informational
+Kitchen Section + Schema
+paint shop near me
+MEDIUM
+Near-Me Search
+Service Areas Section
+Pre-Written WhatsApp Deep Link Snippets (Ready for Code)
+Copy these directly into your href attributes:
+Use Case
+WhatsApp URL
+General CTA
+https://wa.me/919835190738?text=Hi%20Hardware%20Collection%2C%20I%20found%20you%20on%20Google
+Door Lock Enquiry
+https://wa.me/919835190738?text=Hi%2C%20I%20need%20info%20about%20Dorset%20digital%20locks
+Modular Kitchen
+https://wa.me/919835190738?text=Hi%2C%20I%20need%20a%20modular%20kitchen%20hardware%20consultation
+Bathroom Fittings
+https://wa.me/919835190738?text=Please%20share%20your%20bathroom%20fittings%20catalogue
+Showroom Visit
+https://wa.me/919835190738?text=Hi%2C%20I%20want%20to%20visit%20your%20showroom%20in%20Sakchi
+Bulk / B2B
+https://wa.me/919835190738?text=Hi%2C%20I%20need%20bulk%20hardware%20supply%20for%20a%20project
+THE DEVELOPER'S NORTH STAR
+You are not building a website.
+You are building a lead-generation and trust engine for a 20-year-old, premium, family-run hardware showroom that is offline-dominant but digitally invisible. Every section, every CTA, every image, every keyword must serve a single, unified goal:
+Convert local search traffic into WhatsApp conversations, phone calls, and showroom visits.
+Document compiled from: Google AI Analysis | ChatGPT Research | 90-Day Strategy Roadmap PDF | Justdial | IndiaMART | Wikipedia | Grokipedia | Direct Business Intelligence | Project Chat History
+==================================================
+
+--- CONTENT OF service_pricing_table.docx ---
+WEBSITE + DIGITAL SETUP PRICING DOCUMENT
+Date: 4/19/2026
+1. LANDING PAGE STRUCTURE
+Service / Section
+Description
+Price
+Hero Section
+Headline, sub headline, CTA (Call/WhatsApp), trust highlights
+₹2,000 – ₹3,000
+Showroom / Trust Section
+Real shop images, brand logos (Hafele, Dorset etc.)
+₹2,000 – ₹4,000
+Product Categories Section
+Category-wise display with images + enquiry CTA
+₹3,000 – ₹6,000
+Target Customer Section
+Homeowners, builders, designers targeting
+₹1,500 – ₹2,500
+Why Choose Us Section
+USP + differentiation points
+₹2,000 – ₹3,500
+Reviews Section
+Google reviews integration
+₹2,000 – ₹4,000
+Location Section
+Google Map embed + directions
+₹1,500 – ₹2,500
+FAQ Section
+Customer objection handling
+₹1,500 – ₹2,500
+Final CTA Section
+Conversion push (Call / WhatsApp)
+₹1,000 – ₹2,000
+2. CORE FEATURES
+Service / Feature
+Description
+Price
+WhatsApp Integration
+Direct chat + pre-filled message
+₹1,500 – ₹3,000
+Call Button Integration
+One-tap call functionality
+₹500 – ₹1,000
+Telegram Integration
+Direct Lead Notification 
+₹1,500 – ₹3,000
+Google Maps Integration
+Location embeds 
+₹1,000 – ₹2,000
+Basic SEO Setup
+Meta tags, keywords, on-page basics
+₹2,000 – ₹4,000
+Speed Optimization
+Fast loading + performance tuning
+₹2,000 – ₹5,000
+3. ADVANCED SEO SERVICES
+Service
+Description
+Price
+SEO Foundation
+Keyword research + on-page SEO
+₹5,000 – ₹12,000
+Technical SEO
+Sitemap, robots.txt, indexing, mobile fixes
+₹5,000 – ₹15,000
+Local SEO
+Google Business optimization + local ranking
+₹5,000 – ₹15,000
+Schema Markup
+Structured data (business, product, reviews)
+₹3,000 – ₹8,000
+Backlinks / Off-page SEO
+Directory + local backlinks
+₹5,000 – ₹20,000
+4. TRACKING & ANALYTICS SETUP
+Tool / Service
+Description
+Price
+Google Search Console Setup
+Website indexing + performance tracking
+₹2,000 – ₹5,000
+Google Analytics Setup
+User behavior + traffic insights
+₹3,000 – ₹7,000
+Google Tag Manager Setup
+Advanced event tracking
+₹3,000 – ₹8,000
+Conversion Tracking
+Calls, WhatsApp clicks, form tracking
+₹3,000 – ₹8,000
+Lead Dashboard
+Lead tracking & reporting system
+₹5,000 – ₹15,000
+5. AUTOMATION & ADVANCED FEATURES
+Service
+Description
+Price
+WhatsApp Automation
+Auto replies + lead qualification
+₹4,000 – ₹10,000
+Lead Form + CRM Integration
+Data capture + pipeline system
+₹3,000 – ₹8,000
+Multi-language Support
+Hindi + English support
+₹4,000 – ₹10,000
+6. ADDITIONAL PAGES
+Page
+Description
+Price
+About Page
+Business story + brand trust
+₹3,000 – ₹6,000
+Contact Page
+Contact form + details
+₹2,000 – ₹4,000
+Product Catalog Page
+Detailed product listing
+₹5,000 – ₹15,000
+7. FUTURE EXPANSION
+Service
+Description
+Price
+E-commerce Setup
+Full online selling system
+₹15,000 – ₹50,000+
+8. TOOLS USED (INDUSTRY STANDARD)
+Tool
+Purpose
+Google Search Console
+Search performance & indexing
+Google Analytics
+Traffic & user tracking
+Google Tag Manager
+Event & conversion tracking
+Ahrefs / SEMrush
+Keyword research & competitor analysis
+Google Page Speed Insights
+Speed optimization
+Screaming Frog SEO Spider
+Technical SEO audit
+9. PACKAGE OPTIONS
+Package
+Includes
+Price
+Basic
+Essential sections + basic integrations
+₹15,000 – ₹20,000
+Growth
+Full landing page + SEO + tracking
+₹25,000 – ₹40,000
+Advanced
+Full system + automation + advanced SEO
+₹45,000 – ₹1,00,000+
+10. GMB + LOCAL GROWTH SYSTEM (ADD-ON)
+Based on structured roadmap and execution system
+Service
+Description
+Price
+GMB Setup & Optimization
+Complete profile setup + SEO
+₹5,000 – ₹15,000
+Review System Setup
+QR + WhatsApp + funnel
+₹3,000 – ₹8,000
+Monthly GMB Management
+Posts, reviews, growth tracking
+₹8,000 – ₹20,000 / month
+FINAL NOTE
+This proposal is modular.Final pricing depends on selected features and customization level.
+==================================================
+

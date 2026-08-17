@@ -1,0 +1,60 @@
+version: "2.0"
+state_machine:
+  name: "Feature Lifecycle State Machine"
+  description: "Deterministic state transitions for features governing transition guard rules."
+
+states:
+  Draft:
+    initial: true
+    allowed_transitions: ["Planned"]
+    guards:
+      - "Mission Brief created by Mission Planner"
+
+  Planned:
+    allowed_transitions: ["Architected", "Draft"]
+    guards:
+      - "Capability breakdown complete in Execution Planner"
+      - "Resource budget approved by Resource Manager"
+
+  Architected:
+    allowed_transitions: ["Implementation", "Blocked"]
+    guards:
+      - "ADR recorded if architectural modifications needed"
+      - "Architecture policy pol-arch-001 passed"
+
+  Implementation:
+    allowed_transitions: ["Review", "Blocked"]
+    guards:
+      - "Specialist agent code tasks executed"
+      - "Unit tests passing"
+
+  Review:
+    allowed_transitions: ["Approved", "Blocked"]
+    guards:
+      - "All policies (design, accessibility, security, performance) PASS"
+      - "Reviewer score >= 90 and confidence >= 0.85"
+
+  Blocked:
+    allowed_transitions: ["Implementation", "Draft"]
+    guards:
+      - "Policy blockers identified in ReviewResult"
+      - "Remediation plan assigned"
+
+  Approved:
+    allowed_transitions: ["Released"]
+    guards:
+      - "Release Manager Definition of Done certified"
+
+  Released:
+    allowed_transitions: ["Monitoring"]
+    guards:
+      - "Deployment to production verified"
+
+  Monitoring:
+    allowed_transitions: ["Archived", "Blocked"]
+    guards:
+      - "Telemetry active and monitored for 72 hours"
+      - "If TelemetryAlert fires -> transition to Blocked (Rollback Manager)"
+
+  Archived:
+    terminal: true

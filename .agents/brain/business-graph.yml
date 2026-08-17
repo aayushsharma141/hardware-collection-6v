@@ -1,0 +1,41 @@
+version: "3.0"
+business_graph:
+  name: "Product Brain Business Knowledge Graph"
+  description: "Maps end-to-end relationships between Missions, Goals, KPIs, Features, Components, Events, Telemetry, and Revenue."
+
+node_types:
+  - Mission
+  - Goal
+  - KPI
+  - Feature
+  - Component
+  - Event
+  - TelemetryMetric
+  - CustomerFeedback
+  - RevenueImpact
+
+edges:
+  - from: Mission
+    to: Goal
+    relation: "DRIVES"
+  - from: Goal
+    to: KPI
+    relation: "MEASURED_BY"
+  - from: KPI
+    to: Feature
+    relation: "IMPLEMENTED_BY"
+  - from: Feature
+    to: Component
+    relation: "COMPOSED_OF"
+  - from: Component
+    to: Event
+    relation: "EMITS"
+  - from: Event
+    to: TelemetryMetric
+    relation: "AGGREGATED_INTO"
+  - from: TelemetryMetric
+    to: CustomerFeedback
+    relation: "CORRELATES_WITH"
+  - from: TelemetryMetric
+    to: RevenueImpact
+    relation: "IMPACTS"

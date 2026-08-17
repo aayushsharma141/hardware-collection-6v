@@ -1,0 +1,27 @@
+version: "2.0"
+policy_id: "pol-perf-001"
+name: "Executable Performance Guardrails"
+enforcement_level: "warning"
+
+executable_rules:
+  - id: "rule-perf-vitals-01"
+    name: "Core Web Vitals Enforcement"
+    when:
+      environment: "production"
+    require:
+      lcp_max_ms: 2500
+      cls_max_score: 0.1
+      inp_max_ms: 200
+    otherwise:
+      severity: "blocker"
+      message: "Core Web Vitals threshold breached."
+
+  - id: "rule-perf-bundle-01"
+    name: "Bundle Budget"
+    when:
+      artifact: "web-client"
+    require:
+      max_initial_bundle_kb: 500
+    otherwise:
+      severity: "warning"
+      message: "Initial JS bundle size exceeds 500KB budget."
