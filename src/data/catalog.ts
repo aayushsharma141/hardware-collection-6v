@@ -1,34 +1,63 @@
 export interface Product {
   id: string;
   name: string;
-  category: "doors" | "kitchen" | "bath" | "wardrobe" | "architectural" | "smart";
+  category: string;
+  categorySlug: string;
   categoryLabel: string;
   brand: "Hafele" | "Dorset" | "Labacha" | "Godrej" | "Hettich" | "Kich";
-  model: string;
+  brandName?: string;
+  model?: string;
+  catalogReference?: string;
+  shortDescription?: string;
   description: string;
   features: string[];
   finishes: string[];
   application: string;
-  image?: string;
+  imageUrl?: string;
+  imageLqip?: string;
   featured?: boolean;
   whatsappMessage: string;
-  // Enhanced Showroom & Technical Spec Fields
   material?: string;
   durability?: string;
   dimensions?: string;
-  warranty?: string;
-  priceRange?: string;
-  mrp?: string;
   showroomBay?: string;
   displayStatus?: "Live Display" | "Available on Order" | "Exclusive Demo Unit";
+  specifications?: Array<{ key: string; value: string }>;
 }
 
 export interface CategoryInfo {
   id: string;
   title: string;
+  slug: string;
+  eyebrow: string;
   shortDesc: string;
+  overview: string;
   iconName: string;
+  primaryRail: "handles-knobs" | "door-hardware" | "bathroom" | "kitchen-wardrobes" | "furniture-hardware" | "door" | "digital-locks" | "kitchen" | "wardrobe" | "more";
+  familySlugs: string[];
+  subcategories?: string[];
+  cardVariant: "standard" | "wide" | "feature";
+  suitableFor: string[];
+  brands: string[];
+  pendingVerificationBrands?: string[];
+  keyFeatures: string[];
+  status: "draft" | "review" | "published";
+  verificationStatus: "unverified" | "brand_verified" | "catalog_verified";
+  whatsappMessage: string;
+  featured?: boolean;
   itemCount: number;
+}
+
+export interface ShowroomFamily {
+  id: string;
+  slug: string;
+  name: string;
+  tagline: string;
+  description: string;
+  subcategories: string[];
+  styleTags?: string[];
+  formTags?: string[];
+  collectionSlugs: string[];
 }
 
 export interface BrandInfo {
@@ -56,6 +85,112 @@ export interface ShowroomZone {
   highlights: string[];
 }
 
+export const SHOWROOM_FAMILIES: ShowroomFamily[] = [
+  {
+    id: "handles-knobs",
+    slug: "handles-knobs",
+    name: "Handles & Knobs",
+    tagline: "Contemporary profiles to classical architectural detailing",
+    description: "Architectural entrance pull handles, luxury cabinet handles, knurled knobs, and designer joinery trim.",
+    styleTags: ["Modern", "Classical", "Luxury", "Italian", "Wooden", "Ceramic", "Leather", "Kids"],
+    formTags: ["Long Bar", "Flush", "Profile", "Pull Handles", "Knobs"],
+    subcategories: [
+      "Kids Collection",
+      "Modern Collection",
+      "Classical Collection",
+      "Long Bar Handles",
+      "Flush Collection",
+      "Leather Collection",
+      "Luxury Collection",
+      "Wooden Collection",
+      "Italian Collection",
+      "Ceramic Collection",
+      "Profile Handles"
+    ],
+    collectionSlugs: ["main-door-handles", "cabinet-wardrobe-handles"]
+  },
+  {
+    id: "door-hardware",
+    slug: "door-hardware",
+    name: "Door Hardware",
+    tagline: "High-security locking systems and precision entrance controls",
+    description: "Biometric smart locks, high-durability mortise locksets, architectural door controls, and glass door fittings.",
+    subcategories: [
+      "Door Locks",
+      "Digital Locks",
+      "Hotel Locks",
+      "Mortise Handles",
+      "Door Pull Handles",
+      "Door Knobs",
+      "Door Accessories",
+      "Door Sliding",
+      "Window Hardware",
+      "Glass Door Fittings"
+    ],
+    collectionSlugs: ["digital-locks", "mortise-door-locks", "main-door-handles", "glass-hardware", "door-closers-stoppers", "safes"]
+  },
+  {
+    id: "bathroom",
+    slug: "bathroom",
+    name: "Bathroom",
+    tagline: "Luxury shower fittings, mirrors, and precision stainless steel suites",
+    description: "Solid brass thermostatic shower suites, stainless steel accessories, designer mirrors, and anti-odor drainage solutions.",
+    subcategories: [
+      "Bathroom Accessories",
+      "Bathroom Shelves",
+      "Shaving Mirrors",
+      "SS Mirror Cabinets",
+      "Signages",
+      "Hooks",
+      "Mail Boxes",
+      "Ladders",
+      "Dustbins"
+    ],
+    collectionSlugs: ["bathroom-accessories"]
+  },
+  {
+    id: "kitchen-wardrobes",
+    slug: "kitchen-wardrobes",
+    name: "Kitchen & Wardrobes",
+    tagline: "German soft-close drawer fittings, sliding systems, and quartz sinks",
+    description: "Engineered kitchen storage solutions, top-running wardrobe sliding mechanisms, and luxury granite sinks.",
+    subcategories: [
+      "Modular Kitchen Hardware",
+      "Kitchen Accessories",
+      "Kitchen Handles",
+      "Kitchen Sinks & Faucets",
+      "Wardrobe Hardware & Sliding",
+      "Hinges & Soft-Close Systems",
+      "Drawer Channels",
+      "Lights",
+      "Kitchen Appliances",
+      "Safes"
+    ],
+    collectionSlugs: ["modular-kitchen-hardware", "kitchen-sinks-faucets", "wardrobe-hardware-sliding", "hinges-soft-close", "drawer-channels", "safes"]
+  },
+  {
+    id: "furniture-hardware",
+    slug: "furniture-hardware",
+    name: "Furniture Hardware",
+    tagline: "Concealed hinges, precision drawer runners, and joinery fittings",
+    description: "German furniture fittings, concealed 3D adjustable hinges, heavy-duty drawer runners, and bespoke joinery mechanisms.",
+    subcategories: [
+      "Invisible Locks",
+      "Drawer Channels",
+      "Furniture Profiles",
+      "Furniture Locks",
+      "Furniture Hinges",
+      "Carvings",
+      "Bed Fittings",
+      "Wheels & Legs",
+      "Office Fittings",
+      "Table Extension",
+      "Furniture Fittings"
+    ],
+    collectionSlugs: ["drawer-channels", "hinges-soft-close", "cabinet-wardrobe-handles"]
+  }
+];
+
 export const BRANDS: BrandInfo[] = [
   {
     id: "hafele",
@@ -65,7 +200,7 @@ export const BRANDS: BrandInfo[] = [
     authorized: true,
     logo: "/brands/Hafele.png",
     tagline: "German Architectural & Kitchen Hardware",
-    description: "Häfele is a world-renowned German manufacturer of architectural hardware, furniture fittings, and electronic access control systems. Established in 1923, Häfele products embody precision engineering, sleek minimalist design, and smooth operation for high-end residential and commercial developments.",
+    description: "Hafele is a world-renowned German manufacturer of architectural hardware, furniture fittings, and electronic access control systems. Established in 1923, Hafele products embody precision engineering, sleek minimalist design, and smooth operation for high-end residential and commercial developments.",
     establishedYear: "1923",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
     keyHighlights: [
@@ -167,58 +302,351 @@ export const BRANDS: BrandInfo[] = [
   }
 ];
 
+// The 13 Canonical Collections Architecture (Merchandised within 5 Showroom Families)
 export const CATEGORIES: CategoryInfo[] = [
   {
-    id: "doors",
-    title: "Door Hardware & Locks",
-    shortDesc: "Main door handles, biometric locks, mortise handles, heavy-duty hinges & door closers",
+    id: "digital-locks",
+    slug: "digital-locks",
+    title: "Digital Locks",
+    eyebrow: "Biometric & Electronic Access Control",
+    shortDesc: "Smart biometric fingerprint deadbolts, touch keypads, RFID card access, and mobile app integration.",
+    overview: "Modern smart security solutions for residential and commercial properties, combining biometric, PIN, and app-based access.",
     iconName: "Lock",
-    itemCount: 14,
+    primaryRail: "door-hardware",
+    familySlugs: ["door-hardware"],
+    subcategories: ["Digital Locks", "Biometric Deadbolts", "RFID Cards", "Smart Life Integration"],
+    cardVariant: "feature",
+    suitableFor: ["Residential", "Commercial"],
+    brands: ["Dorset", "Godrej"],
+    pendingVerificationBrands: ["Hafele"],
+    keyFeatures: [
+      "0.3s Semiconductor Fingerprint Access",
+      "Mobile App Control & Dynamic OTP Generation",
+      "Triple Anti-Prise Heavy Deadbolts",
+      "Emergency Mechanical Key & USB Backup"
+    ],
+    status: "published",
+    verificationStatus: "catalog_verified",
+    whatsappMessage: "Hardware Collection — I would like to consult on Digital Locks & Biometric Security for my project.",
+    featured: true,
+    itemCount: 4
   },
   {
-    id: "kitchen",
-    title: "Modular Kitchen Systems",
-    shortDesc: "Hafele soft-close tandems, tall units, corner carousel solutions, Labacha luxury sinks",
-    iconName: "ChefHat",
-    itemCount: 12,
-  },
-  {
-    id: "bath",
-    title: "Luxury Bathroom Fittings",
-    shortDesc: "Designer showers, brass faucets, luxury floor drains, grab bars & premium towel suites",
-    iconName: "Bath",
-    itemCount: 10,
-  },
-  {
-    id: "wardrobe",
-    title: "Wardrobe & Sliding Systems",
-    shortDesc: "Hettich soft-close sliding fittings, pull-out trousers racks, sensor wardrobe profiles",
-    iconName: "Layers",
-    itemCount: 8,
-  },
-  {
-    id: "smart",
-    title: "Smart Security & Living",
-    shortDesc: "Hafele Smart Living & Dorset biometric entry, WiFi app-controlled smart deadbolts",
+    id: "mortise-door-locks",
+    slug: "mortise-door-locks",
+    title: "Mortise & Door Locks",
+    eyebrow: "High-Durability Architectural Security",
+    shortDesc: "Heavy-duty SS 304 mortise locksets, euro profile brass cylinders, and high-security latch bodies.",
+    overview: "Architectural grade lockcases and brass cylinder mechanisms engineered for 200,000+ opening cycles.",
     iconName: "ShieldCheck",
-    itemCount: 6,
+    primaryRail: "door-hardware",
+    familySlugs: ["door-hardware"],
+    subcategories: ["Door Locks", "Mortise Handles", "Euro Cylinders", "Hotel Locks"],
+    cardVariant: "standard",
+    suitableFor: ["Residential", "Commercial"],
+    brands: ["Dorset", "Godrej"],
+    pendingVerificationBrands: ["Hafele"],
+    keyFeatures: [
+      "SS 304 Solid Latch and Deadbolt Mechanism",
+      "Computerized Dimple Key Master Keying Options",
+      "Corrosion-Resistant PVD Finished Faceplates"
+    ],
+    status: "draft",
+    verificationStatus: "brand_verified",
+    whatsappMessage: "Hardware Collection — Inquiring about Mortise & Architectural Door Locks.",
+    featured: false,
+    itemCount: 2
   },
   {
-    id: "architectural",
-    title: "Architectural & Glass Fittings",
-    shortDesc: "Shower cubicle hinges, spider fittings, SS 304 glass brackets, luxury profile handles",
-    iconName: "Building2",
-    itemCount: 8,
+    id: "main-door-handles",
+    slug: "main-door-handles",
+    title: "Main Door Handles",
+    eyebrow: "Grand Entrance Architectural Ironmongery",
+    shortDesc: "Sculptural pull handles, solid forged brass lever sets, and statement entrance hardware.",
+    overview: "Tactile, solid forged entrance handles in luxury finishes including PVD Rose Gold, Matte Black, and Antique Brass.",
+    iconName: "DoorClosed",
+    primaryRail: "handles-knobs",
+    familySlugs: ["handles-knobs", "door-hardware"],
+    subcategories: ["Door Pull Handles", "Modern Collection", "Classical Collection", "Luxury Collection", "Italian Collection"],
+    cardVariant: "standard",
+    suitableFor: ["Residential", "Commercial", "Hospitality"],
+    brands: ["Dorset", "Hafele", "Kich"],
+    keyFeatures: [
+      "Forged Solid Brass & SS 304 Stainless Steel",
+      "Salt-Spray Tested Luxury PVD Coating",
+      "Back-to-Back Glass & Wooden Door Mountings"
+    ],
+    status: "draft",
+    verificationStatus: "brand_verified",
+    whatsappMessage: "Hardware Collection — Inquiring about Main Entrance Pull Handles & Finishes.",
+    featured: false,
+    itemCount: 2
   },
+  {
+    id: "cabinet-wardrobe-handles",
+    slug: "cabinet-wardrobe-handles",
+    title: "Cabinet & Wardrobe Handles",
+    eyebrow: "Minimalist Furniture & Wardrobe Profiles",
+    shortDesc: "Slim aluminum edge profiles, concealed J-pulls, knurled bar handles, and luxury knobs.",
+    overview: "Ergonomic furniture trim and edge pulls for bespoke joinery, modular wardrobes, and vanity units.",
+    iconName: "Sliders",
+    primaryRail: "handles-knobs",
+    familySlugs: ["handles-knobs", "kitchen-wardrobes", "furniture-hardware"],
+    subcategories: ["Long Bar Handles", "Profile Handles", "Flush Collection", "Knobs", "Leather Collection", "Ceramic Collection", "Wooden Collection"],
+    cardVariant: "standard",
+    suitableFor: ["Residential", "Hospitality"],
+    brands: ["Hafele", "Kich"],
+    keyFeatures: [
+      "Precision Knurled Solid Brass Textures",
+      "Extruded Aluminum Seamless Edge Profiles",
+      "Anti-Fingerprint Anodized Finishes"
+    ],
+    status: "draft",
+    verificationStatus: "brand_verified",
+    whatsappMessage: "Hardware Collection — Inquiring about Cabinet & Wardrobe Handles.",
+    featured: false,
+    itemCount: 1
+  },
+  {
+    id: "modular-kitchen-hardware",
+    slug: "modular-kitchen-hardware",
+    title: "Modular Kitchen Hardware",
+    eyebrow: "German Precision Soft-Close Fittings",
+    shortDesc: "Hafele & Hettich soft-close tandem drawers, tall pantry pull-outs, and corner carousel magic units.",
+    overview: "Complete German-engineered kitchen fitting systems — hinges, drawer channels, organizers — for durable, soft-close daily use.",
+    iconName: "ChefHat",
+    primaryRail: "kitchen-wardrobes",
+    familySlugs: ["kitchen-wardrobes"],
+    subcategories: ["Modular Kitchen Hardware", "Kitchen Accessories", "Kitchen Handles", "Corner Carousels", "Pantry Units"],
+    cardVariant: "feature",
+    suitableFor: ["Residential"],
+    brands: ["Hafele", "Hettich"],
+    keyFeatures: [
+      "Synchronized Full-Extension Soft-Close Runners",
+      "50kg Dynamic Cookware Load Bearing Capacity",
+      "Corner Carousel & Blind Corner Magic Storage",
+      "Integrated 3D Tool-less Front Alignment"
+    ],
+    status: "published",
+    verificationStatus: "catalog_verified",
+    whatsappMessage: "Hardware Collection — Inquiring about German Modular Kitchen Hardware Systems.",
+    featured: true,
+    itemCount: 4
+  },
+  {
+    id: "kitchen-sinks-faucets",
+    slug: "kitchen-sinks-faucets",
+    title: "Kitchen Sinks & Faucets",
+    eyebrow: "Italian Quartz Granite & Precision Mixers",
+    shortDesc: "Labacha composite quartz double/single bowl sinks and 360° pull-out brass kitchen faucets.",
+    overview: "Non-porous, antibacterial composite granite sinks with thermal shock resistance up to 280°C and solid brass mixers.",
+    iconName: "Droplet",
+    primaryRail: "kitchen-wardrobes",
+    familySlugs: ["kitchen-wardrobes"],
+    subcategories: ["Sink", "Faucets", "Workstation Sinks", "Kitchen Appliances"],
+    cardVariant: "wide",
+    suitableFor: ["Residential"],
+    brands: ["Labacha"],
+    keyFeatures: [
+      "80% Natural Quartz Composite Granite",
+      "Heat & Scratch Resistant Non-Porous Surface",
+      "360° Swivel Pull-Out Dual-Spray Faucets",
+      "Sound-Dampening Heavy Composite Basin"
+    ],
+    status: "draft",
+    verificationStatus: "brand_verified",
+    whatsappMessage: "Hardware Collection — Inquiring about Labacha Quartz Sinks & Kitchen Faucets.",
+    featured: false,
+    itemCount: 2
+  },
+  {
+    id: "wardrobe-hardware-sliding",
+    slug: "wardrobe-hardware-sliding",
+    title: "Wardrobe Hardware & Sliding Systems",
+    eyebrow: "Top-Running Silent Sliding Systems",
+    shortDesc: "Hettich & Hafele heavy door sliding fittings, internal wardrobe lifts, pull-out trouser racks, and LED sensor profiles.",
+    overview: "Whisper-quiet sliding door mechanisms supporting up to 100kg door leaves with bi-directional dampening.",
+    iconName: "Layers",
+    primaryRail: "kitchen-wardrobes",
+    familySlugs: ["kitchen-wardrobes"],
+    subcategories: ["Wardrobe Sliding", "Wardrobe Accessories", "Pull-Down Lifts", "Trouser Racks"],
+    cardVariant: "wide",
+    suitableFor: ["Residential", "Hospitality"],
+    brands: ["Hafele", "Hettich"],
+    keyFeatures: [
+      "Top-Running Heavy Weight Door Hardware (Up to 100kg)",
+      "Silent System Dampened Opening & Soft-Closing",
+      "Ergonomic Hydraulic Wardrobe Pull-Down Lifts"
+    ],
+    status: "draft",
+    verificationStatus: "brand_verified",
+    whatsappMessage: "Hardware Collection — Inquiring about Wardrobe Sliding Systems & Internal Fittings.",
+    featured: false,
+    itemCount: 2
+  },
+  {
+    id: "hinges-soft-close",
+    slug: "hinges-soft-close",
+    title: "Hinges & Soft-Close Systems",
+    eyebrow: "Concealed 3D Adjustable Hinges",
+    shortDesc: "Hafele 3D concealed architectural door hinges, Hettich Sensys clip-on soft-close cabinet hinges.",
+    overview: "Engineered concealed hinges for flush residential doors and kitchen cabinetry tested to 200,000 cycles.",
+    iconName: "Maximize2",
+    primaryRail: "furniture-hardware",
+    familySlugs: ["furniture-hardware", "kitchen-wardrobes"],
+    subcategories: ["Furniture Hinges", "3D Concealed Hinges", "Sensys Hinges", "Soft-Close Dampers"],
+    cardVariant: "standard",
+    suitableFor: ["Residential", "Commercial"],
+    brands: ["Hafele", "Hettich"],
+    keyFeatures: [
+      "3-Way Tool-less Cam Adjustment",
+      "Integrated Hydraulic Soft-Closing Damper",
+      "Certified 200,000 Cycle Fatigue Endurance"
+    ],
+    status: "draft",
+    verificationStatus: "brand_verified",
+    whatsappMessage: "Hardware Collection — Inquiring about 3D Concealed Hinges & Soft-Close Systems.",
+    featured: false,
+    itemCount: 2
+  },
+  {
+    id: "drawer-channels",
+    slug: "drawer-channels",
+    title: "Drawer Channels",
+    eyebrow: "Heavy-Duty Telescopic & Concealed Runners",
+    shortDesc: "Hettich Quadro concealed runners, Hafele full-extension soft-close ball bearing drawer slides.",
+    overview: "Smooth, sag-resistant runner technology for kitchen cabinetry, office credenzas, and bedroom storage.",
+    iconName: "Columns",
+    primaryRail: "furniture-hardware",
+    familySlugs: ["furniture-hardware", "kitchen-wardrobes"],
+    subcategories: ["Drawer Channels", "Quadro Runners", "Full-Extension Slides", "Push-to-Open"],
+    cardVariant: "standard",
+    suitableFor: ["Residential", "Commercial"],
+    brands: ["Hafele", "Hettich"],
+    keyFeatures: [
+      "Concealed Under-Mount Synchronized Glides",
+      "Push-to-Open & Soft-Close Combined Capabilities",
+      "Galvanized Steel Heavy-Duty Load Ratings"
+    ],
+    status: "draft",
+    verificationStatus: "brand_verified",
+    whatsappMessage: "Hardware Collection — Inquiring about Concealed Drawer Runners & Slides.",
+    featured: false,
+    itemCount: 1
+  },
+  {
+    id: "bathroom-accessories",
+    slug: "bathroom-accessories",
+    title: "Bathroom Accessories",
+    eyebrow: "Luxury Shower Suites & Solid SS Fixtures",
+    shortDesc: "Rain showers, thermostatic bath mixers, SS 304 towel racks, soap dispensers, and linear drains.",
+    overview: "Tactile luxury bathroom suites crafted with solid brass valves, PVD coatings, and anti-clog linear floor drains.",
+    iconName: "Bath",
+    primaryRail: "bathroom",
+    familySlugs: ["bathroom"],
+    subcategories: ["Bathroom Accessories", "Bathroom Shelves", "Shaving Mirrors", "SS Mirror Cabinets", "Signages", "Hooks", "Mail Boxes", "Ladders", "Dustbins"],
+    cardVariant: "standard",
+    suitableFor: ["Residential", "Hospitality"],
+    brands: [],
+    pendingVerificationBrands: ["Labacha", "Kich"],
+    keyFeatures: [
+      "Solid Brass Thermostatic Cartridges",
+      "SS 304 Anti-Odor Linear Floor Drainage",
+      "PVD Brushed Gold & Matte Black Finish Durability"
+    ],
+    status: "draft",
+    verificationStatus: "unverified",
+    whatsappMessage: "Hardware Collection — Inquiring about Luxury Bathroom Fixtures & Accessories.",
+    featured: false,
+    itemCount: 0
+  },
+  {
+    id: "glass-hardware",
+    slug: "glass-hardware",
+    title: "Glass Hardware",
+    eyebrow: "Frameless Glass Architecture & Balustrades",
+    shortDesc: "Stainless steel patch fittings, shower hinges, spider fittings, and glass railings.",
+    overview: "High-grade stainless steel architectural fittings engineered for commercial glass facades and luxury frameless shower enclosures.",
+    iconName: "Building2",
+    primaryRail: "door-hardware",
+    familySlugs: ["door-hardware"],
+    subcategories: ["Glass Door Fittings", "Spider Fittings", "Shower Hinges", "Patch Fittings"],
+    cardVariant: "standard",
+    suitableFor: ["Commercial", "Residential", "Hospitality"],
+    brands: [],
+    pendingVerificationBrands: ["Kich", "Hafele"],
+    keyFeatures: [
+      "AISI 316 Marine Grade Solid Forged Stainless Steel",
+      "Frameless Shower Door Pivot Hinges & Brackets",
+      "Heavy Commercial Glass Facade Spider Fittings"
+    ],
+    status: "draft",
+    verificationStatus: "unverified",
+    whatsappMessage: "Hardware Collection — Inquiring about Architectural Glass Fittings.",
+    featured: false,
+    itemCount: 0
+  },
+  {
+    id: "door-closers-stoppers",
+    slug: "door-closers-stoppers",
+    title: "Door Closers & Stoppers",
+    eyebrow: "Concealed Hydraulic Controls & Magnetic Holders",
+    shortDesc: "Concealed overhead door closers, floor springs, heavy-duty floor buffers, and magnetic door catches.",
+    overview: "Controlled closing velocity and latch action for residential fire doors, entrance doors, and corporate offices.",
+    iconName: "RotateCcw",
+    primaryRail: "door-hardware",
+    familySlugs: ["door-hardware"],
+    subcategories: ["Door Accessories", "Door Closers", "Floor Springs", "Magnetic Stoppers", "Window Hardware"],
+    cardVariant: "standard",
+    suitableFor: ["Commercial", "Residential"],
+    brands: [],
+    pendingVerificationBrands: ["Dorset", "Godrej", "Hafele"],
+    keyFeatures: [
+      "Adjustable Closing & Latching Velocity Valves",
+      "Concealed In-Door Frame Installation",
+      "EN 1154 Fire-Rated Compliance Standards"
+    ],
+    status: "draft",
+    verificationStatus: "unverified",
+    whatsappMessage: "Hardware Collection — Inquiring about Hydraulic Door Closers & Stoppers.",
+    featured: false,
+    itemCount: 0
+  },
+  {
+    id: "safes",
+    slug: "safes",
+    title: "Safes",
+    eyebrow: "Bank-Grade Home & Commercial Security Safes",
+    shortDesc: "Motorized biometric digital safes, fire-resistant document lockers, and concealed wardrobe jewelry safes.",
+    overview: "High-security digital safes equipped with hardened steel shooting bolts, secondary mechanical overrides, and tamper alarms.",
+    iconName: "Key",
+    primaryRail: "door-hardware",
+    familySlugs: ["door-hardware", "kitchen-wardrobes"],
+    subcategories: ["Safes", "Biometric Safes", "Fire-Resistant Safes", "Wardrobe Jewelry Safes"],
+    cardVariant: "standard",
+    suitableFor: ["Residential", "Commercial", "Hospitality"],
+    brands: [],
+    pendingVerificationBrands: ["Godrej"],
+    keyFeatures: [
+      "Motorized Solid Steel Shooting Bolts",
+      "Biometric + PIN Multi-User Access Memory",
+      "Tamper Alarm Auto-Freeze Security Protocol"
+    ],
+    status: "draft",
+    verificationStatus: "unverified",
+    whatsappMessage: "Hardware Collection — Inquiring about Biometric Home & Office Safes.",
+    featured: false,
+    itemCount: 0
+  }
 ];
 
 export const SHOWROOM_ZONES: ShowroomZone[] = [
   {
     id: "bay-1",
     bayNumber: "Bay #1",
-    title: "Modular Kitchen & Häfele Soft-Close Tandem Bay",
+    title: "Modular Kitchen & Hafele Soft-Close Tandem Bay",
     category: "Kitchen & Appliances",
-    description: "Experience fully functional modular kitchen units featuring Häfele Matrix Box drawer systems, corner carousel magic corners, and Labacha quartz sinks with live water displays.",
+    description: "Experience fully functional modular kitchen units featuring Hafele Matrix Box drawer systems, corner carousel magic corners, and Labacha quartz sinks with live water displays.",
     featuredProducts: ["hafele-matrix-drawer", "labacha-quartz-sink-black"],
     image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
     highlights: ["Live Water Test Faucets", "Corner Carousel Pull-Outs", "Soft-Close Drawer Systems"]
@@ -228,7 +656,7 @@ export const SHOWROOM_ZONES: ShowroomZone[] = [
     bayNumber: "Bay #2",
     title: "Biometric & Digital Lock Experience Bar",
     category: "Smart Security",
-    description: "Test drive live smart biometric locks from Dorset, Godrej, and Häfele. Experience instant 0.3s fingerprint scanning, RFID keycard entry, PIN codes, and mobile app unlocking.",
+    description: "Test drive live smart biometric locks from Dorset, Godrej, and Hafele. Experience instant 0.3s fingerprint scanning, RFID keycard entry, PIN codes, and mobile app unlocking.",
     featuredProducts: ["dorset-biometric-x1", "godrej-advantis-revolution"],
     image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
     highlights: ["Fingerprint Speed Demo", "Mobile App Unlock Bar", "Emergency Key Override Test"]
@@ -238,7 +666,7 @@ export const SHOWROOM_ZONES: ShowroomZone[] = [
     bayNumber: "Bay #3",
     title: "Main Entrance Mortise & Designer Handle Gallery",
     category: "Door Locks & Handles",
-    description: "Browse over 80+ full-sized door panels displaying Dorset, Häfele, and Kich mortise handles in PVD Rose Gold, Satin Chrome, Antique Brass, and Matte Black finishes.",
+    description: "Browse over 80+ full-sized door panels displaying Dorset, Hafele, and Kich mortise handles in PVD Rose Gold, Satin Chrome, Antique Brass, and Matte Black finishes.",
     featuredProducts: ["dorset-pvd-mortise-rose", "hafele-3d-concealed-hinge"],
     image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
     highlights: ["Full-Size Door Mounting", "PVD Finish Touch & Feel", "Heavy-Duty Concealed Hinges"]
@@ -269,10 +697,14 @@ export const PRODUCTS: Product[] = [
   {
     id: "dorset-biometric-x1",
     name: "Dorset Biometric Smart Digital Lock X1",
-    category: "smart",
+    category: "Digital Locks",
+    categorySlug: "digital-locks",
     categoryLabel: "Biometric & Smart Digital Locks",
     brand: "Dorset",
+    brandName: "Dorset",
     model: "X1-SMART-PVD",
+    catalogReference: "DOR-DL-X1",
+    shortDescription: "Ultra-fast semiconductor biometric door lock with encrypted RFID and mobile app connectivity.",
     description: "State-of-the-art biometric main door lock featuring 360-degree semiconductor fingerprint recognition, encrypted RFID cards, touch keypad, and remote WiFi application access.",
     features: [
       "0.3 Second Ultra-Fast Semiconductor Fingerprint Sensor",
@@ -287,73 +719,26 @@ export const PRODUCTS: Product[] = [
     material: "High-Density Zinc Alloy & SS 304 Deadbolts",
     durability: "Tested for 200,000+ Unlocking Operations",
     dimensions: "380mm x 75mm Front Panel",
-    warranty: "3 Years On-Site Manufacturer Warranty",
-    priceRange: "₹₹₹ Luxury Security",
-    mrp: "₹24,500",
     showroomBay: "Bay #2: Digital Lock Bar",
-    displayStatus: "Live Display"
-  },
-  {
-    id: "hafele-matrix-drawer",
-    name: "Häfele Matrix Box Premium Soft-Close Tandem Drawer",
-    category: "kitchen",
-    categoryLabel: "Modular Kitchen Systems",
-    brand: "Hafele",
-    model: "MATRIX-BOX-S",
-    description: "German-engineered soft-close drawer system with synchronized runner action and full extension capabilities. Designed to carry heavy kitchen cookware effortlessly.",
-    features: [
-      "Slick Synchronized Full Extension Runner Action",
-      "Integrated Smuso Soft-Closing Mechanism",
-      "50 kg Dynamic Load Bearing Capacity",
-      "Tool-less 3D Front Alignment Adjustment"
-    ],
-    finishes: ["Metallic White", "Anthracite Gray", "Silver Metallic"],
-    application: "Modular Kitchen Drawers, Pantry Units & Cooking Stations",
-    featured: true,
-    whatsappMessage: "Hi Hardware Collection, I would like a quotation for Häfele Matrix Box Tandem Drawers.",
-    material: "Galvanized Steel Rail with Epoxy Powder Coating",
-    durability: "LGA Certified 100,000 Cycles",
-    dimensions: "Depth: 500mm / Height: 84mm & 168mm",
-    warranty: "10 Years German Warranty",
-    priceRange: "₹₹ German Architectural",
-    mrp: "₹6,800 per set",
-    showroomBay: "Bay #1: Kitchen Bay",
-    displayStatus: "Live Display"
-  },
-  {
-    id: "labacha-quartz-sink-black",
-    name: "Labacha Double Bowl Quartz Granite Kitchen Sink",
-    category: "kitchen",
-    categoryLabel: "Modular Kitchen Systems",
-    brand: "Labacha",
-    model: "LAB-QUARTZ-860",
-    description: "Handcrafted Italian design double bowl quartz granite kitchen sink featuring thermal shock resistance up to 280°C and sound-dampening non-porous composite structure.",
-    features: [
-      "Natural Quartz Composite Granite Construction",
-      "Non-Porous Anti-Bacterial & Scratch-Resistant Surface",
-      "Extra Deep 220mm Bowls for Large Indian Cookware",
-      "Includes Waste Coupling & Overflow Kit"
-    ],
-    finishes: ["Carbon Metallic Black", "Granite White", "Choco Brown"],
-    application: "Luxury Kitchen Counters & Island Workstations",
-    featured: true,
-    whatsappMessage: "Hi Hardware Collection, please share pricing for Labacha Quartz Granite Double Bowl Sink.",
-    material: "80% Natural Quartz Crystal + 20% Acrylic Resin",
-    durability: "High Heat Resistant up to 280°C",
-    dimensions: "860mm x 500mm x 220mm Bowl Depth",
-    warranty: "10 Years Manufacturer Replacement Warranty",
-    priceRange: "₹₹ Luxury Kitchen",
-    mrp: "₹18,900",
-    showroomBay: "Bay #1: Kitchen Bay",
-    displayStatus: "Live Display"
+    displayStatus: "Live Display",
+    specifications: [
+      { key: "Unlocking Modes", value: "Biometric Fingerprint, PIN Code, RFID Card, Mobile App, Mechanical Key" },
+      { key: "Fingerprint Capacity", value: "Up to 100 Biometric Profiles" },
+      { key: "Door Thickness Suitability", value: "35mm to 70mm Wooden & Metal Doors" },
+      { key: "Power Supply", value: "4x AA Alkaline Batteries with Emergency USB Port" }
+    ]
   },
   {
     id: "godrej-advantis-revolution",
     name: "Godrej Advantis Revolution Biometric Door Lock",
-    category: "smart",
+    category: "Digital Locks",
+    categorySlug: "digital-locks",
     categoryLabel: "Smart Security & Living",
     brand: "Godrej",
+    brandName: "Godrej",
     model: "ADVANTIS-REV-PRO",
+    catalogReference: "GOD-DL-ADV",
+    shortDescription: "Bank-grade biometric main door lock with multi-level authentication and tamper alarms.",
     description: "Enterprise grade smart door lock with multi-level biometric authentication, RFID card reader, virtual password protection, and break-in alarm integration.",
     features: [
       "Bank-Grade Biometric Sensor Recognition",
@@ -368,19 +753,91 @@ export const PRODUCTS: Product[] = [
     material: "Zinc Alloy Outer Casing & Steel Mortise",
     durability: "Certified 150,000 Operations",
     dimensions: "360mm x 72mm Panel",
-    warranty: "2 Years Godrej Direct Warranty",
-    priceRange: "₹₹ High-Trust Security",
-    mrp: "₹21,000",
     showroomBay: "Bay #2: Digital Lock Bar",
-    displayStatus: "Live Display"
+    displayStatus: "Live Display",
+    specifications: [
+      { key: "Security Protocol", value: "Dual Authentication (Fingerprint + PIN)" },
+      { key: "Alarm Triggers", value: "Tamper, Forced Entry, Low Battery Alert" },
+      { key: "Key Override", value: "High-Security Mechanical Dimple Key" }
+    ]
+  },
+  {
+    id: "hafele-matrix-drawer",
+    name: "Hafele Matrix Box Premium Soft-Close Tandem Drawer",
+    category: "Modular Kitchen Hardware",
+    categorySlug: "modular-kitchen-hardware",
+    categoryLabel: "Modular Kitchen Systems",
+    brand: "Hafele",
+    brandName: "Hafele",
+    model: "MATRIX-BOX-S",
+    catalogReference: "HAF-KIT-MBX",
+    shortDescription: "German-engineered soft-close drawer system with synchronized full-extension runners.",
+    description: "German-engineered soft-close drawer system with synchronized runner action and full extension capabilities. Designed to carry heavy kitchen cookware effortlessly.",
+    features: [
+      "Slick Synchronized Full Extension Runner Action",
+      "Integrated Smuso Soft-Closing Mechanism",
+      "50 kg Dynamic Load Bearing Capacity",
+      "Tool-less 3D Front Alignment Adjustment"
+    ],
+    finishes: ["Metallic White", "Anthracite Gray", "Silver Metallic"],
+    application: "Modular Kitchen Drawers, Pantry Units & Cooking Stations",
+    featured: true,
+    whatsappMessage: "Hi Hardware Collection, I would like a quotation for Hafele Matrix Box Tandem Drawers.",
+    material: "Galvanized Steel Rail with Epoxy Powder Coating",
+    durability: "LGA Certified 100,000 Cycles",
+    dimensions: "Depth: 500mm / Height: 84mm & 168mm",
+    showroomBay: "Bay #1: Kitchen Bay",
+    displayStatus: "Live Display",
+    specifications: [
+      { key: "Load Capacity", value: "50 kg Dynamic Weight Rating" },
+      { key: "Runner Mechanism", value: "Synchronized Full Extension with Smuso Damper" },
+      { key: "Adjustment", value: "3D Front Panel Cam Alignment" }
+    ]
+  },
+  {
+    id: "labacha-quartz-sink-black",
+    name: "Labacha Double Bowl Quartz Granite Kitchen Sink",
+    category: "Kitchen Sinks & Faucets",
+    categorySlug: "kitchen-sinks-faucets",
+    categoryLabel: "Modular Kitchen Systems",
+    brand: "Labacha",
+    brandName: "Labacha",
+    model: "LAB-QUARTZ-860",
+    catalogReference: "LAB-SNK-860",
+    shortDescription: "Italian composite granite sink with 280°C heat resistance and anti-bacterial nano surface.",
+    description: "Handcrafted Italian design double bowl quartz granite kitchen sink featuring thermal shock resistance up to 280°C and sound-dampening non-porous composite structure.",
+    features: [
+      "Natural Quartz Composite Granite Construction",
+      "Non-Porous Anti-Bacterial & Scratch-Resistant Surface",
+      "Extra Deep 220mm Bowls for Large Indian Cookware",
+      "Includes Waste Coupling & Overflow Kit"
+    ],
+    finishes: ["Carbon Metallic Black", "Granite White", "Choco Brown"],
+    application: "Luxury Kitchen Counters & Island Workstations",
+    featured: true,
+    whatsappMessage: "Hi Hardware Collection, please share pricing for Labacha Quartz Granite Double Bowl Sink.",
+    material: "80% Natural Quartz Crystal + 20% Acrylic Resin",
+    durability: "High Heat Resistant up to 280°C",
+    dimensions: "860mm x 500mm x 220mm Bowl Depth",
+    showroomBay: "Bay #1: Kitchen Bay",
+    displayStatus: "Live Display",
+    specifications: [
+      { key: "Material Composition", value: "80% German Natural Quartz + 20% Premium Resin" },
+      { key: "Heat Resistance", value: "Up to 280°C Thermal Shock Resistance" },
+      { key: "Bowl Depth", value: "220mm Deep Basin" }
+    ]
   },
   {
     id: "hettich-sliding-system",
     name: "Hettich TopLine XL Soft-Close Wardrobe Sliding System",
-    category: "wardrobe",
+    category: "Wardrobe Hardware & Sliding Systems",
+    categorySlug: "wardrobe-hardware-sliding",
     categoryLabel: "Wardrobe & Sliding Systems",
     brand: "Hettich",
+    brandName: "Hettich",
     model: "TOPLINE-XL-PRO",
+    catalogReference: "HET-SLD-XL",
+    shortDescription: "Premium top-running sliding system for floor-to-ceiling wooden and glass wardrobe doors.",
     description: "Premium top-running sliding door system for large floor-to-ceiling wardrobe doors. Delivers whisper-quiet soft-close sliding for heavy wooden or glass doors.",
     features: [
       "Supports Large Doors up to 100 kg per door",
@@ -393,21 +850,27 @@ export const PRODUCTS: Product[] = [
     featured: true,
     whatsappMessage: "Hi Hardware Collection, please provide details for Hettich TopLine XL Sliding System.",
     material: "Extruded High-Grade Aircraft Aluminum Track",
-    durability: "German Din Standard 50,000 Cycles",
+    durability: "German DIN Standard 50,000 Cycles",
     dimensions: "Track Length: 3000mm / Door Thickness: 18-50mm",
-    warranty: "5 Years Manufacturer Warranty",
-    priceRange: "₹₹₹ German Precision",
-    mrp: "₹14,500 per kit",
     showroomBay: "Bay #5: Wardrobe Sliding Bay",
-    displayStatus: "Live Display"
+    displayStatus: "Live Display",
+    specifications: [
+      { key: "Weight Capacity", value: "Up to 100 kg per Door Leaf" },
+      { key: "Dampening Action", value: "Bi-Directional Soft Opening and Soft Closing" },
+      { key: "Track Mounting", value: "Concealed Top Running Extrusion" }
+    ]
   },
   {
     id: "kich-glass-patch-fitting",
     name: "Kich Architectural Glass Patch Fitting & Door Pivot Set",
-    category: "architectural",
+    category: "Glass Hardware",
+    categorySlug: "glass-hardware",
     categoryLabel: "Architectural & Glass Fittings",
     brand: "Kich",
+    brandName: "Kich",
     model: "KICH-SS316-PATCH",
+    catalogReference: "KICH-GLS-PCH",
+    shortDescription: "Marine grade AISI 316 stainless steel frameless glass door patch fittings and pivot set.",
     description: "Marine grade AISI 316 stainless steel frameless glass door patch fittings and floor spring pivot set engineered for high-traffic commercial glass doors.",
     features: [
       "AISI 316 Grade Stainless Steel Solid Forged Construction",
@@ -422,18 +885,20 @@ export const PRODUCTS: Product[] = [
     material: "Solid AISI 316 Stainless Steel",
     durability: "Grade 10 Corrosion Tested (500hr Salt Spray)",
     dimensions: "For Glass Thickness: 10mm - 12mm",
-    warranty: "5 Years Replacement Guarantee",
-    priceRange: "₹₹ Architectural Grade",
-    mrp: "₹4,200 set",
     showroomBay: "Bay #4: Bath & Glass Suite",
-    displayStatus: "Live Display"
+    displayStatus: "Live Display",
+    specifications: [
+      { key: "Steel Grade", value: "Marine Grade AISI 316 Stainless Steel" },
+      { key: "Glass Suitability", value: "10mm to 12mm Toughened Safety Glass" },
+      { key: "Finish Options", value: "Satin Brushed, Mirror Polished, PVD Gold" }
+    ]
   }
 ];
 
 export const SHOWROOM_STATS = [
-  { label: "Years in Business", value: "21+", sub: "Serving Jamshedpur since 2002" },
-  { label: "Showroom Size", value: "7,500", sub: "Sq Ft Display in Sakchi" },
+  { label: "Years in Business", value: "20+", sub: "Serving Jamshedpur since 2002" },
   { label: "Authorized Brands", value: "6 Premium", sub: "Hafele, Dorset, Labacha, Godrej, Hettich, Kich" },
+  { label: "Showroom Location", value: "Sakchi", sub: "Live Display in Jamshedpur" },
   { label: "Google Rating", value: "4.4 ★", sub: "55+ Verified Customer Reviews" },
 ];
 
@@ -451,4 +916,3 @@ export const SERVICE_AREAS = [
   "Kashidih",
   "Golmuri"
 ];
-

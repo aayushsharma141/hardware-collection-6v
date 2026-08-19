@@ -1,0 +1,49 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Lead {
+  id               String   @id
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  
+  intent           String   // "consultation", "enquiry", "callback"
+  status           String   @default("new")
+
+  name             String
+  phone            String
+  email            String?
+
+  // Context
+  source           String
+  pageUrl          String?
+
+  // Shared / Enquiry Fields
+  projectType      String?
+  message          String?
+
+  // Consultation Specific
+  interest         String?
+  consultationDate String?
+  consultationTime String?
+  consultationMode String?
+  selectedProducts String?  // JSON string
+
+  // Enquiry Specific
+  category         String?
+  brand            String?
+  product          String?
+  quantity         String?
+
+  // Notification states
+  telegramStatus   String   @default("pending")
+  emailStatus      String   @default("pending")
+  whatsappStatus   String   @default("pending")
+}

@@ -10,8 +10,8 @@ Next.js 14 + Tailwind CSS + Vercel · Domain: hardwarecollection.co
 | Primary color | Crimson #8B1A4A |
 | Accent color | Gold #C8A96E |
 | Background | Near-black #0E0C0C |
-| Display font | Cormorant Garamond |
-| Body font | DM Sans |
+| Display font | Cinzel |
+| Body font | Manrope |
 
 ## Site Structure (content collections, no e-commerce cart)
 - Home

@@ -1,21 +1,34 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-gold-primary: #D4AF37;
-  --color-gold-light: #F3E5AB;
-  --color-gold-dark: #AA8000;
-  --color-dark-bg: #0A0A0A;
-  --color-dark-surface: #141414;
-  --color-dark-surface-2: #1A1A1A;
-  --color-glass-bg: rgba(20, 20, 20, 0.7);
-  --color-glass-border: rgba(212, 175, 55, 0.2);
-  --color-text-main: #FAFAFA;
-  --color-text-muted: #A0A0A0;
+  /* Step 02: Global Visual Tokens */
+  --color-cinema-black: #090909;
+  --color-obsidian: #11100f;
+  --color-graphite: #181716;
+  --color-warm-black: #201d19;
+  --color-bone: #e8e3d9;
+  --color-muted-bone: #aaa49a;
+  --color-brass: #c8a96e;
+  --color-deep-crimson: #8b1a4a;
+  --color-metal-highlight: rgba(255,255,255,.16);
+
+  /* Legacy tokens mapped to new palette where applicable */
+  --color-gold-primary: var(--color-brass);
+  --color-gold-light: var(--color-bone);
+  --color-gold-dark: #aa8000;
+  --color-dark-bg: var(--color-cinema-black);
+  --color-dark-surface: var(--color-obsidian);
+  --color-dark-surface-2: var(--color-graphite);
+  --color-glass-bg: rgba(17, 16, 15, 0.7); /* obsidian with opacity */
+  --color-glass-border: rgba(200, 169, 110, 0.2); /* brass with opacity */
+  --color-text-main: var(--color-bone);
+  --color-text-muted: var(--color-muted-bone);
   
+  /* Typography Tokens */
+  --font-cormorant: var(--font-cormorant), Georgia, serif;
+  --font-dmsans: var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-cinzel: var(--font-cinzel), serif;
   --font-manrope: var(--font-manrope), sans-serif;
-  --font-montserrat: var(--font-montserrat), sans-serif;
-  --font-playfair: var(--font-playfair), serif;
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-gold: pulse-gold 2s infinite;
@@ -79,3 +92,141 @@ body {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   MATERIAL CINEMA — Global CSS Custom Properties
+   All animation-driven values are updated via JS.
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  /* Pointer lighting — updated on pointermove */
+  --pointer-x: 50%;
+  --pointer-y: 50%;
+
+  /* Atmospheric background channels — updated via scroll progress */
+  --atm-r: 10;
+  --atm-g: 10;
+  --atm-b: 12;
+
+  /* Scroll velocity skew — updated via GSAP ScrollTrigger */
+  --scroll-skew: 0deg;
+}
+
+/* Aperture transition — architectural doorway reveal between chapters */
+@keyframes aperture-open {
+  from { clip-path: inset(50% 50% 50% 50%); }
+  to   { clip-path: inset(0% 0% 0% 0%); }
+}
+
+/* Reflective light sweep — single pass over metal surfaces */
+@keyframes light-sweep {
+  0%   { transform: translateX(-120%) skewX(-20deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateX(220%) skewX(-20deg); opacity: 0; }
+}
+
+/* Pointer light utility — apply to layers that react to cursor */
+.pointer-light {
+  background-image: radial-gradient(
+    circle 600px at var(--pointer-x) var(--pointer-y),
+    rgba(200, 169, 110, 0.06),
+    transparent 70%
+  );
+}
+
+/* Metal light sweep overlay — placed over hardware product images */
+.light-sweep-overlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.light-sweep-overlay::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 60%;
+  height: 140%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.04) 40%,
+    rgba(255, 255, 255, 0.12) 50%,
+    rgba(255, 255, 255, 0.04) 60%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  animation: light-sweep 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: var(--sweep-delay, 0s);
+}
+
+/* Scroll velocity skew wrapper — decorative layers only */
+.cinema-skew-layer {
+  transform: skewY(var(--scroll-skew));
+  will-change: transform;
+  transition: transform 0.1s linear;
+}
+
+/* Lenis smooth scrolling rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LIQUID GLASS NAVIGATION — Visual Depth & Ambient Shimmer
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes liquid-glass-shimmer {
+  0% {
+    transform: translate(-20%, -15%) rotate(0deg) scale(1);
+    opacity: 0.035;
+  }
+  50% {
+    transform: translate(25%, 15%) rotate(3deg) scale(1.1);
+    opacity: 0.07;
+  }
+  100% {
+    transform: translate(-20%, -15%) rotate(0deg) scale(1);
+    opacity: 0.035;
+  }
+}
+
+.liquid-glass-reflection {
+  background: radial-gradient(
+    ellipse 70% 80% at 50% 0%,
+    rgba(255, 255, 255, 0.13) 0%,
+    rgba(200, 169, 110, 0.06) 40%,
+    rgba(200, 169, 110, 0.02) 60%,
+    transparent 75%
+  );
+  animation: liquid-glass-shimmer 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass-reflection {
+    animation: none !important;
+    opacity: 0.04 !important;
+  }
+}
+

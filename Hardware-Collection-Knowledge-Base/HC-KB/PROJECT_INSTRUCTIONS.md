@@ -25,7 +25,7 @@ It is a **retail/trader business**, not an e-commerce operation and not an enter
 | Domain | hardwarecollection.co (GoDaddy, DNS → Vercel) |
 | Website stack | Next.js 14 + Tailwind CSS + Vercel |
 | Brand colors | Crimson #8B1A4A (primary), Gold #C8A96E (accent), Near-black #0E0C0C (background) |
-| Typography | Cormorant Garamond (display), DM Sans (body) |
+| Typography | Cinzel (display), Manrope (body) |
 | Current GMB rating | ~4.2–4.4★, ~55 reviews (baseline, July 2026) |
 
 ## 3. Website Purpose (do not deviate)

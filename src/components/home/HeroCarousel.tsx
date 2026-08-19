@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronLeft, ChevronRight, Pause, Play } from "lucide-react";
@@ -19,24 +19,37 @@ interface HeroCarouselProps {
   slides: HeroSlide[];
 }
 
+const subscribeToReducedMotion = (callback: () => void) => {
+  if (typeof window === "undefined") return () => {};
+  const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+  mediaQuery.addEventListener("change", callback);
+  return () => mediaQuery.removeEventListener("change", callback);
+};
+
+const getReducedMotionSnapshot = () => {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+};
+
+const getReducedMotionServerSnapshot = () => false;
+
 export default function HeroCarousel({ slides }: HeroCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
-  const [isReducedMotion, setIsReducedMotion] = useState(false);
+  const [isManuallyPaused, setIsManuallyPaused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const containerRef = useRef<HTMLElement | null>(null);
+
+  const isReducedMotion = useSyncExternalStore(
+    subscribeToReducedMotion,
+    getReducedMotionSnapshot,
+    getReducedMotionServerSnapshot
+  );
 
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
 
   const totalSlides = slides.length;
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setIsReducedMotion(mediaQuery.matches);
-    if (mediaQuery.matches) {
-      setIsPlaying(false);
-    }
-  }, []);
 
   const nextSlide = useCallback(() => {
     setCurrentIndex((prev) => (prev + 1) % totalSlides);
@@ -46,27 +59,23 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
     setCurrentIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
   }, [totalSlides]);
 
+  const isAutoplayActive = !isManuallyPaused && !isHovered && !isReducedMotion;
+
   useEffect(() => {
-    if (isPlaying && totalSlides > 1) {
-      timerRef.current = setInterval(nextSlide, 6000); // 6 seconds
+    if (isAutoplayActive && totalSlides > 1) {
+      timerRef.current = setInterval(nextSlide, 6000); // 6 seconds per slide
     }
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPlaying, nextSlide, totalSlides]);
-
-  const handleInteraction = () => {
-    if (isPlaying && !isReducedMotion) {
-      setIsPlaying(false);
-    }
-  };
+  }, [isAutoplayActive, nextSlide, totalSlides]);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft") {
-      handleInteraction();
+      e.preventDefault();
       prevSlide();
     } else if (e.key === "ArrowRight") {
-      handleInteraction();
+      e.preventDefault();
       nextSlide();
     }
   };
@@ -85,10 +94,8 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
     const minSwipeDistance = 50;
 
     if (distance > minSwipeDistance) {
-      handleInteraction();
       nextSlide();
     } else if (distance < -minSwipeDistance) {
-      handleInteraction();
       prevSlide();
     }
 
@@ -102,16 +109,23 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
 
   return (
     <section 
-      className="relative w-full h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden bg-black"
-      onMouseEnter={() => { if (!isReducedMotion) setIsPlaying(false); }}
-      onMouseLeave={() => { if (!isReducedMotion) setIsPlaying(true); }}
+      ref={containerRef}
+      className="relative w-full h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden bg-black focus:outline-none"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={(e) => {
+        if (!containerRef.current?.contains(e.relatedTarget as Node)) {
+          setIsHovered(false);
+        }
+      }}
       onTouchStart={onTouchStart}
       onTouchMove={onTouchMove}
       onTouchEnd={onTouchEnd}
       onKeyDown={handleKeyDown}
       tabIndex={0}
       aria-roledescription="carousel"
-      aria-label="Highlighted Content"
+      aria-label="Highlighted Showroom Collections"
     >
       {/* Slides */}
       {slides.map((slide, index) => {
@@ -136,13 +150,13 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                   isActive && !isReducedMotion ? "scale-105" : "scale-100"
                 }`}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/20 to-black/10"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20"></div>
             </div>
 
             <div className="relative z-20 w-full max-w-[1320px] mx-auto px-6 flex flex-col items-start justify-center h-full">
               <div className="max-w-4xl space-y-6">
                 {slide.eyebrow && (
-                  <p className="font-body text-sm font-bold uppercase tracking-widest text-[var(--color-primary)]">
+                  <p className="font-body text-xs md:text-sm font-bold uppercase tracking-widest text-[var(--color-primary)]">
                     {slide.eyebrow}
                   </p>
                 )}
@@ -152,7 +166,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                 </h2>
                 
                 {slide.description && (
-                  <p className="font-body text-lg md:text-xl text-[var(--color-text-inverse)]/90 max-w-xl leading-relaxed">
+                  <p className="font-body text-base md:text-xl text-[var(--color-text-inverse)]/90 max-w-xl leading-relaxed">
                     {slide.description}
                   </p>
                 )}
@@ -162,7 +176,6 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                     <Link
                       href={slide.ctaTarget || "/collections"}
                       className="btn-primary bg-white text-black hover:bg-black hover:text-white inline-flex"
-                      onClick={handleInteraction}
                     >
                       {slide.primaryCta || "Explore Collection"}
                     </Link>
@@ -179,16 +192,16 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
         <>
           {/* Desktop Arrows */}
           <button
-            onClick={() => { handleInteraction(); prevSlide(); }}
-            className="hidden md:flex absolute left-4 z-30 p-2 rounded-full bg-black/20 text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            onClick={prevSlide}
+            className="hidden md:flex absolute left-4 z-30 p-2 rounded-full bg-black/30 text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-8 h-8" />
           </button>
           
           <button
-            onClick={() => { handleInteraction(); nextSlide(); }}
-            className="hidden md:flex absolute right-4 z-30 p-2 rounded-full bg-black/20 text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            onClick={nextSlide}
+            className="hidden md:flex absolute right-4 z-30 p-2 rounded-full bg-black/30 text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
             aria-label="Next slide"
           >
             <ChevronRight className="w-8 h-8" />
@@ -197,23 +210,20 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
           {/* Pagination & Play/Pause */}
           <div className="absolute bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-4">
             <button
-              onClick={() => setIsPlaying(!isPlaying)}
-              className="p-1 text-white/70 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded"
-              aria-label={isPlaying ? "Pause autoplay" : "Start autoplay"}
+              onClick={() => setIsManuallyPaused(!isManuallyPaused)}
+              className="p-1.5 text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded"
+              aria-label={isManuallyPaused ? "Start autoplay" : "Pause autoplay"}
             >
-              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
+              {isManuallyPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
             </button>
             
-            <div className="flex gap-2" role="tablist">
+            <div className="flex gap-2" role="tablist" aria-label="Slide indicators">
               {slides.map((_, index) => (
                 <button
                   key={index}
-                  onClick={() => {
-                    handleInteraction();
-                    setCurrentIndex(index);
-                  }}
-                  className={`w-2 h-2 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-white ${
-                    index === currentIndex ? "bg-white w-6" : "bg-white/40 hover:bg-white/60"
+                  onClick={() => setCurrentIndex(index)}
+                  className={`h-2 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-white ${
+                    index === currentIndex ? "bg-white w-6" : "bg-white/40 hover:bg-white/60 w-2"
                   }`}
                   role="tab"
                   aria-selected={index === currentIndex}

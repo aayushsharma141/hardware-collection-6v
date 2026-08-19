@@ -1,0 +1,274 @@
+"use client";
+
+import { useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { useReducedMotion } from "motion/react";
+import { MagneticButton } from "@/components/animations/MagneticButton";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+/**
+ * ProductReel — Chapter 05 "The Collection"
+ * Visual tension: MEDIUM
+ * Purpose: Emotion → Consideration → Intent bridge.
+ *
+ * Funnel logic:
+ *   CH04 (material peak, VERY HIGH) → THE COLLECTION → Practical browsing
+ *
+ * Pointer light active on product images (same as CH01, CH04, CH06).
+ * Reflective light sweep on individual product image cards.
+ * No pinning. No clip-path drama. No Material Lens.
+ * Horizontal reel on desktop (GSAP), CSS snap on mobile.
+ */
+
+const PRODUCTS = [
+  {
+    index: "01",
+    name: "Pull Handle",
+    brand: "HÄFELE",
+    finish: "Satin Stainless",
+    category: "Door Hardware",
+    img: "/cinema/categories/HC-03-DOOR.png",
+    href: "/collections?category=door-hardware&brand=hafele",
+    sweepDelay: "0s",
+  },
+  {
+    index: "02",
+    name: "Mortice Handle",
+    brand: "DORSET",
+    finish: "Antique Brass",
+    category: "Door Hardware",
+    img: "/cinema/collection/HC-05-01.png",
+    href: "/collections?category=door-hardware&brand=dorset",
+    sweepDelay: "1.5s",
+  },
+  {
+    index: "03",
+    name: "Biometric Lock",
+    brand: "GODREJ",
+    finish: "Graphite",
+    category: "Digital Locks",
+    img: "/cinema/categories/HC-03-DIGITAL.png",
+    href: "/collections?category=digital-locks&brand=godrej",
+    sweepDelay: "3s",
+  },
+  {
+    index: "04",
+    name: "Soft-Close Channel",
+    brand: "HETTICH",
+    finish: "Galvanised Steel",
+    category: "Cabinet Hardware",
+    img: "/cinema/categories/HC-03-CABINET.png",
+    href: "/collections?category=cabinet-hardware&brand=hettich",
+    sweepDelay: "0.5s",
+  },
+  {
+    index: "05",
+    name: "Towel Bar Set",
+    brand: "KICH",
+    finish: "Satin 304 SS",
+    category: "Bathroom",
+    img: "/cinema/categories/HC-03-BATHROOM.png",
+    href: "/collections?category=bathroom&brand=kich",
+    sweepDelay: "2s",
+  },
+  {
+    index: "06",
+    name: "Cabinet Knob",
+    brand: "LABACHA",
+    finish: "Matte Gold",
+    category: "Cabinet Hardware",
+    img: "/cinema/collection/HC-05-02.png",
+    href: "/collections?category=cabinet-hardware&brand=labacha",
+    sweepDelay: "4s",
+  },
+];
+
+export default function ProductReel() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  useGSAP(
+    () => {
+      if (shouldReduceMotion || !containerRef.current || !trackRef.current) return;
+
+      const mm = gsap.matchMedia();
+
+      mm.add("(min-width: 1024px)", () => {
+        const getScrollDistance = () =>
+          trackRef.current ? Math.max(0, trackRef.current.scrollWidth - window.innerWidth + 64) : 0;
+
+        gsap.to(trackRef.current, {
+          x: () => -getScrollDistance(),
+          ease: "none",
+          scrollTrigger: {
+            trigger: containerRef.current,
+            pin: true,
+            scrub: 1.2,
+            start: "top top",
+            end: () => `+=${getScrollDistance()}`,
+            invalidateOnRefresh: true,
+          },
+        });
+      });
+    },
+    { scope: containerRef, dependencies: [shouldReduceMotion] }
+  );
+
+  // Mobile: CSS scroll-snap, no GSAP
+  const mobileReel = (
+    <div
+      className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-6 -mx-4 px-4 lg:hidden"
+      style={{ scrollbarWidth: "none" }}
+    >
+      {PRODUCTS.map((p, i) => (
+        <a
+          key={i}
+          href={p.href}
+          className="snap-center shrink-0 w-[75vw] max-w-[300px] block group"
+        >
+          <ProductCard product={p} />
+        </a>
+      ))}
+    </div>
+  );
+
+  return (
+    <section
+      data-chapter="5"
+      className="border-t border-zinc-900 bg-transparent relative"
+    >
+      {/* Pointer light overlay — scoped to this chapter */}
+      <div
+        className="pointer-light absolute inset-0 pointer-events-none"
+        aria-hidden="true"
+        style={{ zIndex: 0 }}
+      />
+
+      {/* Mobile layout */}
+      <div className="block lg:hidden py-24 px-6">
+        <ChapterLabel />
+        <div className="mt-10">{mobileReel}</div>
+        <div className="mt-10 text-center">
+          <CollectionCTA />
+        </div>
+      </div>
+
+      {/* Desktop horizontal reel */}
+      <div
+        ref={containerRef}
+        className="hidden lg:block overflow-hidden"
+        style={{ height: "100vh" }}
+      >
+        <div
+          ref={trackRef}
+          className="flex h-full items-center pl-16 pr-16 gap-8 will-change-transform w-max"
+        >
+          {/* Chapter label as first "card" */}
+          <div className="shrink-0 w-72 pr-8 flex flex-col justify-center h-full">
+            <ChapterLabel />
+            <p className="text-zinc-500 font-light mt-4 leading-relaxed text-sm">
+              Selected architectural hardware from our authorized partners.
+            </p>
+            <p className="text-zinc-700 text-xs mt-6">
+              01 — {PRODUCTS.length.toString().padStart(2, "0")}
+            </p>
+          </div>
+
+          {/* Product cards */}
+          {PRODUCTS.map((p, i) => (
+            <a
+              key={i}
+              href={p.href}
+              className="product-card shrink-0 block group cursor-pointer"
+              style={{ width: "340px" }}
+            >
+              <ProductCard product={p} />
+            </a>
+          ))}
+
+          {/* End: full collection CTA */}
+          <div className="shrink-0 w-80 flex flex-col justify-center h-full pl-8 border-l border-zinc-900">
+            <CollectionCTA />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function ProductCard({
+  product,
+}: {
+  product: (typeof PRODUCTS)[number];
+}) {
+  return (
+    <div className="flex flex-col gap-4">
+      {/* Image with light sweep + hover zoom */}
+      <div className="relative overflow-hidden bg-zinc-900 aspect-[3/4] rounded-sm">
+        <img
+          src={product.img}
+          alt={`${product.brand} ${product.name}`}
+          className="w-full h-full object-cover opacity-80 group-hover:scale-[1.04] transition-transform duration-700 ease-out will-change-transform"
+        />
+        {/* Reflective light sweep */}
+        <div
+          className="light-sweep-overlay"
+          aria-hidden="true"
+          style={{ "--sweep-delay": product.sweepDelay } as React.CSSProperties}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+      </div>
+
+      {/* Specimen label */}
+      <div className="space-y-0.5">
+        <p className="text-zinc-600 text-xs tracking-widest uppercase">{product.index} · {product.category}</p>
+        <div className="flex items-baseline justify-between">
+          <p className="text-zinc-400 text-xs tracking-wide group-hover:translate-y-[-4px] transition-transform duration-200">
+            {product.brand}
+          </p>
+          <span className="text-zinc-600 text-xs group-hover:translate-x-[6px] transition-transform duration-200" aria-hidden="true">
+            →
+          </span>
+        </div>
+        <h3 className="text-white font-light text-xl">{product.name}</h3>
+        <p className="text-zinc-600 text-xs">{product.finish}</p>
+      </div>
+    </div>
+  );
+}
+
+function ChapterLabel() {
+  return (
+    <>
+      <p className="text-[#C8A96E] font-medium tracking-widest text-xs uppercase mb-1">
+        CHAPTER 05
+      </p>
+      <p className="text-zinc-600 text-xs tracking-widest uppercase mb-2">
+        THE COLLECTION
+      </p>
+      <h2 className="text-4xl lg:text-5xl font-light text-white leading-tight">
+        Selected<br />
+        <span className="text-zinc-500">Architectural</span><br />
+        Hardware.
+      </h2>
+    </>
+  );
+}
+
+function CollectionCTA() {
+  return (
+    <MagneticButton>
+      <a
+        href="/collections"
+        className="inline-flex items-center gap-3 px-8 py-5 border border-zinc-700 text-white font-medium text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300"
+      >
+        EXPLORE FULL COLLECTION
+        <span aria-hidden="true" className="text-base">→</span>
+      </a>
+    </MagneticButton>
+  );
+}

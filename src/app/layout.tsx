@@ -1,6 +1,18 @@
 import type { Metadata } from "next";
-import { Cinzel, Manrope, Montserrat, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, Cinzel, Manrope } from "next/font/google";
 import "./globals.css";
+
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const dmSans = DM_Sans({
+  variable: "--font-dmsans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
@@ -14,23 +26,13 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700"],
 });
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800"],
-});
-
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
-  weight: ["500", "600", "700"],
-  style: ["normal", "italic"],
-});
-
 export const metadata: Metadata = {
   title: "Premium Hardware & Digital Locks | Hardware Collection",
   description: "Authorized Hafele & Dorset Dealer in Sakchi, Jamshedpur. Premium architectural hardware and digital locks.",
 };
+
+import { MotionProvider } from "@/components/providers/MotionProvider";
+import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
 
 export default function RootLayout({
   children,
@@ -40,9 +42,12 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cinzel.variable} ${manrope.variable} ${montserrat.variable} ${playfair.variable} h-full antialiased dark`}
+      className={`${cormorant.variable} ${dmSans.variable} ${cinzel.variable} ${manrope.variable} h-full antialiased dark`}
     >
-      <body className="min-h-full flex flex-col font-manrope bg-dark-bg text-text-main">{children}</body>
+      <body className="min-h-full flex flex-col font-manrope bg-dark-bg text-text-main">
+        <MotionProvider>{children}</MotionProvider>
+        <ConsultationDrawer />
+      </body>
     </html>
   );
 }

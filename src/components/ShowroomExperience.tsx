@@ -27,7 +27,7 @@ export default function ShowroomExperience() {
           The Ground Reality & Experience
         </div>
         <h2 className="font-display text-3xl md:text-5xl font-semibold text-white mb-4">
-          Visit Our 7,500 Sq Ft Flagship Showroom
+          Visit Our Flagship Sakchi Showroom
         </h2>
         <p className="font-body text-sm md:text-base text-[#ACACAC] max-w-2xl mx-auto">
           Experience the physical touch and silent operation of German soft-close drawers, live biometric lock demos, and custom luxury kitchen setups in Sakchi.
@@ -90,11 +90,11 @@ export default function ShowroomExperience() {
         <div className="lg:col-span-6 flex flex-col gap-6 bg-zinc-950/80 border border-zinc-800/90 rounded-sm p-8 backdrop-blur-xl">
           <div className="inline-flex items-center gap-2 text-xs font-body font-bold uppercase text-[var(--color-accent)] tracking-wider">
             <Sparkles className="w-4 h-4 text-[var(--color-accent)]" />
-            21 Years of Trust in Jamshedpur
+            20+ Years in Sakchi
           </div>
 
           <h3 className="font-display text-2xl md:text-3xl text-white font-semibold leading-snug">
-            From a 113 sq ft shop in 2002 to Jamshedpur&apos;s leading 7,500 sq ft architectural destination.
+            From a 113 sq ft shop in 2002 to Jamshedpur&apos;s leading architectural destination.
           </h3>
 
           <p className="font-body text-sm text-zinc-300 leading-relaxed">
@@ -120,7 +120,7 @@ export default function ShowroomExperience() {
             </div>
             <div className="flex items-center gap-2 text-xs text-zinc-200">
               <Check className="w-4 h-4 text-zinc-300 shrink-0" />
-              <span>Same-Day Stock Availability</span>
+              <span>Comprehensive Physical Displays</span>
             </div>
           </div>
 
@@ -165,7 +165,7 @@ export default function ShowroomExperience() {
             </div>
           </div>
           <span className="text-[0.65rem] font-bold font-body text-zinc-300 bg-zinc-900/60 border border-zinc-700/60 px-3 py-1 rounded-none uppercase tracking-wider">
-            Same-Day Dispatch Available
+            Authorized Showroom Supply
           </span>
         </div>
 

@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { createClient } from "next-sanity";
-import { CATEGORIES, BRANDS } from "@/data/catalog";
+import { CATEGORIES, BRANDS, PRODUCTS } from "@/data/catalog";
 import { apiVersion, dataset, projectId, useCdn } from "@/sanity/env";
 
 export async function POST(request: Request) {
@@ -23,24 +23,9 @@ export async function POST(request: Request) {
       token: process.env.SANITY_API_TOKEN,
     });
 
-    const results = { categories: 0, brands: 0 };
+    const results = { categories: 0, brands: 0, products: 0 };
 
-    // Seed Categories
-    for (const cat of CATEGORIES) {
-      await client.createIfNotExists({
-        _id: `category-${cat.id}`,
-        _type: "category",
-        name: cat.title,
-        slug: { _type: "slug", current: cat.id },
-        description: cat.shortDesc,
-        icon: cat.iconName,
-        displayOrder: CATEGORIES.indexOf(cat),
-        featured: true,
-      });
-      results.categories++;
-    }
-
-    // Seed Brands
+    // 1. Seed Brands
     for (const brand of BRANDS) {
       await client.createIfNotExists({
         _id: `brand-${brand.id}`,
@@ -48,14 +33,63 @@ export async function POST(request: Request) {
         name: brand.name,
         slug: { _type: "slug", current: brand.id },
         description: brand.tagline,
+        authorizedStatus: brand.authorized ? "Authorized Dealer" : "Partner",
         displayOrder: BRANDS.indexOf(brand),
         featured: brand.authorized,
       });
       results.brands++;
     }
 
-    return NextResponse.json({ message: "Seeding complete", results });
+    // 2. Seed 13 Canonical Categories
+    for (const cat of CATEGORIES) {
+      await client.createIfNotExists({
+        _id: `category-${cat.slug}`,
+        _type: "category",
+        name: cat.title,
+        slug: { _type: "slug", current: cat.slug },
+        eyebrow: cat.eyebrow,
+        description: cat.shortDesc,
+        overview: cat.overview,
+        cardVariant: cat.cardVariant,
+        primaryRail: cat.primaryRail,
+        suitableFor: cat.suitableFor,
+        keyFeatures: cat.keyFeatures,
+        icon: cat.iconName,
+        status: cat.status,
+        whatsappMessage: cat.whatsappMessage,
+        displayOrder: CATEGORIES.indexOf(cat),
+        featured: cat.featured || false,
+      });
+      results.categories++;
+    }
+
+    // 3. Seed Verified Initial Products
+    for (const prod of PRODUCTS) {
+      await client.createIfNotExists({
+        _id: `product-${prod.id}`,
+        _type: "product",
+        name: prod.name,
+        slug: { _type: "slug", current: prod.id },
+        catalogReference: prod.catalogReference || prod.model,
+        shortDescription: prod.shortDescription || prod.description,
+        brand: {
+          _type: "reference",
+          _ref: `brand-${prod.brand.toLowerCase()}`,
+        },
+        category: {
+          _type: "reference",
+          _ref: `category-${prod.categorySlug}`,
+        },
+        showroomDisplay: prod.displayStatus === "Live Display",
+        specifications: prod.specifications || [],
+        featured: prod.featured || false,
+      });
+      results.products++;
+    }
+
+    return NextResponse.json({ message: "13 Canonical Collections Seeding Complete", results });
   } catch (error: any) {
     return NextResponse.json({ message: "Error seeding data", error: error.message }, { status: 500 });
   }
 }
+

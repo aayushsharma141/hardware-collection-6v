@@ -1,9 +1,13 @@
 "use client";
 
 import React from "react";
-import { Star, MessageSquareQuote, CheckCircle2, Award, Users } from "lucide-react";
+import { Star, CheckCircle2 } from "lucide-react";
 
-export default function Testimonials() {
+interface TestimonialsProps {
+  googleMapsUrl?: string;
+}
+
+export default function Testimonials({ googleMapsUrl }: TestimonialsProps) {
   const reviews = [
     {
       author: "Rajiv Sharma",
@@ -27,7 +31,7 @@ export default function Testimonials() {
       rating: 5,
       date: "December 2025",
       verified: true,
-      text: "Reliable bulk pricing and same-day availability for Dorset digital door locks and heavy mortise handles. Their 7,500 sq ft showroom has the largest physical stock display in the entire district."
+      text: "Reliable bulk pricing and same-day availability for Dorset digital door locks and heavy mortise handles. Their showroom has the largest physical stock display in the entire district."
     }
   ];
 
@@ -68,11 +72,11 @@ export default function Testimonials() {
 
         <div className="flex items-center gap-3 border-t sm:border-t-0 sm:border-l border-zinc-800 pt-4 sm:pt-0 sm:pl-6 w-full sm:w-auto justify-center sm:justify-start">
           <div className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-700 flex items-center justify-center">
-            <CheckCircle2 className="w-5 h-5 text-zinc-300" />
+            <CheckCircle2 className="w-5 h-5 text-[var(--color-accent)]" />
           </div>
           <div className="text-left">
-            <div className="font-body font-bold text-xs text-white">100% Genuine Brands</div>
-            <div className="font-body text-[0.7rem] text-zinc-400">Authorized Dealer Protection</div>
+            <div className="font-body font-bold text-xs text-white">Authorized Dealerships</div>
+            <div className="font-body text-[0.7rem] text-zinc-400">Direct Manufacturer Supply</div>
           </div>
         </div>
       </div>
@@ -118,6 +122,20 @@ export default function Testimonials() {
           </div>
         ))}
       </div>
+
+      {/* Verified Google Maps Reviews Link if URL exists */}
+      {googleMapsUrl && (
+        <div className="mt-8 text-center">
+          <a
+            href={googleMapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 text-xs font-body font-bold text-[var(--color-accent)] hover:underline uppercase tracking-widest"
+          >
+            View Verified Google Maps Reviews →
+          </a>
+        </div>
+      )}
 
     </section>
   );

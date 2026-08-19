@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import { X, ZoomIn, ZoomOut, Maximize, ShieldAlert, ChevronLeft, ChevronRight, FileText } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 
 interface CatalogViewerModalProps {
   brand: any;

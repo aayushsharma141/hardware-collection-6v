@@ -37,9 +37,9 @@ export default function ProductCatalog() {
         !query ||
         item.name.toLowerCase().includes(query) ||
         item.brand.toLowerCase().includes(query) ||
-        item.model.toLowerCase().includes(query) ||
+        (item.model || item.catalogReference || "").toLowerCase().includes(query) ||
         item.description.toLowerCase().includes(query) ||
-        item.finishes.some(f => f.toLowerCase().includes(query));
+        (item.finishes && item.finishes.some(f => f.toLowerCase().includes(query)));
 
       return matchCategory && matchBrand && matchSearch;
     });
@@ -58,7 +58,7 @@ export default function ProductCatalog() {
           Explore Authorized Brand Collections
         </h2>
         <p className="font-body text-sm md:text-base text-[#ACACAC] max-w-2xl mx-auto">
-          Every product backed by 100% genuine manufacturer warranty and direct showroom consultation at our 7,500 sq ft facility in Sakchi.
+          Explore architectural hardware specimens from authorized manufacturers with direct specification support at our showroom in Sakchi.
         </p>
       </div>
 

@@ -1,0 +1,84 @@
+"use client";
+
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+
+export default function TactileStatement() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const shouldReduceMotion = useReducedMotion();
+
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"],
+  });
+
+  // Clip path reveal
+  const clipPath = useTransform(
+    scrollYProgress,
+    [0.1, 0.5],
+    ["inset(0 100% 0 0)", "inset(0 0% 0 0)"]
+  );
+
+  // Parallax movement for the main image
+  const imageScale = useTransform(scrollYProgress, [0, 0.6], [1.15, 1.0]);
+  
+  // Text moving in opposite direction
+  const textY = useTransform(scrollYProgress, [0.2, 0.8], [100, -100]);
+
+  return (
+    <section ref={containerRef} className="py-40 bg-zinc-950 relative overflow-hidden min-h-screen flex items-center">
+      <div className="container mx-auto px-6 lg:px-12 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+          
+          {/* Text Content */}
+          <motion.div 
+            style={{ y: shouldReduceMotion ? 0 : textY }}
+            className="order-2 lg:order-1"
+          >
+            <p className="text-[#C8A96E] font-medium tracking-widest text-sm uppercase mb-6">
+              THE TACTILE STATEMENT
+            </p>
+            <h2 className="text-5xl lg:text-7xl font-light text-white leading-tight mb-8">
+              HARDWARE<br />YOU CAN<br />EXPERIENCE.
+            </h2>
+            <p className="text-xl text-zinc-400 font-light max-w-md">
+              Weight. Texture. Resistance. True quality isn't just seen—it communicates through touch.
+            </p>
+          </motion.div>
+          
+          {/* Macro Photography Reveal */}
+          <div className="order-1 lg:order-2 h-[60vh] lg:h-[80vh] w-full relative">
+            <motion.div 
+              style={{ 
+                clipPath: shouldReduceMotion ? "none" : clipPath,
+                width: "100%",
+                height: "100%"
+              }}
+              className="relative overflow-hidden bg-zinc-900"
+            >
+              <motion.img 
+                style={{ scale: shouldReduceMotion ? 1 : imageScale }}
+                src="/Hardware Collection/hero_bg.png" 
+                alt="Macro texture of architectural hardware"
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            </motion.div>
+
+            {/* Small detail image overlapping */}
+            <motion.div 
+              style={{ y: useTransform(scrollYProgress, [0, 1], [50, -150]) }}
+              className="absolute -bottom-10 -left-10 w-48 h-64 border border-zinc-800 hidden lg:block bg-zinc-900 overflow-hidden"
+            >
+              <img 
+                src="/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg" 
+                alt="Detail"
+                className="w-full h-full object-cover opacity-80"
+              />
+            </motion.div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  );
+}

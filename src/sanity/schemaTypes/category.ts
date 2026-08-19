@@ -21,9 +21,97 @@ export const categoryType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "eyebrow",
+      title: "Eyebrow / Sub-tagline",
+      type: "string",
+    }),
+    defineField({
       name: "description",
-      title: "Description",
+      title: "Short Description",
       type: "text",
+      rows: 2,
+    }),
+    defineField({
+      name: "overview",
+      title: "Editorial Overview",
+      type: "text",
+      rows: 4,
+    }),
+    defineField({
+      name: "cardVariant",
+      title: "Card Variant (Blueprint Grid)",
+      type: "string",
+      options: {
+        list: [
+          { title: "Standard (4-col)", value: "standard" },
+          { title: "Wide (8-col)", value: "wide" },
+          { title: "Feature (12-col)", value: "feature" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "standard",
+    }),
+    defineField({
+      name: "families",
+      title: "Showroom Families",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Handles & Knobs", value: "handles-knobs" },
+          { title: "Door Hardware", value: "door-hardware" },
+          { title: "Bathroom", value: "bathroom" },
+          { title: "Kitchen & Wardrobes", value: "kitchen-wardrobes" },
+          { title: "Furniture Hardware", value: "furniture-hardware" },
+        ],
+      },
+    }),
+    defineField({
+      name: "subcategories",
+      title: "Subcategories / Product Lines",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "primaryRail",
+      title: "Primary Discovery Rail Group",
+      type: "string",
+      options: {
+        list: [
+          { title: "Handles & Knobs", value: "handles-knobs" },
+          { title: "Door Hardware", value: "door-hardware" },
+          { title: "Bathroom", value: "bathroom" },
+          { title: "Kitchen & Wardrobes", value: "kitchen-wardrobes" },
+          { title: "Furniture Hardware", value: "furniture-hardware" },
+          { title: "More Collections", value: "more" },
+        ],
+      },
+      initialValue: "door-hardware",
+    }),
+    defineField({
+      name: "suitableFor",
+      title: "Suitable For",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Residential Villas & Apartments", value: "Residential" },
+          { title: "Commercial & Office Spaces", value: "Commercial" },
+          { title: "Hospitality & Luxury Hotels", value: "Hospitality" },
+        ],
+      },
+    }),
+    defineField({
+      name: "brands",
+      title: "Authorized Brands",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "brand" }] }],
+    }),
+    defineField({
+      name: "keyFeatures",
+      title: "Key Features",
+      type: "array",
+      of: [{ type: "string" }],
     }),
     defineField({
       name: "icon",
@@ -33,7 +121,7 @@ export const categoryType = defineType({
     }),
     defineField({
       name: "image",
-      title: "Category Image",
+      title: "Category Hero Image",
       type: "image",
       options: {
         hotspot: true,
@@ -46,8 +134,42 @@ export const categoryType = defineType({
       initialValue: 0,
     }),
     defineField({
+      name: "status",
+      title: "Content Status",
+      type: "string",
+      options: {
+        list: [
+          { title: "Draft", value: "draft" },
+          { title: "In Review", value: "review" },
+          { title: "Published", value: "published" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "draft",
+    }),
+    defineField({
+      name: "verificationStatus",
+      title: "Data Verification Status",
+      type: "string",
+      options: {
+        list: [
+          { title: "Unverified (Pending Source)", value: "unverified" },
+          { title: "Brand Verified (Partner Mapped)", value: "brand_verified" },
+          { title: "Catalog Verified (PDF/Specs Confirmed)", value: "catalog_verified" },
+        ],
+        layout: "radio",
+      },
+      initialValue: "unverified",
+    }),
+    defineField({
+      name: "whatsappMessage",
+      title: "WhatsApp Consultation Message Template",
+      type: "text",
+      rows: 2,
+    }),
+    defineField({
       name: "featured",
-      title: "Featured",
+      title: "Featured on Homepage",
       type: "boolean",
       initialValue: false,
     }),
@@ -60,3 +182,4 @@ export const categoryType = defineType({
     },
   },
 });
+

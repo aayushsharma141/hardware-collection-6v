@@ -40,18 +40,20 @@ export async function POST(request: Request) {
       }
     }
 
-    // 2. Append to local project .apep/events.jsonl as fallback / redundant log
-    const projectRoot = process.cwd();
-    const apepDir = path.join(projectRoot, "..", "..", ".apep");
-    const localEventsPath = path.join(apepDir, "events.jsonl");
+    // 2. Append to local project .apep/events.jsonl as fallback / redundant log (local dev only)
+    if (!process.env.VERCEL) {
+      try {
+        const projectRoot = process.cwd();
+        const apepDir = path.join(projectRoot, "..", "..", ".apep");
+        const localEventsPath = path.join(apepDir, "events.jsonl");
 
-    try {
-      if (!fs.existsSync(apepDir)) {
-        fs.mkdirSync(apepDir, { recursive: true });
+        if (!fs.existsSync(apepDir)) {
+          fs.mkdirSync(apepDir, { recursive: true });
+        }
+        fs.appendFileSync(localEventsPath, JSON.stringify(telemetryEvent) + "\n", "utf8");
+      } catch {
+        // Non-blocking file append
       }
-      fs.appendFileSync(localEventsPath, JSON.stringify(telemetryEvent) + "\n", "utf8");
-    } catch {
-      // Non-blocking file append
     }
 
     return NextResponse.json({

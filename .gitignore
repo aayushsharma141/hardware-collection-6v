@@ -36,6 +36,11 @@ yarn-error.log*
 # vercel
 .vercel
 
-# typescript
-*.tsbuildinfo
-next-env.d.ts
+# test artifacts & traces
+trace.json
+lighthouse-report.html
+/test-results/
+public/*.png
+*.log
+
+/src/generated/prisma
