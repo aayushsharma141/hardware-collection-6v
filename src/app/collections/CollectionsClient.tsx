@@ -59,6 +59,7 @@ export default function CollectionsClient({
   const [isMoreCategoriesOpen, setIsMoreCategoriesOpen] = useState(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [hasInteracted, setHasInteracted] = useState(false);
+  const [shortlistToast, setShortlistToast] = useState<string | null>(null);
   
   const { openDrawer } = useConsultationStore();
 
@@ -217,7 +218,8 @@ export default function CollectionsClient({
       setShortlist(prev => prev.filter(p => (p._id || p.id) !== id));
     } else {
       if (shortlist.length >= 5) {
-        alert("Your consultation shortlist holds up to 5 products at a time.");
+        setShortlistToast("Shortlist is full — up to 5 products at a time.");
+        setTimeout(() => setShortlistToast(null), 3000);
         return;
       }
       setShortlist(prev => [...prev, product]);
@@ -398,8 +400,20 @@ export default function CollectionsClient({
     return displayCategories.reduce((acc, cat) => acc + (cat.products?.length || 0), 0);
   }, [displayCategories]);
 
+  // Helper to guarantee crisp image fallback for every product
+  const getProductDisplayImage = useCallback((prod: any) => {
+    if (prod.imageUrl) return prod.imageUrl;
+    const cat = String(prod.categorySlug || prod.category || "").toLowerCase();
+    if (cat.includes("lock") || cat.includes("security") || cat.includes("safe")) return "/cinema/categories/HC-03-SECURITY.png";
+    if (cat.includes("bath")) return "/cinema/categories/HC-03-BATHROOM.png";
+    if (cat.includes("kitchen") || cat.includes("sink")) return "/cinema/categories/HC-03-KITCHEN.png";
+    if (cat.includes("wardrobe") || cat.includes("furniture") || cat.includes("slide") || cat.includes("hinge")) return "/cinema/categories/HC-03-WARDROBE.png";
+    if (cat.includes("glass")) return "/cinema/categories/HC-03-GLASS.png";
+    return "/cinema/categories/HC-03-DOORS.png";
+  }, []);
+
   return (
-    <div className="min-h-screen bg-[#0E0C0C] text-[#F3EFEA] selection:bg-[#C8A96E]/30 selection:text-white">
+    <div className="hc-root min-h-screen w-full bg-[#090909] text-[#e8e3d9] selection:bg-[#c8a96e]/30 selection:text-white">
       {/* Global Navigation Header */}
       <Navbar 
         primaryPhone={settings?.primaryPhone}
@@ -409,58 +423,66 @@ export default function CollectionsClient({
 
       <main className="w-full pb-36">
         
-        {/* ── Architectural Editorial Hero Header (With Proper Navbar Clearance) ── */}
-        <section className="relative w-full border-b border-white/[0.08] pt-36 sm:pt-44 md:pt-48 pb-12 md:pb-16 overflow-hidden">
-          {/* Subtle Volumetric Ambient Glow */}
-          <div className="absolute inset-0 pointer-events-none opacity-25" aria-hidden="true">
-            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[700px] h-[300px] bg-gradient-to-b from-[#C8A96E]/15 via-transparent to-transparent blur-3xl" />
-          </div>
+        {/* ── Quiet Two-Axis Architectural Masthead ── */}
+        <section className="border-b border-[#c8a96e] pt-28 sm:pt-32 pb-7">
+          <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12">
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-end">
+              {/* Left Axis: Eyebrow + Large Editorial Serif */}
+              <div className="lg:col-span-7">
+                <div className="mb-3 flex items-center gap-2.5">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#c8a96e] animate-pulse" />
+                  <span className="hc-mono text-[10px] uppercase tracking-[0.22em] text-[#aaa49a]">
+                    Authorized Digital Showroom
+                  </span>
+                </div>
+                <h1 
+                  className="hc-serif m-0 text-4xl sm:text-7xl lg:text-[84px] font-normal uppercase leading-[0.92] tracking-[0.03em] text-[#e8e3d9]"
+                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+                >
+                  The <br className="hidden sm:block" />
+                  Collection
+                </h1>
+              </div>
 
-          <div className="w-full max-w-[1920px] 2xl:max-w-[2400px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 text-center relative z-10">
-            {/* Showroom Eyebrow */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-white/[0.04] border border-white/[0.08] mb-5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#C8A96E]" />
-              <span className="font-dmsans text-[10px] sm:text-[10.5px] uppercase tracking-[0.22em] text-[#C8A96E] font-medium">
-                Authorized Digital Showroom • Sakchi · Jamshedpur
-              </span>
+              {/* Right Axis: Description + Architectural Status Bar */}
+              <div className="lg:col-span-5 flex flex-col justify-end pb-1 space-y-4">
+                <p className="font-dmsans text-[13px] sm:text-[14px] leading-relaxed text-[#aaa49a] font-light max-w-lg">
+                  Curated architectural hardware for considered residential and commercial interiors. Authorized partner for Häfele, Dorset, Labacha, Godrej, Hettich & Kich.
+                </p>
+                <div className="flex items-center justify-between border-t border-white/[0.12] pt-3 text-[10px] uppercase tracking-[0.18em]">
+                  <span className="text-[#aaa49a]">
+                    Product specification wall
+                  </span>
+                  <span className="hc-mono text-[#c8a96e]">
+                    Sakchi · Jamshedpur
+                  </span>
+                </div>
+              </div>
             </div>
-
-            {/* Editorial Title */}
-            <h1 
-              className="font-cormorant text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-normal text-white tracking-[0.05em] uppercase mb-4 leading-tight"
-              style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-            >
-              The Collection
-            </h1>
-
-            {/* Subtitle */}
-            <p className="font-dmsans text-[#A39E93] max-w-3xl mx-auto text-xs sm:text-sm md:text-base leading-relaxed font-light">
-              Curated architectural hardware for considered residential and commercial interiors. Authorized partner for Hafele, Dorset, Labacha, Godrej, Hettich & Kich.
-            </p>
           </div>
         </section>
 
-        {/* ── Mobile Sticky Quick Bar (lg:hidden) ── */}
-        <div className="lg:hidden sticky top-[72px] z-30 w-full px-3 py-2 bg-[#0E0C0C]/90 backdrop-blur-xl border-b border-white/[0.08]">
+        {/* ── Mobile Sticky Quick Filter Bar ── */}
+        <div className="lg:hidden sticky top-[68px] z-30 w-full px-4 py-2.5 bg-[#11100f]/95 backdrop-blur-xl border-b border-white/[0.12] shadow-xl">
           <div className="flex items-center gap-2">
             <button
               onClick={() => setIsMobileFilterOpen(true)}
-              className="flex-1 flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#141212] border border-white/[0.1] text-white font-dmsans text-xs uppercase tracking-wider shadow-md"
+              className="flex-1 flex items-center justify-between px-3.5 py-2.5 rounded-none bg-[#181716] border border-white/[0.14] text-[#e8e3d9] hc-mono text-[11px] uppercase tracking-wider"
               aria-label="Open collection index menu"
             >
               <div className="flex items-center gap-2 truncate">
-                <SlidersHorizontal className="w-3.5 h-3.5 text-[#C8A96E] shrink-0" />
+                <SlidersHorizontal className="w-3.5 h-3.5 text-[#c8a96e] shrink-0" />
                 <span className="truncate">
                   {activeCategory === "all" ? "All Collections" : activeCategory.replace(/-/g, " ")}
                 </span>
               </div>
-              <ChevronDown className="w-3.5 h-3.5 text-[#A39E93] shrink-0 ml-1" />
+              <ChevronDown className="w-3.5 h-3.5 text-[#aaa49a] shrink-0 ml-1" />
             </button>
 
             {activeBrand !== "all" && (
               <button
                 onClick={() => setActiveBrand("all")}
-                className="px-2.5 py-2.5 rounded-xl bg-[#C8A96E]/15 border border-[#C8A96E]/30 text-[11px] font-dmsans text-[#C8A96E] flex items-center gap-1 shrink-0"
+                className="px-3 py-2.5 rounded-none bg-[#c8a96e]/15 border border-[#c8a96e]/40 text-[10px] hc-mono text-[#c8a96e] flex items-center gap-1.5 shrink-0"
               >
                 <span>{activeBrand.toUpperCase()}</span>
                 <X className="w-3 h-3" />
@@ -469,99 +491,95 @@ export default function CollectionsClient({
           </div>
         </div>
 
-        {/* ── Main Two-Column Layout (Full-Wide Left Index + Right Product Canvas) ── */}
-        <div className="w-full max-w-[1920px] 2xl:max-w-[2400px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 pt-6 md:pt-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-10 2xl:gap-12 items-start">
+        {/* ── Desktop Specification Wall: Index Rail + Product Main ── */}
+        <div className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pt-8 lg:pt-10">
+          <div className="grid grid-cols-1 lg:grid-cols-[280px_1fr] xl:grid-cols-[300px_1fr] gap-8 lg:gap-12 items-start">
             
-            {/* ── Left Sticky Column: Architectural Collection Index (Desktop) ── */}
+            {/* ── Left Sticky Column: Architectural Collection Index ── */}
             <aside 
-              aria-label="Collection Index" 
-              className="hidden lg:block lg:col-span-4 xl:col-span-3 2xl:col-span-2 sticky top-28 h-[calc(100vh-8rem)] overflow-y-auto [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden pr-2 space-y-6"
+              aria-label="Collection index" 
+              className="hidden lg:block sticky top-28 h-[calc(100vh-8.5rem)] overflow-y-auto pr-6 border-r border-white/[0.12] space-y-7 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
             >
-              <div className="bg-[#141212]/95 border border-white/[0.08] rounded-2xl p-4 shadow-2xl backdrop-blur-2xl space-y-5">
-                
-                {/* Index Header */}
-                <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
-                  <div className="flex items-center gap-2">
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#C8A96E]" />
-                    <span className="font-mono text-[10px] uppercase tracking-[0.22em] text-[#C8A96E] font-medium">
-                      Collection Index
-                    </span>
-                  </div>
-                  <span className="font-mono text-[10px] text-[#A39E93]">
-                    {products.length} Total
-                  </span>
-                </div>
+              {/* Index Header */}
+              <div className="flex items-center justify-between pb-3 border-b border-white/[0.10]">
+                <span className="hc-mono text-[10px] uppercase tracking-[0.20em] text-[#c8a96e]">
+                  Collection index
+                </span>
+                <span className="hc-mono text-[10px] text-[#aaa49a]">
+                  {products.length} Total
+                </span>
+              </div>
 
-                {/* All Collections Button */}
-                <button
-                  onClick={() => {
-                    setActiveCategory("all");
-                    setHasInteracted(true);
-                  }}
-                  className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-dmsans uppercase tracking-wider text-left transition-all ${
-                    activeCategory === "all"
-                      ? "bg-[#C8A96E]/15 border border-[#C8A96E]/40 text-[#C8A96E] font-bold shadow-sm"
-                      : "text-[#D1CCC4] hover:bg-white/[0.04] hover:text-white"
-                  }`}
-                >
-                  <span>All Collections</span>
-                  <span className="font-mono text-[10.5px] text-[#A39E93]">({products.length})</span>
-                </button>
+              {/* All Collections Link */}
+              <button
+                onClick={() => {
+                  setActiveCategory("all");
+                  setHasInteracted(true);
+                }}
+                className={`index-row hc-focus flex w-full items-center justify-between text-[11px] uppercase tracking-[0.14em] text-left transition-colors cursor-pointer ${
+                  activeCategory === "all" ? "is-active text-[#e8e3d9] font-semibold" : "text-[#aaa49a] hover:text-[#e8e3d9]"
+                }`}
+              >
+                <span>All collections</span>
+                <span className="hc-mono text-[10px] text-[#aaa49a]">
+                  {products.length}
+                </span>
+              </button>
 
-                {/* Showroom Families Tree */}
-                <div className="space-y-1.5">
-                  <div className="text-[9.5px] font-mono uppercase tracking-[0.2em] text-[#6E6A62] px-2 pt-1 font-semibold">
-                    Showroom Families
-                  </div>
-                  
+              {/* Showroom Families Group */}
+              <div>
+                <p className="hc-mono mb-3 text-[9px] uppercase tracking-[0.20em] text-[#aaa49a]">
+                  Showroom families
+                </p>
+                <div className="space-y-1">
                   {SHOWROOM_FAMILIES.map((family, idx) => {
-                    const isFamilyActive = activeFamilySlug === family.slug;
+                    const isFamilyActive = activeFamilySlug === family.slug || activeCategory === family.slug;
                     const familyCollections = getFamilyCollections(family.slug);
-                    const familyProductCount = products.filter(p => {
-                      const pCat = (p.categorySlug || p.category || "").toLowerCase();
-                      return family.collectionSlugs.includes(pCat);
+                    const familyNavMatch = SHOWROOM_FAMILIES_NAV.find(
+                      (f) => f.id === family.slug || f.id.includes(family.slug) || family.slug.includes(f.id)
+                    );
+                    const familyProductCount = products.filter((p) => {
+                      const pCat = String(p.categorySlug || p.category || "").toLowerCase();
+                      if (family.collectionSlugs.includes(pCat)) return true;
+                      if (familyNavMatch && familyNavMatch.filterSlugs.some((s) => pCat.includes(s) || s.includes(pCat))) return true;
+                      return false;
                     }).length;
 
                     return (
-                      <div key={family.slug} className="space-y-1">
-                        {/* Family Parent Trigger */}
+                      <div key={family.slug} className="space-y-0.5">
                         <button
                           onClick={() => {
                             setActiveCategory(family.slug);
                             setHasInteracted(true);
                           }}
-                          className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-dmsans transition-all text-left group ${
-                            isFamilyActive && (activeCategory === family.slug || activeCategory === "all")
-                              ? "bg-[#C8A96E]/15 border border-[#C8A96E]/40 text-[#C8A96E] font-semibold"
-                              : isFamilyActive
-                              ? "text-white font-medium bg-white/[0.04]"
-                              : "text-[#B8B2A7] hover:bg-white/[0.03] hover:text-white"
+                          className={`index-row hc-focus flex w-full items-center gap-2.5 text-[11px] uppercase tracking-[0.12em] text-left cursor-pointer transition-colors ${
+                            isFamilyActive ? "is-active text-[#e8e3d9]" : "text-[#aaa49a] hover:text-[#e8e3d9]"
                           }`}
                         >
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-[10px] text-[#C8A96E]/70">{`0${idx + 1}`}</span>
-                            <span className="uppercase tracking-wider text-[11px]">{family.name}</span>
-                          </div>
-                          <span className="font-mono text-[10px] text-[#A39E93] group-hover:text-white">
-                            {familyCollections.length}
+                          <span className="hc-mono w-5 text-[10px] text-[#c8a96e]">
+                            0{idx + 1}
+                          </span>
+                          {isFamilyActive && <span className="index-rule" />}
+                          <span className={`flex-1 truncate ${isFamilyActive ? "font-semibold text-white" : ""}`}>
+                            {family.name}
+                          </span>
+                          <span className={`hc-mono text-[10px] ${isFamilyActive ? "text-[#c8a96e]" : "text-[#aaa49a]"}`}>
+                            {familyProductCount.toString().padStart(2, "0")}
                           </span>
                         </button>
 
-                        {/* Progressive Disclosure: Inline Canonical Collections */}
+                        {/* Indented Subcategories */}
                         {isFamilyActive && familyCollections.length > 0 && (
                           <motion.div
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: "auto" }}
                             exit={{ opacity: 0, height: 0 }}
-                            transition={{ duration: 0.18 }}
-                            className="pl-5 pr-1 py-1 space-y-0.5 border-l border-white/[0.08] ml-4"
+                            className="border-l border-[#c8a96e]/35 ml-7 pl-3.5 my-1.5 space-y-0.5"
                           >
-                            {familyCollections.map((col, colIdx) => {
+                            {familyCollections.map((col) => {
                               const isColSelected = activeCategory === col.slug;
-                              const isLast = colIdx === familyCollections.length - 1;
-                              const colProductCount = products.filter(p => {
-                                const pCat = (p.categorySlug || p.category || "").toLowerCase();
+                              const colProductCount = products.filter((p) => {
+                                const pCat = String(p.categorySlug || p.category || "").toLowerCase();
                                 return pCat === col.slug || pCat.includes(col.slug) || col.slug.includes(pCat);
                               }).length;
 
@@ -572,20 +590,13 @@ export default function CollectionsClient({
                                     setActiveCategory(col.slug);
                                     setHasInteracted(true);
                                   }}
-                                  className={`w-full flex items-center justify-between px-2.5 py-1.5 rounded-lg text-[11px] font-dmsans text-left transition-colors ${
-                                    isColSelected
-                                      ? "bg-[#C8A96E] text-[#0E0C0C] font-bold shadow-sm"
-                                      : "text-[#A39E93] hover:text-white hover:bg-white/[0.04]"
+                                  className={`hc-focus flex w-full min-h-[30px] items-center justify-between text-[10px] text-left transition-colors cursor-pointer py-1 border-b border-white/[0.04] ${
+                                    isColSelected ? "text-[#e8e3d9] font-semibold" : "text-[#aaa49a] hover:text-[#e8e3d9]"
                                   }`}
                                 >
-                                  <div className="flex items-center gap-1.5 truncate mr-2">
-                                    <span className="text-white/30 font-mono text-[9px]">
-                                      {isLast ? "└" : "├"}
-                                    </span>
-                                    <span className="truncate">{col.name}</span>
-                                  </div>
-                                  <span className={`font-mono text-[9.5px] ${isColSelected ? "text-[#0E0C0C]" : "text-[#6E6A62]"}`}>
-                                    {colProductCount}
+                                  <span className="truncate pr-2">{col.name}</span>
+                                  <span className={`hc-mono text-[9px] ${isColSelected ? "text-[#c8a96e] font-bold" : "text-[#7a756d]"}`}>
+                                    {colProductCount.toString().padStart(2, "0")}
                                   </span>
                                 </button>
                               );
@@ -596,97 +607,102 @@ export default function CollectionsClient({
                     );
                   })}
                 </div>
+              </div>
 
-                {/* Authorized Brands Filter Section */}
-                <div className="border-t border-white/[0.06] pt-4 space-y-2">
-                  <div className="text-[9.5px] font-mono uppercase tracking-[0.2em] text-[#6E6A62] px-2 font-semibold">
-                    Authorized Brands
-                  </div>
-                  <div className="grid grid-cols-2 gap-1.5">
-                    {availableBrands.map((b) => {
-                      const isSelected = activeBrand === b.toLowerCase();
-                      return (
-                        <button
-                          key={b}
-                          onClick={() => {
-                            setActiveBrand(b.toLowerCase());
-                            setHasInteracted(true);
-                          }}
-                          className={`px-2.5 py-1.5 rounded-lg text-[11px] font-dmsans uppercase tracking-wider text-left transition-colors truncate ${
-                            isSelected
-                              ? "bg-[#C8A96E] text-[#0E0C0C] font-bold"
-                              : "bg-white/[0.03] text-[#A39E93] hover:text-white hover:bg-white/[0.06] border border-white/[0.04]"
-                          }`}
-                        >
-                          {b === "all" ? "All Brands" : b}
-                        </button>
-                      );
-                    })}
-                  </div>
+              {/* Authorized Brands Checklist */}
+              <div className="border-t border-white/[0.12] pt-5">
+                <p className="hc-mono mb-3 text-[9px] uppercase tracking-[0.20em] text-[#aaa49a]">
+                  Authorized brands
+                </p>
+                <div className="space-y-1">
+                  {availableBrands.map((b) => {
+                    const isSelected = activeBrand === b.toLowerCase();
+                    return (
+                      <button
+                        key={b}
+                        onClick={() => {
+                          setActiveBrand(b.toLowerCase());
+                          setHasInteracted(true);
+                        }}
+                        className={`hc-focus flex w-full min-h-[36px] items-center gap-3 border-b border-white/[0.04] text-[11px] text-left transition-colors cursor-pointer ${
+                          isSelected ? "text-[#e8e3d9]" : "text-[#aaa49a] hover:text-[#e8e3d9]"
+                        }`}
+                      >
+                        <span className={`check-box ${isSelected ? "is-checked" : ""}`}>
+                          {isSelected && (
+                            <Check className="w-3 h-3 text-[#090909] stroke-[3]" />
+                          )}
+                        </span>
+                        <span className="flex-1 truncate uppercase tracking-wider text-[10.5px]">
+                          {b === "all" ? "All authorized brands" : b}
+                        </span>
+                      </button>
+                    );
+                  })}
                 </div>
-
               </div>
             </aside>
 
-            {/* ── Right Column: Product Canvas ── */}
-            <div className="lg:col-span-8 xl:col-span-9 2xl:col-span-10 space-y-8">
+            {/* ── Right Main Area: Instrument Strip + Specimen Wall ── */}
+            <div className="min-w-0 space-y-10">
               
-              {/* Search Instrument & Canvas Header */}
-              <div className="bg-[#141212]/95 border border-white/[0.08] rounded-2xl p-4 sm:p-5 shadow-xl backdrop-blur-2xl space-y-4">
-                <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                  {/* Full-width Search Bar */}
-                  <div className="relative flex-1">
-                    <Search className="w-4 h-4 text-[#A39E93] absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-                    <input
-                      ref={searchInputRef}
-                      type="text"
-                      placeholder="Search specimens, part references, materials..."
-                      value={searchQuery}
-                      onChange={(e) => {
-                        setSearchQuery(e.target.value);
-                        setHasInteracted(true);
-                      }}
-                      className="w-full bg-white/[0.04] border border-white/[0.1] rounded-xl py-2.5 pl-10 pr-9 text-xs sm:text-sm font-dmsans text-white placeholder:text-[#6E6A62] focus:outline-none focus:border-[#C8A96E]/70 transition-all"
-                    />
-                    {searchQuery && (
-                      <button
-                        onClick={() => setSearchQuery("")}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 text-[#A39E93] hover:text-white p-1"
-                        aria-label="Clear search"
-                      >
-                        <X className="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
+              {/* Flat Two-Row Instrument Strip */}
+              <section aria-label="Product search and filters" className="border-y border-white/[0.14] bg-[#11100f]/60 p-4 sm:p-5">
+                <div className="grid grid-cols-1 sm:grid-cols-[1fr_220px] items-end gap-4">
+                  {/* Search Input */}
+                  <label className="block">
+                    <span className="hc-mono mb-2 block text-[9px] uppercase tracking-[0.18em] text-[#aaa49a]">
+                      Search products or part references
+                    </span>
+                    <span className="flex h-12 items-center border border-white/[0.18] bg-[#11100f] focus-within:border-[#c8a96e]">
+                      <Search className="w-4 h-4 ml-4 text-[#c8a96e] shrink-0" />
+                      <input
+                        ref={searchInputRef}
+                        type="text"
+                        placeholder="Search products, brands, finishes, part codes..."
+                        value={searchQuery}
+                        onChange={(e) => {
+                          setSearchQuery(e.target.value);
+                          setHasInteracted(true);
+                        }}
+                        className="hc-focus h-full w-full border-0 bg-transparent px-3 text-[12px] text-[#e8e3d9] outline-none placeholder:text-[#aaa49a]/50"
+                      />
+                      {searchQuery && (
+                        <button
+                          onClick={() => setSearchQuery("")}
+                          className="mr-3 text-[#aaa49a] hover:text-white p-1"
+                          aria-label="Clear search"
+                        >
+                          <X className="w-3.5 h-3.5" />
+                        </button>
+                      )}
+                    </span>
+                  </label>
 
-                  {/* Brand Filter Selector for Tablet/Desktop */}
-                  <div className="relative shrink-0" ref={brandDropdownRef}>
+                  {/* Brand Filter Selector for Quick Access */}
+                  <div className="relative" ref={brandDropdownRef}>
+                    <span className="hc-mono mb-2 block text-[9px] uppercase tracking-[0.18em] text-[#aaa49a]">
+                      Brand
+                    </span>
                     <button
-                      onClick={() => setIsBrandDropdownOpen(!isBrandDropdownOpen)}
+                      type="button"
                       aria-expanded={isBrandDropdownOpen}
                       aria-haspopup="listbox"
-                      className={`w-full sm:w-auto flex items-center justify-between sm:justify-start gap-2 px-3.5 py-2.5 rounded-xl border text-xs font-dmsans uppercase tracking-[0.14em] transition-all duration-150 ${
-                        activeBrand !== "all"
-                          ? "bg-[#C8A96E]/15 border-[#C8A96E]/50 text-[#C8A96E] font-medium"
-                          : "bg-white/[0.04] border-white/[0.08] text-[#A39E93] hover:text-white hover:border-white/20"
-                      }`}
+                      onClick={() => setIsBrandDropdownOpen(!isBrandDropdownOpen)}
+                      className="flex h-12 w-full items-center justify-between border border-white/[0.18] bg-[#11100f] px-4 text-[11px] uppercase tracking-[0.14em] text-[#e8e3d9] hover:border-[#c8a96e]"
                     >
-                      <span>{activeBrand === "all" ? "BRAND: ALL" : `BRAND: ${activeBrand.toUpperCase()}`}</span>
-                      <ChevronDown className={`w-3 h-3 transition-transform duration-150 ${isBrandDropdownOpen ? "rotate-180" : ""}`} />
+                      <span className="truncate">{activeBrand === "all" ? "All brands" : activeBrand}</span>
+                      <ChevronDown className={`w-3.5 h-3.5 text-[#c8a96e] transition-transform ${isBrandDropdownOpen ? "rotate-180" : ""}`} />
                     </button>
 
                     <AnimatePresence>
                       {isBrandDropdownOpen && (
                         <motion.div
-                          initial={{ opacity: 0, y: 6, scale: 0.98 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 4, scale: 0.98 }}
-                          transition={{ duration: 0.15 }}
-                          className="absolute right-0 mt-2 w-48 bg-[#141212] border border-white/[0.12] rounded-xl p-1.5 shadow-2xl z-50 backdrop-blur-2xl"
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: 4 }}
+                          className="absolute right-0 mt-2 w-52 bg-[#11100f] border border-white/[0.14] p-1.5 shadow-2xl z-50"
                         >
-                          <div className="py-1 px-2.5 text-[9.5px] uppercase tracking-[0.18em] text-[#6E6A62] font-semibold">
-                            Authorized Brands
-                          </div>
                           {availableBrands.map((b) => {
                             const isSelected = activeBrand === b.toLowerCase();
                             return (
@@ -697,14 +713,12 @@ export default function CollectionsClient({
                                   setIsBrandDropdownOpen(false);
                                   setHasInteracted(true);
                                 }}
-                                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-xs font-dmsans transition-colors ${
-                                  isSelected
-                                    ? "bg-[#C8A96E] text-[#0E0C0C] font-semibold"
-                                    : "text-[#D1CCC4] hover:bg-white/[0.06] hover:text-white"
+                                className={`w-full flex items-center justify-between px-3 py-2 text-[11px] uppercase tracking-wider text-left transition-colors ${
+                                  isSelected ? "bg-[#c8a96e] text-[#090909] font-bold" : "text-[#aaa49a] hover:text-white hover:bg-white/[0.04]"
                                 }`}
                               >
-                                <span>{b === "all" ? "All Brands" : b}</span>
-                                {isSelected && <Check className="w-3.5 h-3.5 stroke-[2.5]" />}
+                                <span>{b === "all" ? "All brands" : b}</span>
+                                {isSelected && <Check className="w-3.5 h-3.5 stroke-[3]" />}
                               </button>
                             );
                           })}
@@ -714,16 +728,24 @@ export default function CollectionsClient({
                   </div>
                 </div>
 
-                {/* Contextual Active Summary Bar */}
-                <div className="flex items-center justify-between border-t border-white/[0.06] pt-3 text-xs">
+                {/* Filter Summary & Breadcrumbs Bar */}
+                <div className="mt-4 pt-3 flex flex-wrap items-center justify-between gap-3 border-t border-white/[0.10] text-[10px] uppercase tracking-[0.16em]">
                   <div className="flex items-center gap-2 flex-wrap">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-[#C8A96E] font-medium">
-                      {totalSpecimensCount} {totalSpecimensCount === 1 ? 'Specimen' : 'Specimens'} Available
+                    <span className="hc-mono text-[#c8a96e]">
+                      {totalSpecimensCount.toString().padStart(2, "0")} specimens available
                     </span>
-                    <span className="text-white/20 hidden sm:inline">•</span>
-                    <span className="font-dmsans text-[#A39E93] uppercase text-[11px] tracking-wider truncate">
-                      {activeCategory === "all" ? "All Showroom Collections" : activeCategory.replace(/-/g, " ")}
+                    <span className="text-[#aaa49a]">·</span>
+                    <span className="text-[#aaa49a]">
+                      {activeCategory === "all" ? "all collections" : activeCategory.replace(/-/g, " ")}
                     </span>
+                    {activeBrand !== "all" && (
+                      <>
+                        <span className="text-[#aaa49a]">·</span>
+                        <span className="text-[#c8a96e] border border-[#c8a96e]/40 px-2 py-0.5 bg-[#c8a96e]/10">
+                          {activeBrand}
+                        </span>
+                      </>
+                    )}
                   </div>
 
                   {(activeCategory !== "all" || activeBrand !== "all" || searchQuery) && (
@@ -733,266 +755,260 @@ export default function CollectionsClient({
                         setActiveBrand("all");
                         setSearchQuery("");
                       }}
-                      className="text-[11px] font-dmsans text-[#A39E93] hover:text-white underline underline-offset-4 transition-colors shrink-0"
+                      className="hc-focus architecture-rule text-[#e8e3d9] hover:text-white text-[10px] uppercase tracking-[0.16em] cursor-pointer"
                     >
-                      Reset Filters
+                      Reset filters
                     </button>
                   )}
                 </div>
-              </div>
+              </section>
 
-              {/* ── Empty State: Showroom Inquire Fallback ────────────── */}
+              {/* ── Empty State: Showroom Inquire Fallback ── */}
               {displayCategories.length === 0 && (
-                <div className="max-w-xl mx-auto px-4 py-16 text-center my-6">
-                  <div className="bg-[#141212] border border-white/[0.08] rounded-2xl p-8 shadow-2xl">
-                    <Compass className="w-10 h-10 text-[#C8A96E] mx-auto mb-3 stroke-[1.5]" />
-                    <h2 
-                      className="font-cormorant text-2xl md:text-3xl text-white mb-2"
-                      style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+                <div className="bg-[#11100f] border border-white/[0.12] p-12 text-center my-6">
+                  <Compass className="w-10 h-10 text-[#c8a96e] mx-auto mb-3 stroke-[1.5]" />
+                  <h2 
+                    className="hc-serif text-3xl text-white mb-2 uppercase"
+                    style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+                  >
+                    {activeBrand !== "all" 
+                      ? `No ${activeBrand.toUpperCase()} specimens in this category`
+                      : "No matching architectural specimens found"}
+                  </h2>
+                  <p className="font-dmsans text-xs md:text-sm text-[#aaa49a] max-w-md mx-auto mb-6 leading-relaxed font-light">
+                    Our Sakchi showroom holds comprehensive specification catalogs and mockups for all authorized partner brands. Inquire directly with our specialist desk.
+                  </p>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a
+                      href={`https://wa.me/${settings?.whatsappNumber || "919835190738"}?text=Hi%20Hardware%20Collection%2C%20I%20am%20looking%20for%20${encodeURIComponent(activeBrand !== "all" ? activeBrand : "architectural hardware")}%20specifications.`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="brass-plate px-7 py-3.5 bg-[#c8a96e] text-[#090909] font-dmsans font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors flex items-center justify-center gap-2 no-underline"
                     >
-                      {activeBrand !== "all" 
-                        ? `No ${activeBrand.toUpperCase()} specimens in this category`
-                        : "No matching architectural hardware found"}
-                    </h2>
-                    <p className="font-dmsans text-xs md:text-sm text-[#A39E93] max-w-md mx-auto mb-6 leading-relaxed font-light">
-                      Our Sakchi showroom holds comprehensive specification catalogs and mockups for all authorized partner brands. Inquire directly with our specification desk.
-                    </p>
-                    <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
-                      <a
-                        href={`https://wa.me/${settings?.whatsappNumber || "919835190738"}?text=Hi%20Hardware%20Collection%2C%20I%20am%20looking%20for%20${encodeURIComponent(activeBrand !== "all" ? activeBrand : "architectural hardware")}%20specifications.`}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="w-full sm:w-auto px-6 py-3 bg-[#C8A96E] text-[#0E0C0C] font-dmsans font-bold text-xs uppercase tracking-widest hover:bg-white transition-colors rounded-full shadow-md flex items-center justify-center gap-2"
-                      >
-                        <MessageCircle className="w-4 h-4 fill-current" />
-                        Ask on WhatsApp
-                      </a>
-                      <button
-                        onClick={() => {
-                          setSearchQuery("");
-                          setActiveCategory("all");
-                          setActiveBrand("all");
-                        }}
-                        className="w-full sm:w-auto px-6 py-3 bg-white/[0.04] hover:bg-white/[0.08] text-white font-dmsans text-xs uppercase tracking-wider rounded-full border border-white/[0.1] transition-colors"
-                      >
-                        Reset All Filters
-                      </button>
-                    </div>
+                      <MessageCircle className="w-4 h-4 fill-current" />
+                      <span>Consult on WhatsApp</span>
+                    </a>
+                    <button
+                      onClick={() => {
+                        setSearchQuery("");
+                        setActiveCategory("all");
+                        setActiveBrand("all");
+                      }}
+                      className="rail-button px-6 py-3 text-xs uppercase tracking-wider text-[#e8e3d9]"
+                    >
+                      Reset All Filters
+                    </button>
                   </div>
                 </div>
               )}
 
-              {/* ── 12-Column Rigid Blueprint Grid ────────────────────── */}
+              {/* ── Category Shelves & Specimen Product Grids ── */}
               <div className="space-y-16">
                 {displayCategories.map((cat) => (
                   <section key={cat.slug} className="space-y-6">
                     
-                    {/* Category Editorial Section Header */}
-                    <div className="flex flex-col md:flex-row justify-between items-start md:items-end gap-3 border-b border-white/[0.08] pb-3">
+                    {/* Category Shelf Header */}
+                    <div className="flex items-end justify-between border-b border-white/[0.16] pb-3">
                       <div>
+                        <span className="hc-mono text-[9px] uppercase tracking-[0.20em] text-[#c8a96e]">
+                          Showroom family · {cat.name}
+                        </span>
                         <h2 
-                          className="font-cormorant text-2xl sm:text-3xl md:text-4xl text-white font-normal tracking-[0.03em] uppercase"
+                          className="hc-serif m-0 mt-1.5 text-3xl sm:text-4xl lg:text-[42px] font-normal uppercase leading-none tracking-[0.03em] text-[#e8e3d9]"
                           style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
                         >
                           {cat.name}
                         </h2>
-                        {cat.description && (
-                          <p className="font-dmsans text-xs md:text-sm text-[#A39E93] max-w-2xl mt-1 leading-relaxed font-light">
-                            {cat.description}
-                          </p>
-                        )}
                       </div>
-                      <span className="font-mono text-[10.5px] uppercase tracking-[0.14em] text-[#C8A96E] shrink-0">
-                        {cat.products.length} {cat.products.length === 1 ? 'Specimen' : 'Specimens'} Available
+                      <span className="hc-mono pb-1 text-[10px] uppercase tracking-[0.16em] text-[#c8a96e] shrink-0">
+                        {cat.products.length.toString().padStart(2, "0")} specimens available
                       </span>
                     </div>
 
-                    {/* 12-Column Controlled Asymmetric Grid */}
-              <motion.div 
-                layout
-                className="grid grid-cols-12 gap-4 sm:gap-6"
-              >
-                <AnimatePresence mode="popLayout">
-                  {cat.products.length === 0 ? (
-                    <div className="col-span-12 bg-[#131111] border border-white/[0.08] rounded-2xl p-8 md:p-12 text-center flex flex-col items-center justify-center space-y-4 shadow-xl">
-                      <div className="w-12 h-12 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-[#C8A96E]">
-                        <Compass className="w-6 h-6 stroke-[1.5]" />
-                      </div>
-                      <div>
-                        <span className="font-dmsans text-[10.5px] uppercase tracking-[0.22em] text-[#C8A96E] font-medium block mb-1">
-                          Collection Under Curation
-                        </span>
-                        <h3 
-                          className="font-cormorant text-2xl sm:text-3xl text-white uppercase mb-2"
-                          style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-                        >
-                          {cat.name}
-                        </h3>
-                        <p className="font-dmsans text-xs sm:text-sm text-[#A39E93] max-w-lg mx-auto font-light leading-relaxed">
-                          This collection is available through our Sakchi showroom and specialist desk. For current models, finishes, official catalogs, and project availability:
-                        </p>
-                      </div>
-                      <div className="pt-2">
-                        <a
-                          href={`https://wa.me/${settings?.whatsappNumber || "919835190738"}?text=Hardware%20Collection%20%E2%80%94%20Inquiry%0A%0AI%20am%20looking%20for%20specifications%20and%20catalogs%20for%20${encodeURIComponent(cat.name)}.`}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#C8A96E] hover:bg-white text-[#0E0C0C] font-dmsans text-xs font-bold uppercase tracking-wider transition-colors shadow-lg"
-                        >
-                          <MessageCircle className="w-4 h-4 fill-current" />
-                          <span>Consult on WhatsApp →</span>
-                        </a>
-                      </div>
-                    </div>
-                  ) : (
-                    cat.products.map((prod: any, idx: number) => {
-                    const isShortlisted = shortlist.some(p => (p._id || p.id) === (prod._id || prod.id));
-                    const isFeatured = prod.featured === true;
-                    
-                    // Assign card span classes: feature (12-col), wide (8-col / 6-col), standard (3-col / 4-col desktop)
-                    let spanClass = "col-span-12 sm:col-span-6 lg:col-span-6 xl:col-span-4 2xl:col-span-3";
-                    if (isFeatured) {
-                      spanClass = "col-span-12";
-                    } else if (idx % 7 === 0 && cat.products.length > 3) {
-                      spanClass = "col-span-12 lg:col-span-12 xl:col-span-8 2xl:col-span-6";
-                    }
-
-                    return (
-                      <motion.article
-                        layout
-                        initial={shouldReduceMotion ? undefined : { opacity: 0, y: 14 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.98 }}
-                        transition={{ duration: 0.22, ease: "easeOut" }}
-                        key={prod._id || prod.id}
-                        onClick={(e) => handleProductSelect(prod, e)}
-                        className={`group relative bg-[#131111] border border-white/[0.08] hover:border-[#C8A96E]/50 rounded-2xl p-5 sm:p-6 transition-all duration-200 cursor-pointer flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.5)] hover:shadow-[0_15px_40px_rgba(0,0,0,0.8)] ${spanClass}`}
-                        tabIndex={0}
-                        role="button"
-                        aria-label={`View specifications for ${prod.name} by ${prod.brandName || prod.brand}`}
-                        onKeyDown={(e) => {
-                          if (e.key === "Enter" || e.key === " ") {
-                            e.preventDefault();
-                            handleProductSelect(prod, e.currentTarget);
-                          }
-                        }}
-                      >
-                        <div>
-                          {/* Image Specimen Container */}
-                          <div className={`relative w-full bg-[#1A1818] rounded-xl mb-5 overflow-hidden border border-white/[0.06] flex items-center justify-center ${
-                            isFeatured ? "aspect-[21/9]" : "aspect-[16/11]"
-                          }`}>
-                            {prod.imageUrl ? (
-                              <Image
-                                src={prod.imageUrl}
-                                alt={prod.name || "Product Specimen"}
-                                fill
-                                placeholder={prod.imageLqip ? "blur" : "empty"}
-                                blurDataURL={prod.imageLqip}
-                                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                                className="object-contain p-4 transition-transform duration-300 ease-out group-hover:scale-105"
-                              />
-                            ) : (
-                              <div className="flex flex-col items-center justify-center p-6 text-center">
-                                <ShieldCheck className="w-7 h-7 text-[#C8A96E]/70 mb-2" />
-                                <span 
-                                  className="font-cormorant text-sm uppercase tracking-wider text-white"
-                                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-                                >
-                                  {prod.brandName || prod.brand || "Authorized Partner"}
-                                </span>
-                                <span className="text-[10px] text-[#A39E93] font-dmsans uppercase tracking-widest mt-1">
-                                  Showroom Specimen
-                                </span>
-                              </div>
-                            )}
-
-                            {/* Shortlist Badge */}
-                            {isShortlisted && (
-                              <div className="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-[#C8A96E] text-[#0E0C0C] font-dmsans font-bold text-[9.5px] uppercase tracking-wider shadow-lg flex items-center gap-1">
-                                <Check className="w-3 h-3 stroke-[3]" />
-                                <span>In Shortlist</span>
-                              </div>
-                            )}
-                          </div>
-
-                          {/* Brand & Reference Monospace Header */}
-                          <div className="flex justify-between items-center mb-2">
-                            <span className="font-dmsans text-[11px] font-bold text-[#C8A96E] uppercase tracking-[0.16em]">
-                              {prod.brandName || prod.brand}
-                            </span>
-                            {(prod.catalogReference || prod.model) && (
-                              <span className="font-mono text-[10px] text-[#6E6A62]">
-                                {prod.catalogReference || prod.model}
-                              </span>
-                            )}
-                          </div>
-
-                          {/* Product Title */}
-                          <h3 className="font-dmsans font-semibold text-base sm:text-lg text-white group-hover:text-[#C8A96E] transition-colors mb-2 leading-snug">
-                            {prod.name}
-                          </h3>
-
-                          {/* Short Description */}
-                          {(prod.shortDescription || prod.description) && (
-                            <p className="font-dmsans text-xs text-[#A39E93] mb-5 line-clamp-2 leading-relaxed font-light">
-                              {prod.shortDescription || prod.description}
-                            </p>
-                          )}
-                        </div>
-
-                        {/* Card Action Strip */}
-                        <div className="flex items-center justify-between pt-4 border-t border-white/[0.06] mt-3">
-                          {/* Shortlist Button */}
-                          <button 
-                            onClick={(e) => toggleShortlist(prod, e)}
-                            className={`flex items-center gap-1.5 font-dmsans text-[11px] font-medium uppercase tracking-[0.12em] transition-all px-3 py-1.5 rounded-lg ${
-                              isShortlisted 
-                                ? 'text-[#0E0C0C] bg-[#C8A96E] font-semibold' 
-                                : 'text-[#D1CCC4] hover:text-white bg-white/[0.04] border border-white/[0.08] hover:bg-white/[0.08]'
-                            }`}
-                            aria-label={isShortlisted ? `Remove ${prod.name} from shortlist` : `Add ${prod.name} to consultation shortlist`}
-                          >
-                            {isShortlisted ? <Check className="w-3.5 h-3.5 stroke-[2.5]" /> : <Plus className="w-3.5 h-3.5" />}
-                            {isShortlisted ? 'Shortlisted' : 'Add to Shortlist'}
-                          </button>
+                    {/* Controlled 12-Column Specimen Grid */}
+                    <motion.div 
+                      layout
+                      className="grid grid-cols-1 md:grid-cols-12 gap-5"
+                    >
+                      <AnimatePresence mode="popLayout">
+                        {cat.products.map((prod: any, idx: number) => {
+                          const isShortlisted = shortlist.some(p => (p._id || p.id) === (prod._id || prod.id));
+                          const isOnlyTwo = cat.products.length === 2;
+                          const isFeatured = !isOnlyTwo && (prod.featured === true || (idx === 0 && cat.products.length > 2));
                           
-                          {/* View Specs Trigger */}
-                          <span className="font-dmsans text-[11px] uppercase tracking-[0.12em] text-[#A39E93] group-hover:text-white transition-colors flex items-center gap-1">
-                            <span>Details</span>
-                            <ArrowRight className="w-3 h-3 transition-transform duration-180 group-hover:translate-x-1" />
-                          </span>
-                        </div>
+                          // Grid spans: 2 items => 6 cols each; 3+ items => featured 8 cols, others 4 cols
+                          const spanClass = isOnlyTwo
+                            ? "md:col-span-6 lg:col-span-6"
+                            : isFeatured
+                            ? "md:col-span-12 lg:col-span-8"
+                            : "md:col-span-6 lg:col-span-4";
 
-                      </motion.article>
-                    );
-                  }))}
-                </AnimatePresence>
-              </motion.div>
+                          const displayImg = getProductDisplayImage(prod);
 
-            </section>
-          ))}
+                          return (
+                            <motion.article
+                              layout
+                              initial={shouldReduceMotion ? undefined : { opacity: 0, y: 14 }}
+                              animate={{ opacity: 1, y: 0 }}
+                              exit={shouldReduceMotion ? undefined : { opacity: 0, scale: 0.98 }}
+                              transition={{ duration: 0.22, ease: "easeOut" }}
+                              key={prod._id || prod.id}
+                              onClick={(e) => handleProductSelect(prod, e)}
+                              className={`specimen-tray hc-focus p-3.5 flex flex-col justify-between cursor-pointer ${spanClass}`}
+                              tabIndex={0}
+                              role="button"
+                              aria-label={`View specifications for ${prod.name} by ${prod.brandName || prod.brand}`}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
+                                  handleProductSelect(prod, e.currentTarget);
+                                }
+                              }}
+                            >
+                              <div>
+                                {/* Image Specimen Frame with Glow & Sweep */}
+                                <div className={`specimen-frame relative w-full mb-4 ${
+                                  isFeatured ? "aspect-[21/9]" : isOnlyTwo ? "aspect-[16/10]" : "aspect-[16/11]"
+                                }`}>
+                                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_88%,rgba(200,169,110,.18),transparent_45%)]" />
+                                  <Image
+                                    src={displayImg}
+                                    alt={prod.name || "Product Specimen"}
+                                    fill
+                                    placeholder={prod.imageLqip ? "blur" : "empty"}
+                                    blurDataURL={prod.imageLqip}
+                                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                                    className="object-contain p-4 relative z-[2] opacity-85 transition-transform duration-500 ease-out group-hover:scale-105"
+                                  />
+
+                                  {/* Live Display or Focal Badge */}
+                                  {prod.displayStatus ? (
+                                    <span className="absolute left-4 top-4 z-[3] border border-[#c8a96e]/60 bg-[#090909]/80 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[#c8a96e]">
+                                      {prod.displayStatus}
+                                    </span>
+                                  ) : isFeatured ? (
+                                    <span className="absolute left-4 top-4 z-[3] border border-[#c8a96e]/60 bg-[#090909]/80 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[#c8a96e]">
+                                      Featured Specimen
+                                    </span>
+                                  ) : null}
+
+                                  {/* Monospace Reference Code */}
+                                  <span className="hc-mono absolute bottom-3 right-4 z-[3] text-[9px] tracking-[0.18em] text-[#aaa49a]">
+                                    {prod.catalogReference || prod.model || `HC-${(prod.brand || 'SPEC').toUpperCase().slice(0, 3)}`}
+                                  </span>
+                                </div>
+
+                                {/* Product Brand & Model Header */}
+                                <div className="px-1.5">
+                                  <div className="flex items-center justify-between gap-3 mb-1.5">
+                                    <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#c8a96e]">
+                                      {prod.brandName || prod.brand}
+                                    </span>
+                                    <span className="hc-mono text-[9px] text-[#aaa49a]">
+                                      {prod.model || prod.catalogReference || "SPEC-STD"}
+                                    </span>
+                                  </div>
+
+                                  {/* Product Title */}
+                                  <h3 className="m-0 mt-1.5 text-base sm:text-[17px] font-medium leading-snug text-[#e8e3d9] group-hover:text-white transition-colors">
+                                    {prod.name}
+                                  </h3>
+
+                                  {/* Description */}
+                                  {(prod.shortDescription || prod.description) && (
+                                    <p className="m-0 mt-2 line-clamp-2 text-xs sm:text-[13px] leading-relaxed text-[#aaa49a] font-light">
+                                      {prod.shortDescription || prod.description}
+                                    </p>
+                                  )}
+
+                                  {/* Finishes Badges if Available */}
+                                  {prod.finishes && prod.finishes.length > 0 && (
+                                    <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                                      {prod.finishes.slice(0, 3).map((f: string, fi: number) => (
+                                        <span key={fi} className="hc-mono text-[9px] uppercase tracking-wider text-[#aaa49a] border border-white/[0.08] px-2 py-0.5 bg-white/[0.02]">
+                                          {f}
+                                        </span>
+                                      ))}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+
+                              {/* Interactive Action Bar */}
+                              <div className="mt-5 pt-3 px-1.5 border-t border-white/[0.10] flex items-center justify-between gap-3">
+                                <button
+                                  type="button"
+                                  aria-pressed={isShortlisted}
+                                  onClick={(e) => toggleShortlist(prod, e)}
+                                  className={`shortlist-control hc-focus inline-flex min-h-[36px] items-center gap-2 border px-3.5 py-1.5 text-[10px] uppercase tracking-[0.14em] font-medium transition-all ${
+                                    isShortlisted 
+                                      ? "border-[#c8a96e] bg-[#c8a96e] text-[#090909] font-bold" 
+                                      : "border-white/[0.22] text-[#e8e3d9] hover:border-[#c8a96e]"
+                                  }`}
+                                >
+                                  {isShortlisted ? (
+                                    <Check className="w-3 h-3 text-[#090909] stroke-[3]" />
+                                  ) : (
+                                    <Plus className="w-3 h-3 text-[#c8a96e] shortlist-icon" />
+                                  )}
+                                  <span>{isShortlisted ? "Shortlisted" : "Shortlist"}</span>
+                                </button>
+
+                                <span className="hc-focus architecture-rule inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.14em] text-[#e8e3d9] group-hover:text-white">
+                                  <span>Specifications</span>
+                                  <ArrowRight className="w-3 h-3 text-[#c8a96e] transition-transform duration-180 group-hover:translate-x-1" />
+                                </span>
+                              </div>
+                            </motion.article>
+                          );
+                        })}
+                      </AnimatePresence>
+                    </motion.div>
+
+                  </section>
+                ))}
               </div>
             </div>
           </div>
         </div>
 
-        {/* ── Official Brand Catalogs Strip ─────────────────────── */}
+        {/* ── Official Brand Catalogs Strip ── */}
         {products.length > 0 && (
-          <div className="w-full max-w-[1920px] 2xl:max-w-[2400px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16 pt-12 pb-6">
+          <div id="reference-library-section" className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pt-16 pb-6 border-t border-white/[0.08] mt-16">
             <CatalogLibrary brands={brands || []} onSelectBrand={setSelectedCatalogBrand} />
           </div>
         )}
       </main>
 
-      {/* ── Floating Consultation Shortlist Pill (Bottom Right/Center) */}
-      <aside aria-label="Consultation Shortlist">
-        <motion.div
-          layout
-          className="fixed bottom-6 right-4 sm:right-8 z-40 max-w-sm sm:max-w-md w-auto"
-        >
-          {shortlist.length > 0 ? (
-            /* State C: Selected Shortlist Pill */
+      {/* ── Shortlist full toast (replaces blocking alert) */}
+      <AnimatePresence>
+        {shortlistToast && (
+          <motion.div
+            role="alert"
+            aria-live="polite"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 16 }}
+            transition={{ duration: 0.2 }}
+            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[200] bg-[#1c1b1c] border border-[#3a3026] text-[#c8a96e] font-body text-xs uppercase tracking-wider px-5 py-3 shadow-2xl pointer-events-none"
+          >
+            {shortlistToast}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* ── Floating Consultation Shortlist Pill (Only shown when items are shortlisted) */}
+
+      {shortlist.length > 0 && (
+        <aside aria-label="Consultation Shortlist">
+          <motion.div
+            layout
+            initial={{ y: 20, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 20, opacity: 0 }}
+            className="fixed bottom-6 right-4 sm:right-8 z-40 max-w-sm sm:max-w-md w-auto"
+          >
+            {/* Selected Shortlist Pill */}
             <div className="bg-[#141212]/95 border border-[#C8A96E]/40 rounded-full p-2 pl-4 pr-2 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-2xl flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#C8A96E] animate-pulse" />
@@ -1022,33 +1038,9 @@ export default function CollectionsClient({
                 <X className="w-3 h-3" />
               </button>
             </div>
-          ) : hasInteracted ? (
-            /* State B: Browsing State Pill */
-            <a
-              href={getWhatsAppShortlistLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#141212]/90 border border-white/[0.12] hover:border-[#C8A96E]/50 rounded-full py-2.5 px-5 shadow-[0_15px_40px_rgba(0,0,0,0.7)] backdrop-blur-2xl flex items-center gap-2.5 text-xs text-[#D1CCC4] hover:text-white transition-all group"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-[#C8A96E]" />
-              <span className="font-dmsans">Comparing options? <strong>Consult an expert</strong></span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#C8A96E] transition-transform duration-180 group-hover:translate-x-1" />
-            </a>
-          ) : (
-            /* State A: Passive State Pill */
-            <a
-              href={getWhatsAppShortlistLink()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[#141212]/90 border border-white/[0.1] hover:border-[#C8A96E]/40 rounded-full py-2.5 px-5 shadow-[0_15px_40px_rgba(0,0,0,0.6)] backdrop-blur-2xl flex items-center gap-2 text-xs text-[#A39E93] hover:text-white transition-all group"
-            >
-              <span className="text-[#C8A96E]">✦</span>
-              <span className="font-dmsans">Need help choosing? <strong>Consult an expert</strong></span>
-              <ArrowRight className="w-3.5 h-3.5 text-[#C8A96E] transition-transform duration-180 group-hover:translate-x-1" />
-            </a>
-          )}
-        </motion.div>
-      </aside>
+          </motion.div>
+        </aside>
+      )}
 
       {/* ── Lookbook Product Detail Drawer ─────────────────────── */}
       <AnimatePresence>
@@ -1102,28 +1094,17 @@ export default function CollectionsClient({
               <div className="flex-1 p-6 sm:p-8 space-y-8">
                 
                 {/* Large Specimen Display Image */}
-                <div className="relative w-full aspect-[16/11] bg-[#1A1818] border border-white/[0.08] rounded-2xl overflow-hidden flex items-center justify-center">
-                  {selectedProduct.imageUrl ? (
-                    <Image
-                      src={selectedProduct.imageUrl}
-                      alt={selectedProduct.name || "Product Image"}
-                      fill
-                      placeholder={selectedProduct.imageLqip ? "blur" : "empty"}
-                      blurDataURL={selectedProduct.imageLqip}
-                      sizes="(max-width: 1024px) 100vw, 50vw"
-                      className="object-contain p-6"
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center justify-center p-8 text-center">
-                      <ShieldCheck className="w-10 h-10 text-[#C8A96E] mb-2 stroke-[1.5]" />
-                      <span 
-                        className="font-cormorant text-base uppercase text-white"
-                        style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-                      >
-                        {selectedProduct.brandName || selectedProduct.brand}
-                      </span>
-                    </div>
-                  )}
+                <div className="relative w-full aspect-[16/11] bg-[#181716] border border-white/[0.12] rounded-xl overflow-hidden flex items-center justify-center">
+                  <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_88%,rgba(200,169,110,.25),transparent_50%)]" />
+                  <Image
+                    src={getProductDisplayImage(selectedProduct)}
+                    alt={selectedProduct.name || "Product Image"}
+                    fill
+                    placeholder={selectedProduct.imageLqip ? "blur" : "empty"}
+                    blurDataURL={selectedProduct.imageLqip}
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-contain p-6 relative z-[2] opacity-90"
+                  />
                 </div>
 
                 {/* Product Metadata & Title */}

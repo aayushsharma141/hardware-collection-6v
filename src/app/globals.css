@@ -12,6 +12,27 @@
   --color-deep-crimson: #8b1a4a;
   --color-metal-highlight: rgba(255,255,255,.16);
 
+  /* Stitch Design Tokens */
+  --color-surface-obsidian: var(--color-obsidian);
+  --color-surface-graphite: var(--color-graphite);
+  --color-background: var(--color-cinema-black);
+  --color-on-surface: var(--color-bone);
+  --color-primary: var(--color-brass);
+  --color-on-primary: #000000;
+  --color-outline-variant: #353534;
+  --color-text-bone: var(--color-bone);
+  --color-text-muted: var(--color-muted-bone);
+
+  --spacing-unit-xs: 4px;
+  --spacing-unit-sm: 8px;
+  --spacing-unit-md: 16px;
+  --spacing-unit-lg: 32px;
+  --spacing-unit-xl: 64px;
+  --spacing-gutter: 24px;
+  --spacing-margin-mobile: 24px;
+  --spacing-margin-desktop: 80px;
+  --spacing-base: 24px;
+
   /* Legacy tokens mapped to new palette where applicable */
   --color-gold-primary: var(--color-brass);
   --color-gold-light: var(--color-bone);
@@ -22,13 +43,27 @@
   --color-glass-bg: rgba(17, 16, 15, 0.7); /* obsidian with opacity */
   --color-glass-border: rgba(200, 169, 110, 0.2); /* brass with opacity */
   --color-text-main: var(--color-bone);
-  --color-text-muted: var(--color-muted-bone);
   
-  /* Typography Tokens */
-  --font-cormorant: var(--font-cormorant), Georgia, serif;
+  /* Typography Tokens - Standardized Hierarchy */
+  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans: var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body: var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-cormorant: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-dmsans: var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-cinzel: var(--font-cinzel), serif;
-  --font-manrope: var(--font-manrope), sans-serif;
+  --font-manrope: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  /* Stitch Typography Extends */
+  --font-family-body-md: var(--font-manrope);
+  --font-family-headline-lg: var(--font-cormorant);
+  --font-family-headline-md: var(--font-cormorant);
+  --font-family-ui-button: var(--font-manrope);
+  --font-family-label-caps: var(--font-manrope);
+  --font-family-body-lg: var(--font-manrope);
+  --font-family-headline-lg-mobile: var(--font-cormorant);
+  --font-family-headline-xl: var(--font-cormorant);
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-gold: pulse-gold 2s infinite;
@@ -60,6 +95,32 @@
   @keyframes shimmer {
     100% { transform: translateX(100%); }
   }
+  @keyframes catFadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  /* Transitions Polish Motion Tokens */
+  --duration-stagger: 40ms;
+  --duration-micro: 80ms;
+  --duration-quick: 150ms;
+  --duration-fast: 250ms;
+  --duration-medium: 350ms;
+  --duration-slow: 400ms;
+  --duration-very-slow: 500ms;
+
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: ease-in-out;
+  --ease-out: ease-out;
+  --ease-bounce: cubic-bezier(0.34, 1.36, 0.64, 1);
+  --ease-bounce-strong: cubic-bezier(0.34, 3.85, 0.64, 1);
+
+  --distance-micro: 4px;
+  --distance-small: 6px;
+  --distance-base: 8px;
+  --distance-medium: 12px;
+
+  /* Custom breakpoint: compact → standard hero mode threshold */
+  --breakpoint-xs: 390px;
 }
 
 body {
@@ -91,6 +152,16 @@ body {
   .ribbon-clip {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
   }
+
+  /* Stitch Typography Classes */
+  .text-body-md { font-size: 16px; line-height: 24px; font-weight: 400; }
+  .text-headline-lg { font-size: 40px; line-height: 48px; letter-spacing: -0.01em; font-weight: 400; }
+  .text-headline-md { font-size: 24px; line-height: 32px; letter-spacing: 0.02em; font-weight: 500; }
+  .text-ui-button { font-size: 14px; line-height: 20px; letter-spacing: 0.05em; font-weight: 500; }
+  .text-label-caps { font-size: 12px; line-height: 16px; letter-spacing: 0.15em; font-weight: 600; }
+  .text-body-lg { font-size: 18px; line-height: 28px; font-weight: 400; }
+  .text-headline-lg-mobile { font-size: 32px; line-height: 40px; font-weight: 400; }
+  .text-headline-xl { font-size: 64px; line-height: 72px; letter-spacing: -0.02em; font-weight: 400; }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -110,7 +181,23 @@ body {
 
   /* Scroll velocity skew — updated via GSAP ScrollTrigger */
   --scroll-skew: 0deg;
+
+  /* Mobile conversion bar height token */
+  --mobile-bar-height: 56px;
 }
+
+/* Reserve document space for the fixed mobile conversion bar */
+@media (max-width: 1023px) {
+  body {
+    padding-bottom: calc(var(--mobile-bar-height) + env(safe-area-inset-bottom, 0px));
+  }
+}
+
+/* Hide conversion bar when mobile nav drawer is open */
+html[data-drawer-open] .mobile-conversion-bar {
+  display: none;
+}
+
 
 /* Aperture transition — architectural doorway reveal between chapters */
 @keyframes aperture-open {
@@ -226,7 +313,91 @@ html.lenis, html.lenis body {
 @media (prefers-reduced-motion: reduce) {
   .liquid-glass-reflection {
     animation: none !important;
-    opacity: 0.04 !important;
   }
 }
+
+
+/* ─────────────────────────────────────────────────────────────
+   KOMBAI DESIGN TOKENS & INTERACTION SYSTEM
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --black: #090909;
+  --obsidian: #11100f;
+  --graphite: #181716;
+  --bone: #e8e3d9;
+  --muted: #aaa49a;
+  --brass: #c8a96e;
+  --rule: rgba(232, 227, 217, 0.14);
+  --soft-rule: rgba(232, 227, 217, 0.08);
+  --brass-rule: rgba(200, 169, 110, 0.55);
+  --standard: cubic-bezier(0.25, 0.1, 0.25, 1);
+  --cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 140ms;
+  --dur-fast: 180ms;
+  --dur-base: 240ms;
+  --dur-slow: 350ms;
+}
+
+.hc-root { font-family: var(--font-dmsans), 'DM Sans', sans-serif; background: var(--black); color: var(--bone); }
+.hc-serif { font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif; }
+.hc-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+.hc-root button, .hc-root a, .hc-root input { font: inherit; }
+.hc-focus:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+
+/* Interactive rules & micro-animations */
+.architecture-rule { position: relative; }
+.architecture-rule::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0.18); transform-origin: left; transition: transform 220ms var(--standard); }
+.architecture-rule:hover::after, .architecture-rule:focus-within::after { transform: scaleX(1); }
+
+.rail-button { position: relative; overflow: hidden; transition: color var(--dur-micro) var(--ease-out-expo); }
+.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--cinematic); }
+.rail-button:hover::after, .rail-button:focus-visible::after { transform: scaleX(1); }
+
+.brass-plate { position: relative; box-shadow: inset 0 0 0 1px #090909; transition: background-color 220ms var(--cinematic), color 220ms var(--cinematic), transform var(--dur-micro) var(--ease-out-expo); }
+.brass-plate:active { transform: scale(0.98); }
+.brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(9,9,9,.72); transform-origin: left; transition: transform 220ms var(--cinematic); }
+.brass-plate:hover::after, .brass-plate:focus-visible::after { transform: translateX(12px); }
+
+.aperture-sweep { position: absolute; top: 18%; bottom: 10%; left: 34%; width: 18%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent); transform: skewX(-18deg); opacity: .42; transition: transform 520ms var(--cinematic), opacity 260ms ease; pointer-events: none; }
+.aperture:hover .aperture-sweep, .aperture:focus-within .aperture-sweep { transform: translateX(76px) skewX(-18deg); opacity: .72; }
+.aperture-image { filter: contrast(1.04) saturate(.78); transition: filter 260ms ease; }
+.aperture:hover .aperture-image, .aperture:focus-within .aperture-image { filter: contrast(1.12) saturate(.96); }
+
+.specimen-tray { position: relative; background: var(--obsidian); border: 1px solid var(--rule); transition: border-color 220ms var(--standard), transform var(--dur-micro) var(--ease-out-expo); }
+.specimen-tray:hover, .specimen-tray:focus-within { border-color: var(--brass-rule); }
+.specimen-tray:active { transform: scale(0.99); }
+.specimen-frame { position: relative; isolation: isolate; overflow: hidden; background: var(--graphite); border: 1px solid var(--soft-rule); }
+.specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(232,227,217,.10); pointer-events: none; z-index: 2; transition: border-color 220ms var(--standard); }
+.specimen-frame::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: 12%; height: 20%; z-index: 1; background: linear-gradient(90deg, transparent, rgba(200,169,110,.26), transparent); transform: translateX(-14%); transition: transform 220ms var(--cinematic), left 220ms var(--standard), right 220ms var(--standard); pointer-events: none; }
+.specimen-tray:hover .specimen-frame::before, .specimen-tray:focus-within .specimen-frame::before { border-color: rgba(200,169,110,.48); }
+.specimen-tray:hover .specimen-frame::after, .specimen-tray:focus-within .specimen-frame::after { transform: translateX(14%); left: 12%; right: 12%; }
+
+.shortlist-control .ti-plus, .shortlist-control .shortlist-icon { transition: transform 180ms var(--standard); }
+.shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon, .shortlist-control[aria-pressed='true'] .ti-plus, .shortlist-control[aria-pressed='true'] .shortlist-icon { transform: rotate(45deg); }
+.shortlist-control[aria-pressed='true'] { background: var(--brass); color: var(--black); border-color: var(--brass); }
+
+.threshold-card { position: relative; transition: transform var(--dur-micro) var(--ease-out-expo); }
+.threshold-card:active { transform: scale(0.99); }
+.threshold-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(200,169,110,0); transition: background-color 220ms var(--cinematic); }
+.threshold-card:hover::before, .threshold-card:focus-within::before { background: var(--brass); }
+.threshold-card .threshold-action i, .threshold-card .threshold-action svg { transform: translateX(0); transition: transform 220ms var(--cinematic); }
+.threshold-card:hover .threshold-action i, .threshold-card:hover .threshold-action svg, .threshold-card:focus-within .threshold-action i, .threshold-card:focus-within .threshold-action svg { transform: translateX(6px); }
+.threshold-card .threshold-image { transition: filter 220ms ease; }
+.threshold-card:hover .threshold-image, .threshold-card:focus-within .threshold-image { filter: contrast(1.08) brightness(1.04); }
+
+.mobile-row { min-height: 78px; position: relative; }
+.mobile-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: transparent; transition: background-color 180ms ease; }
+.mobile-row:hover::before, .mobile-row:focus-within::before { background: var(--brass); }
+.mobile-row i, .mobile-row svg { transform: translateX(0); transition: transform 180ms var(--cinematic); }
+.mobile-row:hover i, .mobile-row:hover svg, .mobile-row:focus-within i, .mobile-row:focus-within svg { transform: translateX(5px); }
+
+.phone-frame { box-shadow: inset 0 0 0 1px rgba(232,227,217,.22), 0 0 0 8px #11100f, 0 0 0 9px rgba(232,227,217,.1); }
+.check-box { width: 16px; height: 16px; border: 1px solid rgba(232,227,217,.32); display: inline-flex; align-items: center; justify-content: center; color: var(--black); flex: 0 0 auto; transition: all var(--dur-micro) var(--ease-out-expo); }
+.check-box.is-checked { background: var(--brass); border-color: var(--brass); }
+.index-row { min-height: 44px; border-bottom: 1px solid var(--soft-rule); transition: color var(--dur-micro) var(--ease-out-expo); }
+.index-row.is-active { color: var(--bone); }
+.index-row.is-active .index-rule { transform: scaleX(1); }
+.index-rule { width: 34px; height: 2px; background: var(--brass); transform: scaleX(.35); transform-origin: left; transition: transform 180ms var(--standard); }
 

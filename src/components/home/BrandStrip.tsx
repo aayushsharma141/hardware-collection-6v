@@ -24,23 +24,40 @@ export default function BrandStrip() {
   const x = useTransform(scrollYProgress, [0, 1], ["0%", "-10%"]);
 
   return (
-    <section ref={containerRef} className="py-24 bg-zinc-950 border-b border-zinc-900 overflow-hidden">
-      <div className="container mx-auto px-6 lg:px-12 mb-12">
-        <p className="text-[#C8A96E] font-medium tracking-widest text-sm uppercase">
+    <section ref={containerRef} className="py-16 lg:py-24 bg-zinc-950 border-b border-zinc-900 overflow-hidden">
+      <div className="container mx-auto px-6 lg:px-12 mb-10 lg:mb-12">
+        <p className="text-[#C8A96E] font-medium tracking-widest text-[11px] lg:text-sm uppercase">
           AUTHORIZED BY DESIGN
         </p>
       </div>
 
-      <div className="w-full overflow-hidden flex whitespace-nowrap">
+      {/* Mobile: editorial 2×3 grid — no pills, no borders, no rounded corners */}
+      <div className="block lg:hidden container mx-auto px-6">
+        <div className="flex flex-wrap">
+          {BRANDS.map((brand, i) => (
+            <a
+              key={i}
+              href={brand.link}
+              style={{ width: "50%" }}
+              className="group flex items-center justify-center py-6 text-zinc-400 tracking-[0.2em] text-[13px] uppercase font-light hover:text-white transition-colors duration-300"
+            >
+              {brand.name}
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Desktop: parallax ticker — unchanged */}
+      <div className="hidden lg:flex w-full overflow-hidden whitespace-nowrap">
         <motion.div 
           style={{ x: shouldReduceMotion ? 0 : x }}
-          className="flex gap-16 md:gap-32 px-6 lg:px-12 items-center"
+          className="flex gap-32 px-12 items-center"
         >
           {BRANDS.map((brand, i) => (
             <a 
               key={i} 
               href={brand.link}
-              className="group relative inline-block text-3xl md:text-5xl font-light text-zinc-600 hover:text-white transition-colors duration-500"
+              className="group relative inline-block text-5xl font-light text-zinc-600 hover:text-white transition-colors duration-500"
             >
               {brand.name}
               
@@ -57,7 +74,7 @@ export default function BrandStrip() {
             <a 
               key={`dup-${i}`} 
               href={brand.link}
-              className="group relative inline-block text-3xl md:text-5xl font-light text-zinc-600 hover:text-white transition-colors duration-500"
+              className="group relative inline-block text-5xl font-light text-zinc-600 hover:text-white transition-colors duration-500"
             >
               {brand.name}
               <span className="absolute left-0 bottom-0 w-0 h-[2px] bg-[#C8A96E] transition-all duration-500 group-hover:w-full" />

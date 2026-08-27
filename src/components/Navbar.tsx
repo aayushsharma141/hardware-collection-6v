@@ -5,8 +5,9 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Phone, ArrowUpRight, Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { useConsultationStore } from "./consultation/store";
+import { lockScroll, unlockScroll } from "@/lib/scrollLock";
 
 interface NavbarProps {
   primaryPhone?: string;
@@ -25,7 +26,7 @@ export default function Navbar({
   // Scroll listener for subtle density change
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 30);
+      setIsScrolled(window.scrollY > 80);
     };
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -52,6 +53,23 @@ export default function Navbar({
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
 
+  // Body scroll lock + conversion bar hide signal when mobile menu is open.
+  // Uses the shared ref-counted scrollLock utility so concurrent modal/drawer
+  // locks don't clobber each other.
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      lockScroll();
+      document.documentElement.setAttribute("data-drawer-open", "true");
+    } else {
+      unlockScroll();
+      document.documentElement.removeAttribute("data-drawer-open");
+    }
+    return () => {
+      unlockScroll();
+      document.documentElement.removeAttribute("data-drawer-open");
+    };
+  }, [mobileMenuOpen]);
+
   const navLinks = [
     { name: "Home", href: "/" },
     { name: "Collections", href: "/collections" },
@@ -65,14 +83,14 @@ export default function Navbar({
       <header
         role="banner"
         className={`fixed left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-500 ease-out ${
-          isScrolled ? "top-3 md:top-5 px-3 md:px-8" : "top-5 md:top-7 px-4 md:px-8"
+          isScrolled ? "top-2 md:top-4 px-2 md:px-8" : "top-3 md:top-6 px-3 md:px-8"
         }`}
       >
         <div
           className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded-full transition-all duration-500 ${
             isScrolled
-              ? "h-[62px] md:h-[68px] bg-[#0E0C0C]/85 border-white/[0.12] shadow-[0_25px_60px_rgba(0,0,0,0.55)]"
-              : "h-[68px] md:h-[74px] bg-[#0E0C0C]/70 border-white/[0.09] shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
+              ? "h-[48px] md:h-[62px] bg-[#0E0C0C]/95 border-white/[0.15] shadow-[0_25px_60px_rgba(0,0,0,0.55)]"
+              : "h-[52px] md:h-[70px] bg-[#0E0C0C]/70 border-white/[0.09] shadow-[0_20px_50px_rgba(0,0,0,0.35)]"
           } backdrop-blur-2xl [-webkit-backdrop-filter:blur(24px)_saturate(140%)] border [box-shadow:inset_0_1px_0_rgba(255,255,255,0.12)]`}
         >
           {/* Subtle moving ambient light reflection */}

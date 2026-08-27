@@ -2,6 +2,7 @@
 
 import React from "react";
 import { ArrowRight, Check } from "lucide-react";
+import { buildWhatsAppUrl } from "@/lib/config";
 
 interface ConsultationSuccessProps {
   leadId: string;
@@ -12,10 +13,9 @@ export function ConsultationSuccess({ leadId, intent }: ConsultationSuccessProps
   const isCallback = intent === "callback";
   
   // WhatsApp direct link text with Lead ID
-  const waText = encodeURIComponent(
+  const waUrl = buildWhatsAppUrl(
     `Hi Hardware Collection Sakchi, I just submitted a consultation request on your website. My Reference ID is ${leadId}. Please confirm.`
   );
-  const waUrl = `https://wa.me/919835190738?text=${waText}`;
 
   return (
     <div className="flex flex-col items-center justify-center py-10 px-4 text-center max-w-md mx-auto font-dmsans">

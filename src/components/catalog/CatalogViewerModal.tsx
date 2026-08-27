@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from "react";
 import { X, ZoomIn, ZoomOut, Maximize, ShieldAlert, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import { motion } from "motion/react";
+import { buildWhatsAppUrl } from "@/lib/config";
+import { lockScroll, unlockScroll } from "@/lib/scrollLock";
 
 interface CatalogViewerModalProps {
   brand: any;
@@ -24,13 +26,13 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
       // Prevent Print (Ctrl+P, Cmd+P), Save (Ctrl+S, Cmd+S)
       if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's')) {
         e.preventDefault();
-        alert("Downloading or printing is disabled for this secure document.");
+        console.warn("Catalog DRM: print/save shortcut intercepted.");
       }
     };
 
     document.addEventListener("contextmenu", handleContextMenu);
     document.addEventListener("keydown", handleKeyDown);
-    document.body.style.overflow = "hidden"; // Lock scroll
+    lockScroll(); // BUG-05 fix: centralized scroll lock
     
     // Simulate loading the pre-rendered images
     const timer = setTimeout(() => {
@@ -40,7 +42,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
     return () => {
       document.removeEventListener("contextmenu", handleContextMenu);
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "unset";
+      unlockScroll();
       clearTimeout(timer);
     };
   }, [onClose]);
@@ -79,7 +81,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
           </div>
           
           <a
-            href={`https://wa.me/919835190738?text=Hi%20Hardware%20Collection%2C%20I%20am%20viewing%20the%20${brand.name}%20catalog%20and%20need%20a%20specific%20product.`}
+            href={buildWhatsAppUrl(`Hi Hardware Collection, I am viewing the ${brand.name} catalog and need a specific product.`)}
             target="_blank"
             rel="noopener noreferrer"
             className="bg-[#e5c487] text-[#131314] px-4 py-2 font-body font-bold text-[10px] uppercase tracking-wider hover:bg-white transition-colors"

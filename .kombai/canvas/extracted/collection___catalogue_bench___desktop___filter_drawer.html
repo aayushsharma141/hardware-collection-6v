@@ -1,0 +1,891 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap');
+  @import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css');
+
+  .catalogue-shell {
+    --black: #090909;
+    --obsidian: #11100f;
+    --graphite: #181716;
+    --bone: #e8e3d9;
+    --muted: #aaa49a;
+    --brass: #c8a96e;
+    --line: rgba(232,227,217,.15);
+    --soft-line: rgba(232,227,217,.08);
+    --ease: cubic-bezier(.22,1,.36,1);
+    font-family: 'DM Sans', sans-serif;
+    background: #090909;
+    color: #e8e3d9;
+  }
+  .font-editorial { font-family: 'Cormorant Garamond', Georgia, serif; }
+  .font-utility { font-family: 'DM Sans', sans-serif; }
+  .font-technical { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  .hairline { border-color: rgba(232,227,217,.15); }
+  .softline { border-color: rgba(232,227,217,.08); }
+  .rail-row { position: relative; transition: color .22s var(--ease), border-color .22s var(--ease), background-color .22s var(--ease); }
+  .rail-row:hover { color: #e8e3d9; background: rgba(232,227,217,.035); }
+  .rail-row.selected { color: #c8a96e; }
+  .rail-row.selected::after { content: ''; position: absolute; right: -1px; bottom: -1px; width: 44px; height: 2px; background: #c8a96e; }
+  .filter-row { transition: background-color .2s var(--ease), color .2s var(--ease); }
+  .filter-row:hover { background: rgba(232,227,217,.045); color: #e8e3d9; }
+  .filter-row.selected { color: #c8a96e; background: rgba(200,169,110,.08); }
+  .filter-row.selected .filter-rule { background: #c8a96e; }
+  .filter-rule { width: 2px; height: 22px; background: rgba(232,227,217,.12); transition: background-color .2s var(--ease); }
+  .bench-plate { transition: border-color .22s var(--ease), background-color .22s var(--ease); }
+  .bench-plate:hover { border-color: rgba(200,169,110,.48); background: rgba(24,23,22,.92); }
+  .plate-button { position: relative; overflow: hidden; transition: background-color .22s var(--ease), color .22s var(--ease), border-color .22s var(--ease); }
+  .plate-button::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 7px; height: 1px; background: #090909; transform: scaleX(.28); transform-origin: left; transition: transform .32s var(--ease); }
+  .plate-button:hover::after, .plate-button:focus-visible::after { transform: scaleX(1); }
+  .plate-button i { transition: transform .32s var(--ease); }
+  .plate-button:hover i, .plate-button:focus-visible i { transform: translate(4px,-4px); }
+  .outline-action { transition: border-color .22s var(--ease), color .22s var(--ease), background-color .22s var(--ease); }
+  .outline-action:hover, .outline-action:focus-visible { border-color: rgba(200,169,110,.62); color: #e8e3d9; background: rgba(200,169,110,.08); }
+  .product-tray { transition: border-color .22s var(--ease), background-color .22s var(--ease); }
+  .product-tray:hover, .product-tray:focus-within { border-color: rgba(200,169,110,.56); background: rgba(24,23,22,.72); }
+  .pedestal-reflection { transform: translateX(-10%); transition: transform .32s var(--ease), opacity .32s var(--ease); }
+  .product-tray:hover .pedestal-reflection, .product-tray:focus-within .pedestal-reflection { transform: translateX(8%); opacity: .85; }
+  .spec-link i { transition: transform .22s var(--ease); }
+  .spec-link:hover i, .spec-link:focus-visible i { transform: translateX(6px); }
+  .shortlist-control i { transition: transform .22s var(--ease); }
+  .shortlist-control:hover i, .shortlist-control:focus-visible i { transform: rotate(45deg); }
+  .phone-family { transition: background-color .2s var(--ease), color .2s var(--ease); }
+  .phone-family:hover { background: rgba(200,169,110,.08); color: #e8e3d9; }
+  .focus-ring:focus-visible { outline: 2px solid #c8a96e; outline-offset: 3px; }
+  .mobile-sheet-scroll { scrollbar-width: none; }
+  .mobile-sheet-scroll::-webkit-scrollbar { display: none; }
+</style>
+<div class="catalogue-shell min-h-screen bg-[#090909] text-[#e8e3d9] selection:bg-[#c8a96e] selection:text-[#090909]" data-kid="1" data-name="catalogue page container">
+    <div class="mx-auto max-w-[1400px] px-8 py-8" data-kid="1-1" data-name="page layout wrapper">
+        <div class="grid grid-cols-[minmax(0,1fr)_292px] gap-8 items-start" data-kid="1-1-1" data-name="grid content layout">
+            <div class="min-w-0" data-kid="1-1-1-1" data-name="main content column">
+                <header class="border border-white/[0.12] bg-[#11100f]" data-kid="1-1-1-1-1" data-name="catalogue header">
+                    <div class="h-[58px] flex items-center justify-between border-b border-white/[0.1] px-6" data-kid="1-1-1-1-1-1" data-name="navigation bar container">
+                        <div class="flex items-center gap-3" data-kid="1-1-1-1-1-1-1" data-name="brand logo area">
+                            <div class="h-7 w-7 border border-[#c8a96e]/70 flex items-center justify-center text-[10px] font-technical font-bold tracking-[-0.08em] text-[#c8a96e]" data-kid="1-1-1-1-1-1-1-1" data-name="brand logo icon">
+                                HC
+                            </div>
+                            <span class="font-editorial text-[21px] tracking-[0.04em] text-[#e8e3d9]" data-kid="1-1-1-1-1-1-1-2" data-name="brand name text">
+                                Hardware Collection
+                            </span>
+                        </div>
+                        <nav class="flex items-center gap-0 text-[10px] font-utility uppercase tracking-[0.18em] text-[#aaa49a]" data-kid="1-1-1-1-1-1-2" data-name="navigation links container">
+                            <a class="focus-ring flex h-[34px] items-center border-l border-white/[0.1] px-5 hover:text-[#e8e3d9]" data-kid="1-1-1-1-1-1-2-1" data-name="home link" href="#home">
+                                Home
+                            </a>
+                            <a class="focus-ring flex h-[34px] items-center border-l border-white/[0.1] px-5 text-[#c8a96e]" data-kid="1-1-1-1-1-1-2-2" data-name="collections link" href="#collection">
+                                Collections
+                            </a>
+                            <span class="flex h-[34px] items-center border-l border-white/[0.1] px-5 font-technical text-[9px] tracking-[0.12em] text-[#aaa49a]" data-kid="1-1-1-1-1-1-2-3" data-name="contact phone text">
+                                +91 98351 90738
+                            </span>
+                            <a class="plate-button focus-ring ml-3 flex h-[34px] items-center gap-3 bg-[#c8a96e] px-4 text-[10px] font-utility font-bold uppercase tracking-[0.14em] text-[#090909]" data-kid="1-1-1-1-1-1-2-4" data-name="inquire call-to-action button" href="#consult">
+                                Inquire
+                                <i class="ti ti-arrow-up-right text-[13px]" data-kid="1-1-1-1-1-1-2-4-1" data-name="arrow icon" style="color:#090909;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                </i>
+                            </a>
+                        </nav>
+                    </div>
+                    <div class="grid min-h-[187px] grid-cols-[1.1fr_.9fr] gap-10 px-8 pt-7 pb-6" data-kid="1-1-1-1-1-2" data-name="hero section">
+                        <div class="flex flex-col justify-between" data-kid="1-1-1-1-1-2-1" data-name="hero content area">
+                            <div data-kid="1-1-1-1-1-2-1-1" data-name="hero sub-headline area">
+                                <div class="mb-3 flex items-center gap-2 font-technical text-[9px] uppercase tracking-[0.22em] text-[#aaa49a]" data-kid="1-1-1-1-1-2-1-1-1" data-name="breadcrumb or indicator">
+                                    <span class="h-1 w-1 bg-[#c8a96e]" data-kid="1-1-1-1-1-2-1-1-1-1" data-name="accent dot">
+                                    </span>
+                                    Authorized showroom
+                                </div>
+                                <h1 class="font-editorial text-[66px] font-normal uppercase leading-[.86] tracking-[0.04em] text-[#e8e3d9]" data-kid="1-1-1-1-1-2-1-1-2" data-name="hero headline">
+                                    The
+                                    <br data-kid="1-1-1-1-1-2-1-1-2-1" data-name="line break"/>
+                                    Collection
+                                </h1>
+                            </div>
+                            <p class="font-utility max-w-[31ch] text-[11px] leading-[1.55] text-[#aaa49a]" data-kid="1-1-1-1-1-2-1-2" data-name="hero description">
+                                Architectural hardware for considered residential and commercial interiors. Browse selected products, references and specification support from our Sakchi showroom.
+                            </p>
+                        </div>
+                        <div class="flex flex-col justify-end border-l border-[#c8a96e]/60 pl-7" data-kid="1-1-1-1-1-2-2" data-name="hero bench info area">
+                            <p class="mb-3 font-technical text-[9px] uppercase tracking-[0.2em] text-[#c8a96e]" data-kid="1-1-1-1-1-2-2-1" data-name="bench label">
+                                The catalogue bench
+                            </p>
+                            <p class="max-w-[38ch] font-utility text-[14px] leading-[1.55] text-[#e8e3d9]" data-kid="1-1-1-1-1-2-2-2" data-name="bench description">
+                                Selected hardware is presented as a measured contact sheet—one place to compare finish, fit and the next specification step.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between border-t border-white/[0.1] px-8 py-3 font-technical text-[9px] uppercase tracking-[0.19em] text-[#aaa49a]" data-kid="1-1-1-1-1-3" data-name="header footer bar">
+                        <span data-kid="1-1-1-1-1-3-1" data-name="showroom count text">
+                            01 / 05 · showroom families
+                        </span>
+                        <span class="text-[#c8a96e]" data-kid="1-1-1-1-1-3-2" data-name="location text">
+                            Sakchi · Jamshedpur
+                        </span>
+                    </div>
+                </header>
+                <div class="mt-8 grid grid-cols-[220px_minmax(0,1fr)] gap-8" data-kid="1-1-1-1-2" data-name="catalogue section" id="collection">
+                    <aside aria-label="Collection index" class="border-r border-white/[0.14] pr-6" data-kid="1-1-1-1-2-1" data-name="collection index sidebar">
+                        <div class="mb-4 flex items-center justify-between border-b border-white/[0.1] pb-3" data-kid="1-1-1-1-2-1-1" data-name="index header">
+                            <span class="font-technical text-[9px] uppercase tracking-[0.2em] text-[#c8a96e]" data-kid="1-1-1-1-2-1-1-1" data-name="index title">
+                                Collection index
+                            </span>
+                            <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-1-2" data-name="index count">
+                                18 total
+                            </span>
+                        </div>
+                        <a class="rail-row focus-ring flex min-h-[38px] items-center justify-between border-b border-white/[0.08] px-2 text-[10px] font-utility uppercase tracking-[0.12em] text-[#e8e3d9]" data-kid="1-1-1-1-2-1-2" data-name="all collections link" href="#all">
+                            <span data-kid="1-1-1-1-2-1-2-1" data-name="all collections text">
+                                All collections
+                            </span>
+                            <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-2-2" data-name="all collections count">
+                                18
+                            </span>
+                        </a>
+                        <p class="mb-2 mt-6 px-2 font-technical text-[8px] uppercase tracking-[0.2em] text-[#aaa49a]/60" data-kid="1-1-1-1-2-1-3" data-name="family category label">
+                            Showroom families
+                        </p>
+                        <div class="space-y-0" data-kid="1-1-1-1-2-1-4" data-name="families list container">
+                            <a class="rail-row focus-ring grid min-h-[42px] grid-cols-[27px_1fr_22px] items-center border-b border-white/[0.08] px-2 text-[#aaa49a]" data-kid="1-1-1-1-2-1-4-1" data-name="handles link" href="#handles">
+                                <span class="font-technical text-[9px] text-[#c8a96e]/70" data-kid="1-1-1-1-2-1-4-1-1" data-name="handle index">
+                                    01
+                                </span>
+                                <span class="font-utility text-[10px] uppercase tracking-[0.08em]" data-kid="1-1-1-1-2-1-4-1-2" data-name="handle text">
+                                    Handles & knobs
+                                </span>
+                                <span class="font-technical text-[9px] text-right" data-kid="1-1-1-1-2-1-4-1-3" data-name="handle count">
+                                    2
+                                </span>
+                            </a>
+                            <div class="rail-row selected grid min-h-[42px] grid-cols-[27px_1fr_22px] items-center border-b border-white/[0.1] px-2" data-kid="1-1-1-1-2-1-4-2" data-name="door hardware link">
+                                <span class="font-technical text-[9px]" data-kid="1-1-1-1-2-1-4-2-1" data-name="door hardware index">
+                                    02
+                                </span>
+                                <span class="font-utility text-[10px] uppercase tracking-[0.08em]" data-kid="1-1-1-1-2-1-4-2-2" data-name="door hardware text">
+                                    Door hardware
+                                </span>
+                                <span class="font-technical text-[9px] text-right" data-kid="1-1-1-1-2-1-4-2-3" data-name="door hardware count">
+                                    6
+                                </span>
+                            </div>
+                            <div class="ml-[28px] border-l border-[#c8a96e]/45 py-1" data-kid="1-1-1-1-2-1-4-3" data-name="sub-menu container">
+                                <a class="focus-ring flex min-h-[31px] items-center justify-between pl-3 pr-2 font-utility text-[10px] text-[#c8a96e]" data-kid="1-1-1-1-2-1-4-3-1" data-name="digital locks sub-link" href="#digital">
+                                    <span class="border-b border-[#c8a96e] pb-[2px]" data-kid="1-1-1-1-2-1-4-3-1-1" data-name="digital locks text">
+                                        Digital locks
+                                    </span>
+                                    <span class="font-technical text-[9px]" data-kid="1-1-1-1-2-1-4-3-1-2" data-name="digital locks count">
+                                        2
+                                    </span>
+                                </a>
+                                <a class="focus-ring flex min-h-[31px] items-center justify-between pl-3 pr-2 font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-4-3-2" data-name="mortise locks sub-link" href="#mortise">
+                                    <span data-kid="1-1-1-1-2-1-4-3-2-1" data-name="mortise locks text">
+                                        Mortise & door locks
+                                    </span>
+                                    <span class="font-technical text-[9px]" data-kid="1-1-1-1-2-1-4-3-2-2" data-name="mortise locks count">
+                                        2
+                                    </span>
+                                </a>
+                                <a class="focus-ring flex min-h-[31px] items-center justify-between pl-3 pr-2 font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-4-3-3" data-name="glass hardware sub-link" href="#glass">
+                                    <span data-kid="1-1-1-1-2-1-4-3-3-1" data-name="glass hardware text">
+                                        Glass hardware
+                                    </span>
+                                    <span class="font-technical text-[9px]" data-kid="1-1-1-1-2-1-4-3-3-2" data-name="glass hardware count">
+                                        1
+                                    </span>
+                                </a>
+                                <a class="focus-ring flex min-h-[31px] items-center justify-between pl-3 pr-2 font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-4-3-4" data-name="door closers sub-link" href="#closers">
+                                    <span data-kid="1-1-1-1-2-1-4-3-4-1" data-name="door closers text">
+                                        Door closers
+                                    </span>
+                                    <span class="font-technical text-[9px]" data-kid="1-1-1-1-2-1-4-3-4-2" data-name="door closers count">
+                                        0
+                                    </span>
+                                </a>
+                            </div>
+                            <a class="rail-row focus-ring grid min-h-[42px] grid-cols-[27px_1fr_22px] items-center border-b border-white/[0.08] px-2 text-[#aaa49a]" data-kid="1-1-1-1-2-1-4-4" data-name="bathroom link" href="#bathroom">
+                                <span class="font-technical text-[9px] text-[#c8a96e]/70" data-kid="1-1-1-1-2-1-4-4-1" data-name="bathroom index">
+                                    03
+                                </span>
+                                <span class="font-utility text-[10px] uppercase tracking-[0.08em]" data-kid="1-1-1-1-2-1-4-4-2" data-name="bathroom text">
+                                    Bathroom
+                                </span>
+                                <span class="font-technical text-[9px] text-right" data-kid="1-1-1-1-2-1-4-4-3" data-name="bathroom count">
+                                    1
+                                </span>
+                            </a>
+                            <a class="rail-row focus-ring grid min-h-[42px] grid-cols-[27px_1fr_22px] items-center border-b border-white/[0.08] px-2 text-[#aaa49a]" data-kid="1-1-1-1-2-1-4-5" data-name="kitchen link" href="#kitchen">
+                                <span class="font-technical text-[9px] text-[#c8a96e]/70" data-kid="1-1-1-1-2-1-4-5-1" data-name="kitchen index">
+                                    04
+                                </span>
+                                <span class="font-utility text-[10px] uppercase tracking-[0.08em]" data-kid="1-1-1-1-2-1-4-5-2" data-name="kitchen text">
+                                    Kitchen & wardrobes
+                                </span>
+                                <span class="font-technical text-[9px] text-right" data-kid="1-1-1-1-2-1-4-5-3" data-name="kitchen count">
+                                    6
+                                </span>
+                            </a>
+                            <a class="rail-row focus-ring grid min-h-[42px] grid-cols-[27px_1fr_22px] items-center border-b border-white/[0.08] px-2 text-[#aaa49a]" data-kid="1-1-1-1-2-1-4-6" data-name="furniture link" href="#furniture">
+                                <span class="font-technical text-[9px] text-[#c8a96e]/70" data-kid="1-1-1-1-2-1-4-6-1" data-name="furniture index">
+                                    05
+                                </span>
+                                <span class="font-utility text-[10px] uppercase tracking-[0.08em]" data-kid="1-1-1-1-2-1-4-6-2" data-name="furniture text">
+                                    Furniture hardware
+                                </span>
+                                <span class="font-technical text-[9px] text-right" data-kid="1-1-1-1-2-1-4-6-3" data-name="furniture count">
+                                    3
+                                </span>
+                            </a>
+                        </div>
+                        <div class="mt-8 border-t border-white/[0.1] pt-5" data-kid="1-1-1-1-2-1-5" data-name="manufacturer section">
+                            <div class="mb-3 flex items-center justify-between px-2" data-kid="1-1-1-1-2-1-5-1" data-name="manufacturer header">
+                                <span class="font-technical text-[8px] uppercase tracking-[0.19em] text-[#aaa49a]/60" data-kid="1-1-1-1-2-1-5-1-1" data-name="manufacturer title">
+                                    Manufacturer
+                                </span>
+                                <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-5-1-2" data-name="manufacturer count">
+                                    06
+                                </span>
+                            </div>
+                            <div class="space-y-0" data-kid="1-1-1-1-2-1-5-2" data-name="manufacturer list">
+                                <button class="focus-ring flex min-h-[34px] w-full items-center gap-2 border-b border-white/[0.07] px-2 text-left font-utility text-[10px] text-[#c8a96e]" data-kid="1-1-1-1-2-1-5-2-1" data-name="hafele filter option">
+                                    <span class="flex h-3 w-3 items-center justify-center border border-[#c8a96e] text-[8px]" data-kid="1-1-1-1-2-1-5-2-1-1" data-name="checkmark icon">
+                                        ✓
+                                    </span>
+                                    Hafele
+                                    <span class="ml-auto font-technical text-[9px]" data-kid="1-1-1-1-2-1-5-2-1-2" data-name="hafele count">
+                                        04
+                                    </span>
+                                </button>
+                                <button class="focus-ring flex min-h-[34px] w-full items-center gap-2 border-b border-white/[0.07] px-2 text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-5-2-2" data-name="dorset filter option">
+                                    <span class="h-3 w-3 border border-white/[0.2]" data-kid="1-1-1-1-2-1-5-2-2-1" data-name="checkbox icon">
+                                    </span>
+                                    Dorset
+                                    <span class="ml-auto font-technical text-[9px]" data-kid="1-1-1-1-2-1-5-2-2-2" data-name="dorset count">
+                                        02
+                                    </span>
+                                </button>
+                                <button class="focus-ring flex min-h-[34px] w-full items-center gap-2 border-b border-white/[0.07] px-2 text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-5-2-3" data-name="labacha filter option">
+                                    <span class="h-3 w-3 border border-white/[0.2]" data-kid="1-1-1-1-2-1-5-2-3-1" data-name="checkbox icon">
+                                    </span>
+                                    Labacha
+                                    <span class="ml-auto font-technical text-[9px]" data-kid="1-1-1-1-2-1-5-2-3-2" data-name="labacha count">
+                                        02
+                                    </span>
+                                </button>
+                                <button class="focus-ring flex min-h-[34px] w-full items-center gap-2 border-b border-white/[0.07] px-2 text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-5-2-4" data-name="godrej filter option">
+                                    <span class="h-3 w-3 border border-white/[0.2]" data-kid="1-1-1-1-2-1-5-2-4-1" data-name="checkbox icon">
+                                    </span>
+                                    Godrej
+                                    <span class="ml-auto font-technical text-[9px]" data-kid="1-1-1-1-2-1-5-2-4-2" data-name="godrej count">
+                                        02
+                                    </span>
+                                </button>
+                                <button class="focus-ring flex min-h-[34px] w-full items-center gap-2 border-b border-white/[0.07] px-2 text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-5-2-5" data-name="hettich filter option">
+                                    <span class="h-3 w-3 border border-white/[0.2]" data-kid="1-1-1-1-2-1-5-2-5-1" data-name="checkbox icon">
+                                    </span>
+                                    Hettich
+                                    <span class="ml-auto font-technical text-[9px]" data-kid="1-1-1-1-2-1-5-2-5-2" data-name="hettich count">
+                                        02
+                                    </span>
+                                </button>
+                                <button class="focus-ring flex min-h-[34px] w-full items-center gap-2 px-2 text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-1-2-1-5-2-6" data-name="kich filter option">
+                                    <span class="h-3 w-3 border border-white/[0.2]" data-kid="1-1-1-1-2-1-5-2-6-1" data-name="checkbox icon">
+                                    </span>
+                                    Kich
+                                    <span class="ml-auto font-technical text-[9px]" data-kid="1-1-1-1-2-1-5-2-6-2" data-name="kich count">
+                                        01
+                                    </span>
+                                </button>
+                            </div>
+                        </div>
+                    </aside>
+                    <section class="min-w-0" data-kid="1-1-1-1-2-2" data-name="product section">
+                        <div class="border-y border-white/[0.14] py-4" data-kid="1-1-1-1-2-2-1" data-name="filter toolbar">
+                            <div class="grid grid-cols-[minmax(0,7fr)_3fr] gap-3" data-kid="1-1-1-1-2-2-1-1" data-name="search bar grid">
+                                <label class="block" data-kid="1-1-1-1-2-2-1-1-1" data-name="product search input area">
+                                    <span class="mb-2 block font-technical text-[8px] uppercase tracking-[0.18em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-1-1-1-1" data-name="search label">
+                                        Search products or part references
+                                    </span>
+                                    <span class="flex h-11 items-center gap-3 border border-white/[0.16] bg-[#11100f] px-3" data-kid="1-1-1-1-2-2-1-1-1-2" data-name="search input wrapper">
+                                        <i class="ti ti-search text-[15px]" data-kid="1-1-1-1-2-2-1-1-1-2-1" data-name="search icon" style="color:#aaa49a;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center">
+                                        </i>
+                                        <input class="w-full bg-transparent font-utility text-[11px] text-[#e8e3d9] outline-none placeholder:text-[#aaa49a]/55" data-kid="1-1-1-1-2-2-1-1-1-2-2" data-name="search input field" placeholder="Search by product, brand or reference" value=""/>
+                                    </span>
+                                </label>
+                                <label class="block" data-kid="1-1-1-1-2-2-1-1-2" data-name="brand filter area">
+                                    <span class="mb-2 block font-technical text-[8px] uppercase tracking-[0.18em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-1-1-2-1" data-name="brand filter label">
+                                        Brand
+                                    </span>
+                                    <span class="flex h-11 items-center justify-between border border-white/[0.16] bg-[#11100f] px-3 font-utility text-[10px] uppercase tracking-[0.12em] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-1-1-2-2" data-name="brand dropdown wrapper">
+                                        <span data-kid="1-1-1-1-2-2-1-1-2-2-1" data-name="brand dropdown label">
+                                            All authorized brands
+                                        </span>
+                                        <i class="ti ti-chevron-down text-[13px]" data-kid="1-1-1-1-2-2-1-1-2-2-2" data-name="dropdown icon" style="color:#aaa49a;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                        </i>
+                                    </span>
+                                </label>
+                            </div>
+                            <div class="mt-4 flex items-center justify-between border-t border-white/[0.08] pt-3" data-kid="1-1-1-1-2-2-1-2" data-name="filter status bar">
+                                <span class="font-technical text-[9px] uppercase tracking-[0.17em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-1-2-1" data-name="product count status">
+                                    06 products · Door hardware
+                                </span>
+                                <span class="font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-1-2-2" data-name="active filters label">
+                                    Selected hardware
+                                    <span class="mx-2 text-white/20" data-kid="1-1-1-1-2-2-1-2-2-1" data-name="separator">
+                                        /
+                                    </span>
+                                    Hafele
+                                </span>
+                                <button class="focus-ring font-utility text-[10px] text-[#aaa49a] underline decoration-[#c8a96e] underline-offset-4" data-kid="1-1-1-1-2-2-1-2-3" data-name="reset button">
+                                    Reset filters
+                                </button>
+                            </div>
+                        </div>
+                        <div class="mt-7 flex items-end justify-between border-b border-white/[0.14] pb-3" data-kid="1-1-1-1-2-2-2" data-name="category header">
+                            <div data-kid="1-1-1-1-2-2-2-1" data-name="category parent name">
+                                <p class="mb-1 font-technical text-[8px] uppercase tracking-[0.2em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-2-1-1" data-name="category name">
+                                    Door hardware
+                                </p>
+                                <h2 class="font-editorial text-[38px] uppercase leading-none tracking-[0.03em] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-2-1-2" data-name="sub-category name">
+                                    Digital locks
+                                </h2>
+                            </div>
+                            <span class="font-technical text-[9px] uppercase tracking-[0.16em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-2-2" data-name="availability status text">
+                                02 specimens available
+                            </span>
+                        </div>
+                        <div class="mt-5 grid grid-cols-3 gap-x-4 gap-y-8" data-kid="1-1-1-1-2-2-3" data-name="product grid">
+                            <article class="product-tray bench-plate col-span-2 border border-white/[0.13] bg-[#11100f] p-3" data-kid="1-1-1-1-2-2-3-1" data-name="first product card" tabindex="0">
+                                <div class="relative aspect-[16/9] overflow-hidden border border-white/[0.12] bg-[#181716] p-2" data-kid="1-1-1-1-2-2-3-1-1" data-name="product image wrapper">
+                                    <div class="absolute inset-[8px] overflow-hidden border border-white/[0.1]" data-kid="1-1-1-1-2-2-3-1-1-1" data-name="image container">
+                                        <img alt="Dark biometric lock showroom context" class="h-full w-full object-cover opacity-45" data-kid="1-1-1-1-2-2-3-1-1-1-1" data-name="product image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-SECURITY.png"/>
+                                        <div class="absolute inset-0 bg-gradient-to-r from-[#090909]/90 via-[#090909]/45 to-[#090909]/80" data-kid="1-1-1-1-2-2-3-1-1-1-2" data-name="image gradient overlay">
+                                        </div>
+                                    </div>
+                                    <div class="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-[#181716] to-transparent" data-kid="1-1-1-1-2-2-3-1-1-2" data-name="bottom gradient">
+                                    </div>
+                                    <div class="pedestal-reflection absolute bottom-8 left-[22%] h-[2px] w-[56%] bg-gradient-to-r from-transparent via-[#c8a96e]/50 to-transparent opacity-55" data-kid="1-1-1-1-2-2-3-1-1-3" data-name="pedestal light reflection">
+                                    </div>
+                                    <div class="absolute left-1/2 top-1/2 flex h-[72%] w-[15%] -translate-x-1/2 -translate-y-1/2 flex-col items-center justify-center border border-white/[0.18] bg-[#090909]/65" data-kid="1-1-1-1-2-2-3-1-1-4" data-name="specimen marker area">
+                                        <div class="h-[72%] w-[38%] border border-[#c8a96e]/60 bg-gradient-to-b from-[#aaa49a]/20 via-[#181716] to-[#090909]" data-kid="1-1-1-1-2-2-3-1-1-4-1" data-name="specimen shape">
+                                        </div>
+                                        <span class="mt-2 font-technical text-[7px] tracking-[0.12em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-3-1-1-4-2" data-name="specimen text">
+                                            SPECIMEN
+                                        </span>
+                                    </div>
+                                    <span class="absolute left-4 top-4 font-technical text-[8px] uppercase tracking-[0.16em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-3-1-1-5" data-name="featured label">
+                                        Featured / live display
+                                    </span>
+                                    <span class="absolute right-4 top-4 font-technical text-[8px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-3-1-1-6" data-name="slide count">
+                                        01 / 06
+                                    </span>
+                                </div>
+                                <div class="px-1 pt-4" data-kid="1-1-1-1-2-2-3-1-2" data-name="product details area">
+                                    <div class="flex items-baseline justify-between gap-3" data-kid="1-1-1-1-2-2-3-1-2-1" data-name="brand identifier area">
+                                        <span class="font-utility text-[10px] font-bold uppercase tracking-[0.15em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-3-1-2-1-1" data-name="brand name">
+                                            Dorset
+                                        </span>
+                                        <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-3-1-2-1-2" data-name="product reference code">
+                                            DOR-DL-X1
+                                        </span>
+                                    </div>
+                                    <h3 class="mt-2 max-w-[34ch] font-utility text-[15px] font-semibold leading-[1.25] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-3-1-2-2" data-name="product title">
+                                        Dorset Biometric Smart Digital Lock X1
+                                    </h3>
+                                    <p class="mt-2 max-w-[54ch] font-utility text-[10px] leading-[1.5] text-[#aaa49a]" data-kid="1-1-1-1-2-2-3-1-2-3" data-name="product description">
+                                        Ultra-fast semiconductor biometric lock with encrypted RFID and mobile app connectivity.
+                                    </p>
+                                    <div class="mt-4 flex items-center justify-between border-t border-white/[0.1] pt-3" data-kid="1-1-1-1-2-2-3-1-2-4" data-name="action area">
+                                        <button class="shortlist-control outline-action focus-ring flex min-h-[32px] items-center gap-2 border border-white/[0.18] px-3 font-utility text-[9px] uppercase tracking-[0.1em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-3-1-2-4-1" data-name="shortlist button">
+                                            <i class="ti ti-plus text-[13px]" data-kid="1-1-1-1-2-2-3-1-2-4-1-1" data-name="plus icon" style="color:#c8a96e;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                            Add to shortlist
+                                        </button>
+                                        <button class="spec-link focus-ring flex min-h-[32px] items-center gap-2 font-utility text-[10px] uppercase tracking-[0.12em] text-[#e8e3d9] underline decoration-[#c8a96e] underline-offset-4" data-kid="1-1-1-1-2-2-3-1-2-4-2" data-name="view specifications button">
+                                            View specifications
+                                            <i class="ti ti-arrow-right text-[13px]" data-kid="1-1-1-1-2-2-3-1-2-4-2-1" data-name="arrow icon" style="color:#c8a96e;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="product-tray bench-plate border border-white/[0.13] bg-[#11100f] p-3" data-kid="1-1-1-1-2-2-3-2" data-name="second product card" tabindex="0">
+                                <div class="relative aspect-[16/11] overflow-hidden border border-white/[0.12] bg-[#181716] p-2" data-kid="1-1-1-1-2-2-3-2-1" data-name="product image wrapper">
+                                    <div class="absolute inset-[8px] overflow-hidden border border-white/[0.1]" data-kid="1-1-1-1-2-2-3-2-1-1" data-name="image container">
+                                        <img alt="Matte black digital lock installation context" class="h-full w-full object-cover opacity-35" data-kid="1-1-1-1-2-2-3-2-1-1-1" data-name="product image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-SECURITY.png"/>
+                                        <div class="absolute inset-0 bg-[#090909]/65" data-kid="1-1-1-1-2-2-3-2-1-1-2" data-name="image gradient">
+                                        </div>
+                                    </div>
+                                    <div class="pedestal-reflection absolute bottom-7 left-[23%] h-[2px] w-[54%] bg-gradient-to-r from-transparent via-[#c8a96e]/40 to-transparent opacity-55" data-kid="1-1-1-1-2-2-3-2-1-2" data-name="pedestal light reflection">
+                                    </div>
+                                    <div class="absolute left-1/2 top-1/2 flex h-[62%] w-[19%] -translate-x-1/2 -translate-y-1/2 flex-col items-center border border-white/[0.14] bg-[#090909]/70 pt-3" data-kid="1-1-1-1-2-2-3-2-1-3" data-name="specimen marker">
+                                        <div class="h-3 w-3 border border-[#c8a96e]/80" data-kid="1-1-1-1-2-2-3-2-1-3-1" data-name="specimen shape">
+                                        </div>
+                                        <div class="mt-3 h-[62%] w-[42%] border border-white/[0.18] bg-gradient-to-b from-[#aaa49a]/15 to-[#090909]" data-kid="1-1-1-1-2-2-3-2-1-3-2" data-name="specimen detail">
+                                        </div>
+                                    </div>
+                                    <span class="absolute left-4 top-4 font-technical text-[8px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-3-2-1-4" data-name="slide count">
+                                        02 / 06
+                                    </span>
+                                </div>
+                                <div class="px-1 pt-4" data-kid="1-1-1-1-2-2-3-2-2" data-name="product details">
+                                    <div class="flex items-baseline justify-between gap-3" data-kid="1-1-1-1-2-2-3-2-2-1" data-name="brand identifier area">
+                                        <span class="font-utility text-[10px] font-bold uppercase tracking-[0.15em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-3-2-2-1-1" data-name="brand name">
+                                            Godrej
+                                        </span>
+                                        <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-3-2-2-1-2" data-name="product reference code">
+                                            GOD-DL-ADV
+                                        </span>
+                                    </div>
+                                    <h3 class="mt-2 font-utility text-[15px] font-semibold leading-[1.25] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-3-2-2-2" data-name="product title">
+                                        Godrej Advantis Revolution Biometric Door Lock
+                                    </h3>
+                                    <p class="mt-2 line-clamp-2 font-utility text-[10px] leading-[1.5] text-[#aaa49a]" data-kid="1-1-1-1-2-2-3-2-2-3" data-name="product description">
+                                        Multi-level authentication, RFID access and tamper alarm integration.
+                                    </p>
+                                    <div class="mt-4 flex items-center justify-between border-t border-white/[0.1] pt-3" data-kid="1-1-1-1-2-2-3-2-2-4" data-name="action area">
+                                        <button class="shortlist-control outline-action focus-ring flex min-h-[32px] items-center gap-2 border border-white/[0.18] px-2.5 font-utility text-[9px] uppercase tracking-[0.08em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-3-2-2-4-1" data-name="shortlist button">
+                                            <i class="ti ti-plus text-[13px]" data-kid="1-1-1-1-2-2-3-2-2-4-1-1" data-name="plus icon" style="color:#c8a96e;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                            Shortlist
+                                        </button>
+                                        <button class="spec-link focus-ring flex min-h-[32px] items-center gap-1 font-utility text-[9px] uppercase tracking-[0.1em] text-[#e8e3d9] underline decoration-[#c8a96e] underline-offset-4" data-kid="1-1-1-1-2-2-3-2-2-4-2" data-name="view specifications button">
+                                            Specs
+                                            <i class="ti ti-arrow-right text-[12px]" data-kid="1-1-1-1-2-2-3-2-2-4-2-1" data-name="arrow icon" style="color:#c8a96e;width:12px;height:12px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="mt-12 flex items-end justify-between border-b border-white/[0.14] pb-3" data-kid="1-1-1-1-2-2-4" data-name="second category header">
+                            <div data-kid="1-1-1-1-2-2-4-1" data-name="category parent name">
+                                <p class="mb-1 font-technical text-[8px] uppercase tracking-[0.2em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-4-1-1" data-name="category name">
+                                    Kitchen & wardrobes
+                                </p>
+                                <h2 class="font-editorial text-[38px] uppercase leading-none tracking-[0.03em] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-4-1-2" data-name="sub-category name">
+                                    Modular systems
+                                </h2>
+                            </div>
+                            <span class="font-technical text-[9px] uppercase tracking-[0.16em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-4-2" data-name="availability status text">
+                                04 specimens available
+                            </span>
+                        </div>
+                        <div class="mt-5 grid grid-cols-3 gap-x-4 gap-y-8" data-kid="1-1-1-1-2-2-5" data-name="second product grid">
+                            <article class="product-tray bench-plate col-span-2 border border-white/[0.13] bg-[#11100f] p-3" data-kid="1-1-1-1-2-2-5-1" data-name="third product card" tabindex="0">
+                                <div class="relative aspect-[16/9] overflow-hidden border border-white/[0.12] bg-[#181716] p-2" data-kid="1-1-1-1-2-2-5-1-1" data-name="image wrapper">
+                                    <div class="absolute inset-[8px] overflow-hidden border border-white/[0.1]" data-kid="1-1-1-1-2-2-5-1-1-1" data-name="image container">
+                                        <img alt="German kitchen hardware showroom context" class="h-full w-full object-cover opacity-35" data-kid="1-1-1-1-2-2-5-1-1-1-1" data-name="product image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-KITCHEN.png"/>
+                                        <div class="absolute inset-0 bg-gradient-to-br from-[#090909]/80 via-[#090909]/55 to-[#090909]/85" data-kid="1-1-1-1-2-2-5-1-1-1-2" data-name="image gradient">
+                                        </div>
+                                    </div>
+                                    <div class="pedestal-reflection absolute bottom-8 left-[21%] h-[2px] w-[58%] bg-gradient-to-r from-transparent via-[#c8a96e]/38 to-transparent opacity-55" data-kid="1-1-1-1-2-2-5-1-1-2" data-name="pedestal reflection">
+                                    </div>
+                                    <div class="absolute left-[43%] top-[26%] h-[42%] w-[33%] border border-[#aaa49a]/40 bg-gradient-to-r from-[#aaa49a]/20 via-[#181716] to-[#090909]" data-kid="1-1-1-1-2-2-5-1-1-3" data-name="image accent shape">
+                                    </div>
+                                    <div class="absolute left-[45%] top-[31%] h-[2px] w-[29%] bg-[#c8a96e]/65" data-kid="1-1-1-1-2-2-5-1-1-4" data-name="image accent line">
+                                    </div>
+                                    <span class="absolute left-4 top-4 font-technical text-[8px] uppercase tracking-[0.16em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-5-1-1-5" data-name="featured label">
+                                        Featured / live display
+                                    </span>
+                                    <span class="absolute right-4 top-4 font-technical text-[8px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-5-1-1-6" data-name="slide count">
+                                        03 / 06
+                                    </span>
+                                </div>
+                                <div class="px-1 pt-4" data-kid="1-1-1-1-2-2-5-1-2" data-name="details area">
+                                    <div class="flex items-baseline justify-between gap-3" data-kid="1-1-1-1-2-2-5-1-2-1" data-name="brand identifier">
+                                        <span class="font-utility text-[10px] font-bold uppercase tracking-[0.15em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-5-1-2-1-1" data-name="brand name">
+                                            Hafele
+                                        </span>
+                                        <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-5-1-2-1-2" data-name="reference code">
+                                            HAF-KIT-MBX
+                                        </span>
+                                    </div>
+                                    <h3 class="mt-2 font-utility text-[15px] font-semibold leading-[1.25] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-5-1-2-2" data-name="product title">
+                                        Hafele Matrix Box Premium Soft-Close Tandem Drawer
+                                    </h3>
+                                    <p class="mt-2 font-utility text-[10px] leading-[1.5] text-[#aaa49a]" data-kid="1-1-1-1-2-2-5-1-2-3" data-name="product description">
+                                        German-engineered runner action with 50 kg dynamic load capacity and tool-less 3D alignment.
+                                    </p>
+                                    <div class="mt-4 flex items-center justify-between border-t border-white/[0.1] pt-3" data-kid="1-1-1-1-2-2-5-1-2-4" data-name="action area">
+                                        <button class="shortlist-control outline-action focus-ring flex min-h-[32px] items-center gap-2 border border-white/[0.18] px-3 font-utility text-[9px] uppercase tracking-[0.1em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-5-1-2-4-1" data-name="shortlist button">
+                                            <i class="ti ti-plus text-[13px]" data-kid="1-1-1-1-2-2-5-1-2-4-1-1" data-name="plus icon" style="color:#c8a96e;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                            Add to shortlist
+                                        </button>
+                                        <button class="spec-link focus-ring flex min-h-[32px] items-center gap-2 font-utility text-[10px] uppercase tracking-[0.12em] text-[#e8e3d9] underline decoration-[#c8a96e] underline-offset-4" data-kid="1-1-1-1-2-2-5-1-2-4-2" data-name="view specifications button">
+                                            View specifications
+                                            <i class="ti ti-arrow-right text-[13px]" data-kid="1-1-1-1-2-2-5-1-2-4-2-1" data-name="arrow icon" style="color:#c8a96e;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </article>
+                            <article class="product-tray bench-plate border border-white/[0.13] bg-[#11100f] p-3" data-kid="1-1-1-1-2-2-5-2" data-name="fourth product card" tabindex="0">
+                                <div class="relative aspect-[16/11] overflow-hidden border border-white/[0.12] bg-[#181716] p-2" data-kid="1-1-1-1-2-2-5-2-1" data-name="image wrapper">
+                                    <div class="absolute inset-[8px] overflow-hidden border border-white/[0.1]" data-kid="1-1-1-1-2-2-5-2-1-1" data-name="image container">
+                                        <img alt="Quartz sink and faucet kitchen context" class="h-full w-full object-cover opacity-32" data-kid="1-1-1-1-2-2-5-2-1-1-1" data-name="product image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-KITCHEN.png"/>
+                                        <div class="absolute inset-0 bg-[#090909]/70" data-kid="1-1-1-1-2-2-5-2-1-1-2" data-name="image gradient">
+                                        </div>
+                                    </div>
+                                    <div class="pedestal-reflection absolute bottom-7 left-[22%] h-[2px] w-[55%] bg-gradient-to-r from-transparent via-[#c8a96e]/38 to-transparent opacity-55" data-kid="1-1-1-1-2-2-5-2-1-2" data-name="pedestal reflection">
+                                    </div>
+                                    <div class="absolute left-[38%] top-[30%] h-[34%] w-[45%] border border-white/[0.2] bg-gradient-to-br from-[#aaa49a]/20 to-[#090909]" data-kid="1-1-1-1-2-2-5-2-1-3" data-name="image accent shape">
+                                    </div>
+                                    <div class="absolute left-[44%] top-[27%] h-[5px] w-[3px] bg-[#c8a96e]" data-kid="1-1-1-1-2-2-5-2-1-4" data-name="image accent mark">
+                                    </div>
+                                    <span class="absolute left-4 top-4 font-technical text-[8px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-5-2-1-5" data-name="slide count">
+                                        04 / 06
+                                    </span>
+                                </div>
+                                <div class="px-1 pt-4" data-kid="1-1-1-1-2-2-5-2-2" data-name="details area">
+                                    <div class="flex items-baseline justify-between gap-3" data-kid="1-1-1-1-2-2-5-2-2-1" data-name="brand identifier">
+                                        <span class="font-utility text-[10px] font-bold uppercase tracking-[0.15em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-5-2-2-1-1" data-name="brand name">
+                                            Labacha
+                                        </span>
+                                        <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-5-2-2-1-2" data-name="reference code">
+                                            LAB-SNK-860
+                                        </span>
+                                    </div>
+                                    <h3 class="mt-2 font-utility text-[15px] font-semibold leading-[1.25] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-5-2-2-2" data-name="product title">
+                                        Labacha Double Bowl Quartz Granite Kitchen Sink
+                                    </h3>
+                                    <p class="mt-2 line-clamp-2 font-utility text-[10px] leading-[1.5] text-[#aaa49a]" data-kid="1-1-1-1-2-2-5-2-2-3" data-name="product description">
+                                        Italian composite granite with 280°C heat resistance and a non-porous nano surface.
+                                    </p>
+                                    <div class="mt-4 flex items-center justify-between border-t border-white/[0.1] pt-3" data-kid="1-1-1-1-2-2-5-2-2-4" data-name="action area">
+                                        <button class="shortlist-control outline-action focus-ring flex min-h-[32px] items-center gap-2 border border-white/[0.18] px-2.5 font-utility text-[9px] uppercase tracking-[0.08em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-5-2-2-4-1" data-name="shortlist button">
+                                            <i class="ti ti-plus text-[13px]" data-kid="1-1-1-1-2-2-5-2-2-4-1-1" data-name="plus icon" style="color:#c8a96e;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                            Shortlist
+                                        </button>
+                                        <button class="spec-link focus-ring flex min-h-[32px] items-center gap-1 font-utility text-[9px] uppercase tracking-[0.1em] text-[#e8e3d9] underline decoration-[#c8a96e] underline-offset-4" data-kid="1-1-1-1-2-2-5-2-2-4-2" data-name="view specifications button">
+                                            Specs
+                                            <i class="ti ti-arrow-right text-[12px]" data-kid="1-1-1-1-2-2-5-2-2-4-2-1" data-name="arrow icon" style="color:#c8a96e;width:12px;height:12px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                        <div class="mt-12 flex items-center justify-between border-b border-white/[0.14] pb-3" data-kid="1-1-1-1-2-2-6" data-name="third category header">
+                            <div data-kid="1-1-1-1-2-2-6-1" data-name="category parent name">
+                                <p class="mb-1 font-technical text-[8px] uppercase tracking-[0.2em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-6-1-1" data-name="category name">
+                                    Wardrobe hardware
+                                </p>
+                                <h2 class="font-editorial text-[38px] uppercase leading-none tracking-[0.03em] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-6-1-2" data-name="sub-category name">
+                                    Sliding systems
+                                </h2>
+                            </div>
+                            <span class="font-technical text-[9px] uppercase tracking-[0.16em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-6-2" data-name="availability status text">
+                                01 specimen available
+                            </span>
+                        </div>
+                        <div class="mt-5 grid grid-cols-3 gap-4 pb-12" data-kid="1-1-1-1-2-2-7" data-name="third product grid">
+                            <article class="product-tray bench-plate border border-white/[0.13] bg-[#11100f] p-3" data-kid="1-1-1-1-2-2-7-1" data-name="fifth product card" tabindex="0">
+                                <div class="relative aspect-[16/11] overflow-hidden border border-white/[0.12] bg-[#181716] p-2" data-kid="1-1-1-1-2-2-7-1-1" data-name="image wrapper">
+                                    <div class="absolute inset-[8px] overflow-hidden border border-white/[0.1]" data-kid="1-1-1-1-2-2-7-1-1-1" data-name="image container">
+                                        <img alt="Wardrobe sliding system context" class="h-full w-full object-cover opacity-35" data-kid="1-1-1-1-2-2-7-1-1-1-1" data-name="product image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-WARDROBE.png"/>
+                                        <div class="absolute inset-0 bg-[#090909]/72" data-kid="1-1-1-1-2-2-7-1-1-1-2" data-name="image overlay">
+                                        </div>
+                                    </div>
+                                    <div class="pedestal-reflection absolute bottom-7 left-[21%] h-[2px] w-[58%] bg-gradient-to-r from-transparent via-[#c8a96e]/38 to-transparent opacity-55" data-kid="1-1-1-1-2-2-7-1-1-2" data-name="pedestal reflection">
+                                    </div>
+                                    <div class="absolute left-[26%] top-[42%] h-[5px] w-[48%] border border-[#aaa49a]/45 bg-[#aaa49a]/15" data-kid="1-1-1-1-2-2-7-1-1-3" data-name="image accent shape">
+                                    </div>
+                                    <div class="absolute left-[33%] top-[36%] h-[18%] w-[2px] bg-[#c8a96e]/70" data-kid="1-1-1-1-2-2-7-1-1-4" data-name="image accent line">
+                                    </div>
+                                    <span class="absolute left-4 top-4 font-technical text-[8px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-7-1-1-5" data-name="slide count">
+                                        05 / 06
+                                    </span>
+                                </div>
+                                <div class="px-1 pt-4" data-kid="1-1-1-1-2-2-7-1-2" data-name="details area">
+                                    <div class="flex items-baseline justify-between gap-3" data-kid="1-1-1-1-2-2-7-1-2-1" data-name="brand identifier">
+                                        <span class="font-utility text-[10px] font-bold uppercase tracking-[0.15em] text-[#c8a96e]" data-kid="1-1-1-1-2-2-7-1-2-1-1" data-name="brand name">
+                                            Hettich
+                                        </span>
+                                        <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-1-2-2-7-1-2-1-2" data-name="reference code">
+                                            HET-SLD-XL
+                                        </span>
+                                    </div>
+                                    <h3 class="mt-2 font-utility text-[15px] font-semibold leading-[1.25] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-7-1-2-2" data-name="product title">
+                                        Hettich TopLine XL Soft-Close Wardrobe Sliding System
+                                    </h3>
+                                    <div class="mt-4 flex items-center justify-between border-t border-white/[0.1] pt-3" data-kid="1-1-1-1-2-2-7-1-2-3" data-name="action area">
+                                        <button class="shortlist-control outline-action focus-ring flex min-h-[32px] items-center gap-2 border border-white/[0.18] px-2.5 font-utility text-[9px] uppercase tracking-[0.08em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-7-1-2-3-1" data-name="shortlist button">
+                                            <i class="ti ti-plus text-[13px]" data-kid="1-1-1-1-2-2-7-1-2-3-1-1" data-name="plus icon" style="color:#c8a96e;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                            Shortlist
+                                        </button>
+                                        <button class="spec-link focus-ring flex min-h-[32px] items-center gap-1 font-utility text-[9px] uppercase tracking-[0.1em] text-[#e8e3d9] underline decoration-[#c8a96e] underline-offset-4" data-kid="1-1-1-1-2-2-7-1-2-3-2" data-name="view specifications button">
+                                            Specs
+                                            <i class="ti ti-arrow-right text-[12px]" data-kid="1-1-1-1-2-2-7-1-2-3-2-1" data-name="arrow icon" style="color:#c8a96e;width:12px;height:12px;display:inline-flex;align-items:center;justify-content:center">
+                                            </i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </article>
+                            <div class="col-span-2 flex min-h-[260px] flex-col justify-between border-y border-white/[0.1] py-5" data-kid="1-1-1-1-2-2-7-2" data-name="contextual info card">
+                                <div data-kid="1-1-1-1-2-2-7-2-1" data-name="info block">
+                                    <p class="font-technical text-[8px] uppercase tracking-[0.2em] text-[#aaa49a]" data-kid="1-1-1-1-2-2-7-2-1-1" data-name="info label">
+                                        Selected hardware / 05
+                                    </p>
+                                    <p class="mt-3 max-w-[38ch] font-editorial text-[25px] leading-[1.05] text-[#e8e3d9]" data-kid="1-1-1-1-2-2-7-2-1-2" data-name="info headline">
+                                        A measured contact sheet for decisions made at the door, drawer and wardrobe.
+                                    </p>
+                                </div>
+                                <div class="flex items-end justify-between border-t border-white/[0.08] pt-4" data-kid="1-1-1-1-2-2-7-2-2" data-name="info footer area">
+                                    <span class="font-utility text-[10px] leading-[1.4] text-[#aaa49a]" data-kid="1-1-1-1-2-2-7-2-2-1" data-name="info help text">
+                                        Need finish, dimensions or suitability confirmed?
+                                    </span>
+                                    <a class="focus-ring font-utility text-[10px] uppercase tracking-[0.12em] text-[#c8a96e] underline decoration-[#c8a96e] underline-offset-4" data-kid="1-1-1-1-2-2-7-2-2-2" data-name="whatsapp call-to-action link" href="#consult">
+                                        Ask on WhatsApp
+                                        <i class="ti ti-arrow-up-right text-[13px]" data-kid="1-1-1-1-2-2-7-2-2-2-1" data-name="arrow icon" style="color:#c8a96e;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                        </i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+                <div class="sticky bottom-4 z-20 mt-2 flex items-center justify-between border border-[#c8a96e]/40 bg-[#11100f] px-4 py-3" data-kid="1-1-1-1-3" data-name="sticky conversion bar">
+                    <span class="font-utility text-[11px] text-[#e8e3d9]" data-kid="1-1-1-1-3-1" data-name="selected items text">
+                        <strong class="text-[#c8a96e]" data-kid="1-1-1-1-3-1-1" data-name="count">
+                            2
+                        </strong>
+                        selected for consultation
+                    </span>
+                    <div class="flex items-center gap-5" data-kid="1-1-1-1-3-2" data-name="conversion buttons area">
+                        <button class="focus-ring font-utility text-[10px] uppercase tracking-[0.13em] text-[#aaa49a] underline decoration-[#c8a96e] underline-offset-4" data-kid="1-1-1-1-3-2-1" data-name="review shortlist button">
+                            Review shortlist
+                        </button>
+                        <a class="plate-button focus-ring flex h-9 items-center gap-3 bg-[#c8a96e] px-4 font-utility text-[10px] font-bold uppercase tracking-[0.12em] text-[#090909]" data-kid="1-1-1-1-3-2-2" data-name="whatsapp button" href="#consult">
+                            WhatsApp expert
+                            <i class="ti ti-arrow-up-right text-[13px]" data-kid="1-1-1-1-3-2-2-1" data-name="arrow icon" style="color:#090909;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                            </i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <aside aria-label="Mobile filter drawer preview" class="sticky top-8" data-kid="1-1-1-2" data-name="mobile filter sidebar">
+                <div class="mb-3 flex items-center justify-between px-1" data-kid="1-1-1-2-1" data-name="sidebar preview header">
+                    <span class="font-technical text-[9px] uppercase tracking-[0.19em] text-[#c8a96e]" data-kid="1-1-1-2-1-1" data-name="sidebar label">
+                        Mobile / filter open
+                    </span>
+                    <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-2-1-2" data-name="dimensions label">
+                        390 × 844
+                    </span>
+                </div>
+                <div class="border border-[#c8a96e]/45 bg-[#090909] p-2" data-kid="1-1-1-2-2" data-name="mobile preview container">
+                    <div class="relative h-[720px] overflow-hidden border border-white/[0.12] bg-[#11100f]" data-kid="1-1-1-2-2-1" data-name="mobile app frame">
+                        <div class="absolute inset-0 opacity-45" data-kid="1-1-1-2-2-1-1" data-name="mobile UI skeleton">
+                            <div class="h-[116px] border-b border-white/[0.1] px-4 pt-4" data-kid="1-1-1-2-2-1-1-1" data-name="mobile navbar">
+                                <div class="flex items-center justify-between" data-kid="1-1-1-2-2-1-1-1-1" data-name="mobile nav grid">
+                                    <span class="font-editorial text-[16px] text-[#e8e3d9]" data-kid="1-1-1-2-2-1-1-1-1-1" data-name="app brand name">
+                                        Hardware Collection
+                                    </span>
+                                    <span class="h-7 w-7 border border-white/[0.16] text-center font-technical text-[13px] leading-7 text-[#aaa49a]" data-kid="1-1-1-2-2-1-1-1-1-2" data-name="menu hamburger icon">
+                                        ≡
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="px-4 pt-7" data-kid="1-1-1-2-2-1-1-2" data-name="content skeleton">
+                                <span class="font-technical text-[8px] uppercase tracking-[0.16em] text-[#c8a96e]" data-kid="1-1-1-2-2-1-1-2-1" data-name="collection title">
+                                    The collection
+                                </span>
+                                <div class="mt-3 h-10 w-2/3 bg-white/[0.06]" data-kid="1-1-1-2-2-1-1-2-2" data-name="content block 1">
+                                </div>
+                                <div class="mt-3 h-2 w-full bg-white/[0.06]" data-kid="1-1-1-2-2-1-1-2-3" data-name="content block 2">
+                                </div>
+                                <div class="mt-7 flex h-14 items-center justify-between border border-white/[0.12] px-3" data-kid="1-1-1-2-2-1-1-2-4" data-name="filter button skeleton">
+                                    <span class="font-utility text-[10px] uppercase tracking-[0.12em]" data-kid="1-1-1-2-2-1-1-2-4-1" data-name="button label">
+                                        Filter collection
+                                    </span>
+                                    <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-1-2-4-2" data-name="button count">
+                                        06
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 flex flex-col bg-[#11100f]" data-kid="1-1-1-2-2-1-2" data-name="mobile filter drawer overlay">
+                            <div class="flex h-[64px] shrink-0 items-center justify-between border-b border-white/[0.14] px-4" data-kid="1-1-1-2-2-1-2-1" data-name="drawer header">
+                                <div data-kid="1-1-1-2-2-1-2-1-1" data-name="drawer title area">
+                                    <p class="font-technical text-[8px] uppercase tracking-[0.18em] text-[#c8a96e]" data-kid="1-1-1-2-2-1-2-1-1-1" data-name="drawer title">
+                                        Filter collection
+                                    </p>
+                                    <p class="mt-1 font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-1-1-2" data-name="match count">
+                                        06 products match
+                                    </p>
+                                </div>
+                                <button class="focus-ring flex h-9 w-9 items-center justify-center border border-white/[0.18] text-[#e8e3d9]" data-kid="1-1-1-2-2-1-2-1-2" data-name="close button">
+                                    <i class="ti ti-x text-[15px]" data-kid="1-1-1-2-2-1-2-1-2-1" data-name="close icon" style="color:#e8e3d9;width:15px;height:15px;display:inline-flex;align-items:center;justify-content:center">
+                                    </i>
+                                </button>
+                            </div>
+                            <div class="mobile-sheet-scroll flex-1 overflow-hidden px-4 pb-[78px]" data-kid="1-1-1-2-2-1-2-2" data-name="scrollable drawer content">
+                                <label class="block border-b border-white/[0.1] py-4" data-kid="1-1-1-2-2-1-2-2-1" data-name="search input section">
+                                    <span class="mb-2 block font-technical text-[8px] uppercase tracking-[0.14em] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-1-1" data-name="search input label">
+                                        Search
+                                    </span>
+                                    <span class="flex h-11 items-center gap-2 border border-white/[0.16] px-3" data-kid="1-1-1-2-2-1-2-2-1-2" data-name="search field wrapper">
+                                        <i class="ti ti-search text-[14px]" data-kid="1-1-1-2-2-1-2-2-1-2-1" data-name="search icon" style="color:#aaa49a;width:14px;height:14px;display:inline-flex;align-items:center;justify-content:center">
+                                        </i>
+                                        <span class="font-utility text-[10px] text-[#aaa49a]/65" data-kid="1-1-1-2-2-1-2-2-1-2-2" data-name="search placeholder text">
+                                            Search by product, brand or reference
+                                        </span>
+                                    </span>
+                                </label>
+                                <div class="border-b border-white/[0.1] py-3" data-kid="1-1-1-2-2-1-2-2-2" data-name="showroom families filter section">
+                                    <div class="mb-2 flex items-center justify-between" data-kid="1-1-1-2-2-1-2-2-2-1" data-name="families header">
+                                        <span class="font-technical text-[8px] uppercase tracking-[0.18em] text-[#c8a96e]" data-kid="1-1-1-2-2-1-2-2-2-1-1" data-name="families label">
+                                            Showroom families
+                                        </span>
+                                        <span class="font-technical text-[8px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-1-2" data-name="families index range">
+                                            01—05
+                                        </span>
+                                    </div>
+                                    <div class="space-y-1" data-kid="1-1-1-2-2-1-2-2-2-2" data-name="families list">
+                                        <button class="phone-family focus-ring flex min-h-[56px] w-full items-center gap-3 border-b border-white/[0.08] px-2 text-left" data-kid="1-1-1-2-2-1-2-2-2-2-1" data-name="option 1">
+                                            <span class="font-technical text-[9px] text-[#c8a96e]/75" data-kid="1-1-1-2-2-1-2-2-2-2-1-1" data-name="option index">
+                                                01
+                                            </span>
+                                            <span class="flex-1 font-utility text-[10px] uppercase tracking-[0.08em] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-1-2" data-name="option name">
+                                                Handles & knobs
+                                            </span>
+                                            <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-1-3" data-name="option count">
+                                                2
+                                            </span>
+                                        </button>
+                                        <button class="phone-family focus-ring flex min-h-[56px] w-full items-center gap-3 border-l-2 border-[#c8a96e] border-b border-white/[0.08] bg-[#c8a96e]/[0.08] px-2 text-left" data-kid="1-1-1-2-2-1-2-2-2-2-2" data-name="selected option 2">
+                                            <span class="font-technical text-[9px] text-[#c8a96e]" data-kid="1-1-1-2-2-1-2-2-2-2-2-1" data-name="option index">
+                                                02
+                                            </span>
+                                            <span class="flex-1 font-utility text-[10px] uppercase tracking-[0.08em] text-[#e8e3d9]" data-kid="1-1-1-2-2-1-2-2-2-2-2-2" data-name="option name">
+                                                Door hardware
+                                            </span>
+                                            <span class="font-technical text-[9px] text-[#c8a96e]" data-kid="1-1-1-2-2-1-2-2-2-2-2-3" data-name="option count">
+                                                6
+                                            </span>
+                                        </button>
+                                        <div class="ml-6 border-l border-[#c8a96e]/50 pl-3" data-kid="1-1-1-2-2-1-2-2-2-2-3" data-name="sub-options list">
+                                            <button class="focus-ring flex min-h-[42px] w-full items-center justify-between border-b border-white/[0.07] text-left font-utility text-[10px] text-[#c8a96e]" data-kid="1-1-1-2-2-1-2-2-2-2-3-1" data-name="sub-option 1">
+                                                <span data-kid="1-1-1-2-2-1-2-2-2-2-3-1-1" data-name="sub-option name">
+                                                    Digital locks
+                                                </span>
+                                                <span class="font-technical text-[8px]" data-kid="1-1-1-2-2-1-2-2-2-2-3-1-2" data-name="sub-option count">
+                                                    2
+                                                </span>
+                                            </button>
+                                            <button class="focus-ring flex min-h-[42px] w-full items-center justify-between border-b border-white/[0.07] text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-3-2" data-name="sub-option 2">
+                                                <span data-kid="1-1-1-2-2-1-2-2-2-2-3-2-1" data-name="sub-option name">
+                                                    Mortise & door locks
+                                                </span>
+                                                <span class="font-technical text-[8px]" data-kid="1-1-1-2-2-1-2-2-2-2-3-2-2" data-name="sub-option count">
+                                                    2
+                                                </span>
+                                            </button>
+                                            <button class="focus-ring flex min-h-[42px] w-full items-center justify-between text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-3-3" data-name="sub-option 3">
+                                                <span data-kid="1-1-1-2-2-1-2-2-2-2-3-3-1" data-name="sub-option name">
+                                                    Glass hardware
+                                                </span>
+                                                <span class="font-technical text-[8px]" data-kid="1-1-1-2-2-1-2-2-2-2-3-3-2" data-name="sub-option count">
+                                                    1
+                                                </span>
+                                            </button>
+                                        </div>
+                                        <button class="phone-family focus-ring flex min-h-[56px] w-full items-center gap-3 border-b border-white/[0.08] px-2 text-left" data-kid="1-1-1-2-2-1-2-2-2-2-4" data-name="option 3">
+                                            <span class="font-technical text-[9px] text-[#c8a96e]/75" data-kid="1-1-1-2-2-1-2-2-2-2-4-1" data-name="option index">
+                                                03
+                                            </span>
+                                            <span class="flex-1 font-utility text-[10px] uppercase tracking-[0.08em] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-4-2" data-name="option name">
+                                                Bathroom
+                                            </span>
+                                            <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-4-3" data-name="option count">
+                                                1
+                                            </span>
+                                        </button>
+                                        <button class="phone-family focus-ring flex min-h-[56px] w-full items-center gap-3 border-b border-white/[0.08] px-2 text-left" data-kid="1-1-1-2-2-1-2-2-2-2-5" data-name="option 4">
+                                            <span class="font-technical text-[9px] text-[#c8a96e]/75" data-kid="1-1-1-2-2-1-2-2-2-2-5-1" data-name="option index">
+                                                04
+                                            </span>
+                                            <span class="flex-1 font-utility text-[10px] uppercase tracking-[0.08em] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-5-2" data-name="option name">
+                                                Kitchen & wardrobes
+                                            </span>
+                                            <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-5-3" data-name="option count">
+                                                6
+                                            </span>
+                                        </button>
+                                        <button class="phone-family focus-ring flex min-h-[56px] w-full items-center gap-3 border-b border-white/[0.08] px-2 text-left" data-kid="1-1-1-2-2-1-2-2-2-2-6" data-name="option 5">
+                                            <span class="font-technical text-[9px] text-[#c8a96e]/75" data-kid="1-1-1-2-2-1-2-2-2-2-6-1" data-name="option index">
+                                                05
+                                            </span>
+                                            <span class="flex-1 font-utility text-[10px] uppercase tracking-[0.08em] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-6-2" data-name="option name">
+                                                Furniture hardware
+                                            </span>
+                                            <span class="font-technical text-[9px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-2-2-6-3" data-name="option count">
+                                                3
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="py-3" data-kid="1-1-1-2-2-1-2-2-3" data-name="brand filter section">
+                                    <div class="mb-2 flex items-center justify-between" data-kid="1-1-1-2-2-1-2-2-3-1" data-name="brands header">
+                                        <span class="font-technical text-[8px] uppercase tracking-[0.18em] text-[#c8a96e]" data-kid="1-1-1-2-2-1-2-2-3-1-1" data-name="brands title">
+                                            Brands
+                                        </span>
+                                        <span class="font-technical text-[8px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-3-1-2" data-name="selection count">
+                                            one selection
+                                        </span>
+                                    </div>
+                                    <div class="space-y-0" data-kid="1-1-1-2-2-1-2-2-3-2" data-name="brand filter options list">
+                                        <button class="focus-ring flex min-h-[52px] w-full items-center gap-3 border-b border-white/[0.08] text-left font-utility text-[10px] text-[#c8a96e]" data-kid="1-1-1-2-2-1-2-2-3-2-1" data-name="selected hafele option">
+                                            <span class="flex h-3 w-3 items-center justify-center border border-[#c8a96e] text-[8px]" data-kid="1-1-1-2-2-1-2-2-3-2-1-1" data-name="checkmark icon">
+                                                ✓
+                                            </span>
+                                            Hafele
+                                            <span class="ml-auto font-technical text-[8px]" data-kid="1-1-1-2-2-1-2-2-3-2-1-2" data-name="count">
+                                                04
+                                            </span>
+                                        </button>
+                                        <button class="focus-ring flex min-h-[52px] w-full items-center gap-3 border-b border-white/[0.08] text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-3-2-2" data-name="dorset option">
+                                            <span class="h-3 w-3 border border-white/[0.2]" data-kid="1-1-1-2-2-1-2-2-3-2-2-1" data-name="checkbox icon">
+                                            </span>
+                                            Dorset
+                                            <span class="ml-auto font-technical text-[8px]" data-kid="1-1-1-2-2-1-2-2-3-2-2-2" data-name="count">
+                                                02
+                                            </span>
+                                        </button>
+                                        <button class="focus-ring flex min-h-[52px] w-full items-center gap-3 border-b border-white/[0.08] text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-3-2-3" data-name="labacha option">
+                                            <span class="h-3 w-3 border border-white/[0.2]" data-kid="1-1-1-2-2-1-2-2-3-2-3-1" data-name="checkbox icon">
+                                            </span>
+                                            Labacha
+                                            <span class="ml-auto font-technical text-[8px]" data-kid="1-1-1-2-2-1-2-2-3-2-3-2" data-name="count">
+                                                02
+                                            </span>
+                                        </button>
+                                        <button class="focus-ring flex min-h-[52px] w-full items-center gap-3 text-left font-utility text-[10px] text-[#aaa49a]" data-kid="1-1-1-2-2-1-2-2-3-2-4" data-name="godrej option">
+                                            <span class="h-3 w-3 border border-white/[0.2]" data-kid="1-1-1-2-2-1-2-2-3-2-4-1" data-name="checkbox icon">
+                                            </span>
+                                            Godrej
+                                            <span class="ml-auto font-technical text-[8px]" data-kid="1-1-1-2-2-1-2-2-3-2-4-2" data-name="count">
+                                                02
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="absolute inset-x-0 bottom-0 flex h-[72px] items-center justify-between border-t border-white/[0.16] bg-[#11100f] px-4" data-kid="1-1-1-2-2-1-2-3" data-name="drawer footer">
+                                <button class="focus-ring font-utility text-[10px] uppercase tracking-[0.13em] text-[#aaa49a] underline decoration-[#c8a96e] underline-offset-4" data-kid="1-1-1-2-2-1-2-3-1" data-name="clear button">
+                                    Clear
+                                </button>
+                                <button class="plate-button focus-ring flex h-11 items-center gap-3 bg-[#c8a96e] px-4 font-utility text-[10px] font-bold uppercase tracking-[0.11em] text-[#090909]" data-kid="1-1-1-2-2-1-2-3-2" data-name="show results button">
+                                    Show results
+                                    <i class="ti ti-arrow-right text-[13px]" data-kid="1-1-1-2-2-1-2-3-2-1" data-name="arrow icon" style="color:#090909;width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center">
+                                    </i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p class="mt-3 px-1 font-technical text-[8px] uppercase tracking-[0.15em] text-[#aaa49a]/70" data-kid="1-1-1-2-3" data-name="preview context note">
+                    conversion bar hidden while drawer is open
+                </p>
+            </aside>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,515 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap');
+  @import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/tabler-icons.min.css');
+  .hc-editorial { font-family: 'Cormorant Garamond', Georgia, serif; }
+  .hc-ui { font-family: 'DM Sans', Arial, sans-serif; }
+  .hc-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+  .hc-rule-sweep { transition: transform 320ms cubic-bezier(.22,1,.36,1); }
+  .hc-cta:hover .hc-rule-sweep { transform: translateX(12px); }
+  .hc-stage::after { content: ''; position: absolute; left: 0; right: 0; top: 43%; height: 1px; background: rgba(232,227,217,.08); pointer-events: none; }
+  .hc-stage::before { content: ''; position: absolute; left: 12%; right: 12%; bottom: 15%; height: 22%; background: linear-gradient(90deg, transparent, rgba(200,169,110,.16), transparent); opacity: .7; pointer-events: none; }
+  .hc-family:hover .hc-family-image, .hc-family:focus-within .hc-family-image { filter: contrast(1.08); }
+  .hc-family:hover .hc-family-rule, .hc-family:focus-within .hc-family-rule { background: #c8a96e; }
+  .hc-family:hover .hc-family-arrow, .hc-family:focus-within .hc-family-arrow { transform: translateX(6px); color: #c8a96e; }
+  .hc-family-arrow { transition: transform 240ms cubic-bezier(.22,1,.36,1), color 240ms ease; }
+  .hc-family-image { transition: filter 240ms ease; }
+  .hc-mobile-row:hover, .hc-mobile-row:focus-within { background: #181716; }
+  .hc-mobile-row:hover .hc-mobile-arrow, .hc-mobile-row:focus-within .hc-mobile-arrow { transform: translateX(6px); color: #c8a96e; }
+  .hc-mobile-arrow { transition: transform 240ms cubic-bezier(.22,1,.36,1), color 240ms ease; }
+  .hc-focus:focus-visible { outline: 2px solid #c8a96e; outline-offset: 3px; }
+</style>
+<div class="min-h-screen bg-[#090909] text-[#e8e3d9] hc-ui selection:bg-[#c8a96e] selection:text-[#090909]" data-kid="1" data-name="page layout container">
+    <!-- DESKTOP / INSPECTION BENCH -->
+    <div class="hidden lg:block" data-kid="1-1" data-name="desktop site section">
+        <header class="mx-auto max-w-[1280px] border-x border-b border-[#e8e3d9]/10 bg-[#090909]/95" data-kid="1-1-1" data-name="main site header">
+            <nav aria-label="Architectural rail navigation" class="grid grid-cols-[1.3fr_1fr_1.25fr] items-stretch min-h-[68px]" data-kid="1-1-1-1" data-name="architectural rail navigation">
+                <a class="hc-focus flex items-center gap-3 border-r border-[#e8e3d9]/10 px-8 text-[#e8e3d9] no-underline" data-kid="1-1-1-1-1" data-name="company identity link" href="#hero">
+                    <span class="flex h-8 w-8 items-center justify-center border border-[#c8a96e]/70 text-[12px] font-semibold tracking-[-.08em] text-[#c8a96e]" data-kid="1-1-1-1-1-1" data-name="company logo monogram">
+                        HC
+                    </span>
+                    <span class="hc-editorial text-[23px] tracking-[.05em]" data-kid="1-1-1-1-1-2" data-name="company name text">
+                        Hardware Collection
+                    </span>
+                </a>
+                <div class="flex items-center justify-center gap-10 border-r border-[#e8e3d9]/10 px-6" data-kid="1-1-1-1-2" data-name="navigation menu links container">
+                    <a class="hc-focus relative flex min-h-[44px] items-center text-[10px] font-semibold uppercase tracking-[.22em] text-[#e8e3d9] no-underline" data-kid="1-1-1-1-2-1" data-name="home navigation link" href="#hero">
+                        Home
+                        <span class="absolute bottom-0 left-0 right-0 h-px bg-[#c8a96e]" data-kid="1-1-1-1-2-1-1" data-name="active menu indicator bar">
+                        </span>
+                    </a>
+                    <a class="hc-focus flex min-h-[44px] items-center text-[10px] font-semibold uppercase tracking-[.22em] text-[#aaa49a] no-underline hover:text-[#e8e3d9]" data-kid="1-1-1-1-2-2" data-name="collections navigation link" href="#families">
+                        Collections
+                    </a>
+                </div>
+                <div class="grid grid-cols-[1fr_auto] items-center" data-kid="1-1-1-1-3" data-name="header utility actions container">
+                    <a class="hc-focus flex min-h-[44px] items-center justify-center gap-2 border-r border-[#e8e3d9]/10 px-5 text-[10px] font-semibold tracking-[.08em] text-[#aaa49a] no-underline hover:text-[#e8e3d9]" data-kid="1-1-1-1-3-1" data-name="phone contact link" href="tel:+919835190738">
+                        <i aria-hidden="true" class="ti ti-phone text-[13px] text-[#c8a96e]" data-kid="1-1-1-1-3-1-1" data-name="phone icon">
+                        </i>
+                        +91 98351 90738
+                    </a>
+                    <a class="hc-focus hc-cta flex min-h-[44px] items-center gap-3 px-7 text-[10px] font-bold uppercase tracking-[.2em] text-[#090909] no-underline" data-kid="1-1-1-1-3-2" data-name="inquire call-to-action button" href="#consult" style="background:#c8a96e">
+                        <span data-kid="1-1-1-1-3-2-1" data-name="inquire button text">
+                            Inquire
+                        </span>
+                        <span class="relative flex items-center" data-kid="1-1-1-1-3-2-2" data-name="button arrow container">
+                            <span class="hc-rule-sweep absolute -left-2 top-1/2 h-px w-3 bg-[#090909]" data-kid="1-1-1-1-3-2-2-1" data-name="button transition rule sweep">
+                            </span>
+                            <i aria-hidden="true" class="ti ti-arrow-up-right text-[15px]" data-kid="1-1-1-1-3-2-2-2" data-name="arrow-up-right icon">
+                            </i>
+                        </span>
+                    </a>
+                </div>
+            </nav>
+        </header>
+        <main data-kid="1-1-2" data-name="site content area">
+            <section class="relative mx-auto max-w-[1280px] border-x border-b border-[#e8e3d9]/10 overflow-hidden" data-kid="1-1-2-1" data-name="hero section" id="hero" style="min-height:650px">
+                <div aria-hidden="true" class="absolute inset-0" data-kid="1-1-2-1-1" data-name="hero background wrapper">
+                    <img alt="Architectural showroom environment" class="h-full w-full object-cover opacity-40" data-kid="1-1-2-1-1-1" data-name="hero main background image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/hero/HC-01-HERO-01.png"/>
+                    <div class="absolute inset-0" data-kid="1-1-2-1-1-2" data-name="hero background gradient overlay" style="background:linear-gradient(90deg,rgba(9,9,9,.96) 0%,rgba(9,9,9,.82) 40%,rgba(9,9,9,.38) 72%,rgba(9,9,9,.78) 100%)">
+                    </div>
+                </div>
+                <div class="relative grid min-h-[650px] grid-cols-12" data-kid="1-1-2-1-2" data-name="hero content grid">
+                    <div class="col-span-5 flex flex-col justify-end border-r border-[#c8a96e]/80 px-16 pb-16 pt-32" data-kid="1-1-2-1-2-1" data-name="hero text content area">
+                        <div class="max-w-[500px]" data-kid="1-1-2-1-2-1-1" data-name="hero intro text content">
+                            <p class="hc-mono mb-8 flex items-center gap-3 text-[10px] uppercase tracking-[.22em] text-[#c8a96e]" data-kid="1-1-2-1-2-1-1-1" data-name="authorized showroom status label">
+                                <span class="h-1 w-1 bg-[#c8a96e]" data-kid="1-1-2-1-2-1-1-1-1" data-name="status bullet point">
+                                </span>
+                                Authorized showroom · Sakchi · Jamshedpur
+                            </p>
+                            <div class="mb-5 flex items-center gap-4" data-kid="1-1-2-1-2-1-1-2" data-name="selection study header">
+                                <span class="h-px w-10 bg-[#c8a96e]" data-kid="1-1-2-1-2-1-1-2-1" data-name="header horizontal line">
+                                </span>
+                                <span class="hc-mono text-[10px] uppercase tracking-[.2em] text-[#aaa49a]" data-kid="1-1-2-1-2-1-1-2-2" data-name="study label text">
+                                    Selected hardware / finish study
+                                </span>
+                            </div>
+                            <h1 class="hc-editorial max-w-[560px] text-[78px] font-normal leading-[.86] tracking-[-.02em] text-[#e8e3d9]" data-kid="1-1-2-1-2-1-1-3" data-name="hero headline">
+                                The Art of
+                                <br data-kid="1-1-2-1-2-1-1-3-1" data-name="headline line break"/>
+                                the Finish.
+                            </h1>
+                            <p class="mt-7 max-w-[39ch] text-[15px] leading-7 text-[#aaa49a]" data-kid="1-1-2-1-2-1-1-4" data-name="hero description text">
+                                Architectural hardware chosen for spaces that deserve better details. Official partner for Häfele, Dorset, Labacha, Godrej & Hettich in Sakchi.
+                            </p>
+                            <div class="mt-9 flex flex-wrap items-center gap-6" data-kid="1-1-2-1-2-1-1-5" data-name="hero actions container">
+                                <a class="hc-focus hc-cta relative inline-flex min-h-[52px] items-center gap-5 border border-[#090909] px-6 text-[11px] font-bold uppercase tracking-[.18em] text-[#090909] no-underline" data-kid="1-1-2-1-2-1-1-5-1" data-name="explore collections button" href="#families" style="background:#c8a96e;box-shadow:inset 0 0 0 1px rgba(232,227,217,.32)">
+                                    <span data-kid="1-1-2-1-2-1-1-5-1-1" data-name="button text">
+                                        Explore collections
+                                    </span>
+                                    <span class="relative flex items-center" data-kid="1-1-2-1-2-1-1-5-1-2" data-name="button arrow container">
+                                        <span class="hc-rule-sweep absolute -left-2 top-1/2 h-px w-3 bg-[#090909]" data-kid="1-1-2-1-2-1-1-5-1-2-1" data-name="button transition rule sweep">
+                                        </span>
+                                        <i aria-hidden="true" class="ti ti-arrow-up-right text-[16px]" data-kid="1-1-2-1-2-1-1-5-1-2-2" data-name="arrow-up-right icon">
+                                        </i>
+                                    </span>
+                                </a>
+                                <a class="hc-focus text-[11px] font-semibold uppercase tracking-[.16em] text-[#e8e3d9] underline decoration-[#c8a96e] decoration-1 underline-offset-8 hover:text-[#c8a96e]" data-kid="1-1-2-1-2-1-1-5-2" data-name="showroom visit link" href="#showroom">
+                                    Visit the Sakchi showroom
+                                </a>
+                            </div>
+                            <div class="mt-12 border-t border-[#e8e3d9]/10 pt-4" data-kid="1-1-2-1-2-1-1-6" data-name="alternate hero slides controls">
+                                <p class="hc-mono mb-3 text-[9px] uppercase tracking-[.2em] text-[#6e6a62]" data-kid="1-1-2-1-2-1-1-6-1" data-name="controls instruction label">
+                                    Alternate slide / explicit selection
+                                </p>
+                                <div class="grid grid-cols-2 gap-5" data-kid="1-1-2-1-2-1-1-6-2" data-name="slides control buttons">
+                                    <button class="hc-focus border-b-2 border-[#c8a96e] pb-3 text-left text-[11px] font-semibold uppercase tracking-[.12em] text-[#e8e3d9]" data-kid="1-1-2-1-2-1-1-6-2-1" data-name="first hero slide button" type="button">
+                                        01   The Art of the Finish.
+                                    </button>
+                                    <button class="hc-focus border-b border-[#e8e3d9]/15 pb-3 text-left text-[11px] font-semibold uppercase tracking-[.12em] text-[#aaa49a] hover:border-[#c8a96e] hover:text-[#e8e3d9]" data-kid="1-1-2-1-2-1-1-6-2-2" data-name="second hero slide button" type="button">
+                                        02   Touch Before You Decide.
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hc-stage relative col-span-7 flex items-center justify-center overflow-hidden bg-[#11100f]/55" data-kid="1-1-2-1-2-2" data-name="hero media showcase container">
+                        <div class="absolute inset-y-0 left-0 w-px bg-[#e8e3d9]/10" data-kid="1-1-2-1-2-2-1" data-name="media stage left border">
+                        </div>
+                        <div aria-hidden="true" class="absolute right-0 top-0 h-full w-[17%] border-l border-[#e8e3d9]/10" data-kid="1-1-2-1-2-2-2" data-name="media stage right border">
+                        </div>
+                        <img alt="Brushed brass hardware macro study" class="relative z-10 h-[76%] w-[82%] object-contain opacity-90" data-kid="1-1-2-1-2-2-3" data-name="main hardware macro image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/hero/HC-01-HERO-03.png"/>
+                        <img alt="Solid brass pull handle specimen" class="absolute bottom-[12%] right-[10%] z-20 h-[27%] w-[28%] object-contain opacity-80" data-kid="1-1-2-1-2-2-4" data-name="specimen pull handle image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/hero/HC-01-HERO-02.png"/>
+                        <div class="absolute bottom-10 left-10 z-20 border-l border-[#c8a96e] pl-4" data-kid="1-1-2-1-2-2-5" data-name="specimen detail caption">
+                            <p class="hc-mono text-[9px] uppercase tracking-[.2em] text-[#aaa49a]" data-kid="1-1-2-1-2-2-5-1" data-name="specimen type label">
+                                Surface / PVD satin gold
+                            </p>
+                            <p class="hc-ui mt-1 text-[12px] uppercase tracking-[.12em] text-[#e8e3d9]" data-kid="1-1-2-1-2-2-5-2" data-name="specimen description">
+                                Solid brass · tactile weight
+                            </p>
+                        </div>
+                        <div class="absolute bottom-7 right-8 z-20 hc-mono text-[72px] font-light leading-none tracking-[-.08em] text-[#e8e3d9]/15" data-dynamic="true" data-kid="1-1-2-1-2-2-6" data-name="slide counter display" data-reason="number display updated to reflect active carousel slide by script">
+                            01 / 02
+                        </div>
+                        <div aria-hidden="true" class="absolute left-[16%] right-[9%] top-[43%] z-20 h-px bg-[#e8e3d9]/10" data-kid="1-1-2-1-2-2-7" data-name="horizontal guide line">
+                        </div>
+                        <div aria-hidden="true" class="absolute left-[16%] right-[9%] bottom-[18%] z-20 h-px bg-gradient-to-r from-transparent via-[#c8a96e]/30 to-transparent" data-kid="1-1-2-1-2-2-8" data-name="gradient divider line">
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="mx-auto max-w-[1280px] border-x border-b border-[#e8e3d9]/10 px-16 py-20" data-kid="1-1-2-2" data-name="collections section" id="families">
+                <div class="mb-9 grid grid-cols-[1fr_1fr] items-end gap-12 border-b border-[#e8e3d9]/10 pb-6" data-kid="1-1-2-2-1" data-name="collections section header">
+                    <div data-kid="1-1-2-2-1-1" data-name="collections heading group">
+                        <p class="hc-mono text-[10px] uppercase tracking-[.22em] text-[#c8a96e]" data-kid="1-1-2-2-1-1-1" data-name="families collection count label">
+                            Showroom families / 05
+                        </p>
+                        <h2 class="hc-editorial mt-3 text-[48px] font-normal leading-none tracking-[.02em] text-[#e8e3d9]" data-kid="1-1-2-2-1-1-2" data-name="collections section title">
+                            A measured material board.
+                        </h2>
+                    </div>
+                    <p class="max-w-[38ch] justify-self-end text-[13px] leading-6 text-[#aaa49a]" data-kid="1-1-2-2-1-2" data-name="collections description">
+                        Five peer disciplines, specified side by side. Compare the finish, application, and path to the complete collection before you decide.
+                    </p>
+                </div>
+                <div aria-label="Showroom families" class="grid grid-cols-5 border-l border-[#e8e3d9]/10" data-kid="1-1-2-2-2" data-name="collections list container" role="list">
+                    <a class="hc-focus hc-family group relative flex min-h-[480px] flex-col border-r border-[#e8e3d9]/10 no-underline" data-kid="1-1-2-2-2-1" data-name="handles and knobs category card" href="/collections?category=handles-knobs" role="listitem">
+                        <div class="relative aspect-[3/4] overflow-hidden border-b border-[#e8e3d9]/10 bg-[#11100f]" data-kid="1-1-2-2-2-1-1" data-name="card image wrapper">
+                            <img alt="Handles and Knobs showroom family" class="hc-family-image h-full w-full object-cover opacity-75" data-kid="1-1-2-2-2-1-1-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-DOORS.png"/>
+                            <div class="absolute inset-0" data-kid="1-1-2-2-2-1-1-2" data-name="card image gradient overlay" style="background:linear-gradient(180deg,rgba(9,9,9,.08),rgba(9,9,9,.72))">
+                            </div>
+                        </div>
+                        <div class="flex flex-1 flex-col px-4 pt-5" data-kid="1-1-2-2-2-1-2" data-name="card details container">
+                            <span class="hc-mono text-[10px] tracking-[.18em] text-[#c8a96e]" data-kid="1-1-2-2-2-1-2-1" data-name="category sequence number">
+                                01
+                            </span>
+                            <h3 class="hc-editorial mt-3 text-[30px] leading-[.92] text-[#e8e3d9]" data-kid="1-1-2-2-2-1-2-2" data-name="category title">
+                                Handles
+                                <br data-kid="1-1-2-2-2-1-2-2-1" data-name="category title break"/>
+                                & Knobs
+                            </h3>
+                            <p class="mt-4 min-h-[44px] text-[11px] leading-5 text-[#aaa49a]" data-kid="1-1-2-2-2-1-2-3" data-name="category description">
+                                Main entrance · bespoke joinery
+                            </p>
+                            <div class="mt-auto border-t border-[#e8e3d9]/10 pt-4" data-kid="1-1-2-2-2-1-2-4" data-name="card footer container">
+                                <span class="flex min-h-[44px] items-center justify-between text-[10px] font-semibold uppercase tracking-[.15em] text-[#e8e3d9]" data-kid="1-1-2-2-2-1-2-4-1" data-name="view collection text link">
+                                    <span data-kid="1-1-2-2-2-1-2-4-1-1" data-name="link text">
+                                        View collection
+                                    </span>
+                                    <i aria-hidden="true" class="hc-family-arrow ti ti-arrow-right text-[15px]" data-kid="1-1-2-2-2-1-2-4-1-2" data-name="arrow-right icon">
+                                    </i>
+                                </span>
+                                <span class="hc-family-rule mt-2 block h-px w-8 bg-[#e8e3d9]/20" data-kid="1-1-2-2-2-1-2-4-2" data-name="footer border rule">
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="hc-focus hc-family group relative flex min-h-[480px] flex-col border-r border-[#c8a96e]/70 bg-[#11100f] no-underline" data-kid="1-1-2-2-2-2" data-name="door hardware category card" href="/collections?category=door-hardware" role="listitem">
+                        <div class="relative aspect-[3/4] overflow-hidden border-b border-[#c8a96e]/60 bg-[#181716]" data-kid="1-1-2-2-2-2-1" data-name="card image wrapper">
+                            <img alt="Door Hardware showroom family" class="hc-family-image h-full w-full object-cover opacity-90" data-kid="1-1-2-2-2-2-1-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-SECURITY.png"/>
+                            <div class="absolute inset-0" data-kid="1-1-2-2-2-2-1-2" data-name="card image gradient overlay" style="background:linear-gradient(180deg,rgba(9,9,9,.06),rgba(9,9,9,.62))">
+                            </div>
+                        </div>
+                        <div class="flex flex-1 flex-col px-4 pt-5" data-kid="1-1-2-2-2-2-2" data-name="card details container">
+                            <span class="hc-mono text-[10px] tracking-[.18em] text-[#c8a96e]" data-kid="1-1-2-2-2-2-2-1" data-name="category sequence number">
+                                02 / selected
+                            </span>
+                            <h3 class="hc-editorial mt-3 text-[34px] leading-[.92] text-[#e8e3d9]" data-kid="1-1-2-2-2-2-2-2" data-name="category title">
+                                Door
+                                <br data-kid="1-1-2-2-2-2-2-2-1" data-name="category title break"/>
+                                Hardware
+                            </h3>
+                            <p class="mt-4 text-[11px] leading-5 text-[#aaa49a]" data-kid="1-1-2-2-2-2-2-3" data-name="category description">
+                                Residential · commercial · hospitality
+                            </p>
+                            <p class="mt-3 border-l border-[#c8a96e] pl-3 text-[11px] italic leading-5 text-[#e8e3d9]" data-kid="1-1-2-2-2-2-2-4" data-name="category highlighted selection note">
+                                Dorset biometric deadbolt & SS 304 mortise lockset
+                            </p>
+                            <div class="mt-auto border-t border-[#e8e3d9]/10 pt-4" data-kid="1-1-2-2-2-2-2-5" data-name="card footer container">
+                                <span class="flex min-h-[44px] items-center justify-between text-[10px] font-semibold uppercase tracking-[.15em] text-[#e8e3d9]" data-kid="1-1-2-2-2-2-2-5-1" data-name="view collection text link">
+                                    <span data-kid="1-1-2-2-2-2-2-5-1-1" data-name="link text">
+                                        View collection
+                                    </span>
+                                    <i aria-hidden="true" class="hc-family-arrow ti ti-arrow-right text-[15px]" data-kid="1-1-2-2-2-2-2-5-1-2" data-name="arrow-right icon">
+                                    </i>
+                                </span>
+                                <span class="hc-family-rule mt-2 block h-0.5 w-12 bg-[#c8a96e]" data-kid="1-1-2-2-2-2-2-5-2" data-name="footer border rule">
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="hc-focus hc-family group relative flex min-h-[480px] flex-col border-r border-[#e8e3d9]/10 no-underline" data-kid="1-1-2-2-2-3" data-name="bathroom category card" href="/collections?category=bathroom" role="listitem">
+                        <div class="relative aspect-[3/4] overflow-hidden border-b border-[#e8e3d9]/10 bg-[#11100f]" data-kid="1-1-2-2-2-3-1" data-name="card image wrapper">
+                            <img alt="Bathroom showroom family" class="hc-family-image h-full w-full object-cover opacity-75" data-kid="1-1-2-2-2-3-1-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-BATHROOM.png"/>
+                            <div class="absolute inset-0" data-kid="1-1-2-2-2-3-1-2" data-name="card image gradient overlay" style="background:linear-gradient(180deg,rgba(9,9,9,.1),rgba(9,9,9,.76))">
+                            </div>
+                        </div>
+                        <div class="flex flex-1 flex-col px-4 pt-5" data-kid="1-1-2-2-2-3-2" data-name="card details container">
+                            <span class="hc-mono text-[10px] tracking-[.18em] text-[#c8a96e]" data-kid="1-1-2-2-2-3-2-1" data-name="category sequence number">
+                                03
+                            </span>
+                            <h3 class="hc-editorial mt-3 text-[30px] leading-[.92] text-[#e8e3d9]" data-kid="1-1-2-2-2-3-2-2" data-name="category title">
+                                Bathroom
+                            </h3>
+                            <p class="mt-4 min-h-[44px] text-[11px] leading-5 text-[#aaa49a]" data-kid="1-1-2-2-2-3-2-3" data-name="category description">
+                                Master suites · luxury residences · spas
+                            </p>
+                            <div class="mt-auto border-t border-[#e8e3e9]/10 pt-4" data-kid="1-1-2-2-2-3-2-4" data-name="card footer container">
+                                <span class="flex min-h-[44px] items-center justify-between text-[10px] font-semibold uppercase tracking-[.15em] text-[#e8e3e9]" data-kid="1-1-2-2-2-3-2-4-1" data-name="view collection text link">
+                                    <span data-kid="1-1-2-2-2-3-2-4-1-1" data-name="link text">
+                                        View collection
+                                    </span>
+                                    <i aria-hidden="true" class="hc-family-arrow ti ti-arrow-right text-[15px]" data-kid="1-1-2-2-2-3-2-4-1-2" data-name="arrow-right icon">
+                                    </i>
+                                </span>
+                                <span class="hc-family-rule mt-2 block h-px w-8 bg-[#e8e3e9]/20" data-kid="1-1-2-2-2-3-2-4-2" data-name="footer border rule">
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="hc-focus hc-family group relative flex min-h-[480px] flex-col border-r border-[#e8e3e9]/10 no-underline" data-kid="1-1-2-2-2-4" data-name="kitchen and wardrobes category card" href="/collections?category=kitchen-wardrobes" role="listitem">
+                        <div class="relative aspect-[3/4] overflow-hidden border-b border-[#e8e3e9]/10 bg-[#11100f]" data-kid="1-1-2-2-2-4-1" data-name="card image wrapper">
+                            <img alt="Kitchen and Wardrobes showroom family" class="hc-family-image h-full w-full object-cover opacity-75" data-kid="1-1-2-2-2-4-1-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-KITCHEN.png"/>
+                            <div class="absolute inset-0" data-kid="1-1-2-2-2-4-1-2" data-name="card image gradient overlay" style="background:linear-gradient(180deg,rgba(9,9,9,.08),rgba(9,9,9,.74))">
+                            </div>
+                        </div>
+                        <div class="flex flex-1 flex-col px-4 pt-5" data-kid="1-1-2-2-2-4-2" data-name="card details container">
+                            <span class="hc-mono text-[10px] tracking-[.18em] text-[#c8a96e]" data-kid="1-1-2-2-2-4-2-1" data-name="category sequence number">
+                                04
+                            </span>
+                            <h3 class="hc-editorial mt-3 text-[30px] leading-[.92] text-[#e8e3e9]" data-kid="1-1-2-2-2-4-2-2" data-name="category title">
+                                Kitchen
+                                <br data-kid="1-1-2-2-2-4-2-2-1" data-name="category title break"/>
+                                & Wardrobes
+                            </h3>
+                            <p class="mt-4 min-h-[44px] text-[11px] leading-5 text-[#aaa49a]" data-kid="1-1-2-2-2-4-2-3" data-name="category description">
+                                Modular kitchens · walk-in closets
+                            </p>
+                            <div class="mt-auto border-t border-[#e8e3e9]/10 pt-4" data-kid="1-1-2-2-2-4-2-4" data-name="card footer container">
+                                <span class="flex min-h-[44px] items-center justify-between text-[10px] font-semibold uppercase tracking-[.15em] text-[#e8e3e9]" data-kid="1-1-2-2-2-4-2-4-1" data-name="view collection text link">
+                                    <span data-kid="1-1-2-2-2-4-2-4-1-1" data-name="link text">
+                                        View collection
+                                    </span>
+                                    <i aria-hidden="true" class="hc-family-arrow ti ti-arrow-right text-[15px]" data-kid="1-1-2-2-2-4-2-4-1-2" data-name="arrow-right icon">
+                                    </i>
+                                </span>
+                                <span class="hc-family-rule mt-2 block h-px w-8 bg-[#e8e3e9]/20" data-kid="1-1-2-2-2-4-2-4-2" data-name="footer border rule">
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                    <a class="hc-focus hc-family group relative flex min-h-[480px] flex-col border-r border-[#e8e3e9]/10 no-underline" data-kid="1-1-2-2-2-5" data-name="furniture hardware category card" href="/collections?category=furniture-hardware" role="listitem">
+                        <div class="relative aspect-[3/4] overflow-hidden border-b border-[#e8e3e9]/10 bg-[#11100f]" data-kid="1-1-2-2-2-5-1" data-name="card image wrapper">
+                            <img alt="Furniture Hardware showroom family" class="hc-family-image h-full w-full object-cover opacity-75" data-kid="1-1-2-2-2-5-1-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-WARDROBE.png"/>
+                            <div class="absolute inset-0" data-kid="1-1-2-2-2-5-1-2" data-name="card image gradient overlay" style="background:linear-gradient(180deg,rgba(9,9,9,.08),rgba(9,9,9,.76))">
+                            </div>
+                        </div>
+                        <div class="flex flex-1 flex-col px-4 pt-5" data-kid="1-1-2-2-2-5-2" data-name="card details container">
+                            <span class="hc-mono text-[10px] tracking-[.18em] text-[#c8a96e]" data-kid="1-1-2-2-2-5-2-1" data-name="category sequence number">
+                                05
+                            </span>
+                            <h3 class="hc-editorial mt-3 text-[30px] leading-[.92] text-[#e8e3e9]" data-kid="1-1-2-2-2-5-2-2" data-name="category title">
+                                Furniture
+                                <br data-kid="1-1-2-2-2-5-2-2-1" data-name="category title break"/>
+                                Hardware
+                            </h3>
+                            <p class="mt-4 min-h-[44px] text-[11px] leading-5 text-[#aaa49a]" data-kid="1-1-2-2-2-5-2-3" data-name="category description">
+                                Fine cabinetry · architectural joinery
+                            </p>
+                            <div class="mt-auto border-t border-[#e8e3e9]/10 pt-4" data-kid="1-1-2-2-2-5-2-4" data-name="card footer container">
+                                <span class="flex min-h-[44px] items-center justify-between text-[10px] font-semibold uppercase tracking-[.15em] text-[#e8e3e9]" data-kid="1-1-2-2-2-5-2-4-1" data-name="view collection text link">
+                                    <span data-kid="1-1-2-2-2-5-2-4-1-1" data-name="link text">
+                                        View collection
+                                    </span>
+                                    <i aria-hidden="true" class="hc-family-arrow ti ti-arrow-right text-[15px]" data-kid="1-1-2-2-2-5-2-4-1-2" data-name="arrow-right icon">
+                                    </i>
+                                </span>
+                                <span class="hc-family-rule mt-2 block h-px w-8 bg-[#e8e3e9]/20" data-kid="1-1-2-2-2-5-2-4-2" data-name="footer border rule">
+                                </span>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+    <!-- MOBILE COMPANION / INDEPENDENT COMPOSITION -->
+    <section aria-label="Mobile companion frame" class="mx-auto mt-20 max-w-[1280px] border border-[#e8e3e9]/15 bg-[#11100f] p-8 lg:p-12" data-kid="1-2" data-name="mobile companion frame">
+        <div class="mb-8 flex items-end justify-between border-b border-[#e8e3e9]/10 pb-5" data-kid="1-2-1" data-name="mobile frame header">
+            <div data-kid="1-2-1-1" data-name="mobile frame title group">
+                <p class="hc-mono text-[10px] uppercase tracking-[.22em] text-[#c8a96e]" data-kid="1-2-1-1-1" data-name="mobile frame label">
+                    Mobile companion / 390px
+                </p>
+                <h2 class="hc-editorial mt-2 text-[42px] leading-none text-[#e8e3e9]" data-kid="1-2-1-1-2" data-name="mobile frame main title">
+                    A vertical showroom index.
+                </h2>
+            </div>
+            <p class="max-w-[34ch] text-right text-[12px] leading-5 text-[#aaa49a]" data-kid="1-2-1-2" data-name="mobile frame description">
+                Independent mobile architecture: clear copy plane, one action, five canonical families, no horizontal scroller.
+            </p>
+        </div>
+        <div class="grid grid-cols-[390px_1fr] items-start gap-16" data-kid="1-2-2" data-name="mobile companion content grid">
+            <div class="overflow-hidden border border-[#e8e3e9]/15 bg-[#090909]" data-kid="1-2-2-1" data-name="mobile hero card" style="width:390px">
+                <div class="relative h-[340px] overflow-hidden" data-kid="1-2-2-1-1" data-name="mobile hero background">
+                    <img alt="Mobile architectural showroom hero" class="h-full w-full object-cover opacity-70" data-kid="1-2-2-1-1-1" data-name="mobile hero image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/hero/HC-01-HERO-01.png"/>
+                    <div class="absolute inset-0" data-kid="1-2-2-1-1-2" data-name="mobile hero gradient overlay" style="background:linear-gradient(180deg,rgba(9,9,9,.08),rgba(9,9,9,.92))">
+                    </div>
+                    <div class="absolute right-0 top-0 h-full w-[42%] border-l border-[#e8e3e9]/10 bg-[#090909]/55" data-kid="1-2-2-1-1-3" data-name="mobile hero side panel">
+                    </div>
+                    <div class="absolute bottom-7 left-6 right-6" data-kid="1-2-2-1-1-4" data-name="mobile hero text">
+                        <p class="hc-mono text-[9px] uppercase tracking-[.2em] text-[#c8a96e]" data-kid="1-2-2-1-1-4-1" data-name="mobile hero label">
+                            Authorized showroom · Sakchi
+                        </p>
+                        <div class="mt-4 h-px w-8 bg-[#c8a96e]" data-kid="1-2-2-1-1-4-2" data-name="mobile hero line">
+                        </div>
+                        <h3 class="hc-editorial mt-4 text-[40px] leading-[.88] text-[#e8e3e9]" data-kid="1-2-2-1-1-4-3" data-name="mobile hero headline">
+                            The Art of
+                            <br data-kid="1-2-2-1-1-4-3-1" data-name="mobile hero headline break"/>
+                            the Finish.
+                        </h3>
+                    </div>
+                </div>
+                <div class="border-t border-[#c8a96e] bg-[#11100f] px-6 pb-7 pt-6" data-kid="1-2-2-1-2" data-name="mobile hero content">
+                    <p class="text-[12px] leading-5 text-[#aaa49a]" data-kid="1-2-2-1-2-1" data-name="mobile hero description">
+                        Architectural hardware chosen for spaces that deserve better details.
+                    </p>
+                    <a class="hc-focus hc-cta mt-5 flex min-h-[50px] items-center justify-between border border-[#090909] px-4 text-[10px] font-bold uppercase tracking-[.16em] text-[#090909] no-underline" data-kid="1-2-2-1-2-2" data-name="mobile explore call-to-action button" href="#families-mobile" style="background:#c8a96e;box-shadow:inset 0 0 0 1px rgba(232,227,217,.32)">
+                        <span data-kid="1-2-2-1-2-2-1" data-name="button text">
+                            Explore collections
+                        </span>
+                        <i aria-hidden="true" class="ti ti-arrow-up-right text-[16px]" data-kid="1-2-2-1-2-2-2" data-name="arrow-up-right icon">
+                        </i>
+                    </a>
+                    <a class="hc-focus mt-5 inline-block min-h-[44px] pt-2 text-[10px] font-semibold uppercase tracking-[.14em] text-[#e8e3e9] underline decoration-[#c8a96e] underline-offset-7" data-kid="1-2-2-1-2-3" data-name="mobile visit showroom link" href="#showroom">
+                        Visit the Sakchi showroom
+                    </a>
+                </div>
+                <div class="border-t border-[#e8e3e9]/10 bg-[#090909]" data-kid="1-2-2-1-3" data-name="mobile families index" id="families-mobile">
+                    <div class="border-b border-[#e8e3e9]/10 px-6 py-5" data-kid="1-2-2-1-3-1" data-name="mobile index header">
+                        <p class="hc-mono text-[9px] uppercase tracking-[.2em] text-[#c8a96e]" data-kid="1-2-2-1-3-1-1" data-name="mobile index label">
+                            Showroom families / 05
+                        </p>
+                        <p class="mt-2 text-[12px] text-[#aaa49a]" data-kid="1-2-2-1-3-1-2" data-name="mobile index description">
+                            Browse products by discipline.
+                        </p>
+                    </div>
+                    <a class="hc-focus hc-mobile-row grid min-h-[86px] grid-cols-[64px_1fr_24px] items-center gap-4 border-b border-[#e8e3e9]/10 px-5 no-underline" data-kid="1-2-2-1-3-2" data-name="handles and knobs mobile row" href="/collections?category=handles-knobs">
+                        <img alt="Handles and Knobs" class="h-16 w-16 object-cover" data-kid="1-2-2-1-3-2-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-DOORS.png"/>
+                        <span data-kid="1-2-2-1-3-2-2" data-name="category details">
+                            <span class="hc-mono block text-[9px] tracking-[.18em] text-[#c8a96e]" data-kid="1-2-2-1-3-2-2-1" data-name="category number">
+                                01
+                            </span>
+                            <span class="hc-editorial mt-1 block text-[24px] leading-none text-[#e8e3e9]" data-kid="1-2-2-1-3-2-2-2" data-name="category title">
+                                Handles & Knobs
+                            </span>
+                            <span class="mt-1 block text-[10px] text-[#aaa49a]" data-kid="1-2-2-1-3-2-2-3" data-name="category description">
+                                Main entrance · bespoke joinery
+                            </span>
+                        </span>
+                        <i aria-hidden="true" class="hc-mobile-arrow ti ti-arrow-right text-[16px] text-[#aaa49a]" data-kid="1-2-2-1-3-2-3" data-name="arrow-right icon">
+                        </i>
+                    </a>
+                    <a class="hc-focus hc-mobile-row grid min-h-[86px] grid-cols-[64px_1fr_24px] items-center gap-4 border-b border-[#e8e3e9]/10 border-l-2 border-l-[#c8a96e] px-5 no-underline" data-kid="1-2-2-1-3-3" data-name="door hardware mobile row" href="/collections?category=door-hardware">
+                        <img alt="Door Hardware" class="h-16 w-16 object-cover" data-kid="1-2-2-1-3-3-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-SECURITY.png"/>
+                        <span data-kid="1-2-2-1-3-3-2" data-name="category details">
+                            <span class="hc-mono block text-[9px] tracking-[.18em] text-[#c8a96e]" data-kid="1-2-2-1-3-3-2-1" data-name="category number">
+                                02
+                            </span>
+                            <span class="hc-editorial mt-1 block text-[24px] leading-none text-[#e8e3e9]" data-kid="1-2-2-1-3-3-2-2" data-name="category title">
+                                Door Hardware
+                            </span>
+                            <span class="mt-1 block text-[10px] text-[#aaa49a]" data-kid="1-2-2-1-3-3-2-3" data-name="category description">
+                                Residential · commercial · hospitality
+                            </span>
+                        </span>
+                        <i aria-hidden="true" class="hc-mobile-arrow ti ti-arrow-right text-[16px] text-[#c8a96e]" data-kid="1-2-2-1-3-3-3" data-name="arrow-right icon">
+                        </i>
+                    </a>
+                    <a class="hc-focus hc-mobile-row grid min-h-[86px] grid-cols-[64px_1fr_24px] items-center gap-4 border-b border-[#e8e3e9]/10 px-5 no-underline" data-kid="1-2-2-1-3-4" data-name="bathroom mobile row" href="/collections?category=bathroom">
+                        <img alt="Bathroom" class="h-16 w-16 object-cover" data-kid="1-2-2-1-3-4-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-BATHROOM.png"/>
+                        <span data-kid="1-2-2-1-3-4-2" data-name="category details">
+                            <span class="hc-mono block text-[9px] tracking-[.18em] text-[#c8a96e]" data-kid="1-2-2-1-3-4-2-1" data-name="category number">
+                                03
+                            </span>
+                            <span class="hc-editorial mt-1 block text-[24px] leading-none text-[#e8e3e9]" data-kid="1-2-2-1-3-4-2-2" data-name="category title">
+                                Bathroom
+                            </span>
+                            <span class="mt-1 block text-[10px] text-[#aaa49a]" data-kid="1-2-2-1-3-4-2-3" data-name="category description">
+                                Master suites · spas
+                            </span>
+                        </span>
+                        <i aria-hidden="true" class="hc-mobile-arrow ti ti-arrow-right text-[16px] text-[#aaa49a]" data-kid="1-2-2-1-3-4-3" data-name="arrow-right icon">
+                        </i>
+                    </a>
+                    <a class="hc-focus hc-mobile-row grid min-h-[86px] grid-cols-[64px_1fr_24px] items-center gap-4 border-b border-[#e8e3e9]/10 px-5 no-underline" data-kid="1-2-2-1-3-5" data-name="kitchen and wardrobes mobile row" href="/collections?category=kitchen-wardrobes">
+                        <img alt="Kitchen and Wardrobes" class="h-16 w-16 object-cover" data-kid="1-2-2-1-3-5-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-KITCHEN.png"/>
+                        <span data-kid="1-2-2-1-3-5-2" data-name="category details">
+                            <span class="hc-mono block text-[9px] tracking-[.18em] text-[#c8a96e]" data-kid="1-2-2-1-3-5-2-1" data-name="category number">
+                                04
+                            </span>
+                            <span class="hc-editorial mt-1 block text-[24px] leading-none text-[#e8e3e9]" data-kid="1-2-2-1-3-5-2-2" data-name="category title">
+                                Kitchen & Wardrobes
+                            </span>
+                            <span class="mt-1 block text-[10px] text-[#aaa49a]" data-kid="1-2-2-1-3-5-2-3" data-name="category description">
+                                Modular kitchens · walk-in closets
+                            </span>
+                        </span>
+                        <i aria-hidden="true" class="hc-mobile-arrow ti ti-arrow-right text-[16px] text-[#aaa49a]" data-kid="1-2-2-1-3-5-3" data-name="arrow-right icon">
+                        </i>
+                    </a>
+                    <a class="hc-focus hc-mobile-row grid min-h-[86px] grid-cols-[64px_1fr_24px] items-center gap-4 px-5 no-underline" data-kid="1-2-2-1-3-6" data-name="furniture hardware mobile row" href="/collections?category=furniture-hardware">
+                        <img alt="Furniture Hardware" class="h-16 w-16 object-cover" data-kid="1-2-2-1-3-6-1" data-name="category image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-WARDROBE.png"/>
+                        <span data-kid="1-2-2-1-3-6-2" data-name="category details">
+                            <span class="hc-mono block text-[9px] tracking-[.18em] text-[#c8a96e]" data-kid="1-2-2-1-3-6-2-1" data-name="category number">
+                                05
+                            </span>
+                            <span class="hc-editorial mt-1 block text-[24px] leading-none text-[#e8e3e9]" data-kid="1-2-2-1-3-6-2-2" data-name="category title">
+                                Furniture Hardware
+                            </span>
+                            <span class="mt-1 block text-[10px] text-[#aaa49a]" data-kid="1-2-2-1-3-6-2-3" data-name="category description">
+                                Fine cabinetry · joinery
+                            </span>
+                        </span>
+                        <i aria-hidden="true" class="hc-mobile-arrow ti ti-arrow-right text-[16px] text-[#aaa49a]" data-kid="1-2-2-1-3-6-3" data-name="arrow-right icon">
+                        </i>
+                    </a>
+                </div>
+            </div>
+            <div class="border-l border-[#e8e3e9]/10 pl-10 pt-3" data-kid="1-2-2-2" data-name="mobile interaction notes container">
+                <p class="hc-mono text-[10px] uppercase tracking-[.22em] text-[#c8a96e]" data-kid="1-2-2-2-1" data-name="interaction notes title">
+                    Interaction notes
+                </p>
+                <div class="mt-6 space-y-5 text-[13px] leading-6 text-[#aaa49a]" data-kid="1-2-2-2-2" data-name="interaction notes list">
+                    <p data-kid="1-2-2-2-2-1" data-name="hero note">
+                        <span class="text-[#e8e3e9]" data-kid="1-2-2-2-2-1-1" data-name="note label">
+                            Hero:
+                        </span>
+                        52% image band, flat copy plane, one brass action, directions as a quiet text route.
+                    </p>
+                    <p data-kid="1-2-2-2-2-2" data-name="families note">
+                        <span class="text-[#e8e3e9]" data-kid="1-2-2-2-2-2-1" data-name="note label">
+                            Families:
+                        </span>
+                        all five canonical showroom names remain visible; rows are 86px minimum with 64px image thumbnails and a 44px+ interaction area.
+                    </p>
+                    <p data-kid="1-2-2-2-2-3" data-name="motion note">
+                        <span class="text-[#e8e3e9]" data-kid="1-2-2-2-2-3-1" data-name="note label">
+                            Motion:
+                        </span>
+                        press/focus changes only background, rule, contrast, and arrow position. No scale, autoplay, or perpetual shimmer.
+                    </p>
+                    <p data-kid="1-2-2-2-2-4" data-name="taxonomy note">
+                        <span class="text-[#e8e3e9]" data-kid="1-2-2-2-2-4-1" data-name="note label">
+                            Taxonomy:
+                        </span>
+                        every route maps directly to the existing `/collections?category=...` family slugs.
+                    </p>
+                </div>
+                <div class="mt-10 border-t border-[#e8e3e9]/10 pt-5" data-kid="1-2-2-2-3" data-name="palette lock section">
+                    <p class="hc-mono text-[9px] uppercase tracking-[.2em] text-[#6e6a62]" data-kid="1-2-2-2-3-1" data-name="palette title">
+                        Palette lock
+                    </p>
+                    <div class="mt-4 flex gap-2" data-kid="1-2-2-2-3-2" data-name="palette color swatches">
+                        <span class="h-8 w-8 border border-[#e8e3e9]/15 bg-[#090909]" data-kid="1-2-2-2-3-2-1" data-name="color swatch 1">
+                        </span>
+                        <span class="h-8 w-8 border border-[#e8e3e9]/15 bg-[#11100f]" data-kid="1-2-2-2-3-2-2" data-name="color swatch 2">
+                        </span>
+                        <span class="h-8 w-8 border border-[#e8e3e9]/15 bg-[#181716]" data-kid="1-2-2-2-3-2-3" data-name="color swatch 3">
+                        </span>
+                        <span class="h-8 w-8 border border-[#e8e3e9]/15 bg-[#c8a96e]" data-kid="1-2-2-2-3-2-4" data-name="color swatch 4">
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

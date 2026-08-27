@@ -30,7 +30,7 @@ const PRODUCTS = [
     brand: "HÄFELE",
     finish: "Satin Stainless",
     category: "Door Hardware",
-    img: "/cinema/categories/HC-03-DOOR.png",
+    img: "/cinema/categories/HC-03-DOORS.png",
     href: "/collections?category=door-hardware&brand=hafele",
     sweepDelay: "0s",
   },
@@ -50,7 +50,7 @@ const PRODUCTS = [
     brand: "GODREJ",
     finish: "Graphite",
     category: "Digital Locks",
-    img: "/cinema/categories/HC-03-DIGITAL.png",
+    img: "/cinema/categories/HC-03-SECURITY.png",
     href: "/collections?category=digital-locks&brand=godrej",
     sweepDelay: "3s",
   },
@@ -60,7 +60,7 @@ const PRODUCTS = [
     brand: "HETTICH",
     finish: "Galvanised Steel",
     category: "Cabinet Hardware",
-    img: "/cinema/categories/HC-03-CABINET.png",
+    img: "/cinema/categories/HC-03-WARDROBE.png",
     href: "/collections?category=cabinet-hardware&brand=hettich",
     sweepDelay: "0.5s",
   },
@@ -118,19 +118,21 @@ export default function ProductReel() {
     { scope: containerRef, dependencies: [shouldReduceMotion] }
   );
 
-  // Mobile: CSS scroll-snap, no GSAP
+  // Mobile: CSS scroll-snap, layout contract per spec
+  // Card width: 78vw | Container px: 16px | Gap: 16px | snap-align: start
   const mobileReel = (
     <div
-      className="flex gap-5 overflow-x-auto snap-x snap-mandatory pb-6 -mx-4 px-4 lg:hidden"
-      style={{ scrollbarWidth: "none" }}
+      className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-6 lg:hidden"
+      style={{ scrollbarWidth: "none", paddingLeft: "16px", paddingRight: "16px" }}
     >
       {PRODUCTS.map((p, i) => (
         <a
           key={i}
           href={p.href}
-          className="snap-center shrink-0 w-[75vw] max-w-[300px] block group"
+          className="snap-start shrink-0 block group"
+          style={{ width: "78vw" }}
         >
-          <ProductCard product={p} />
+          <MobileProductCard product={p} />
         </a>
       ))}
     </div>
@@ -149,10 +151,15 @@ export default function ProductReel() {
       />
 
       {/* Mobile layout */}
-      <div className="block lg:hidden py-24 px-6">
-        <ChapterLabel />
-        <div className="mt-10">{mobileReel}</div>
-        <div className="mt-10 text-center">
+      <div className="block lg:hidden pt-16 pb-8 px-0">
+        <div className="px-6">
+          <ChapterLabel />
+          <p className="text-zinc-400 text-sm leading-relaxed max-w-sm mt-3 mb-8 font-light">
+            A considered selection of tactile architectural details from our Sakchi showroom.
+          </p>
+        </div>
+        <div className="mt-2">{mobileReel}</div>
+        <div className="mt-8 px-6">
           <CollectionCTA />
         </div>
       </div>
@@ -244,15 +251,12 @@ function ProductCard({
 function ChapterLabel() {
   return (
     <>
-      <p className="text-[#C8A96E] font-medium tracking-widest text-xs uppercase mb-1">
-        CHAPTER 05
+      <p className="hc-mono text-[#c8a96e] font-medium tracking-[0.22em] text-[10px] sm:text-[11px] uppercase mb-1">
+        CHAPTER 05 · SIGNATURE PIECES
       </p>
-      <p className="text-zinc-600 text-xs tracking-widest uppercase mb-2">
-        THE COLLECTION
-      </p>
-      <h2 className="text-4xl lg:text-5xl font-light text-white leading-tight">
+      <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[#e8e3d9] leading-tight mt-2">
         Selected<br />
-        <span className="text-zinc-500">Architectural</span><br />
+        <span className="text-[#aaa49a]">Architectural</span><br />
         Hardware.
       </h2>
     </>
@@ -272,3 +276,47 @@ function CollectionCTA() {
     </MagneticButton>
   );
 }
+
+/**
+ * MobileProductCard — editorial mobile card layout
+ * Simplified hierarchy: image → brand → title → explore
+ * Card is the tap target (parent <a>). No secondary actions.
+ */
+function MobileProductCard({
+  product,
+}: {
+  product: (typeof PRODUCTS)[number];
+}) {
+  return (
+    <div className="flex flex-col gap-3">
+      {/* Portrait image — aspect 4:5 */}
+      <div className="relative overflow-hidden bg-zinc-900 aspect-[4/5] rounded-sm">
+        <img
+          src={product.img}
+          alt={`${product.brand} ${product.name}`}
+          className="w-full h-full object-cover opacity-80 group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
+        />
+        <div
+          className="light-sweep-overlay"
+          aria-hidden="true"
+          style={{ "--sweep-delay": product.sweepDelay } as React.CSSProperties}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+      </div>
+
+      {/* Editorial label: brand (brass) → name → explore */}
+      <div className="space-y-1 px-0.5">
+        <p className="text-[#C8A96E] text-[13px] tracking-widest uppercase font-medium">
+          {product.brand}
+        </p>
+        <h3 className="text-white text-[20px] font-light leading-snug">
+          {product.name}
+        </h3>
+        <p className="text-zinc-500 text-[13px] tracking-wide group-hover:translate-x-1 transition-transform duration-200">
+          Explore →
+        </p>
+      </div>
+    </div>
+  );
+}
+

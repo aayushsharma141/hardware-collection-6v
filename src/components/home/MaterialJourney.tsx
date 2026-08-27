@@ -185,23 +185,49 @@ export default function MaterialJourney() {
     { scope: containerRef, dependencies: [shouldReduceMotion] }
   );
 
-  // Reduced-motion / mobile static layout
+  // Reduced-motion: static editorial layout
   if (shouldReduceMotion) {
     return (
-      <section data-chapter="4" className="py-24 bg-transparent border-t border-zinc-900">
-        <div className="container mx-auto px-6 max-w-6xl">
-          <ChapterLabel />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-12">
-            {MATERIALS.map((mat, i) => (
-              <div key={i} className="space-y-4">
-                <div className="h-72 w-full overflow-hidden bg-zinc-900">
-                  <img src={mat.img} alt={mat.subName} className="w-full h-full object-cover opacity-80" />
-                </div>
-                <p className="text-zinc-600 text-xs tracking-widest uppercase">FINISH 0{i + 1} / 05</p>
-                <h3 className="text-4xl font-light text-white">{mat.subName}</h3>
-                <p className="text-zinc-400 text-sm leading-relaxed">{mat.desc}</p>
-                <p className="text-zinc-600 text-xs leading-relaxed">{mat.spec}</p>
+      <section data-chapter="4" className="py-16 bg-transparent border-t border-zinc-900">
+        <div className="container mx-auto px-6 max-w-4xl">
+          <p className="text-[#C8A96E] font-medium tracking-widest text-[11px] uppercase mb-1">
+            CHAPTER 04
+          </p>
+          <p className="text-zinc-600 text-xs tracking-widest uppercase mb-4">
+            THE FINISH
+          </p>
+          <h2 className="text-[28px] sm:text-3xl font-light text-white leading-tight mb-4">
+            The details define<br />
+            <span className="text-zinc-500">the architecture.</span>
+          </h2>
+          <p className="text-zinc-400 text-sm leading-relaxed max-w-lg mb-8">
+            Genuine solid brass, surgical stainless steel, and triple-PVD coatings engineered for tactile longevity.
+          </p>
+
+          <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-sm mb-6 border border-zinc-850">
+            <img
+              src={MATERIALS[1].img}
+              alt="Architectural Brass Finish"
+              className="w-full h-full object-cover opacity-85"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-transparent to-transparent" />
+            <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+              <div>
+                <p className="text-[#C8A96E] text-[10px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
+                <p className="text-white text-base font-light">Living Cartridge Brass</p>
               </div>
+              <span className="text-zinc-500 text-xs tracking-wider">Unlacquered</span>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 pt-2">
+            {MATERIALS.map((mat, i) => (
+              <span
+                key={i}
+                className="px-3 py-1.5 rounded-full border border-zinc-800/80 bg-zinc-900/40 text-[11px] uppercase tracking-wider text-zinc-400 font-light"
+              >
+                {mat.name}
+              </span>
             ))}
           </div>
         </div>
@@ -211,23 +237,55 @@ export default function MaterialJourney() {
 
   return (
     <>
-      {/* Mobile vertical layout */}
+      {/* Mobile editorial transition moment */}
       <div className="block lg:hidden">
-        <section data-chapter="4" className="py-24 bg-transparent border-t border-zinc-900">
+        <section data-chapter="4" className="py-16 bg-transparent border-t border-zinc-900">
           <div className="container mx-auto px-6">
-            <ChapterLabel />
-            <div className="space-y-20 mt-12">
-              {MATERIALS.map((mat, i) => (
-                <div key={i} className="space-y-5">
-                  <div className="relative h-72 overflow-hidden bg-zinc-900 rounded-sm">
-                    <img src={mat.img} alt={mat.subName} className="w-full h-full object-cover opacity-80" />
-                    <div className="light-sweep-overlay" aria-hidden="true" style={{ "--sweep-delay": mat.sweepDelay } as React.CSSProperties} />
-                  </div>
-                  <p className="text-zinc-600 text-xs tracking-widest uppercase">FINISH 0{i + 1} / 0{MATERIALS.length}</p>
-                  <h3 className="text-4xl font-light text-white">{mat.subName}</h3>
-                  <p className="text-zinc-400 leading-relaxed">{mat.desc}</p>
-                  <p className="text-zinc-600 text-xs leading-relaxed">{mat.spec}</p>
+            <p className="text-[#C8A96E] font-medium tracking-widest text-[11px] uppercase mb-1">
+              CHAPTER 04
+            </p>
+            <p className="text-zinc-600 text-xs tracking-widest uppercase mb-4">
+              THE FINISH
+            </p>
+            <h2 className="text-[28px] sm:text-3xl font-light text-white leading-tight mb-4">
+              The details define<br />
+              <span className="text-zinc-500">the architecture.</span>
+            </h2>
+            <p className="text-zinc-400 text-sm leading-relaxed max-w-lg mb-8">
+              Genuine solid brass, surgical stainless steel, and triple-PVD coatings engineered for tactile longevity.
+            </p>
+
+            {/* Featured Material Visual with Light Sweep */}
+            <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-sm mb-6 border border-zinc-850">
+              <img
+                src={MATERIALS[1].img}
+                alt="Architectural Brass Finish"
+                className="w-full h-full object-cover opacity-85"
+              />
+              <div
+                className="light-sweep-overlay"
+                aria-hidden="true"
+                style={{ "--sweep-delay": "1s" } as React.CSSProperties}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-transparent to-transparent" />
+              <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+                <div>
+                  <p className="text-[#C8A96E] text-[10px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
+                  <p className="text-white text-base font-light">Living Cartridge Brass</p>
                 </div>
+                <span className="text-zinc-500 text-xs tracking-wider">Unlacquered</span>
+              </div>
+            </div>
+
+            {/* 5 Architectural Finishes Strip */}
+            <div className="flex flex-wrap gap-2 pt-2">
+              {MATERIALS.map((mat, i) => (
+                <span
+                  key={i}
+                  className="px-3 py-1.5 rounded-full border border-zinc-800/80 bg-zinc-900/40 text-[11px] uppercase tracking-wider text-zinc-400 font-light"
+                >
+                  {mat.name}
+                </span>
               ))}
             </div>
           </div>

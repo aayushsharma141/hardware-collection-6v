@@ -9,17 +9,45 @@ export function FloatingConsultationCapsule() {
   const { openDrawer } = useConsultationStore();
   const [isVisible, setIsVisible] = useState(false);
 
-  // Show after scrolling a bit
+  // Show after scrolling past header/hero, but hide once user reaches reference library or footer
   useEffect(() => {
+    let ticking = false;
+
+    const updateVisibility = () => {
+      const scrollY = window.scrollY;
+      
+      // Hide once the reference library / catalog section enters view
+      const refSection = document.getElementById("reference-library-section") || document.getElementById("official-catalogs");
+      let isPastReferenceSection = false;
+      
+      if (refSection) {
+        const rect = refSection.getBoundingClientRect();
+        if (rect.top <= window.innerHeight - 60) {
+          isPastReferenceSection = true;
+        }
+      }
+      
+      const footer = document.querySelector("footer");
+      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        if (footerRect.top <= window.innerHeight) {
+          isPastReferenceSection = true;
+        }
+      }
+
+      setIsVisible(scrollY > 300 && !isPastReferenceSection);
+      ticking = false;
+    };
+
     const handleScroll = () => {
-      if (window.scrollY > 300) {
-        setIsVisible(true);
-      } else {
-        setIsVisible(false);
+      if (!ticking) {
+        ticking = true;
+        window.requestAnimationFrame(updateVisibility);
       }
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
+    updateVisibility();
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

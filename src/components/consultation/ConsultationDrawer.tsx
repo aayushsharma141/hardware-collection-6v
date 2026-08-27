@@ -5,6 +5,7 @@ import { useConsultationStore } from "./store";
 import { ConsultationForm } from "./ConsultationForm";
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
+import { lockScroll, unlockScroll } from "@/lib/scrollLock";
 // We use motion/react assuming framer-motion v12/13 style. The package.json has "motion": "^13.1.0"
 
 export function ConsultationDrawer() {
@@ -22,15 +23,15 @@ export function ConsultationDrawer() {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isOpen, closeDrawer]);
 
-  // Lock body scroll when open
+  // BUG-05 fix: centralized scroll-lock (reference-counted — safe with concurrent drawers)
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden";
+      lockScroll();
     } else {
-      document.body.style.overflow = "";
+      unlockScroll();
     }
     return () => {
-      document.body.style.overflow = "";
+      unlockScroll();
     };
   }, [isOpen]);
 

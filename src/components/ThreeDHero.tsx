@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, Component, ReactNode, ErrorInfo } from "re
 import dynamic from "next/dynamic";
 import { useReducedMotion } from "motion/react";
 import Link from "next/link";
+import { buildWhatsAppUrl } from "@/lib/config";
 
 // Dynamic import for ThreeDScene, only loaded when capability passed and near viewport
 const DynamicThreeDScene = dynamic(() => import("./3d/ThreeDScene"), {
@@ -148,7 +149,7 @@ export default function ThreeDHero() {
             Explore Collection
           </Link>
           <a
-            href="https://wa.me/919431111550?text=Hi%2C%20I%20am%20interested%20in%20architectural%20hardware%20consultation"
+            href={buildWhatsAppUrl("Hi, I am interested in architectural hardware consultation.")}
             target="_blank"
             rel="noopener noreferrer"
             className="px-6 py-3 bg-[#C8A96E] hover:bg-[#b5955a] text-zinc-950 text-xs font-medium tracking-widest uppercase transition-colors shadow-lg"

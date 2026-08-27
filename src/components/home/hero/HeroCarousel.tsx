@@ -5,6 +5,7 @@ import { useReducedMotion } from "motion/react";
 import { HeroSlide } from "@/types/hero";
 import { HeroControls } from "./HeroControls";
 import { MagneticButton } from "@/components/animations/MagneticButton";
+import { buildWhatsAppUrl } from "@/lib/config";
 
 interface HeroCarouselProps {
   slides: HeroSlide[];
@@ -119,8 +120,8 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
         })}
       </div>
 
-      {/* Z=2: Products */}
-      <div className="hero-product-wrapper absolute inset-0 flex items-center justify-end pr-[8%] opacity-0 invisible will-change-transform z-[2]">
+      {/* Z=2: Products (Camera C — Desktop side-by-side floating hardware) */}
+      <div className="hero-product-wrapper absolute inset-0 hidden lg:flex items-center justify-end lg:pr-[8%] opacity-0 invisible will-change-transform z-[2]">
         <div className="pointer-light absolute inset-0 pointer-events-none" aria-hidden="true" />
         
         {slides.map((slide, idx) => {
@@ -130,10 +131,14 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
           return (
             <div 
               key={`prod-${idx}`}
-              className={`absolute right-[8%] w-[40vw] max-w-[560px] h-[70vh] flex items-center justify-center transition-all ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none ${
+              className={`absolute w-[80vw] xs:w-[70vw] lg:w-[40vw] max-w-[480px] lg:max-w-[560px] flex items-center justify-center transition-all ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none lg:right-[8%] ${
                 isActive ? "opacity-100 translate-x-0 z-10 delay-[100ms]" : "opacity-0 translate-x-4 z-0"
               }`}
-              style={{ transitionDuration: `${TRANSITION_DURATION - 200}ms` }}
+              style={{
+                transitionDuration: `${TRANSITION_DURATION - 200}ms`,
+                // Single clamp covers all mobile sizes; desktop height is set by lg:h-[70vh] on desktop path
+                height: "clamp(220px, 38svh, 380px)",
+              }}
             >
               {slide.macroUrl && (
                 <img
@@ -165,52 +170,66 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
       </div>
 
       {/* Z=3: Typography */}
-      <div className="hero-typography-wrapper absolute inset-0 flex flex-col justify-end pb-24 lg:pb-32 px-6 lg:px-16 z-[3] pointer-events-none">
-        <div className="relative max-w-3xl h-[320px]">
+      {/*
+        Mobile: bottom-aligned, generous padding above product
+        Desktop: unchanged GSAP-orchestrated entrance
+      */}
+      <div className="hero-typography-wrapper absolute inset-0 flex flex-col justify-end pb-16 sm:pb-24 lg:pb-32 px-4 sm:px-6 lg:px-16 z-[3] pointer-events-none">
+        {/* No fixed height — let content determine size on mobile */}
+        <div className="relative max-w-3xl">
           {slides.map((slide, idx) => {
             const isActive = idx === activeIndex;
             
-            // Build the prefilled WhatsApp message
-            const waMessage = encodeURIComponent(`Hi, I'm interested in the collection featured on the Hardware Collection website: ${slide.title.replace(/\n/g, ' ')}`);
-            const waUrl = `https://wa.me/919835190738?text=${waMessage}`;
+            // WhatsApp URL from config with slide-contextual message
+            const waUrl = buildWhatsAppUrl(
+              `Hi, I\u2019m interested in the collection on the Hardware Collection website: ${slide.title.replace(/\n/g, ' ')}`
+            );
 
             return (
               <div 
                 key={`text-${idx}`}
-                className={`absolute bottom-0 left-0 transition-all ease-[cubic-bezier(0.16,1,0.3,1)] ${
+                className={`absolute bottom-0 left-0 w-full transition-all ease-[cubic-bezier(0.16,1,0.3,1)] ${
                   isActive ? "opacity-100 translate-y-0 z-10 pointer-events-auto delay-[200ms]" : "opacity-0 translate-y-4 z-0 pointer-events-none"
                 }`}
                 style={{ transitionDuration: `${TRANSITION_DURATION - 400}ms` }}
               >
-                <p className="hero-eyebrow text-[#C8A96E] font-medium tracking-widest text-xs lg:text-sm uppercase mb-5 lg:mb-7 opacity-0 invisible">
+                <p className="hero-eyebrow hc-mono text-[#C8A96E] font-medium tracking-[0.22em] text-[10px] sm:text-xs uppercase mb-3 sm:mb-4 lg:mb-6 opacity-0 invisible">
                   {slide.eyebrow}
                 </p>
 
-                <h1 className="hero-title text-5xl lg:text-8xl xl:text-[6.5rem] font-light text-white leading-[1.05] mb-6 whitespace-pre-line font-cinzel opacity-0 invisible translate-y-[60px]">
+                {/* Standardized Hero Title */}
+                <h1
+                  className="hero-title hc-serif font-normal text-[#e8e3d9] leading-[0.95] mb-4 sm:mb-6 lg:mb-7 whitespace-pre-line opacity-0 invisible translate-y-[60px] text-4xl sm:text-6xl md:text-7xl lg:text-[84px] xl:text-[96px] tracking-[0.015em]"
+                >
                   {slide.title}
                 </h1>
 
-                <p className="hero-body text-lg lg:text-xl text-zinc-300 font-light mb-10 max-w-xl leading-relaxed opacity-0 invisible translate-y-[24px]">
+                {/* Body text */}
+                <p className="hero-body text-xs sm:text-[14px] lg:text-[16px] text-[#d1ccc4] font-light mb-6 sm:mb-8 lg:mb-10 max-w-xl leading-relaxed line-clamp-2 sm:line-clamp-none opacity-0 invisible translate-y-[24px]">
                   {slide.description}
                 </p>
 
-                <div className="hero-cta flex flex-wrap items-center gap-4 opacity-0 invisible translate-y-[16px]">
+                {/* CTAs — stacked on mobile, side-by-side sm+ */}
+                <div className="hero-cta flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 sm:gap-4 opacity-0 invisible translate-y-[16px] w-full sm:w-auto">
+                  {/* Primary: border only, full-width on mobile */}
                   <MagneticButton>
                     <a
                       href={slide.ctaTarget}
-                      className="inline-flex items-center justify-center px-8 py-4 border border-zinc-600 text-white font-medium text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300"
+                      className="flex items-center justify-center min-h-[44px] sm:min-h-[48px] px-5 lg:px-8 py-2.5 sm:py-3 border border-zinc-600 text-white font-medium text-xs sm:text-[13px] tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300 w-full sm:w-auto"
                     >
                       {slide.primaryCta}
                     </a>
                   </MagneticButton>
+
+                  {/* Secondary: lower visual weight — text + subtle border */}
                   <MagneticButton>
                     <a
                       href={waUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center px-8 py-4 bg-[#C8A96E] text-black font-medium text-sm tracking-widest uppercase hover:bg-[#b0945b] transition-colors duration-300"
+                      className="hero-cta-secondary flex items-center justify-center min-h-[44px] sm:min-h-[48px] px-5 lg:px-8 py-2.5 sm:py-3 border border-zinc-700/60 text-zinc-300 font-medium text-xs sm:text-[13px] tracking-widest uppercase hover:text-white hover:border-zinc-500 transition-colors duration-300 w-full sm:w-auto"
                     >
-                      WHATSAPP →
+                      WhatsApp →
                     </a>
                   </MagneticButton>
                 </div>

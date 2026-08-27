@@ -1,0 +1,563 @@
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=DM+Sans:wght@400;500;600;700&display=swap');
+@import url('https://cdn.jsdelivr.net/npm/@tabler/icons-webfont/tabler-icons.min.css');
+
+.hc-shell{min-height:100%;background:#090909;color:#e8e3d9;font-family:'DM Sans',sans-serif;overflow:hidden;}
+.hc-serif{font-family:'Cormorant Garamond',Georgia,serif;}
+.hc-mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;}
+.hc-rule{height:1px;background:#e8e3d9;opacity:.16;}
+.hc-brass-rule{height:1px;background:#c8a96e;opacity:.78;}
+.hc-focus:focus-visible{outline:2px solid #c8a96e;outline-offset:3px;}
+.hc-rail{height:74px;border:1px solid rgba(232,227,217,.2);background:rgba(9,9,9,.92);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;padding:0 30px;position:absolute;z-index:20;left:5.5%;right:5.5%;top:22px;}
+.hc-brand{display:flex;align-items:center;gap:12px;letter-spacing:.08em;font-size:13px;font-weight:600;}
+.hc-mark{width:30px;height:30px;border:1px solid rgba(200,169,110,.7);display:grid;place-items:center;color:#c8a96e;font-family:'Cormorant Garamond',serif;font-size:18px;line-height:1;}
+.hc-nav{display:flex;align-items:center;gap:30px;font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:#aaa49a;}
+.hc-nav a{height:42px;display:flex;align-items:center;position:relative;}
+.hc-nav a:first-child{color:#e8e3d9;}
+.hc-nav a:first-child:after{content:'';position:absolute;bottom:4px;left:0;width:18px;height:2px;background:#c8a96e;}
+.hc-rail-actions{justify-self:end;display:flex;align-items:center;gap:18px;font-size:10px;letter-spacing:.12em;text-transform:uppercase;}
+.hc-phone{color:#aaa49a;padding-right:18px;border-right:1px solid rgba(232,227,217,.16);}
+.hc-rail-cta{height:40px;padding:0 18px;border:1px solid #c8a96e;color:#090909;background:#c8a96e;display:inline-flex;align-items:center;gap:9px;font-weight:700;}
+.hc-icon{font-size:15px;line-height:1;display:inline-block;width:15px;height:15px;}
+.hc-hero{height:765px;position:relative;isolation:isolate;border-bottom:1px solid rgba(232,227,217,.16);}
+.hc-hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.56) saturate(.72);}
+.hc-hero-overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(9,9,9,.93) 0%,rgba(9,9,9,.68) 35%,rgba(9,9,9,.18) 61%,rgba(9,9,9,.76) 100%);z-index:1;}
+.hc-bay-overlay{position:absolute;top:0;bottom:0;background:#090909;opacity:.22;z-index:3;pointer-events:none;transition:opacity 280ms cubic-bezier(.22,1,.36,1);}
+.hc-bay-overlay:hover{opacity:.08;}
+.hc-structure-line{position:absolute;top:0;bottom:0;width:1px;background:#e8e3d9;opacity:.19;z-index:5;pointer-events:none;}
+.hc-structure-line.brass{background:#c8a96e;opacity:.64;width:2px;}
+.hc-hero-copy{position:absolute;left:8%;bottom:112px;z-index:8;width:43%;max-width:570px;}
+.hc-eyebrow{font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#c8a96e;margin:0 0 22px;}
+.hc-hero-title{font-size:clamp(68px,7.4vw,122px);line-height:.82;font-weight:400;letter-spacing:-.035em;color:#e8e3d9;margin:0 0 28px;max-width:650px;}
+.hc-hero-title em{font-style:normal;color:#e8e3d9;display:block;margin-left:9.5vw;}
+.hc-hero-description{font-size:14px;line-height:1.75;color:#aaa49a;max-width:390px;margin:0 0 28px;}
+.hc-plate{min-height:52px;padding:0 18px 0 19px;background:#c8a96e;color:#090909;border:1px solid #c8a96e;box-shadow:inset 0 0 0 1px #090909;display:inline-flex;align-items:center;gap:32px;text-transform:uppercase;letter-spacing:.16em;font-size:10px;font-weight:700;}
+.hc-plate-rule{width:24px;height:1px;background:#090909;display:block;transition:transform 240ms cubic-bezier(.22,1,.36,1);}
+.hc-plate:hover .hc-plate-rule{transform:translateX(12px);}
+.hc-quiet-link{margin-left:25px;color:#e8e3d9;text-transform:uppercase;letter-spacing:.16em;font-size:10px;border-bottom:1px solid #aaa49a;padding-bottom:5px;}
+.hc-product-bay{position:absolute;left:51.5%;top:122px;bottom:82px;width:17%;z-index:6;border-left:1px solid rgba(232,227,217,.17);border-right:1px solid rgba(232,227,217,.17);background:rgba(9,9,9,.42);display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.hc-product-bay img{width:174%;height:74%;object-fit:cover;opacity:.92;mix-blend-mode:screen;filter:contrast(1.08) saturate(.76);}
+.hc-product-bay:before{content:'PRODUCT SPECIMEN / 01';position:absolute;left:15px;top:16px;color:#aaa49a;font:9px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;writing-mode:vertical-rl;transform:rotate(180deg);z-index:2;opacity:.78;}
+.hc-product-bay:after{content:'';position:absolute;left:10%;right:10%;bottom:20%;height:1px;background:linear-gradient(90deg,transparent,#c8a96e,transparent);opacity:.4;}
+.hc-macro-bay{position:absolute;right:0;top:0;bottom:0;width:21%;z-index:4;overflow:hidden;border-left:1px solid rgba(232,227,217,.2);}
+.hc-macro-bay img{width:100%;height:100%;object-fit:cover;opacity:.78;filter:brightness(.58) saturate(.72);}
+.hc-macro-bay:after{content:'MACRO / FINISH STUDY';position:absolute;right:18px;top:145px;color:#e8e3d9;font:9px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.2em;writing-mode:vertical-rl;opacity:.7;}
+.hc-sweep{position:absolute;top:-10%;bottom:-10%;left:-18%;width:20%;background:linear-gradient(90deg,transparent,rgba(232,227,217,.2),transparent);transform:skewX(-18deg) translateX(-130%);opacity:0;pointer-events:none;}
+.hc-product-bay:hover .hc-sweep{animation:hc-sweep .85s cubic-bezier(.22,1,.36,1) forwards;}
+@keyframes hc-sweep{0%{transform:skewX(-18deg) translateX(-130%);opacity:0}18%{opacity:.7}100%{transform:skewX(-18deg) translateX(760%);opacity:0}}
+.hc-threshold{position:absolute;left:8%;right:8%;bottom:27px;height:31px;border-top:1px solid rgba(232,227,217,.34);z-index:8;display:flex;align-items:flex-end;justify-content:space-between;padding-top:9px;font:9px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;text-transform:uppercase;color:#aaa49a;}
+.hc-threshold strong{color:#c8a96e;font-weight:500;}
+.hc-threshold-route{color:#e8e3d9;text-decoration:underline;text-decoration-color:#c8a96e;text-underline-offset:5px;}
+.hc-section{background:#11100f;padding:86px 8% 98px;position:relative;}
+.hc-section-head{display:flex;justify-content:space-between;align-items:flex-end;gap:50px;border-bottom:1px solid rgba(232,227,217,.2);padding-bottom:22px;margin-bottom:28px;}
+.hc-section-kicker{font:10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.2em;text-transform:uppercase;color:#c8a96e;margin:0 0 11px;}
+.hc-section-title{font-size:48px;line-height:.94;font-weight:400;letter-spacing:-.015em;color:#e8e3d9;margin:0;}
+.hc-section-note{font-size:12px;line-height:1.6;color:#aaa49a;max-width:340px;margin:0 0 2px;}
+.hc-elevation{display:grid;grid-template-columns:1.05fr 1.9fr .88fr 1.35fr .92fr;grid-template-rows:180px 180px 150px;gap:0;border-left:1px solid rgba(232,227,217,.18);border-top:1px solid rgba(232,227,217,.18);min-height:510px;}
+.hc-family{position:relative;display:flex;flex-direction:column;min-width:0;border-right:1px solid rgba(232,227,217,.18);border-bottom:1px solid rgba(232,227,217,.18);background:#090909;overflow:hidden;}
+.hc-family:hover,.hc-family:focus-within{background:#181716;}
+.hc-family:after{content:'';position:absolute;left:0;right:100%;bottom:0;height:2px;background:#c8a96e;transition:right 260ms cubic-bezier(.22,1,.36,1);z-index:8;}
+.hc-family:hover:after,.hc-family:focus-within:after{right:0;}
+.hc-family-image{width:100%;height:100%;object-fit:cover;position:absolute;inset:0;opacity:.47;filter:brightness(.7) saturate(.62);transition:opacity 280ms cubic-bezier(.22,1,.36,1),filter 280ms cubic-bezier(.22,1,.36,1);}
+.hc-family:hover .hc-family-image,.hc-family:focus-within .hc-family-image{opacity:.67;filter:brightness(.82) saturate(.72);}
+.hc-family-scrim{position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,9,.16),rgba(9,9,9,.92) 82%);}
+.hc-family-content{position:relative;z-index:4;margin-top:auto;padding:17px 16px 15px;}
+.hc-family-index{font:10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.16em;color:#c8a96e;display:block;margin-bottom:8px;}
+.hc-family-title{font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:26px;line-height:.9;text-transform:uppercase;color:#e8e3d9;margin:0 0 9px;}
+.hc-family-tag{font-size:10px;line-height:1.45;color:#aaa49a;margin:0;max-width:270px;}
+.hc-family-meta{display:flex;justify-content:space-between;align-items:center;gap:10px;border-top:1px solid rgba(232,227,217,.18);margin-top:13px;padding-top:10px;font:9px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:#aaa49a;}
+.hc-family-action{color:#e8e3d9;text-decoration:underline;text-decoration-color:#c8a96e;text-underline-offset:4px;white-space:nowrap;}
+.hc-family-action i{margin-left:6px;color:#c8a96e;transition:transform 220ms cubic-bezier(.22,1,.36,1);}
+.hc-family:hover .hc-family-action i,.hc-family:focus-within .hc-family-action i{transform:translateX(6px);}
+.hc-handles{grid-column:1;grid-row:1 / span 3;}
+.hc-door{grid-column:2 / span 2;grid-row:1 / span 3;}
+.hc-bath{grid-column:4;grid-row:1 / span 2;}
+.hc-kitchen{grid-column:4;grid-row:3;}
+.hc-furniture{grid-column:5;grid-row:1 / span 3;}
+.hc-door .hc-family-content{padding:21px 22px 19px;max-width:450px;}
+.hc-door .hc-family-title{font-size:44px;max-width:310px;}
+.hc-door .hc-family-tag{font-size:12px;max-width:340px;}
+.hc-door-list{display:grid;grid-template-columns:1fr 1fr;gap:0 20px;margin:16px 0 0;border-top:1px solid rgba(232,227,217,.2);padding-top:9px;}
+.hc-door-list span{font:9px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.03em;color:#aaa49a;padding:5px 0;border-bottom:1px solid rgba(232,227,217,.1);}
+.hc-door-list span:before{content:'—';color:#c8a96e;margin-right:6px;}
+.hc-bath .hc-family-title,.hc-furniture .hc-family-title{font-size:23px;}
+.hc-kitchen .hc-family-content{padding-top:12px;padding-bottom:12px;}
+.hc-kitchen .hc-family-title{font-size:24px;margin-bottom:5px;}
+.hc-kitchen .hc-family-tag{display:none;}
+.hc-furniture .hc-family-content{padding-left:14px;padding-right:14px;}
+.hc-furniture .hc-family-title{font-size:22px;}
+.hc-mobile-section{background:#090909;padding:82px 8% 96px;border-top:1px solid rgba(232,227,217,.18);}
+.hc-mobile-head{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid rgba(232,227,217,.2);padding-bottom:18px;margin-bottom:30px;}
+.hc-mobile-head h2{font-family:'Cormorant Garamond',Georgia,serif;font-size:42px;line-height:.95;font-weight:400;margin:0;}
+.hc-mobile-head p{font:10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;color:#aaa49a;text-transform:uppercase;margin:0;}
+.hc-mobile-layout{display:grid;grid-template-columns:390px 1fr;gap:64px;align-items:start;}
+.hc-phone{background:#11100f;border:1px solid rgba(232,227,217,.25);padding:10px;width:390px;box-shadow:0 0 0 1px #090909;}
+.hc-phone-top{height:20px;display:flex;align-items:center;justify-content:space-between;padding:0 11px;color:#aaa49a;font:8px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;}
+.hc-mobile-hero{position:relative;aspect-ratio:4/5;overflow:hidden;background:#181716;}
+.hc-mobile-hero img{width:100%;height:100%;object-fit:cover;filter:brightness(.72) saturate(.66);}
+.hc-mobile-hero:after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,9,.06),rgba(9,9,9,.7));}
+.hc-mobile-copy{padding:19px 17px 17px;background:#11100f;border-bottom:1px solid rgba(232,227,217,.18);}
+.hc-mobile-copy .hc-eyebrow{font-size:8px;margin-bottom:9px;letter-spacing:.17em;}
+.hc-mobile-copy h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:35px;line-height:.92;font-weight:400;margin:0 0 11px;max-width:260px;}
+.hc-mobile-copy p{font-size:10px;line-height:1.55;color:#aaa49a;margin:0 0 15px;}
+.hc-mobile-copy .hc-plate{width:100%;justify-content:space-between;min-height:49px;font-size:9px;}
+.hc-mobile-copy .hc-quiet-link{display:block;margin:12px 0 0;font-size:9px;width:max-content;}
+.hc-directory{border-top:1px solid rgba(232,227,217,.2);}
+.hc-directory-title{padding:15px 0 11px;font:9px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.19em;text-transform:uppercase;color:#c8a96e;}
+.hc-directory-row{display:grid;grid-template-columns:96px 31px 1fr 16px;min-height:108px;border-top:1px solid rgba(232,227,217,.15);align-items:stretch;text-decoration:none;color:#e8e3d9;}
+.hc-directory-row:hover,.hc-directory-row:focus-visible{background:#181716;outline:none;}
+.hc-directory-row img{width:96px;height:96px;align-self:center;object-fit:cover;filter:brightness(.72) saturate(.6);}
+.hc-directory-number{font:9px ui-monospace,SFMono-Regular,Menlo,monospace;color:#c8a96e;padding:14px 0 0 10px;}
+.hc-directory-info{padding:14px 8px 12px 12px;display:flex;flex-direction:column;justify-content:space-between;}
+.hc-directory-info strong{font-family:'Cormorant Garamond',Georgia,serif;font-size:23px;line-height:.9;font-weight:500;text-transform:uppercase;}
+.hc-directory-info span{font-size:9px;line-height:1.35;color:#aaa49a;max-width:240px;}
+.hc-directory-arrow{align-self:center;color:#c8a96e;font-size:16px;transition:transform 220ms cubic-bezier(.22,1,.36,1);}
+.hc-directory-row:hover .hc-directory-arrow,.hc-directory-row:focus-visible .hc-directory-arrow{transform:translateX(5px);}
+.hc-mobile-notes{padding-top:10px;max-width:470px;}
+.hc-mobile-notes .hc-section-kicker{margin-bottom:14px;}
+.hc-mobile-notes h3{font-family:'Cormorant Garamond',Georgia,serif;font-size:45px;line-height:.94;font-weight:400;margin:0 0 17px;max-width:430px;}
+.hc-mobile-notes p{font-size:13px;line-height:1.75;color:#aaa49a;max-width:410px;margin:0 0 22px;}
+.hc-note-line{display:flex;gap:14px;border-top:1px solid rgba(232,227,217,.18);padding:14px 0;color:#aaa49a;font-size:11px;line-height:1.55;}
+.hc-note-line strong{font:10px ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.15em;color:#c8a96e;min-width:62px;}
+@media (max-width:900px){.hc-rail{left:16px;right:16px;grid-template-columns:1fr auto;height:62px;padding:0 14px}.hc-nav,.hc-phone{display:none}.hc-rail-actions{gap:0}.hc-rail-cta{height:38px}.hc-hero{height:620px}.hc-hero-copy{left:24px;bottom:73px;width:calc(100% - 48px)}.hc-hero-title{font-size:64px}.hc-hero-title em{margin-left:0}.hc-product-bay{left:58%;width:24%;top:90px;bottom:82px}.hc-macro-bay{width:30%}.hc-threshold{left:24px;right:24px}.hc-section,.hc-mobile-section{padding-left:24px;padding-right:24px}.hc-elevation{display:flex;flex-direction:column;min-height:0}.hc-family,.hc-handles,.hc-door,.hc-bath,.hc-kitchen,.hc-furniture{min-height:280px}.hc-door{min-height:420px}.hc-mobile-layout{grid-template-columns:1fr}.hc-phone{width:min(390px,100%)}.hc-mobile-notes{display:none}.hc-mobile-head{display:block}.hc-mobile-head p{margin-top:12px}}
+@media (prefers-reduced-motion:reduce){.hc-plate-rule,.hc-family-action i,.hc-directory-arrow,.hc-family:after,.hc-family-image{transition:none}.hc-product-bay:hover .hc-sweep{animation:none}}
+</style>
+<div class="hc-shell" data-kid="1" data-name="page layout container">
+    <header class="hc-rail" data-kid="1-1" data-name="main navigation bar">
+        <a aria-label="Hardware Collection home" class="hc-brand hc-focus" data-kid="1-1-1" data-name="brand identity logo link" href="#top">
+            <span class="hc-mark" data-kid="1-1-1-1" data-name="brand mark icon">
+                HC
+            </span>
+            <span data-kid="1-1-1-2" data-name="brand name text">
+                HARDWARE COLLECTION
+            </span>
+        </a>
+        <nav aria-label="Primary navigation" class="hc-nav" data-kid="1-1-2" data-name="primary navigation menu">
+            <a class="hc-focus" data-kid="1-1-2-1" data-name="home link" href="#top">
+                Home
+            </a>
+            <a class="hc-focus" data-kid="1-1-2-2" data-name="collections link" href="#families">
+                Collections
+            </a>
+            <a class="hc-focus" data-kid="1-1-2-3" data-name="showroom link" href="#mobile-companion">
+                Showroom
+            </a>
+        </nav>
+        <div class="hc-rail-actions" data-kid="1-1-3" data-name="rail actions container">
+            <span class="hc-phone" data-kid="1-1-3-1" data-name="phone contact text">
+                +91 98351 90738
+            </span>
+            <a class="hc-rail-cta hc-focus" data-kid="1-1-3-2" data-name="inquire call-to-action button" href="#consult">
+                Inquire
+                <i aria-hidden="true" class="ti ti-arrow-up-right hc-icon" data-kid="1-1-3-2-1" data-name="arrow-up-right icon">
+                </i>
+            </a>
+        </div>
+    </header>
+    <main data-kid="1-2" data-name="main content area" id="top">
+        <section aria-labelledby="hero-title" class="hc-hero" data-kid="1-2-1" data-name="hero section">
+            <img alt="Brushed brass door handle on a dark architectural door" class="hc-hero-bg" data-kid="1-2-1-1" data-name="hero background image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/hero/HC-01-HERO-01.png"/>
+            <div aria-hidden="true" class="hc-hero-overlay" data-kid="1-2-1-2" data-name="hero gradient overlay">
+            </div>
+            <div aria-hidden="true" class="hc-bay-overlay" data-kid="1-2-1-3" data-name="left bay decorative overlay" style="left:38%;width:14%">
+            </div>
+            <div aria-hidden="true" class="hc-bay-overlay" data-kid="1-2-1-4" data-name="right bay decorative overlay" style="left:69%;width:10%">
+            </div>
+            <span aria-hidden="true" class="hc-structure-line" data-kid="1-2-1-5" data-name="left structure line" style="left:38%">
+            </span>
+            <span aria-hidden="true" class="hc-structure-line brass" data-kid="1-2-1-6" data-name="left brass structure line" style="left:51.5%">
+            </span>
+            <span aria-hidden="true" class="hc-structure-line" data-kid="1-2-1-7" data-name="right structure line" style="left:69%">
+            </span>
+            <span aria-hidden="true" class="hc-structure-line brass" data-kid="1-2-1-8" data-name="right brass structure line" style="left:79%">
+            </span>
+            <div aria-label="Product specimen detail" class="hc-product-bay" data-kid="1-2-1-9" data-name="product specimen detail bay" tabindex="0">
+                <img alt="Close detail of brushed brass lever handle" data-kid="1-2-1-9-1" data-name="brushed brass lever handle image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/hero/HC-01-HERO-02.png"/>
+                <span aria-hidden="true" class="hc-sweep" data-dynamic="true" data-kid="1-2-1-9-2" data-name="sweep animation element" data-reason="sweep animation replayed on hover by script">
+                </span>
+            </div>
+            <div aria-hidden="true" class="hc-macro-bay" data-kid="1-2-1-10" data-name="macro detail bay">
+                <img alt="Macro detail of a brass hardware finish" data-kid="1-2-1-10-1" data-name="brass finish macro image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/hero/HC-01-HERO-03.png"/>
+            </div>
+            <div class="hc-hero-copy" data-kid="1-2-1-11" data-name="hero copy content">
+                <p class="hc-eyebrow" data-kid="1-2-1-11-1" data-name="hero eyebrow text">
+                    Hardware Collection · Sakchi, Jamshedpur
+                </p>
+                <h1 class="hc-serif hc-hero-title" data-kid="1-2-1-11-2" data-name="hero title text" id="hero-title">
+                    The Art of
+                    <em data-kid="1-2-1-11-2-1" data-name="hero title emphasis">
+                        the Finish.
+                    </em>
+                </h1>
+                <p class="hc-hero-description" data-kid="1-2-1-11-3" data-name="hero description text">
+                    Architectural hardware chosen for spaces that deserve better details. Official partner for Häfele, Dorset, Labacha, Godrej & Hettich in Sakchi.
+                </p>
+                <a class="hc-plate hc-focus" data-kid="1-2-1-11-4" data-name="hero explore collections button" href="#families">
+                    <span data-kid="1-2-1-11-4-1" data-name="explore button label">
+                        Explore collections
+                    </span>
+                    <span aria-hidden="true" class="hc-plate-rule" data-kid="1-2-1-11-4-2" data-name="button decorative rule">
+                    </span>
+                    <i aria-hidden="true" class="ti ti-arrow-up-right hc-icon" data-kid="1-2-1-11-4-3" data-name="arrow-up-right icon">
+                    </i>
+                </a>
+                <a class="hc-quiet-link hc-focus" data-kid="1-2-1-11-5" data-name="showroom link" href="#mobile-companion">
+                    Visit the Sakchi showroom
+                </a>
+            </div>
+            <div class="hc-threshold" data-kid="1-2-1-12" data-name="hero threshold bar">
+                <span data-kid="1-2-1-12-1" data-name="threshold counter group">
+                    <strong data-kid="1-2-1-12-1-1" data-name="threshold counter text">
+                        01 / 02
+                    </strong>
+                    Hero threshold
+                </span>
+                <a class="hc-threshold-route hc-focus" data-kid="1-2-1-12-2" data-name="threshold route link" href="#mobile-companion">
+                    Touch before you decide
+                    <i aria-hidden="true" class="ti ti-arrow-up-right hc-icon" data-kid="1-2-1-12-2-1" data-name="arrow-up-right icon">
+                    </i>
+                </a>
+            </div>
+        </section>
+        <section aria-labelledby="families-title" class="hc-section" data-kid="1-2-2" data-name="showroom families section" id="families">
+            <div class="hc-section-head" data-kid="1-2-2-1" data-name="section header container">
+                <div data-kid="1-2-2-1-1" data-name="section header title group">
+                    <p class="hc-section-kicker" data-kid="1-2-2-1-1-1" data-name="section kicker text">
+                        Showroom families / 05
+                    </p>
+                    <h2 class="hc-serif hc-section-title" data-kid="1-2-2-1-1-2" data-name="section title" id="families-title">
+                        A complete elevation
+                        <br data-kid="1-2-2-1-1-2-1"/>
+                        of the showroom.
+                    </h2>
+                </div>
+                <p class="hc-section-note" data-kid="1-2-2-1-2" data-name="section note text">
+                    Five practical families, arranged by the breadth of their specification. Browse products by the way hardware enters a space.
+                </p>
+            </div>
+            <div aria-label="Showroom family elevation" class="hc-elevation" data-kid="1-2-2-2" data-name="showroom family elevation grid">
+                <a class="hc-family hc-handles hc-focus" data-kid="1-2-2-2-1" data-name="handles family card" href="#collections-handles">
+                    <img alt="Main entrance door hardware in the showroom" class="hc-family-image" data-kid="1-2-2-2-1-1" data-name="handles family image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-DOORS.png"/>
+                    <span aria-hidden="true" class="hc-family-scrim" data-kid="1-2-2-2-1-2" data-name="family card scrim">
+                    </span>
+                    <div class="hc-family-content" data-kid="1-2-2-2-1-3" data-name="family card content">
+                        <span class="hc-family-index" data-kid="1-2-2-2-1-3-1" data-name="family index text">
+                            01 / 05
+                        </span>
+                        <h3 class="hc-family-title" data-kid="1-2-2-2-1-3-2" data-name="family title text">
+                            Handles &
+                            <br data-kid="1-2-2-2-1-3-2-1"/>
+                            Knobs
+                        </h3>
+                        <p class="hc-family-tag" data-kid="1-2-2-2-1-3-3" data-name="family tag text">
+                            Contemporary profiles to classical architectural detailing.
+                        </p>
+                        <div class="hc-family-meta" data-kid="1-2-2-2-1-3-4" data-name="family meta group">
+                            <span data-kid="1-2-2-2-1-3-4-1" data-name="collection count text">
+                                2 collections
+                            </span>
+                            <span class="hc-family-action" data-kid="1-2-2-2-1-3-4-2" data-name="browse link">
+                                Browse products
+                                <i aria-hidden="true" class="ti ti-arrow-right hc-icon" data-kid="1-2-2-2-1-3-4-2-1" data-name="arrow-right icon">
+                                </i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <a class="hc-family hc-door hc-focus" data-kid="1-2-2-2-2" data-name="door family card" href="#collections-door">
+                    <img alt="Digital lock and door security hardware in a dark showroom" class="hc-family-image" data-kid="1-2-2-2-2-1" data-name="door family image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-SECURITY.png"/>
+                    <span aria-hidden="true" class="hc-family-scrim" data-kid="1-2-2-2-2-2" data-name="family card scrim">
+                    </span>
+                    <div class="hc-family-content" data-kid="1-2-2-2-2-3" data-name="family card content">
+                        <span class="hc-family-index" data-kid="1-2-2-2-2-3-1" data-name="family index text">
+                            02 / 05 · FOCAL FAMILY
+                        </span>
+                        <h3 class="hc-family-title" data-kid="1-2-2-2-2-3-2" data-name="family title text">
+                            Door
+                            <br data-kid="1-2-2-2-2-3-2-1"/>
+                            Hardware
+                        </h3>
+                        <p class="hc-family-tag" data-kid="1-2-2-2-2-3-3" data-name="family tag text">
+                            High-security locking systems and precision entrance controls.
+                        </p>
+                        <div aria-label="Door hardware collections" class="hc-door-list" data-kid="1-2-2-2-2-3-4" data-name="door collections list">
+                            <span data-kid="1-2-2-2-2-3-4-1" data-name="door collection item">
+                                Digital Locks
+                            </span>
+                            <span data-kid="1-2-2-2-2-3-4-2" data-name="door collection item">
+                                Mortise & Door Locks
+                            </span>
+                            <span data-kid="1-2-2-2-2-3-4-3" data-name="door collection item">
+                                Main Door Handles
+                            </span>
+                            <span data-kid="1-2-2-2-2-3-4-4" data-name="door collection item">
+                                Glass Hardware
+                            </span>
+                            <span data-kid="1-2-2-2-2-3-4-5" data-name="door collection item">
+                                Door Closers & Stoppers
+                            </span>
+                            <span data-kid="1-2-2-2-2-3-4-6" data-name="door collection item">
+                                Safes
+                            </span>
+                        </div>
+                        <div class="hc-family-meta" data-kid="1-2-2-2-2-3-5" data-name="family meta group">
+                            <span data-kid="1-2-2-2-2-3-5-1" data-name="collection count text">
+                                6 collections
+                            </span>
+                            <span class="hc-family-action" data-kid="1-2-2-2-2-3-5-2" data-name="browse link">
+                                Browse products
+                                <i aria-hidden="true" class="ti ti-arrow-right hc-icon" data-kid="1-2-2-2-2-3-5-2-1" data-name="arrow-right icon">
+                                </i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <a class="hc-family hc-bath hc-focus" data-kid="1-2-2-2-3" data-name="bath family card" href="#collections-bathroom">
+                    <img alt="Bathroom fittings and stainless steel fixtures" class="hc-family-image" data-kid="1-2-2-2-3-1" data-name="bath family image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-BATHROOM.png"/>
+                    <span aria-hidden="true" class="hc-family-scrim" data-kid="1-2-2-2-3-2" data-name="family card scrim">
+                    </span>
+                    <div class="hc-family-content" data-kid="1-2-2-2-3-3" data-name="family card content">
+                        <span class="hc-family-index" data-kid="1-2-2-2-3-3-1" data-name="family index text">
+                            03 / 05
+                        </span>
+                        <h3 class="hc-family-title" data-kid="1-2-2-2-3-3-2" data-name="family title text">
+                            Bathroom
+                        </h3>
+                        <p class="hc-family-tag" data-kid="1-2-2-2-3-3-3" data-name="family tag text">
+                            Luxury shower fittings, mirrors, and precision stainless steel suites.
+                        </p>
+                        <div class="hc-family-meta" data-kid="1-2-2-2-3-3-4" data-name="family meta group">
+                            <span data-kid="1-2-2-2-3-3-4-1" data-name="collection count text">
+                                1 collection
+                            </span>
+                            <span class="hc-family-action" data-kid="1-2-2-2-3-3-4-2" data-name="browse link">
+                                Browse
+                                <i aria-hidden="true" class="ti ti-arrow-right hc-icon" data-kid="1-2-2-2-3-3-4-2-1" data-name="arrow-right icon">
+                                </i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <a class="hc-family hc-kitchen hc-focus" data-kid="1-2-2-2-4" data-name="kitchen family card" href="#collections-kitchen">
+                    <img alt="Modular kitchen hardware and storage systems" class="hc-family-image" data-kid="1-2-2-2-4-1" data-name="kitchen family image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-KITCHEN.png"/>
+                    <span aria-hidden="true" class="hc-family-scrim" data-kid="1-2-2-2-4-2" data-name="family card scrim">
+                    </span>
+                    <div class="hc-family-content" data-kid="1-2-2-2-4-3" data-name="family card content">
+                        <span class="hc-family-index" data-kid="1-2-2-2-4-3-1" data-name="family index text">
+                            04 / 05
+                        </span>
+                        <h3 class="hc-family-title" data-kid="1-2-2-2-4-3-2" data-name="family title text">
+                            Kitchen & Wardrobes
+                        </h3>
+                        <div class="hc-family-meta" data-kid="1-2-2-2-4-3-3" data-name="family meta group">
+                            <span data-kid="1-2-2-2-4-3-3-1" data-name="collection count text">
+                                6 collections
+                            </span>
+                            <span class="hc-family-action" data-kid="1-2-2-2-4-3-3-2" data-name="browse link">
+                                Browse
+                                <i aria-hidden="true" class="ti ti-arrow-right hc-icon" data-kid="1-2-2-2-4-3-3-2-1" data-name="arrow-right icon">
+                                </i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+                <a class="hc-family hc-furniture hc-focus" data-kid="1-2-2-2-5" data-name="furniture family card" href="#collections-furniture">
+                    <img alt="Wardrobe sliding and furniture hardware" class="hc-family-image" data-kid="1-2-2-2-5-1" data-name="furniture family image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-WARDROBE.png"/>
+                    <span aria-hidden="true" class="hc-family-scrim" data-kid="1-2-2-2-5-2" data-name="family card scrim">
+                    </span>
+                    <div class="hc-family-content" data-kid="1-2-2-2-5-3" data-name="family card content">
+                        <span class="hc-family-index" data-kid="1-2-2-2-5-3-1" data-name="family index text">
+                            05 / 05
+                        </span>
+                        <h3 class="hc-family-title" data-kid="1-2-2-2-5-3-2" data-name="family title text">
+                            Furniture
+                            <br data-kid="1-2-2-2-5-3-2-1"/>
+                            Hardware
+                        </h3>
+                        <p class="hc-family-tag" data-kid="1-2-2-2-5-3-3" data-name="family tag text">
+                            Concealed hinges, drawer runners, and joinery fittings.
+                        </p>
+                        <div class="hc-family-meta" data-kid="1-2-2-2-5-3-4" data-name="family meta group">
+                            <span data-kid="1-2-2-2-5-3-4-1" data-name="collection count text">
+                                3 collections
+                            </span>
+                            <span class="hc-family-action" data-kid="1-2-2-2-5-3-4-2" data-name="browse link">
+                                Browse
+                                <i aria-hidden="true" class="ti ti-arrow-right hc-icon" data-kid="1-2-2-2-5-3-4-2-1" data-name="arrow-right icon">
+                                </i>
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </section>
+        <section aria-labelledby="mobile-title" class="hc-mobile-section" data-kid="1-2-3" data-name="mobile companion section" id="mobile-companion">
+            <div class="hc-mobile-head" data-kid="1-2-3-1" data-name="mobile section header">
+                <h2 data-kid="1-2-3-1-1" data-name="mobile section title" id="mobile-title">
+                    Mobile companion frame
+                </h2>
+                <p data-kid="1-2-3-1-2" data-name="mobile section description">
+                    390 width · independent vertical journey
+                </p>
+            </div>
+            <div class="hc-mobile-layout" data-kid="1-2-3-2" data-name="mobile layout container">
+                <div aria-label="Mobile home page companion" class="hc-phone" data-kid="1-2-3-2-1" data-name="phone frame component">
+                    <div class="hc-phone-top" data-kid="1-2-3-2-1-1" data-name="phone status bar">
+                        <span data-kid="1-2-3-2-1-1-1" data-name="phone brand name text">
+                            HARDWARE COLLECTION
+                        </span>
+                        <span data-dynamic="true" data-kid="1-2-3-2-1-1-2" data-name="phone time text" data-reason="time text updated every minute by clock script">
+                            09:41
+                        </span>
+                    </div>
+                    <div class="hc-mobile-hero" data-kid="1-2-3-2-1-2" data-name="mobile hero area">
+                        <img alt="Brushed brass door handle against dark timber" data-kid="1-2-3-2-1-2-1" data-name="mobile hero image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/hero/HC-01-HERO-01.png"/>
+                    </div>
+                    <div class="hc-mobile-copy" data-kid="1-2-3-2-1-3" data-name="mobile copy area">
+                        <p class="hc-eyebrow" data-kid="1-2-3-2-1-3-1" data-name="mobile eyebrow text">
+                            Sakchi · Jamshedpur
+                        </p>
+                        <h3 data-kid="1-2-3-2-1-3-2" data-name="mobile title text">
+                            The Art of
+                            <br data-kid="1-2-3-2-1-3-2-1" data-name="mobile title emphasis"/>
+                            the Finish.
+                        </h3>
+                        <p data-kid="1-2-3-2-1-3-3" data-name="mobile description text">
+                            Architectural hardware for considered interiors, selected and specified from our live showroom.
+                        </p>
+                        <a class="hc-plate hc-focus" data-kid="1-2-3-2-1-3-4" data-name="mobile explore button" href="#families">
+                            <span data-kid="1-2-3-2-1-3-4-1" data-name="explore button label">
+                                Explore collections
+                            </span>
+                            <i aria-hidden="true" class="ti ti-arrow-up-right hc-icon" data-kid="1-2-3-2-1-3-4-2" data-name="arrow-up-right icon">
+                            </i>
+                        </a>
+                        <a class="hc-quiet-link hc-focus" data-kid="1-2-3-2-1-3-5" data-name="mobile showroom link" href="#consult">
+                            Visit showroom
+                        </a>
+                    </div>
+                    <div class="hc-directory" data-kid="1-2-3-2-1-4" data-name="mobile directory list">
+                        <div class="hc-directory-title" data-kid="1-2-3-2-1-4-1" data-name="directory title">
+                            Showroom families / 05
+                        </div>
+                        <a class="hc-directory-row hc-focus" data-kid="1-2-3-2-1-4-2" data-name="handles directory row" href="#collections-handles">
+                            <img alt="Handles and knobs family" data-kid="1-2-3-2-1-4-2-1" data-name="handles directory image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-DOORS.png"/>
+                            <span class="hc-directory-number" data-kid="1-2-3-2-1-4-2-2" data-name="handles directory number">
+                                01
+                            </span>
+                            <span class="hc-directory-info" data-kid="1-2-3-2-1-4-2-3" data-name="handles directory info">
+                                <strong data-kid="1-2-3-2-1-4-2-3-1" data-name="handles title">
+                                    Handles & Knobs
+                                </strong>
+                                <span data-kid="1-2-3-2-1-4-2-3-2" data-name="handles description">
+                                    Contemporary profiles to classical detailing.
+                                </span>
+                            </span>
+                            <i aria-hidden="true" class="ti ti-arrow-up-right hc-directory-arrow" data-kid="1-2-3-2-1-4-2-4" data-name="arrow-up-right icon">
+                            </i>
+                        </a>
+                        <a class="hc-directory-row hc-focus" data-kid="1-2-3-2-1-4-3" data-name="door directory row" href="#collections-door">
+                            <img alt="Door hardware family" data-kid="1-2-3-2-1-4-3-1" data-name="door directory image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-SECURITY.png"/>
+                            <span class="hc-directory-number" data-kid="1-2-3-2-1-4-3-2" data-name="door directory number">
+                                02
+                            </span>
+                            <span class="hc-directory-info" data-kid="1-2-3-2-1-4-3-3" data-name="door directory info">
+                                <strong data-kid="1-2-3-2-1-4-3-3-1" data-name="door title">
+                                    Door Hardware
+                                </strong>
+                                <span data-kid="1-2-3-2-1-4-3-3-2" data-name="door description">
+                                    Locks, controls, and entrance security.
+                                </span>
+                            </span>
+                            <i aria-hidden="true" class="ti ti-arrow-up-right hc-directory-arrow" data-kid="1-2-3-2-1-4-3-4" data-name="arrow-up-right icon">
+                            </i>
+                        </a>
+                        <a class="hc-directory-row hc-focus" data-kid="1-2-3-2-1-4-4" data-name="bath directory row" href="#collections-bathroom">
+                            <img alt="Bathroom family" data-kid="1-2-3-2-1-4-4-1" data-name="bath directory image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-BATHROOM.png"/>
+                            <span class="hc-directory-number" data-kid="1-2-3-2-1-4-4-2" data-name="bath directory number">
+                                03
+                            </span>
+                            <span class="hc-directory-info" data-kid="1-2-3-2-1-4-4-3" data-name="bath directory info">
+                                <strong data-kid="1-2-3-2-1-4-4-3-1" data-name="bath title">
+                                    Bathroom
+                                </strong>
+                                <span data-kid="1-2-3-2-1-4-4-3-2" data-name="bath description">
+                                    Shower suites and stainless fixtures.
+                                </span>
+                            </span>
+                            <i aria-hidden="true" class="ti ti-arrow-up-right hc-directory-arrow" data-kid="1-2-3-2-1-4-4-4" data-name="arrow-up-right icon">
+                            </i>
+                        </a>
+                        <a class="hc-directory-row hc-focus" data-kid="1-2-3-2-1-4-5" data-name="kitchen directory row" href="#collections-kitchen">
+                            <img alt="Kitchen and wardrobes family" data-kid="1-2-3-2-1-4-5-1" data-name="kitchen directory image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-KITCHEN.png"/>
+                            <span class="hc-directory-number" data-kid="1-2-3-2-1-4-5-2" data-name="kitchen directory number">
+                                04
+                            </span>
+                            <span class="hc-directory-info" data-kid="1-2-3-2-1-4-5-3" data-name="kitchen directory info">
+                                <strong data-kid="1-2-3-2-1-4-5-3-1" data-name="kitchen title">
+                                    Kitchen & Wardrobes
+                                </strong>
+                                <span data-kid="1-2-3-2-1-4-5-3-2" data-name="kitchen description">
+                                    Soft-close systems, sinks, and sliding.
+                                </span>
+                            </span>
+                            <i aria-hidden="true" class="ti ti-arrow-up-right hc-directory-arrow" data-kid="1-2-3-2-1-4-5-4" data-name="arrow-up-right icon">
+                            </i>
+                        </a>
+                        <a class="hc-directory-row hc-focus" data-kid="1-2-3-2-1-4-6" data-name="furniture directory row" href="#collections-furniture">
+                            <img alt="Furniture hardware family" data-kid="1-2-3-2-1-4-6-1" data-name="furniture directory image" decoding="async" loading="lazy" src="/api/local/images/public/cinema/categories/HC-03-WARDROBE.png"/>
+                            <span class="hc-directory-number" data-kid="1-2-3-2-1-4-6-2" data-name="furniture directory number">
+                                05
+                            </span>
+                            <span class="hc-directory-info" data-kid="1-2-3-2-1-4-6-3" data-name="furniture directory info">
+                                <strong data-kid="1-2-3-2-1-4-6-3-1" data-name="furniture title">
+                                    Furniture Hardware
+                                </strong>
+                                <span data-kid="1-2-3-2-1-4-6-3-2" data-name="furniture description">
+                                    Hinges, drawer runners, and joinery.
+                                </span>
+                            </span>
+                            <i aria-hidden="true" class="ti ti-arrow-up-right hc-directory-arrow" data-kid="1-2-3-2-1-4-6-4" data-name="arrow-up-right icon">
+                            </i>
+                        </a>
+                    </div>
+                </div>
+                <div class="hc-mobile-notes" data-kid="1-2-3-2-2" data-name="mobile notes area">
+                    <p class="hc-section-kicker" data-kid="1-2-3-2-2-1" data-name="mobile note kicker">
+                        Responsive architecture / not a reduced desktop
+                    </p>
+                    <h3 data-kid="1-2-3-2-2-2" data-name="mobile note title">
+                        A vertical facade directory for fast, tactile browsing.
+                    </h3>
+                    <p data-kid="1-2-3-2-2-3" data-name="mobile note description">
+                        The mobile frame keeps the emotional product image separate from the copy plane, then exposes all five canonical showroom families as clear, 56px-plus routes. No horizontal scroller, no inaccurate category labels, and no fixed element competing with the conversion bar.
+                    </p>
+                    <div class="hc-note-line" data-kid="1-2-3-2-2-4" data-name="note line">
+                        <strong data-kid="1-2-3-2-2-4-1" data-name="note label">
+                            01 / HERO
+                        </strong>
+                        <span data-kid="1-2-3-2-2-4-2" data-name="note value">
+                            4:5 visual bay, independent copy plane, one brass action.
+                        </span>
+                    </div>
+                    <div class="hc-note-line" data-kid="1-2-3-2-2-5" data-name="note line">
+                        <strong data-kid="1-2-3-2-2-5-1" data-name="note label">
+                            02 / INDEX
+                        </strong>
+                        <span data-kid="1-2-3-2-2-5-2" data-name="note value">
+                            96px image panel, top-aligned family number, direct collection route.
+                        </span>
+                    </div>
+                    <div class="hc-note-line" data-kid="1-2-3-2-2-6" data-name="note line">
+                        <strong data-kid="1-2-3-2-2-6-1" data-name="note label">
+                            03 / STATE
+                        </strong>
+                        <span data-kid="1-2-3-2-2-6-2" data-name="note value">
+                            Opacity and rule changes only; no zoom, lift, or perpetual motion.
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>

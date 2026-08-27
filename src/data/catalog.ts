@@ -200,15 +200,21 @@ export const BRANDS: BrandInfo[] = [
     authorized: true,
     logo: "/brands/Hafele.png",
     tagline: "German Architectural & Kitchen Hardware",
-    description: "Hafele is a world-renowned German manufacturer of architectural hardware, furniture fittings, and electronic access control systems. Established in 1923, Hafele products embody precision engineering, sleek minimalist design, and smooth operation for high-end residential and commercial developments.",
+    description: "Hafele is a world-renowned German manufacturer of architectural hardware, furniture fittings, and electronic access control systems.",
     establishedYear: "1923",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: [
-      "German Precision & Soft-Close Engineering",
-      "Matrix Box & Tandem Drawer Runner Systems",
-      "3D Adjustable Concealed Door Hinges",
-      "Biometric Smart Locks with Smart Life App Integration"
-    ]
+    keyHighlights: ["German Precision", "Matrix Box", "3D Hinges", "Biometric Locks"]
+  },
+  {
+    id: "blum",
+    name: "Blum",
+    country: "Austria",
+    tier: "Premium Kitchen & Cabinet Hardware",
+    authorized: true,
+    logo: "/brands/Blum_logo.svg",
+    tagline: "Perfecting Motion",
+    description: "Blum is an international company that specializes in the production of functional furniture fittings.",
+    keyHighlights: ["Lift Systems", "Hinge Systems", "Pull-out Systems"]
   },
   {
     id: "dorset",
@@ -218,15 +224,87 @@ export const BRANDS: BrandInfo[] = [
     authorized: true,
     logo: "/brands/dorset-seeklogo.svg",
     tagline: "Digital Locks & Architectural Mortise",
-    description: "Dorset is a premier provider of door controls, locksets, digital security systems, and architectural ironmongery. Engineered for maximum physical security and elegant aesthetic appeal, Dorset mortise handles and biometric deadbolts secure iconic properties across the globe.",
+    description: "Dorset is a premier provider of door controls, locksets, digital security systems, and architectural ironmongery.",
     establishedYear: "1995",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: [
-      "SS 304 High-Grade Mortise Handle Sets",
-      "Dual-Auth Biometric & RFID Digital Door Locks",
-      "200,000 Cycle Durability Certified Locks",
-      "Custom PVD Rose Gold & Antique Brass Finishes"
-    ]
+    keyHighlights: ["SS 304 Handle Sets", "Biometric Locks", "200,000 Cycle Durability"]
+  },
+  {
+    id: "pans",
+    name: "Pans",
+    country: "Global",
+    tier: "Premium Hardware",
+    authorized: true,
+    logo: "",
+    tagline: "Premium Hardware Solutions",
+    description: "Pans provides premium hardware and fittings.",
+    keyHighlights: ["Quality Hardware", "Durability"]
+  },
+  {
+    id: "geze",
+    name: "Geze",
+    country: "Germany",
+    tier: "Door, Window & Safety Technology",
+    authorized: true,
+    logo: "/brands/GEZE_Logo_RGB.png",
+    tagline: "Connecting expertise - building solutions",
+    description: "GEZE is one of the world's leading developers and manufacturers of construction systems for door, window and safety technology.",
+    keyHighlights: ["Automatic Doors", "Door Closers", "Glass Systems"]
+  },
+  {
+    id: "ozone",
+    name: "Ozone",
+    country: "India",
+    tier: "Architectural Hardware & Security",
+    authorized: true,
+    logo: "/brands/ozone.webp",
+    tagline: "Safe & Secure",
+    description: "Ozone is a leading player in Architectural Hardware and Security Solutions.",
+    keyHighlights: ["Glass Fittings", "Door Hardware", "Safes"]
+  },
+  {
+    id: "backer",
+    name: "Backer",
+    country: "Global",
+    tier: "Architectural Solutions",
+    authorized: true,
+    logo: "",
+    tagline: "Quality Architectural Hardware",
+    description: "Backer provides robust architectural solutions.",
+    keyHighlights: ["Durability", "Design"]
+  },
+  {
+    id: "helix",
+    name: "Helix",
+    country: "Global",
+    tier: "Advanced Hardware",
+    authorized: true,
+    logo: "/brands/heliex.webp",
+    tagline: "Next-Gen Hardware",
+    description: "Helix manufactures advanced hardware solutions for modern architecture.",
+    keyHighlights: ["Advanced Systems", "Durability"]
+  },
+  {
+    id: "tattva",
+    name: "Tattva",
+    country: "India",
+    tier: "Premium Hardware",
+    authorized: true,
+    logo: "",
+    tagline: "Excellence in Hardware",
+    description: "Tattva offers a range of high-quality hardware products.",
+    keyHighlights: ["Premium Quality", "Modern Design"]
+  },
+  {
+    id: "yale",
+    name: "Yale",
+    country: "Global",
+    tier: "Smart Security & Locks",
+    authorized: true,
+    logo: "/brands/Yale_logo.svg",
+    tagline: "The world's favorite lock",
+    description: "Yale protects millions of homes and businesses worldwide and is the brand behind locks of every design and function.",
+    keyHighlights: ["Smart Locks", "Safes", "Padlocks", "Alarms"]
   },
   {
     id: "labacha",
@@ -236,15 +314,87 @@ export const BRANDS: BrandInfo[] = [
     authorized: true,
     logo: "/brands/labacha_logo.webp",
     tagline: "Luxury Granite Sinks & Bath Mixers",
-    description: "Labacha brings Italian-inspired quartz composite granite sinks, workstation kitchen sinks, and luxury bathroom mixers to modern living spaces. Crafted from non-porous antibacterial materials, Labacha products combine high thermal resistance with tactile elegance.",
+    description: "Labacha brings Italian-inspired quartz composite granite sinks, workstation kitchen sinks, and luxury bathroom mixers to modern living spaces.",
     establishedYear: "2010",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: [
-      "Natural Quartz Composite Granite Construction",
-      "Heat & Scratch Resistant Non-Porous Surfaces",
-      "360° Swivel Pull-Out Brass Kitchen Faucets",
-      "Anti-Bacterial & Easy Clean Nano-Coating"
-    ]
+    keyHighlights: ["Quartz Composite", "Heat & Scratch Resistant", "360° Faucets", "Nano-Coating"]
+  },
+  {
+    id: "rexton",
+    name: "Rexton",
+    country: "Global",
+    tier: "Architectural Hardware",
+    authorized: true,
+    logo: "",
+    tagline: "Reliable Hardware Solutions",
+    description: "Rexton provides reliable architectural hardware.",
+    keyHighlights: ["Durability", "Precision"]
+  },
+  {
+    id: "liftor",
+    name: "Liftor",
+    country: "Global",
+    tier: "Ergonomic Furniture Solutions",
+    authorized: true,
+    logo: "/brands/Liftor.png",
+    tagline: "Ergonomic Excellence",
+    description: "Liftor specializes in height-adjustable desks and ergonomic furniture solutions.",
+    keyHighlights: ["Standing Desks", "Ergonomics", "Smart Office"]
+  },
+  {
+    id: "taco",
+    name: "Taco",
+    country: "Global",
+    tier: "Premium Hardware",
+    authorized: true,
+    logo: "",
+    tagline: "Quality Hardware",
+    description: "Taco provides a range of quality hardware solutions.",
+    keyHighlights: ["Quality", "Design"]
+  },
+  {
+    id: "madhuram",
+    name: "Madhuram",
+    country: "India",
+    tier: "Hardware Solutions",
+    authorized: true,
+    logo: "",
+    tagline: "Reliable Hardware",
+    description: "Madhuram offers a variety of hardware fittings.",
+    keyHighlights: ["Reliability", "Durability"]
+  },
+  {
+    id: "shapes",
+    name: "Shapes",
+    country: "Global",
+    tier: "Architectural Accents",
+    authorized: true,
+    logo: "/brands/Shapes_logo_dark-1-768x224.png",
+    tagline: "Defined by Design",
+    description: "Shapes offers modern architectural hardware and elegant design accents.",
+    keyHighlights: ["Modern Hardware", "Minimalist Design"]
+  },
+  {
+    id: "furnipart",
+    name: "Furnipart",
+    country: "Denmark",
+    tier: "Premium Cabinet Hardware",
+    authorized: true,
+    logo: "",
+    tagline: "Danish Design",
+    description: "Furnipart designs and manufactures high-quality handles for the furniture industry.",
+    keyHighlights: ["Danish Design", "Premium Finishes"]
+  },
+  {
+    id: "marnello",
+    name: "Marnello",
+    country: "Global",
+    tier: "Hardware Solutions",
+    authorized: true,
+    logo: "",
+    tagline: "Hardware Excellence",
+    description: "Marnello offers a comprehensive range of hardware products.",
+    keyHighlights: ["Excellence", "Durability"]
   },
   {
     id: "godrej",
@@ -254,51 +404,21 @@ export const BRANDS: BrandInfo[] = [
     authorized: true,
     logo: "/brands/Godrej.svg",
     tagline: "India's Trusted Smart Biometric Security",
-    description: "Godrej Security Solutions is synonymous with unyielding trust and enterprise security in India. Offering state-of-the-art biometric main door locks, home safes, and rim locks, Godrej ensures peace of mind through advanced encryption and robust mechanical construction.",
+    description: "Godrej Security Solutions is synonymous with unyielding trust and enterprise security in India.",
     establishedYear: "1897",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: [
-      "Bank-Grade Biometric Sensor Recognition",
-      "Anti-Prise Deadbolt Locks & Emergency Mechanical Override",
-      "Smart Mobile App Access & OTP Sharing",
-      "Pan-India Service & Comprehensive Warranty"
-    ]
+    keyHighlights: ["Biometric Sensor", "Anti-Prise Locks", "Smart Mobile App", "Pan-India Service"]
   },
   {
-    id: "hettich",
-    name: "Hettich",
-    country: "Germany",
-    tier: "Precision Sliding & Drawer Runners",
+    id: "decore",
+    name: "Decore",
+    country: "Global",
+    tier: "Interior Finishes",
     authorized: true,
-    logo: "/brands/Hettich.svg",
-    tagline: "Sliding Systems & German Drawer Fittings",
-    description: "Hettich creates perfect technology for furniture. As one of Germany's leading hardware manufacturers, Hettich's silent soft-close drawers, top-running sliding wardrobe fittings, and Sensys hinges set global benchmarks for interior design functionality.",
-    establishedYear: "1888",
-    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: [
-      "InnoTech Atira & ArciTech Soft-Close Drawer Systems",
-      "Top-Running Heavy Weight Sliding Door Hardware",
-      "Integrated Silent System Hinge Dampening",
-      "Modular Pull-Out Kitchen & Wardrobe Accessories"
-    ]
-  },
-  {
-    id: "kich",
-    name: "Kich",
-    country: "India",
-    tier: "Premium Architectural & Glass Fittings",
-    authorized: true,
-    logo: "/brands/Godrej.svg",
-    tagline: "Architectural Hardware & Balustrade Systems",
-    description: "Kich is India's leading manufacturer of premium architectural hardware, stainless steel handrails, glass railing systems, and glass hardware fittings. Celebrated for high-grade AISI 316 stainless steel craftsmanship and award-winning designs.",
-    establishedYear: "1992",
-    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: [
-      "AISI 316 Marine Grade Stainless Steel Construction",
-      "Glass Patch Fittings & Shower Cubicle Brackets",
-      "Corrosion-Free Glass Railing & Spider Systems",
-      "National Design Award Winner for Ironmongery"
-    ]
+    logo: "/brands/decore.png",
+    tagline: "Premium Finishes",
+    description: "Decore provides high-quality interior finishes and hardware solutions.",
+    keyHighlights: ["Finishes", "Cabinet Hardware"]
   }
 ];
 

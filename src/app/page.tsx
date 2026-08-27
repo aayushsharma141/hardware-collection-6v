@@ -2,21 +2,28 @@ import React from "react";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { getHomePage, getSiteSettings, getBrands } from "@/sanity/queries";
+import MobileConversionBar from "@/components/home/MobileConversionBar";
 
 // Global cinema system
 import { AtmosphericBackground } from "@/components/home/cinema/AtmosphericBackground";
-import { ChapterIndex } from "@/components/home/cinema/ChapterIndex";
 import { PointerLight } from "@/components/home/cinema/PointerLight";
 import { ScrollProgress } from "@/components/animations/ScrollProgress";
 
 // 7 Cinematic Chapters
 import HeroStage from "@/components/home/HeroStage";           // CH01 — HIGH tension
-import InteractiveBrandWall from "@/components/home/InteractiveBrandWall"; // CH02 — LOW tension
+import BrandTrustStrip from "@/components/BrandTrustStrip";        // CH02 — LOW tension
 import CategoryDiscovery from "@/components/home/CategoryDiscovery";       // CH03 — MEDIUM tension
 import MaterialJourney from "@/components/home/MaterialJourney";           // CH04 — VERY HIGH tension
 import ProductReel from "@/components/home/ProductReel";                   // CH05 — MEDIUM tension
 import ShowroomCinematic from "@/components/home/ShowroomCinematic";       // CH06 — HIGH tension
 import FloatingCTA from "@/components/home/FloatingCTA";                   // CH07 — QUIET ZONE
+
+// Mobile specific components
+import MobileHero from "@/components/home/mobile/MobileHero";
+import MobileCategoryDiscovery from "@/components/home/mobile/MobileCategoryDiscovery";
+import MobileProductReel from "@/components/home/mobile/MobileProductReel";
+import MobileReviews from "@/components/home/mobile/MobileReviews";
+import MobileConsultation from "@/components/home/mobile/MobileConsultation";
 
 export const revalidate = 60;
 
@@ -75,9 +82,6 @@ export default async function HomePage() {
       {/* Pointer lighting — registered globally, scoped per chapter via .pointer-light */}
       <PointerLight />
 
-      {/* Left-rail chapter index — desktop fine-pointer only */}
-      <ChapterIndex />
-
       {/* ── Navigation ──────────────────────────────────────────── */}
       <Navbar
         primaryPhone={siteSettings?.primaryPhone}
@@ -86,31 +90,47 @@ export default async function HomePage() {
       />
 
       {/* ── 7 Cinematic Chapters ─────────────────────────────────── */}
-      <main>
-        {/* CH01 — The Art of the Finish (HIGH) */}
-        <HeroStage slides={heroSlides} />
+      <main className="relative z-10">
+        {/* Mobile Experience (Stitch Redesign) */}
+        <div className="block lg:hidden">
+          <MobileHero slides={heroSlides} />
+          <MobileCategoryDiscovery />
+          <MobileProductReel />
+          <MobileReviews />
+          <MobileConsultation />
+        </div>
 
-        {/* CH02 — Specified By (LOW) */}
-        <InteractiveBrandWall />
+        {/* Desktop Experience (Legacy) */}
+        <div className="hidden lg:block">
+          {/* CH01 — The Art of the Finish (HIGH) */}
+          <HeroStage slides={heroSlides} />
 
-        {/* CH03 — Form & Function (MEDIUM) */}
-        <CategoryDiscovery />
+          {/* CH02 — Specified By (LOW) */}
+          <BrandTrustStrip />
 
-        {/* CH04 — The Finish · Primary Material Showcase (VERY HIGH) */}
-        <MaterialJourney />
+          {/* CH03 — Form & Function (MEDIUM) */}
+          <CategoryDiscovery />
 
-        {/* CH05 — The Collection · Emotion→Consideration Bridge (MEDIUM) */}
-        <ProductReel />
+          {/* CH04 — The Finish · Primary Material Showcase (VERY HIGH) */}
+          <MaterialJourney />
 
-        {/* CH06 — Inside the Showroom (HIGH) */}
-        <ShowroomCinematic />
+          {/* CH05 — The Collection · Emotion→Consideration Bridge (MEDIUM) */}
+          <ProductReel />
 
-        {/* CH07 — Come Feel It · Quiet Conversion Zone (QUIET) */}
-        <FloatingCTA />
+          {/* CH06 — Inside the Showroom (HIGH) */}
+          <ShowroomCinematic />
+
+          {/* CH07 — Come Feel It · Quiet Conversion Zone (QUIET) */}
+          <FloatingCTA />
+        </div>
       </main>
 
       {/* ── Footer ──────────────────────────────────────────────── */}
       <Footer settings={siteSettings} brands={brands} />
+
+      {/* ── Mobile Conversion Bar ───────────────────────────────── */}
+      {/* Fixed bottom bar: Call / WhatsApp / Visit — hidden on lg+ */}
+      <MobileConversionBar />
     </div>
   );
 }
