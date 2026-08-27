@@ -24,6 +24,12 @@ Establish clean file organization, persistent file-based context management, and
 - [x] Remove `as any` in Sanity schema icons and catalog lookups
 - Status: `completed`
 
+### Pass 3.5: CollectionsClient State Ownership & Hook Extraction
+- [x] Extract `useCollectionsState` custom hook in `src/hooks/useCollectionsState.ts`
+- [x] Streamline `CollectionsClient.tsx` down to clean declarative JSX layout
+- [x] Add unit test suite in `src/hooks/__tests__/useCollectionsState.test.ts`
+- Status: `completed`
+
 ### Phase 3: Natural Language Documentation Unslop
 - [ ] Audit markdown documentation (`CLAUDE.md`, `README.md`, `WORKSPACE_MAP.md`) for AI idioms and fluff
 - [ ] Strip sycophancy, transition filler, and stock adjectives while preserving code blocks, paths, and technical commands
