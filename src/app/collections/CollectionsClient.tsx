@@ -24,6 +24,29 @@ import { useConsultationStore } from "@/components/consultation/store";
 import { SHOWROOM_FAMILIES } from "@/data/catalog";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { useSearchParams, usePathname } from "next/navigation";
+import {
+  Product,
+  Category,
+  Subcategory,
+  Brand,
+  ResolvedBrand,
+  SiteSettings,
+  ProductSpecification,
+  getSlugString
+} from "@/types/catalog";
+
+export interface DisplayCategory extends Category {
+  products: Product[];
+  isDraftCategory?: boolean;
+}
+
+export interface CollectionsClientProps {
+  categories: Category[];
+  subcategories?: Subcategory[];
+  products: Product[];
+  brands: Brand[];
+  settings?: SiteSettings | null;
+}
 
 // 5 Showroom Families Top-Level Discovery Architecture
 const SHOWROOM_FAMILIES_NAV = [
@@ -41,20 +64,14 @@ export default function CollectionsClient({
   products, 
   brands, 
   settings 
-}: { 
-  categories: any[]; 
-  subcategories?: any[];
-  products: any[]; 
-  brands: any[]; 
-  settings: any;
-}) {
+}: CollectionsClientProps) {
   const [activeCategory, setActiveCategory] = useState("all");
   const [activeBrand, setActiveBrand] = useState("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchExpanded, setIsSearchExpanded] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<any | null>(null);
-  const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<any | null>(null);
-  const [shortlist, setShortlist] = useState<any[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | Brand | null>(null);
+  const [shortlist, setShortlist] = useState<Product[]>([]);
   const [isBrandDropdownOpen, setIsBrandDropdownOpen] = useState(false);
   const [isMoreCategoriesOpen, setIsMoreCategoriesOpen] = useState(false);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
@@ -121,7 +138,7 @@ export default function CollectionsClient({
   }, [isSearchExpanded]);
 
   // Handle product selection & deep-link update without full page refresh
-  const handleProductSelect = useCallback((product: any | null, event?: React.MouseEvent | HTMLElement) => {
+  const handleProductSelect = useCallback((product: Product | null, event?: React.MouseEvent | HTMLElement) => {
     if (product) {
       if (event && "currentTarget" in event && event.currentTarget instanceof HTMLElement) {
         triggerElementRef.current = event.currentTarget;
@@ -133,7 +150,7 @@ export default function CollectionsClient({
       setSelectedProduct(product);
       setHasInteracted(true);
       const params = new URLSearchParams(window.location.search);
-      params.set("product", product.slug || product.id || product._id);
+      params.set("product", getSlugString(product.slug) || product.id || product._id || "");
       window.history.replaceState(null, "", `${pathname}?${params.toString()}`);
     } else {
       setSelectedProduct(null);
@@ -210,7 +227,7 @@ export default function CollectionsClient({
   }, [selectedProduct, isMobileFilterOpen]);
 
   // Toggle Consultation Shortlist (Max 5 items)
-  const toggleShortlist = (product: any, e?: React.MouseEvent) => {
+  const toggleShortlist = (product: Product, e?: React.MouseEvent) => {
     if (e) e.stopPropagation();
     setHasInteracted(true);
     const id = product._id || product.id;
@@ -243,11 +260,11 @@ export default function CollectionsClient({
   };
 
   // Normalized Categories list
-  const uniqueCategories = useMemo(() => {
+  const uniqueCategories = useMemo<Category[]>(() => {
     const seen = new Set<string>();
-    const list: any[] = [];
+    const list: Category[] = [];
     (categories || []).forEach((c) => {
-      const slugVal = c.slug?.current || c.slug || c._id;
+      const slugVal = getSlugString(c.slug) || c._id;
       const normalizedSlug = String(slugVal).toLowerCase().trim();
       if (normalizedSlug && !seen.has(normalizedSlug)) {
         seen.add(normalizedSlug);
@@ -266,7 +283,7 @@ export default function CollectionsClient({
     if (activeCategory === "all") return null;
     const directFamily = SHOWROOM_FAMILIES.find(f => f.slug === activeCategory || f.id === activeCategory);
     if (directFamily) return directFamily.slug;
-    const parentCategory = uniqueCategories.find(c => c.slug === activeCategory);
+    const parentCategory = uniqueCategories.find(c => getSlugString(c.slug) === activeCategory);
     if (parentCategory && parentCategory.familySlugs && parentCategory.familySlugs.length > 0) {
       return parentCategory.familySlugs[0];
     }
@@ -277,7 +294,7 @@ export default function CollectionsClient({
     const family = SHOWROOM_FAMILIES.find(f => f.slug === familySlug || f.id === familySlug);
     if (!family) return [];
     return uniqueCategories.filter(c => {
-      const cSlug = c.slug.toLowerCase();
+      const cSlug = getSlugString(c.slug).toLowerCase();
       const cFamilySlugs = (c.familySlugs || []).map((s: string) => s.toLowerCase());
       return family.collectionSlugs.includes(cSlug) || cFamilySlugs.includes(family.slug);
     });
@@ -286,7 +303,7 @@ export default function CollectionsClient({
   // Remaining specific collections for MORE panel
   const moreCategories = useMemo(() => {
     const familyIds = new Set(SHOWROOM_FAMILIES_NAV.map(f => f.id));
-    return uniqueCategories.filter(c => !familyIds.has(c.slug.toLowerCase()));
+    return uniqueCategories.filter(c => !familyIds.has(getSlugString(c.slug).toLowerCase()));
   }, [uniqueCategories]);
 
   // Authorized Brands list (Standardizing Hafele and authorized brands)
@@ -334,28 +351,31 @@ export default function CollectionsClient({
     // Check if activeCategory matches one of the 5 Showroom Families
     const familyMatch = SHOWROOM_FAMILIES_NAV.find(p => p.id === activeCategory);
 
-    let targetCategories: any[] = [];
+    let targetCategories: Category[] = [];
     if (activeCategory === "all") {
       targetCategories = uniqueCategories;
     } else if (familyMatch && familyMatch.filterSlugs.length > 0) {
       targetCategories = uniqueCategories.filter(c => {
-        const cSlug = c.slug.toLowerCase();
-        const cFamilySlugs = (c.familySlugs || []).map((s: string) => s.toLowerCase());
+        const cSlug = String(typeof c.slug === "object" ? c.slug?.current : c.slug).toLowerCase();
+        const cFamilySlugs = ((c as any).familySlugs || []).map((s: string) => s.toLowerCase());
         return familyMatch.filterSlugs.includes(cSlug) || cFamilySlugs.includes(familyMatch.id);
       });
       if (targetCategories.length === 0) {
         targetCategories = uniqueCategories;
       }
     } else {
-      targetCategories = uniqueCategories.filter(c => c.slug === activeCategory.toLowerCase() || c.slug.includes(activeCategory.toLowerCase()));
+      targetCategories = uniqueCategories.filter(c => {
+        const cSlug = String(typeof c.slug === "object" ? c.slug?.current : c.slug).toLowerCase();
+        return cSlug === activeCategory.toLowerCase() || cSlug.includes(activeCategory.toLowerCase());
+      });
       if (targetCategories.length === 0) {
-        targetCategories = [{ slug: activeCategory, name: activeCategory.replace(/-/g, " ").toUpperCase() }];
+        targetCategories = [{ name: activeCategory.replace(/-/g, " ").toUpperCase(), slug: activeCategory }];
       }
     }
 
-    const catMap = new Map<string, any>();
+    const catMap = new Map<string, DisplayCategory>();
     targetCategories.forEach(cat => {
-      const key = cat.slug;
+      const key = String(typeof cat.slug === "object" ? cat.slug?.current : cat.slug);
       if (!catMap.has(key)) {
         const catProducts = matchingProducts.filter(p => {
           const pCat = String(p.categorySlug || p.category || "").toLowerCase();
@@ -401,7 +421,7 @@ export default function CollectionsClient({
   }, [displayCategories]);
 
   // Helper to guarantee crisp image fallback for every product
-  const getProductDisplayImage = useCallback((prod: any) => {
+  const getProductDisplayImage = useCallback((prod: Product) => {
     if (prod.imageUrl) return prod.imageUrl;
     const cat = String(prod.categorySlug || prod.category || "").toLowerCase();
     if (cat.includes("lock") || cat.includes("security") || cat.includes("safe")) return "/cinema/categories/HC-03-SECURITY.png";
@@ -577,17 +597,18 @@ export default function CollectionsClient({
                             className="border-l border-[#c8a96e]/35 ml-7 pl-3.5 my-1.5 space-y-0.5"
                           >
                             {familyCollections.map((col) => {
-                              const isColSelected = activeCategory === col.slug;
+                              const colSlug = getSlugString(col.slug);
+                              const isColSelected = activeCategory === colSlug;
                               const colProductCount = products.filter((p) => {
                                 const pCat = String(p.categorySlug || p.category || "").toLowerCase();
-                                return pCat === col.slug || pCat.includes(col.slug) || col.slug.includes(pCat);
+                                return pCat === colSlug || pCat.includes(colSlug) || colSlug.includes(pCat);
                               }).length;
 
                               return (
                                 <button
-                                  key={col.slug}
+                                  key={colSlug || col._id || col.id}
                                   onClick={() => {
-                                    setActiveCategory(col.slug);
+                                    setActiveCategory(colSlug);
                                     setHasInteracted(true);
                                   }}
                                   className={`hc-focus flex w-full min-h-[30px] items-center justify-between text-[10px] text-left transition-colors cursor-pointer py-1 border-b border-white/[0.04] ${
@@ -805,7 +826,7 @@ export default function CollectionsClient({
               {/* ── Category Shelves & Specimen Product Grids ── */}
               <div className="space-y-16">
                 {displayCategories.map((cat) => (
-                  <section key={cat.slug} className="space-y-6">
+                  <section key={getSlugString(cat.slug) || cat._id || cat.id} className="space-y-6">
                     
                     {/* Category Shelf Header */}
                     <div className="flex items-end justify-between border-b border-white/[0.16] pb-3">
@@ -831,7 +852,7 @@ export default function CollectionsClient({
                       className="grid grid-cols-1 md:grid-cols-12 gap-5"
                     >
                       <AnimatePresence mode="popLayout">
-                        {cat.products.map((prod: any, idx: number) => {
+                        {cat.products.map((prod: Product, idx: number) => {
                           const isShortlisted = shortlist.some(p => (p._id || p.id) === (prod._id || prod.id));
                           const isOnlyTwo = cat.products.length === 2;
                           const isFeatured = !isOnlyTwo && (prod.featured === true || (idx === 0 && cat.products.length > 2));
@@ -1142,7 +1163,7 @@ export default function CollectionsClient({
                       Verified Technical Specifications
                     </h3>
                     <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                      {selectedProduct.specifications.map((spec: any, idx: number) => (
+                      {selectedProduct.specifications.map((spec: ProductSpecification, idx: number) => (
                         <div key={idx} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3">
                           <dt className="text-[10px] uppercase font-dmsans tracking-wider text-[#6E6A62] mb-1">{spec.key}</dt>
                           <dd className="font-dmsans text-xs font-medium text-white">{spec.value}</dd>
@@ -1172,7 +1193,7 @@ export default function CollectionsClient({
                         source: "product_drawer",
                         intent: "enquiry",
                         product: {
-                          slug: selectedProduct.slug || selectedProduct.id || "",
+                          slug: getSlugString(selectedProduct.slug) || selectedProduct.id || selectedProduct._id || "",
                           name: selectedProduct.name,
                         },
                         category: selectedProduct.category ? {
@@ -1180,8 +1201,8 @@ export default function CollectionsClient({
                           name: selectedProduct.category,
                         } : undefined,
                         brand: (selectedProduct.brandName || selectedProduct.brand) ? {
-                          slug: selectedProduct.brandName || selectedProduct.brand,
-                          name: selectedProduct.brandName || selectedProduct.brand,
+                          slug: selectedProduct.brandName || selectedProduct.brand || "",
+                          name: selectedProduct.brandName || selectedProduct.brand || "",
                         } : undefined
                       })}
                       className="flex-1 text-center py-3.5 px-5 bg-[#C8A96E] hover:bg-white text-[#0E0C0C] font-dmsans font-bold uppercase tracking-widest text-xs rounded-full transition-colors shadow-lg flex items-center justify-center gap-2"
@@ -1299,12 +1320,13 @@ export default function CollectionsClient({
                         {isFamilyActive && familyCollections.length > 0 && (
                           <div className="pl-4 pr-1 py-1 space-y-1 border-l border-white/[0.08] ml-3">
                             {familyCollections.map((col) => {
-                              const isColSelected = activeCategory === col.slug;
+                              const colSlug = getSlugString(col.slug);
+                              const isColSelected = activeCategory === colSlug;
                               return (
                                 <button
-                                  key={col.slug}
+                                  key={colSlug || col._id || col.id}
                                   onClick={() => {
-                                    setActiveCategory(col.slug);
+                                    setActiveCategory(colSlug);
                                     setIsMobileFilterOpen(false);
                                     setHasInteracted(true);
                                   }}
@@ -1369,7 +1391,7 @@ export default function CollectionsClient({
 
       {/* Global Footer */}
       <Footer 
-        settings={settings}
+        settings={settings || undefined}
         brands={brands}
       />
     </div>

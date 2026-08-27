@@ -5,9 +5,10 @@ import { X, ZoomIn, ZoomOut, Maximize, ShieldAlert, ChevronLeft, ChevronRight, F
 import { motion } from "motion/react";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { lockScroll, unlockScroll } from "@/lib/scrollLock";
+import { Brand } from "@/types/catalog";
 
 interface CatalogViewerModalProps {
-  brand: any;
+  brand: Brand;
   onClose: () => void;
 }
 

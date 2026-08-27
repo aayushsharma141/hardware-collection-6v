@@ -4,33 +4,10 @@ import React from "react";
 import Image from "next/image";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { buildWhatsAppUrl } from "@/lib/config";
-
-/** Minimal shape of a Sanity brand document as returned by GROQ queries. */
-interface SanityBrand {
-  _id?: string;
-  id?: string;
-  name?: string;
-  slug?: { current?: string } | string;
-  logoUrl?: string;
-  logo?: string;
-  website?: string;
-  tagline?: string;
-  description?: string;
-  country?: string;
-}
-
-/** Resolved, display-ready shape passed to onSelectBrand. */
-interface ResolvedBrand {
-  name: string;
-  logoUrl: string | null;
-  website: string | null;
-  tagline: string;
-  /** Pass-through fields from the original Sanity doc for consumers that need them. */
-  [key: string]: unknown;
-}
+import { Brand, ResolvedBrand } from "@/types/catalog";
 
 interface CatalogLibraryProps {
-  brands: SanityBrand[];
+  brands: Brand[];
   onSelectBrand?: (brand: ResolvedBrand) => void;
 }
 
@@ -207,7 +184,7 @@ const ALIAS_TO_KEY: Record<string, string> = Object.entries(BRAND_ALIASES).reduc
  * Uses explicit alias matching — no substring matching — so new brands
  * only require a registry entry and an alias row, not a new if-arm.
  */
-const normalizeBrandKey = (brand: SanityBrand): string => {
+const normalizeBrandKey = (brand: Brand): string => {
   const raw =
     (brand?.slug as { current?: string })?.current ??
     (brand?.slug as string) ??
@@ -247,7 +224,7 @@ export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibrary
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {displayBrands.map((brand: SanityBrand, idx: number) => {
+          {displayBrands.map((brand: Brand, idx: number) => {
             const key = normalizeBrandKey(brand);
             const meta = BRAND_REGISTRY[key] ?? {
               name: brand.name ?? "Authorized Partner",
