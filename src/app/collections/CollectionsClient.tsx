@@ -57,8 +57,11 @@ export default function CollectionsClient({
   brands, 
   settings 
 }: CollectionsClientProps) {
-  const [activeCategory, setActiveCategory] = useState("all");
-  const [activeBrand, setActiveBrand] = useState("all");
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+
+  const [activeCategory, setActiveCategory] = useState(() => searchParams.get("category")?.toLowerCase() || "all");
+  const [activeBrand, setActiveBrand] = useState(() => searchParams.get("brand")?.toLowerCase() || "all");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | Brand | null>(null);
@@ -67,37 +70,28 @@ export default function CollectionsClient({
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
   const [shortlistToast, setShortlistToast] = useState<string | null>(null);
 
-  const searchParams = useSearchParams();
-  const pathname = usePathname();
-
   const triggerElementRef = useRef<HTMLElement | null>(null);
   const brandDropdownRef = useRef<HTMLDivElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Initialize brand and category from query parameters if present
-  useEffect(() => {
-    const brandParam = searchParams.get("brand");
-    if (brandParam) {
-      setActiveBrand(brandParam.toLowerCase());
-    }
-    const categoryParam = searchParams.get("category");
-    if (categoryParam) {
-      setActiveCategory(categoryParam.toLowerCase());
-    }
-  }, [searchParams]);
+  const [prevSearchParams, setPrevSearchParams] = useState(searchParams);
+  if (prevSearchParams !== searchParams) {
+    setPrevSearchParams(searchParams);
+    const brandParam = searchParams.get("brand")?.toLowerCase() || "all";
+    const categoryParam = searchParams.get("category")?.toLowerCase() || "all";
+    if (activeBrand !== brandParam) setActiveBrand(brandParam);
+    if (activeCategory !== categoryParam) setActiveCategory(categoryParam);
 
-  // Read deep-link ?product=<slug> from URL
-  useEffect(() => {
     const productSlug = searchParams.get("product");
     if (productSlug) {
       const prod = products.find(p => p.slug === productSlug || p.id === productSlug || p._id === productSlug);
       if (prod && (!selectedProduct || (selectedProduct.slug !== productSlug && selectedProduct.id !== productSlug))) {
         setSelectedProduct(prod);
       }
-    } else {
-      if (selectedProduct) setSelectedProduct(null);
+    } else if (selectedProduct) {
+      setSelectedProduct(null);
     }
-  }, [searchParams, products, selectedProduct]);
+  }
 
   // Close brand dropdown on outside click
   useEffect(() => {
@@ -274,8 +268,8 @@ export default function CollectionsClient({
       targetCategories = uniqueCategories;
     } else if (familyMatch && familyMatch.filterSlugs.length > 0) {
       targetCategories = uniqueCategories.filter(c => {
-        const cSlug = String(typeof c.slug === "object" ? c.slug?.current : c.slug).toLowerCase();
-        const cFamilySlugs = ((c as any).familySlugs || []).map((s: string) => s.toLowerCase());
+        const cSlug = getSlugString(c.slug).toLowerCase();
+        const cFamilySlugs = (c.familySlugs || []).map((s: string) => s.toLowerCase());
         return familyMatch.filterSlugs.includes(cSlug) || cFamilySlugs.includes(familyMatch.id);
       });
       if (targetCategories.length === 0) {

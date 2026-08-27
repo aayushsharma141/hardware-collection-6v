@@ -2,13 +2,14 @@
 
 ## Session Overview
 - **Cleanup Passes 1-4**: Completed and committed (`6beedb0`, `cc79d3e`, `ed603fa`, `fcea02c`).
-- **File Organization Pass**: Developer utilities moved to `scripts/dev/` and `scripts/cms/`, audit reports moved to `audit-reports/`.
+- **File Organization Pass**: Completed and committed (`01f15c8`).
+- **Pass 2.5: Lint, Schema & Type Consistency**: Completed. All errors resolved, 0 ESLint errors, zero `as any` across `src/`, 23/23 unit tests passing, Next.js production build clean.
 
 ## Action Log
 | Timestamp | Action | Target | Status | Notes |
 | :--- | :--- | :--- | :--- | :--- |
-| 2026-08-27 | Initialize `task_plan.md` | Root | Done | Initialized Manus-style plan |
-| 2026-08-27 | Initialize `findings.md` | Root | Done | Documented loose scripts & discoveries |
-| 2026-08-27 | Initialize `progress.md` | Root | Done | Active session tracking established |
-| 2026-08-27 | Move Python/JS dev scripts | `scripts/dev/`, `scripts/cms/` | Done | Git preserved rename history |
-| 2026-08-27 | Move audit & profiling artifacts | `audit-reports/` | Done | Git preserved rename history |
+| 2026-08-27 | Fix P0 Hook Rule | `HeroStage.tsx` | Done | Moved `useGSAP` before conditional returns |
+| 2026-08-27 | Fix JSX Entities | `ReviewsSlide.tsx`, `TactileStatement.tsx` | Done | Escaped quotes & apostrophes |
+| 2026-08-27 | React 19 State Sync | `CollectionsClient.tsx`, `Navbar.tsx`, `ConsultationForm.tsx` | Done | Synchronized route & query changes during render |
+| 2026-08-27 | Lead Schema & Types | `src/lib/leads/` | Done | Replaced all `any` with `LeadNotificationPayload` |
+| 2026-08-27 | Sanity Component Types | `homePage.ts`, `siteSettings.ts` | Done | Replaced `as any` with `ComponentType` |

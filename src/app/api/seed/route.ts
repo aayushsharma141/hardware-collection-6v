@@ -88,8 +88,9 @@ export async function POST(request: Request) {
     }
 
     return NextResponse.json({ message: "13 Canonical Collections Seeding Complete", results });
-  } catch (error: any) {
-    return NextResponse.json({ message: "Error seeding data", error: error.message }, { status: 500 });
+  } catch (error: unknown) {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return NextResponse.json({ message: "Error seeding data", error: errorMessage }, { status: 500 });
   }
 }
 

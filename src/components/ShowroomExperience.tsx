@@ -4,14 +4,10 @@ import React from "react";
 import Image from "next/image";
 import { 
   Building, 
-  MapPin, 
-  Clock, 
-  Phone, 
   MessageCircle, 
   Sparkles, 
   Navigation, 
   Check,
-  ShieldCheck,
   Compass
 } from "lucide-react";
 import { SHOWROOM_STATS, SERVICE_AREAS } from "../data/catalog";

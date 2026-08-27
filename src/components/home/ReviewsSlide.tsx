@@ -38,7 +38,7 @@ export default function ReviewsSlide() {
                 ))}
               </div>
               <p className="text-lg text-zinc-300 font-light mb-8 leading-relaxed">
-                "{review.text}"
+                &ldquo;{review.text}&rdquo;
               </p>
               <p className="text-white font-medium text-sm tracking-widest uppercase">
                 {review.author}

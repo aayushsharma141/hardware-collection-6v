@@ -1,4 +1,6 @@
-export async function sendResendEmail(leadData: any) {
+import type { LeadNotificationPayload } from "./schema";
+
+export async function sendResendEmail(leadData: LeadNotificationPayload) {
   const apiKey = process.env.RESEND_API_KEY;
   const toEmail = process.env.STAFF_EMAIL;
   
@@ -68,10 +70,12 @@ ${leadData.consultationTime || "Anytime"}
       if (Array.isArray(products) && products.length > 0) {
         detailLines += `
 Selected Products:
-${products.map(p => `- ${p.brand}: ${p.name}`).join("\n")}
+${products.map((p: { brand?: string; name: string }) => `- ${p.brand || 'Hardware'}: ${p.name}`).join("\n")}
 `;
       }
-    } catch(e) {}
+    } catch {
+      // Ignore JSON parse failure
+    }
   }
 
   const html = `

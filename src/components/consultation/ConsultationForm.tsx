@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { ConsultationSuccess } from "./ConsultationSuccess";
 import { useConsultationStore } from "./store";
 import { ConsultationContext } from "./ConsultationContext";
@@ -139,7 +139,7 @@ function buildPayload(
     name: values.name,
     phone: values.phone,
     email: values.email.trim() || undefined,
-    source: context?.source ?? "home",
+    source: context?.source ?? (inline ? "home" : "consultation_drawer"),
     pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
     message: values.message.trim() || undefined,
   };
@@ -324,13 +324,19 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
     (value: FormValues[K]) =>
       setValues((prev) => ({ ...prev, [key]: value }));
 
-  // Sync if the drawer context changes after mount
-  useEffect(() => {
-    if (context?.intent) setIntent(context.intent);
-    if (context?.category?.name) setField("category")(context.category.name);
-    if (context?.product?.name) setIntent("enquiry");
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context]);
+  const [prevContext, setPrevContext] = useState(context);
+  if (context && context !== prevContext) {
+    setPrevContext(context);
+    if (context.intent && context.intent !== intent) {
+      setIntent(context.intent);
+    }
+    if (context.category?.name && values.category !== context.category.name) {
+      setValues((prev) => ({ ...prev, category: context.category!.name }));
+    }
+    if (context.product?.name && intent !== "enquiry") {
+      setIntent("enquiry");
+    }
+  }
 
   const handleIntentChange = (newIntent: FormIntent) => {
     setIntent(newIntent);

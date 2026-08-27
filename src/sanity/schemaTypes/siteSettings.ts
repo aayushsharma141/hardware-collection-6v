@@ -1,11 +1,12 @@
 import { defineType, defineField } from "sanity";
 import { Settings } from "lucide-react";
+import type { ComponentType } from "react";
 
 export const siteSettingsType = defineType({
   name: "siteSettings",
   title: "Site Settings",
   type: "document",
-  icon: Settings as any,
+  icon: Settings as ComponentType,
   groups: [
     { name: "contact", title: "Contact Info" },
     { name: "location", title: "Location" },

@@ -28,7 +28,7 @@ class WebGLErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryStat
     this.state = { hasError: false };
   }
 
-  static getDerivedStateFromError(_: Error): ErrorBoundaryState {
+  static getDerivedStateFromError(): ErrorBoundaryState {
     return { hasError: true };
   }
 
@@ -73,7 +73,7 @@ export default function ThreeDHero() {
       try {
         const canvas = document.createElement("canvas");
         webglSupported = !!(window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
-      } catch (e) {
+      } catch {
         webglSupported = false;
       }
 

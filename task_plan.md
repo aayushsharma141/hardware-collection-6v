@@ -16,6 +16,14 @@ Establish clean file organization, persistent file-based context management, and
 - [x] Move transient profiling/audit artifacts (`trace.json`, `lighthouse-report.html`, `canvas_structure.json`) to `audit-reports/`
 - Status: `completed`
 
+### Pass 2.5: Lint, Schema & Type Consistency Audit
+- [x] Fix P0 Rules of Hooks conditional execution in `HeroStage.tsx`
+- [x] Fix JSX unescaped entities in `ReviewsSlide.tsx` and `TactileStatement.tsx`
+- [x] Fix React 19 / Next 16 `react-hooks/set-state-in-effect` compiler warnings in `CollectionsClient.tsx`, `Navbar.tsx`, and `ConsultationForm.tsx`
+- [x] Strictly type Lead notification payloads and handlers in `src/lib/leads/`
+- [x] Remove `as any` in Sanity schema icons and catalog lookups
+- Status: `completed`
+
 ### Phase 3: Natural Language Documentation Unslop
 - [ ] Audit markdown documentation (`CLAUDE.md`, `README.md`, `WORKSPACE_MAP.md`) for AI idioms and fluff
 - [ ] Strip sycophancy, transition filler, and stock adjectives while preserving code blocks, paths, and technical commands
@@ -25,7 +33,3 @@ Establish clean file organization, persistent file-based context management, and
 - [x] Verify build (`npm run build`), TypeScript (`npx tsc --noEmit`), and test suite (`npm test`)
 - [x] Update `progress.md` and `findings.md`
 - Status: `completed`
-
-## Decisions & Assumptions
-- All movements are non-destructive and preserve scripts in organized subdirectories.
-- Next.js build and routing files (`next.config.ts`, `sanity.config.ts`, `prisma.config.ts`, `vitest.config.mjs`) remain at root.

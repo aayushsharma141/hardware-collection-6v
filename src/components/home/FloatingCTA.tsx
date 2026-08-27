@@ -1,9 +1,8 @@
 "use client";
 
-import { MagneticButton } from "@/components/animations/MagneticButton";
 import { ConsultationForm } from "@/components/consultation/ConsultationForm";
 import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL } from "@/lib/config";
-import { PhoneCall, Navigation, MapPin } from "lucide-react";
+import { PhoneCall, Navigation } from "lucide-react";
 
 /**
  * FloatingCTA — Chapter 07 "Come Feel It"

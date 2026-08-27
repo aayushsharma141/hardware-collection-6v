@@ -1,4 +1,6 @@
-export async function sendTelegramAlert(leadData: any) {
+import type { LeadNotificationPayload } from "./schema";
+
+export async function sendTelegramAlert(leadData: LeadNotificationPayload) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
@@ -17,7 +19,7 @@ export async function sendTelegramAlert(leadData: any) {
 📅 Preferred: ${leadData.consultationDate ? leadData.consultationDate + " · " : ""}${leadData.consultationTime || ""}
 📍 Mode: ${leadData.consultationMode || "Showroom"}
 ${leadData.interest ? `🎯 Interest: ${leadData.interest}` : ""}
-${leadData.selectedProducts ? `📦 Products: ${JSON.parse(leadData.selectedProducts).map((p: any) => p.name).join(", ")}` : ""}
+${leadData.selectedProducts ? `📦 Products: ${JSON.parse(leadData.selectedProducts).map((p: { name: string }) => p.name).join(", ")}` : ""}
 `;
   } else if (intent === "enquiry") {
     detailLines = `

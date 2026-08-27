@@ -11,7 +11,7 @@ export function BrandWatermark() {
     if (shouldReduceMotion || !containerRef.current) return;
 
     let rafId: number;
-    let start = performance.now();
+    const start = performance.now();
 
     const animate = (time: number) => {
       const elapsed = time - start;

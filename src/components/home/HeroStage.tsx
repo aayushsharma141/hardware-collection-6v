@@ -20,12 +20,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
 
   const shouldReduceMotion = useReducedMotion();
 
-  if (!slides || slides.length === 0) return null;
-  const currentSlide = slides[currentSlideIndex] || slides[0];
-
   useGSAP(
     () => {
-      if (shouldReduceMotion || !containerRef.current) return;
+      if (!slides || slides.length === 0 || shouldReduceMotion || !containerRef.current) return;
 
       const aperture = apertureRef.current;
       const heroText = containerRef.current.querySelector(".hero-text-col");
@@ -48,13 +45,16 @@ export default function HeroStage({ slides }: HeroStageProps) {
       if (bottomBar) {
         gsap.fromTo(
           bottomBar,
-          { autoAlpha: 0 },
-          { autoAlpha: 1, duration: 0.6, delay: 0.4, ease: "power1.out" }
+          { autoAlpha: 0, y: 15 },
+          { autoAlpha: 1, y: 0, duration: 0.8, delay: 0.3, ease: "power2.out" }
         );
       }
     },
-    { scope: containerRef, dependencies: [shouldReduceMotion, currentSlideIndex] }
+    { scope: containerRef, dependencies: [currentSlideIndex, shouldReduceMotion, slides] }
   );
+
+  if (!slides || slides.length === 0) return null;
+  const currentSlide = slides[currentSlideIndex] || slides[0];
 
   return (
     <section

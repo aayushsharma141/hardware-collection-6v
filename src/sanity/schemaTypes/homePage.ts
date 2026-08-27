@@ -1,11 +1,12 @@
 import { defineType, defineField } from "sanity";
 import { Home } from "lucide-react";
+import type { ComponentType } from "react";
 
 export const homePageType = defineType({
   name: "homePage",
   title: "Homepage Content",
   type: "document",
-  icon: Home as any,
+  icon: Home as ComponentType,
   groups: [
     { name: "hero", title: "Hero Section" },
     { name: "legacy", title: "Legacy Section" },

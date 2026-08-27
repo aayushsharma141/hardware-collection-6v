@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React from "react";
 import { Search, X, ChevronDown, Check } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 

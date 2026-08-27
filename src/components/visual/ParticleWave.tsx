@@ -72,7 +72,7 @@ export function ParticleWave({
         for (let i = 0; i < count; i++) {
           // Clustering horizontally to form "waves/bands"
           // We use sine waves to bias the Y distribution
-          let x = Math.random() * width;
+          const x = Math.random() * width;
           // Create a wave shape constraint for Y
           const waveHeight = height * 0.3;
           const yBand = (height / 2) + Math.sin(x / width * Math.PI * 2) * waveHeight;
@@ -151,7 +151,7 @@ export function ParticleWave({
       canvas.addEventListener("mouseleave", handleMouseLeave);
     }
 
-    let start = performance.now();
+    const start = performance.now();
     
     const render = (time: number) => {
       if (isVisible) {
@@ -220,7 +220,7 @@ export function ParticleWave({
       }
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [opacity, preset, mouseInfluenceEnabled, speedMultiplier, shouldReduceMotion]);
+  }, [opacity, preset, mouseInfluenceEnabled, speedMultiplier, shouldReduceMotion, isHero]);
 
   return (
     <div ref={containerRef} className="absolute inset-0 w-full h-full" aria-hidden="true">

@@ -78,7 +78,7 @@ export async function updateNotificationStatus(
   channel: "telegram" | "email" | "whatsapp", 
   status: "sent" | "failed"
 ) {
-  const updateData: any = {};
+  const updateData: { telegramStatus?: string; emailStatus?: string; whatsappStatus?: string } = {};
   if (channel === "telegram") updateData.telegramStatus = status;
   if (channel === "email") updateData.emailStatus = status;
   if (channel === "whatsapp") updateData.whatsappStatus = status;

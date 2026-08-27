@@ -86,3 +86,25 @@ export type CreateLeadInput = z.infer<typeof CreateLeadSchema>;
 export type ConsultationLeadInput = z.infer<typeof ConsultationLeadSchema>;
 export type EnquiryLeadInput = z.infer<typeof EnquiryLeadSchema>;
 export type CallbackLeadInput = z.infer<typeof CallbackLeadSchema>;
+
+export interface LeadNotificationPayload {
+  id?: string;
+  name: string;
+  phone: string;
+  email?: string | null;
+  source: string;
+  pageUrl?: string | null;
+  intent: string;
+  message?: string | null;
+  projectType?: string | null;
+  interest?: string | null;
+  consultationDate?: string | null;
+  consultationTime?: string | null;
+  consultationMode?: string | null;
+  selectedProducts?: string | null;
+  category?: string | null;
+  brand?: string | null;
+  product?: string | null;
+  quantity?: string | null;
+}
+

@@ -1,18 +1,17 @@
 import { updateNotificationStatus } from "./createLead";
 import { sendTelegramAlert } from "./telegram";
 import { sendResendEmail } from "./email";
-// import { sendWhatsAppAlert } from "./whatsapp"; // Phase 2
+import type { LeadNotificationPayload } from "./schema";
 
-export async function processNotifications(leadId: string, leadData: any) {
+export async function processNotifications(leadId: string, leadData: LeadNotificationPayload) {
   // Execute notifications concurrently and update statuses
   await Promise.allSettled([
     notifyTelegram(leadId, leadData),
     notifyEmail(leadId, leadData),
-    // notifyWhatsApp(leadId, leadData), // Phase 2
   ]);
 }
 
-async function notifyTelegram(leadId: string, leadData: any) {
+async function notifyTelegram(leadId: string, leadData: LeadNotificationPayload) {
   try {
     await sendTelegramAlert(leadData);
     await updateNotificationStatus(leadId, "telegram", "sent");
@@ -22,7 +21,7 @@ async function notifyTelegram(leadId: string, leadData: any) {
   }
 }
 
-async function notifyEmail(leadId: string, leadData: any) {
+async function notifyEmail(leadId: string, leadData: LeadNotificationPayload) {
   try {
     await sendResendEmail(leadData);
     await updateNotificationStatus(leadId, "email", "sent");
