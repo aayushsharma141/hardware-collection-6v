@@ -1,70 +1,83 @@
-# CLAUDE.md - Hardware Collection Developer & Agent Guidance
+# CLAUDE.md — Hardware Collection Agent Reference
 
-This file provides canonical instructions to AI models, Claude Code, and autonomous agents working on **Hardware Collection Sakchi**.
+Canonical instructions for AI agents and autonomous tooling working on this repository.
 
-## Development Commands
-
-### Common Tasks
-- **Start Development Server**: `npm run dev` (Runs Next.js 16 dev server at `http://localhost:3000`)
-- **Build for Production**: `npm run build` (Next.js production build)
-- **Production Server**: `npm run start`
-- **Lint Code**: `npm run lint` (ESLint 9 verification)
-- **Run Audit Suite**: `node scripts/audit-dependencies.cjs`
-- **Evidence Platform Gate**: `npx tsx scripts/evidence-engine.ts --validate`
-- **Release Verification**: `npx tsx scripts/release-verification.ts`
+See [.agents/AGENTS.md](.agents/AGENTS.md) and [.agents/registry.yaml](.agents/registry.yaml) for the multi-agent registry, workflow specifications, and workspace boundaries.
 
 ---
 
-## Technical Stack & Architecture
+## Common Commands
 
-- **Framework**: Next.js 16 (App Router & React 19)
-- **CMS & Studio**: Sanity CMS (`@sanity/vision`, `next-sanity`, `sanity`) embedded under `/studio`
-- **Styling**: Tailwind CSS v4 (`@tailwindcss/postcss`), Styled Components
-- **Icons**: Lucide React (`lucide-react`)
-- **Language**: TypeScript (`^5`)
-- **Deployment**: Vercel Platform
-
----
-
-## Multi-Agent Governance Ecosystem (`.agents/`)
-
-This repository uses an integrated multi-agent system located in `.agents/`:
-
-### Core Roles
-- **Planner** (`.agents/agents/planner.md`): Sprint and task roadmap planning.
-- **Architect** (`.agents/agents/architect.md`): System architecture, schema design, and ADR enforcement.
-- **Frontend Engineer** (`.agents/agents/frontend.md`): Next.js App Router, Tailwind CSS, component optimization.
-- **Backend Engineer** (`.agents/agents/backend.md`): Sanity CMS schema definitions, API routes, data migrations.
-- **Code Reviewer** (`.agents/agents/reviewer.md`): Quality audit, security compliance, refactoring guidance.
-
-### Specialized Workflow Agents (`.agents/workflows/`)
-1. **Accessibility Review** (`accessibility_review.md`): WCAG compliance & screen reader usability.
-2. **Analytics Review** (`analytics_review.md`): Event tracking and conversion verification.
-3. **Architecture Review** (`architecture_review.md`): System topology & code organization.
-4. **Audit Workflow** (`audit_workflow.md`): Automated cross-system verification.
-5. **Browser POV Audit** (`browser_pov_audit.md`): Responsive design & visual layout review.
-6. **Dependency Review** (`dependency_review.md`): Dependency audit & CVE vulnerability scanning.
-7. **Engineering Governance** (`engineering_governance_review.md`): Code quality & rule compliance.
-8. **Graphify** (`graphify.md`): Component knowledge mapping & relationship analysis.
-9. **Performance Review** (`performance_review.md`): Core Web Vitals, page speed & bundle size optimization.
-10. **Product Governance** (`product_governance_review.md`): Product requirements & UX standards.
-11. **Production Readiness** (`production_readiness.md`): Pre-launch release quality gates.
-12. **Security Review** (`security_review.md`): Hardening, secret scanning, key rotation.
-13. **Testing Review** (`testing_review.md`): End-to-end and unit testing validation.
+```bash
+npm run dev                              # dev server at http://localhost:3000
+npm run build                           # Next.js production build
+npm run lint                            # ESLint 9
+npx tsc --noEmit                        # TypeScript check (no emit)
+npm test                                # Vitest unit test suite
+node scripts/audit-dependencies.cjs     # dependency CVE audit
+npx tsx scripts/evidence-engine.ts --validate   # evidence platform gate
+npx tsx scripts/release-verification.ts         # release quality gate
+```
 
 ---
 
-## Quality Rules & Guidelines (`.rules/`)
+## Technical Stack
 
-- `architecture.md`: Modular Next.js App Router & Sanity Studio layout rules.
-- `coding.md`: Strict TypeScript safety, non-null guarantees, clean React hooks.
-- `git.md`: Atomic commits, structured PR descriptions.
-- `security.md`: Zero hardcoded secrets, environment variable validation.
-- `testing.md`: Verification before completion.
+- **Framework**: Next.js 16, React 19 (App Router)
+- **CMS**: Sanity CMS — `@sanity/vision`, `next-sanity`, embedded Studio at `/studio`
+- **Database**: PostgreSQL via Prisma (`Lead` model — lead capture only)
+- **Styling**: Tailwind CSS v4 (`@tailwindcss/postcss`)
+- **Icons**: `lucide-react`
+- **Language**: TypeScript 5
+- **Deployment**: Vercel
 
 ---
 
-## Evidence Platform & Release Verification (`scripts/`)
+## Agent Roles (`.agents/agents/`)
 
-- All release claims are validated against `scripts/evidence-engine.ts` and `scripts/release-verification.ts`.
-- Quality thresholds: zero critical vulnerability alerts, 100% build pass rate, verified Sanity CMS schema integrity.
+| File | Role |
+|---|---|
+| `planner.md` | Sprint and task roadmap |
+| `architect.md` | System architecture, schema design, ADR enforcement |
+| `frontend.md` | Next.js App Router, Tailwind CSS, component optimization |
+| `backend.md` | Sanity schema, API routes, data migrations |
+| `reviewer.md` | Quality audit, security, refactoring |
+
+---
+
+## Workflow Agents (`.agents/workflows/`)
+
+| File | Purpose |
+|---|---|
+| `accessibility_review.md` | WCAG compliance and screen reader usability |
+| `analytics_review.md` | Event tracking and conversion verification |
+| `architecture_review.md` | System topology and code organization |
+| `audit_workflow.md` | Cross-system automated verification |
+| `browser_pov_audit.md` | Responsive design and visual layout |
+| `dependency_review.md` | Dependency audit and CVE scanning |
+| `engineering_governance_review.md` | Code quality and rule compliance |
+| `graphify.md` | Component knowledge graph and relationship analysis |
+| `performance_review.md` | Core Web Vitals, bundle size |
+| `product_governance_review.md` | Product requirements and UX standards |
+| `production_readiness.md` | Pre-launch quality gates |
+| `security_review.md` | Secret scanning, hardening, key rotation |
+| `testing_review.md` | Unit and end-to-end test validation |
+
+---
+
+## Quality Rules (`.agents/rules/`)
+
+| File | Scope |
+|---|---|
+| `architecture.md` | Modular App Router and Sanity Studio layout |
+| `coding.md` | Strict TypeScript, non-null guarantees, clean hooks |
+| `git.md` | Atomic commits, structured PR descriptions |
+| `security.md` | No hardcoded secrets, environment variable validation |
+| `testing.md` | Verification before completion |
+
+---
+
+## Evidence Platform (`scripts/`)
+
+- Release claims are validated against `scripts/evidence-engine.ts` and `scripts/release-verification.ts`.
+- Thresholds: zero critical CVE alerts, 100% build pass rate, verified Sanity schema integrity.

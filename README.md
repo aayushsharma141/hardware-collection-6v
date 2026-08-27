@@ -1,40 +1,45 @@
-# Hardware Collection Website
+# Hardware Collection
 
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+Next.js 16 (App Router) web application for Hardware Collection Sakchi — an authorized architectural hardware showroom in Jamshedpur. Integrates Sanity CMS for catalog management and Prisma/PostgreSQL for lead capture.
 
-For details on the repository layout and structure, please see [WORKSPACE_MAP.md](WORKSPACE_MAP.md).
-
-## Getting Started
-
-First, run the development server:
+## Development
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm run dev        # dev server at http://localhost:3000
+npm run build      # production build
+npm run lint       # ESLint 9
+npx tsc --noEmit   # TypeScript check
+npm test           # Vitest unit tests
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Architecture
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 16 / React 19 (App Router) |
+| CMS | Sanity CMS — embedded Studio at `/studio` |
+| Database | PostgreSQL via Prisma (lead capture) |
+| Styling | Tailwind CSS v4 |
+| Language | TypeScript 5 |
+| Deployment | Vercel |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Repository Layout
 
-## Learn More
+See [WORKSPACE_MAP.md](WORKSPACE_MAP.md) for the full directory structure.
 
-To learn more about Next.js, take a look at the following resources:
+Key directories:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+src/app/           — Next.js App Router pages and API routes
+src/components/    — Shared UI components
+src/hooks/         — Custom React hooks (useCollectionsState, useScrollLock, …)
+src/lib/           — Server utilities (leads, sanity client, scroll lock)
+src/sanity/        — Sanity schema definitions and config
+src/types/         — Shared TypeScript types (catalog, etc.)
+scripts/           — Developer utilities, CMS seed, DB tools
+prisma/            — Prisma schema (Lead model)
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Agent & Workflow Guidance
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+See [CLAUDE.md](CLAUDE.md) for agent roles, quality rules, and script references.
