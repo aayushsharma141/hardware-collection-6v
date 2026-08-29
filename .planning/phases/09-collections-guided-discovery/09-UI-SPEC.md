@@ -1,10 +1,12 @@
 ---
 phase: 9
 slug: collections-guided-discovery
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-08-29
+reviewed_at: 2026-08-29
+revision: 2
 ---
 
 # Phase 9 — UI Design Contract
@@ -66,7 +68,7 @@ the existing hand-rolled system.
 |---|---|---|
 | `CollectionsHero` | **new** | Replaces the masthead block currently inline in `CollectionsClient.tsx`. See §1. |
 | `SpaceIntentRail` | **new** | 6 space tiles. See §2. |
-| `SpaceLandingClient` (`/collections/spaces/[slug]`) | **new route — flagged for planner** | Only required for spaces whose `linkedCategories[]` has more than one entry. Not named in D-15/D-16's route amendment — see §2 for why this route is necessary and how it stays inside D-18's no-filter rule. |
+| `SpaceLandingClient` (rendered by `/collections/[slug]` when the slug resolves to a `space`) | **new component, no new route** | Owner resolved this as D-24: spaces and categories share the single `/collections/[slug]` segment, so no second route-lock amendment is needed. Only reached for spaces whose `linkedCategories[]` has more than one entry. Requires cross-type slug uniqueness validation in both Sanity schemas — see §2. |
 | `CollectionIndex` | **new** (rebuilt from `CollectionFilterRail`) | Full-width editorial list, not a sidebar. See §3. |
 | `FeaturedChapters` | **new** | 3–5 Tier-1 cinematic collections. See §4. |
 | `CompactCollectionGrid` | **new** | Tier-2 remaining collections. See §5. |
@@ -250,25 +252,32 @@ well-defined target. Resolving this as an anchored/filtered subset of the Collec
 quietly reintroduce a filter control under a new name and breach D-18 — so it is resolved as two
 distinct, honest cases instead:
 
-- **Single linked category** (`linkedCategories.length === 1`): the tile links directly to
-  `/collections/[slug]` for that one category. No intermediate page.
+**RESOLVED BY OWNER (D-24, 2026-08-29): unified single route family.** Spaces and categories share
+the **one** `/collections/[slug]` dynamic segment. The route resolves the slug against `space`
+documents first, then `category` documents. No `/collections/spaces/[slug]` route is created, so the
+public-routes lock stays exactly at D-16's amendment (`/` + `/collections` + `/collections/[slug]`)
+and needs no second amendment.
+
+- **Slug uniqueness is now a hard schema requirement.** Because both document types share one URL
+  namespace, a `space` slug and a `category` slug can never collide. Both schemas must carry a
+  cross-type uniqueness validation rule — this is a blocking correctness constraint, not a nicety.
+  A collision would silently shadow one document with the other.
+- **Single linked category** (`linkedCategories.length === 1`): the space tile links directly to
+  `/collections/[slug]` for that one category. No intermediate page — the space document itself is
+  bypassed to avoid a pointless hop.
 - **Multiple linked categories** (`linkedCategories.length > 1`, the common case — e.g. ENTRANCE
-  plausibly links door hardware, locks, and glass hardware): the tile links to a **new, dedicated
-  route, `/collections/spaces/[slug]`** (nested under `/collections` to stay inside the spirit of
-  D-15's "SEO addressability lives under `/collections`," rather than introducing a bare top-level
-  route). This is a genuine content page, not a filtered view: it renders the space's own hero
-  (`space.image` + `space.description`) followed by each linked category presented as a full card —
-  reusing the **Tier-2 Compact Grid card treatment** (§5) at whatever count `linkedCategories[]`
-  actually has (typically 2–4, not the whole catalogue) — each with its own title, one-line
-  description and **"Explore {Category Name}"** action to `/collections/[slug]`. The set of categories
-  shown is fixed entirely by editor authorship of `linkedCategories[]`, not narrowed by a
-  visitor-chosen criterion at runtime, which is what keeps this a landing page rather than a filter.
-- **Flag for planner:** `/collections/spaces/[slug]` is not named in D-15/D-16's amended public-routes
-  lock ("/" + "/collections" + "/collections/[slug]"). This spec treats it as a necessary consequence
-  of D-01/D-02/D-11 — the space-led entry system (the phase's primary discovery mechanism) has no
-  functioning destination for any space with more than one linked category without it. Recommend the
-  planner either fold this route into the D-16 amendment during planning, or raise it back to the
-  owner as a flag in the same register as F-01…F-05. This spec assumes the route ships.
+  plausibly links door hardware, locks, and glass hardware): the tile links to `/collections/[slug]`
+  where the slug resolves to the **space** document. That page is a genuine content page, not a
+  filtered view: it renders the space's own hero (`space.image` + `space.description`) followed by
+  each linked category presented as a full card — reusing the **Tier-2 Compact Grid card treatment**
+  (§5) at whatever count `linkedCategories[]` actually has (typically 2–4, not the whole catalogue) —
+  each with its own title, one-line description and **"Explore {Category Name}"** action to that
+  category's `/collections/[slug]`. The set of categories shown is fixed entirely by editor
+  authorship of `linkedCategories[]`, not narrowed by a visitor-chosen criterion at runtime, which is
+  what keeps this a landing page rather than a filter (D-18 holds).
+- **Homepage family links resolve here too (D-25).** The ~60 hardcoded family-level deep links across
+  7 files (`handles-knobs`, `door-hardware`, `bathroom`, `kitchen-wardrobes`, `furniture-hardware`)
+  repoint to space pages, since families and spaces are the same grouping layer above categories.
 
 **Keyboard & screen-reader contract (D-22):**
 - Rail container: `role="list"` `aria-label="Explore by space"`. Each tile: `role="listitem"` wrapping

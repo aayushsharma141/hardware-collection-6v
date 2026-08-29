@@ -130,6 +130,27 @@ lifts for this phase only.
 - **D-23:** Mobile is designed as its own flow, not a stacked desktop layout. Target: any major
   collection reachable in **1-2 interactions** without scrolling the full page.
 
+### Added 2026-08-29 (post-UI-SPEC and post-research)
+
+- **D-24:** **Spaces and categories share one route family.** `/collections/[slug]` resolves the slug
+  against `space` documents first, then `category` documents. The UI-SPEC originally proposed a
+  separate `/collections/spaces/[slug]` route; the owner rejected a second route family. The
+  public-routes lock therefore stays exactly at D-16's amendment and needs no further change.
+- **D-25:** **Homepage family-level links repoint to space pages.** The ~60 hardcoded family-slug
+  deep links (`handles-knobs`, `door-hardware`, `bathroom`, `kitchen-wardrobes`,
+  `furniture-hardware`) across 7 files resolve to space pages, because families and spaces are the
+  same grouping layer sitting above categories. This removes the need to invent a family-to-category
+  mapping. See F-05.
+- **D-26:** **The canonical brand roster is architectural hardware brands only.** Jaquar (sanitaryware),
+  Asian Paints (paint) and Philips (lighting) are removed from the brand roster. The three
+  disagreeing rosters in the codebase reconcile to the hardware set, seeded into Sanity as the single
+  source of truth. Note this removes three brands currently visible on the live homepage - see F-06,
+  and confirm with Mukesh before publishing.
+- **D-27:** **Cross-type slug uniqueness is a blocking schema constraint.** Because D-24 puts `space`
+  and `category` documents in one URL namespace, both Sanity schemas must validate that a slug is
+  unique across BOTH types. A collision silently shadows one document with the other. This is a
+  correctness requirement, not a nicety.
+
 ### Claude's Discretion
 
 Not discussed - planner and researcher decide within the constraints above:
@@ -167,10 +188,20 @@ decisions before or during Phase 8 launch.
   "7,500 sq ft Sakchi showroom", while `.planning/NAV_AND_COLLECTIONS_PLAN.md` states there are to
   be no unverified sq ft claims. Related to D-09's "20+ years" question. Needs Mukesh confirmation.
 
-- **F-05 - Homepage deep links break under D-15.**
+- **F-05 - Homepage deep links break under D-15. SCOPE CORRECTED 2026-08-29.**
   `.planning/QA_AND_ASSET_PROTOCOL.md` S4.2 specifies "Category Discovery: Card tap -> Filtered
-  category in `/collections`". Those homepage links currently deep-link to filtered query params and
-  must be repointed to `/collections/[slug]`. In scope for Phase 9 per D-07.
+  category in `/collections`". Research measured the real blast radius as **~60 hardcoded
+  `?category=` / `?brand=` deep links across 7 files**, not the single `CategoryDiscovery.tsx` this
+  flag originally named: `BrandTrustStrip.tsx`, `Footer.tsx`, `home/BrandStrip.tsx`,
+  `home/CategoryDiscovery.tsx`, `home/InteractiveBrandWall.tsx`, `home/ProductReel.tsx`,
+  `data/home.ts`. Resolved by D-25 (family links repoint to space pages). In scope for Phase 9.
+
+- **F-06 - Three brand rosters already disagree in the codebase (raised 2026-08-29).**
+  `src/data/catalog.ts` `BRANDS` holds ~20 brands but omits Hettich and Kich; `BrandTrustStrip.tsx`
+  holds 23 including Jaquar, Asian Paints and Philips; `useCollectionsState.ts:218` holds 6. Resolved
+  for planning purposes by D-26, but the authoritative roster is a business-truth question in the
+  same register as F-01 and F-04 and should be confirmed by Mukesh before the brand content is
+  published.
 
 </flags>
 
@@ -215,7 +246,11 @@ decisions before or during Phase 8 launch.
   `getProductDisplayImage()` hardcoded PNG fallback map (D-12); `SHOWROOM_FAMILIES_NAV` (D-02);
   substring search at the `displayCategories` memo (D-14).
 - `src/data/catalog.ts` - **Line 7**: `brand` is a TypeScript union of exactly 6 string literals.
-  A 7th brand will not type-check. Blocking for D-05/D-07.
+  **CORRECTED 2026-08-29 (was overstated above as "blocking"):** this is LOW risk. The runtime
+  `Product` type in `src/types/catalog.ts:32` already declares `brand?: string`, so the union only
+  constrains the static fallback array inside `catalog.ts` itself. Widening it is backward
+  compatible. The real brand work is roster reconciliation (D-26), not type surgery.
+  Note the `BRANDS` array in this same file holds ~20 brands and is **missing Hettich and Kich**.
 - `src/app/collections/CollectionsClient.tsx` - Page composition.
 - `src/components/collections/` - `CollectionFilterRail.tsx`, `CollectionSearchBar.tsx`,
   `MobileFilters.tsx` removed or rebuilt per D-18; `ProductCard.tsx` becomes editorial;
