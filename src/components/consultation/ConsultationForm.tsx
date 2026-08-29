@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useId } from "react";
 import { ConsultationSuccess } from "./ConsultationSuccess";
 import { useConsultationStore } from "./store";
 import { Loader2, ArrowRight, Check, AlertCircle, RefreshCw } from "lucide-react";
-import { motion } from "motion/react";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -98,6 +97,12 @@ const CLS_SUBMIT =
 
 export function ConsultationForm({ onSuccess, inline = false }: ConsultationFormProps) {
   const { context } = useConsultationStore();
+
+  // The form mounts more than once per document — the inline section form and
+  // the navbar drawer coexist, and the mobile and desktop trees are both in the
+  // DOM. Hardcoded field ids therefore collided, which points every duplicated
+  // <label for> at whichever copy happens to come first.
+  const uid = useId();
 
   const [values, setValues] = useState<FormValues>(INITIAL_FORM_VALUES);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -247,7 +252,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
       <div
         className={
           inline
-            ? "bg-zinc-950 border border-zinc-850 rounded-2xl p-8 lg:p-10 min-h-[460px] flex flex-col items-center justify-center"
+            ? "bg-zinc-950 border border-white/[0.08] rounded-2xl p-8 lg:p-10 min-h-[460px] flex flex-col items-center justify-center"
             : "h-full flex flex-col items-center justify-center p-6"
         }
       >
@@ -255,7 +260,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
 
         {/* Recoverable Retry Alert if Telegram notification failed on server */}
         {telegramStatus === "failed" && (
-          <div className="mt-4 p-3 bg-amber-950/40 border border-amber-850 rounded-xl flex items-center justify-between gap-3 text-xs text-amber-200/90 max-w-md w-full">
+          <div className="mt-4 p-3 bg-amber-950/40 border border-amber-500/30 rounded-xl flex items-center justify-between gap-3 text-xs text-amber-200/90 max-w-md w-full">
             <div className="flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
               <span>We&apos;re having trouble alerting our team in real-time.</span>
@@ -281,24 +286,31 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
     <div
       className={`flex flex-col text-white font-dmsans ${
         inline
-          ? "bg-zinc-950 border border-white/[0.08] rounded-2xl p-6 sm:p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+          ? "w-full bg-zinc-950 border border-white/[0.08] rounded-2xl p-6 sm:p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
           : "p-6 lg:p-8"
       }`}
     >
-      {/* Header */}
+      {/* Header. Inline, this form sits beside the section's own heading and intro,
+          so it takes only the eyebrow as a label — repeating the headline verbatim
+          in both columns read as a duplication bug. The drawer has no surrounding
+          copy, so there it still carries the full heading. */}
       <div className="mb-6">
         <p className="text-[11px] uppercase tracking-[0.2em] text-[#C8A96E] font-semibold mb-1">
           DIRECT ENQUIRY · SAKCHI SHOWROOM
         </p>
-        <h2
-          className="font-cormorant text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight text-white mb-2"
-          style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-        >
-          Let&apos;s discuss your project.
-        </h2>
-        <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">
-          Tell us who you are and what you&apos;re building. Our showroom specialists will prepare recommendations immediately.
-        </p>
+        {!inline && (
+          <>
+            <h2
+              className="font-cormorant text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight text-white mb-2"
+              style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+            >
+              Let&apos;s discuss your project.
+            </h2>
+            <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">
+              Tell us who you are and what you&apos;re building. Our showroom specialists will prepare recommendations immediately.
+            </p>
+          </>
+        )}
       </div>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-6">
@@ -307,8 +319,8 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
 
         {/* Step 1: Customer Type Cards */}
         <div className="flex flex-col gap-2.5">
-          <label className={CLS_LABEL}>WHO ARE YOU? *</label>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <span className={CLS_LABEL} id={`${uid}-customer-type-label`}>WHO ARE YOU? *</span>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-labelledby={`${uid}-customer-type-label`}>
             {CUSTOMER_TYPES.map((type) => {
               const isSelected = values.customerType === type.id;
               return (
@@ -316,6 +328,8 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
                   key={type.id}
                   type="button"
                   onClick={() => setField("customerType")(type.id)}
+                  role="radio"
+                  aria-checked={isSelected}
                   className={`p-3.5 rounded-xl border text-left flex flex-col justify-between transition-all duration-200 relative ${
                     isSelected
                       ? "bg-[#C8A96E]/10 border-[#C8A96E] shadow-[0_0_15px_rgba(200,169,110,0.15)]"
@@ -346,8 +360,11 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
         {/* Details Fields */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className={CLS_LABEL}>YOUR NAME *</label>
+            <label className={CLS_LABEL} htmlFor={`${uid}-name`}>YOUR NAME *</label>
             <input
+              id={`${uid}-name`}
+              name="name"
+              autoComplete="name"
               required
               type="text"
               value={values.name}
@@ -358,8 +375,11 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className={CLS_LABEL}>LOCATION *</label>
+            <label className={CLS_LABEL} htmlFor={`${uid}-location`}>LOCATION *</label>
             <input
+              id={`${uid}-location`}
+              name="location"
+              autoComplete="address-level2"
               required
               type="text"
               value={values.location}
@@ -372,8 +392,12 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
 
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div className="flex flex-col gap-1.5">
-            <label className={CLS_LABEL}>PHONE NUMBER *</label>
+            <label className={CLS_LABEL} htmlFor={`${uid}-phone`}>PHONE NUMBER *</label>
             <input
+              id={`${uid}-phone`}
+              name="phone"
+              autoComplete="tel"
+              inputMode="tel"
               required
               type="tel"
               value={values.phone}
@@ -384,8 +408,10 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           </div>
 
           <div className="flex flex-col gap-1.5">
-            <label className={CLS_LABEL}>PROJECT TYPE *</label>
+            <label className={CLS_LABEL} htmlFor={`${uid}-project-type`}>PROJECT TYPE *</label>
             <select
+              id={`${uid}-project-type`}
+              name="projectType"
               value={values.projectType}
               onChange={(e) => setField("projectType")(e.target.value as ProjectType)}
               className={CLS_SELECT}

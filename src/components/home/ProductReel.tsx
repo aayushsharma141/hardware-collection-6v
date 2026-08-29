@@ -252,7 +252,7 @@ function ChapterLabel() {
   return (
     <>
       <p className="hc-mono text-[#c8a96e] font-medium tracking-[0.22em] text-[10px] sm:text-[11px] uppercase mb-1">
-        CHAPTER 05 · SIGNATURE PIECES
+        Selected hardware
       </p>
       <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[#e8e3d9] leading-tight mt-2">
         Selected<br />

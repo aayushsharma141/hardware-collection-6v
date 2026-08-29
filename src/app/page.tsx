@@ -23,6 +23,7 @@ import MobileCategoryDiscovery from "@/components/home/mobile/MobileCategoryDisc
 import MobileProductReel from "@/components/home/mobile/MobileProductReel";
 import MobileReviews from "@/components/home/mobile/MobileReviews";
 import MobileConsultation from "@/components/home/mobile/MobileConsultation";
+import AboutStory from "@/components/home/AboutStory";
 
 export const revalidate = 60;
 
@@ -84,23 +85,34 @@ export default async function HomePage() {
 
       {/* ── 7 Cinematic Chapters ─────────────────────────────────── */}
       <main className="relative z-10">
-        {/* Mobile Experience (Stitch Redesign) */}
+        {/* CH01 — The Art of the Finish (HIGH) */}
         <div className="block lg:hidden">
           <MobileHero slides={heroSlides} />
+        </div>
+        <HeroStage slides={heroSlides} />
+
+        {/* CH02 — Specified By (LOW)
+            Rendered once, for both viewports, which is why the hero above is
+            split out rather than nested in the two trees below. This section
+            used to live inside the desktop branch only, so the navbar's
+            "Brands" link — which scrolls to #brands — pointed at an element
+            that does not exist on a phone and did nothing when tapped. A single
+            instance also keeps `id="brands"` unique in the document. */}
+        <BrandTrustStrip />
+
+        {/* Mobile Experience (Stitch Redesign) */}
+        <div className="block lg:hidden">
           <MobileCategoryDiscovery />
           <MobileProductReel />
           <MobileReviews reviews={testimonials} />
+          {/* Our Legacy — mirrors the desktop placement: the story of the
+              business immediately before the invitation to visit. */}
+          <AboutStory id="about-mobile" />
           <MobileConsultation />
         </div>
 
         {/* Desktop Experience (Legacy) */}
         <div className="hidden lg:block">
-          {/* CH01 — The Art of the Finish (HIGH) */}
-          <HeroStage slides={heroSlides} />
-
-          {/* CH02 — Specified By (LOW) */}
-          <BrandTrustStrip />
-
           {/* CH03 — Form & Function (MEDIUM) */}
           <CategoryDiscovery />
 

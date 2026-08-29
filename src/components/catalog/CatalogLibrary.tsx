@@ -141,6 +141,41 @@ const BRAND_REGISTRY: Record<string, BrandMeta> = {
     tagline: "Bespoke Door Pulls & Luxury Architectural Details",
     country: "Italy / India",
   },
+  helix: {
+    name: "Helix",
+    logo: "/brands/heliex.webp",
+    website: null,
+    tagline: "Next-Gen Hardware",
+    country: "Global",
+  },
+  liftor: {
+    name: "Liftor",
+    logo: "/brands/Liftor.png",
+    website: null,
+    tagline: "Ergonomic Excellence",
+    country: "Global",
+  },
+  taco: {
+    name: "Taco",
+    logo: null,
+    website: null,
+    tagline: "Quality Hardware",
+    country: "Global",
+  },
+  shapes: {
+    name: "Shapes",
+    logo: "/brands/Shapes_logo_dark-1-768x224.png",
+    website: null,
+    tagline: "Defined by Design",
+    country: "Global",
+  },
+  decore: {
+    name: "Decore",
+    logo: "/brands/decore.png",
+    website: null,
+    tagline: "Premium Finishes",
+    country: "Global",
+  },
 };
 
 /**
@@ -168,6 +203,11 @@ const BRAND_ALIASES: Record<string, string[]> = {
   madhuram: ["madhuram"],
   furnipart:["furnipart"],
   marnello: ["marnello"],
+  helix:    ["helix"],
+  liftor:   ["liftor"],
+  taco:     ["taco"],
+  shapes:   ["shapes"],
+  decore:   ["decore"],
 };
 
 /** Build a reverse lookup: cleaned alias → registry key. Computed once at module load. */
@@ -195,18 +235,24 @@ const normalizeBrandKey = (brand: Brand): string => {
   return ALIAS_TO_KEY[cleaned] ?? cleaned;
 };
 
-const DEFAULT_BRANDS = [
-  { name: "Häfele", slug: "hafele" }, 
-  { name: "Dorset", slug: "dorset" }, 
-  { name: "Labacha", slug: "labacha" },
-  { name: "Godrej", slug: "godrej" }, 
-  { name: "Hettich", slug: "hettich" }, 
-  { name: "Kich", slug: "kich" }
-];
+const DEFAULT_BRANDS = Object.entries(BRAND_REGISTRY).map(([key, meta]) => ({
+  name: meta.name,
+  slug: key
+}));
 
 export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibraryProps) {
-  const displayBrands = brands && brands.length > 0 ? brands : DEFAULT_BRANDS;
-
+  const displayBrands: any[] = [...DEFAULT_BRANDS];
+  if (brands && brands.length > 0) {
+    brands.forEach(b => {
+      const bKey = normalizeBrandKey(b);
+      const idx = displayBrands.findIndex(db => normalizeBrandKey(db as Brand) === bKey);
+      if (idx !== -1) {
+        displayBrands[idx] = { ...displayBrands[idx], ...b };
+      } else {
+        displayBrands.push(b);
+      }
+    });
+  }
   return (
     <section id="official-catalogs" className="py-24 bg-[#0e0e0f] text-white border-t border-white/[0.08]">
       <div className="max-w-[1320px] mx-auto px-6">

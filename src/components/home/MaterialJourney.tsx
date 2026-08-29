@@ -191,12 +191,9 @@ export default function MaterialJourney() {
       <section data-chapter="4" className="py-16 bg-transparent border-t border-zinc-900">
         <div className="container mx-auto px-6 max-w-4xl">
           <p className="text-[#C8A96E] font-medium tracking-widest text-[11px] uppercase mb-1">
-            CHAPTER 04
+            The finish
           </p>
-          <p className="text-zinc-600 text-xs tracking-widest uppercase mb-4">
-            THE FINISH
-          </p>
-          <h2 className="text-[28px] sm:text-3xl font-light text-white leading-tight mb-4">
+          <h2 className="hc-serif text-[32px] sm:text-4xl font-normal tracking-[0.015em] text-[#e8e3d9] leading-[1.05] mb-4">
             The details define<br />
             <span className="text-zinc-500">the architecture.</span>
           </h2>
@@ -204,7 +201,7 @@ export default function MaterialJourney() {
             Genuine solid brass, surgical stainless steel, and triple-PVD coatings engineered for tactile longevity.
           </p>
 
-          <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-sm mb-6 border border-zinc-850">
+          <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-sm mb-6 border border-white/[0.08]">
             <img
               src={MATERIALS[1].img}
               alt="Architectural Brass Finish"
@@ -214,7 +211,7 @@ export default function MaterialJourney() {
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
               <div>
                 <p className="text-[#C8A96E] text-[10px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
-                <p className="text-white text-base font-light">Living Cartridge Brass</p>
+                <p className="hc-serif text-lg text-[#e8e3d9]">Living Cartridge Brass</p>
               </div>
               <span className="text-zinc-500 text-xs tracking-wider">Unlacquered</span>
             </div>
@@ -242,12 +239,9 @@ export default function MaterialJourney() {
         <section data-chapter="4" className="py-16 bg-transparent border-t border-zinc-900">
           <div className="container mx-auto px-6">
             <p className="text-[#C8A96E] font-medium tracking-widest text-[11px] uppercase mb-1">
-              CHAPTER 04
+              The finish
             </p>
-            <p className="text-zinc-600 text-xs tracking-widest uppercase mb-4">
-              THE FINISH
-            </p>
-            <h2 className="text-[28px] sm:text-3xl font-light text-white leading-tight mb-4">
+            <h2 className="hc-serif text-[32px] sm:text-4xl font-normal tracking-[0.015em] text-[#e8e3d9] leading-[1.05] mb-4">
               The details define<br />
               <span className="text-zinc-500">the architecture.</span>
             </h2>
@@ -256,7 +250,7 @@ export default function MaterialJourney() {
             </p>
 
             {/* Featured Material Visual with Light Sweep */}
-            <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-sm mb-6 border border-zinc-850">
+            <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-sm mb-6 border border-white/[0.08]">
               <img
                 src={MATERIALS[1].img}
                 alt="Architectural Brass Finish"
@@ -271,7 +265,7 @@ export default function MaterialJourney() {
               <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
                 <div>
                   <p className="text-[#C8A96E] text-[10px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
-                  <p className="text-white text-base font-light">Living Cartridge Brass</p>
+                  <p className="hc-serif text-lg text-[#e8e3d9]">Living Cartridge Brass</p>
                 </div>
                 <span className="text-zinc-500 text-xs tracking-wider">Unlacquered</span>
               </div>
@@ -353,7 +347,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
     >
       {/* Z=1: Ghost text — material name behind image */}
       <p
-        className="mat-ghost absolute inset-0 flex items-center justify-center text-[22vw] font-serif text-white leading-none select-none pointer-events-none"
+        className="mat-ghost hc-serif absolute inset-0 flex items-center justify-center text-[22vw] text-[#e8e3d9] leading-none select-none pointer-events-none"
         style={{ zIndex: 1, opacity: 0 }}
         aria-hidden="true"
       >
@@ -404,7 +398,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
           <p className="text-zinc-600 text-xs tracking-widest uppercase mb-4">
             FINISH 0{index + 1} / 0{total}
           </p>
-          <h3 className="text-6xl xl:text-8xl font-light text-white leading-none mb-2">
+          <h3 className="hc-serif text-6xl xl:text-8xl font-normal tracking-[0.015em] text-[#e8e3d9] leading-none mb-2">
             {mat.name}
           </h3>
           <p className="text-zinc-500 text-lg font-light mb-8">{mat.subName}</p>
@@ -432,11 +426,8 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
 function ChapterLabel() {
   return (
     <>
-      <p className="text-[#C8A96E] font-medium tracking-widest text-xs uppercase mb-1">
-        CHAPTER 04
-      </p>
-      <p className="text-zinc-600 text-xs tracking-widest uppercase">
-        THE FINISH
+      <p className="hc-mono text-[#C8A96E] font-medium tracking-[0.22em] text-[10px] uppercase">
+        The finish
       </p>
     </>
   );

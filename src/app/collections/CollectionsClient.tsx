@@ -3,8 +3,6 @@
 import React from "react";
 import Footer from "@/components/Footer";
 import { MessageCircle, Compass } from "lucide-react";
-import CatalogLibrary from "@/components/catalog/CatalogLibrary";
-import CatalogViewerModal from "@/components/catalog/CatalogViewerModal";
 import { FloatingConsultationCapsule } from "@/components/consultation/FloatingConsultationCapsule";
 import { AnimatePresence } from "motion/react";
 import {
@@ -47,8 +45,6 @@ export default function CollectionsClient({
     setSearchQuery,
     selectedProduct,
     handleProductSelect,
-    selectedCatalogBrand,
-    setSelectedCatalogBrand,
     shortlist,
     setShortlist,
     toggleShortlist,
@@ -256,12 +252,6 @@ export default function CollectionsClient({
           </div>
         </div>
 
-        {/* ── Official Brand Catalogs Strip ── */}
-        {products.length > 0 && (
-          <div id="reference-library-section" className="w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-12 pt-16 pb-6 border-t border-white/[0.08] mt-16">
-            <CatalogLibrary brands={brands || []} onSelectBrand={setSelectedCatalogBrand} />
-          </div>
-        )}
       </main>
 
       {/* ── Floating Shortlist Pill & Full Toast ── */}
@@ -281,15 +271,6 @@ export default function CollectionsClient({
         displayImage={selectedProduct ? getProductDisplayImage(selectedProduct) : ""}
       />
 
-      {/* Official Catalog Viewer Modal */}
-      <AnimatePresence>
-        {selectedCatalogBrand && (
-          <CatalogViewerModal 
-            brand={selectedCatalogBrand} 
-            onClose={() => setSelectedCatalogBrand(null)} 
-          />
-        )}
-      </AnimatePresence>
 
       <FloatingConsultationCapsule />
 

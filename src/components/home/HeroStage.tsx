@@ -5,6 +5,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
+import Link from "next/link";
 import { HeroSlide } from "@/types/hero";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -56,6 +57,13 @@ export default function HeroStage({ slides }: HeroStageProps) {
   if (!slides || slides.length === 0) return null;
   const currentSlide = slides[currentSlideIndex] || slides[0];
 
+  // The hero used to hardcode its headline and eyebrow, so cycling the
+  // specimen swapped the photograph and the body copy while the H1 stayed put —
+  // the slide changed underneath a headline that claimed it had not.
+  const ctaLabel = currentSlide.primaryCta || "Explore collections";
+  const ctaHref = currentSlide.ctaTarget || "/collections";
+  const isExternalCta = ctaHref.startsWith("http");
+
   return (
     <section
       ref={containerRef}
@@ -78,16 +86,14 @@ export default function HeroStage({ slides }: HeroStageProps) {
           {/* Left Column: Typography & CTAs */}
           <div className="hero-text-col pb-4">
             <div className="flex items-center gap-3 mb-6">
-              <span className="h-1.5 w-1.5 bg-[#c8a96e]" />
+              <span className="h-1.5 w-1.5 bg-[#c8a96e] shrink-0" />
               <p className="hc-mono text-[11px] uppercase tracking-[0.22em] text-[#c8a96e]">
-                Hardware Collection · Sakchi, Jamshedpur
+                {currentSlide.eyebrow || "Hardware Collection · Sakchi, Jamshedpur"}
               </p>
             </div>
 
-            <h1 className="hc-serif text-[84px] xl:text-[96px] leading-[0.86] font-normal tracking-[0.015em] text-[#e8e3d9]">
-              The Art of
-              <br />
-              <em className="not-italic text-[#e8e3d9]">the Finish.</em>
+            <h1 className="hc-serif text-[84px] xl:text-[96px] leading-[0.86] font-normal tracking-[0.015em] text-[#e8e3d9] whitespace-pre-line">
+              {currentSlide.title || "The Art of\nthe Finish."}
             </h1>
 
             <p className="mt-8 max-w-[420px] text-[15px] leading-[1.65] font-light text-[#d1ccc4]">
@@ -96,15 +102,29 @@ export default function HeroStage({ slides }: HeroStageProps) {
             </p>
 
             <div className="mt-10 flex items-center gap-6">
-              <a
-                href="#collection"
-                className="brass-plate h-[52px] px-7 bg-[#c8a96e] text-[#090909] text-[11px] font-bold uppercase tracking-[0.18em] flex items-center gap-6 no-underline hover:bg-[#e8e3d9]"
-              >
-                <span>Explore collections</span>
-                <svg className="w-4 h-4 text-[#090909]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </a>
+              {isExternalCta ? (
+                <a
+                  href={ctaHref}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="brass-plate hc-focus h-[52px] px-7 bg-[#c8a96e] text-[#090909] text-[11px] font-bold uppercase tracking-[0.18em] flex items-center gap-6 no-underline hover:bg-[#e8e3d9]"
+                >
+                  <span>{ctaLabel}</span>
+                  <svg className="w-4 h-4 text-[#090909]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+              ) : (
+                <Link
+                  href={ctaHref}
+                  className="brass-plate hc-focus h-[52px] px-7 bg-[#c8a96e] text-[#090909] text-[11px] font-bold uppercase tracking-[0.18em] flex items-center gap-6 no-underline hover:bg-[#e8e3d9]"
+                >
+                  <span>{ctaLabel}</span>
+                  <svg className="w-4 h-4 text-[#090909]" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </Link>
+              )}
 
               <a
                 href="#directions"
@@ -131,8 +151,8 @@ export default function HeroStage({ slides }: HeroStageProps) {
 
             <div className="absolute top-6 left-6 right-6 flex items-center justify-between hc-mono text-[9px] uppercase tracking-[0.2em] text-[#aaa49a]">
               <span>Selected specimen</span>
-              <span className="text-[#c8a96e]">
-                0{currentSlideIndex + 1} / 0{slides.length}
+              <span className="text-[#c8a96e] tabular-nums">
+                {pad2(currentSlideIndex + 1)} / {pad2(slides.length)}
               </span>
             </div>
 
@@ -150,8 +170,11 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 <p className="hc-mono text-[9px] uppercase tracking-[0.18em] text-[#aaa49a]">
                   Finish study
                 </p>
+                {/* Captions the specimen, not the page. This line used to echo
+                    the H1 verbatim, so the aperture repeated the headline
+                    already set two columns to its left. */}
                 <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#e8e3d9]">
-                  {currentSlide.title ? currentSlide.title.replace(/\n/g, ' · ') : 'Solid brass · PVD satin gold'}
+                  Solid brass · PVD satin gold
                 </p>
               </div>
 
@@ -172,11 +195,11 @@ export default function HeroStage({ slides }: HeroStageProps) {
         {/* Hero Section Bottom Status Bar */}
         <div className="hero-bottom-bar border-t border-white/[0.14] h-[54px] flex items-center justify-between pt-2">
           <div className="flex items-center gap-4">
-            <span className="hc-mono text-[10px] tracking-[0.16em] text-[#c8a96e]">
-              0{currentSlideIndex + 1}
+            <span className="hc-mono text-[10px] tracking-[0.16em] text-[#c8a96e] tabular-nums">
+              {pad2(currentSlideIndex + 1)}
             </span>
-            <span className="hc-mono text-[10px] tracking-[0.18em] text-[#aaa49a]">
-              / 0{slides.length}
+            <span className="hc-mono text-[10px] tracking-[0.18em] text-[#aaa49a] tabular-nums">
+              / {pad2(slides.length)}
             </span>
             <span className="h-px w-12 bg-[#c8a96e]/[0.55]" />
             <span className="text-[10px] uppercase tracking-[0.18em] text-[#aaa49a]">
@@ -194,4 +217,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
       </div>
     </section>
   );
+}
+
+/** Two-digit specimen index. `0{n}` produced "010" once a tenth slide existed. */
+function pad2(n: number): string {
+  return String(n).padStart(2, "0");
 }

@@ -136,6 +136,7 @@ export interface SiteSettings {
   whatsappNumber?: string;
   defaultWhatsappMessage?: string;
   primaryPhone?: string;
+  secondaryPhone?: string;
   showroomAddress?: string;
   showroomHours?: string;
   googleMapsUrl?: string;

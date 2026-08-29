@@ -1,62 +1,63 @@
-"use client";
-import React, { useState } from "react";
+import React from "react";
+import { ConsultationForm } from "@/components/consultation/ConsultationForm";
+import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL } from "@/lib/config";
 
+/**
+ * MobileConsultation — the mobile close.
+ *
+ * This section used to render its own two-field form whose submit handler was
+ * `preventDefault()` and nothing else: no request, no validation, no success
+ * or error state, and no labels on the inputs. Every enquiry typed into it on
+ * a phone — the majority of this site's traffic — was discarded.
+ *
+ * It now renders the same `ConsultationForm` the desktop chapter and the
+ * navbar drawer use, so a mobile enquiry reaches the lead pipeline with the
+ * same validation, retry and success states as everywhere else.
+ */
 export default function MobileConsultation() {
-  const [activeTab, setActiveTab] = useState<"Architect" | "Homeowner">("Architect");
-
   return (
-    <section className="w-full px-margin-mobile py-unit-xl bg-surface-obsidian border-t border-outline-variant lg:hidden">
+    <section
+      id="consultation"
+      className="w-full px-margin-mobile py-unit-xl bg-surface-obsidian border-t border-outline-variant lg:hidden scroll-mt-24"
+    >
       <div className="max-w-xl mx-auto flex flex-col space-y-unit-lg">
-        <div className="flex flex-col space-y-unit-xs text-center">
-          <p className="font-label-caps text-label-caps text-primary uppercase tracking-widest">The Invitation</p>
-          <h2 className="font-headline-md text-headline-md text-text-bone">Private Consultation</h2>
+        <div className="flex flex-col space-y-unit-xs">
+          <p className="font-label-caps text-label-caps text-primary uppercase">
+            Private consultation · Sakchi
+          </p>
+          <h2 className="font-headline-md text-[30px] leading-[1.1] text-text-bone">
+            Let&rsquo;s discuss your project.
+          </h2>
+          <p className="pt-1 text-[13.5px] leading-[1.65] font-light text-text-muted max-w-[44ch]">
+            Tell us what you&rsquo;re working on. Our technical team will help
+            you navigate brands, finishes and specifications — with zero
+            guesswork.
+          </p>
         </div>
-        
-        <form className="flex flex-col space-y-unit-md" onSubmit={(e) => e.preventDefault()}>
-          <div className="flex flex-row gap-unit-sm justify-center mb-unit-sm">
-            <button 
-              onClick={() => setActiveTab("Architect")}
-              className={`px-unit-md py-unit-xs border font-ui-button text-ui-button uppercase rounded-none transition-colors ${
-                activeTab === "Architect" 
-                  ? "border-primary bg-primary/10 text-primary" 
-                  : "border-outline-variant text-text-muted hover:text-text-bone"
-              }`} 
-              type="button"
+
+        <ConsultationForm inline />
+
+        <div className="flex flex-col gap-3 border-t border-outline-variant pt-unit-lg">
+          <p className="hc-mono text-[10px] uppercase tracking-[0.2em] text-text-muted">
+            Or reach the showroom directly
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a
+              href={SHOWROOM_PHONE_HREF}
+              className="hc-focus flex-1 inline-flex items-center justify-center min-h-[48px] px-4 border border-outline-variant text-text-bone text-[11px] font-semibold uppercase tracking-[0.14em] transition-colors hover:border-primary hover:text-primary"
             >
-              Architect
-            </button>
-            <button 
-              onClick={() => setActiveTab("Homeowner")}
-              className={`px-unit-md py-unit-xs border font-ui-button text-ui-button uppercase rounded-none transition-colors ${
-                activeTab === "Homeowner" 
-                  ? "border-primary bg-primary/10 text-primary" 
-                  : "border-outline-variant text-text-muted hover:text-text-bone"
-              }`} 
-              type="button"
+              Call {SHOWROOM_PHONE_DISPLAY}
+            </a>
+            <a
+              href={SHOWROOM_MAP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hc-focus flex-1 inline-flex items-center justify-center min-h-[48px] px-4 border border-outline-variant text-text-muted text-[11px] font-medium uppercase tracking-[0.14em] transition-colors hover:border-text-bone hover:text-text-bone"
             >
-              Homeowner
-            </button>
+              Open in Maps
+            </a>
           </div>
-          
-          <input 
-            className="w-full bg-transparent border-b border-outline-variant pb-unit-sm pt-unit-md text-text-bone placeholder:text-text-muted font-body-md text-body-md focus:outline-none focus:border-primary transition-colors rounded-none" 
-            placeholder="Name" 
-            type="text"
-            required
-          />
-          <input 
-            className="w-full bg-transparent border-b border-outline-variant pb-unit-sm pt-unit-md text-text-bone placeholder:text-text-muted font-body-md text-body-md focus:outline-none focus:border-primary transition-colors rounded-none" 
-            placeholder="Phone or Email" 
-            type="text"
-            required
-          />
-          <button 
-            className="w-full mt-unit-lg px-unit-lg py-unit-md bg-primary text-on-primary font-ui-button text-ui-button uppercase tracking-widest rounded-none hover:brightness-110 transition-all active:scale-95 duration-200" 
-            type="submit"
-          >
-            Book Consultation
-          </button>
-        </form>
+        </div>
       </div>
     </section>
   );

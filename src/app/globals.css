@@ -55,15 +55,16 @@
   --font-manrope: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* Stitch Typography Extends */
-  --font-family-body-md: var(--font-manrope);
-  --font-family-headline-lg: var(--font-cormorant);
-  --font-family-headline-md: var(--font-cormorant);
-  --font-family-ui-button: var(--font-manrope);
-  --font-family-label-caps: var(--font-manrope);
-  --font-family-body-lg: var(--font-manrope);
-  --font-family-headline-lg-mobile: var(--font-cormorant);
-  --font-family-headline-xl: var(--font-cormorant);
+  /* Stitch Typography Extends — full stacks so a missing next/font var still
+     lands on the intended voice rather than the browser default. */
+  --font-headline-xl: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-headline-lg: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-headline-lg-mobile: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-headline-md: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body-lg: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body-md: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-ui-button: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-label-caps: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   --animate-float: float 6s ease-in-out infinite;
   --animate-pulse-gold: pulse-gold 2s infinite;
@@ -399,3 +400,102 @@ html.lenis, html.lenis body {
 .index-row.is-active .index-rule { transform: scaleX(1); }
 .index-rule { width: 34px; height: 2px; background: var(--brass); transform: scaleX(.35); transform-origin: left; transition: transform 180ms var(--standard); }
 
+
+/* The navbar slogan only earns its place when the brand column is wide enough to
+   render it legibly (~10.5px). The navbar's md:grid-cols-3 leaves the brand ~221px
+   at 768px, which would put the slogan at 6px, so below the threshold it is hidden
+   rather than shrunk. The footer mark, which has room, always shows it. */
+@container (max-width: 389px) {
+  .brand-tagline-optional {
+    display: none;
+  }
+}
+
+
+/* ─────────────────────────────────────────────────────────────
+   BROWSER SURFACES
+   The chrome we did not draw still ships with the page: selection,
+   caret, scrollbar, tap highlight and the default focus ring all
+   arrive un-themed unless they are claimed here.
+   ───────────────────────────────────────────────────────────── */
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(200, 169, 110, 0.38) var(--black);
+}
+
+::selection {
+  background: var(--brass);
+  color: var(--black);
+}
+
+input,
+textarea,
+select {
+  caret-color: var(--brass);
+}
+
+*,
+::before,
+::after {
+  -webkit-tap-highlight-color: rgba(200, 169, 110, 0.16);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--black);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(200, 169, 110, 0.3);
+  border: 2px solid var(--black);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(200, 169, 110, 0.55);
+}
+::-webkit-scrollbar-corner {
+  background: var(--black);
+}
+
+/* Baseline keyboard affordance. Components that draw their own ring opt out
+   with `focus-visible:outline-none`, so this only fills the gaps. */
+:focus-visible {
+  outline: 2px solid var(--brass);
+  outline-offset: 3px;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   REDUCED MOTION
+   Reduced motion is a first-class path, not a degradation: every
+   ambient loop on the page stops, and nothing that carries meaning
+   is only reachable through movement.
+   ───────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .light-sweep-overlay {
+    display: none;
+  }
+
+  .animate-review-marquee,
+  .animate-review-marquee-mobile,
+  .animate-ticker-left,
+  .animate-ticker-right,
+  .animate-float,
+  .animate-pulse-gold,
+  .animate-gradient-x {
+    animation: none !important;
+  }
+
+  .cinema-skew-layer {
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .pointer-light {
+    background-image: none;
+  }
+}

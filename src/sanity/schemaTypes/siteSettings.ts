@@ -37,6 +37,13 @@ export const siteSettingsType = defineType({
       validation: (Rule) => Rule.required(),
     }),
     defineField({
+      name: "secondaryPhone",
+      title: "Secondary Phone Number",
+      type: "string",
+      group: "contact",
+      description: "Additional showroom phone number displayed in the footer (e.g., +91 70336 50739).",
+    }),
+    defineField({
       name: "showroomAddress",
       title: "Showroom Address",
       type: "text",

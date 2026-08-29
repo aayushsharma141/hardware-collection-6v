@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { BrandLockup } from "@/components/brand/BrandLockup";
 import { usePathname } from "next/navigation";
 import { Phone, ArrowUpRight, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
@@ -24,7 +24,7 @@ interface NavLinkItem {
 const NAV_LINKS: NavLinkItem[] = [
   { name: "Collections", href: "/collections", id: "collections" },
   { name: "Brands", href: "/#brands", id: "brands" },
-  { name: "Catalog", href: "/collections#reference-library-section", id: "catalog" },
+  { name: "Catalog", href: "/catalogs", id: "catalog" },
 ];
 
 export default function Navbar({
@@ -32,6 +32,8 @@ export default function Navbar({
 }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
   const [currentHash, setCurrentHash] = useState("");
   const pathname = usePathname();
   const { openDrawer } = useConsultationStore();
@@ -64,11 +66,38 @@ export default function Navbar({
     setMobileMenuOpen(false);
   }
 
-  // Handle ESC key to close mobile drawer
+  /**
+   * The drawer is a modal: it covers the page, traps the pointer behind a
+   * backdrop and locks body scroll. It previously did none of the keyboard
+   * half of that — Tab walked straight out of the open drawer and into the
+   * page behind it, and closing left focus wherever it had wandered.
+   */
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
-      if (e.key === "Escape" && mobileMenuOpen) {
+      if (!mobileMenuOpen) return;
+
+      if (e.key === "Escape") {
         setMobileMenuOpen(false);
+        return;
+      }
+
+      if (e.key !== "Tab" || !dialogRef.current) return;
+
+      const focusable = dialogRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+      );
+      if (focusable.length === 0) return;
+
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      const active = document.activeElement;
+
+      if (e.shiftKey && (active === first || !dialogRef.current.contains(active))) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault();
+        first.focus();
       }
     },
     [mobileMenuOpen]
@@ -78,6 +107,26 @@ export default function Navbar({
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [handleKeyDown]);
+
+  // Move focus into the drawer on open, and hand it back to the trigger on
+  // close. `wasOpenRef` keeps the close branch from firing on first paint,
+  // where it would pull focus to the menu button on every page load.
+  const wasOpenRef = useRef(false);
+  useEffect(() => {
+    if (mobileMenuOpen) {
+      wasOpenRef.current = true;
+      const frame = requestAnimationFrame(() => {
+        dialogRef.current
+          ?.querySelector<HTMLElement>('a[href], button:not([disabled])')
+          ?.focus();
+      });
+      return () => cancelAnimationFrame(frame);
+    }
+    if (wasOpenRef.current) {
+      wasOpenRef.current = false;
+      menuButtonRef.current?.focus();
+    }
+  }, [mobileMenuOpen]);
 
   // Body scroll lock when mobile menu is open
   useEffect(() => {
@@ -130,16 +179,11 @@ export default function Navbar({
         window.history.pushState(null, "", "/#brands");
         setCurrentHash("#brands");
       }
-    } else if (link.id === "catalog" && pathname === "/collections") {
+    } else if (link.id === "catalog" && pathname === "/catalogs") {
       e.preventDefault();
-      const el =
-        document.getElementById("reference-library-section") ||
-        document.getElementById("official-catalogs");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", "/collections#reference-library-section");
-        setCurrentHash("#reference-library-section");
-      }
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.pushState(null, "", "/catalogs");
+      setCurrentHash("");
     } else if (link.id === "collections" && pathname === "/collections") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -186,40 +230,41 @@ export default function Navbar({
             <div className="absolute top-0 inset-x-8 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
           </div>
 
-          {/* Strict Balanced 3-Zone Desktop Grid & 2-Zone Mobile Layout */}
-          <div className="grid grid-cols-[1fr_auto] md:grid-cols-3 items-center h-full px-4 sm:px-6 md:px-8">
+          {/* Strict Balanced 3-Zone Desktop Grid & 2-Zone Mobile Layout.
+              The switch happens at lg, not md: between 768px and 1023px the
+              three centred links needed ~308px inside a 231px column, so the
+              brand lockup overlapped "Collections" and "Catalog" ran under the
+              phone pill. lg is also where the page itself swaps its mobile and
+              desktop trees, so the header and the content now agree on where
+              desktop begins. The centre column is sized to its content rather
+              than to an equal third: at 1024px exactly, a third was still a few
+              px short of the links and put "Catalog" under the phone pill. */}
+          <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] items-center h-full px-4 sm:px-6 md:px-8">
             
             {/* ── Column 1: Brand Lockup (Left-Aligned) ────────── */}
-            <div className="flex items-center justify-start min-w-0">
+            <div
+              className="flex items-center justify-start min-w-0"
+              style={{ containerType: "inline-size" }}
+            >
               <Link
                 href="/"
                 onClick={handleLogoClick}
-                className="group inline-flex items-center gap-3 py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-md transition-opacity duration-300 select-none"
-                aria-label="Hardware Collection Home"
+                className="group inline-block max-w-full py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-md transition-opacity duration-300 select-none"
+                aria-label="Hardware Collection — The Jewelry of Fittings, home"
               >
-                <div className="relative w-8 h-8 md:w-9 md:h-9 shrink-0">
-                  <Image
-                    src="/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png"
-                    alt="Hardware Collection Logo"
-                    fill
-                    sizes="36px"
-                    priority
-                    className="object-contain transition-transform duration-500 ease-out group-hover:scale-105"
-                  />
-                </div>
-                <span
-                  className="font-cormorant font-normal text-lg sm:text-xl md:text-[22px] tracking-[0.05em] text-white/95 group-hover:text-white transition-colors whitespace-nowrap"
-                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-                >
-                  Hardware Collection
-                </span>
+                <BrandLockup
+                  layout="inline"
+                  fontSize="clamp(11px, 5.4cqw, 22px)"
+                  emblemSizes="96px"
+                  priority
+                />
               </Link>
             </div>
 
             {/* ── Column 2: Exact Center Nav Links ──────────────── */}
             <nav
               aria-label="Primary Navigation"
-              className="hidden md:flex items-center justify-center gap-8 lg:gap-11"
+              className="hidden lg:flex items-center justify-center gap-6 xl:gap-11"
             >
               {NAV_LINKS.map((link) => {
                 const isActive = isLinkActive(link);
@@ -258,7 +303,7 @@ export default function Navbar({
               {/* Desktop Phone Contact Pill */}
               <a
                 href={`tel:${cleanPhone}`}
-                className="hidden md:inline-flex items-center gap-2 h-9 px-3.5 rounded-full bg-white/[0.04] border border-white/[0.10] hover:border-white/20 hover:bg-white/[0.08] text-[12px] font-medium uppercase tracking-[0.12em] text-[#d4cec5] hover:text-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] select-none"
+                className="hidden lg:inline-flex items-center gap-2 h-9 px-3.5 rounded-full bg-white/[0.04] border border-white/[0.10] hover:border-white/20 hover:bg-white/[0.08] text-[12px] font-medium uppercase tracking-[0.12em] text-[#d4cec5] hover:text-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label={`Call Hardware Collection at ${primaryPhone}`}
               >
@@ -269,7 +314,7 @@ export default function Navbar({
               {/* Desktop Inquire CTA Button */}
               <button
                 onClick={() => openDrawer({ source: "navbar", intent: "consultation" })}
-                className="hidden md:inline-flex items-center justify-center gap-1.5 h-9 px-5 rounded-full bg-gradient-to-r from-[#C8A96E] to-[#e5c487] hover:from-[#d8b97e] hover:to-[#f0d49e] text-[#0E0C0C] text-[12px] font-bold uppercase tracking-[0.14em] leading-none shadow-[0_4px_16px_rgba(200,169,110,0.25)] hover:shadow-[0_6px_22px_rgba(200,169,110,0.4)] hover:-translate-y-[1px] active:translate-y-0 transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A96E] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-9 px-5 rounded-full bg-gradient-to-r from-[#C8A96E] to-[#e5c487] hover:from-[#d8b97e] hover:to-[#f0d49e] text-[#0E0C0C] text-[12px] font-bold uppercase tracking-[0.14em] leading-none shadow-[0_4px_16px_rgba(200,169,110,0.25)] hover:shadow-[0_6px_22px_rgba(200,169,110,0.4)] hover:-translate-y-[1px] active:translate-y-0 transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A96E] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
               >
                 <span>Inquire</span>
@@ -278,8 +323,9 @@ export default function Navbar({
 
               {/* Mobile Menu Button */}
               <button
+                ref={menuButtonRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.06] border border-white/[0.12] text-white/90 hover:text-white hover:bg-white/[0.12] transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E]"
+                className="lg:hidden flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.06] border border-white/[0.12] text-white/90 hover:text-white hover:bg-white/[0.12] transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E]"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-nav-modal"
@@ -301,7 +347,10 @@ export default function Navbar({
         {mobileMenuOpen && (
           <div
             id="mobile-nav-modal"
-            className="fixed inset-0 z-50 md:hidden flex flex-col justify-start px-4 pt-20 pb-8 pointer-events-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site navigation"
+            className="fixed inset-0 z-50 lg:hidden flex flex-col justify-start px-4 pt-20 pb-8 pointer-events-auto"
             style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
           >
             {/* Dark glass backdrop overlay */}
@@ -321,6 +370,7 @@ export default function Navbar({
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: -12, scale: 0.98 }}
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
+              ref={dialogRef}
               className="relative w-full max-w-sm mx-auto bg-[#0E0C0C]/95 border border-white/[0.14] rounded-3xl p-6 shadow-[0_25px_60px_rgba(0,0,0,0.8)] backdrop-blur-2xl [box-shadow:inset_0_1px_0_rgba(255,255,255,0.15)] overflow-hidden"
             >
               {/* Ambient reflection */}
@@ -334,30 +384,23 @@ export default function Navbar({
 
               {/* Modal Top Header (Redirects to Home) */}
               <div className="flex items-center justify-between pb-5 border-b border-white/[0.08]">
-                <Link
-                  href="/"
-                  onClick={(e) => {
-                    setMobileMenuOpen(false);
-                    handleLogoClick(e);
-                  }}
-                  className="flex items-center gap-2.5"
-                >
-                  <div className="relative w-7 h-7 shrink-0">
-                    <Image
-                      src="/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png"
-                      alt="Hardware Collection Logo"
-                      fill
-                      sizes="28px"
-                      className="object-contain"
-                    />
-                  </div>
-                  <span
-                    className="font-cormorant text-lg text-white font-normal tracking-[0.05em]"
-                    style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
+                <div className="min-w-0 flex-1" style={{ containerType: "inline-size" }}>
+                  <Link
+                    href="/"
+                    onClick={(e) => {
+                      setMobileMenuOpen(false);
+                      handleLogoClick(e);
+                    }}
+                    className="group inline-block max-w-full select-none"
+                    aria-label="Hardware Collection — The Jewelry of Fittings, home"
                   >
-                    Hardware Collection
-                  </span>
-                </Link>
+                    <BrandLockup
+                      layout="inline"
+                      fontSize="clamp(11px, 5.4cqw, 19px)"
+                      emblemSizes="80px"
+                    />
+                  </Link>
+                </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
                   className="w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-white/70 hover:text-white transition-colors"

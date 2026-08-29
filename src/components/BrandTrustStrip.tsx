@@ -27,7 +27,11 @@ const LANE_1_BRANDS: BrandItem[] = [
   {
     id: "blum",
     name: "Blum",
-    logo: "/brands/Blum_logo.svg",
+    // The supplied Blum asset is a white wordmark sitting on a full-canvas
+    // orange ground, so the monochrome treatment turned it into a solid white
+    // block. `Blum_logo_mark.svg` is the same wordmark with the ground removed
+    // and the viewBox tightened to the letterforms; the original is untouched.
+    logo: "/brands/Blum_logo_mark.svg",
     href: "/collections?brand=blum",
     tagline: "Perfecting Motion",
     containerClass: "w-36 md:w-48 lg:w-52 h-10 md:h-14 lg:h-16",
@@ -96,7 +100,6 @@ const LANE_1_BRANDS: BrandItem[] = [
     href: "/collections?brand=philips",
     tagline: "Smart Lighting & Automation",
     containerClass: "w-36 md:w-48 lg:w-56 h-10 md:h-14 lg:h-16",
-    imageClass: "brightness-0 invert opacity-80",
   },
 ];
 
@@ -109,7 +112,6 @@ const LANE_2_BRANDS: BrandItem[] = [
     href: "/collections?brand=ozone",
     tagline: "Architectural Glass & Security Systems",
     containerClass: "w-36 md:w-48 lg:w-56 h-10 md:h-14 lg:h-16",
-    imageClass: "brightness-0 invert opacity-80",
   },
   {
     id: "helix",
@@ -195,9 +197,36 @@ const LANE_2_BRANDS: BrandItem[] = [
   },
 ];
 
+/**
+ * The roster is the source of truth for how many dealerships are authorized.
+ * The number was hardcoded as "23" in one component and "20+" in another, with
+ * two spellings of "authorised" between them, so the page contradicted itself
+ * about its own breadth. Derived here, it cannot drift again.
+ */
+export const AUTHORIZED_BRAND_COUNT = LANE_1_BRANDS.length + LANE_2_BRANDS.length;
+
 export default function BrandTrustStrip() {
+  /**
+   * One treatment for the whole wall.
+   *
+   * The logos arrive from twenty-three different brand kits — GEZE in process
+   * blue, Godrej in a four-colour gradient, Philips already inverted — and
+   * rendering them as supplied put a rainbow across a page whose entire palette
+   * is bone, brass and near-black. Two of them already carried a hand-applied
+   * `brightness-0 invert`, so the system had picked monochrome; the rest just
+   * had not been brought over.
+   *
+   * `brightness-0 invert` maps every opaque pixel to white and leaves the alpha
+   * channel alone. That requires the artwork to be the only opaque thing in the
+   * file: measured across the roster, every asset covers under half its box
+   * except Blum, which shipped as a white wordmark on a solid ground and so
+   * needed a transparent variant (see its entry above).
+   *
+   * Rest state is dimmed; hovering a brand brings it to full bone. Optical size
+   * stays per-brand, because a wordmark and a monogram do not balance at one
+   * width.
+   */
   const renderBrandVisual = (brand: BrandItem) => {
-    // Exact original logo rendering without complex mix-blend CSS filters
     if (brand.logo) {
       return (
         <div className={`relative flex items-center justify-center ${brand.containerClass || "w-40 md:w-52 lg:w-60 h-12 md:h-16 lg:h-20"}`}>
@@ -205,73 +234,33 @@ export default function BrandTrustStrip() {
             src={brand.logo}
             alt={brand.name}
             fill
-            className={`object-contain transition-transform duration-300 group-hover/item:scale-105 ${brand.imageClass || ""}`}
+            className={`object-contain brightness-0 invert opacity-55 transition-[opacity,transform] duration-300 ease-out group-hover/item:opacity-100 group-hover/item:scale-105 ${brand.imageClass || ""}`}
             unoptimized={brand.logo.endsWith(".svg")}
           />
         </div>
       );
     }
 
-    // Authentic plain typography for brands without separate image files
-    switch (brand.id) {
-      case "furnipart":
-        return (
-          <span className="font-sans font-light tracking-[0.35em] text-base md:text-xl lg:text-2xl text-zinc-300 group-hover/item:text-white uppercase transition-colors">
-            FURNIPART
-          </span>
-        );
-      case "pans":
-        return (
-          <span className="font-sans font-black tracking-[0.25em] text-2xl md:text-3xl lg:text-4xl text-zinc-200 group-hover/item:text-white uppercase transition-colors">
-            PANS
-          </span>
-        );
-      case "backer":
-        return (
-          <span className="font-mono font-bold tracking-[0.2em] text-xl md:text-2xl lg:text-3xl text-zinc-200 group-hover/item:text-white uppercase transition-colors">
-            BACKER
-          </span>
-        );
-      case "tattva":
-        return (
-          <span className="font-serif tracking-[0.3em] text-2xl md:text-3xl lg:text-4xl font-normal text-zinc-200 group-hover/item:text-white uppercase transition-colors">
-            Tattva
-          </span>
-        );
-      case "rexton":
-        return (
-          <span className="font-sans font-black tracking-[0.22em] text-xl md:text-2xl lg:text-3xl text-zinc-200 group-hover/item:text-white uppercase transition-colors">
-            REXTON
-          </span>
-        );
-      case "madhuram":
-        return (
-          <span className="font-serif italic tracking-[0.18em] text-2xl md:text-3xl lg:text-4xl text-zinc-200 group-hover/item:text-white transition-colors">
-            Madhuram
-          </span>
-        );
-      case "marnello":
-        return (
-          <span className="font-serif tracking-[0.22em] text-2xl md:text-3xl lg:text-4xl font-medium text-zinc-200 group-hover/item:text-white transition-colors">
-            Marnello
-          </span>
-        );
-      default:
-        return (
-          <span className="font-sans font-medium tracking-widest text-xl md:text-2xl text-zinc-300 group-hover/item:text-white transition-colors">
-            {brand.name}
-          </span>
-        );
-    }
+    /**
+     * Brands with no logo file are set as wordmarks. Each used to get its own
+     * typeface — black sans, mono, serif, serif italic — as an impression of a
+     * logo nobody had. Seven guesses in seven fonts read as a broken wall, so
+     * they are all set the same way now: the site's own voice, stating the name.
+     */
+    return (
+      <span className="font-sans font-medium uppercase tracking-[0.28em] text-lg md:text-xl lg:text-2xl whitespace-nowrap text-[#e8e3d9]/55 group-hover/item:text-[#e8e3d9] transition-colors duration-300">
+        {brand.name}
+      </span>
+    );
   };
 
   return (
-    <section id="brands" className="py-24 bg-zinc-950 border-y border-zinc-900 relative z-10 overflow-hidden">
+    <section id="brands" className="py-20 lg:py-24 bg-zinc-950 border-y border-zinc-900 relative z-10 overflow-hidden scroll-mt-24">
       
       {/* Header */}
       <div className="max-w-4xl mx-auto px-6 text-center mb-16">
         <p className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-3">
-          Chapter 02 · Authorized Partners
+          Authorized partners
         </p>
         <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[#e8e3d9] leading-tight mb-3">
           Authorized Brands

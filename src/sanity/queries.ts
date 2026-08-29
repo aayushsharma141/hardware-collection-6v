@@ -212,6 +212,7 @@ export async function getSiteSettings() {
     whatsappNumber,
     defaultWhatsappMessage,
     primaryPhone,
+    secondaryPhone,
     showroomAddress,
     showroomHours,
     googleMapsUrl,
