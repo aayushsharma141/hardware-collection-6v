@@ -1,3 +1,17 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: unknown
+last_updated: "2026-08-29T15:44:34.502Z"
+progress:
+  total_phases: 1
+  completed_phases: 0
+  total_plans: 0
+  completed_plans: 0
+  percent: 0
+---
+
 # Current Operational State
 
 **Active Project:** Hardware Collection
@@ -56,3 +70,22 @@ Search Console + GBP + Analytics
 - WhatsApp is the primary conversion mechanism
 - Cormorant Garamond (display) + DM Sans (body)
 - Near-black (#131314) / gold (#e5c487 / #c8a96e) visual system
+
+---
+
+## Last Session
+
+**Stopped at:** Phase 9 context gathered
+**Resume file:** `.planning/phases/09-collections-guided-discovery/09-CONTEXT.md`
+**Date:** 2026-08-29
+
+## Pending Corrections (raised 2026-08-29, not yet applied)
+
+The Locked Rules above contain two entries now known to be out of date. They are
+deliberately left unedited pending an explicit correction pass - see flags F-02 and
+F-03 in `.planning/phases/09-collections-guided-discovery/09-CONTEXT.md`.
+
+- **Brand count:** owner states the showroom now carries 20+ brands, not 6.
+- **Public routes:** `/catalogs` shipped in commit 51472d2 despite the two-route rule.
+- **WhatsApp number:** `QA_AND_ASSET_PROTOCOL.md` S4.3 cites 919431111550; STATE.md and
+  all shipped code use 919835190738. Conversion-critical (flag F-01).

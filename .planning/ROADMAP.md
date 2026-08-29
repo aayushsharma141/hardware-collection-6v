@@ -41,3 +41,9 @@
 
 - [ ] **Phase 8 — Production Launch** 🔄 IN PROGRESS
   Vercel → hardwarecollection.co → Search Console → GBP → Analytics.
+
+- [ ] **Phase 9 — Collections Guided Discovery Redesign** ⏸ POST-LAUNCH
+  Replace filter-driven catalogue UX on `/collections` with progressive-disclosure showroom discovery:
+  use-case entry, spaces, editorial chapters, brand paths, contextual WhatsApp CTAs.
+  Canonical refs: `.planning/NAV_AND_COLLECTIONS_PLAN.md` (§3B/§3C SUPERSEDED by this phase — see 09-CONTEXT.md)
+  Gated on: Phase 8 launch complete. Feature freeze lifts only for this phase.
