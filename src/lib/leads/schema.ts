@@ -57,14 +57,33 @@ export const ConsultationLeadSchema = BaseLeadSchema.extend({
   selectedProducts: z.array(SelectedProductSchema).optional(),
 });
 
+export const CustomerTypeSchema = z.enum([
+  "Architect / Interior Designer",
+  "Home Owner",
+  "Builder / Project",
+  "Retailer",
+]);
+
+export const ProjectTypeSchema = z.enum([
+  "Modular Kitchen",
+  "Home Renovation",
+  "New Home / Construction",
+  "Commercial Project",
+  "Door / Security",
+  "Wardrobe",
+  "Other",
+]);
+
 // Mode 2: Enquiry
 export const EnquiryLeadSchema = BaseLeadSchema.extend({
   intent: z.literal("enquiry"),
+  customerType: CustomerTypeSchema,
+  location: z.string().min(2, "Location is required"),
+  projectType: ProjectTypeSchema,
   category: z.string().optional().or(z.literal("")),
   brand: z.string().optional().or(z.literal("")),
   product: z.string().optional().or(z.literal("")),
   quantity: z.string().optional().or(z.literal("")),
-  projectType: z.string().optional().or(z.literal("")),
   message: z.string().optional().or(z.literal("")),
 });
 
@@ -95,6 +114,8 @@ export interface LeadNotificationPayload {
   source: string;
   pageUrl?: string | null;
   intent: string;
+  customerType?: string | null;
+  location?: string | null;
   message?: string | null;
   projectType?: string | null;
   interest?: string | null;
@@ -107,4 +128,5 @@ export interface LeadNotificationPayload {
   product?: string | null;
   quantity?: string | null;
 }
+
 

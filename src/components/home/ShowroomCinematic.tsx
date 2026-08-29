@@ -28,7 +28,7 @@ const SCENES = [
     id: "entrance",
     eyebrow: "THE SHOWROOM",
     title: "FLAGSHIP SHOWROOM\nSAKCHI",
-    sub: "Jamshedpur's most comprehensive architectural hardware destination.",
+    sub: "7,500 sq ft of architectural hardware, security, and kitchen systems on physical display.",
     img: "/cinema/showroom/exterior.png",
     panType: "scale" as const,
   },
@@ -44,7 +44,7 @@ const SCENES = [
     id: "location",
     eyebrow: "VISIT US",
     title: "Come Feel\nthe Difference.",
-    sub: "Official partners for Häfele, Dorset, Labacha, Godrej & Hettich. Open 7 days.",
+    sub: "Authorized partner for 23 architectural hardware, security, and kitchen brands. Open 7 days.",
     img: "/cinema/showroom/exterior-2.png",
     panType: "scale" as const,
   },
@@ -120,7 +120,7 @@ export default function ShowroomCinematic() {
   );
 
   return (
-    <div ref={containerRef} data-chapter="6" className="border-t border-zinc-900">
+    <div ref={containerRef} id="showroom" data-chapter="6" className="border-t border-zinc-900 scroll-mt-24">
       {/* Pointer lighting scoped to this chapter */}
       <div
         className="pointer-light absolute inset-0 pointer-events-none"
@@ -149,7 +149,7 @@ export default function ShowroomCinematic() {
               <span className="text-zinc-500">Sakchi, Jamshedpur.</span>
             </h2>
             <p className="text-zinc-300 text-sm font-light leading-relaxed max-w-md pt-1">
-              7,500 sq ft destination housing Jharkhand&apos;s most extensive physical architectural hardware and security collection.
+              7,500 sq ft of architectural hardware, security, and kitchen systems — on display, and in your hands before you specify.
             </p>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { groq } from "next-sanity";
 import { client } from "./client";
+import { Testimonial } from "@/types/testimonial";
 
 export const getCategoriesQuery = groq`
   *[_type == "category"] | order(displayOrder asc) {
@@ -168,9 +169,9 @@ export async function getFeaturedProducts() {
   }
 }
 
-export async function getTestimonials() {
+export async function getTestimonials(): Promise<Testimonial[]> {
   try {
-    return await client.fetch(getTestimonialsQuery);
+    return await client.fetch<Testimonial[]>(getTestimonialsQuery);
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];

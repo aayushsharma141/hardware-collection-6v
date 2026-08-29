@@ -35,7 +35,6 @@ export async function createLead(data: CreateLeadInput, leadId: string) {
     // Notifications status
     telegramStatus: "pending",
     emailStatus: "pending",
-    whatsappStatus: "pending",
   };
 
   let specificData = {};
@@ -51,6 +50,8 @@ export async function createLead(data: CreateLeadInput, leadId: string) {
     };
   } else if (data.intent === "enquiry") {
     specificData = {
+      customerType: data.customerType || null,
+      location: data.location || null,
       category: data.category || null,
       brand: data.brand || null,
       product: data.product || null,
@@ -75,16 +76,16 @@ export async function createLead(data: CreateLeadInput, leadId: string) {
 
 export async function updateNotificationStatus(
   leadId: string, 
-  channel: "telegram" | "email" | "whatsapp", 
-  status: "sent" | "failed"
+  channel: "telegram" | "email", 
+  status: "pending" | "sent" | "failed"
 ) {
-  const updateData: { telegramStatus?: string; emailStatus?: string; whatsappStatus?: string } = {};
+  const updateData: { telegramStatus?: string; emailStatus?: string } = {};
   if (channel === "telegram") updateData.telegramStatus = status;
   if (channel === "email") updateData.emailStatus = status;
-  if (channel === "whatsapp") updateData.whatsappStatus = status;
 
   return await prisma.lead.update({
     where: { id: leadId },
     data: updateData,
   });
 }
+

@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import { CreateLeadSchema } from "@/lib/leads/schema";
-import { createLead } from "@/lib/leads/createLead";
-import { processNotifications } from "@/lib/leads/notifications";
+import { createLead, updateNotificationStatus } from "@/lib/leads/createLead";
+import { sendTelegramAlert } from "@/lib/leads/telegram";
+import { sendResendEmail } from "@/lib/leads/email";
 
 // In-memory rate limiting for naive protection (edge/serverless compatible per region)
 const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
@@ -39,7 +40,7 @@ export async function POST(request: Request) {
     // Honeypot check
     if (payload._honey) {
       // Act like it succeeded to fool bots
-      return NextResponse.json({ success: true, event_id: "HC-HONEYPOT" });
+      return NextResponse.json({ success: true, lead_id: "HC-HONEYPOT", telegram_status: "sent" });
     }
 
     // Validation
@@ -57,22 +58,40 @@ export async function POST(request: Request) {
     // Generate Lead ID
     const year = new Date().getFullYear();
     const randomHex = Math.random().toString(16).substring(2, 6).toUpperCase();
-    const leadId = `HC-${year}-${randomHex}`; // Ideally, an auto-increment or DB sequence, but this works for serverless without a sequence counter readily available.
+    const leadId = `HC-${year}-${randomHex}`;
 
-    // Store in Postgres (Master Truth)
+    // 1. Store in Postgres (Master Truth)
     const leadRecord = await createLead(data, leadId);
 
-    // Process notifications safely without failing the lead submission
-    try {
-      await processNotifications(leadRecord.id, leadRecord);
-    } catch (e) {
-      console.error("Notification process failed:", e);
-    }
+    // 2. Trigger Email notification asynchronously without blocking
+    sendResendEmail(leadRecord)
+      .then(() => updateNotificationStatus(leadRecord.id, "email", "sent"))
+      .catch((err) => {
+        console.error("Async Email notification failed:", err);
+        updateNotificationStatus(leadRecord.id, "email", "failed").catch(() => {});
+      });
 
-    return NextResponse.json({
-      success: true,
-      lead_id: leadRecord.id,
-    });
+    // 3. Attempt Telegram Alert
+    try {
+      await sendTelegramAlert(leadRecord);
+      await updateNotificationStatus(leadRecord.id, "telegram", "sent");
+
+      return NextResponse.json({
+        success: true,
+        lead_id: leadRecord.id,
+        telegram_status: "sent",
+      });
+    } catch (telegramError) {
+      console.error("Telegram notification error:", telegramError);
+      await updateNotificationStatus(leadRecord.id, "telegram", "failed");
+
+      return NextResponse.json({
+        success: true,
+        lead_id: leadRecord.id,
+        telegram_status: "failed",
+        notification_error: "We couldn't notify our Telegram desk yet.",
+      });
+    }
   } catch (error) {
     console.error("Lead API Error:", error);
     return NextResponse.json(
@@ -81,3 +100,4 @@ export async function POST(request: Request) {
     );
   }
 }
+

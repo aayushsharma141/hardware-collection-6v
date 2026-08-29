@@ -1,7 +1,6 @@
 "use client";
 
 import React from "react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { MessageCircle, Compass } from "lucide-react";
 import CatalogLibrary from "@/components/catalog/CatalogLibrary";
@@ -77,13 +76,6 @@ export default function CollectionsClient({
 
   return (
     <div className="hc-root min-h-screen w-full bg-[#090909] text-[#e8e3d9] selection:bg-[#c8a96e]/30 selection:text-white">
-      {/* Global Navigation Header */}
-      <Navbar 
-        primaryPhone={settings?.primaryPhone}
-        whatsappNumber={settings?.whatsappNumber}
-        defaultWhatsappMessage={settings?.defaultWhatsappMessage}
-      />
-
       <main className="w-full pb-36">
         
         {/* ── Quiet Two-Axis Architectural Masthead ── */}

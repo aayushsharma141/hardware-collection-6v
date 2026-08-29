@@ -1,7 +1,6 @@
 import React from "react";
-import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { getHomePage, getSiteSettings, getBrands } from "@/sanity/queries";
+import { getHomePage, getSiteSettings, getBrands, getTestimonials } from "@/sanity/queries";
 import MobileConversionBar from "@/components/home/MobileConversionBar";
 
 // Global cinema system
@@ -56,10 +55,11 @@ const fallbackHeroSlides = [
 ];
 
 export default async function HomePage() {
-  const [homeData, siteSettings, brands] = await Promise.all([
+  const [homeData, siteSettings, brands, testimonials] = await Promise.all([
     getHomePage(),
     getSiteSettings(),
     getBrands(),
+    getTestimonials(),
   ]);
 
   const heroSlides =
@@ -82,13 +82,6 @@ export default async function HomePage() {
       {/* Pointer lighting — registered globally, scoped per chapter via .pointer-light */}
       <PointerLight />
 
-      {/* ── Navigation ──────────────────────────────────────────── */}
-      <Navbar
-        primaryPhone={siteSettings?.primaryPhone}
-        whatsappNumber={siteSettings?.whatsappNumber}
-        defaultWhatsappMessage={siteSettings?.defaultWhatsappMessage}
-      />
-
       {/* ── 7 Cinematic Chapters ─────────────────────────────────── */}
       <main className="relative z-10">
         {/* Mobile Experience (Stitch Redesign) */}
@@ -96,7 +89,7 @@ export default async function HomePage() {
           <MobileHero slides={heroSlides} />
           <MobileCategoryDiscovery />
           <MobileProductReel />
-          <MobileReviews />
+          <MobileReviews reviews={testimonials} />
           <MobileConsultation />
         </div>
 
@@ -121,7 +114,7 @@ export default async function HomePage() {
           <ShowroomCinematic />
 
           {/* CH07 — Come Feel It · Quiet Conversion Zone (QUIET) */}
-          <FloatingCTA />
+          <FloatingCTA reviews={testimonials} />
         </div>
       </main>
 

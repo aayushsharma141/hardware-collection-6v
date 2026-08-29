@@ -5,57 +5,30 @@ export async function sendTelegramAlert(leadData: LeadNotificationPayload) {
   const chatId = process.env.TELEGRAM_CHAT_ID;
 
   if (!botToken || !chatId) {
-    throw new Error("Missing Telegram configuration");
+    throw new Error("Missing Telegram configuration: TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID must be set.");
   }
 
-  const { intent, name, phone, source, message } = leadData;
-  const leadId = leadData.id || "NEW";
+  const { name, phone, customerType, location, projectType } = leadData;
 
-  let detailLines = "";
+  const text = `🔔 *NEW WEBSITE ENQUIRY*
 
-  if (intent === "consultation") {
-    detailLines = `
-🏠 ${leadData.projectType || "Project"}
-📅 Preferred: ${leadData.consultationDate ? leadData.consultationDate + " · " : ""}${leadData.consultationTime || ""}
-📍 Mode: ${leadData.consultationMode || "Showroom"}
-${leadData.interest ? `🎯 Interest: ${leadData.interest}` : ""}
-${leadData.selectedProducts ? `📦 Products: ${JSON.parse(leadData.selectedProducts).map((p: { name: string }) => p.name).join(", ")}` : ""}
-`;
-  } else if (intent === "enquiry") {
-    detailLines = `
-🎯 Product Enquiry
-${leadData.category || ""}
-${leadData.brand || ""}
-${leadData.product || ""}
-${leadData.quantity ? `Qty: ${leadData.quantity}` : ""}
-`;
-  } else if (intent === "callback") {
-    detailLines = `
-📞 Callback Request
-Window: ${leadData.consultationTime || "Anytime"}
-`;
-  }
+👤 *Customer Type*
+${customerType || "N/A"}
 
-  const sourceLabels: Record<string, string> = {
-    home: "Home Page Studio",
-    navbar: "Navigation Bar",
-    collections: "Collections Page (Floating Capsule)",
-    product_drawer: "Collections → Product Lookbook",
-    shortlist: "Collections → Shortlist Drawer",
-  };
+🧑 *Name*
+${name}
 
-  const readableSource = sourceLabels[source] || source || "Website Direct";
+📍 *Location*
+${location || "N/A"}
 
-  const text = `🔔 *NEW WEBSITE LEAD*
-━━━━━━━━━━━━━━━━
-🆔 ${leadId}
-📌 Intent: *${intent.toUpperCase()}*
+📞 *Phone*
+${phone}
 
-👤 Name: ${name}
-📱 Phone: ${phone}
-${leadData.email ? `📧 Email: ${leadData.email}\n` : ""}${detailLines.trim()}
+🏗 *Project Type*
+${projectType || "N/A"}
 
-${message ? `💬 Message:\n${message}\n` : ""}📍 Source: *${readableSource}*${leadData.pageUrl ? `\n🔗 URL: ${leadData.pageUrl}` : ""}`;
+🌐 *Source*
+Hardware Collection Website`;
 
   const response = await fetch(
     `https://api.telegram.org/bot${botToken}/sendMessage`,
@@ -74,4 +47,7 @@ ${message ? `💬 Message:\n${message}\n` : ""}📍 Source: *${readableSource}*$
     const errorBody = await response.text();
     throw new Error(`Telegram API Error: ${response.status} - ${errorBody}`);
   }
+
+  return true;
 }
+

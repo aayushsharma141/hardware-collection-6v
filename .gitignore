@@ -47,3 +47,10 @@ public/*.png
 
 .vercel
 .env*
+
+# impeccable local state
+.impeccable/
+.impeccable/**
+
+# nested unrelated repository
+/ECC/

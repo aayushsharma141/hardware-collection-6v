@@ -266,7 +266,7 @@ export default function BrandTrustStrip() {
   };
 
   return (
-    <section className="py-24 bg-zinc-950 border-y border-zinc-900 relative z-10 overflow-hidden">
+    <section id="brands" className="py-24 bg-zinc-950 border-y border-zinc-900 relative z-10 overflow-hidden">
       
       {/* Header */}
       <div className="max-w-4xl mx-auto px-6 text-center mb-16">

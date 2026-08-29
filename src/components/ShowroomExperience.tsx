@@ -90,7 +90,7 @@ export default function ShowroomExperience() {
           </div>
 
           <h3 className="font-display text-2xl md:text-3xl text-white font-semibold leading-snug">
-            From a 113 sq ft shop in 2002 to Jamshedpur&apos;s leading architectural destination.
+            From a 113 sq ft shop in 2002 to a 7,500 sq ft showroom today.
           </h3>
 
           <p className="font-body text-sm text-zinc-300 leading-relaxed">

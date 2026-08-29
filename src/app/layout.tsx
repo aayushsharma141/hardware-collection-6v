@@ -33,6 +33,7 @@ export const metadata: Metadata = {
 
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
+import Navbar from "@/components/Navbar";
 
 export default function RootLayout({
   children,
@@ -45,7 +46,10 @@ export default function RootLayout({
       className={`${cormorant.variable} ${dmSans.variable} ${cinzel.variable} ${manrope.variable} h-full antialiased dark`}
     >
       <body className="min-h-full flex flex-col font-manrope bg-dark-bg text-text-main">
-        <MotionProvider>{children}</MotionProvider>
+        <MotionProvider>
+          <Navbar />
+          {children}
+        </MotionProvider>
         <ConsultationDrawer />
       </body>
     </html>

@@ -37,6 +37,8 @@ model Lead {
   selectedProducts String?  // JSON string
 
   // Enquiry Specific
+  customerType     String?  // "Architect / Interior Designer" | "Home Owner" | "Builder / Project" | "Retailer"
+  location         String?  // Free-text city/locality
   category         String?
   brand            String?
   product          String?
@@ -45,5 +47,4 @@ model Lead {
   // Notification states
   telegramStatus   String   @default("pending")
   emailStatus      String   @default("pending")
-  whatsappStatus   String   @default("pending")
 }

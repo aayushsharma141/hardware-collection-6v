@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import { Phone, ArrowUpRight, MapPin, Clock, ShieldCheck, MessageCircle } from "lucide-react";
 import { AtmosphericLayer } from "@/components/visual/AtmosphericLayer";
 
@@ -26,12 +27,12 @@ interface FooterProps {
 }
 
 const SPECIMEN_CATEGORIES = [
-  { name: "Door Hardware & Locks", slug: "doors" },
-  { name: "Modular Kitchen Systems", slug: "kitchen" },
-  { name: "Biometric & Digital Locks", slug: "smart" },
-  { name: "Luxury Bathroom Fittings", slug: "bath" },
-  { name: "Wardrobe & Sliding Systems", slug: "wardrobe" },
-  { name: "Architectural Glass Hardware", slug: "architectural" },
+  { name: "Door Hardware & Locks", slug: "door-hardware" },
+  { name: "Handles & Knobs", slug: "handles-knobs" },
+  { name: "Modular Kitchen Systems", slug: "kitchen-wardrobes" },
+  { name: "Biometric & Digital Locks", slug: "door-hardware" },
+  { name: "Luxury Bathroom Suites", slug: "bathroom" },
+  { name: "Furniture Hardware", slug: "furniture-hardware" },
 ];
 
 const FALLBACK_BRANDS = [
@@ -40,10 +41,20 @@ const FALLBACK_BRANDS = [
   { name: "Labacha", slug: "labacha" },
   { name: "Hettich", slug: "hettich" },
   { name: "Godrej", slug: "godrej" },
+  { name: "Blum", slug: "blum" },
+  { name: "Geze", slug: "geze" },
+  { name: "Yale", slug: "yale" },
   { name: "Kich", slug: "kich" },
 ];
 
 export default function Footer({ settings, brands }: FooterProps) {
+  const pathname = usePathname();
+
+  // Suppress rendering inside Sanity Studio CMS
+  if (pathname?.startsWith("/studio")) {
+    return null;
+  }
+
   const address =
     settings?.showroomAddress ||
     "1/18, Kashidih, Near Baradwari Durga Puja Maidan,\nSakchi, Jamshedpur, Jharkhand 831001";
@@ -77,7 +88,7 @@ export default function Footer({ settings, brands }: FooterProps) {
           aria-hidden="true"
         >
           <div className="liquid-glass-reflection absolute -inset-full opacity-60" />
-          {/* Top-edge specular highlight — primary glass surface indicator */}
+          {/* Top-edge specular highlight */}
           <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/25 to-transparent" />
           {/* Subtle inner top glow */}
           <div
@@ -138,12 +149,12 @@ export default function Footer({ settings, brands }: FooterProps) {
               className="text-[11px] font-semibold text-[#C8A96E] tracking-[0.18em] uppercase"
               style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
             >
-              Specimens
+              Collections
             </h4>
             <nav aria-label="Specimen Categories">
               <ul className="space-y-2.5">
                 {SPECIMEN_CATEGORIES.map((cat) => (
-                  <li key={cat.slug}>
+                  <li key={cat.name}>
                     <Link
                       href={`/collections?category=${cat.slug}`}
                       className="text-xs uppercase tracking-[0.14em] font-medium text-[#aaa49a] hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm py-0.5"
@@ -164,12 +175,12 @@ export default function Footer({ settings, brands }: FooterProps) {
               className="text-[11px] font-semibold text-[#C8A96E] tracking-[0.18em] uppercase"
               style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
             >
-              Partners
+              Brands
             </h4>
             <nav aria-label="Authorized Brand Partners">
               <ul className="space-y-2.5">
                 {brands && brands.length > 0
-                  ? brands.map((brand) => {
+                  ? brands.slice(0, 7).map((brand) => {
                       const brandSlug =
                         typeof brand.slug === "object"
                           ? brand.slug?.current
@@ -187,7 +198,7 @@ export default function Footer({ settings, brands }: FooterProps) {
                         </li>
                       );
                     })
-                  : FALLBACK_BRANDS.map((brand) => (
+                  : FALLBACK_BRANDS.slice(0, 7).map((brand) => (
                       <li key={brand.slug}>
                         <Link
                           href={`/collections?brand=${brand.slug}`}
@@ -222,9 +233,9 @@ export default function Footer({ settings, brands }: FooterProps) {
               <span>{hours}</span>
             </div>
 
-            {/* CTAs with identical liquid-glass pill geometry */}
+            {/* CTAs */}
             <div className="pt-2 flex flex-col gap-2.5">
-              {/* Primary Inquire Pill */}
+              {/* WhatsApp Inquire */}
               <a
                 href={whatsappUrl}
                 target="_blank"
@@ -240,7 +251,7 @@ export default function Footer({ settings, brands }: FooterProps) {
                 <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.2] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[#0E0C0C]" />
               </a>
 
-              {/* Driving Directions Glass Pill */}
+              {/* Driving Directions */}
               <a
                 href={mapsUrl}
                 target="_blank"
@@ -277,15 +288,32 @@ export default function Footer({ settings, brands }: FooterProps) {
             className="flex items-center gap-4 text-[10.5px]"
             style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
           >
-            <span>Sakchi, Jamshedpur</span>
-            <span>·</span>
-            <span>Authorized Dealerships</span>
-            <span>·</span>
             <Link
               href="/collections"
               className="text-[#aaa49a] hover:text-[#C8A96E] transition-colors"
             >
-              Digital Catalog
+              Collections
+            </Link>
+            <span>·</span>
+            <Link
+              href="/#brands"
+              className="text-[#aaa49a] hover:text-[#C8A96E] transition-colors"
+            >
+              Brands
+            </Link>
+            <span>·</span>
+            <Link
+              href="/collections#reference-library-section"
+              className="text-[#aaa49a] hover:text-[#C8A96E] transition-colors"
+            >
+              Catalog
+            </Link>
+            <span>·</span>
+            <Link
+              href="/#showroom"
+              className="text-[#aaa49a] hover:text-[#C8A96E] transition-colors"
+            >
+              Sakchi Showroom
             </Link>
           </div>
         </div>

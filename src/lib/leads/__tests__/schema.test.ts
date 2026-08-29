@@ -72,19 +72,49 @@ describe("Lead Validation Schemas", () => {
   });
 
   describe("EnquiryLeadSchema", () => {
-    it("validates product enquiry payload", () => {
+    it("validates simplified enquiry payload with customerType and location", () => {
       const payload = {
         name: "Pooja Verma",
         phone: "9835190000",
-        source: "product_drawer",
+        location: "Sakchi, Jamshedpur",
+        customerType: "Architect / Interior Designer",
+        projectType: "Modular Kitchen",
+        source: "home",
         intent: "enquiry",
-        brand: "Hafele",
-        product: "Digital Door Lock EL9000",
-        quantity: "5 units",
       };
 
       const result = EnquiryLeadSchema.safeParse(payload);
       expect(result.success).toBe(true);
+    });
+
+    it("fails when customerType is not one of the allowed enum options", () => {
+      const payload = {
+        name: "Pooja Verma",
+        phone: "9835190000",
+        location: "Sakchi, Jamshedpur",
+        customerType: "Invalid Type",
+        projectType: "Modular Kitchen",
+        source: "home",
+        intent: "enquiry",
+      };
+
+      const result = EnquiryLeadSchema.safeParse(payload);
+      expect(result.success).toBe(false);
+    });
+
+    it("fails when location is missing or empty", () => {
+      const payload = {
+        name: "Pooja Verma",
+        phone: "9835190000",
+        location: "",
+        customerType: "Home Owner",
+        projectType: "Modular Kitchen",
+        source: "home",
+        intent: "enquiry",
+      };
+
+      const result = EnquiryLeadSchema.safeParse(payload);
+      expect(result.success).toBe(false);
     });
   });
 

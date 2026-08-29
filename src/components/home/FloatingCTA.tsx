@@ -3,6 +3,7 @@
 import { ConsultationForm } from "@/components/consultation/ConsultationForm";
 import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL } from "@/lib/config";
 import { PhoneCall, Navigation } from "lucide-react";
+import { Testimonial, formatTestimonialDate, clampRating } from "@/types/testimonial";
 
 /**
  * FloatingCTA — Chapter 07 "Come Feel It"
@@ -21,34 +22,16 @@ import { PhoneCall, Navigation } from "lucide-react";
  * Absorbs ReviewsSlide.tsx — that component is deleted.
  */
 
-const REVIEWS = [
-  {
-    text: "Best showroom in Jamshedpur for genuine Hafele and Dorset fittings. Mukesh ji understands technical blueprints and helped our team specify complete soft-close wardrobe channels and magnetic locks. Zero hassle.",
-    author: "Rajiv Sharma",
-    role: "Architect & Interior Consultant, Bistupur",
-    date: "February 2026",
-  },
-  {
-    text: "We renovated our modular kitchen and bought all Hafele tandem drawers and Labacha quartz sink from Hardware Collection Sakchi. The guidance on finish durability was spot on. Highly recommended.",
-    author: "Anita Sen",
-    role: "Homeowner, Circuit House Area",
-    date: "January 2026",
-  },
-  {
-    text: "Reliable bulk pricing and same-day availability for Dorset digital door locks and heavy mortise handles. Their showroom has the largest physical architectural stock display in the entire district.",
-    author: "Vikramaditya Roy",
-    role: "Civil Contractor & Builder, Adityapur",
-    date: "December 2025",
-  },
-];
-
-export default function FloatingCTA() {
+export default function FloatingCTA({ reviews = [] }: { reviews?: Testimonial[] }) {
   return (
     <section
       data-chapter="7"
       className="relative z-10 bg-zinc-950 border-t border-zinc-900"
     >
-      {/* Reviews — editorial layout, not carousel */}
+      {/* Reviews — editorial layout, not carousel. The whole block is withheld until an
+          editor approves real testimonials in Sanity. Never hardcode review content here. */}
+      {reviews.length > 0 && (
+      <>
       <div className="relative z-10 container mx-auto px-6 lg:px-16 pt-24 pb-16">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
@@ -65,7 +48,7 @@ export default function FloatingCTA() {
           
           <div className="flex items-center gap-3 bg-white/[0.03] border border-white/[0.08] px-4 py-2 rounded-md w-fit">
             <span className="text-[#C8A96E] font-bold text-sm">4.4 ★</span>
-            <span className="text-zinc-400 text-xs">55+ Verified Google Reviews</span>
+            <span className="text-zinc-400 text-xs">50+ Google Reviews</span>
             <a
               href={SHOWROOM_MAP_URL}
               target="_blank"
@@ -78,7 +61,7 @@ export default function FloatingCTA() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
-          {REVIEWS.map((review, i) => (
+          {reviews.map((review, i) => (
             <div 
               key={i} 
               className="flex flex-col justify-between gap-5 bg-white/[0.02] border border-white/[0.06] hover:border-[#C8A96E]/30 p-6 rounded-lg transition-all duration-300"
@@ -86,33 +69,45 @@ export default function FloatingCTA() {
               <div className="space-y-3">
                 {/* Stars + Verified Tag */}
                 <div className="flex items-center justify-between">
-                  <div className="flex gap-1" aria-label="5 stars">
-                    {Array.from({ length: 5 }).map((_, s) => (
+                  <div
+                    className="flex gap-1"
+                    role="img"
+                    aria-label={`${clampRating(review.rating)} out of 5 stars`}
+                  >
+                    {Array.from({ length: clampRating(review.rating) }).map((_, s) => (
                       <span key={s} className="text-[#C8A96E] text-xs" aria-hidden="true">★</span>
                     ))}
                   </div>
-                  <span className="text-[10px] uppercase tracking-wider text-zinc-500 bg-white/[0.03] px-2 py-0.5 rounded border border-white/[0.05]">
-                    Verified
-                  </span>
+                  {review.source && (
+                    <span className="text-[10px] uppercase tracking-wider text-zinc-500 bg-white/[0.03] px-2 py-0.5 rounded border border-white/[0.05]">
+                      {review.source}
+                    </span>
+                  )}
                 </div>
 
                 <blockquote className="text-zinc-200 font-light leading-relaxed text-sm italic">
-                  &ldquo;{review.text}&rdquo;
+                  &ldquo;{review.quote}&rdquo;
                 </blockquote>
               </div>
 
               <div className="border-t border-zinc-900/80 pt-4">
-                <p className="text-white text-xs font-semibold">{review.author}</p>
-                <p className="text-[#aaa49a] text-xs mt-0.5">{review.role}</p>
-                <p className="text-zinc-600 text-[11px] mt-1">{review.date}</p>
+                <p className="text-white text-xs font-semibold">{review.customerName}</p>
+                {formatTestimonialDate(review.date) && (
+                  <p className="text-zinc-600 text-[11px] mt-1">
+                    {formatTestimonialDate(review.date)}
+                  </p>
+                )}
               </div>
             </div>
           ))}
         </div>
       </div>
 
-      {/* Visual pause — horizontal rule */}
+      {/* Visual pause — horizontal rule. Part of the reviews block: with no approved
+          testimonials there is nothing to separate from the conversion zone. */}
       <div className="border-t border-zinc-900 mx-6 lg:mx-16" aria-hidden="true" />
+      </>
+      )}
 
       {/* Quiet conversion zone — 2-Column Luxury Consultation Studio */}
       <div id="directions" className="container mx-auto px-6 lg:px-16 py-20 lg:py-28 scroll-mt-24">
@@ -144,7 +139,7 @@ export default function FloatingCTA() {
                   <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium">Years in Sakchi</p>
                 </div>
                 <div>
-                  <p className="text-xl font-normal text-[#C8A96E] font-cormorant" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>6</p>
+                  <p className="text-xl font-normal text-[#C8A96E] font-cormorant" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>23</p>
                   <p className="text-[10px] uppercase tracking-wider text-zinc-500 font-medium">Authorized Brands</p>
                 </div>
                 <div>
