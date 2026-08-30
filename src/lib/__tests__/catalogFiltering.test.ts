@@ -31,6 +31,39 @@ export function filterProducts(
   });
 }
 
+// D-14: keyword-enriched matcher — extends the substring matchSearch clause
+// with an OR against searchKeywords[], a field not yet on @/types/catalog's
+// Product (lands with a later plan's schema/type work). Local intersection
+// type only, do not edit @/types/catalog from this plan.
+export function filterProductsWithKeywords(
+  products: (Product & { searchKeywords?: string[] })[],
+  searchQuery: string,
+  activeBrand: string
+): (Product & { searchKeywords?: string[] })[] {
+  const query = searchQuery.toLowerCase().trim();
+  return products.filter((p) => {
+    const pName = (p.name || "").toLowerCase();
+    const pBrand = (p.brandName || p.brand || "").toLowerCase().replace(/ä/g, "a");
+    const pDesc = (p.shortDescription || p.description || "").toLowerCase();
+    const pModel = (p.catalogReference || p.model || "").toLowerCase();
+
+    const matchSearch =
+      !query ||
+      pName.includes(query) ||
+      pBrand.includes(query) ||
+      pDesc.includes(query) ||
+      pModel.includes(query) ||
+      (p.searchKeywords?.some((k) => k.toLowerCase().includes(query)) ?? false);
+
+    const matchBrand =
+      activeBrand === "all" ||
+      pBrand === activeBrand.toLowerCase() ||
+      pBrand.includes(activeBrand.toLowerCase());
+
+    return matchSearch && matchBrand;
+  });
+}
+
 describe("Catalog Filtering Logic", () => {
   const mockProducts: Product[] = [
     {
@@ -98,5 +131,48 @@ describe("Catalog Filtering Logic", () => {
     const doorFamily = SHOWROOM_FAMILIES.find((f) => f.slug === "door-hardware");
     expect(doorFamily).toBeDefined();
     expect(doorFamily?.collectionSlugs).toContain("digital-locks");
+  });
+});
+
+describe("Search keyword matching (D-14)", () => {
+  const mockProductsWithKeywords: (Product & { searchKeywords?: string[] })[] = [
+    {
+      id: "prod-4",
+      name: "Concealed Cabinet Hinge",
+      brand: "Hettich",
+      categorySlug: "hinges-soft-close",
+      shortDescription: "Standard concealed cabinet hinge",
+      catalogReference: "HET-1000",
+      searchKeywords: ["kabze", "cupboard hinge"],
+    },
+    {
+      id: "prod-5",
+      name: "Wardrobe Sliding Channel",
+      brand: "Hafele",
+      categorySlug: "wardrobe-hardware-sliding",
+      shortDescription: "Heavy-duty sliding wardrobe channel",
+      catalogReference: "HAF-2000",
+      searchKeywords: ["almirah track"],
+    },
+  ];
+
+  it("includes a product matched only via searchKeywords, not name/description/model", () => {
+    const result = filterProductsWithKeywords(mockProductsWithKeywords, "kabze", "all");
+    expect(result.length).toBe(1);
+    expect(result[0].id).toBe("prod-4");
+  });
+
+  it("excludes a product with no matching name/description/model/searchKeywords", () => {
+    const result = filterProductsWithKeywords(mockProductsWithKeywords, "unrelated-term", "all");
+    expect(result.length).toBe(0);
+  });
+
+  it("combines brand filter with keyword match as AND, not OR", () => {
+    const matched = filterProductsWithKeywords(mockProductsWithKeywords, "almirah track", "hafele");
+    expect(matched.length).toBe(1);
+    expect(matched[0].id).toBe("prod-5");
+
+    const mismatched = filterProductsWithKeywords(mockProductsWithKeywords, "almirah track", "hettich");
+    expect(mismatched.length).toBe(0);
   });
 });
