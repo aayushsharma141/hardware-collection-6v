@@ -393,11 +393,19 @@ triad required by §10.
 **Full alphabetical logo wall (20+ brands):** a **static, alphabetically-sorted grid**, not the
 `BrandTrustStrip.tsx` auto-scrolling ticker — "alphabetical" implies a scannable reference list for the
 "I already know the brand" mental model, which continuous horizontal motion actively works against.
-Reuse `BrandTrustStrip`'s exact monochrome logo treatment: `brightness-0 invert` on every raster/SVG
-logo (brand kits arrive in a dozen different color systems; forcing monochrome is what keeps the wall
-from reading as a rainbow ad-strip against the bone/brass/near-black palette), dimmed rest opacity
-`~55–65%`, full-opacity + brass 1px border on hover/focus, and the same wordmark fallback (site's own
-DM Sans, uppercase, wide-tracked) for the brands with no supplied logo asset.
+**AMENDED 2026-08-30 — full-colour logos.** Reuse `BrandTrustStrip`'s logo treatment as it stands
+after commit `3dbb84d`, which deliberately removed `brightness-0 invert` and the `opacity-55` dimming:
+logos render in **full colour** at full opacity, with a brass 1px border on hover/focus and the same
+wordmark fallback (site's own DM Sans, uppercase, wide-tracked) for brands with no supplied logo asset.
+
+> **Trade-off being accepted, recorded so it is a decision rather than a drift.** This spec originally
+> mandated `brightness-0 invert` on the grounds that brand kits arrive in a dozen different colour
+> systems, and forcing monochrome is what stops a 20+ logo wall reading as a rainbow ad-strip against
+> the bone/brass/near-black palette. That risk is real and is *larger* here than on the homepage
+> ticker where the change was made, because this wall shows every brand at once in a static grid
+> rather than a few at a time in motion. The owner chose full colour; if the assembled wall reads as
+> noisy against the palette once real logos are in Sanity, the cheapest fix is to restore
+> `brightness-0 invert` on this surface only, leaving the homepage ticker in colour.
 
 - Grid: `grid-cols-3 sm:grid-cols-4 md:grid-cols-6`, each cell pinned to `aspect-[3/2]` (fixed via CSS
   `aspect-ratio` — accommodates both wordmark and monogram logos via `object-contain` without layout
@@ -444,8 +452,8 @@ not an assumption baked in here.
    (a click-to-enlarge viewer would be scope creep beyond what D-10 asks for — plain static strip only).
    Alt text: `"{Category Name} — detail {index}"`. If `gallery[]` is empty, this section renders nothing
    (no placeholder frames) and the page proceeds straight from the overview panel to brands carried.
-5. **Brands carried:** small logo row for `category.brands[]`, same monochrome treatment as §6, each
-   opening the brand-contextualized consultation drawer (not a filter).
+5. **Brands carried:** small logo row for `category.brands[]`, same full-colour treatment as §6 (see
+   the 2026-08-30 amendment there), each opening the brand-contextualized consultation drawer (not a filter).
 6. **Contextual CTA (top instance, low visual weight):** inline text-style CTA sitting within the
    overview flow — "Discuss your {category name}" — driven by `category.whatsappMessage`.
 7. **Product grid** (only if `products.length > 0`): retained `ProductCard.tsx` tiles in an editorial
