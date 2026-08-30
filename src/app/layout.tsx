@@ -68,6 +68,7 @@ export default function RootLayout({
       className={`${cormorant.variable} ${dmSans.variable} ${cinzel.variable} ${manrope.variable} h-full antialiased dark`}
     >
       <head>
+        <link rel="preconnect" href="https://wa.me" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

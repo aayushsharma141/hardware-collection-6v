@@ -172,6 +172,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                       src={brand.logoUrl}
                       alt={brand.name}
                       fill
+                      sizes="(max-width: 768px) 120px, 160px"
                       className="object-contain transition-transform duration-150 ease-out group-hover/cell:scale-105"
                       unoptimized={
                         typeof brand.logoUrl === "string" &&

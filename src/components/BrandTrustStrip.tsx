@@ -48,6 +48,7 @@ export default function BrandTrustStrip() {
             src={brand.logo}
             alt={brand.name}
             fill
+            sizes="(max-width: 768px) 160px, (max-width: 1024px) 208px, 240px"
             className={`object-contain transition-transform duration-300 ease-out group-hover/item:scale-105 ${
               brand.imageClass || ""
             }`}
