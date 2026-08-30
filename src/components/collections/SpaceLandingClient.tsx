@@ -1,0 +1,166 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { ArrowLeft, MessageSquare } from "lucide-react";
+import { Space, SiteSettings } from "@/types/catalog";
+import CompactCollectionGrid from "@/components/collections/CompactCollectionGrid";
+import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { useConsultationStore } from "@/components/consultation/store";
+
+export interface SpaceLandingClientProps {
+  space: Space;
+  settings?: SiteSettings | null;
+}
+
+const SPACE_FALLBACK_IMAGES: Record<string, string> = {
+  kitchen: "/cinema/categories/HC-03-KITCHEN.png",
+  bathroom: "/cinema/categories/HC-03-BATHROOM.png",
+  wardrobe: "/cinema/categories/HC-03-WARDROBE.png",
+  entrance: "/cinema/categories/HC-03-SECURITY.png",
+  commercial: "/cinema/categories/HC-03-GLASS.png",
+  "living-interior": "/cinema/categories/HC-03-DOORS.png",
+};
+
+export default function SpaceLandingClient({
+  space,
+  settings,
+}: SpaceLandingClientProps) {
+  const { openDrawer } = useConsultationStore();
+
+  const slug =
+    typeof space.slug === "string"
+      ? space.slug
+      : (space.slug as { current?: string })?.current || "";
+
+  const heroImage =
+    space.heroImageUrl ||
+    SPACE_FALLBACK_IMAGES[slug] ||
+    "/cinema/categories/HC-03-DOORS.png";
+
+  const consultMessage = `Hardware Collection — I'd like to consult on hardware specifications for ${space.name}.`;
+  const whatsappUrl = buildWhatsAppLink(consultMessage, settings);
+
+  const categories = space.linkedCategories || [];
+
+  return (
+    <div className="min-h-screen bg-[#090909] text-[#e8e3d9]">
+      {/* Back Navigation */}
+      <div className="max-w-[1320px] mx-auto px-6 pt-8 pb-4">
+        <Link
+          href="/collections"
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#aaa49a] hover:text-[#c8a96e] transition-colors duration-150 hc-focus py-2"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          Back to All Collections
+        </Link>
+      </div>
+
+      {/* Hero Section */}
+      <section className="relative w-full border-b border-white/[0.08] overflow-hidden">
+        <div className="relative max-w-[1320px] mx-auto px-6 py-16 md:py-24">
+          {/* Background image atmosphere */}
+          <div className="absolute inset-0 -z-10 opacity-25">
+            <Image
+              src={heroImage}
+              alt={space.name}
+              fill
+              priority
+              className="object-cover"
+            />
+            {/* Mandated Scrim */}
+            <div
+              aria-hidden="true"
+              className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/80 to-[#090909]/60 pointer-events-none"
+            />
+          </div>
+
+          <div className="max-w-3xl">
+            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-3 block">
+              CURATED ARCHITECTURAL SPACE
+            </span>
+            <h1 className="hc-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-[0.02em] text-[#e8e3d9] uppercase leading-tight mb-5">
+              {space.name}
+            </h1>
+            {space.description && (
+              <p className="text-base sm:text-lg text-[#aaa49a] font-light leading-relaxed mb-8 max-w-2xl">
+                {space.description}
+              </p>
+            )}
+
+            <div className="flex flex-wrap items-center gap-4">
+              <button
+                type="button"
+                onClick={() =>
+                  openDrawer({
+                    source: "space_landing",
+                    intent: "consultation",
+                    category: { slug, name: space.name },
+                  })
+                }
+                className="brass-plate hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[#090909] rounded transition-transform duration-150 active:scale-95"
+              >
+                REQUEST SPACE CONSULTATION
+              </button>
+
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[#e8e3d9] border border-white/[0.15] hover:border-[#c8a96e] rounded transition-colors duration-150"
+              >
+                WHATSAPP SPECIALIST
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Curated Categories Grid */}
+      <section className="py-16 md:py-24">
+        <div className="max-w-[1320px] mx-auto px-6">
+          <div className="max-w-3xl mb-12">
+            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-2 block">
+              SPECIFICATION HARDWARE
+            </span>
+            <h2 className="hc-serif text-3xl sm:text-4xl font-normal tracking-[0.02em] text-[#e8e3d9]">
+              Curated Collections for {space.name}
+            </h2>
+          </div>
+
+          <CompactCollectionGrid categories={categories} />
+        </div>
+      </section>
+
+      {/* Bottom Advisory Consultation CTA */}
+      <section className="py-16 border-t border-white/[0.08] bg-[#141314]">
+        <div className="max-w-[1320px] mx-auto px-6 text-center">
+          <MessageSquare
+            className="w-8 h-8 text-[#c8a96e] mx-auto mb-4 opacity-80"
+            aria-hidden="true"
+          />
+          <h3 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[#e8e3d9] mb-3">
+            Planning a {space.name} Project?
+          </h3>
+          <p className="text-sm text-[#aaa49a] font-light max-w-lg mx-auto mb-8 leading-relaxed">
+            Bring your blueprints or site requirements to our Sakchi showroom for personalized specification,
+            live tactile demos, and contractor coordination.
+          </p>
+          <button
+            type="button"
+            onClick={() =>
+              openDrawer({
+                source: "space_landing",
+                intent: "consultation",
+                category: { slug, name: space.name },
+              })
+            }
+            className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-3.5 text-xs tracking-widest uppercase font-medium text-[#090909] rounded transition-transform duration-150 active:scale-95"
+          >
+            BOOK SHOWROOM CONSULTATION
+          </button>
+        </div>
+      </section>
+    </div>
+  );
+}

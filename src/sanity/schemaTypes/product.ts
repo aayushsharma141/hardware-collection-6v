@@ -67,6 +67,12 @@ export const productType = defineType({
       of: [{ type: "string" }],
     }),
     defineField({
+      name: "searchKeywords",
+      title: "Search Keywords / Synonyms",
+      type: "array",
+      of: [{ type: "string" }],
+    }),
+    defineField({
       name: "specifications",
       title: "Specifications",
       type: "array",

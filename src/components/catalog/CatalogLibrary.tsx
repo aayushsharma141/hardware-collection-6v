@@ -6,238 +6,16 @@ import { ArrowUpRight, BookOpen } from "lucide-react";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { Brand, ResolvedBrand } from "@/types/catalog";
 
+import { CANONICAL_BRANDS, CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/data/brands";
+
 interface CatalogLibraryProps {
   brands: Brand[];
   onSelectBrand?: (brand: ResolvedBrand) => void;
 }
 
-interface BrandMeta {
-  name: string;
-  logo: string | null;
-  website: string | null;
-  tagline: string;
-  country: string;
-  imageClass?: string;
-}
-
-const BRAND_REGISTRY: Record<string, BrandMeta> = {
-  hafele: {
-    name: "Häfele",
-    logo: "/brands/Haefele_Logo.png",
-    website: "https://www.hafeleindia.com/",
-    tagline: "German Architectural & Modular Kitchen Hardware",
-    country: "Germany",
-  },
-  dorset: {
-    name: "Dorset",
-    logo: "/brands/dorset-seeklogo.svg",
-    website: "https://www.dorsetindia.com/",
-    tagline: "Digital Locks & Architectural Mortise Systems",
-    country: "India / Global",
-  },
-  labacha: {
-    name: "Labacha",
-    logo: "/brands/labacha_logo_clean.png",
-    website: "https://labachaindia.com/",
-    tagline: "Luxury Granite Sinks & Precision Bath Mixers",
-    country: "Italy / India",
-  },
-  godrej: {
-    name: "Godrej",
-    logo: "/brands/Godrej.svg",
-    website: "https://www.godrejlocks.com/",
-    tagline: "Enterprise & High-Trust Smart Biometric Security",
-    country: "India",
-  },
-  hettich: {
-    name: "Hettich",
-    logo: "/brands/Hettich.svg",
-    website: "https://www.hettich.com/en-in/",
-    tagline: "Fascin[action] German Furniture & Kitchen Fittings",
-    country: "Germany",
-  },
-  kich: {
-    name: "Kich",
-    logo: "/brands/kich_logo.svg",
-    website: "https://www.kichindia.com/",
-    tagline: "Architectural SS Hardware & Balustrade Systems",
-    country: "India",
-  },
-  blum: {
-    name: "Blum",
-    logo: "/brands/Blum_logo.svg",
-    website: "https://www.blum.com/in/en/",
-    tagline: "Perfecting Motion Furniture Fittings",
-    country: "Austria",
-  },
-  geze: {
-    name: "GEZE",
-    logo: "/brands/GEZE_Logo_RGB_clean.png",
-    website: "https://www.geze.in/",
-    tagline: "Door, Window & Safety Technology",
-    country: "Germany",
-  },
-  yale: {
-    name: "Yale",
-    logo: "/brands/Yale_logo.svg",
-    website: "https://www.yalehome.com/in/en",
-    tagline: "Smart Security & The World's Favorite Lock",
-    country: "Global",
-  },
-  ozone: {
-    name: "Ozone",
-    logo: "/brands/ozone.webp",
-    website: "https://www.ozone-india.com/",
-    tagline: "Architectural Glass & Security Systems",
-    country: "India",
-    imageClass: "brightness-0 invert opacity-90",
-  },
-  pans: {
-    name: "Pans",
-    logo: null,
-    website: null,
-    tagline: "Architectural Brass Hardware & Fittings",
-    country: "India",
-  },
-  backer: {
-    name: "Backer",
-    logo: null,
-    website: null,
-    tagline: "Precision Engineered Hardware & Fasteners",
-    country: "India",
-  },
-  tattva: {
-    name: "Tattva",
-    logo: null,
-    website: null,
-    tagline: "Artisanal Cast Brass Hardware & Accents",
-    country: "India",
-  },
-  rexton: {
-    name: "Rexton",
-    logo: null,
-    website: null,
-    tagline: "Architectural Profiles & Sliding Hardware",
-    country: "India",
-  },
-  madhuram: {
-    name: "Madhuram",
-    logo: null,
-    website: null,
-    tagline: "Premium Brass Architectural Hardware",
-    country: "India",
-  },
-  furnipart: {
-    name: "Furnipart",
-    logo: null,
-    website: "https://www.furnipart.com/",
-    tagline: "Danish Design Furniture Handles & Knobs",
-    country: "Denmark",
-  },
-  marnello: {
-    name: "Marnello",
-    logo: null,
-    website: null,
-    tagline: "Bespoke Door Pulls & Luxury Architectural Details",
-    country: "Italy / India",
-  },
-  helix: {
-    name: "Helix",
-    logo: "/brands/heliex.webp",
-    website: null,
-    tagline: "Next-Gen Hardware",
-    country: "Global",
-  },
-  liftor: {
-    name: "Liftor",
-    logo: "/brands/Liftor.png",
-    website: null,
-    tagline: "Ergonomic Excellence",
-    country: "Global",
-  },
-  taco: {
-    name: "Taco",
-    logo: null,
-    website: null,
-    tagline: "Quality Hardware",
-    country: "Global",
-  },
-  shapes: {
-    name: "Shapes",
-    logo: "/brands/Shapes_logo_dark-1-768x224.png",
-    website: null,
-    tagline: "Defined by Design",
-    country: "Global",
-  },
-  decore: {
-    name: "Decore",
-    logo: "/brands/decore.png",
-    website: null,
-    tagline: "Premium Finishes",
-    country: "Global",
-  },
-};
-
-/**
- * Explicit alias table — each registry key maps to the set of strings that
- * unambiguously identify that brand in a Sanity slug/id/name field.
- * Aliases are matched with full-string equality after cleaning, not substring
- * matching, to prevent accidental collisions (e.g. a brand called "kich-pro"
- * should not match "kich" unless "kichpro" is a registered alias).
- */
-const BRAND_ALIASES: Record<string, string[]> = {
-  hafele:   ["hafele", "haefele", "hfele", "hafeleindia"],
-  dorset:   ["dorset", "dorsetindia"],
-  labacha:  ["labacha", "labachaindia"],
-  godrej:   ["godrej", "godrejlocks"],
-  hettich:  ["hettich"],
-  kich:     ["kich", "kichindia"],
-  blum:     ["blum"],
-  geze:     ["geze"],
-  yale:     ["yale", "yalehome"],
-  ozone:    ["ozone", "ozoneindia"],
-  pans:     ["pans"],
-  backer:   ["backer"],
-  tattva:   ["tattva"],
-  rexton:   ["rexton"],
-  madhuram: ["madhuram"],
-  furnipart:["furnipart"],
-  marnello: ["marnello"],
-  helix:    ["helix"],
-  liftor:   ["liftor"],
-  taco:     ["taco"],
-  shapes:   ["shapes"],
-  decore:   ["decore"],
-};
-
-/** Build a reverse lookup: cleaned alias → registry key. Computed once at module load. */
-const ALIAS_TO_KEY: Record<string, string> = Object.entries(BRAND_ALIASES).reduce(
-  (acc, [key, aliases]) => {
-    for (const alias of aliases) acc[alias] = key;
-    return acc;
-  },
-  {} as Record<string, string>,
-);
-
-/**
- * Resolves a Sanity brand document to a BRAND_REGISTRY key.
- * Uses explicit alias matching — no substring matching — so new brands
- * only require a registry entry and an alias row, not a new if-arm.
- */
-const normalizeBrandKey = (brand: Brand): string => {
-  const raw =
-    (brand?.slug as { current?: string })?.current ??
-    (brand?.slug as string) ??
-    brand?.id ??
-    brand?.name ??
-    "";
-  const cleaned = String(raw).toLowerCase().replace(/[^a-z0-9]/g, "");
-  return ALIAS_TO_KEY[cleaned] ?? cleaned;
-};
-
-const DEFAULT_BRANDS = Object.entries(BRAND_REGISTRY).map(([key, meta]) => ({
-  name: meta.name,
-  slug: key
+const DEFAULT_BRANDS = CANONICAL_BRANDS.map((b) => ({
+  name: b.name,
+  slug: b.id,
 }));
 
 export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibraryProps) {
@@ -272,7 +50,7 @@ export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibrary
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayBrands.map((brand: Brand, idx: number) => {
             const key = normalizeBrandKey(brand);
-            const meta = BRAND_REGISTRY[key] ?? {
+            const meta = CANONICAL_BRANDS_BY_ID[key] ?? {
               name: brand.name ?? "Authorized Partner",
               logo: brand.logoUrl ?? brand.logo ?? null,
               website: brand.website ?? null,
@@ -292,7 +70,7 @@ export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibrary
                   ...brand,
                   name: displayName,
                   logoUrl: logoSrc,
-                  website: websiteUrl,
+                  website: websiteUrl ?? null,
                   tagline,
                 });
               }

@@ -1,3 +1,6 @@
+import { Category, Space } from "@/types/catalog";
+import { getCategoryBySlug, getSpaceBySlug } from "@/sanity/queries";
+
 /**
  * D-24: Spaces and categories share one route family, `/collections/[slug]`.
  * The slug resolves against `space` documents first, then `category` documents.
@@ -18,9 +21,14 @@ export interface SpaceRef {
   linkedCategories: CategoryRef[];
 }
 
-export type CollectionRouteResult =
+export type PureCollectionRouteResult =
   | { kind: "category"; categorySlug: string }
   | { kind: "space"; spaceSlug: string }
+  | { kind: "not-found" };
+
+export type CollectionRouteResult =
+  | { kind: "category"; category: Category }
+  | { kind: "space"; space: Space }
   | { kind: "not-found" };
 
 /**
@@ -32,7 +40,7 @@ export function resolveCollectionRoute(
   requestedSlug: string,
   spaces: SpaceRef[],
   categorySlugs: string[]
-): CollectionRouteResult {
+): PureCollectionRouteResult {
   const space = spaces.find((s) => s.slug === requestedSlug);
 
   if (space) {
@@ -44,6 +52,41 @@ export function resolveCollectionRoute(
 
   if (categorySlugs.includes(requestedSlug)) {
     return { kind: "category", categorySlug: requestedSlug };
+  }
+
+  return { kind: "not-found" };
+}
+
+/**
+ * Asynchronously resolves a slug against Sanity using space-then-category precedence (D-24).
+ * Used directly by the dynamic `/collections/[slug]` route.
+ */
+export async function resolveCollectionSlug(
+  slug: string
+): Promise<CollectionRouteResult> {
+  const space = await getSpaceBySlug(slug);
+
+  if (space) {
+    if (space.linkedCategories && space.linkedCategories.length === 1) {
+      const singleCatSlug = space.linkedCategories[0].slug;
+      const catSlugStr =
+        typeof singleCatSlug === "string"
+          ? singleCatSlug
+          : (singleCatSlug as { current?: string })?.current;
+
+      if (catSlugStr) {
+        const category = await getCategoryBySlug(catSlugStr);
+        if (category) {
+          return { kind: "category", category };
+        }
+      }
+    }
+    return { kind: "space", space };
+  }
+
+  const category = await getCategoryBySlug(slug);
+  if (category) {
+    return { kind: "category", category };
   }
 
   return { kind: "not-found" };

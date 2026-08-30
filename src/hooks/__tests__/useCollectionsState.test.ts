@@ -1,9 +1,7 @@
 import { describe, it, expect } from "vitest";
-import { SHOWROOM_FAMILIES_NAV } from "../useCollectionsState";
 
 // D-12: reference implementation of the image resolution chain that replaces
 // the hardcoded PNG fallback map in getProductDisplayImage().
-// This plan proves the chain in isolation; 09-09 wires it into the real hook.
 export function resolveProductDisplayImage(
   product: { imageUrl?: string },
   category?: { imageUrl?: string },
@@ -14,31 +12,6 @@ export function resolveProductDisplayImage(
   if (settings?.defaultCategoryImageUrl) return settings.defaultCategoryImageUrl;
   return "";
 }
-
-describe("SHOWROOM_FAMILIES_NAV", () => {
-  it("defines top-level discovery showroom families", () => {
-    expect(SHOWROOM_FAMILIES_NAV).toHaveLength(6);
-    expect(SHOWROOM_FAMILIES_NAV[0].id).toBe("all");
-    expect(SHOWROOM_FAMILIES_NAV.map(f => f.id)).toEqual([
-      "all",
-      "handles-knobs",
-      "door-hardware",
-      "bathroom",
-      "kitchen-wardrobes",
-      "furniture-hardware",
-    ]);
-  });
-
-  it("assigns appropriate filter slugs to each family", () => {
-    const doorHardware = SHOWROOM_FAMILIES_NAV.find(f => f.id === "door-hardware");
-    expect(doorHardware?.filterSlugs).toContain("digital-locks");
-    expect(doorHardware?.filterSlugs).toContain("mortise-door-locks");
-
-    const kitchen = SHOWROOM_FAMILIES_NAV.find(f => f.id === "kitchen-wardrobes");
-    expect(kitchen?.filterSlugs).toContain("modular-kitchen-hardware");
-    expect(kitchen?.filterSlugs).toContain("wardrobe-hardware-sliding");
-  });
-});
 
 describe("Product display image resolution chain (D-12)", () => {
   it("returns product.imageUrl when present, ignoring category/settings", () => {

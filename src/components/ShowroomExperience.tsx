@@ -77,7 +77,7 @@ export default function ShowroomExperience() {
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-4">
               <span className="font-body font-bold text-xs text-white">Live Consultation Gallery</span>
-              <span className="font-body text-[0.65rem] text-[var(--color-accent)]">Hafele & Dorset Live Experience</span>
+              <span className="font-body text-[0.65rem] text-[var(--color-accent)]">Authorized Brand Live Experience</span>
             </div>
           </div>
         </div>

@@ -10,6 +10,7 @@ export const siteSettingsType = defineType({
   groups: [
     { name: "contact", title: "Contact Info" },
     { name: "location", title: "Location" },
+    { name: "media", title: "Media Defaults" },
   ],
   fields: [
     defineField({
@@ -72,6 +73,15 @@ export const siteSettingsType = defineType({
       type: "url",
       group: "location",
       description: "The URL used inside the <iframe> to render the map on the page.",
+    }),
+    defineField({
+      name: "defaultCategoryImage",
+      title: "Default Category Fallback Image",
+      type: "image",
+      group: "media",
+      options: { hotspot: true },
+      description:
+        "Used when a category has no heroImage/image and a product has no images[] (D-12 resolution chain terminus).",
     }),
   ],
   preview: {

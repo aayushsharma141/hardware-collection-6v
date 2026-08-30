@@ -216,7 +216,8 @@ export async function getSiteSettings() {
     showroomAddress,
     showroomHours,
     googleMapsUrl,
-    googleMapsEmbedUrl
+    googleMapsEmbedUrl,
+    "defaultCategoryImageUrl": defaultCategoryImage.asset->url
   }`;
   try {
     return await client.fetch(query);
@@ -225,3 +226,92 @@ export async function getSiteSettings() {
     return null;
   }
 }
+
+export const getCategoryBySlugQuery = groq`
+  *[_type == "category" && slug.current == $slug][0] {
+    _id, name, "slug": slug.current, eyebrow, description, overview,
+    cardVariant, families, subcategories, primaryRail, suitableFor, keyFeatures, icon,
+    "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip,
+    "heroImageUrl": heroImage.asset->url, "heroImageLqip": heroImage.asset->metadata.lqip,
+    "galleryUrls": gallery[].asset->url,
+    "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url },
+    searchKeywords, whatsappMessage, featured, displayOrder, status
+  }
+`;
+export async function getCategoryBySlug(slug: string) {
+  try {
+    return await client.fetch(getCategoryBySlugQuery, { slug });
+  } catch (error) {
+    console.error("Sanity fetch error:", error);
+    return null;
+  }
+}
+
+export const getSpaceBySlugQuery = groq`
+  *[_type == "space" && slug.current == $slug][0] {
+    _id, name, "slug": slug.current, description,
+    "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip, displayOrder,
+    "linkedCategories": linkedCategories[]-> {
+      _id, name, "slug": slug.current, eyebrow, description,
+      "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip
+    }
+  }
+`;
+export async function getSpaceBySlug(slug: string) {
+  try {
+    return await client.fetch(getSpaceBySlugQuery, { slug });
+  } catch (error) {
+    console.error("Sanity fetch error:", error);
+    return null;
+  }
+}
+
+export const getSpacesQuery = groq`
+  *[_type == "space"] | order(displayOrder asc) {
+    _id, name, "slug": slug.current, description,
+    "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip, displayOrder,
+    "linkedCategorySlugs": linkedCategories[]->slug.current
+  }
+`;
+export async function getSpaces() {
+  try {
+    return await client.fetch(getSpacesQuery);
+  } catch (error) {
+    console.error("Sanity fetch error:", error);
+    return [];
+  }
+}
+
+export const getCategorySlugsQuery = groq`*[_type == "category" && defined(slug.current)]{ "slug": slug.current }`;
+export async function getCategorySlugs() {
+  try {
+    return await client.fetch(getCategorySlugsQuery);
+  } catch (error) {
+    console.error("Sanity fetch error:", error);
+    return [];
+  }
+}
+
+export const getSpaceSlugsQuery = groq`*[_type == "space" && defined(slug.current)]{ "slug": slug.current }`;
+export async function getSpaceSlugs() {
+  try {
+    return await client.fetch(getSpaceSlugsQuery);
+  } catch (error) {
+    console.error("Sanity fetch error:", error);
+    return [];
+  }
+}
+
+export const getCollectionCountsQuery = groq`{
+  "categoryCount": count(*[_type == "category" && status == "published"]),
+  "brandCount": count(*[_type == "brand"])
+}`;
+export async function getCollectionCounts() {
+  try {
+    return await client.fetch(getCollectionCountsQuery);
+  } catch (error) {
+    console.error("Sanity fetch error:", error);
+    return { categoryCount: 0, brandCount: 0 };
+  }
+}
+

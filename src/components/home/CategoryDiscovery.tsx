@@ -1,71 +1,7 @@
 "use client";
 
 import React from "react";
-
-interface CategoryItem {
-  id: string;
-  index: string;
-  name: string;
-  nameBreak?: string;
-  subtitle: string;
-  detail: string;
-  image: string;
-  isFocal?: boolean;
-  href: string;
-}
-
-const CATEGORIES: CategoryItem[] = [
-  {
-    id: "handles",
-    index: "01 / 05",
-    name: "Handles",
-    nameBreak: "& Knobs",
-    subtitle: "Contemporary profiles to classical architectural detailing.",
-    detail: "Solid forged brass pull handle, PVD Rose Gold.",
-    image: "/cinema/categories/HC-03-DOORS.png",
-    href: "/collections?category=handles-knobs",
-  },
-  {
-    id: "door",
-    index: "02 / 05",
-    name: "Door",
-    nameBreak: "Hardware",
-    subtitle: "High-security locking systems and precision entrance controls.",
-    detail: "Dorset biometric deadbolt & SS 304 mortise lockset.",
-    image: "/cinema/categories/HC-03-SECURITY.png",
-    isFocal: true,
-    href: "/collections?category=door-hardware",
-  },
-  {
-    id: "bathroom",
-    index: "03 / 05",
-    name: "Bathroom",
-    subtitle: "Luxury shower fittings, mirrors and precision stainless steel suites.",
-    detail: "Solid brass thermostatic shower suite, matte black.",
-    image: "/cinema/categories/HC-03-BATHROOM.png",
-    href: "/collections?category=bathroom",
-  },
-  {
-    id: "kitchen",
-    index: "04 / 05",
-    name: "Kitchen",
-    nameBreak: "& Wardrobes",
-    subtitle: "German soft-close drawer fittings, sliding systems and quartz sinks.",
-    detail: "Hafele Matrix Box tandem drawer & Labacha quartz sink.",
-    image: "/cinema/categories/HC-03-KITCHEN.png",
-    href: "/collections?category=kitchen-wardrobes",
-  },
-  {
-    id: "furniture",
-    index: "05 / 05",
-    name: "Furniture",
-    nameBreak: "Hardware",
-    subtitle: "Concealed hinges, precision drawer runners and joinery fittings.",
-    detail: "Hettich Sensys integrated soft-close hinge system.",
-    image: "/cinema/categories/HC-03-WARDROBE.png",
-    href: "/collections?category=furniture-hardware",
-  },
-];
+import { CATEGORY_FAMILIES } from "@/data/home";
 
 export default function CategoryDiscovery() {
   return (
@@ -87,7 +23,7 @@ export default function CategoryDiscovery() {
         </div>
 
         <div className="mt-9 grid grid-cols-[0.92fr_1.28fr_0.88fr_1.08fr_0.92fr] gap-[1px] bg-white/[0.13]">
-          {CATEGORIES.map((cat) => (
+          {CATEGORY_FAMILIES.map((cat) => (
             <article
               key={cat.id}
               className={`threshold-card bg-[#11100f] pb-5 flex flex-col justify-between ${
@@ -174,7 +110,7 @@ export default function CategoryDiscovery() {
         </div>
 
         <div className="mt-4 border-t border-white/[0.14] flex flex-col">
-          {CATEGORIES.map((cat, idx) => (
+          {CATEGORY_FAMILIES.map((cat, idx) => (
             <a
               key={cat.id}
               href={cat.href}

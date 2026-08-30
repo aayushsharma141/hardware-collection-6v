@@ -1,4 +1,6 @@
 import { defineField, defineType } from "sanity";
+import { apiVersion } from "../env";
+import { isReservedSlug, isSlugAvailable, SlugDoc } from "../lib/slugUniqueness";
 
 export const categoryType = defineType({
   name: "category",
@@ -18,7 +20,29 @@ export const categoryType = defineType({
       options: {
         source: "name",
       },
-      validation: (rule) => rule.required(),
+      validation: (rule) =>
+        rule.required().custom(async (value, context) => {
+          if (!value?.current) return true;
+          if (isReservedSlug(value.current)) {
+            return `Slug cannot be "${value.current}" — reserved by the /collections route family.`;
+          }
+          const client = context.getClient({ apiVersion });
+          const candidateId = (context.document?._id || "").replace(/^drafts\./, "");
+          const existingDocs: Array<{ _id: string; _type: string; slug: string }> =
+            await client.fetch(
+              `*[_type in ["space", "category"] && slug.current == $slug]{ _id, _type, "slug": slug.current }`,
+              { slug: value.current }
+            );
+          const slugDocs: SlugDoc[] = existingDocs.map((doc) => ({
+            id: doc._id.replace(/^drafts\./, ""),
+            type: doc._type,
+            slug: doc.slug,
+          }));
+          if (!isSlugAvailable(value.current, candidateId, slugDocs)) {
+            return `Slug "${value.current}" is already in use by another space or category document.`;
+          }
+          return true;
+        }),
     }),
     defineField({
       name: "eyebrow",
@@ -114,6 +138,14 @@ export const categoryType = defineType({
       of: [{ type: "string" }],
     }),
     defineField({
+      name: "searchKeywords",
+      title: "Search Keywords / Synonyms",
+      type: "array",
+      of: [{ type: "string" }],
+      description:
+        "Customer-language search terms this category should also match (e.g. 'cupboard slides' for Drawer Channels). Doubles as SEO keywords.",
+    }),
+    defineField({
       name: "icon",
       title: "Icon Name",
       description: "Name of the lucide-react icon to use (e.g., Lock, ChefHat, Bath)",
@@ -126,6 +158,20 @@ export const categoryType = defineType({
       options: {
         hotspot: true,
       },
+    }),
+    defineField({
+      name: "heroImage",
+      title: "Cinematic Hero Image",
+      type: "image",
+      options: {
+        hotspot: true,
+      },
+    }),
+    defineField({
+      name: "gallery",
+      title: "Gallery",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
     }),
     defineField({
       name: "displayOrder",

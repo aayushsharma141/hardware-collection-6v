@@ -1,8 +1,7 @@
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob'); // Need to check if glob is available, or use a simple recursive walk.
 
-const rootDir = path.resolve(__dirname, 'apps/web/src');
+const rootDir = path.resolve(__dirname, '../src');
 
 function walkDir(dir, callback) {
     fs.readdirSync(dir).forEach(f => {
@@ -77,5 +76,9 @@ report.legacyTokens.critical.slice(0, 5).forEach(f => markdown += `- ${f.replace
 markdown += `\n### Migratable Files (Sample)\n`;
 report.legacyTokens.migratable.slice(0, 5).forEach(f => markdown += `- ${f.replace(rootDir, '')}\n`);
 
-fs.writeFileSync(path.join(__dirname, 'audit-reports/dependency_audit_report.md'), markdown);
+const outDir = path.join(__dirname, '../audit-reports');
+if (!fs.existsSync(outDir)) {
+    fs.mkdirSync(outDir, { recursive: true });
+}
+fs.writeFileSync(path.join(outDir, 'dependency_audit_report.md'), markdown);
 console.log('Report generated at audit-reports/dependency_audit_report.md');

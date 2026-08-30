@@ -6,85 +6,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
 import { MagneticButton } from "@/components/animations/MagneticButton";
+import { SIGNATURE_PIECES, SignaturePiece } from "@/data/home";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-/**
- * ProductReel — Chapter 05 "The Collection"
- * Visual tension: MEDIUM
- * Purpose: Emotion → Consideration → Intent bridge.
- *
- * Funnel logic:
- *   CH04 (material peak, VERY HIGH) → THE COLLECTION → Practical browsing
- *
- * Pointer light active on product images (same as CH01, CH04, CH06).
- * Reflective light sweep on individual product image cards.
- * No pinning. No clip-path drama. No Material Lens.
- * Horizontal reel on desktop (GSAP), CSS snap on mobile.
- */
-
-const PRODUCTS = [
-  {
-    index: "01",
-    name: "Pull Handle",
-    brand: "HÄFELE",
-    finish: "Satin Stainless",
-    category: "Door Hardware",
-    img: "/cinema/categories/HC-03-DOORS.png",
-    href: "/collections?category=door-hardware&brand=hafele",
-    sweepDelay: "0s",
-  },
-  {
-    index: "02",
-    name: "Mortice Handle",
-    brand: "DORSET",
-    finish: "Antique Brass",
-    category: "Door Hardware",
-    img: "/cinema/collection/HC-05-01.png",
-    href: "/collections?category=door-hardware&brand=dorset",
-    sweepDelay: "1.5s",
-  },
-  {
-    index: "03",
-    name: "Biometric Lock",
-    brand: "GODREJ",
-    finish: "Graphite",
-    category: "Digital Locks",
-    img: "/cinema/categories/HC-03-SECURITY.png",
-    href: "/collections?category=digital-locks&brand=godrej",
-    sweepDelay: "3s",
-  },
-  {
-    index: "04",
-    name: "Soft-Close Channel",
-    brand: "HETTICH",
-    finish: "Galvanised Steel",
-    category: "Cabinet Hardware",
-    img: "/cinema/categories/HC-03-WARDROBE.png",
-    href: "/collections?category=cabinet-hardware&brand=hettich",
-    sweepDelay: "0.5s",
-  },
-  {
-    index: "05",
-    name: "Towel Bar Set",
-    brand: "KICH",
-    finish: "Satin 304 SS",
-    category: "Bathroom",
-    img: "/cinema/categories/HC-03-BATHROOM.png",
-    href: "/collections?category=bathroom&brand=kich",
-    sweepDelay: "2s",
-  },
-  {
-    index: "06",
-    name: "Cabinet Knob",
-    brand: "LABACHA",
-    finish: "Matte Gold",
-    category: "Cabinet Hardware",
-    img: "/cinema/collection/HC-05-02.png",
-    href: "/collections?category=cabinet-hardware&brand=labacha",
-    sweepDelay: "4s",
-  },
-];
+const PRODUCTS = SIGNATURE_PIECES;
 
 export default function ProductReel() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -210,7 +136,7 @@ export default function ProductReel() {
 function ProductCard({
   product,
 }: {
-  product: (typeof PRODUCTS)[number];
+  product: SignaturePiece;
 }) {
   return (
     <div className="flex flex-col gap-4">
@@ -285,7 +211,7 @@ function CollectionCTA() {
 function MobileProductCard({
   product,
 }: {
-  product: (typeof PRODUCTS)[number];
+  product: SignaturePiece;
 }) {
   return (
     <div className="flex flex-col gap-3">

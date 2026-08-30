@@ -38,6 +38,7 @@ export interface Product {
   overview?: unknown[];
   features?: string[];
   finishes?: string[];
+  searchKeywords?: string[];
   application?: string;
   applications?: string[];
   imageUrl?: string;
@@ -80,6 +81,27 @@ export interface Category {
   keyFeatures?: string[];
   verificationStatus?: string;
   whatsappMessage?: string;
+  heroImageUrl?: string;
+  heroImageLqip?: string;
+  galleryUrls?: string[];
+  searchKeywords?: string[];
+  status?: "draft" | "review" | "published";
+  brandRefs?: Array<{ name: string; slug: string; logoUrl: string | null }>;
+  displayOrder?: number;
+}
+
+export interface Space {
+  _id?: string;
+  name: string;
+  slug?: string | { current: string };
+  description?: string;
+  imageUrl?: string;
+  imageLqip?: string;
+  heroImageUrl?: string;
+  heroImageLqip?: string;
+  displayOrder?: number;
+  linkedCategories?: Category[];
+  linkedCategorySlugs?: string[];
 }
 
 export interface Subcategory {
@@ -141,6 +163,7 @@ export interface SiteSettings {
   showroomHours?: string;
   googleMapsUrl?: string;
   googleMapsEmbedUrl?: string;
+  defaultCategoryImageUrl?: string;
 }
 
 export interface ShowroomFamilyNav {

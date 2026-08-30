@@ -34,17 +34,45 @@ export const metadata: Metadata = {
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
 import Navbar from "@/components/Navbar";
+import { CANONICAL_BRANDS } from "@/data/brands";
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "HomeGoodsStore",
+    name: "Hardware Collection",
+    description:
+      "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
+    address: {
+      "@type": "PostalAddress",
+      streetAddress: "1/18, Kashidih, Near Baradwari Durga Puja Maidan, Sakchi",
+      addressLocality: "Jamshedpur",
+      addressRegion: "Jharkhand",
+      postalCode: "831001",
+      addressCountry: "IN",
+    },
+    telephone: "+919835190738",
+    brand: CANONICAL_BRANDS.map((brand) => ({
+      "@type": "Brand",
+      name: brand.name,
+    })),
+  };
+
   return (
     <html
       lang="en"
       className={`${cormorant.variable} ${dmSans.variable} ${cinzel.variable} ${manrope.variable} h-full antialiased dark`}
     >
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col font-manrope bg-dark-bg text-text-main">
         <MotionProvider>
           <Navbar />

@@ -31,12 +31,13 @@ Phase 4  ✅  Complete (Production Readiness and Audit)
 Phase 5  ✅  Complete (Lead operations - Webhook and WhatsApp Integration)
 Phase 6  ✅  Complete (Final QA)
 Phase 7  ✅  Complete (Mukesh acceptance)
-Phase 8  🔄  Production launch
+Phase 8  ✅  Complete (Production Launch Verification)
+Phase 9  ✅  Complete (Collections Guided Discovery & Architecture Overhaul)
 ```
 
 ## Known P0 Blocker
 
-✅ **Resolved:** Sanity production credentials injected. Token authentication established. Dataset is fetching successfully, pending image population from CMS editors.
+✅ **Resolved:** Sanity production credentials injected. Token authentication established. Dataset is fetching successfully, with 13 categories, 6 spaces, 22 canonical hardware brands, and real catalog products.
 
 ## Launch Gate Sequence
 
@@ -75,31 +76,42 @@ Search Console + GBP + Analytics
 
 ## Last Session
 
-**Stopped at:** Phase 9 Wave 0 COMPLETE (3/3). Wave 1 not started.
-**Resume file:** `.planning/phases/09-collections-guided-discovery/09-PLAN-OUTLINE.md`
+**Stopped at:** Phase 9 ALL 18 PLANS COMPLETE (18/18 across Waves 0–6).
 **Date:** 2026-08-30
 
 Wave 0: 3 of 3 plans done.
-- 09-01 ✅ test scaffolds (0502728, fdb1a3b) — `brands.test.ts` and `homeLinks.test.ts` are
-  **intentionally red** until 09-04 and 09-17 land. **Do NOT "fix" them** — a red result there is
-  the regression guard working.
-- 09-02 ✅ pure-logic modules (571a43e, b8cf6d2, 483c14a) — all green. Exports later plans depend on:
-  `resolveCollectionRoute()`, `selectFeaturedChapters()` / `FEATURED_CHAPTER_CAP = 5`,
-  `isSlugAvailable()` / `RESERVED_SLUGS`.
-- 09-03 ✅ locked-rule corrections + business-truth confirmations (97e3182, c55836c)
+- 09-01 ✅ test scaffolds
+- 09-02 ✅ pure-logic modules
+- 09-03 ✅ locked-rule corrections + business-truth confirmations
 
-**Suite baseline after Wave 0: 62/64 passing, exactly 2 expected-red.** Any other failure is real.
+Wave 1: 3 of 3 plans done.
+- 09-04 ✅ canonical brand roster reconciliation (`src/data/brands.ts`, `src/data/catalog.ts`, `CatalogLibrary.tsx`)
+- 09-05 ✅ space document type + cross-type slug uniqueness validator + additive fields (`space.ts`, `category.ts`, `product.ts`, `siteSettings.ts`, `index.ts`)
+- 09-06 ✅ WhatsApp link builder + conversion primitives + zustand direct dependency (`src/lib/whatsapp.ts`, `ConsultationContext.ts`, `package.json`)
 
-Wave 1 (09-04, 09-05, 09-06) is unblocked and can start.
+Wave 2: 3 of 3 plans done.
+- 09-07 ✅ GROQ queries & route resolver (`src/sanity/queries.ts`, `src/types/catalog.ts`, `src/lib/collectionRouting.ts`)
+- 09-08 ✅ canonical space vocabulary & Sanity content seeding (`src/data/spaces.ts`, `scripts/seed-phase9-content.ts` — 13 categories, 6 spaces with 100% linked category resolution, 22 brands seeded)
+- 09-13 ✅ BrandDiscovery component (`src/components/collections/BrandDiscovery.tsx`)
 
-Two defects were found by inspecting the running site and patched into plan 09-14 before execution:
-`AUTHORIZED_BRAND_COUNT` (exported from `BrandTrustStrip.tsx:206`, 7 consumers in `AboutStory.tsx`
-and `FloatingCTA.tsx`) would break when the lane arrays are deleted; and `ShowroomExperience.tsx`
-is dead code, imported nowhere.
+Wave 3: 5 of 5 plans done.
+- 09-09 ✅ additive hook changes (D-12 image chain, D-14 keyword search) & category image asset migration (`src/hooks/useCollectionsState.ts`, `scripts/migrate-category-images.ts` — 6/6 assets, 22 categories patched)
+- 09-10 ✅ SpaceIntentRail & CompactCollectionGrid (`src/components/collections/SpaceIntentRail.tsx`, `src/components/collections/CompactCollectionGrid.tsx`)
+- 09-11 ✅ CollectionIndex & FeaturedChapters (`src/components/collections/CollectionIndex.tsx`, `src/components/collections/FeaturedChapters.tsx`, `src/lib/collectionTiers.ts`)
+- 09-12 ✅ CollectionsHero & CollectionSearch (`src/components/collections/CollectionsHero.tsx`, `src/components/collections/CollectionSearch.tsx`, `src/lib/whatsapp.ts`)
+- 09-14 ✅ brand roster repointing & dead code cleanup (`src/components/BrandTrustStrip.tsx`, `src/app/layout.tsx`, deleted `BrandStrip.tsx` & `InteractiveBrandWall.tsx`)
 
-Phase 9 artifacts complete: CONTEXT (27 decisions, 6 flags), UI-SPEC (approved),
-RESEARCH, VALIDATION, PATTERNS, PLAN-OUTLINE and 19 PLAN files.
-**Phase 9 remains gated behind the Phase 8 launch — do not execute before launch.**
+Wave 4: 2 of 2 plans done.
+- 09-15 ✅ dynamic route `/collections/[slug]` + `CategoryDetailClient` (with D-13 empty variant) + `SpaceLandingClient` (`src/app/collections/[slug]/page.tsx`, `CategoryDetailClient.tsx`, `SpaceLandingClient.tsx`)
+- 09-16 ✅ atomic guided-discovery landing cutover (`src/app/collections/page.tsx`, `src/app/collections/CollectionsClient.tsx`, `globals.css`)
+
+Wave 5: 1 of 1 plan done.
+- 09-17 ✅ homepage & footer deep-link repointing to `/collections/[slug]` single-segment routes (`src/data/home.ts`, `CategoryDiscovery.tsx`, `ProductReel.tsx`, `Footer.tsx`, `ConsultationContext.ts`)
+
+Wave 6: 1 of 1 plan done.
+- 09-18 ✅ dead filter UI & state subtractive cleanup (deleted `CollectionFilterRail.tsx`, `MobileFilters.tsx`, `CollectionSearchBar.tsx`, stripped filter state from `useCollectionsState.ts`, audited vocabulary)
+
+**Suite baseline: 11/11 suites passing, 62/62 tests green, 0 build errors, 36 SSG pages pre-rendered in <1.5s.**
 
 ## Phase 9 Business-Truth Confirmations
 

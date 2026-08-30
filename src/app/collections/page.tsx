@@ -1,27 +1,54 @@
 import React, { Suspense } from "react";
 import CollectionsClient from "./CollectionsClient";
-import { getCategories, getSubcategories, getAllProducts, getBrands, getSiteSettings } from "@/sanity/queries";
+import {
+  getCategories,
+  getSubcategories,
+  getAllProducts,
+  getBrands,
+  getSiteSettings,
+  getSpaces,
+  getCollectionCounts,
+} from "@/sanity/queries";
 import { CATEGORIES, BRANDS, PRODUCTS } from "@/data/catalog";
-import { Category, Product, Brand } from "@/types/catalog";
+import { SPACES } from "@/data/spaces";
+import { Category, Product, Brand, Space } from "@/types/catalog";
 
 // Use Next.js revalidation strategy for Sanity content
 export const revalidate = 60; // Revalidate every 60 seconds
 
 export default async function CollectionsPage() {
-  const sanityCategories = await getCategories();
-  const sanitySubcategories = await getSubcategories();
-  const sanityProducts = await getAllProducts();
-  const sanityBrands = await getBrands();
-  const settings = await getSiteSettings();
+  const [
+    sanityCategories,
+    sanitySubcategories,
+    sanityProducts,
+    sanityBrands,
+    settings,
+    sanitySpaces,
+    counts,
+  ] = await Promise.all([
+    getCategories(),
+    getSubcategories(),
+    getAllProducts(),
+    getBrands(),
+    getSiteSettings(),
+    getSpaces(),
+    getCollectionCounts(),
+  ]);
 
   // Merge 13 canonical categories with any Sanity-fetched categories
   const categoryMap = new Map<string, Category>();
-  CATEGORIES.forEach(c => categoryMap.set(c.slug, { ...c, name: c.title }));
+  CATEGORIES.forEach((c, idx) =>
+    categoryMap.set(c.slug, { ...c, name: c.title, id: c.id, displayOrder: idx })
+  );
   if (sanityCategories && Array.isArray(sanityCategories)) {
     sanityCategories.forEach((c: Category) => {
       const slug = (typeof c.slug === "object" ? c.slug?.current : c.slug) || c._id;
       if (slug) {
-        categoryMap.set(slug, { ...(categoryMap.get(slug) || {}), ...c, name: c.name || categoryMap.get(slug)?.name || c.title || "" });
+        categoryMap.set(slug, {
+          ...(categoryMap.get(slug) || {}),
+          ...c,
+          name: c.name || categoryMap.get(slug)?.name || c.title || "",
+        });
       }
     });
   }
@@ -29,7 +56,7 @@ export default async function CollectionsPage() {
 
   // Merge canonical products with Sanity products
   const productMap = new Map<string, Product>();
-  PRODUCTS.forEach(p => productMap.set(p.id, p));
+  PRODUCTS.forEach((p) => productMap.set(p.id, p));
   if (sanityProducts && Array.isArray(sanityProducts)) {
     sanityProducts.forEach((p: Product) => {
       const id = (typeof p.slug === "object" ? p.slug?.current : p.slug) || p._id || p.id;
@@ -42,16 +69,61 @@ export default async function CollectionsPage() {
 
   const brands: Brand[] = sanityBrands && sanityBrands.length > 0 ? sanityBrands : BRANDS;
 
+  // Merge spaces
+  const spaceMap = new Map<string, Space>();
+  SPACES.forEach((s) => {
+    const linkedCats = s.linkedCategorySlugs
+      .map((catSlug) => categoryMap.get(catSlug))
+      .filter((c): c is Category => Boolean(c));
+    spaceMap.set(s.slug, {
+      name: s.name,
+      slug: s.slug,
+      description: s.description,
+      displayOrder: s.displayOrder,
+      linkedCategories: linkedCats,
+      linkedCategorySlugs: s.linkedCategorySlugs,
+    });
+  });
+
+  if (sanitySpaces && Array.isArray(sanitySpaces) && sanitySpaces.length > 0) {
+    sanitySpaces.forEach((s: Space) => {
+      const slug = typeof s.slug === "string" ? s.slug : s.slug?.current;
+      if (slug) {
+        const existing = spaceMap.get(slug) || ({} as Space);
+        const linkedCats = (s.linkedCategorySlugs || existing.linkedCategorySlugs || [])
+          .map((catSlug) => categoryMap.get(catSlug))
+          .filter((c): c is Category => Boolean(c));
+
+        spaceMap.set(slug, {
+          ...existing,
+          ...s,
+          slug,
+          linkedCategories: linkedCats.length > 0 ? linkedCats : existing.linkedCategories,
+        });
+      }
+    });
+  }
+  const spaces = Array.from(spaceMap.values()).sort(
+    (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)
+  );
+
   return (
-    <Suspense fallback={<div className="w-full min-h-screen bg-[#0E0C0C] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[#A39E93]">Loading collections...</div>}>
-      <CollectionsClient 
-        categories={categories} 
+    <Suspense
+      fallback={
+        <div className="w-full min-h-screen bg-[#0E0C0C] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[#A39E93]">
+          Loading collections...
+        </div>
+      }
+    >
+      <CollectionsClient
+        categories={categories}
         subcategories={sanitySubcategories}
-        products={products} 
-        brands={brands} 
+        products={products}
+        brands={brands}
+        spaces={spaces}
+        liveCounts={counts}
         settings={settings}
       />
     </Suspense>
   );
 }
-

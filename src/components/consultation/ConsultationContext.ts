@@ -5,6 +5,9 @@ export type ConsultationContext = {
     | "product_drawer"
     | "shortlist"
     | "navbar"
+    | "category_page"
+    | "space_landing"
+    | "footer"
 
   intent?: "consultation" | "enquiry" | "callback"
 

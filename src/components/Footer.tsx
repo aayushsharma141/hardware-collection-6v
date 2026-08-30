@@ -11,6 +11,8 @@ import {
   SHOWROOM_SECONDARY_PHONE_DISPLAY,
 } from "@/lib/config";
 
+import { useConsultationStore } from "@/components/consultation/store";
+
 interface BrandItem {
   _id?: string;
   name: string;
@@ -32,12 +34,12 @@ interface FooterProps {
 }
 
 const SPECIMEN_CATEGORIES = [
-  { name: "Door Hardware & Locks", slug: "door-hardware" },
-  { name: "Handles & Knobs", slug: "handles-knobs" },
-  { name: "Modular Kitchen Systems", slug: "kitchen-wardrobes" },
-  { name: "Biometric & Digital Locks", slug: "door-hardware" },
+  { name: "Door Hardware & Locks", slug: "entrance" },
+  { name: "Handles & Knobs", slug: "main-door-handles" },
+  { name: "Modular Kitchen Systems", slug: "kitchen" },
+  { name: "Biometric & Digital Locks", slug: "digital-locks" },
   { name: "Luxury Bathroom Suites", slug: "bathroom" },
-  { name: "Furniture Hardware", slug: "furniture-hardware" },
+  { name: "Furniture Hardware", slug: "wardrobe" },
 ];
 
 const FALLBACK_BRANDS = [
@@ -54,6 +56,7 @@ const FALLBACK_BRANDS = [
 
 export default function Footer({ settings, brands }: FooterProps) {
   const pathname = usePathname();
+  const { openDrawer } = useConsultationStore();
 
   // Suppress rendering inside Sanity Studio CMS
   if (pathname?.startsWith("/studio")) {
@@ -157,7 +160,7 @@ export default function Footer({ settings, brands }: FooterProps) {
                 {SPECIMEN_CATEGORIES.map((cat) => (
                   <li key={cat.name}>
                     <Link
-                      href={`/collections?category=${cat.slug}`}
+                      href={`/collections/${cat.slug}`}
                       className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[#aaa49a] hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm py-0.5 select-none"
                       style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                     >
@@ -188,27 +191,41 @@ export default function Footer({ settings, brands }: FooterProps) {
                           : brand.slug || brand.name.toLowerCase();
                       return (
                         <li key={brand._id || brand.name}>
-                          <Link
-                            href={`/collections?brand=${brandSlug}`}
-                            className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[#aaa49a] hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm py-0.5 select-none"
+                          <button
+                            type="button"
+                            onClick={() =>
+                              openDrawer({
+                                source: "footer",
+                                intent: "consultation",
+                                brand: { slug: brandSlug || "", name: brand.name },
+                              })
+                            }
+                            className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[#aaa49a] hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm py-0.5 select-none text-left"
                             style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                           >
                             <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-[#C8A96E] transition-colors" />
                             <span>{brand.name}</span>
-                          </Link>
+                          </button>
                         </li>
                       );
                     })
                   : FALLBACK_BRANDS.slice(0, 7).map((brand) => (
                       <li key={brand.slug}>
-                        <Link
-                          href={`/collections?brand=${brand.slug}`}
-                          className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[#aaa49a] hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm py-0.5 select-none"
+                        <button
+                          type="button"
+                          onClick={() =>
+                            openDrawer({
+                              source: "footer",
+                              intent: "consultation",
+                              brand: { slug: brand.slug, name: brand.name },
+                            })
+                          }
+                          className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[#aaa49a] hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm py-0.5 select-none text-left"
                           style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                         >
                           <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-[#C8A96E] transition-colors" />
                           <span>{brand.name}</span>
-                        </Link>
+                        </button>
                       </li>
                     ))}
               </ul>

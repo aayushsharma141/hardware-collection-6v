@@ -24,3 +24,5 @@ export function selectFeaturedChapters<T extends FeaturableItem>(items: T[]): T[
     .sort((a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0))
     .slice(0, FEATURED_CHAPTER_CAP);
 }
+
+export const selectFeaturedCategories = selectFeaturedChapters;

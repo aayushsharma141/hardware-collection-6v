@@ -354,7 +354,8 @@ html.lenis, html.lenis body {
 .rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--cinematic); }
 .rail-button:hover::after, .rail-button:focus-visible::after { transform: scaleX(1); }
 
-.brass-plate { position: relative; box-shadow: inset 0 0 0 1px #090909; transition: background-color 220ms var(--cinematic), color 220ms var(--cinematic), transform var(--dur-micro) var(--ease-out-expo); }
+.brass-plate { position: relative; background-color: var(--brass); color: #090909; box-shadow: inset 0 0 0 1px #090909; transition: background-color 220ms var(--cinematic), color 220ms var(--cinematic), transform var(--dur-micro) var(--ease-out-expo); }
+.brass-plate:hover, .brass-plate:focus-visible { background-color: #e8e3d9; color: #090909; }
 .brass-plate:active { transform: scale(0.98); }
 .brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(9,9,9,.72); transform-origin: left; transition: transform 220ms var(--cinematic); }
 .brass-plate:hover::after, .brass-plate:focus-visible::after { transform: translateX(12px); }
