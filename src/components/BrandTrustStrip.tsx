@@ -234,7 +234,7 @@ export default function BrandTrustStrip() {
             src={brand.logo}
             alt={brand.name}
             fill
-            className={`object-contain brightness-0 invert opacity-55 transition-[opacity,transform] duration-300 ease-out group-hover/item:opacity-100 group-hover/item:scale-105 ${brand.imageClass || ""}`}
+            className={`object-contain transition-transform duration-300 ease-out group-hover/item:scale-105 ${brand.imageClass || ""}`}
             unoptimized={brand.logo.endsWith(".svg")}
           />
         </div>
