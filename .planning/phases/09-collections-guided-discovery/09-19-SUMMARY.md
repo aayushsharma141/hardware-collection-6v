@@ -21,7 +21,7 @@ both checkpoints.
 | `npm test` | ✅ 11/11 suites, 62/62 tests |
 | `npm run build` | ✅ 36 static pages, 24 SSG collection routes |
 | `npx tsc --noEmit` | ✅ exit 0 |
-| `npm run lint` | ❌ **exit 1** — 5 errors, 24 warnings |
+| `npm run lint` | ✅ **exit 0** as of `131bec6` — was exit 1 with 5 errors; 24 warnings remain |
 | `node scripts/audit-dependencies.cjs` | ⚠️ exit 0, but see finding G-02 |
 | `npx tsx scripts/release-verification.ts` | ❌ **GATE-02 FAILED, pipeline aborted** — see G-03 |
 
@@ -56,7 +56,13 @@ wall, category heroes and a gallery strip, and the aspect-ratio discipline held 
 
 ## Findings
 
-### G-01 — `npm run lint` fails (5 errors) — BLOCKING for the documented phase gate
+### G-01 — RESOLVED 2026-08-30 in commit `131bec6`
+`npm run lint` now exits 0. The four raw anchors became `next/link` `Link` components and
+`displayBrands` is typed `Brand[]`. Verified by a live click-through: the JS context survives
+navigation to `/collections`, confirming client-side routing rather than a full document reload.
+The 24 warnings are unchanged and were never gate-blocking. Original finding retained below.
+
+### G-01 (original) — `npm run lint` fails (5 errors) — BLOCKING for the documented phase gate
 Four are `@next/next/no-html-link-for-pages`: raw `<a href="/collections">` instead of `next/link`
 in `src/components/home/MaterialJourney.tsx`, `ProductReel.tsx`, and `SignatureCollection.tsx` (×2).
 Raw anchors to internal routes force a full document reload instead of client-side navigation —
@@ -104,7 +110,7 @@ failing threshold.
 
 ## Verdict
 
-**Phase 9 is NOT closeable on this gate.** Two of the six documented phase-gate commands fail
-(`lint`, `release-verification`), a third provides no real assurance (`audit-dependencies`), and two
+**Phase 9 is still NOT closeable on this gate.** One of the six documented phase-gate commands fails
+(`release-verification`), another provides no real assurance (`audit-dependencies`), and two
 Stage B thresholds (LCP, INP) remain unmeasured. The measured thresholds that were checkable — CLS,
 horizontal overflow, aspect-ratio coverage — all pass cleanly.
