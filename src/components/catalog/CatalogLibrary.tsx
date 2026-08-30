@@ -19,11 +19,11 @@ const DEFAULT_BRANDS = CANONICAL_BRANDS.map((b) => ({
 }));
 
 export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibraryProps) {
-  const displayBrands: any[] = [...DEFAULT_BRANDS];
+  const displayBrands: Brand[] = [...DEFAULT_BRANDS];
   if (brands && brands.length > 0) {
     brands.forEach(b => {
       const bKey = normalizeBrandKey(b);
-      const idx = displayBrands.findIndex(db => normalizeBrandKey(db as Brand) === bKey);
+      const idx = displayBrands.findIndex(db => normalizeBrandKey(db) === bKey);
       if (idx !== -1) {
         displayBrands[idx] = { ...displayBrands[idx], ...b };
       } else {

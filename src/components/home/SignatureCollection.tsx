@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 
 export default function SignatureCollection() {
@@ -43,9 +44,9 @@ export default function SignatureCollection() {
             </div>
             <div className="mt-8">
               <h3 className="text-3xl text-white font-light mb-2">SMART ENTRANCE</h3>
-              <a href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-white transition-colors">
+              <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-white transition-colors">
                 Explore Edition →
-              </a>
+              </Link>
             </div>
           </motion.div>
 
@@ -64,9 +65,9 @@ export default function SignatureCollection() {
             </div>
             <div className="mt-8">
               <h3 className="text-3xl text-white font-light mb-2">MODERN KITCHEN</h3>
-              <a href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-white transition-colors">
+              <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-white transition-colors">
                 Explore Edition →
-              </a>
+              </Link>
             </div>
           </motion.div>
 

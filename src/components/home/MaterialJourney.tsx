@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useCallback } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -411,12 +412,12 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
           >
             {mat.spec.replace(" · ", "\n")}
           </p>
-          <a
+          <Link
             href="/collections"
             className="mt-8 inline-flex items-center gap-2 text-[#C8A96E] text-xs tracking-widest uppercase hover:gap-4 transition-all duration-200"
           >
             Explore finishes <span aria-hidden="true">→</span>
-          </a>
+          </Link>
         </div>
       </div>
     </div>

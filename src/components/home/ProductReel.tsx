@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -192,13 +193,13 @@ function ChapterLabel() {
 function CollectionCTA() {
   return (
     <MagneticButton>
-      <a
+      <Link
         href="/collections"
         className="inline-flex items-center gap-3 px-8 py-5 border border-zinc-700 text-white font-medium text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300"
       >
         EXPLORE FULL COLLECTION
         <span aria-hidden="true" className="text-base">→</span>
-      </a>
+      </Link>
     </MagneticButton>
   );
 }
