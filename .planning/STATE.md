@@ -75,9 +75,19 @@ Search Console + GBP + Analytics
 
 ## Last Session
 
-**Stopped at:** Phase 9 planned — 19 plans across 8 waves, ready to execute
-**Resume file:** `.planning/phases/09-collections-guided-discovery/09-PLAN-OUTLINE.md`
+**Stopped at:** Phase 9 Wave 0 partially executed — 09-01 and 09-02 complete, 09-03 blocked on owner decisions
+**Resume file:** `.planning/phases/09-collections-guided-discovery/09-03-PLAN.md`
 **Date:** 2026-08-30
+
+Wave 0 progress: 2 of 3 plans done.
+- 09-01 ✅ test scaffolds (commits 0502728, fdb1a3b) — `brands` and `homeLinks` intentionally red
+  until 09-04 and 09-17 land; do NOT "fix" them
+- 09-02 ✅ pure-logic modules (commits 571a43e, b8cf6d2, 483c14a) — all green
+- 09-03 ⛔ BLOCKED — needs three owner decisions: the WhatsApp number (F-01), the
+  Jaquar/Asian Paints/Philips removal (F-06/D-26), and the "20+ years" / "7,500 sq ft"
+  claims (F-04). Not executable by an agent.
+
+Suite baseline after Wave 0: 62/64 passing, 2 expected-red.
 
 Phase 9 artifacts complete: CONTEXT (27 decisions, 6 flags), UI-SPEC (approved),
 RESEARCH, VALIDATION, PATTERNS, PLAN-OUTLINE and 19 PLAN files.
