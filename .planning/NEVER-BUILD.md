@@ -13,3 +13,12 @@ Every time a designer ignores a feature, mistrusts an AI explanation, or bypasse
 - Was the AI explanation for a recommendation mistrusted?
 - Was the confidence gauge ignored?
 - Was the raw evidence table never opened?
+
+## Phase 9 — Collections Guided Discovery (2026-08-30)
+
+- **Lifting `<Footer>` into `RootLayout`** — `Footer` is independently rendered and fetched in
+  `app/page.tsx`, `CollectionsClient.tsx` and `CatalogsClient.tsx` today; `/collections/[slug]`
+  would make it a 4th duplicated fetch. RESEARCH.md (Pitfall 8) confirms `Footer` already
+  self-suppresses on `/studio` and would be safe to lift, but this is an optional architecture
+  improvement, not required by any Phase 9 decision — deferred, revisit only if a future phase
+  needs to touch `Footer`'s data flow anyway.

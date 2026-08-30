@@ -2,7 +2,7 @@
 
 ## Locked Architecture
 
-- **Public routes:** `/` (Home) + `/collections` (Catalog) ONLY
+- **Public routes:** `/` (Home) + `/collections` (Catalog) + `/collections/[slug]` (Category/Space detail) — amended by Phase 9 D-16, 2026-08-30, see 09-CONTEXT.md
 - **No fake products, no pricing, no e-commerce**
 - **Sanity CMS is the single source of truth**
 - **WhatsApp is the primary conversion mechanism**
