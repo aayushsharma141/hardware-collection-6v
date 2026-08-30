@@ -615,7 +615,7 @@ Also the reusable target for §2's "multiple linked categories" space-landing ca
 ```
 **Change the `href`/`<a>` navigation to a drawer-open button** (see Shared Patterns "Brand → Consultation Drawer" below) — do not keep `href={brand.href}` navigating to `/collections?brand=X`, that is exactly the pattern D-18/09-UI-SPEC.md §6 retires.
 
-**Analog 2 — alphabetical logo-wall tier** (`src/components/BrandTrustStrip.tsx`, full file, 375 lines). Reuse `renderBrandVisual()` (lines 229-255) verbatim for the monochrome `brightness-0 invert` treatment and wordmark fallback:
+**Analog 2 — alphabetical logo-wall tier** (`src/components/BrandTrustStrip.tsx`, full file, 375 lines). Reuse `renderBrandVisual()` (lines 229-255) for its structure and wordmark fallback — but note the excerpt below predates commit `3dbb84d`, which removed `brightness-0 invert` and the `opacity-55` dimming. **Logos now render in FULL COLOUR; do not copy the monochrome classes from the snippet below.** See the 2026-08-30 amendment in 09-UI-SPEC.md §6:
 ```tsx
 const renderBrandVisual = (brand: BrandItem) => {
   if (brand.logo) {

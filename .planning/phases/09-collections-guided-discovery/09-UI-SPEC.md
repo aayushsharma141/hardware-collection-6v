@@ -24,8 +24,8 @@ controls. Make it easier by giving them better starting points."*
 **This is UX evolution, not rebranding.** Every value below either reuses a class/token already
 present in `src/app/globals.css` / `src/lib/motionTokens.ts`, or is a direct extrapolation of the
 existing visual language (`hc-serif`, `hc-mono`, `.specimen-tray`, `.threshold-card`,
-`brightness-0 invert` brand logos, etc.). Nothing here introduces a new palette, a new typeface, or a
-new interaction idiom.
+full-colour brand logos per commit `3dbb84d`, etc.). Nothing here introduces a new palette, a new
+typeface, or a new interaction idiom.
 
 ---
 
