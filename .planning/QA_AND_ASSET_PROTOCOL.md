@@ -35,7 +35,13 @@ Every section terminates with a clear, stable conversion path:
 
 1. **Hero Stage:** Primary CTA $\rightarrow$ `/collections` (Immediate catalogue discovery).
 2. **Category Discovery:** Card tap $\rightarrow$ Filtered category in `/collections`.
-3. **The Product Moment (3D):** Primary CTA $\rightarrow$ Direct WhatsApp Technical Consultation (`wa.me/919431111550`).
+3. **The Product Moment (3D):** Primary CTA $\rightarrow$ Direct WhatsApp Technical Consultation (`wa.me/919835190738`).
+
+> **CORRECTED 2026-08-30 (owner-confirmed, resolves flag F-01).** This line previously read
+> `wa.me/919431111550`, which was wrong. **`919835190738` is the single WhatsApp number** and is also
+> a calling number; it is what all shipped code already uses in 7 locations. **`919431111550` is an
+> ADDITIONAL CALLING-ONLY number — it must never appear in a `wa.me` link.** It currently appears
+> nowhere in `src/`, so no live link was misrouted.
 4. **Showroom Experience:** Primary CTA $\rightarrow$ Google Maps Flagship Navigation.
 5. **Product Drawer (`CollectionsClient.tsx`):** "Inquire About This Product" $\rightarrow$ Prefilled WhatsApp message with product SKU and brand name.
 6. **Floating Final CTA:** Primary CTA $\rightarrow$ Direct WhatsApp Specialist connection.

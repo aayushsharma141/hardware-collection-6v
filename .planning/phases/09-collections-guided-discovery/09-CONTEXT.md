@@ -170,10 +170,13 @@ Not discussed - planner and researcher decide within the constraints above:
 These were surfaced during discussion and are **not** resolved by this phase. They need explicit
 decisions before or during Phase 8 launch.
 
-- **F-01 - Two different WhatsApp numbers in canonical docs.**
-  `.planning/QA_AND_ASSET_PROTOCOL.md` S4.3 specifies `wa.me/919431111550`.
-  `.planning/STATE.md` and all shipped code use `919835190738`.
-  Conversion-critical. Must be reconciled before launch.
+- **F-01 - RESOLVED 2026-08-30 (owner-confirmed).**
+  **`919835190738` is the one and only WhatsApp number**, and doubles as a calling number. Every
+  `wa.me` link site-wide uses it — all 7 shipped code locations were already correct.
+  **`919431111550` is an ADDITIONAL CALLING-ONLY number and must never appear in a `wa.me` link.**
+  It appears nowhere in `src/`. `.planning/QA_AND_ASSET_PROTOCOL.md` S4.3 was the sole wrong
+  reference and has been corrected. Note: the calling-only number is not currently surfaced anywhere
+  on the site — adding it as a call option is a separate, unplanned decision.
 
 - **F-02 - Stale locked rules.** `.planning/STATE.md`, `.planning/ROADMAP.md` and
   `.planning/NAV_AND_COLLECTIONS_PLAN.md` S1 all lock "6 authorized brands". Per D-05 this is now
@@ -184,9 +187,20 @@ decisions before or during Phase 8 launch.
   despite the `/` + `/collections` only rule. Out of scope for Phase 9 (D-16 amends the lock for
   `/collections/[slug]` only). Flagged for Phase 8 launch review.
 
-- **F-04 - Unverified showroom claim.** `.planning/QA_AND_ASSET_PROTOCOL.md` S5.2 references a
-  "7,500 sq ft Sakchi showroom", while `.planning/NAV_AND_COLLECTIONS_PLAN.md` states there are to
-  be no unverified sq ft claims. Related to D-09's "20+ years" question. Needs Mukesh confirmation.
+- **F-04 - RESOLVED 2026-08-30 (owner-confirmed), with a live-site consequence.**
+  - **"20+ years" is CONFIRMED and may ship.** D-09's `yearsClaimConfirmed` is therefore true.
+    Corroborated by the 2002 founding date already in the copy (2002 to 2026 = 24 years).
+  - **"7,500 sq ft" is NOT correct and must NOT be shown anywhere.**
+
+  ⚠ **This is a Phase 8 launch blocker, not Phase 9 work.** The false figure is currently rendered on
+  the live homepage in two mounted components:
+  - `src/components/home/ShowroomCinematic.tsx` — the scene `sub` string and the visible body copy
+    (the component is mounted at `src/app/page.tsx:126`)
+  - `src/components/ShowroomExperience.tsx` — the visible `<h3>`:
+    "From a 113 sq ft shop in 2002 to a 7,500 sq ft showroom today."
+
+  The "113 sq ft shop in 2002" half of that sentence was NOT covered by the owner's confirmation and
+  remains unverified — it should be confirmed or dropped in the same pass.
 
 - **F-05 - Homepage deep links break under D-15. SCOPE CORRECTED 2026-08-29.**
   `.planning/QA_AND_ASSET_PROTOCOL.md` S4.2 specifies "Category Discovery: Card tap -> Filtered
@@ -196,7 +210,12 @@ decisions before or during Phase 8 launch.
   `home/CategoryDiscovery.tsx`, `home/InteractiveBrandWall.tsx`, `home/ProductReel.tsx`,
   `data/home.ts`. Resolved by D-25 (family links repoint to space pages). In scope for Phase 9.
 
-- **F-06 - Three brand rosters already disagree in the codebase (raised 2026-08-29).**
+- **F-06 - RESOLVED 2026-08-30 (owner-confirmed): remove Jaquar, Asian Paints and Philips.**
+  The canonical roster is architectural hardware only, per D-26. The three non-hardware brands come
+  off every public surface. Hettich and Kich, currently missing from `catalog.ts` BRANDS, are added.
+  Original finding retained below for context.
+
+- **F-06 (original finding) - Three brand rosters already disagree in the codebase (raised 2026-08-29).**
   `src/data/catalog.ts` `BRANDS` holds ~20 brands but omits Hettich and Kich; `BrandTrustStrip.tsx`
   holds 23 including Jaquar, Asian Paints and Philips; `useCollectionsState.ts:218` holds 6. Resolved
   for planning purposes by D-26, but the authoritative roster is a business-truth question in the
