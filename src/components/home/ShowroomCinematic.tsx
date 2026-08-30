@@ -16,7 +16,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * Visual tension: HIGH
  *
  * Desktop (GSAP, pinned, 3 scenes):
- *   Scene 1 — Entrance: Exterior photograph, scale 1.15→1.0, "7,500 SQ FT · SAKCHI"
+ *   Scene 1 — Entrance: Exterior photograph, scale 1.15→1.0, "20+ AUTHORIZED BRANDS · SAKCHI"
  *   Scene 2 — Product Wall: Interior horizontal pan (translateX), door hardware display
  *   Scene 3 — Location: Atmosphere dims, CTAs appear as quiet zone transition begins
  *
@@ -29,7 +29,7 @@ const SCENES = [
     id: "entrance",
     eyebrow: "THE SHOWROOM",
     title: "FLAGSHIP SHOWROOM\nSAKCHI",
-    sub: "7,500 sq ft of architectural hardware, security, and kitchen systems on physical display.",
+    sub: "Architectural hardware, security, and kitchen systems from 20+ authorized brands, on physical display.",
     img: "/cinema/showroom/exterior.png",
     panType: "scale" as const,
   },
@@ -129,7 +129,7 @@ export default function ShowroomCinematic() {
               <span className="text-zinc-500">Sakchi, Jamshedpur.</span>
             </h2>
             <p className="text-zinc-300 text-sm font-light leading-relaxed max-w-md pt-1">
-              7,500 sq ft of architectural hardware, security, and kitchen systems — on display, and in your hands before you specify.
+              Architectural hardware, security, and kitchen systems from 20+ authorized brands — on display, and in your hands before you specify.
             </p>
           </div>
         </div>
