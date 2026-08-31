@@ -3,7 +3,7 @@ import path from "path";
 
 /**
  * Hardware Collection — Motion & Animation Protocol Validator
- * Corresponds to MOTION_TEST_PROTOCOL.md specifications.
+ * Corresponds to docs/architectural-notes/MOTION_TEST_PROTOCOL.md specifications.
  */
 
 const ROOT_DIR = process.cwd();
