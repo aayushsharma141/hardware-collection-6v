@@ -2,7 +2,7 @@ import { test, expect } from "@playwright/test";
 
 /**
  * Playwright E2E Test Suite — Motion & Animation Protocol
- * Validates browser behavior against MOTION_TEST_PROTOCOL.md
+ * Validates browser behavior against docs/architectural-notes/MOTION_TEST_PROTOCOL.md
  */
 
 test.describe("Hardware Collection — Motion & Animation Protocol E2E", () => {
