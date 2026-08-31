@@ -1,5 +1,5 @@
 import React from "react";
-import Footer from "@/components/Footer";
+import Footer from "@/components/layout/Footer";
 import { getHomePage, getSiteSettings, getBrands, getTestimonials } from "@/sanity/queries";
 import MobileConversionBar from "@/components/home/MobileConversionBar";
 
@@ -10,7 +10,7 @@ import { ScrollProgress } from "@/components/animations/ScrollProgress";
 
 // 7 Cinematic Chapters
 import HeroStage from "@/components/home/HeroStage";           // CH01 — HIGH tension
-import BrandTrustStrip from "@/components/BrandTrustStrip";        // CH02 — LOW tension
+import BrandTrustStrip from "@/components/brand/BrandTrustStrip";        // CH02 — LOW tension
 import CategoryDiscovery from "@/components/home/CategoryDiscovery";       // CH03 — MEDIUM tension
 import MaterialJourney from "@/components/home/MaterialJourney";           // CH04 — VERY HIGH tension
 import ProductReel from "@/components/home/ProductReel";                   // CH05 — MEDIUM tension

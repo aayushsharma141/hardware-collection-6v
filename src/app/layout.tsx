@@ -33,7 +33,7 @@ export const metadata: Metadata = {
 
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
-import Navbar from "@/components/Navbar";
+import Navbar from "@/components/layout/Navbar";
 import { CANONICAL_BRANDS } from "@/data/brands";
 
 export default function RootLayout({

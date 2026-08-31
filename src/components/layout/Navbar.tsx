@@ -6,7 +6,7 @@ import { BrandLockup } from "@/components/brand/BrandLockup";
 import { usePathname } from "next/navigation";
 import { Phone, ArrowUpRight, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { useConsultationStore } from "./consultation/store";
+import { useConsultationStore } from "@/components/consultation/store";
 import { lockScroll, unlockScroll } from "@/lib/scrollLock";
 
 interface NavbarProps {

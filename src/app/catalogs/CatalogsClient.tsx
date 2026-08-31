@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import React, { useState } from "react";
-import Footer from "@/components/Footer";
+import Footer from "@/components/layout/Footer";
 import CatalogLibrary from "@/components/catalog/CatalogLibrary";
 import CatalogViewerModal from "@/components/catalog/CatalogViewerModal";
 import { AnimatePresence } from "motion/react";
