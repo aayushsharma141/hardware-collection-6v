@@ -57,3 +57,6 @@ public/*.png
 
 # nested unrelated repository
 /ECC/
+
+# quarantined junk awaiting review
+/_quarantine/
