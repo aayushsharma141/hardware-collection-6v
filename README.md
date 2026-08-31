@@ -10,6 +10,7 @@ npm run build      # production build
 npm run lint       # ESLint 9
 npx tsc --noEmit   # TypeScript check
 npm test           # Vitest unit tests
+npm run test:e2e   # Playwright browser tests (starts its own server)
 ```
 
 ## Architecture
@@ -23,22 +24,36 @@ npm test           # Vitest unit tests
 | Language | TypeScript 5 |
 | Deployment | Vercel |
 
+**New to this codebase? Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).** It
+explains how a request becomes a page, which folder new code belongs in, and
+the content ownership rule below.
+
+## Content ownership
+
+**Sanity is the canonical content source.** The static tables in
+`src/content/fallback/` are a resilience mechanism that keeps the site
+rendering when Sanity is unreachable — not a second place to author content.
+See [src/content/README.md](src/content/README.md).
+
 ## Repository Layout
 
-See [WORKSPACE_MAP.md](WORKSPACE_MAP.md) for the full directory structure.
-
-Key directories:
-
 ```
-src/app/           — Next.js App Router pages and API routes
-src/components/    — Shared UI components
-src/hooks/         — Custom React hooks (useCollectionsState, useScrollLock, …)
-src/lib/           — Server utilities (leads, sanity client, scroll lock)
-src/content/sanity/ — Sanity schema definitions and config (canonical source)
-src/types/         — Shared TypeScript types (catalog, etc.)
-scripts/           — Developer utilities, CMS seed, DB tools
-prisma/            — Prisma schema (Lead model)
+src/app/        — routes, layouts and API handlers (a folder here is a URL)
+src/components/ — React components, one folder per domain
+src/content/    — all page content: sanity/ (canonical) + fallback/ (safety net)
+src/hooks/      — reusable React state
+src/lib/        — non-React logic: collections/, integrations/, browser/, motion/, leads/
+src/types/      — TypeScript types shared across folders
+tests/e2e/      — Playwright browser specs
+scripts/        — developer utilities, CMS seed, DB tools
+prisma/         — Prisma schema (Lead model)
+docs/           — architecture notes, strategy, operations, evidence
 ```
+
+Each of `src/components/`, `src/content/` and `src/lib/` carries its own
+README describing what belongs inside it.
+
+See [WORKSPACE_MAP.md](WORKSPACE_MAP.md) for the wider workspace.
 
 ## Agent & Workflow Guidance
 

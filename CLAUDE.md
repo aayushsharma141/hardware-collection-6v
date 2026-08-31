@@ -14,10 +14,27 @@ npm run build                           # Next.js production build
 npm run lint                            # ESLint 9
 npx tsc --noEmit                        # TypeScript check (no emit)
 npm test                                # Vitest unit test suite
+npm run test:e2e                        # Playwright browser specs (tests/e2e)
 node scripts/audit-dependencies.cjs     # dependency CVE audit
 npx tsx scripts/evidence-engine.ts --validate   # evidence platform gate
 npx tsx scripts/release-verification.ts         # release quality gate
 ```
+
+---
+
+## Codebase Structure
+
+Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) before adding files. It maps
+the request lifecycle and states which folder new code belongs in.
+
+**Content ownership:** Sanity (`src/content/sanity/`) is the canonical content
+source. `src/content/fallback/` is a resilience mechanism that keeps the site
+rendering when Sanity is unreachable — never author content there.
+
+`src/` has six concerns: `app/` (routes), `components/` (one folder per
+domain, no loose files), `content/`, `hooks/`, `lib/` (domain subfolders), and
+`types/`. `src/components/`, `src/content/` and `src/lib/` each carry a README
+describing what belongs inside.
 
 ---
 
