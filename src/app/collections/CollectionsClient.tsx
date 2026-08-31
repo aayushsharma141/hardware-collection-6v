@@ -14,9 +14,9 @@ import {
   getSlugString,
 } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
-import { selectFeaturedCategories } from "@/lib/collectionTiers";
+import { selectFeaturedCategories } from "@/lib/collections/tiers";
 import { useConsultationStore } from "@/components/consultation/store";
-import { buildWhatsAppLink, buildGeneralInquiryWhatsappLink } from "@/lib/whatsapp";
+import { buildWhatsAppLink, buildGeneralInquiryWhatsappLink } from "@/lib/integrations/whatsapp";
 
 import CollectionsHero from "@/components/collections/CollectionsHero";
 import CollectionSearch from "@/components/collections/CollectionSearch";

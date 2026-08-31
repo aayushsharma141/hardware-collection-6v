@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useReducedMotion } from "motion/react";
 import { Category, getSlugString } from "@/types/catalog";
-import { selectFeaturedCategories } from "@/lib/collectionTiers";
+import { selectFeaturedCategories } from "@/lib/collections/tiers";
 
 export interface FeaturedChaptersProps {
   categories: Category[];

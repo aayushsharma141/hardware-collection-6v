@@ -7,7 +7,7 @@ import { ArrowLeft, Compass, CheckCircle2, ShieldCheck, Layers, MessageSquare } 
 import { Category, Product, SiteSettings, getSlugString } from "@/types/catalog";
 import ProductCard from "@/components/collections/ProductCard";
 import ProductDetailDrawer from "@/components/collections/ProductDetailDrawer";
-import { buildCategoryConsultMessage, buildEmptyCategoryMessage, buildWhatsAppLink } from "@/lib/whatsapp";
+import { buildCategoryConsultMessage, buildEmptyCategoryMessage, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import { useConsultationStore } from "@/components/consultation/store";
 
 export interface CategoryDetailClientProps {

@@ -2,7 +2,7 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import { ReactNode } from "react";
-import { motionTokens } from "@/lib/motionTokens";
+import { motionTokens } from "@/lib/motion/tokens";
 
 interface FadeInProps {
   children: ReactNode;

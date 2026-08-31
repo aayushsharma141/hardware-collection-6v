@@ -5,7 +5,7 @@ import { useConsultationStore } from "./store";
 import { ConsultationForm } from "./ConsultationForm";
 import { X } from "lucide-react";
 import { AnimatePresence, motion } from "motion/react";
-import { lockScroll, unlockScroll } from "@/lib/scrollLock";
+import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
 // We use motion/react assuming framer-motion v12/13 style. The package.json has "motion": "^13.1.0"
 
 export function ConsultationDrawer() {

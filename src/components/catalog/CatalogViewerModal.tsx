@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import { X, ZoomIn, ZoomOut, Maximize, ShieldAlert, ChevronLeft, ChevronRight, FileText } from "lucide-react";
 import { motion } from "motion/react";
 import { buildWhatsAppUrl } from "@/lib/config";
-import { lockScroll, unlockScroll } from "@/lib/scrollLock";
+import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
 import { Brand } from "@/types/catalog";
 
 interface CatalogViewerModalProps {

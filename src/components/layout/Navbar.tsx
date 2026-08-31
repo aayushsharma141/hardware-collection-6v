@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { Phone, ArrowUpRight, Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { useConsultationStore } from "@/components/consultation/store";
-import { lockScroll, unlockScroll } from "@/lib/scrollLock";
+import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
 
 interface NavbarProps {
   primaryPhone?: string;

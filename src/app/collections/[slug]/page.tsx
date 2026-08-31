@@ -7,7 +7,7 @@ import {
   getSpaceSlugs,
   getSiteSettings,
 } from "@/sanity/queries";
-import { resolveCollectionSlug } from "@/lib/collectionRouting";
+import { resolveCollectionSlug } from "@/lib/collections/routing";
 import { getSlugString } from "@/types/catalog";
 import { CATEGORIES } from "@/data/catalog";
 import { SPACES } from "@/data/spaces";

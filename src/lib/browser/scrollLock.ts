@@ -6,7 +6,7 @@
  * caller has unlocked.
  *
  * Usage:
- *   import { lockScroll, unlockScroll } from "@/lib/scrollLock";
+ *   import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
  *   lockScroll();   // in useEffect
  *   unlockScroll(); // in cleanup / on close
  */

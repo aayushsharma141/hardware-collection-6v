@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { buildGeneralInquiryWhatsappLink } from "@/lib/whatsapp";
+import { buildGeneralInquiryWhatsappLink } from "@/lib/integrations/whatsapp";
 
 export interface CollectionsHeroProps {
   collectionCount: number;

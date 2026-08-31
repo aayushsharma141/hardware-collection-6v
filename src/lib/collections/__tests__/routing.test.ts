@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { resolveCollectionRoute, SpaceRef } from "@/lib/collectionRouting";
+import { resolveCollectionRoute, SpaceRef } from "@/lib/collections/routing";
 
 describe("resolveCollectionRoute (D-24)", () => {
   const spaces: SpaceRef[] = [

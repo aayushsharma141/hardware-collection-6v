@@ -2,7 +2,7 @@
 
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
 import { useSearchParams, usePathname } from "next/navigation";
-import { lockScroll, unlockScroll } from "@/lib/scrollLock";
+import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
 import {
   Product,
   Category,

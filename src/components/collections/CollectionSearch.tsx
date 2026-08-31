@@ -8,7 +8,7 @@ import { Category, Product, Brand, getSlugString } from "@/types/catalog";
 import {
   buildWhatsAppLink,
   buildSearchZeroResultMessage,
-} from "@/lib/whatsapp";
+} from "@/lib/integrations/whatsapp";
 import { useConsultationStore } from "@/components/consultation/store";
 
 export interface CollectionSearchProps {

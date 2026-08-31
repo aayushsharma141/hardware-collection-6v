@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { selectFeaturedChapters, FEATURED_CHAPTER_CAP } from "@/lib/collectionTiers";
+import { selectFeaturedChapters, FEATURED_CHAPTER_CAP } from "@/lib/collections/tiers";
 
 interface TestItem {
   slug: string;

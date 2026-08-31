@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, MessageSquare } from "lucide-react";
 import { Space, SiteSettings } from "@/types/catalog";
 import CompactCollectionGrid from "@/components/collections/CompactCollectionGrid";
-import { buildWhatsAppLink } from "@/lib/whatsapp";
+import { buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import { useConsultationStore } from "@/components/consultation/store";
 
 export interface SpaceLandingClientProps {
