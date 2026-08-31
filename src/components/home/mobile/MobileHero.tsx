@@ -9,7 +9,7 @@ interface MobileHeroProps {
 }
 
 /**
- * MobileHero — the first viewport for most of the audience.
+ * MobileHero &mdash; the first viewport for most of the audience.
  *
  * The photograph carries the frame. An earlier version laid a 42%-wide panel
  * and a hard-edged product rectangle over it; both cut visible seams straight
@@ -27,7 +27,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
   const isExternalCta = /^https?:\/\//.test(ctaHref);
 
   return (
-    <section className="relative w-full min-h-[92svh] flex flex-col justify-end pt-16 pb-10 px-6 lg:hidden overflow-hidden bg-[#090909]">
+    <section className="relative w-full min-h-[92svh] flex flex-col justify-end pt-16 pb-10 px-6 lg:hidden overflow-hidden bg-[var(--surface)]">
       {/* Photography */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -40,25 +40,25 @@ export default function MobileHero({ slides }: MobileHeroProps) {
         />
         {/* Bottom-weighted scrim: the copy sits in the darkest part of the
             frame, so contrast holds regardless of which photograph an editor
-            publishes from Sanity. Kept to a single pass — stacking a dimmed
+            publishes from Sanity. Kept to a single pass &mdash; stacking a dimmed
             image under two gradients took the photograph to near-black and
             threw away the one thing carrying the viewport. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/85 via-45% to-[#090909]/15" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-[var(--surface)]/85 via-45% to-[var(--surface)]/15" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 w-full">
         <div className="h-px w-full bg-gradient-to-r from-[#c8a96e]/70 to-transparent mb-5" />
 
-        <p className="hc-mono text-[10px] uppercase tracking-[0.22em] leading-[1.7] text-[#c8a96e] mb-4">
-          {slide.eyebrow || "Sakchi · Jamshedpur"}
+        <p className="hc-mono text-xs uppercase tracking-[0.25em] leading-[1.7] font-semibold text-[#c8a96e] mb-4">
+          {slide.eyebrow || "Sakchi &middot; Jamshedpur"}
         </p>
 
-        <h1 className="hc-serif text-[46px] xs:text-[52px] leading-[0.9] font-normal tracking-[0.02em] text-[#e8e3d9] mb-5 whitespace-pre-line">
+        <h1 className="hc-serif text-5xl xs:text-6xl leading-[0.92] font-light tracking-[-0.01em] text-[var(--text-primary)] mb-5 whitespace-pre-line">
           {heading}
         </h1>
 
-        <p className="max-w-[320px] text-[13.5px] leading-[1.6] font-light text-[#d1ccc4] mb-8">
+        <p className="max-w-[340px] text-base leading-relaxed font-light text-[var(--text-secondary)] mb-8">
           {slide.description ||
             "Architectural hardware chosen for spaces that deserve better details."}
         </p>
@@ -69,7 +69,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="brass-plate hc-focus h-[52px] w-full bg-[#c8a96e] text-[#090909] text-[11px] font-bold uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline"
+              className="brass-plate hc-focus h-[56px] w-full bg-[#8b1a42] text-white text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-3 no-underline hover:bg-[#6b1432] rounded shadow-md"
             >
               <span>{ctaLabel}</span>
               <ArrowRight />
@@ -77,7 +77,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
           ) : (
             <Link
               href={ctaHref}
-              className="brass-plate hc-focus h-[52px] w-full bg-[#c8a96e] text-[#090909] text-[11px] font-bold uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline"
+              className="brass-plate hc-focus h-[56px] w-full bg-[#8b1a42] text-white text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-3 no-underline hover:bg-[#6b1432] rounded shadow-md"
             >
               <span>{ctaLabel}</span>
               <ArrowRight />
@@ -88,11 +88,11 @@ export default function MobileHero({ slides }: MobileHeroProps) {
             href={SHOWROOM_MAP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rail-button hc-focus min-h-[44px] self-start text-[10px] uppercase tracking-[0.16em] text-[#e8e3d9] flex items-center gap-2 no-underline"
+            className="rail-button hc-focus min-h-[44px] self-start text-xs uppercase tracking-widest font-semibold text-[var(--text-primary)] flex items-center gap-2 no-underline"
           >
             <span>Get showroom directions</span>
             <svg
-              className="w-3.5 h-3.5 text-[#c8a96e]"
+              className="w-4 h-4 text-[#8b1a42]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -110,7 +110,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
 function ArrowRight() {
   return (
     <svg
-      className="w-4 h-4 text-[#090909]"
+      className="w-4 h-4 text-white"
       fill="none"
       viewBox="0 0 24 24"
       stroke="currentColor"
@@ -120,3 +120,5 @@ function ArrowRight() {
     </svg>
   );
 }
+
+

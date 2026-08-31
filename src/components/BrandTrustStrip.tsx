@@ -59,7 +59,7 @@ export default function BrandTrustStrip() {
     }
 
     return (
-      <span className="font-sans font-medium uppercase tracking-[0.28em] text-lg md:text-xl lg:text-2xl whitespace-nowrap text-[#e8e3d9]/55 group-hover/item:text-[#e8e3d9] transition-colors duration-300">
+      <span className="font-sans font-medium uppercase tracking-[0.28em] text-lg md:text-xl lg:text-2xl whitespace-nowrap text-[var(--text-primary,#e8e3d9)] opacity-55 group-hover/item:opacity-100 transition-opacity duration-300">
         {brand.name}
       </span>
     );
@@ -68,17 +68,17 @@ export default function BrandTrustStrip() {
   return (
     <section
       id="brands"
-      className="py-20 lg:py-24 bg-zinc-950 border-y border-zinc-900 relative z-10 overflow-hidden scroll-mt-24"
+      className="py-20 lg:py-24 bg-[var(--surface,#11100f)] border-y border-[var(--border,rgba(232,227,217,0.14))] relative z-10 overflow-hidden scroll-mt-24"
     >
       {/* Header */}
-      <div className="max-w-4xl mx-auto px-6 text-center mb-16">
-        <p className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-3">
+      <div className="max-w-4xl mx-auto px-6 text-center mb-16 md:mb-20">
+        <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-3">
           Authorized partners
         </p>
-        <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[#e8e3d9] leading-tight mb-3">
+        <h2 className="hc-serif text-4xl sm:text-5xl lg:text-6xl font-light tracking-[-0.01em] text-[var(--text-primary,#e8e3d9)] leading-tight mb-4">
           Authorized Brands
         </h2>
-        <p className="text-[13px] sm:text-[15px] leading-relaxed text-[#aaa49a] font-light max-w-xl mx-auto">
+        <p className="text-base sm:text-lg leading-relaxed text-[var(--text-secondary,#aaa49a)] font-light max-w-2xl mx-auto">
           German engineering and trusted Indian architectural manufacturers,
           curated under one roof in Sakchi.
         </p>
@@ -86,9 +86,9 @@ export default function BrandTrustStrip() {
 
       {/* 2-Lane Double Ticker Container */}
       <div className="relative w-full overflow-hidden flex flex-col gap-12 md:gap-16">
-        {/* Soft edge gradient fades */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-60 bg-gradient-to-r from-zinc-950 via-zinc-950/80 to-transparent z-20" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-60 bg-gradient-to-l from-zinc-950 via-zinc-950/80 to-transparent z-20" />
+        {/* Soft edge gradient fades — must match --surface to prevent seam at ticker edges */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-60 bg-gradient-to-r from-[var(--surface,#11100f)] via-[var(--surface,#11100f)]/80 to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-60 bg-gradient-to-l from-[var(--surface,#11100f)] via-[var(--surface,#11100f)]/80 to-transparent z-20" />
 
         {/* ── LANE 1: Scrolling Left ─── */}
         <div className="flex w-max group/ticker hover:[animation-play-state:paused] select-none animate-ticker-left items-center">

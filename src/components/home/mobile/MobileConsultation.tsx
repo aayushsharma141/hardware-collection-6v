@@ -1,14 +1,14 @@
-import React from "react";
+﻿import React from "react";
 import { ConsultationForm } from "@/components/consultation/ConsultationForm";
 import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL } from "@/lib/config";
 
 /**
- * MobileConsultation — the mobile close.
+ * MobileConsultation &mdash; the mobile close.
  *
  * This section used to render its own two-field form whose submit handler was
  * `preventDefault()` and nothing else: no request, no validation, no success
  * or error state, and no labels on the inputs. Every enquiry typed into it on
- * a phone — the majority of this site's traffic — was discarded.
+ * a phone &mdash; the majority of this site's traffic &mdash; was discarded.
  *
  * It now renders the same `ConsultationForm` the desktop chapter and the
  * navbar drawer use, so a mobile enquiry reaches the lead pipeline with the
@@ -23,14 +23,14 @@ export default function MobileConsultation() {
       <div className="max-w-xl mx-auto flex flex-col space-y-unit-lg">
         <div className="flex flex-col space-y-unit-xs">
           <p className="font-label-caps text-label-caps text-primary uppercase">
-            Private consultation · Sakchi
+            Private consultation &middot; Sakchi
           </p>
           <h2 className="font-headline-md text-[30px] leading-[1.1] text-text-bone">
             Let&rsquo;s discuss your project.
           </h2>
           <p className="pt-1 text-[13.5px] leading-[1.65] font-light text-text-muted max-w-[44ch]">
             Tell us what you&rsquo;re working on. Our technical team will help
-            you navigate brands, finishes and specifications — with zero
+            you navigate brands, finishes and specifications &mdash; with zero
             guesswork.
           </p>
         </div>
@@ -62,3 +62,5 @@ export default function MobileConsultation() {
     </section>
   );
 }
+
+

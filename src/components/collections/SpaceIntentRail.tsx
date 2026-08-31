@@ -23,14 +23,14 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <section aria-labelledby="space-rail-heading" className="py-12 md:py-16">
-      <div className="max-w-[1320px] mx-auto px-6 mb-8">
-        <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-2 block">
+    <section aria-labelledby="space-rail-heading" className="py-16 md:py-24">
+      <div className="max-w-[1320px] mx-auto px-6 mb-10">
+        <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-3 block">
           CURATED SPACES
         </span>
         <h2
           id="space-rail-heading"
-          className="hc-serif text-3xl sm:text-4xl font-normal tracking-[0.02em] text-[#e8e3d9]"
+          className="hc-serif text-3xl sm:text-5xl lg:text-6xl font-light tracking-[-0.01em] text-[var(--text-primary)]"
         >
           Explore by Architectural Space
         </h2>
@@ -41,7 +41,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
           data-lenis-prevent
           role="list"
           aria-label="Explore by space"
-          className="flex gap-4 overflow-x-auto snap-x snap-mandatory [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 -my-2"
+          className="flex gap-5 overflow-x-auto snap-x snap-mandatory overscroll-x-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 -my-2"
         >
           {spaces.map((space) => {
             const slug =
@@ -63,14 +63,14 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                 key={(" _id" in space && (space as { _id?: string })._id) || slug}
                 role="listitem"
                 href={`/collections/${slug}`}
-                className="snap-start shrink-0 w-[82vw] sm:w-[46vw] lg:w-[30vw] aspect-[3/4] relative rounded-xl overflow-hidden group block threshold-card hc-focus border border-white/[0.08]"
+                className="snap-start shrink-0 w-[85vw] sm:w-[46vw] lg:w-[30vw] aspect-[3/4] relative rounded-2xl overflow-hidden group block threshold-card hc-focus border border-[var(--border)] shadow-sm"
               >
                 {/* Background Photography */}
                 <Image
                   src={heroImg}
                   alt={space.name}
                   fill
-                  sizes="(max-width: 640px) 82vw, (max-width: 1024px) 46vw, 30vw"
+                  sizes="(max-width: 640px) 85vw, (max-width: 1024px) 46vw, 30vw"
                   className={`object-cover ${
                     shouldReduceMotion
                       ? ""
@@ -81,22 +81,22 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                 {/* Mandated Scrim for Text Legibility */}
                 <div
                   aria-hidden="true"
-                  className="absolute inset-0 bg-gradient-to-t from-[#090909]/90 via-[#090909]/40 to-transparent pointer-events-none"
+                  className="absolute inset-0 bg-gradient-to-t from-[#090909]/95 via-[#090909]/45 to-transparent pointer-events-none"
                 />
 
                 {/* Content Overlay */}
-                <div className="absolute inset-0 p-6 flex flex-col justify-end text-left">
-                  <h3 className="hc-serif text-2xl sm:text-3xl font-normal uppercase tracking-[0.02em] text-[#e8e3d9] mb-2">
+                <div className="absolute inset-0 p-7 flex flex-col justify-end text-left">
+                  <h3 className="hc-serif text-2xl sm:text-3xl lg:text-4xl font-normal uppercase tracking-[0.01em] text-white mb-2.5">
                     {space.name}
                   </h3>
 
                   {space.description && (
-                    <p className="text-xs sm:text-sm text-[#aaa49a] font-light line-clamp-2 leading-relaxed mb-4">
+                    <p className="text-sm sm:text-base text-[#e0dedc] font-light line-clamp-2 leading-relaxed mb-4">
                       {space.description}
                     </p>
                   )}
 
-                  <span className="text-xs uppercase tracking-widest text-[#c8a96e] inline-flex items-center gap-1.5 font-medium group-hover:text-white transition-colors duration-150">
+                  <span className="text-xs sm:text-sm uppercase tracking-widest text-[#c8a96e] inline-flex items-center gap-2 font-semibold group-hover:text-white transition-colors duration-150">
                     Explore {space.name}
                     <span
                       aria-hidden="true"
@@ -106,7 +106,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                           : "transition-transform duration-[180ms] group-hover:translate-x-1"
                       }
                     >
-                      →
+                      &rarr;
                     </span>
                   </span>
                 </div>
@@ -118,3 +118,5 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
     </section>
   );
 }
+
+

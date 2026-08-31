@@ -26,17 +26,18 @@ export function AtmosphericBackground() {
     if (rafRef.current) cancelAnimationFrame(rafRef.current);
 
     rafRef.current = requestAnimationFrame(() => {
+      // Bright atmospheric: subtle warm-white shifts
       const r = lerp(latest,
         [0,    0.15,  0.3,   0.5,   0.65,  0.8,   1.0],
-        [10,   10,    14,    16,    14,    12,    10],
+        [252,  250,   248,   246,   248,   250,   252],
       );
       const g = lerp(latest,
         [0,    0.15,  0.3,   0.5,   0.65,  0.8,   1.0],
-        [10,   10,    12,    13,    12,    10,    10],
+        [250,  248,   246,   244,   246,   248,   250],
       );
       const b = lerp(latest,
         [0,    0.15,  0.3,   0.5,   0.65,  0.8,   1.0],
-        [12,   12,    13,    12,    12,    12,    12],
+        [248,  246,   244,   242,   244,   246,   248],
       );
 
       const root = document.documentElement;

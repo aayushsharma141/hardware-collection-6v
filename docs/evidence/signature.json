@@ -1,0 +1,8 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-30T15:27:26.056Z",
+  "algorithm": "Ed25519",
+  "totalArtifacts": 2,
+  "signature": "1c355e8889168bbea6da9be4ae7339b6ab53ba571d091fac3abc01740a10f5fe504d791f6798960fb5175d6913ba950275417d2aa1da2f472691c9c81d16430d",
+  "publicKeyPath": "docs/evidence/public.key"
+}

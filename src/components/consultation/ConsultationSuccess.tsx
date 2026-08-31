@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { ArrowRight, Check, PhoneCall } from "lucide-react";
@@ -17,32 +17,32 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
   return (
     <div className="flex flex-col items-center justify-center py-8 px-4 text-center max-w-md mx-auto font-dmsans">
       {/* Quiet Gold Icon Badge */}
-      <div className="w-12 h-12 rounded-full bg-[#C8A96E]/10 border border-[#C8A96E]/30 flex items-center justify-center mb-5">
-        <Check className="w-5 h-5 text-[#C8A96E]" />
+      <div className="w-12 h-12 rounded-full bg-[#C8A96E]/10 border border-[var(--accent)]/30 flex items-center justify-center mb-5">
+        <Check className="w-5 h-5 text-[var(--accent)]" />
       </div>
 
-      <p className="text-[11px] uppercase tracking-[0.2em] text-[#C8A96E] font-semibold mb-2">
-        HARDWARE COLLECTION · SAKCHI
+      <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] font-semibold mb-2">
+        HARDWARE COLLECTION Â· SAKCHI
       </p>
 
       <h3
-        className="font-cormorant text-2xl sm:text-3xl font-normal text-white mb-2"
+        className="font-cormorant text-2xl sm:text-3xl font-normal text-[var(--text-primary)] mb-2"
         style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
       >
         Enquiry Received
       </h3>
 
-      <p className="text-zinc-400 text-xs sm:text-sm mb-6 leading-relaxed">
+      <p className="text-[var(--text-secondary)] text-xs sm:text-sm mb-6 leading-relaxed">
         Thank you. Our team will contact you shortly.
       </p>
 
       {/* Reference ID Card */}
-      <div className="bg-zinc-900/60 border border-zinc-800/80 rounded-xl p-3.5 mb-6 w-full text-center">
-        <p className="text-[10px] text-zinc-500 uppercase tracking-widest mb-1 font-semibold">REFERENCE ID</p>
-        <p className="text-[#C8A96E] font-mono text-sm sm:text-base font-bold tracking-wider">{leadId}</p>
+      <div className="bg-[var(--surface-raised)]/60 border border-[var(--border)]/80 rounded-xl p-3.5 mb-6 w-full text-center">
+        <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-widest mb-1 font-semibold">REFERENCE ID</p>
+        <p className="text-[var(--accent)] font-mono text-sm sm:text-base font-bold tracking-wider">{leadId}</p>
       </div>
 
-      {/* Action Buttons Row: WhatsApp Us · Call Now */}
+      {/* Action Buttons Row: WhatsApp Us Â· Call Now */}
       <div className="flex flex-col sm:flex-row gap-3 w-full">
         <a
           href={waUrl}
@@ -56,16 +56,17 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
 
         <a
           href={SHOWROOM_PHONE_HREF}
-          className="flex-1 py-3 px-5 rounded-full bg-zinc-900 border border-zinc-700 hover:border-[#C8A96E] text-zinc-200 hover:text-white font-semibold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2"
+          className="flex-1 py-3 px-5 rounded-full bg-[var(--surface-raised)] border border-zinc-700 hover:border-[var(--accent)] text-[var(--text-primary)] hover:text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2"
         >
-          <PhoneCall className="w-3.5 h-3.5 text-[#C8A96E]" />
+          <PhoneCall className="w-3.5 h-3.5 text-[var(--accent)]" />
           <span>Call Now</span>
         </a>
       </div>
 
-      <p className="text-[11px] text-zinc-500 mt-5">
-        Direct showroom desk: <span className="text-zinc-300 font-medium">{SHOWROOM_PHONE_DISPLAY}</span>
+      <p className="text-[11px] text-[var(--text-secondary)] mt-5">
+        Direct showroom desk: <span className="text-[var(--text-primary)] font-medium">{SHOWROOM_PHONE_DISPLAY}</span>
       </p>
     </div>
   );
 }
+

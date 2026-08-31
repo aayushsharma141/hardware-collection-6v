@@ -12,16 +12,16 @@ import { buildWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 /**
- * ShowroomCinematic — Chapter 06 "Inside the Showroom"
+ * ShowroomCinematic &mdash; Chapter 06 "Inside the Showroom"
  * Visual tension: HIGH
  *
  * Desktop (GSAP, pinned, 3 scenes):
- *   Scene 1 — Entrance: Exterior photograph, scale 1.15→1.0, "20+ AUTHORIZED BRANDS · SAKCHI"
- *   Scene 2 — Product Wall: Interior horizontal pan (translateX), door hardware display
- *   Scene 3 — Location: Atmosphere dims, CTAs appear as quiet zone transition begins
+ *   Scene 1 &mdash; Entrance: Exterior photograph, scale 1.15â†’1.0, "20+ AUTHORIZED BRANDS &middot; SAKCHI"
+ *   Scene 2 &mdash; Product Wall: Interior horizontal pan (translateX), door hardware display
+ *   Scene 3 &mdash; Location: Atmosphere dims, CTAs appear as quiet zone transition begins
  *
  * Pointer lighting active in this chapter.
- * gsap.matchMedia — mobile gets static vertical photography sequence, no pinning.
+ * gsap.matchMedia &mdash; mobile gets static vertical photography sequence, no pinning.
  */
 
 const SCENES = [
@@ -29,7 +29,7 @@ const SCENES = [
     id: "entrance",
     eyebrow: "THE SHOWROOM",
     title: "FLAGSHIP SHOWROOM\nSAKCHI",
-    sub: "Architectural hardware, security, and kitchen systems from 20+ authorized brands, on physical display.",
+    sub: "Architectural hardware, security, and kitchen systems from leading authorized brands, on physical display.",
     img: "/cinema/showroom/exterior.png",
     panType: "scale" as const,
   },
@@ -100,7 +100,7 @@ export default function ShowroomCinematic() {
   );
 
   return (
-    <div ref={containerRef} id="showroom" data-chapter="6" className="border-t border-zinc-900 scroll-mt-24">
+    <div ref={containerRef} id="showroom" data-chapter="6" className="border-t border-[var(--border)] scroll-mt-24">
       {/* Pointer lighting scoped to this chapter */}
       <div
         className="pointer-light absolute inset-0 pointer-events-none"
@@ -108,60 +108,60 @@ export default function ShowroomCinematic() {
         style={{ zIndex: 0 }}
       />
 
-      {/* ── Mobile Layout (< lg): Cohesive Showroom Narrative ──── */}
+      {/* â”€â”€ Mobile Layout (< lg): Cohesive Showroom Narrative â”€â”€â”€â”€ */}
       <div className="block lg:hidden">
         {/* Scene 1: Flagship Showroom */}
-        <div className="relative min-h-[55svh] flex items-end p-6 border-b border-zinc-900 overflow-hidden">
-          <div className="absolute inset-0 bg-[#0A0A0C]">
+        <div className="relative min-h-[55svh] flex items-end p-6 border-b border-[var(--border)] overflow-hidden">
+          <div className="absolute inset-0 bg-[var(--surface-raised)]">
             <img
               src="/cinema/showroom/exterior.png"
               alt="Hardware Collection Showroom Exterior"
               className="w-full h-full object-cover opacity-50 filter contrast-110 brightness-90 sepia-[0.1]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
           </div>
-          <div className="relative z-10 space-y-2 pb-4">
-            <p className="text-[#C8A96E] font-medium tracking-widest text-[11px] uppercase">
+          <div className="relative z-10 space-y-3 pb-6">
+            <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase">
               Flagship showroom
             </p>
-            <h2 className="hc-serif text-[30px] sm:text-4xl font-normal tracking-[0.015em] text-[#e8e3d9] leading-[1.05]">
+            <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.02]">
               Flagship Showroom<br />
-              <span className="text-zinc-500">Sakchi, Jamshedpur.</span>
+              <span className="text-[var(--text-secondary)]">Sakchi, Jamshedpur.</span>
             </h2>
-            <p className="text-zinc-300 text-sm font-light leading-relaxed max-w-md pt-1">
-              Architectural hardware, security, and kitchen systems from 20+ authorized brands — on display, and in your hands before you specify.
+            <p className="text-[var(--text-primary)] text-base font-light leading-relaxed max-w-md pt-1">
+              Architectural hardware, security, and kitchen systems from leading authorized brands &mdash; on display, and in your hands before you specify.
             </p>
           </div>
         </div>
 
         {/* Scene 2: Live Experience Narrative */}
-        <div className="relative min-h-[55svh] flex items-end p-6 border-b border-zinc-900 overflow-hidden">
-          <div className="absolute inset-0 bg-[#0A0A0C]">
+        <div className="relative min-h-[55svh] flex items-end p-6 border-b border-[var(--border)] overflow-hidden">
+          <div className="absolute inset-0 bg-[var(--surface-raised)]">
             <img
               src="/cinema/showroom/interior.png"
               alt="Showroom Interior Displays"
               className="w-full h-full object-cover opacity-45 filter contrast-110 brightness-85 sepia-[0.1]"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/60 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
           </div>
-          <div className="relative z-10 space-y-2 pb-4">
-            <p className="text-[#C8A96E] font-medium tracking-widest text-[11px] uppercase">
+          <div className="relative z-10 space-y-3 pb-6">
+            <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase">
               LIVE DEMONSTRATIONS
             </p>
-            <h2 className="hc-serif text-[30px] sm:text-4xl font-normal tracking-[0.015em] text-[#e8e3d9] leading-[1.05]">
+            <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.02]">
               Touch Before<br />
-              <span className="text-zinc-500">You Decide.</span>
+              <span className="text-[var(--text-secondary)]">You Decide.</span>
             </h2>
-            <div className="text-zinc-300 text-sm font-light space-y-1 pt-1">
-              <p>• See the living and PVD finishes under gallery lighting.</p>
-              <p>• Compare German soft-close and biometric mechanisms.</p>
-              <p>• Experience the tactile weight before specification.</p>
+            <div className="text-[var(--text-primary)] text-sm sm:text-base font-light space-y-1.5 pt-1">
+              <p>&bull; See the living and PVD finishes under gallery lighting.</p>
+              <p>&bull; Compare German soft-close and biometric mechanisms.</p>
+              <p>&bull; Experience the tactile weight before specification.</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ── Desktop Layout (≥ lg): Scenes 01–02 ─────────────────── */}
+      {/* ── Desktop Layout (>= lg): Scenes 01–02 ────────────────────────── */}
       <div className="hidden lg:block">
         {SCENES.slice(0, 2).map((scene, i) => (
           <CinematicScene
@@ -173,19 +173,12 @@ export default function ShowroomCinematic() {
         ))}
       </div>
 
-      {/* ── CH06.5 — Our Legacy ──────────────────────────────────
-          Editorial breath between the demonstration and the invitation:
-          who the business is, before it asks anyone to walk in. */}
+      {/* ── CH06.5 — Our Legacy ────────────────────────────────────────── */}
       <AboutStory />
     </div>
   );
 }
 
-/**
- * One full-viewport cinematic scene. Extracted so the chapter can render
- * scenes 01–02, then the About section, then scene 03, without this markup
- * having to be written twice.
- */
 function CinematicScene({
   scene,
   index,
@@ -203,11 +196,11 @@ function CinematicScene({
       className="relative overflow-hidden flex items-center justify-center"
       style={{
         height: "100dvh",
-        background: isLast ? "rgba(10,10,12,0.6)" : "transparent",
+        background: "transparent",
       }}
     >
       {/* Z=1: Background photography with Cinematic CSS Grading */}
-      <div className="absolute inset-0 overflow-hidden bg-[#0A0A0C]" style={{ zIndex: 1 }}>
+      <div className="absolute inset-0 overflow-hidden bg-[var(--surface-raised)]" style={{ zIndex: 1 }}>
         <img
           src={scene.img}
           alt=""
@@ -221,9 +214,9 @@ function CinematicScene({
         />
         
         <div
-          className="absolute inset-0 mix-blend-multiply pointer-events-none"
+          className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(circle at center, transparent 0%, rgba(10,10,12,0.9) 100%)",
+            background: "radial-gradient(circle at center, transparent 30%, rgba(248,246,246,0.55) 100%)",
           }}
         />
 
@@ -237,30 +230,28 @@ function CinematicScene({
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: isLast
-              ? "linear-gradient(to bottom, rgba(10,10,12,0.5) 0%, rgba(10,10,12,0.95) 100%)"
-              : "linear-gradient(to bottom, rgba(10,10,12,0.1) 0%, rgba(10,10,12,0.85) 100%)",
+            background: "linear-gradient(to bottom, transparent 0%, rgba(248,246,246,0.80) 100%)",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/80 via-zinc-950/20 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface-raised)]/80 via-transparent to-transparent pointer-events-none" />
       </div>
 
       {/* Z=3: Typography */}
       <div
-        className="relative container mx-auto px-6 lg:px-16 flex flex-col items-start justify-end pb-24 lg:pb-32 h-full"
+        className="relative max-w-[1320px] mx-auto w-full px-8 lg:px-16 flex flex-col items-start justify-end pb-24 lg:pb-32 h-full"
         style={{ zIndex: 3 }}
       >
-        <p className="hc-mono text-[#c8a96e] font-medium tracking-[0.22em] text-[10px] sm:text-xs uppercase mb-4">
+        <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs sm:text-sm uppercase mb-4">
           {scene.eyebrow}
         </p>
-        <h2 className="hc-serif text-4xl sm:text-6xl lg:text-7xl xl:text-8xl font-normal text-[#e8e3d9] leading-[0.98] mb-6 whitespace-pre-line tracking-[0.015em]">
+        <h2 className="hc-serif text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-light text-[var(--text-primary)] leading-[0.92] mb-6 whitespace-pre-line tracking-[-0.01em]">
           {scene.title}
         </h2>
-        <p className="text-sm sm:text-base lg:text-lg text-[#d1ccc4] font-light max-w-xl leading-relaxed mb-10">
+        <p className="text-base sm:text-xl lg:text-2xl text-[var(--text-secondary)] font-light max-w-2xl leading-relaxed mb-10">
           {scene.sub}
         </p>
 
-        {/* CTAs only on last scene — quiet zone begins */}
+        {/* CTAs only on last scene &mdash; quiet zone begins */}
         {isLast && (
           <div className="flex flex-wrap gap-4" style={{ zIndex: 5 }}>
             <MagneticButton>
@@ -270,7 +261,7 @@ function CinematicScene({
                 rel="noopener noreferrer"
                 className="inline-flex items-center px-8 py-4 bg-white text-black font-medium text-sm tracking-widest uppercase hover:bg-zinc-200 transition-colors duration-200"
               >
-                GET DIRECTIONS →
+                GET DIRECTIONS &rarr;
               </a>
             </MagneticButton>
             <MagneticButton>
@@ -278,9 +269,9 @@ function CinematicScene({
                 href={buildWhatsAppUrl("Hi Hardware Collection, I would like to visit the Sakchi showroom.")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 border border-zinc-600 text-white font-medium text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-200"
+                className="inline-flex items-center px-8 py-4 border border-zinc-600 text-[var(--text-primary)] font-medium text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-200"
               >
-                WHATSAPP →
+                WHATSAPP &rarr;
               </a>
             </MagneticButton>
           </div>
@@ -289,7 +280,7 @@ function CinematicScene({
 
       {/* Scene number */}
       <div
-        className="absolute top-8 right-8 lg:right-12 text-zinc-700 text-xs tracking-widest"
+        className="absolute top-8 right-8 lg:right-12 text-[var(--text-secondary)] text-xs tracking-widest"
         style={{ zIndex: 10 }}
         aria-hidden="true"
       >
@@ -298,3 +289,6 @@ function CinematicScene({
     </div>
   );
 }
+
+
+

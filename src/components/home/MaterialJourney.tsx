@@ -10,22 +10,22 @@ import { useReducedMotion } from "motion/react";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 /**
- * MaterialJourney — Chapter 04 "The Finish"
- * Visual tension: VERY HIGH — the primary material showcase.
+ * MaterialJourney &mdash; Chapter 04 "The Finish"
+ * Visual tension: VERY HIGH &mdash; the primary material showcase.
  *
  * Desktop (pinned, GSAP scrub):
  *   Each material occupies 100vh of scroll.
- *   Image: begins 40% viewport width, scale 1.4 → opens to full bleed (clip-path).
+ *   Image: begins 40% viewport width, scale 1.4 â†’ opens to full bleed (clip-path).
  *   Material name: 8xl serif, z=1 (behind image), low opacity ghost text.
  *   Specification copy: slides in from below, z=3.
- *   Scroll sequence per material: surface → grain → reflection → edge → complete piece.
+ *   Scroll sequence per material: surface â†’ grain â†’ reflection â†’ edge â†’ complete piece.
  *
  * Material Lens interaction:
- *   pointermove → shifts radial highlight mask (simulates light on metal surface)
- *   + micro-zoom on the image (scale 1.0 → 1.015)
+ *   pointermove â†’ shifts radial highlight mask (simulates light on metal surface)
+ *   + micro-zoom on the image (scale 1.0 â†’ 1.015)
  *   User feels: "I am inspecting this metal."
  *
- * Reflective light sweep: .light-sweep-overlay — subtly loops, pauses on pointer enter.
+ * Reflective light sweep: .light-sweep-overlay &mdash; subtly loops, pauses on pointer enter.
  *
  * Mobile: Static vertical editorial cards, no pinning, no Material Lens.
  */
@@ -34,32 +34,32 @@ const MATERIALS = [
   {
     name: "SATIN",
     subName: "Satin Steel",
-    desc: "Restrained. Architectural. Timeless. Satin finish diffuses light without glare — the professional's choice for contemporary residential and commercial specification.",
-    spec: "Surface: 180-grit satin brush · Sheen: Low reflectance · Application: Interior door & cabinet hardware",
+    desc: "Restrained. Architectural. Timeless. Satin finish diffuses light without glare &mdash; the professional's choice for contemporary residential and commercial specification.",
+    spec: "Surface: 180-grit satin brush &middot; Sheen: Low reflectance &middot; Application: Interior door & cabinet hardware",
     img: "/cinema/materials/HC-04-SATIN.png",
     sweepDelay: "0s",
   },
   {
     name: "BRASS",
     subName: "Living Brass",
-    desc: "Warm, breathing finish that deepens with time. Each handle develops a unique patina — the mark of architectural confidence and material honesty.",
-    spec: "Alloy: C26000 cartridge brass · Treatment: Lacquer-free, living finish · Note: Patination expected and valued",
+    desc: "Warm, breathing finish that deepens with time. Each handle develops a unique patina &mdash; the mark of architectural confidence and material honesty.",
+    spec: "Alloy: C26000 cartridge brass &middot; Treatment: Lacquer-free, living finish &middot; Note: Patination expected and valued",
     img: "/cinema/materials/HC-04-PVD-BRASS.png",
     sweepDelay: "2s",
   },
   {
     name: "MATTE BLACK",
     subName: "Architectural Black",
-    desc: "Crisp contrast. Modern spatial definition. Matte black hardware reads as a deliberate decision — geometry made visible.",
-    spec: "Process: Powder-coat or PVD black · Sheen: 0–5° gloss units · Application: Contemporary & industrial interiors",
+    desc: "Crisp contrast. Modern spatial definition. Matte black hardware reads as a deliberate decision &mdash; geometry made visible.",
+    spec: "Process: Powder-coat or PVD black &middot; Sheen: 0â€“5Â° gloss units &middot; Application: Contemporary & industrial interiors",
     img: "/cinema/materials/HC-04-MATTE.png",
     sweepDelay: "4s",
   },
   {
     name: "CHROME",
     subName: "Polished Chrome",
-    desc: "Brilliant precision. Chrome reflects its environment without apology — for spaces designed to impress at every surface.",
-    spec: "Process: Triple-layered PVD chrome · Hardness: 9H surface · Application: Bathrooms, hospitality, feature entrances",
+    desc: "Brilliant precision. Chrome reflects its environment without apology &mdash; for spaces designed to impress at every surface.",
+    spec: "Process: Triple-layered PVD chrome &middot; Hardness: 9H surface &middot; Application: Bathrooms, hospitality, feature entrances",
     img: "/cinema/materials/HC-04-BRUSHED.png", // Reusing Brushed as Chrome stand-in for now
     sweepDelay: "1s",
   },
@@ -67,7 +67,7 @@ const MATERIALS = [
     name: "BRONZE",
     subName: "Oil-Rubbed Bronze",
     desc: "Deep heritage. Rich transitional character. Bronze hardware speaks of a space that considers its history and its future simultaneously.",
-    spec: "Base: Solid brass · Treatment: Chemical patina, sealed · Application: Heritage, luxury residential, hospitality",
+    spec: "Base: Solid brass &middot; Treatment: Chemical patina, sealed &middot; Application: Heritage, luxury residential, hospitality",
     img: "/cinema/materials/HC-04-DARK-METAL.png",
     sweepDelay: "3s",
   },
@@ -107,7 +107,7 @@ export default function MaterialJourney() {
         const totalPanels = panels.length;
         const targetPercent = -((100 * (totalPanels - 1)) / totalPanels);
 
-        // Main horizontal scroll — store the tween for containerAnimation references
+        // Main horizontal scroll &mdash; store the tween for containerAnimation references
         const hScroll = gsap.to(trackRef.current, {
           xPercent: targetPercent,
           ease: "none",
@@ -189,32 +189,32 @@ export default function MaterialJourney() {
   // Reduced-motion: static editorial layout
   if (shouldReduceMotion) {
     return (
-      <section data-chapter="4" className="py-16 bg-transparent border-t border-zinc-900">
+      <section data-chapter="4" className="py-16 bg-[var(--surface)] border-t border-[var(--border)]">
         <div className="container mx-auto px-6 max-w-4xl">
-          <p className="text-[#C8A96E] font-medium tracking-widest text-[11px] uppercase mb-1">
+          <p className="text-[var(--accent)] font-medium tracking-widest text-[11px] uppercase mb-1">
             The finish
           </p>
-          <h2 className="hc-serif text-[32px] sm:text-4xl font-normal tracking-[0.015em] text-[#e8e3d9] leading-[1.05] mb-4">
+          <h2 className="hc-serif text-[32px] sm:text-4xl font-normal tracking-[0.015em] text-[var(--text-primary)] leading-[1.05] mb-4">
             The details define<br />
-            <span className="text-zinc-500">the architecture.</span>
+            <span className="text-[var(--text-secondary)]">the architecture.</span>
           </h2>
-          <p className="text-zinc-400 text-sm leading-relaxed max-w-lg mb-8">
+          <p className="text-[var(--text-secondary)] text-sm leading-relaxed max-w-lg mb-8">
             Genuine solid brass, surgical stainless steel, and triple-PVD coatings engineered for tactile longevity.
           </p>
 
-          <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-sm mb-6 border border-white/[0.08]">
+          <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-sm mb-6 border border-[var(--border)]">
             <img
               src={MATERIALS[1].img}
               alt="Architectural Brass Finish"
-              className="w-full h-full object-cover opacity-85"
+              className="w-full h-full object-cover opacity-90"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/80 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
               <div>
-                <p className="text-[#C8A96E] text-[10px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
-                <p className="hc-serif text-lg text-[#e8e3d9]">Living Cartridge Brass</p>
+                <p className="text-[var(--accent)] text-[10px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
+                <p className="hc-serif text-lg text-[var(--text-primary)]">Living Cartridge Brass</p>
               </div>
-              <span className="text-zinc-500 text-xs tracking-wider">Unlacquered</span>
+              <span className="text-[var(--text-secondary)]/70 text-xs tracking-wider">Unlacquered</span>
             </div>
           </div>
 
@@ -222,7 +222,7 @@ export default function MaterialJourney() {
             {MATERIALS.map((mat, i) => (
               <span
                 key={i}
-                className="px-3 py-1.5 rounded-full border border-zinc-800/80 bg-zinc-900/40 text-[11px] uppercase tracking-wider text-zinc-400 font-light"
+                className="px-3 py-1.5 rounded-full border border-[var(--border)] bg-[var(--surface-raised)] text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
               >
                 {mat.name}
               </span>
@@ -237,38 +237,38 @@ export default function MaterialJourney() {
     <>
       {/* Mobile editorial transition moment */}
       <div className="block lg:hidden">
-        <section data-chapter="4" className="py-16 bg-transparent border-t border-zinc-900">
+        <section data-chapter="4" className="py-16 bg-[var(--surface)] border-t border-[var(--border)]">
           <div className="container mx-auto px-6">
-            <p className="text-[#C8A96E] font-medium tracking-widest text-[11px] uppercase mb-1">
+            <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase mb-2">
               The finish
             </p>
-            <h2 className="hc-serif text-[32px] sm:text-4xl font-normal tracking-[0.015em] text-[#e8e3d9] leading-[1.05] mb-4">
+            <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.05] mb-4">
               The details define<br />
-              <span className="text-zinc-500">the architecture.</span>
+              <span className="text-[var(--text-secondary)]">the architecture.</span>
             </h2>
-            <p className="text-zinc-400 text-sm leading-relaxed max-w-lg mb-8">
+            <p className="text-[var(--text-secondary)] text-base leading-relaxed max-w-lg mb-8 font-light">
               Genuine solid brass, surgical stainless steel, and triple-PVD coatings engineered for tactile longevity.
             </p>
 
             {/* Featured Material Visual with Light Sweep */}
-            <div className="relative aspect-[16/10] overflow-hidden bg-zinc-900 rounded-sm mb-6 border border-white/[0.08]">
+            <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-2xl mb-6 border border-[var(--border)] shadow-md">
               <img
                 src={MATERIALS[1].img}
                 alt="Architectural Brass Finish"
-                className="w-full h-full object-cover opacity-85"
+                className="w-full h-full object-cover opacity-90"
               />
               <div
                 className="light-sweep-overlay"
                 aria-hidden="true"
                 style={{ "--sweep-delay": "1s" } as React.CSSProperties}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-transparent to-transparent" />
-              <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/85 via-transparent to-transparent" />
+              <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
                 <div>
-                  <p className="text-[#C8A96E] text-[10px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
-                  <p className="hc-serif text-lg text-[#e8e3d9]">Living Cartridge Brass</p>
+                  <p className="hc-mono text-[#c8a96e] text-xs tracking-widest uppercase font-semibold">FEATURED SPECIMEN</p>
+                  <p className="hc-serif text-2xl text-[var(--text-primary)] font-normal">Living Cartridge Brass</p>
                 </div>
-                <span className="text-zinc-500 text-xs tracking-wider">Unlacquered</span>
+                <span className="text-xs tracking-wider uppercase font-semibold text-[var(--text-secondary)]">Unlacquered</span>
               </div>
             </div>
 
@@ -277,7 +277,7 @@ export default function MaterialJourney() {
               {MATERIALS.map((mat, i) => (
                 <span
                   key={i}
-                  className="px-3 py-1.5 rounded-full border border-zinc-800/80 bg-zinc-900/40 text-[11px] uppercase tracking-wider text-zinc-400 font-light"
+                  className="px-3 py-1.5 rounded-full border border-[var(--border)] bg-[var(--surface-raised)] text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
                 >
                   {mat.name}
                 </span>
@@ -291,10 +291,10 @@ export default function MaterialJourney() {
       <div
         ref={containerRef}
         data-chapter="4"
-        className="hidden lg:block relative overflow-hidden border-t border-zinc-900"
+        className="hidden lg:block relative overflow-hidden border-t border-[var(--border)]"
         style={{ height: "100vh" }}
       >
-        {/* Chapter label — fixed above */}
+        {/* Chapter label &mdash; fixed above */}
         <div className="absolute top-8 left-16 z-20 pointer-events-none">
           <ChapterLabel />
         </div>
@@ -346,16 +346,16 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
       onPointerMove={(e) => panelRef.current && onLensMove(e, panelRef.current)}
       onPointerLeave={() => panelRef.current && onLensLeave(panelRef.current)}
     >
-      {/* Z=1: Ghost text — material name behind image */}
+      {/* Z=1: Ghost text &mdash; material name behind image */}
       <p
-        className="mat-ghost hc-serif absolute inset-0 flex items-center justify-center text-[22vw] text-[#e8e3d9] leading-none select-none pointer-events-none"
+        className="mat-ghost hc-serif absolute inset-0 flex items-center justify-center text-[22vw] text-[var(--border)] leading-none select-none pointer-events-none"
         style={{ zIndex: 1, opacity: 0 }}
         aria-hidden="true"
       >
         {mat.name}
       </p>
 
-      {/* Z=2: Primary visual — image with Material Lens */}
+      {/* Z=2: Primary visual &mdash; image with Material Lens */}
       <div className="grid grid-cols-2 gap-0 w-full h-full items-center">
         {/* Left: Full-bleed image */}
         <div
@@ -379,7 +379,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
               zIndex: 4,
               backgroundImage: `radial-gradient(
                 circle 300px at var(--lens-x) var(--lens-y),
-                rgba(255, 255, 255, 0.07),
+                rgba(0, 0, 0, 0.05),
                 transparent 70%
               )`,
             }}
@@ -391,32 +391,32 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
             aria-hidden="true"
             style={{ "--sweep-delay": mat.sweepDelay } as React.CSSProperties}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-zinc-950/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[var(--surface)]/50" />
         </div>
 
         {/* Right: Typography */}
         <div className="flex flex-col justify-center px-16 relative" style={{ zIndex: 3 }}>
-          <p className="text-zinc-600 text-xs tracking-widest uppercase mb-4">
+          <p className="hc-mono text-[#c8a96e] text-xs tracking-[0.25em] font-semibold uppercase mb-4">
             FINISH 0{index + 1} / 0{total}
           </p>
-          <h3 className="hc-serif text-6xl xl:text-8xl font-normal tracking-[0.015em] text-[#e8e3d9] leading-none mb-2">
+          <h3 className="hc-serif text-7xl xl:text-8xl 2xl:text-9xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[0.9] mb-3">
             {mat.name}
           </h3>
-          <p className="text-zinc-500 text-lg font-light mb-8">{mat.subName}</p>
-          <p className="text-zinc-300 font-light text-xl leading-relaxed max-w-md mb-8">
+          <p className="text-[var(--accent)] text-xl xl:text-2xl font-light mb-6">{mat.subName}</p>
+          <p className="text-[var(--text-primary)] font-light text-xl xl:text-2xl leading-relaxed max-w-xl mb-8">
             {mat.desc}
           </p>
           <p
-            className="mat-spec text-zinc-600 text-xs leading-relaxed max-w-sm opacity-0"
+            className="mat-spec text-[var(--text-secondary)] text-sm leading-relaxed max-w-md font-normal opacity-0"
             style={{ whiteSpace: "pre-line" }}
           >
-            {mat.spec.replace(" · ", "\n")}
+            {mat.spec.replace(" &middot; ", "\n")}
           </p>
           <Link
             href="/collections"
-            className="mt-8 inline-flex items-center gap-2 text-[#C8A96E] text-xs tracking-widest uppercase hover:gap-4 transition-all duration-200"
+            className="mt-8 inline-flex items-center gap-2.5 text-[#c8a96e] text-xs sm:text-sm tracking-widest uppercase font-semibold hover:text-[var(--accent)] hover:gap-4 transition-all duration-200"
           >
-            Explore finishes <span aria-hidden="true">→</span>
+            Explore finishes <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </div>
@@ -427,11 +427,13 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
 function ChapterLabel() {
   return (
     <>
-      <p className="hc-mono text-[#C8A96E] font-medium tracking-[0.22em] text-[10px] uppercase">
+      <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase">
         The finish
       </p>
     </>
   );
 }
+
+
 
 

@@ -1,11 +1,11 @@
-import React from "react";
+﻿import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { SIGNATURE_PIECES } from "@/data/home";
 
 /**
- * MobileProductReel — flagship pieces, with a per-piece WhatsApp handoff.
+ * MobileProductReel &mdash; flagship pieces, with a per-piece WhatsApp handoff.
  *
  * The three pieces here are the first of the shared signature set, so mobile
  * and desktop name the same hardware from the same authorized brands. The
@@ -52,7 +52,7 @@ export default function MobileProductReel() {
             <div className="w-full flex flex-col space-y-unit-sm">
               <p className="hc-mono text-[11px] uppercase tracking-[0.2em] text-primary">
                 {piece.brand}
-                <span className="text-text-muted"> · {piece.finish}</span>
+                <span className="text-text-muted"> &middot; {piece.finish}</span>
               </p>
 
               <h3 className="font-headline-md text-[26px] leading-[1.15] text-text-bone">
@@ -107,9 +107,11 @@ export default function MobileProductReel() {
           className="hc-focus flex items-center justify-center gap-3 min-h-[52px] w-full border border-outline-variant text-text-bone font-ui-button text-ui-button uppercase transition-colors duration-200 hover:border-primary hover:text-primary"
         >
           Explore the full collection
-          <span aria-hidden="true">→</span>
+          <span aria-hidden="true">â†’</span>
         </Link>
       </div>
     </section>
   );
 }
+
+

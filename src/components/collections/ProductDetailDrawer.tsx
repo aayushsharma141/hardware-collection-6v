@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useRef, useEffect } from "react";
 import Image from "next/image";
@@ -91,7 +91,7 @@ export default function ProductDetailDrawer({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.2 }}
-          className="absolute inset-0 bg-black/75 backdrop-blur-md" 
+          className="absolute inset-0 bg-[var(--surface)]/75 backdrop-blur-md" 
           onClick={onClose}
           aria-hidden="true"
         />
@@ -103,22 +103,22 @@ export default function ProductDetailDrawer({
           animate={{ x: 0 }}
           exit={{ x: "100%" }}
           transition={{ duration: 0.25, ease: "easeOut" }}
-          className="relative w-full max-w-2xl bg-[#110F0F] h-full overflow-y-auto border-l border-white/[0.1] flex flex-col shadow-2xl z-10 focus:outline-none"
+          className="relative w-full max-w-2xl bg-white h-full overflow-y-auto border-l border-white/[0.1] flex flex-col shadow-2xl z-10 focus:outline-none"
           tabIndex={-1}
         >
           {/* Sticky Architectural Drawer Header */}
-          <div className="sticky top-0 flex items-center justify-between p-5 sm:p-6 bg-[#110F0F]/95 backdrop-blur-xl border-b border-white/[0.08] z-10">
+          <div className="sticky top-0 flex items-center justify-between p-5 sm:p-6 bg-white/95 backdrop-blur-xl border-b border-[var(--border)] z-10">
             <div className="flex items-center gap-2">
               <span className="w-1.5 h-1.5 rounded-full bg-[#C8A96E]" />
-              <span className="font-dmsans text-[10.5px] uppercase tracking-[0.18em] text-[#C8A96E] font-medium">
-                Hardware Collection • Sakchi • Authorized Dealer
+              <span className="font-dmsans text-[10.5px] uppercase tracking-[0.18em] text-[var(--accent)] font-medium">
+                Hardware Collection â€¢ Sakchi â€¢ Authorized Dealer
               </span>
             </div>
             <button 
               ref={closeButtonRef}
               onClick={onClose}
               aria-label="Close product specifications"
-              className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.08] flex items-center justify-center text-[#A39E93] hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E]"
+              className="w-8 h-8 rounded-full bg-white/[0.04] border border-[var(--border)] flex items-center justify-center text-[#A39E93] hover:text-[var(--text-primary)] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E]"
             >
               <X className="w-4 h-4" />
             </button>
@@ -128,7 +128,7 @@ export default function ProductDetailDrawer({
           <div className="flex-1 p-6 sm:p-8 space-y-8">
             
             {/* Large Specimen Display Image */}
-            <div className="relative w-full aspect-[16/11] bg-[#181716] border border-white/[0.12] rounded-xl overflow-hidden flex items-center justify-center">
+            <div className="relative w-full aspect-[16/11] bg-[var(--surface-raised)] border border-white/[0.12] rounded-xl overflow-hidden flex items-center justify-center">
               <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_88%,rgba(200,169,110,.25),transparent_50%)]" />
               <Image
                 src={displayImage}
@@ -144,7 +144,7 @@ export default function ProductDetailDrawer({
             {/* Product Metadata & Title */}
             <div>
               <div className="flex items-center gap-3 mb-2">
-                <span className="font-dmsans text-xs font-bold text-[#C8A96E] uppercase tracking-[0.16em]">
+                <span className="font-dmsans text-xs font-bold text-[var(--accent)] uppercase tracking-[0.16em]">
                   {product.brandName || product.brand}
                 </span>
                 {(product.catalogReference || product.model) && (
@@ -156,7 +156,7 @@ export default function ProductDetailDrawer({
 
               <h2 
                 id="drawer-title" 
-                className="font-cormorant text-3xl sm:text-4xl text-white font-normal mb-4 leading-tight uppercase"
+                className="font-cormorant text-3xl sm:text-4xl text-[var(--text-primary)] font-normal mb-4 leading-tight uppercase"
                 style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
               >
                 {product.name}
@@ -172,14 +172,14 @@ export default function ProductDetailDrawer({
             {/* Technical Specifications Table */}
             {product.specifications && product.specifications.length > 0 && (
               <div>
-                <h3 className="font-dmsans text-[11px] font-bold uppercase tracking-[0.16em] text-[#C8A96E] mb-3">
+                <h3 className="font-dmsans text-[11px] font-bold uppercase tracking-[0.16em] text-[var(--accent)] mb-3">
                   Verified Technical Specifications
                 </h3>
                 <dl className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   {product.specifications.map((spec: ProductSpecification, idx: number) => (
                     <div key={idx} className="bg-white/[0.03] border border-white/[0.06] rounded-xl p-3">
                       <dt className="text-[10px] uppercase font-dmsans tracking-wider text-[#6E6A62] mb-1">{spec.key}</dt>
-                      <dd className="font-dmsans text-xs font-medium text-white">{spec.value}</dd>
+                      <dd className="font-dmsans text-xs font-medium text-[var(--text-primary)]">{spec.value}</dd>
                     </div>
                   ))}
                 </dl>
@@ -187,11 +187,11 @@ export default function ProductDetailDrawer({
             )}
 
             {/* Showroom Physical Display Callout & Direct Actions */}
-            <div className="bg-[#141212] border border-white/[0.08] rounded-2xl p-6 space-y-5">
+            <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-2xl p-6 space-y-5">
               <div className="flex items-center gap-3">
                 <span className="w-2.5 h-2.5 rounded-full bg-[#25D366] shrink-0 animate-pulse" />
                 <div>
-                  <h4 className="font-dmsans text-xs font-semibold text-white uppercase tracking-wider">
+                  <h4 className="font-dmsans text-xs font-semibold text-[var(--text-primary)] uppercase tracking-wider">
                     Available for Physical Inspection
                   </h4>
                   <p className="font-dmsans text-xs text-[#A39E93] font-light">
@@ -218,7 +218,7 @@ export default function ProductDetailDrawer({
                       name: product.brandName || product.brand || "",
                     } : undefined
                   })}
-                  className="flex-1 text-center py-3.5 px-5 bg-[#C8A96E] hover:bg-white text-[#0E0C0C] font-dmsans font-bold uppercase tracking-widest text-xs rounded-full transition-colors shadow-lg flex items-center justify-center gap-2"
+                  className="flex-1 text-center py-3.5 px-5 bg-[#8b1a42] hover:bg-[#6b1432] text-white font-dmsans font-bold uppercase tracking-widest text-xs rounded-full transition-colors shadow-lg flex items-center justify-center gap-2"
                 >
                   <MessageCircle className="w-4 h-4 fill-current" />
                   <span>Consult an Expert</span>
@@ -228,12 +228,12 @@ export default function ProductDetailDrawer({
                   onClick={() => onToggleShortlist(product)}
                   className={`px-5 py-3.5 rounded-full font-dmsans text-xs font-semibold uppercase tracking-wider transition-all border ${
                     isShortlisted
-                      ? 'bg-white/[0.1] border-[#C8A96E] text-[#C8A96E]'
-                      : 'bg-white/[0.04] border-white/[0.1] text-white hover:bg-white/[0.08]'
+                      ? 'bg-white/[0.1] border-[var(--accent)] text-[var(--accent)]'
+                      : 'bg-white/[0.04] border-white/[0.1] text-[var(--text-primary)] hover:bg-white/[0.08]'
                   }`}
                 >
                   {isShortlisted
-                    ? "In Shortlist ✓"
+                    ? "In Shortlist âœ“"
                     : "Add to Shortlist"}
                 </button>
               </div>
@@ -245,3 +245,5 @@ export default function ProductDetailDrawer({
     </AnimatePresence>
   );
 }
+
+

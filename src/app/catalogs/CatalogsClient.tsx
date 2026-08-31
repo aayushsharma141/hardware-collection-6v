@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState } from "react";
 import Footer from "@/components/Footer";
@@ -17,7 +17,7 @@ export default function CatalogsClient({ brands, settings }: CatalogsClientProps
   const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#0E0C0C] font-dmsans selection:bg-[#c8a96e]/30 pt-[104px]">
+    <div className="min-h-screen bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[#c8a96e]/30 pt-[104px]">
       <main className="w-full">
         <div id="reference-library-section" className="w-full max-w-[1920px] mx-auto pb-6">
           <CatalogLibrary brands={brands || []} onSelectBrand={setSelectedCatalogBrand} />
@@ -44,3 +44,4 @@ export default function CatalogsClient({ brands, settings }: CatalogsClientProps
     </div>
   );
 }
+

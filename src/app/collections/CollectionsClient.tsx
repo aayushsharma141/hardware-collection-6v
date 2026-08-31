@@ -15,7 +15,6 @@ import {
 } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { selectFeaturedCategories } from "@/lib/collectionTiers";
-import { CANONICAL_BRANDS } from "@/data/brands";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildWhatsAppLink, buildGeneralInquiryWhatsappLink } from "@/lib/whatsapp";
 
@@ -91,11 +90,11 @@ export default function CollectionsClient({
   );
 
   return (
-    <div className="hc-root min-h-screen w-full bg-[#090909] text-[#e8e3d9] selection:bg-[#c8a96e]/30 selection:text-white">
+    <div className="hc-root min-h-screen w-full bg-[var(--surface)] text-[var(--text-primary)] selection:bg-[#c8a96e]/30 selection:text-white">
       <main className="w-full pb-24 space-y-16 md:space-y-24">
         {/* 1. Hero with Live Specimen & Brand Counts */}
         <CollectionsHero
-          collectionCount={liveCounts?.categoryCount || categories.length}
+          collectionCount={Math.max(liveCounts?.categoryCount || 0, categories.length)}
           brandCount={liveCounts?.brandCount || brands.length}
           whatsappNumber={settings?.whatsappNumber}
         />
@@ -125,7 +124,7 @@ export default function CollectionsClient({
               <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
                 INTENT-LED SPECIFICATION
               </span>
-              <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[#e8e3d9]">
+              <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
                 Browse by Architectural Space
               </h2>
             </div>
@@ -140,7 +139,7 @@ export default function CollectionsClient({
               <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
                 FEATURED RANGES
               </span>
-              <h2 className="hc-serif text-2xl sm:text-4xl font-normal tracking-[0.02em] text-[#e8e3d9]">
+              <h2 className="hc-serif text-2xl sm:text-4xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
                 Cinematic Collection Chapters
               </h2>
             </div>
@@ -155,7 +154,7 @@ export default function CollectionsClient({
               <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
                 CATALOGUE SPECTRUM
               </span>
-              <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[#e8e3d9]">
+              <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
                 All Architectural Hardware Collections
               </h2>
             </div>
@@ -169,7 +168,7 @@ export default function CollectionsClient({
             <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
               TAXONOMY INDEX
             </span>
-            <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[#e8e3d9]">
+            <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
               Complete Collections Index
             </h2>
           </div>
@@ -182,16 +181,16 @@ export default function CollectionsClient({
         </div>
 
         {/* 8. Bottom Showroom Consultation CTA */}
-        <section className="py-16 border-t border-white/[0.08] bg-[#141314]">
+        <section className="py-16 border-t border-[var(--border)] bg-[var(--surface-raised)]">
           <div className="max-w-[1320px] mx-auto px-6 text-center">
             <MessageSquare
               className="w-8 h-8 text-[#c8a96e] mx-auto mb-4 opacity-80"
               aria-hidden="true"
             />
-            <h3 className="hc-serif text-3xl sm:text-4xl font-normal tracking-[0.02em] text-[#e8e3d9] mb-3">
+            <h3 className="hc-serif text-3xl sm:text-4xl font-normal tracking-[0.02em] text-[var(--text-primary)] mb-3">
               Planning an Architectural Project in Jamshedpur?
             </h3>
-            <p className="text-sm sm:text-base text-[#aaa49a] font-light max-w-xl mx-auto mb-8 leading-relaxed">
+            <p className="text-sm sm:text-base text-[var(--text-secondary)] font-light max-w-xl mx-auto mb-8 leading-relaxed">
               Visit our Sakchi showroom with your site plans, or consult with our technical team directly on WhatsApp for sizing, samples, and finish schedules.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
@@ -203,7 +202,7 @@ export default function CollectionsClient({
                     intent: "consultation",
                   })
                 }
-                className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-4 text-xs tracking-widest uppercase font-medium text-[#090909] rounded transition-transform duration-150 active:scale-95"
+                className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-4 text-xs tracking-widest uppercase font-medium text-[var(--text-inverse, #fff)] rounded transition-transform duration-150 active:scale-95"
               >
                 BOOK SHOWROOM CONSULTATION
               </button>
@@ -211,7 +210,7 @@ export default function CollectionsClient({
                 href={bottomConsultationWhatsapp}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rail-button hc-focus inline-flex items-center justify-center px-8 py-4 text-xs tracking-widest uppercase font-medium text-[#e8e3d9] border border-white/[0.15] hover:border-[#c8a96e] rounded transition-colors duration-150"
+                className="rail-button hc-focus inline-flex items-center justify-center px-8 py-4 text-xs tracking-widest uppercase font-medium text-[var(--text-primary)] border border-[var(--border)] hover:border-[#c8a96e] rounded transition-colors duration-150"
               >
                 CONSULT ON WHATSAPP
               </a>
@@ -244,3 +243,4 @@ export default function CollectionsClient({
     </div>
   );
 }
+

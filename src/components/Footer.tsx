@@ -43,7 +43,7 @@ const SPECIMEN_CATEGORIES = [
 ];
 
 const FALLBACK_BRANDS = [
-  { name: "Häfele", slug: "hafele" },
+  { name: "HÃ¤fele", slug: "hafele" },
   { name: "Dorset", slug: "dorset" },
   { name: "Labacha", slug: "labacha" },
   { name: "Hettich", slug: "hettich" },
@@ -66,7 +66,7 @@ export default function Footer({ settings, brands }: FooterProps) {
   const address =
     settings?.showroomAddress ||
     "1/18, Kashidih, Near Baradwari Durga Puja Maidan,\nSakchi, Jamshedpur, Jharkhand 831001";
-  const hours = settings?.showroomHours || "10:00 AM – 8:00 PM, Mon–Sun";
+  const hours = settings?.showroomHours || "10:00 AM â€“ 8:00 PM, Monâ€“Sun";
   const primaryPhone = settings?.primaryPhone || SHOWROOM_PHONE_DISPLAY;
   const secondaryPhone = settings?.secondaryPhone || SHOWROOM_SECONDARY_PHONE_DISPLAY;
   const whatsappNumber = settings?.whatsappNumber || "919835190738";
@@ -94,8 +94,8 @@ export default function Footer({ settings, brands }: FooterProps) {
     >
       <AtmosphericLayer preset="footer" />
 
-      {/* ── Floating Architectural Liquid Glass Container ──────── */}
-      <div className="w-full max-w-[1920px] 2xl:max-w-[2200px] mx-auto relative rounded-[28px] md:rounded-[36px] bg-[#0E0C0C]/85 backdrop-blur-2xl [-webkit-backdrop-filter:blur(24px)_saturate(140%)] border border-white/[0.10] [box-shadow:inset_0_1px_0_rgba(255,255,255,0.12),inset_0_0_40px_rgba(200,169,110,0.02),0_20px_50px_rgba(0,0,0,0.55)] px-6 sm:px-8 md:px-10 lg:px-12 py-8 sm:py-10 md:py-12 overflow-hidden">
+      {/* â”€â”€ Floating Architectural Card â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      <div className="w-full max-w-[1920px] 2xl:max-w-[2200px] mx-auto relative rounded-[28px] md:rounded-[36px] bg-white/90 backdrop-blur-2xl [-webkit-backdrop-filter:blur(24px)_saturate(140%)] border border-[var(--border)] [box-shadow:inset_0_1px_0_rgba(255,255,255,0.8),0_8px_40px_rgba(26,16,23,0.08)] px-6 sm:px-8 md:px-10 lg:px-12 py-8 sm:py-10 md:py-12 overflow-hidden">
         {/* Internal ambient shimmer & specular highlight */}
         <div
           className="absolute inset-0 rounded-[inherit] overflow-hidden pointer-events-none"
@@ -114,7 +114,7 @@ export default function Footer({ settings, brands }: FooterProps) {
           />
         </div>
 
-        {/* ── 4-Column Architectural Grid ────────────────────── */}
+        {/* â”€â”€ 4-Column Architectural Grid â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-12 xl:gap-16 pb-12 border-b border-white/[0.08]">
           {/* Col 1: Brand Identity & Heritage (4 Cols) */}
           <div className="lg:col-span-4 space-y-5">
@@ -123,24 +123,24 @@ export default function Footer({ settings, brands }: FooterProps) {
             <div style={{ containerType: "inline-size" }}>
               <Link
                 href="/"
-                aria-label="Hardware Collection — The Jewelry of Fittings, home"
-                className="group inline-block max-w-full py-1 rounded-lg select-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0E0C0C]"
+                aria-label="Hardware Collection &mdash; The Jewelry of Fittings, home"
+                className="group inline-block max-w-full py-1 rounded-lg select-none focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent)] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0E0C0C]"
               >
                 <BrandLockup layout="stacked" fontSize="clamp(20px, 9cqw, 32px)" />
               </Link>
             </div>
 
-            <p className="text-[13px] sm:text-sm leading-relaxed text-[#aaa49a] max-w-sm">
+            <p className="text-[13px] sm:text-sm leading-relaxed text-[var(--text-secondary)] max-w-sm">
               Authorized architectural hardware, digital security locks, and modular kitchen
               systems showroom in Sakchi, Jamshedpur.
             </p>
 
             <div className="pt-1 flex flex-wrap items-center gap-2 text-xs">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.10] text-[#d4cec5] tracking-[0.12em] uppercase text-[11px] font-medium">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] tracking-[0.12em] uppercase text-[11px] font-medium">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#C8A96E]" />
-                20+ Years in Sakchi
+                10+ Years in Sakchi
               </span>
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/[0.04] border border-white/[0.10] text-[#d4cec5] tracking-[0.12em] uppercase text-[11px] font-medium">
+              <span className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] tracking-[0.12em] uppercase text-[11px] font-medium">
                 <ShieldCheck className="w-3.5 h-3.5 text-[#C8A96E]" />
                 Authorized Dealership
               </span>
@@ -161,10 +161,10 @@ export default function Footer({ settings, brands }: FooterProps) {
                   <li key={cat.name}>
                     <Link
                       href={`/collections/${cat.slug}`}
-                      className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[#aaa49a] hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm py-0.5 select-none"
+                      className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent)] rounded-sm py-0.5 select-none"
                       style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                     >
-                      <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-[#C8A96E] transition-colors" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-[var(--accent)] transition-colors" />
                       <span>{cat.name}</span>
                     </Link>
                   </li>
@@ -200,10 +200,10 @@ export default function Footer({ settings, brands }: FooterProps) {
                                 brand: { slug: brandSlug || "", name: brand.name },
                               })
                             }
-                            className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[#aaa49a] hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm py-0.5 select-none text-left"
+                            className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent)] rounded-sm py-0.5 select-none text-left"
                             style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                           >
-                            <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-[#C8A96E] transition-colors" />
+                            <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-[var(--accent)] transition-colors" />
                             <span>{brand.name}</span>
                           </button>
                         </li>
@@ -220,10 +220,10 @@ export default function Footer({ settings, brands }: FooterProps) {
                               brand: { slug: brand.slug, name: brand.name },
                             })
                           }
-                          className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[#aaa49a] hover:text-white transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm py-0.5 select-none text-left"
+                          className="text-[12.5px] uppercase tracking-[0.16em] font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200 inline-flex items-center gap-2 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent)] rounded-sm py-0.5 select-none text-left"
                           style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                         >
-                          <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-[#C8A96E] transition-colors" />
+                          <span className="w-1.5 h-1.5 rounded-full bg-transparent group-hover:bg-[var(--accent)] transition-colors" />
                           <span>{brand.name}</span>
                         </button>
                       </li>
@@ -241,12 +241,12 @@ export default function Footer({ settings, brands }: FooterProps) {
               Showroom & Contact
             </h4>
 
-            <address className="not-italic text-xs text-[#aaa49a] leading-relaxed flex items-start gap-2.5">
+            <address className="not-italic text-xs text-[var(--text-secondary)] leading-relaxed flex items-start gap-2.5">
               <MapPin className="w-3.5 h-3.5 text-[#C8A96E] shrink-0 mt-0.5" />
               <span className="whitespace-pre-line">{address}</span>
             </address>
 
-            <div className="flex items-center gap-2 text-xs text-[#aaa49a]">
+            <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)]">
               <Clock className="w-3.5 h-3.5 text-[#C8A96E] shrink-0" />
               <span>{hours}</span>
             </div>
@@ -258,7 +258,7 @@ export default function Footer({ settings, brands }: FooterProps) {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-between bg-white/95 hover:bg-white text-[#0E0C0C] text-[12px] font-bold uppercase tracking-[0.14em] px-4 py-2.5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_22px_rgba(255,255,255,0.18)] hover:-translate-y-[1px] active:translate-y-0 transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A96E] select-none"
+                className="inline-flex items-center justify-between bg-white/95 hover:bg-white text-[#0E0C0C] text-[12px] font-bold uppercase tracking-[0.14em] px-4 py-2.5 rounded-full shadow-[0_4px_16px_rgba(0,0,0,0.25)] hover:shadow-[0_6px_22px_rgba(255,255,255,0.18)] hover:-translate-y-[1px] active:translate-y-0 transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label="Inquire with Hardware Collection consultation desk on WhatsApp"
               >
@@ -274,7 +274,7 @@ export default function Footer({ settings, brands }: FooterProps) {
                 href={mapsUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-between px-4 py-2 rounded-full bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.10] hover:border-white/20 text-[12px] font-medium uppercase tracking-[0.12em] text-[#d4cec5] hover:text-white transition-all duration-200 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] select-none"
+                className="inline-flex items-center justify-between px-4 py-2 rounded-full bg-[var(--surface-raised)] hover:bg-[var(--surface-elevated)] border border-[var(--border)] hover:border-[var(--border-accent)] text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--accent)] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label="Get driving directions to Hardware Collection on Google Maps"
               >
@@ -286,7 +286,7 @@ export default function Footer({ settings, brands }: FooterProps) {
               <div className="pt-1 flex flex-col gap-1.5">
                 <a
                   href={`tel:${cleanPrimaryPhone}`}
-                  className="inline-flex items-center gap-2 text-[11.5px] uppercase tracking-[0.1em] text-[#aaa49a] hover:text-white transition-colors duration-200 py-0.5"
+                  className="inline-flex items-center gap-2 text-[11.5px] uppercase tracking-[0.1em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200 py-0.5"
                   style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                   aria-label={`Call consultation desk at ${primaryPhone}`}
                 >
@@ -296,7 +296,7 @@ export default function Footer({ settings, brands }: FooterProps) {
 
                 <a
                   href={`tel:${cleanSecondaryPhone}`}
-                  className="inline-flex items-center gap-2 text-[11.5px] uppercase tracking-[0.1em] text-[#aaa49a] hover:text-white transition-colors duration-200 py-0.5"
+                  className="inline-flex items-center gap-2 text-[11.5px] uppercase tracking-[0.1em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-200 py-0.5"
                   style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                   aria-label={`Call consultation desk at ${secondaryPhone}`}
                 >
@@ -308,10 +308,10 @@ export default function Footer({ settings, brands }: FooterProps) {
           </div>
         </div>
 
-        {/* ── Sub-Footer Bar ──────────────────────────────────── */}
+        {/* â”€â”€ Sub-Footer Bar â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-[11px] sm:text-[11.5px] text-[#78716c] uppercase tracking-[0.14em]">
           <p style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}>
-            © {new Date().getFullYear()} Hardware Collection (Mukesh Khandelwal). All Rights
+            Â© {new Date().getFullYear()} Hardware Collection (Mukesh Khandelwal). All Rights
             Reserved.
           </p>
           <div
@@ -320,28 +320,28 @@ export default function Footer({ settings, brands }: FooterProps) {
           >
             <Link
               href="/collections"
-              className="text-[#aaa49a] hover:text-[#C8A96E] transition-colors"
+              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
             >
               Collections
             </Link>
-            <span>·</span>
+            <span>&middot;</span>
             <Link
               href="/#brands"
-              className="text-[#aaa49a] hover:text-[#C8A96E] transition-colors"
+              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
             >
               Brands
             </Link>
-            <span>·</span>
+            <span>&middot;</span>
             <Link
               href="/catalogs"
-              className="text-[#aaa49a] hover:text-[#C8A96E] transition-colors"
+              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
             >
               Catalog
             </Link>
-            <span>·</span>
+            <span>&middot;</span>
             <Link
               href="/#showroom"
-              className="text-[#aaa49a] hover:text-[#C8A96E] transition-colors"
+              className="text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors"
             >
               Sakchi Showroom
             </Link>
@@ -351,3 +351,5 @@ export default function Footer({ settings, brands }: FooterProps) {
     </footer>
   );
 }
+
+

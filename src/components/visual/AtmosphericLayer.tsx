@@ -1,4 +1,4 @@
-import { BrandWatermark } from "./BrandWatermark";
+﻿import { BrandWatermark } from "./BrandWatermark";
 import { ParticleWave } from "./ParticleWave";
 
 export type AtmosphericPreset = "hero" | "footer";
@@ -24,7 +24,7 @@ export function AtmosphericLayer({
         Obsidian Background base 
         Hero uses page background, footer uses this to fade to black
       */}
-      {!isHero && <div className="absolute inset-0 bg-[#0E0C0C]" />}
+      {!isHero && <div className="absolute inset-0 bg-[var(--surface)]" />}
 
       {/* Volumetric Lights */}
       <div 
@@ -60,7 +60,8 @@ export function AtmosphericLayer({
       {/* 
         Subtle gradient overlay to ensure content above it is legible 
       */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#0E0C0C] via-transparent to-[#0E0C0C]/30" style={{ zIndex: 3 }} />
+      <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent" style={{ zIndex: 3 }} />
     </div>
   );
 }
+

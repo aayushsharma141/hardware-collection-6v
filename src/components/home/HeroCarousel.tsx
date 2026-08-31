@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React, { useState, useEffect, useCallback, useRef, useSyncExternalStore } from "react";
 import Image from "next/image";
@@ -110,7 +110,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
   return (
     <section 
       ref={containerRef}
-      className="relative w-full h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden bg-black focus:outline-none"
+      className="relative w-full h-[90vh] min-h-[700px] flex items-center justify-center overflow-hidden bg-[var(--surface)] focus:outline-none"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
       onFocus={() => setIsHovered(true)}
@@ -175,7 +175,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                   <div className="pt-6">
                     <Link
                       href={slide.ctaTarget || "/collections"}
-                      className="btn-primary bg-white text-black hover:bg-black hover:text-white inline-flex"
+                      className="btn-primary bg-white text-black hover:bg-[var(--surface)] hover:text-[var(--text-primary)] inline-flex"
                     >
                       {slide.primaryCta || "Explore Collection"}
                     </Link>
@@ -193,7 +193,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
           {/* Desktop Arrows */}
           <button
             onClick={prevSlide}
-            className="hidden md:flex absolute left-4 z-30 p-2 rounded-full bg-black/30 text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="hidden md:flex absolute left-4 z-30 p-2 rounded-full bg-black/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-8 h-8" />
@@ -201,7 +201,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
           
           <button
             onClick={nextSlide}
-            className="hidden md:flex absolute right-4 z-30 p-2 rounded-full bg-black/30 text-white hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="hidden md:flex absolute right-4 z-30 p-2 rounded-full bg-black/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
             aria-label="Next slide"
           >
             <ChevronRight className="w-8 h-8" />
@@ -211,7 +211,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
           <div className="absolute bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-4">
             <button
               onClick={() => setIsManuallyPaused(!isManuallyPaused)}
-              className="p-1.5 text-white/80 hover:text-white transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded"
+              className="p-1.5 text-[var(--text-primary)]/80 hover:text-[var(--text-primary)] transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded"
               aria-label={isManuallyPaused ? "Start autoplay" : "Pause autoplay"}
             >
               {isManuallyPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
@@ -237,3 +237,4 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
     </section>
   );
 }
+

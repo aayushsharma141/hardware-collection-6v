@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";
@@ -42,7 +42,7 @@ export function BrandWatermark() {
       >
         {/* Desktop: Single line, bleeding off edges */}
         <h2 
-          className="hidden md:block text-[14vw] lg:text-[12vw] font-cormorant leading-none tracking-[0.02em] whitespace-nowrap text-white/5 opacity-40 mix-blend-overlay select-none"
+          className="hidden md:block text-[14vw] lg:text-[12vw] font-cormorant leading-none tracking-[0.02em] whitespace-nowrap text-[var(--text-primary)]/5 opacity-40 mix-blend-overlay select-none"
           style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
         >
           HARDWARE COLLECTION
@@ -50,7 +50,7 @@ export function BrandWatermark() {
         
         {/* Mobile: Stacked, compositional element */}
         <h2 
-          className="md:hidden text-[22vw] font-cormorant leading-[0.85] tracking-[0.02em] text-center text-white/5 opacity-40 mix-blend-overlay flex flex-col select-none"
+          className="md:hidden text-[22vw] font-cormorant leading-[0.85] tracking-[0.02em] text-center text-[var(--text-primary)]/5 opacity-40 mix-blend-overlay flex flex-col select-none"
           style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
         >
           <span>HARDWARE</span>
@@ -60,3 +60,4 @@ export function BrandWatermark() {
     </div>
   );
 }
+

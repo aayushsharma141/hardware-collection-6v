@@ -144,12 +144,12 @@ export default function CollectionSearch({
     <div ref={containerRef} className="relative w-full max-w-2xl mx-auto my-8">
       {/* Search Input Container */}
       <div
-        className={`relative flex items-center w-full bg-[#141314] rounded-lg border transition-colors duration-150 ${
-          isFocused ? "border-[#c8a96e] ring-1 ring-[#c8a96e]" : "border-white/[0.12]"
+        className={`relative flex items-center w-full bg-[var(--surface-raised)] rounded-lg border transition-colors duration-150 ${
+          isFocused ? "border-[var(--accent)] ring-1 ring-[#c8a96e]" : "border-white/[0.12]"
         }`}
       >
         <Search
-          className="w-4 h-4 text-[#c8a96e] ml-4 shrink-0 pointer-events-none"
+          className="w-4 h-4 text-[var(--accent)] ml-4 shrink-0 pointer-events-none"
           aria-hidden="true"
         />
 
@@ -160,7 +160,7 @@ export default function CollectionSearch({
           onFocus={() => setIsFocused(true)}
           placeholder={PLACEHOLDERS[placeholderIndex]}
           aria-label="Search collections, products and brands"
-          className="w-full px-3.5 py-3 bg-transparent text-sm text-[#e8e3d9] placeholder-[#aaa49a]/60 focus:outline-none hc-focus"
+          className="w-full px-3.5 py-3 bg-transparent text-sm text-[var(--text-primary)] placeholder-[#aaa49a]/60 focus:outline-none hc-focus"
         />
 
         {hasQuery && (
@@ -168,7 +168,7 @@ export default function CollectionSearch({
             type="button"
             onClick={() => setQuery("")}
             aria-label="Clear search"
-            className="p-2 mr-2 text-[#aaa49a] hover:text-white transition-colors duration-150 hc-focus rounded"
+            className="p-2 mr-2 text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-150 hc-focus rounded"
           >
             <X className="w-4 h-4" />
           </button>
@@ -177,13 +177,13 @@ export default function CollectionSearch({
 
       {/* Results Dropdown Panel */}
       {showResults && (
-        <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-[#141314] border border-white/[0.12] rounded-lg shadow-2xl overflow-hidden max-h-[70vh] overflow-y-auto">
+        <div className="absolute top-full left-0 right-0 mt-2 z-50 bg-[var(--surface-raised)] border border-white/[0.12] rounded-lg shadow-2xl overflow-hidden max-h-[70vh] overflow-y-auto">
           {results.total > 0 ? (
             <div className="p-4 space-y-6">
               {/* Group: Collections */}
               {results.categories.length > 0 && (
                 <div>
-                  <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[#c8a96e] px-3 mb-2 block">
+                  <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)] px-3 mb-2 block">
                     Collections ({results.categories.length})
                   </span>
                   <div className="divide-y divide-white/[0.04]">
@@ -199,11 +199,11 @@ export default function CollectionSearch({
                           }}
                           className="flex items-center justify-between px-3 py-2.5 rounded hover:bg-white/[0.04] transition-colors duration-150 group hc-focus"
                         >
-                          <span className="text-sm text-[#e8e3d9] group-hover:text-white">
+                          <span className="text-sm text-[var(--text-primary)] group-hover:text-[var(--text-primary)]">
                             {cat.name}
                           </span>
-                          <span className="text-xs text-[#c8a96e] opacity-0 group-hover:opacity-100 transition-opacity">
-                            View Collection →
+                          <span className="text-xs text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">
+                            View Collection â†’
                           </span>
                         </Link>
                       );
@@ -215,7 +215,7 @@ export default function CollectionSearch({
               {/* Group: Products */}
               {results.products.length > 0 && (
                 <div>
-                  <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[#c8a96e] px-3 mb-2 block">
+                  <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)] px-3 mb-2 block">
                     Products ({results.products.length})
                   </span>
                   <div className="divide-y divide-white/[0.04]">
@@ -232,17 +232,17 @@ export default function CollectionSearch({
                           className="flex items-center justify-between px-3 py-2.5 rounded hover:bg-white/[0.04] transition-colors duration-150 group hc-focus"
                         >
                           <div className="flex flex-col">
-                            <span className="text-sm text-[#e8e3d9] group-hover:text-white">
+                            <span className="text-sm text-[var(--text-primary)] group-hover:text-[var(--text-primary)]">
                               {prod.name}
                             </span>
                             {prod.brand && (
-                              <span className="text-xs text-[#aaa49a]/70">
+                              <span className="text-xs text-[var(--text-secondary)]/70">
                                 {prod.brand}
                               </span>
                             )}
                           </div>
-                          <span className="text-xs text-[#c8a96e] opacity-0 group-hover:opacity-100 transition-opacity">
-                            Explore →
+                          <span className="text-xs text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">
+                            Explore â†’
                           </span>
                         </Link>
                       );
@@ -254,7 +254,7 @@ export default function CollectionSearch({
               {/* Group: Brands */}
               {results.brands.length > 0 && (
                 <div>
-                  <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[#c8a96e] px-3 mb-2 block">
+                  <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)] px-3 mb-2 block">
                     Authorized Brands ({results.brands.length})
                   </span>
                   <div className="divide-y divide-white/[0.04]">
@@ -275,11 +275,11 @@ export default function CollectionSearch({
                           }}
                           className="w-full flex items-center justify-between px-3 py-2.5 rounded hover:bg-white/[0.04] transition-colors duration-150 group hc-focus text-left"
                         >
-                          <span className="text-sm text-[#e8e3d9] group-hover:text-white">
+                          <span className="text-sm text-[var(--text-primary)] group-hover:text-[var(--text-primary)]">
                             {brand.name}
                           </span>
-                          <span className="text-xs text-[#c8a96e] opacity-0 group-hover:opacity-100 transition-opacity">
-                            Ask Specialist →
+                          <span className="text-xs text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">
+                            Ask Specialist â†’
                           </span>
                         </button>
                       );
@@ -291,19 +291,19 @@ export default function CollectionSearch({
           ) : (
             /* Designed Zero-Results State */
             <div className="p-8 text-center flex flex-col items-center">
-              <Compass className="w-8 h-8 text-[#c8a96e] mb-3 opacity-80" aria-hidden="true" />
-              <h4 className="hc-serif text-lg font-normal text-[#e8e3d9] mb-2">
+              <Compass className="w-8 h-8 text-[var(--accent)] mb-3 opacity-80" aria-hidden="true" />
+              <h4 className="hc-serif text-lg font-normal text-[var(--text-primary)] mb-2">
                 No direct matches for &ldquo;{query}&rdquo;
               </h4>
-              <p className="text-xs text-[#aaa49a] font-light max-w-sm mb-6 leading-relaxed">
-                Our showroom partners with 20+ world-class manufacturers. Connect directly with our
+              <p className="text-xs text-[var(--text-secondary)] font-light max-w-sm mb-6 leading-relaxed">
+                Our showroom partners with leading world-class manufacturers. Connect directly with our
                 specialists to source custom dimensions, unlisted models, or finishes.
               </p>
               <a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[#c8a96e] text-[#c8a96e] hover:bg-[#c8a96e] hover:text-[#090909] text-xs uppercase tracking-widest font-medium rounded transition-colors duration-150 hc-focus"
+                className="inline-flex items-center gap-2 px-5 py-2.5 border border-[var(--accent)] text-[var(--accent)] hover:bg-[#8b1a42] hover:text-white text-xs uppercase tracking-widest font-medium rounded transition-colors duration-150 hc-focus"
               >
                 ASK OUR HARDWARE EXPERT
               </a>
@@ -314,3 +314,5 @@ export default function CollectionSearch({
     </div>
   );
 }
+
+

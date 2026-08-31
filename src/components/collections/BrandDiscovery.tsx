@@ -32,37 +32,37 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
   return (
     <section
       aria-labelledby="brand-discovery-heading"
-      className="py-16 md:py-24 bg-[#0e0e0f] text-white border-t border-white/[0.08]"
+      className="py-16 md:py-24 bg-white text-[var(--text-primary)] border-t border-[var(--border)]"
     >
       <div className="max-w-[1320px] mx-auto px-6">
         {/* Header */}
         <div className="max-w-3xl mb-12 md:mb-16">
-          <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-3 block">
+          <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] mb-3 block">
             AUTHORIZED PARTNERS
           </span>
           <h2
             id="brand-discovery-heading"
-            className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[#e8e3d9] leading-tight mb-4"
+            className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mb-4"
           >
             Brand Discovery
           </h2>
-          <p className="text-[13px] sm:text-[15px] leading-relaxed text-[#aaa49a] font-light">
+          <p className="text-[13px] sm:text-[15px] leading-relaxed text-[var(--text-secondary)] font-light">
             Explore authentic collections from world-renowned architectural hardware manufacturers.
             Consult directly with our specialists for authorized catalog specifications and project availability.
           </p>
         </div>
 
-        {/* ── Tier 1: Featured Editorial Brands ────── */}
+        {/* â”€â”€ Tier 1: Featured Editorial Brands â”€â”€â”€â”€â”€â”€ */}
         <div className="mb-20">
           {/* Mobile Layout (< lg): 2-Column Partner List */}
           <div className="block lg:hidden">
-            <div className="grid grid-cols-2 gap-x-8 gap-y-4 pt-4 border-t border-white/[0.08]">
+            <div className="grid grid-cols-2 gap-x-8 gap-y-4 pt-4 border-t border-[var(--border)]">
               {featuredBrands.map((brand, i) => (
                 <button
                   key={brand._id || brand.id || i}
                   type="button"
                   onClick={() => askAboutBrand(brand)}
-                  className="text-[14px] uppercase tracking-[0.2em] text-zinc-400 hover:text-white transition-colors duration-150 py-2.5 text-left"
+                  className="text-[14px] uppercase tracking-[0.2em] text-[var(--text-secondary)] hover:text-[var(--text-primary)] transition-colors duration-150 py-2.5 text-left"
                 >
                   {brand.name}
                 </button>
@@ -70,7 +70,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
             </div>
           </div>
 
-          {/* Desktop Layout (≥ lg): Interactive Ambient Typographic List */}
+          {/* Desktop Layout (â‰¥ lg): Interactive Ambient Typographic List */}
           <div className="hidden lg:block">
             <div className="flex flex-col">
               {featuredBrands.map((brand, i) => {
@@ -80,7 +80,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                 return (
                   <div
                     key={brand._id || brand.id || i}
-                    className="group relative border-b border-white/[0.08]"
+                    className="group relative border-b border-[var(--border)]"
                     onMouseEnter={() => setHoveredIndex(i)}
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
@@ -113,7 +113,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                         aria-hidden={!isHovered}
                       >
                         {brand.description && (
-                          <p className="text-zinc-300 font-light text-xs sm:text-sm leading-relaxed">
+                          <p className="text-[var(--text-primary)] font-light text-xs sm:text-sm leading-relaxed">
                             {brand.description}
                           </p>
                         )}
@@ -121,14 +121,14 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                           type="button"
                           onClick={() => askAboutBrand(brand)}
                           tabIndex={isHovered ? 0 : -1}
-                          className="inline-flex items-center gap-2 text-[#c8a96e] text-xs tracking-widest uppercase hover:text-white transition-colors duration-150 architecture-rule hc-focus w-fit mt-1 group/btn"
+                          className="inline-flex items-center gap-2 text-[var(--accent)] text-xs tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors duration-150 architecture-rule hc-focus w-fit mt-1 group/btn"
                         >
                           Explore Collection
                           <span
                             aria-hidden="true"
                             className="transition-transform duration-150 group-hover/btn:translate-x-1"
                           >
-                            →
+                            &rarr;
                           </span>
                         </button>
                       </motion.div>
@@ -140,19 +140,19 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
           </div>
         </div>
 
-        {/* ── Tier 2: Static Alphabetical Logo Wall ────── */}
-        <div className="pt-12 border-t border-white/[0.08]">
+        {/* â”€â”€ Tier 2: Static Alphabetical Logo Wall â”€â”€â”€â”€â”€â”€ */}
+        <div className="pt-12 border-t border-[var(--border)]">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-8 gap-2">
             <div>
-              <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-2 block">
+              <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] mb-2 block">
                 Full Manufacturer Directory
               </span>
-              <h3 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[#e8e3d9]">
+              <h3 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
                 All Authorized Partners
               </h3>
             </div>
-            <p className="text-xs text-[#aaa49a] font-light">
-              Alphabetical index · Tap any brand to request availability
+            <p className="text-xs text-[var(--text-secondary)] font-light">
+              Alphabetical index Â· Tap any brand to request availability
             </p>
           </div>
 
@@ -164,7 +164,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                 onClick={() => askAboutBrand(brand)}
                 aria-label={`Ask about ${brand.name} in a consultation`}
                 title={`${brand.name} — Ask about availability`}
-                className="relative aspect-[3/2] flex items-center justify-center p-3 sm:p-4 rounded-lg bg-[#141314] border border-white/[0.12] hover:border-[#c8a96e] focus-visible:border-[#c8a96e] transition-colors duration-150 group/cell overflow-hidden cursor-pointer"
+                className="relative aspect-[3/2] flex items-center justify-center p-3 sm:p-4 rounded-lg bg-[var(--surface-raised)] border border-white/[0.12] hover:border-[var(--accent)] focus-visible:border-[var(--accent)] transition-colors duration-150 group/cell overflow-hidden cursor-pointer"
               >
                 {brand.logoUrl ? (
                   <div className="relative w-full h-full flex items-center justify-center">
@@ -181,7 +181,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                     />
                   </div>
                 ) : (
-                  <span className="font-sans font-medium uppercase tracking-[0.28em] text-[11px] sm:text-xs md:text-sm text-[#e8e3d9]/55 group-hover/cell:text-[#e8e3d9] transition-colors duration-150 text-center px-1">
+                  <span className="font-sans font-medium uppercase tracking-[0.28em] text-[11px] sm:text-xs md:text-sm text-[var(--text-primary)]/55 group-hover/cell:text-[var(--text-primary)] transition-colors duration-150 text-center px-1">
                     {brand.name}
                   </span>
                 )}
@@ -193,3 +193,5 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
     </section>
   );
 }
+
+

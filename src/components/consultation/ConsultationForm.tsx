@@ -5,7 +5,7 @@ import { ConsultationSuccess } from "./ConsultationSuccess";
 import { useConsultationStore } from "./store";
 import { Loader2, ArrowRight, Check, AlertCircle, RefreshCw } from "lucide-react";
 
-// ── Types ─────────────────────────────────────────────────────────────────────
+// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 type CustomerType =
   | "Architect / Interior Designer"
@@ -35,7 +35,7 @@ interface ConsultationFormProps {
   inline?: boolean;
 }
 
-// ── Constants ─────────────────────────────────────────────────────────────────
+// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const CUSTOMER_TYPES: {
   id: CustomerType;
@@ -82,23 +82,23 @@ const INITIAL_FORM_VALUES: FormValues = {
   projectType: "Modular Kitchen",
 };
 
-// ── Shared style tokens ───────────────────────────────────────────────────────
+// â”€â”€ Shared style tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 const CLS_INPUT =
-  "w-full bg-zinc-900/70 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white placeholder:text-zinc-600 focus:outline-none focus:border-[#C8A96E] focus:ring-1 focus:ring-[#C8A96E]/50 transition-all";
+  "w-full bg-[var(--surface-raised)]/70 border border-[var(--border)] rounded-xl px-4 py-3 text-sm text-[var(--text-primary)] placeholder:text-zinc-600 focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[#C8A96E]/50 transition-all";
 const CLS_SELECT =
-  "w-full bg-zinc-900/90 border border-zinc-800 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-[#C8A96E] focus:ring-1 focus:ring-[#C8A96E]/50 transition-all cursor-pointer";
+  "w-full bg-[var(--surface-raised)]/90 border border-[var(--border)] rounded-xl px-4 py-3 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[#C8A96E]/50 transition-all cursor-pointer";
 const CLS_LABEL =
-  "text-[11px] text-zinc-400 uppercase tracking-widest font-semibold";
+  "text-[11px] text-[var(--text-secondary)] uppercase tracking-widest font-semibold";
 const CLS_SUBMIT =
-  "w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-[#C8A96E] to-[#e5c487] hover:from-[#d8b97e] hover:to-[#f0d49e] text-[#0E0C0C] font-bold text-xs uppercase tracking-[0.16em] transition-all flex items-center justify-center gap-2 group disabled:opacity-60 shadow-[0_4px_20px_rgba(200,169,110,0.2)]";
+  "w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-[#C8A96E] to-[#e5c487] hover:from-[#d8b97e] hover:to-[#f0d49e] text-[#0E0C0C] font-bold text-xs uppercase tracking-[0.16em] transition-premium btn-tactile flex items-center justify-center gap-2 group disabled:opacity-60 shadow-[0_4px_20px_rgba(200,169,110,0.2)]";
 
-// ── Main Component ────────────────────────────────────────────────────────────
+// â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export function ConsultationForm({ onSuccess, inline = false }: ConsultationFormProps) {
   const { context } = useConsultationStore();
 
-  // The form mounts more than once per document — the inline section form and
+  // The form mounts more than once per document â€” the inline section form and
   // the navbar drawer coexist, and the mobile and desktop trees are both in the
   // DOM. Hardcoded field ids therefore collided, which points every duplicated
   // <label for> at whichever copy happens to come first.
@@ -245,14 +245,14 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
     }
   }
 
-  // ── Success Screen ──────────────────────────────────────────────────────────
+  // â”€â”€ Success Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   if (successLeadId) {
     return (
       <div
         className={
           inline
-            ? "bg-zinc-950 border border-white/[0.08] rounded-2xl p-8 lg:p-10 min-h-[460px] flex flex-col items-center justify-center"
+            ? "bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-8 lg:p-10 min-h-[460px] flex flex-col items-center justify-center"
             : "h-full flex flex-col items-center justify-center p-6"
         }
       >
@@ -280,33 +280,33 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
     );
   }
 
-  // ── Form Screen ─────────────────────────────────────────────────────────────
+  // â”€â”€ Form Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
   return (
     <div
-      className={`flex flex-col text-white font-dmsans ${
+      className={`flex flex-col text-[var(--text-primary)] font-dmsans ${
         inline
-          ? "w-full bg-zinc-950 border border-white/[0.08] rounded-2xl p-6 sm:p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+          ? "w-full bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 sm:p-8 lg:p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
           : "p-6 lg:p-8"
       }`}
     >
       {/* Header. Inline, this form sits beside the section's own heading and intro,
-          so it takes only the eyebrow as a label — repeating the headline verbatim
+          so it takes only the eyebrow as a label â€” repeating the headline verbatim
           in both columns read as a duplication bug. The drawer has no surrounding
           copy, so there it still carries the full heading. */}
       <div className="mb-6">
-        <p className="text-[11px] uppercase tracking-[0.2em] text-[#C8A96E] font-semibold mb-1">
-          DIRECT ENQUIRY · SAKCHI SHOWROOM
+        <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] font-semibold mb-1">
+          DIRECT ENQUIRY Â· SAKCHI SHOWROOM
         </p>
         {!inline && (
           <>
             <h2
-              className="font-cormorant text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight text-white mb-2"
+              className="font-cormorant text-2xl sm:text-3xl lg:text-4xl font-normal tracking-tight text-[var(--text-primary)] mb-2"
               style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
             >
               Let&apos;s discuss your project.
             </h2>
-            <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">
+            <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed">
               Tell us who you are and what you&apos;re building. Our showroom specialists will prepare recommendations immediately.
             </p>
           </>
@@ -332,14 +332,14 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
                   aria-checked={isSelected}
                   className={`p-3.5 rounded-xl border text-left flex flex-col justify-between transition-all duration-200 relative ${
                     isSelected
-                      ? "bg-[#C8A96E]/10 border-[#C8A96E] shadow-[0_0_15px_rgba(200,169,110,0.15)]"
-                      : "bg-zinc-900/40 border-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-white"
+                      ? "bg-[#C8A96E]/10 border-[var(--accent)] shadow-[0_0_15px_rgba(200,169,110,0.15)]"
+                      : "bg-[var(--surface-raised)]/40 border-[var(--border)] hover:border-zinc-700 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                   }`}
                 >
                   <div className="flex items-center justify-between mb-1">
                     <span
                       className={`text-xs font-bold tracking-wide ${
-                        isSelected ? "text-white" : "text-zinc-300"
+                        isSelected ? "text-[var(--text-primary)]" : "text-[var(--text-primary)]"
                       }`}
                     >
                       {type.label}
@@ -350,7 +350,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
                       </div>
                     )}
                   </div>
-                  <span className="text-[11px] text-zinc-500 font-light">{type.description}</span>
+                  <span className="text-[11px] text-[var(--text-secondary)] font-light">{type.description}</span>
                 </button>
               );
             })}
@@ -417,7 +417,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
               className={CLS_SELECT}
             >
               {PROJECT_TYPES.map((pt) => (
-                <option key={pt} value={pt} className="bg-zinc-950 text-white">
+                <option key={pt} value={pt} className="bg-[var(--surface)] text-[var(--text-primary)]">
                   {pt}
                 </option>
               ))}
@@ -445,10 +445,11 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           )}
         </button>
 
-        <p className="text-center text-zinc-500 text-[11px] font-light -mt-2">
+        <p className="text-center text-[var(--text-secondary)] text-[11px] font-light -mt-2">
           Your details are directly routed to the Sakchi showroom team.
         </p>
       </form>
     </div>
   );
 }
+

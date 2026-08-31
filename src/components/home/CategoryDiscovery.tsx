@@ -1,32 +1,65 @@
 "use client";
 
 import React from "react";
+import { motion } from "motion/react";
 import { CATEGORY_FAMILIES } from "@/data/home";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.1,
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      type: "spring" as const,
+      stiffness: 300,
+      damping: 30,
+      mass: 1
+    }
+  }
+};
 
 export default function CategoryDiscovery() {
   return (
-    <section id="categories" className="bg-[#090909] text-[#e8e3d9] py-16 lg:py-24 border-t border-white/[0.12]">
+    <section id="categories" className="bg-[var(--surface)] text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
       {/* Desktop Version */}
-      <div className="hidden lg:block px-[68px]">
-        <div className="flex items-end justify-between border-b border-white/[0.16] pb-6">
+      <div className="hidden lg:block px-12 xl:px-16">
+        <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">
           <div>
-            <p className="hc-mono text-[10px] uppercase tracking-[0.22em] text-[#c8a96e]">
+            <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-[#c8a96e]">
               Showroom families / 05
             </p>
-            <h2 className="hc-serif mt-3 text-[56px] xl:text-[62px] leading-none font-normal tracking-[0.02em] text-[#e8e3d9]">
+            <h2 className="hc-serif mt-3 text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)]">
               Five thresholds
             </h2>
           </div>
-          <p className="max-w-[360px] text-right text-[13px] leading-[1.6] text-[#aaa49a] font-light">
+          <p className="max-w-[420px] text-right text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] font-light">
             A considered route through architectural hardware, security, bath, kitchen systems and the joinery details that finish a room.
           </p>
         </div>
 
-        <div className="mt-9 grid grid-cols-[0.92fr_1.28fr_0.88fr_1.08fr_0.92fr] gap-[1px] bg-white/[0.13]">
+        <motion.div 
+          className="mt-10 grid grid-cols-[0.92fr_1.28fr_0.88fr_1.08fr_0.92fr] gap-[1px] bg-[var(--border)] rounded-2xl overflow-hidden shadow-sm"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-100px" }}
+        >
           {CATEGORY_FAMILIES.map((cat) => (
-            <article
+            <motion.article
+              variants={itemVariants}
               key={cat.id}
-              className={`threshold-card bg-[#11100f] pb-5 flex flex-col justify-between ${
+              className={`threshold-card bg-[var(--surface-raised)] pb-6 flex flex-col justify-between ${
                 cat.isFocal ? "relative z-10" : ""
               }`}
             >
@@ -40,12 +73,12 @@ export default function CategoryDiscovery() {
                   loading="lazy"
                   src={cat.image}
                 />
-                <div className="absolute inset-0 bg-[#090909]/[0.15]" />
-                <span className="absolute left-4 top-4 hc-mono text-[10px] tracking-[0.16em] text-[#c8a96e]">
+                <div className="absolute inset-0 bg-[var(--surface)]/[0.15]" />
+                <span className="absolute left-4 top-4 hc-mono text-xs tracking-[0.18em] font-semibold text-[#c8a96e]">
                   {cat.index}
                 </span>
                 {cat.isFocal && (
-                  <span className="absolute right-4 top-4 border border-[#c8a96e]/[0.5] px-2 py-1 hc-mono text-[8px] uppercase tracking-[0.14em] text-[#c8a96e] bg-[#090909]/60">
+                  <span className="absolute right-4 top-4 border border-[var(--accent)]/[0.5] px-2.5 py-1 hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[#c8a96e] bg-[var(--surface)]/80 backdrop-blur-sm rounded">
                     Focal family
                   </span>
                 )}
@@ -53,13 +86,13 @@ export default function CategoryDiscovery() {
 
               <div
                 className={`border-t ${
-                  cat.isFocal ? "border-[#c8a96e]" : "border-[#c8a96e]/[0.65]"
-                } bg-[#090909] px-5 xl:px-6 pt-5 pb-4 flex-1 flex flex-col justify-between`}
+                  cat.isFocal ? "border-[var(--accent)]" : "border-[var(--border)]"
+                } bg-[var(--surface)] px-5 xl:px-6 pt-6 pb-5 flex-1 flex flex-col justify-between`}
               >
                 <div>
                   <h3
-                    className={`hc-serif leading-[0.94] text-[#e8e3d9] ${
-                      cat.isFocal ? "text-[36px]" : "text-[28px] xl:text-[30px]"
+                    className={`hc-serif leading-[0.95] text-[var(--text-primary)] ${
+                      cat.isFocal ? "text-[34px] xl:text-[38px]" : "text-[26px] xl:text-[30px]"
                     }`}
                   >
                     {cat.name}
@@ -70,79 +103,85 @@ export default function CategoryDiscovery() {
                       </>
                     )}
                   </h3>
-                  <p className="mt-3 text-[11px] leading-[1.5] text-[#aaa49a]">
+                  <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)] font-normal">
                     {cat.subtitle}
                   </p>
-                  <p className="mt-3 border-t border-white/[0.12] pt-3 text-[10px] leading-[1.5] text-[#88837a]">
+                  <p className="mt-3 border-t border-[var(--border)] pt-3 text-xs leading-relaxed text-[var(--text-secondary)] font-light">
                     {cat.detail}
                   </p>
                 </div>
 
                 <a
                   href={cat.href}
-                  className="threshold-action mt-5 flex items-center gap-2 text-[10px] uppercase tracking-[0.18em] text-[#d1ccc4] no-underline hover:text-white"
+                  className="threshold-action mt-6 flex items-center gap-2.5 text-xs uppercase tracking-widest font-semibold text-[var(--text-secondary)] no-underline hover:text-[var(--accent)]"
                 >
                   <span>View {cat.name}</span>
-                  <svg className="w-3.5 h-3.5 text-[#c8a96e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4 text-[#c8a96e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 </a>
               </div>
-            </article>
+            </motion.article>
           ))}
-        </div>
+        </motion.div>
       </div>
 
       {/* Mobile Version: Vertical Curated List */}
-      <div className="block lg:hidden px-4">
-        <div className="flex items-end justify-between border-b border-white/[0.14] pb-4">
+      <div className="block lg:hidden px-6">
+        <div className="flex items-end justify-between border-b border-[var(--border)] pb-5">
           <div>
-            <p className="hc-mono text-[9px] uppercase tracking-[0.2em] text-[#c8a96e]">
+            <p className="hc-mono text-xs uppercase tracking-[0.2em] font-semibold text-[#c8a96e]">
               Showroom families
             </p>
-            <h3 className="hc-serif mt-1 text-[32px] leading-none text-[#e8e3d9]">
+            <h3 className="hc-serif mt-2 text-4xl sm:text-5xl leading-none text-[var(--text-primary)]">
               Five thresholds
             </h3>
           </div>
-          <span className="hc-mono text-[10px] tracking-[0.16em] text-[#aaa49a]">
-            01—05
+          <span className="hc-mono text-xs tracking-[0.16em] text-[var(--text-secondary)]">
+            01 &mdash; 05
           </span>
         </div>
 
-        <div className="mt-4 border-t border-white/[0.14] flex flex-col">
+        <motion.div 
+          className="mt-6 border-t border-[var(--border)] flex flex-col divide-y divide-[var(--border)]"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+        >
           {CATEGORY_FAMILIES.map((cat, idx) => (
-            <a
+            <motion.a
+              variants={itemVariants}
               key={cat.id}
               href={cat.href}
-              className={`mobile-row w-full border-b border-white/[0.12] pl-3 pr-2 py-3.5 flex items-center gap-3 text-left no-underline hover:bg-white/[0.02] ${
-                idx === 0 ? "border-t-0" : ""
-              }`}
+              className="mobile-row w-full py-4 flex items-center gap-4 text-left no-underline hover:bg-[var(--surface-raised)] transition-colors duration-150"
             >
-              <span className="hc-mono w-6 text-[10px] tracking-[0.12em] text-[#c8a96e]">
+              <span className="hc-mono w-6 text-xs font-semibold tracking-[0.12em] text-[#c8a96e]">
                 0{idx + 1}
               </span>
               <img
                 alt={cat.name}
-                className="h-[52px] w-[76px] object-cover opacity-[0.85] rounded-none border border-white/[0.08]"
+                className="h-[56px] w-[80px] object-cover opacity-[0.9] rounded-lg border border-[var(--border)]"
                 decoding="async"
                 loading="lazy"
                 src={cat.image}
               />
               <div className="flex-1 min-w-0">
-                <strong className="block hc-serif text-[19px] leading-none font-normal text-[#e8e3d9]">
+                <strong className="block hc-serif text-2xl leading-tight font-normal text-[var(--text-primary)]">
                   {cat.name} {cat.nameBreak || ""}
                 </strong>
-                <small className="mt-1 block text-[10px] uppercase tracking-[0.1em] text-[#88837a] truncate">
+                <small className="mt-1 block text-xs uppercase tracking-[0.12em] text-[var(--text-secondary)] truncate">
                   {cat.subtitle}
                 </small>
               </div>
-              <svg className="w-4 h-4 text-[#c8a96e] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-[#c8a96e] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-            </a>
+            </motion.a>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 }
+

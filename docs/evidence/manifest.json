@@ -1,0 +1,10 @@
+{
+  "schemaVersion": "1.0",
+  "generatedAt": "2026-08-30T15:27:26.056Z",
+  "generator": "antigravity-evidence-engine@1.0",
+  "totalArtifacts": 2,
+  "checksums": {
+    "EV-4ffebf0-2026-08-30T1527-v1.0.json": "c334b1c428ea1dc9bdaeb83b9c2ff54d1372b468812b5fb21651436f236de3c6",
+    "latest-release.json": "c334b1c428ea1dc9bdaeb83b9c2ff54d1372b468812b5fb21651436f236de3c6"
+  }
+}

@@ -1,4 +1,4 @@
-import { Brand } from "@/types/catalog";
+﻿import { Brand } from "@/types/catalog";
 
 export interface BrandInfo {
   id: string;
@@ -92,7 +92,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     tagline: "Safe & Secure",
     description: "Ozone is a leading player in Architectural Hardware and Security Solutions.",
     keyHighlights: ["Glass Fittings", "Door Hardware", "Safes"],
-    imageClass: "brightness-0 invert opacity-90",
+    imageClass: "brightness-0 opacity-70",
   },
   {
     id: "backer",
@@ -154,7 +154,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     description: "Labacha brings Italian-inspired quartz composite granite sinks, workstation kitchen sinks, and luxury bathroom mixers to modern living spaces.",
     establishedYear: "2010",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: ["Quartz Composite", "Heat & Scratch Resistant", "360° Faucets", "Nano-Coating"]
+    keyHighlights: ["Quartz Composite", "Heat & Scratch Resistant", "360Â° Faucets", "Nano-Coating"]
   },
   {
     id: "rexton",
@@ -343,3 +343,4 @@ export function normalizeBrandKey(brand: Brand): string {
   const cleaned = String(raw).toLowerCase().replace(/[^a-z0-9]/g, "");
   return ALIAS_TO_KEY[cleaned] ?? cleaned;
 }
+

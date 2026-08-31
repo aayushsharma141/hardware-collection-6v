@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useEffect, useRef, Component, ReactNode, ErrorInfo } from "react";
 import dynamic from "next/dynamic";
@@ -46,7 +46,7 @@ class WebGLErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryStat
 
 function StaticProductFallback() {
   return (
-    <div className="w-full h-full relative overflow-hidden bg-zinc-950 flex items-center justify-center">
+    <div className="w-full h-full relative overflow-hidden bg-[var(--surface)] flex items-center justify-center">
       <img
         src="/Hardware Collection/hero_bg.png"
         alt="Solid Brass Pull Handle"
@@ -107,14 +107,14 @@ export default function ThreeDHero() {
   return (
     <section 
       ref={containerRef} 
-      className="w-full min-h-[70vh] lg:h-screen bg-zinc-950 relative overflow-hidden border-t border-zinc-900 flex flex-col justify-between"
+      className="w-full min-h-[70vh] lg:h-screen bg-[var(--surface)] relative overflow-hidden border-t border-[var(--border)] flex flex-col justify-between"
     >
       {/* Editorial Header Overlay */}
       <div className="relative z-10 pt-16 px-6 lg:px-16 pointer-events-none">
         <p className="text-[#C8A96E] font-medium tracking-widest text-xs uppercase mb-3">
           SECTION 07 // THE PRODUCT MOMENT
         </p>
-        <h2 className="text-3xl md:text-5xl lg:text-7xl font-serif font-light text-white leading-tight max-w-2xl">
+        <h2 className="text-3xl md:text-5xl lg:text-7xl font-serif font-light text-[var(--text-primary)] leading-tight max-w-2xl">
           Architectural Scale.<br />Solid Form.
         </h2>
       </div>
@@ -136,7 +136,7 @@ export default function ThreeDHero() {
           <p className="text-zinc-500 text-xs tracking-widest uppercase">
             {isCapable ? "Drag to inspect finish" : "Craftsmanship Standard"}
           </p>
-          <p className="text-white text-base lg:text-lg font-light">
+          <p className="text-[var(--text-primary)] text-base lg:text-lg font-light">
             SOLID BRASS &bull; PVD SATIN GOLD FINISH
           </p>
         </div>
@@ -144,7 +144,7 @@ export default function ThreeDHero() {
         <div className="flex items-center gap-4">
           <Link
             href="/collections"
-            className="px-6 py-3 border border-zinc-700 hover:border-[#C8A96E] text-zinc-300 hover:text-white text-xs tracking-widest uppercase transition-colors"
+            className="px-6 py-3 border border-[var(--border)] hover:border-[#C8A96E] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs tracking-widest uppercase transition-colors"
           >
             Explore Collection
           </Link>
@@ -161,3 +161,4 @@ export default function ThreeDHero() {
     </section>
   );
 }
+

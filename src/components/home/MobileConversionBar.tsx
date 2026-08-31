@@ -3,11 +3,11 @@
 import { buildWhatsAppUrl, SHOWROOM_MAP_URL, SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY } from "@/lib/config";
 
 /**
- * MobileConversionBar — Persistent fixed bottom bar on mobile/tablet.
+ * MobileConversionBar â€” Persistent fixed bottom bar on mobile/tablet.
  * Hidden on desktop (lg+). Sourced entirely from /lib/config.ts.
  *
  * Layout:
- *   [ ☎ CALL ]  [ ● WHATSAPP ]  [ ◎ VISIT ]
+ *   [ â˜Ž CALL ]  [ â— WHATSAPP ]  [ â—Ž VISIT ]
  *
  * WhatsApp is the primary action (brass/black).
  * Call and Visit are secondary (transparent/white).
@@ -16,7 +16,7 @@ import { buildWhatsAppUrl, SHOWROOM_MAP_URL, SHOWROOM_PHONE_HREF, SHOWROOM_PHONE
  * The body padding-bottom is set in globals.css to match.
  *
  * Hides automatically when the mobile nav drawer is open (Navbar sets
- * html[data-drawer-open] as the signal — handled in globals.css).
+ * html[data-drawer-open] as the signal â€” handled in globals.css).
  */
 export default function MobileConversionBar() {
   const waUrl = buildWhatsAppUrl();
@@ -32,9 +32,9 @@ export default function MobileConversionBar() {
       aria-label="Quick contact actions"
     >
       {/* Frosted separator */}
-      <div className="absolute inset-0 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800" aria-hidden="true" />
+      <div className="absolute inset-0 bg-white/95 backdrop-blur-md border-t border-[var(--border)]" aria-hidden="true" />
 
-      {/* Button row — constrained to --mobile-bar-height, safe area is padding below */}
+      {/* Button row â€” constrained to --mobile-bar-height, safe area is padding below */}
       <div
         className="relative flex items-stretch w-full"
         style={{
@@ -45,29 +45,29 @@ export default function MobileConversionBar() {
         <a
           href={SHOWROOM_PHONE_HREF}
           aria-label={`Call showroom: ${SHOWROOM_PHONE_DISPLAY}`}
-          className="flex-1 flex flex-col items-center justify-center gap-0.5 text-white active:bg-white/5 transition-colors duration-150 min-h-[44px]"
+          className="flex-1 flex flex-col items-center justify-center gap-0.5 text-[var(--text-primary)] active:bg-white/5 transition-colors duration-150 min-h-[44px]"
         >
           <PhoneIcon />
           <span className="text-[11px] tracking-widest uppercase font-medium">Call</span>
         </a>
 
         {/* Divider */}
-        <div className="w-px bg-zinc-800 self-stretch my-2" aria-hidden="true" />
+        <div className="w-px bg-[var(--border)] self-stretch my-2" aria-hidden="true" />
 
-        {/* WhatsApp — primary */}
+        {/* WhatsApp â€” primary */}
         <a
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
           aria-label="WhatsApp the showroom"
-          className="flex-1 flex flex-col items-center justify-center gap-0.5 bg-[#C8A96E] text-[#090909] active:brightness-90 transition-all duration-150 min-h-[44px]"
+          className="flex-1 flex flex-col items-center justify-center gap-0.5 bg-[var(--accent)] text-white active:brightness-90 transition-all duration-150 min-h-[44px]"
         >
           <WhatsAppIcon />
           <span className="text-[11px] tracking-widest uppercase font-semibold">WhatsApp</span>
         </a>
 
         {/* Divider */}
-        <div className="w-px bg-zinc-800 self-stretch my-2" aria-hidden="true" />
+        <div className="w-px bg-[var(--border)] self-stretch my-2" aria-hidden="true" />
 
         {/* Visit */}
         <a
@@ -75,7 +75,7 @@ export default function MobileConversionBar() {
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Get directions to showroom"
-          className="flex-1 flex flex-col items-center justify-center gap-0.5 text-white active:bg-white/5 transition-colors duration-150 min-h-[44px]"
+          className="flex-1 flex flex-col items-center justify-center gap-0.5 text-[var(--text-primary)] active:bg-white/5 transition-colors duration-150 min-h-[44px]"
         >
           <MapIcon />
           <span className="text-[11px] tracking-widest uppercase font-medium">Visit</span>
@@ -113,3 +113,4 @@ function MapIcon() {
     </svg>
   );
 }
+

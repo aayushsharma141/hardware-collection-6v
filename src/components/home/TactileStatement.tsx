@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
@@ -26,7 +26,7 @@ export default function TactileStatement() {
   const textY = useTransform(scrollYProgress, [0.2, 0.8], [100, -100]);
 
   return (
-    <section ref={containerRef} className="py-40 bg-zinc-950 relative overflow-hidden min-h-screen flex items-center">
+    <section ref={containerRef} className="py-40 bg-[var(--surface)] relative overflow-hidden min-h-screen flex items-center">
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
@@ -38,11 +38,11 @@ export default function TactileStatement() {
             <p className="text-[#C8A96E] font-medium tracking-widest text-sm uppercase mb-6">
               THE TACTILE STATEMENT
             </p>
-            <h2 className="text-5xl lg:text-7xl font-light text-white leading-tight mb-8">
+            <h2 className="text-5xl lg:text-7xl font-light text-[var(--text-primary)] leading-tight mb-8">
               HARDWARE<br />YOU CAN<br />EXPERIENCE.
             </h2>
-            <p className="text-xl text-zinc-400 font-light max-w-md">
-              Weight. Texture. Resistance. True quality isn&apos;t just seen—it communicates through touch.
+            <p className="text-xl text-[var(--text-secondary)] font-light max-w-md">
+              Weight. Texture. Resistance. True quality isn&apos;t just seen&mdash;it communicates through touch.
             </p>
           </motion.div>
           
@@ -54,7 +54,7 @@ export default function TactileStatement() {
                 width: "100%",
                 height: "100%"
               }}
-              className="relative overflow-hidden bg-zinc-900"
+              className="relative overflow-hidden bg-[var(--surface-raised)]"
             >
               <motion.img 
                 style={{ scale: shouldReduceMotion ? 1 : imageScale }}
@@ -67,7 +67,7 @@ export default function TactileStatement() {
             {/* Small detail image overlapping */}
             <motion.div 
               style={{ y: useTransform(scrollYProgress, [0, 1], [50, -150]) }}
-              className="absolute -bottom-10 -left-10 w-48 h-64 border border-zinc-800 hidden lg:block bg-zinc-900 overflow-hidden"
+              className="absolute -bottom-10 -left-10 w-48 h-64 border border-[var(--border)] hidden lg:block bg-[var(--surface-raised)] overflow-hidden"
             >
               <img 
                 src="/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg" 
@@ -82,3 +82,5 @@ export default function TactileStatement() {
     </section>
   );
 }
+
+

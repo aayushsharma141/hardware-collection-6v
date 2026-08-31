@@ -70,8 +70,8 @@ export default async function HomePage() {
 
   return (
     <div
-      className="min-h-[100dvh] text-white overflow-x-hidden relative selection:bg-[#C8A96E] selection:text-black"
-      style={{ backgroundColor: "rgb(var(--atm-r), var(--atm-g), var(--atm-b))" }}
+      className="min-h-[100dvh] text-[#1a1017] bg-[#fdf8f0] overflow-x-hidden relative selection:bg-[#8b1a42] selection:text-white"
+      style={{}}
     >
       {/* ── Global Cinema System ─────────────────────────────────── */}
       {/* z=0: Persistent atmospheric canvas — behind all content */}
@@ -98,7 +98,9 @@ export default async function HomePage() {
             "Brands" link — which scrolls to #brands — pointed at an element
             that does not exist on a phone and did nothing when tapped. A single
             instance also keeps `id="brands"` unique in the document. */}
-        <BrandTrustStrip />
+        <div className="theme-ivory">
+          <BrandTrustStrip />
+        </div>
 
         {/* Mobile Experience (Stitch Redesign) */}
         <div className="block lg:hidden">
@@ -114,18 +116,27 @@ export default async function HomePage() {
         {/* Desktop Experience (Legacy) */}
         <div className="hidden lg:block">
           {/* CH03 — Form & Function (MEDIUM) */}
-          <CategoryDiscovery />
+          <div className="theme-ivory">
+            <CategoryDiscovery />
+          </div>
 
           {/* CH04 — The Finish · Primary Material Showcase (VERY HIGH) */}
-          <MaterialJourney />
+          <div className="theme-ivory">
+            <MaterialJourney />
+          </div>
 
           {/* CH05 — The Collection · Emotion→Consideration Bridge (MEDIUM) */}
-          <ProductReel />
+          <div className="theme-ivory">
+            <ProductReel />
+          </div>
 
           {/* CH06 — Inside the Showroom (HIGH) */}
-          <ShowroomCinematic />
+          <div className="theme-ivory">
+            <ShowroomCinematic />
+          </div>
 
-          {/* CH07 — Come Feel It · Quiet Conversion Zone (QUIET) */}
+          {/* CH07 — Come Feel It · Quiet Conversion Zone (QUIET)
+               Zone split is internal: reviews → theme-ivory, CTA → theme-dark */}
           <FloatingCTA reviews={testimonials} />
         </div>
       </main>

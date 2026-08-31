@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useRef } from "react";
 import Link from "next/link";
@@ -18,13 +18,13 @@ export default function SignatureCollection() {
   const rightPanelY = useTransform(scrollYProgress, [0, 1], [100, -200]);
 
   return (
-    <section ref={containerRef} className="py-32 lg:py-48 bg-zinc-950 overflow-hidden relative">
+    <section ref={containerRef} className="py-32 lg:py-48 bg-[var(--surface)] overflow-hidden relative">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="text-center mb-24 lg:mb-40">
           <p className="text-[#C8A96E] font-medium tracking-widest text-sm uppercase mb-4">
             CURATED
           </p>
-          <h2 className="text-4xl lg:text-6xl font-light text-white">Signature Collections</h2>
+          <h2 className="text-4xl lg:text-6xl font-light text-[var(--text-primary)]">Signature Collections</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 relative">
@@ -34,18 +34,18 @@ export default function SignatureCollection() {
             style={{ y: shouldReduceMotion ? 0 : leftPanelY }}
             className="w-full lg:w-[90%]"
           >
-            <div className="relative aspect-square overflow-hidden bg-zinc-900 group">
+            <div className="relative aspect-square overflow-hidden bg-[var(--surface-raised)] group">
               <motion.img 
                 src="/cinema/showroom/exterior.png"
                 alt="Smart Entrance"
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80"
               />
-              <div className="absolute inset-0 bg-black/30 transition-colors duration-500 group-hover:bg-transparent" />
+              <div className="absolute inset-0 bg-[var(--surface)]/10 transition-colors duration-500 group-hover:bg-transparent" />
             </div>
             <div className="mt-8">
-              <h3 className="text-3xl text-white font-light mb-2">SMART ENTRANCE</h3>
-              <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-white transition-colors">
-                Explore Edition →
+              <h3 className="text-3xl text-[var(--text-primary)] font-light mb-2">SMART ENTRANCE</h3>
+              <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">
+                Explore Edition â†’
               </Link>
             </div>
           </motion.div>
@@ -55,18 +55,18 @@ export default function SignatureCollection() {
             style={{ y: shouldReduceMotion ? 0 : rightPanelY }}
             className="w-full lg:w-[80%] ml-auto mt-24 lg:mt-0"
           >
-            <div className="relative aspect-[4/5] overflow-hidden bg-zinc-900 group">
+            <div className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-raised)] group">
               <motion.img 
                 src="/cinema/showroom/interior.png"
                 alt="Modern Kitchen"
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80"
               />
-              <div className="absolute inset-0 bg-black/30 transition-colors duration-500 group-hover:bg-transparent" />
+              <div className="absolute inset-0 bg-[var(--surface)]/10 transition-colors duration-500 group-hover:bg-transparent" />
             </div>
             <div className="mt-8">
-              <h3 className="text-3xl text-white font-light mb-2">MODERN KITCHEN</h3>
-              <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-white transition-colors">
-                Explore Edition →
+              <h3 className="text-3xl text-[var(--text-primary)] font-light mb-2">MODERN KITCHEN</h3>
+              <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">
+                Explore Edition â†’
               </Link>
             </div>
           </motion.div>
@@ -76,3 +76,4 @@ export default function SignatureCollection() {
     </section>
   );
 }
+

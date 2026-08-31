@@ -10,7 +10,10 @@ export default async function CatalogsPage() {
   const sanityBrands = await getBrands();
   const settings = await getSiteSettings();
 
-  const brands: Brand[] = sanityBrands && sanityBrands.length > 0 ? sanityBrands : [];
+  const brands: Brand[] =
+    sanityBrands && sanityBrands.length > 0
+      ? sanityBrands
+      : (BRANDS as unknown as Brand[]);
 
   return (
     <Suspense fallback={<div className="w-full min-h-screen bg-[#0E0C0C] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[#A39E93]">Loading catalogs...</div>}>

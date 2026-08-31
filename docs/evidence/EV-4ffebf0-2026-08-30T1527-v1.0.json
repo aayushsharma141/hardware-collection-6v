@@ -1,0 +1,52 @@
+{
+  "schemaVersion": "1.0",
+  "evidenceId": "EV-4ffebf0-2026-08-30T1527-v1.0",
+  "generator": "antigravity-release-pipeline@1.0",
+  "timestamp": "2026-08-30T15:27:26.043Z",
+  "status": "FAILED",
+  "releaseDecision": "ROLLBACK",
+  "policyReference": "docs/policies/release-policy.json",
+  "provenance": {
+    "gitSha": "4ffebf0dfbf511fb42c0f63b232b854e1babf6fd",
+    "gitBranch": "main",
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpus": 32,
+    "hostname": "Digital-Epic"
+  },
+  "results": {
+    "durationMs": 52,
+    "totalStages": 2,
+    "stageResults": {
+      "GATE-01": {
+        "status": "PASSED",
+        "durationMs": 51
+      },
+      "GATE-02": {
+        "status": "FAILED",
+        "durationMs": 0
+      }
+    },
+    "userJourney": {
+      "transaction": "Upload -> Pipeline DAG -> Search Index -> Retrieve -> Delete",
+      "status": "PASSED"
+    },
+    "operationalGates": {
+      "Liveness": "ALIVE",
+      "Readiness": "READY",
+      "Health": "HEALTHY",
+      "Availability": "SLO_ACHIEVED"
+    },
+    "subsystemHealth": {
+      "API": "OK",
+      "Upload": "OK",
+      "Search": "OK",
+      "Pipeline": "OK",
+      "Telemetry": "OK",
+      "Storage": "OK",
+      "Worker": "OK",
+      "Queue": "OK"
+    }
+  }
+}

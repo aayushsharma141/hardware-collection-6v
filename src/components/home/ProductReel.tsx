@@ -5,13 +5,38 @@ import Link from "next/link";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
-import { useReducedMotion } from "motion/react";
+import { useReducedMotion, motion } from "motion/react";
 import { MagneticButton } from "@/components/animations/MagneticButton";
 import { SIGNATURE_PIECES, SignaturePiece } from "@/data/home";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const PRODUCTS = SIGNATURE_PIECES;
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.1,
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      type: "spring" as const,
+      stiffness: 250,
+      damping: 25,
+      mass: 1
+    }
+  }
+};
 
 export default function ProductReel() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -48,29 +73,34 @@ export default function ProductReel() {
   // Mobile: CSS scroll-snap, layout contract per spec
   // Card width: 78vw | Container px: 16px | Gap: 16px | snap-align: start
   const mobileReel = (
-    <div
+    <motion.div
       className="flex gap-4 overflow-x-auto snap-x snap-mandatory pb-6 lg:hidden"
       style={{ scrollbarWidth: "none", paddingLeft: "16px", paddingRight: "16px" }}
+      variants={containerVariants}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-50px" }}
     >
       {PRODUCTS.map((p, i) => (
-        <a
+        <motion.a
+          variants={itemVariants}
           key={i}
           href={p.href}
           className="snap-start shrink-0 block group"
           style={{ width: "78vw" }}
         >
           <MobileProductCard product={p} />
-        </a>
+        </motion.a>
       ))}
-    </div>
+    </motion.div>
   );
 
   return (
     <section
       data-chapter="5"
-      className="border-t border-zinc-900 bg-transparent relative"
+      className="border-t border-[var(--border)] bg-transparent relative"
     >
-      {/* Pointer light overlay — scoped to this chapter */}
+      {/* Pointer light overlay &mdash; scoped to this chapter */}
       <div
         className="pointer-light absolute inset-0 pointer-events-none"
         aria-hidden="true"
@@ -81,7 +111,7 @@ export default function ProductReel() {
       <div className="block lg:hidden pt-16 pb-8 px-0">
         <div className="px-6">
           <ChapterLabel />
-          <p className="text-zinc-400 text-sm leading-relaxed max-w-sm mt-3 mb-8 font-light">
+          <p className="text-[var(--text-secondary)] text-sm leading-relaxed max-w-sm mt-3 mb-8 font-light">
             A considered selection of tactile architectural details from our Sakchi showroom.
           </p>
         </div>
@@ -104,28 +134,37 @@ export default function ProductReel() {
           {/* Chapter label as first "card" */}
           <div className="shrink-0 w-72 pr-8 flex flex-col justify-center h-full">
             <ChapterLabel />
-            <p className="text-zinc-500 font-light mt-4 leading-relaxed text-sm">
+            <p className="text-[var(--text-secondary)] font-light mt-4 leading-relaxed text-sm">
               Selected architectural hardware from our authorized partners.
             </p>
-            <p className="text-zinc-700 text-xs mt-6">
-              01 — {PRODUCTS.length.toString().padStart(2, "0")}
+            <p className="text-[var(--text-secondary)] text-xs mt-6">
+              01 &mdash; {PRODUCTS.length.toString().padStart(2, "0")}
             </p>
           </div>
 
           {/* Product cards */}
-          {PRODUCTS.map((p, i) => (
-            <a
+          <motion.div 
+            className="flex h-full items-center gap-8"
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+          >
+            {PRODUCTS.map((p, i) => (
+              <motion.a
+                variants={itemVariants}
               key={i}
               href={p.href}
               className="product-card shrink-0 block group cursor-pointer"
               style={{ width: "340px" }}
             >
               <ProductCard product={p} />
-            </a>
-          ))}
+              </motion.a>
+            ))}
+          </motion.div>
 
           {/* End: full collection CTA */}
-          <div className="shrink-0 w-80 flex flex-col justify-center h-full pl-8 border-l border-zinc-900">
+          <div className="shrink-0 w-80 flex flex-col justify-center h-full pl-8 border-l border-[var(--border)]">
             <CollectionCTA />
           </div>
         </div>
@@ -142,7 +181,7 @@ function ProductCard({
   return (
     <div className="flex flex-col gap-4">
       {/* Image with light sweep + hover zoom */}
-      <div className="relative overflow-hidden bg-zinc-900 aspect-[3/4] rounded-sm">
+      <div className="relative overflow-hidden bg-[var(--surface-raised)] aspect-[3/4] rounded-sm">
         <img
           src={product.img}
           alt={`${product.brand} ${product.name}`}
@@ -154,22 +193,22 @@ function ProductCard({
           aria-hidden="true"
           style={{ "--sweep-delay": product.sweepDelay } as React.CSSProperties}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/20 to-transparent" />
       </div>
 
       {/* Specimen label */}
       <div className="space-y-0.5">
-        <p className="text-zinc-600 text-xs tracking-widest uppercase">{product.index} · {product.category}</p>
+        <p className="text-[var(--text-secondary)] text-xs tracking-widest uppercase">{product.index} &middot; {product.category}</p>
         <div className="flex items-baseline justify-between">
-          <p className="text-zinc-400 text-xs tracking-wide group-hover:translate-y-[-4px] transition-transform duration-200">
+          <p className="text-[var(--text-secondary)] text-xs tracking-wide group-hover:translate-y-[-4px] transition-transform duration-200">
             {product.brand}
           </p>
-          <span className="text-zinc-600 text-xs group-hover:translate-x-[6px] transition-transform duration-200" aria-hidden="true">
-            →
+          <span className="text-[var(--text-secondary)] text-xs group-hover:translate-x-[6px] transition-transform duration-200" aria-hidden="true">
+            â†’
           </span>
         </div>
-        <h3 className="text-white font-light text-xl">{product.name}</h3>
-        <p className="text-zinc-600 text-xs">{product.finish}</p>
+        <h3 className="text-[var(--text-primary)] font-light text-xl">{product.name}</h3>
+        <p className="text-[var(--text-secondary)] text-xs">{product.finish}</p>
       </div>
     </div>
   );
@@ -178,12 +217,12 @@ function ProductCard({
 function ChapterLabel() {
   return (
     <>
-      <p className="hc-mono text-[#c8a96e] font-medium tracking-[0.22em] text-[10px] sm:text-[11px] uppercase mb-1">
+      <p className="hc-mono text-[var(--accent)] font-medium tracking-[0.22em] text-[10px] sm:text-[11px] uppercase mb-1">
         Selected hardware
       </p>
-      <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[#e8e3d9] leading-tight mt-2">
+      <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mt-2">
         Selected<br />
-        <span className="text-[#aaa49a]">Architectural</span><br />
+        <span className="text-[var(--text-secondary)]">Architectural</span><br />
         Hardware.
       </h2>
     </>
@@ -195,18 +234,18 @@ function CollectionCTA() {
     <MagneticButton>
       <Link
         href="/collections"
-        className="inline-flex items-center gap-3 px-8 py-5 border border-zinc-700 text-white font-medium text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-300"
+        className="inline-flex items-center gap-3 px-8 py-5 border border-[var(--border)] text-[var(--text-primary)] font-medium text-sm tracking-widest uppercase hover:bg-[var(--text-primary)] hover:text-[var(--surface)] transition-colors duration-300"
       >
         EXPLORE FULL COLLECTION
-        <span aria-hidden="true" className="text-base">→</span>
+        <span aria-hidden="true" className="text-base">â†’</span>
       </Link>
     </MagneticButton>
   );
 }
 
 /**
- * MobileProductCard — editorial mobile card layout
- * Simplified hierarchy: image → brand → title → explore
+ * MobileProductCard &mdash; editorial mobile card layout
+ * Simplified hierarchy: image â†’ brand â†’ title â†’ explore
  * Card is the tap target (parent <a>). No secondary actions.
  */
 function MobileProductCard({
@@ -216,8 +255,8 @@ function MobileProductCard({
 }) {
   return (
     <div className="flex flex-col gap-3">
-      {/* Portrait image — aspect 4:5 */}
-      <div className="relative overflow-hidden bg-zinc-900 aspect-[4/5] rounded-sm">
+      {/* Portrait image &mdash; aspect 4:5 */}
+      <div className="relative overflow-hidden bg-[var(--surface-raised)] aspect-[4/5] rounded-sm">
         <img
           src={product.img}
           alt={`${product.brand} ${product.name}`}
@@ -228,22 +267,26 @@ function MobileProductCard({
           aria-hidden="true"
           style={{ "--sweep-delay": product.sweepDelay } as React.CSSProperties}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/30 to-transparent" />
       </div>
 
-      {/* Editorial label: brand (brass) → name → explore */}
+      {/* Editorial label: brand (brass) â†’ name â†’ explore */}
       <div className="space-y-1 px-0.5">
         <p className="text-[#C8A96E] text-[13px] tracking-widest uppercase font-medium">
           {product.brand}
         </p>
-        <h3 className="text-white text-[20px] font-light leading-snug">
+        <h3 className="text-[var(--text-primary)] text-[20px] font-light leading-snug">
           {product.name}
         </h3>
-        <p className="text-zinc-500 text-[13px] tracking-wide group-hover:translate-x-1 transition-transform duration-200">
-          Explore →
+        <p className="text-[var(--text-secondary)] text-[13px] tracking-wide group-hover:translate-x-1 transition-transform duration-200">
+          Explore â†’
         </p>
       </div>
     </div>
   );
 }
+
+
+
+
 

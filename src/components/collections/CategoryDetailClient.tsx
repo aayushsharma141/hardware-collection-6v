@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
@@ -74,12 +74,12 @@ export default function CategoryDetailClient({
       : category.description || category.shortDesc;
 
   return (
-    <div className="min-h-screen bg-[#090909] text-[#e8e3d9]">
+    <div className="min-h-screen bg-white text-[var(--text-primary)]">
       {/* Back Navigation */}
       <div className="max-w-[1320px] mx-auto px-6 pt-8 pb-4">
         <Link
           href="/collections"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[#aaa49a] hover:text-[#c8a96e] transition-colors duration-150 hc-focus py-2"
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors duration-150 hc-focus py-2"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to All Collections
@@ -87,7 +87,7 @@ export default function CategoryDetailClient({
       </div>
 
       {/* Hero Section */}
-      <section className="relative w-full border-b border-white/[0.08] overflow-hidden">
+      <section className="relative w-full border-b border-[var(--border)] overflow-hidden">
         <div className="relative max-w-[1320px] mx-auto px-6 py-16 md:py-24">
           {/* Background image atmosphere */}
           <div className="absolute inset-0 -z-10 opacity-20">
@@ -105,14 +105,14 @@ export default function CategoryDetailClient({
           </div>
 
           <div className="max-w-3xl">
-            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-3 block">
+            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] mb-3 block">
               {category.eyebrow || "CURATED COLLECTION"}
             </span>
-            <h1 className="hc-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-[0.02em] text-[#e8e3d9] uppercase leading-tight mb-5">
+            <h1 className="hc-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-[0.02em] text-[var(--text-primary)] uppercase leading-tight mb-5">
               {categoryTitle}
             </h1>
             {category.description && (
-              <p className="text-base sm:text-lg text-[#aaa49a] font-light leading-relaxed mb-8 max-w-2xl">
+              <p className="text-base sm:text-lg text-[var(--text-secondary)] font-light leading-relaxed mb-8 max-w-2xl">
                 {category.description}
               </p>
             )}
@@ -136,7 +136,7 @@ export default function CategoryDetailClient({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[#e8e3d9] border border-white/[0.15] hover:border-[#c8a96e] rounded transition-colors duration-150"
+                className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[var(--text-primary)] border border-white/[0.15] hover:border-[var(--accent)] rounded transition-colors duration-150"
               >
                 WHATSAPP SPECIALIST
               </a>
@@ -150,28 +150,28 @@ export default function CategoryDetailClient({
         (category.keyFeatures && category.keyFeatures.length > 0) ||
         (category.suitableFor && category.suitableFor.length > 0) ||
         (category.brandRefs && category.brandRefs.length > 0)) && (
-        <section className="py-16 border-b border-white/[0.08] bg-[#141314]">
+        <section className="py-16 border-b border-[var(--border)] bg-[var(--surface-raised)]">
           <div className="max-w-[1320px] mx-auto px-6">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
               {/* Overview text */}
               <div className="lg:col-span-6 flex flex-col justify-center">
-                <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[#c8a96e] mb-3 block">
+                <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)] mb-3 block">
                   ARCHITECTURAL SPECIFICATIONS
                 </span>
-                <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[#e8e3d9] mb-4">
+                <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)] mb-4">
                   Overview & Engineering Standards
                 </h2>
                 {overviewText && (
-                  <p className="text-sm sm:text-base text-[#aaa49a] font-light leading-relaxed mb-6">
+                  <p className="text-sm sm:text-base text-[var(--text-secondary)] font-light leading-relaxed mb-6">
                     {overviewText}
                   </p>
                 )}
                 {category.brandRefs && category.brandRefs.length > 0 && (
-                  <div className="flex items-center gap-2 pt-4 border-t border-white/[0.08]">
-                    <ShieldCheck className="w-4 h-4 text-[#c8a96e] shrink-0" />
-                    <span className="text-xs text-[#aaa49a] font-light">
+                  <div className="flex items-center gap-2 pt-4 border-t border-[var(--border)]">
+                    <ShieldCheck className="w-4 h-4 text-[var(--accent)] shrink-0" />
+                    <span className="text-xs text-[var(--text-secondary)] font-light">
                       Authorized Partners:{" "}
-                      <strong className="text-[#e8e3d9] font-normal">
+                      <strong className="text-[var(--text-primary)] font-normal">
                         {category.brandRefs.join(", ")}
                       </strong>
                     </span>
@@ -182,10 +182,10 @@ export default function CategoryDetailClient({
               {/* Specifications Cards */}
               <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {category.keyFeatures && category.keyFeatures.length > 0 && (
-                  <div className="p-6 rounded-lg bg-[#0e0e0f] border border-white/[0.08]">
+                  <div className="p-6 rounded-lg bg-white border border-[var(--border)]">
                     <div className="flex items-center gap-2 mb-3">
-                      <CheckCircle2 className="w-4 h-4 text-[#c8a96e]" />
-                      <h3 className="hc-mono text-xs uppercase tracking-widest text-[#e8e3d9]">
+                      <CheckCircle2 className="w-4 h-4 text-[var(--accent)]" />
+                      <h3 className="hc-mono text-xs uppercase tracking-widest text-[var(--text-primary)]">
                         Key Features
                       </h3>
                     </div>
@@ -193,9 +193,9 @@ export default function CategoryDetailClient({
                       {category.keyFeatures.map((feat) => (
                         <li
                           key={feat}
-                          className="text-xs text-[#aaa49a] font-light flex items-start gap-2"
+                          className="text-xs text-[var(--text-secondary)] font-light flex items-start gap-2"
                         >
-                          <span className="text-[#c8a96e]">•</span>
+                          <span className="text-[var(--accent)]">â€¢</span>
                           {feat}
                         </li>
                       ))}
@@ -204,10 +204,10 @@ export default function CategoryDetailClient({
                 )}
 
                 {category.suitableFor && category.suitableFor.length > 0 && (
-                  <div className="p-6 rounded-lg bg-[#0e0e0f] border border-white/[0.08]">
+                  <div className="p-6 rounded-lg bg-white border border-[var(--border)]">
                     <div className="flex items-center gap-2 mb-3">
-                      <Layers className="w-4 h-4 text-[#c8a96e]" />
-                      <h3 className="hc-mono text-xs uppercase tracking-widest text-[#e8e3d9]">
+                      <Layers className="w-4 h-4 text-[var(--accent)]" />
+                      <h3 className="hc-mono text-xs uppercase tracking-widest text-[var(--text-primary)]">
                         Suitable For
                       </h3>
                     </div>
@@ -215,9 +215,9 @@ export default function CategoryDetailClient({
                       {category.suitableFor.map((app) => (
                         <li
                           key={app}
-                          className="text-xs text-[#aaa49a] font-light flex items-start gap-2"
+                          className="text-xs text-[var(--text-secondary)] font-light flex items-start gap-2"
                         >
-                          <span className="text-[#c8a96e]">•</span>
+                          <span className="text-[var(--accent)]">â€¢</span>
                           {app}
                         </li>
                       ))}
@@ -232,13 +232,13 @@ export default function CategoryDetailClient({
 
       {/* Gallery Strip (if present) */}
       {galleryImages.length > 0 && (
-        <section className="py-16 border-b border-white/[0.08]">
+        <section className="py-16 border-b border-[var(--border)]">
           <div className="max-w-[1320px] mx-auto px-6">
             <div className="mb-8">
-              <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[#c8a96e] mb-2 block">
+              <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[var(--accent)] mb-2 block">
                 VISUAL SHOWCASE
               </span>
-              <h3 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[#e8e3d9]">
+              <h3 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
                 Installed Finishes & Details
               </h3>
             </div>
@@ -247,7 +247,7 @@ export default function CategoryDetailClient({
               {galleryImages.map((imgUrl, i) => (
                 <div
                   key={i}
-                  className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-zinc-900 border border-white/[0.08]"
+                  className="relative aspect-[4/3] w-full overflow-hidden rounded-lg bg-[var(--surface-raised)] border border-[var(--border)]"
                 >
                   <Image
                     src={imgUrl}
@@ -267,10 +267,10 @@ export default function CategoryDetailClient({
       <section className="py-16 md:py-24">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="max-w-3xl mb-12">
-            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-2 block">
+            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] mb-2 block">
               CATALOGUE
             </span>
-            <h2 className="hc-serif text-3xl sm:text-4xl font-normal tracking-[0.02em] text-[#e8e3d9]">
+            <h2 className="hc-serif text-3xl sm:text-4xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
               {products.length > 0
                 ? `Products in ${categoryTitle}`
                 : `Stock & Availability: ${categoryTitle}`}
@@ -297,17 +297,17 @@ export default function CategoryDetailClient({
             </div>
           ) : (
             /* D-13: Substantive Empty-Category Variant */
-            <div className="p-12 md:p-16 rounded-xl bg-[#141314] border border-white/[0.08] text-center flex flex-col items-center max-w-2xl mx-auto">
+            <div className="p-12 md:p-16 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] text-center flex flex-col items-center max-w-2xl mx-auto">
               <Compass
-                className="w-10 h-10 text-[#c8a96e] mb-4 opacity-80"
+                className="w-10 h-10 text-[var(--accent)] mb-4 opacity-80"
                 aria-hidden="true"
               />
-              <h3 className="hc-serif text-2xl font-normal text-[#e8e3d9] mb-3">
+              <h3 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-3">
                 Physical Display & Sourcing in Sakchi
               </h3>
-              <p className="text-sm text-[#aaa49a] font-light mb-8 leading-relaxed">
+              <p className="text-sm text-[var(--text-secondary)] font-light mb-8 leading-relaxed">
                 We stock and specify genuine architectural hardware for{" "}
-                <strong className="text-[#e8e3d9] font-medium">{categoryTitle}</strong>.
+                <strong className="text-[var(--text-primary)] font-medium">{categoryTitle}</strong>.
                 Connect directly with our showroom specialists for manufacturer cut-sheets, live demo bookings,
                 and contractor volume pricing.
               </p>
@@ -329,7 +329,7 @@ export default function CategoryDetailClient({
                   href={emptyWhatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[#e8e3d9] border border-white/[0.15] hover:border-[#c8a96e] rounded transition-colors duration-150"
+                  className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[var(--text-primary)] border border-white/[0.15] hover:border-[var(--accent)] rounded transition-colors duration-150"
                 >
                   WHATSAPP SPECIALIST
                 </a>
@@ -340,16 +340,16 @@ export default function CategoryDetailClient({
       </section>
 
       {/* Bottom Consultation CTA Section */}
-      <section className="py-16 border-t border-white/[0.08] bg-[#141314]">
+      <section className="py-16 border-t border-[var(--border)] bg-[var(--surface-raised)]">
         <div className="max-w-[1320px] mx-auto px-6 text-center">
           <MessageSquare
-            className="w-8 h-8 text-[#c8a96e] mx-auto mb-4 opacity-80"
+            className="w-8 h-8 text-[var(--accent)] mx-auto mb-4 opacity-80"
             aria-hidden="true"
           />
-          <h3 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[#e8e3d9] mb-3">
+          <h3 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)] mb-3">
             Need Expert Sizing or Specification?
           </h3>
-          <p className="text-sm text-[#aaa49a] font-light max-w-lg mx-auto mb-8 leading-relaxed">
+          <p className="text-sm text-[var(--text-secondary)] font-light max-w-lg mx-auto mb-8 leading-relaxed">
             Our architectural consultants in Sakchi assist architects, interior designers, and homeowners
             with precise technical recommendations and finish matching.
           </p>
@@ -384,3 +384,4 @@ export default function CategoryDetailClient({
     </div>
   );
 }
+

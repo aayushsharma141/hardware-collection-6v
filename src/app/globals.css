@@ -1,28 +1,69 @@
 @import "tailwindcss";
 
 @theme inline {
-  /* Step 02: Global Visual Tokens */
+  /* ── Primitive Palette ─────────────────────────────────────── */
+
+  /* DARK SURFACES */
   --color-cinema-black: #090909;
-  --color-obsidian: #11100f;
-  --color-graphite: #181716;
-  --color-warm-black: #201d19;
-  --color-bone: #e8e3d9;
-  --color-muted-bone: #aaa49a;
-  --color-brass: #c8a96e;
-  --color-deep-crimson: #8b1a4a;
-  --color-metal-highlight: rgba(255,255,255,.16);
+  --color-obsidian:     #11100f;
+  --color-graphite:     #181716;
+  --color-warm-black:   #201d19;
 
-  /* Stitch Design Tokens */
-  --color-surface-obsidian: var(--color-obsidian);
-  --color-surface-graphite: var(--color-graphite);
-  --color-background: var(--color-cinema-black);
-  --color-on-surface: var(--color-bone);
-  --color-primary: var(--color-brass);
-  --color-on-primary: #000000;
-  --color-outline-variant: #353534;
-  --color-text-bone: var(--color-bone);
-  --color-text-muted: var(--color-muted-bone);
+  /* LIGHT SURFACES */
+  --color-white:        #ffffff;
+  --color-pearl:        #f8f6f6;
+  --color-mist:         #f0ecec;
+  --color-wine-tint:    #f7e8ee;
 
+  /* BRAND PRIMARY — Wine Crimson (HC logo lettermark colour) */
+  --color-wine-deep:    #6b1432;
+  --color-wine:         #8b1a42;
+  --color-wine-mid:     #b5406a;
+  --color-wine-light:   #d4899e;
+
+  /* PREMIUM GOLD — tagline "The Jewelry of Fittings" */
+  --color-brass:        #c8a96e;
+  --color-brass-dark:   #9a7a42;
+  --color-brass-light:  #e8d5a8;
+
+  /* CHROME SILVER — 3D logo body */
+  --color-chrome:       #c0c0c0;
+  --color-silver:       #e0dedc;
+
+  /* TEXT — ON LIGHT */
+  --color-ink:          #1a1017;
+  --color-charcoal:     #3d2e38;
+  --color-muted:        #7a6872;
+
+  /* TEXT — ON DARK */
+  --color-bone:         #e8e3d9;
+  --color-muted-bone:   #aaa49a;
+
+  /* ── Semantic Aliases consumed by existing components ────── */
+  --color-deep-crimson:         var(--color-wine);
+  --color-metal-highlight:      rgba(255,255,255,.16);
+  --color-surface-obsidian:     var(--color-obsidian);
+  --color-surface-graphite:     var(--color-graphite);
+  --color-background:           var(--color-white);
+  --color-on-surface:           var(--color-ink);
+  --color-primary:              var(--color-wine);
+  --color-on-primary:           #ffffff;
+  --color-outline-variant:      #e8dde2;
+  --color-text-bone:            var(--color-bone);
+  --color-text-muted:           var(--color-muted-bone);
+  --color-text-main:            var(--color-ink);
+
+  /* Legacy gold aliases — still valid for decorative use */
+  --color-gold-primary:   var(--color-brass);
+  --color-gold-light:     var(--color-brass-light);
+  --color-gold-dark:      var(--color-brass-dark);
+  --color-dark-bg:        var(--color-cinema-black);
+  --color-dark-surface:   var(--color-obsidian);
+  --color-dark-surface-2: var(--color-graphite);
+  --color-glass-bg:       rgba(17, 16, 15, 0.7);
+  --color-glass-border:   rgba(200, 169, 110, 0.2);
+
+  /* ── Spacing ─────────────────────────────────────────────── */
   --spacing-unit-xs: 4px;
   --spacing-unit-sm: 8px;
   --spacing-unit-md: 16px;
@@ -33,178 +74,193 @@
   --spacing-margin-desktop: 80px;
   --spacing-base: 24px;
 
-  /* Legacy tokens mapped to new palette where applicable */
-  --color-gold-primary: var(--color-brass);
-  --color-gold-light: var(--color-bone);
-  --color-gold-dark: #aa8000;
-  --color-dark-bg: var(--color-cinema-black);
-  --color-dark-surface: var(--color-obsidian);
-  --color-dark-surface-2: var(--color-graphite);
-  --color-glass-bg: rgba(17, 16, 15, 0.7); /* obsidian with opacity */
-  --color-glass-border: rgba(200, 169, 110, 0.2); /* brass with opacity */
-  --color-text-main: var(--color-bone);
-  
-  /* Typography Tokens - Standardized Hierarchy */
-  --font-serif: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-sans: var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-display: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-body: var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* ── Typography ──────────────────────────────────────────── */
+  --font-serif:    var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-sans:     var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-display:  var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body:     var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-cormorant: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-dmsans: var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-cinzel: var(--font-cinzel), serif;
-  --font-manrope: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-dmsans:   var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-cinzel:   var(--font-cinzel), serif;
+  --font-manrope:  var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono:     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
-  /* Stitch Typography Extends — full stacks so a missing next/font var still
-     lands on the intended voice rather than the browser default. */
-  --font-headline-xl: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-headline-lg: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-headline-xl:       var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-headline-lg:       var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-headline-lg-mobile: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-headline-md: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-body-lg: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-body-md: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-ui-button: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-label-caps: var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-headline-md:       var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-body-lg:           var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body-md:           var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-ui-button:         var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-label-caps:        var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
-  --animate-float: float 6s ease-in-out infinite;
-  --animate-pulse-gold: pulse-gold 2s infinite;
+  /* ── Motion ──────────────────────────────────────────────── */
+  --animate-float:      float 6s ease-in-out infinite;
+  --animate-pulse-wine: pulse-wine 2s infinite;
   --animate-gradient-x: gradient-x 15s ease infinite;
 
   @keyframes float {
-    0% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
+    0%   { transform: translateY(0px); }
+    50%  { transform: translateY(-10px); }
     100% { transform: translateY(0px); }
   }
-  @keyframes pulse-gold {
-    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0.4); }
-    70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(212, 175, 55, 0); }
-    100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(212, 175, 55, 0); }
+  @keyframes pulse-wine {
+    0%   { transform: scale(1);    box-shadow: 0 0 0 0   rgba(139, 26, 66, 0.35); }
+    70%  { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(139, 26, 66, 0); }
+    100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(139, 26, 66, 0); }
   }
   @keyframes gradient-x {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
   }
   @keyframes fadeInUp {
     from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes fadeInDown {
     from { opacity: 0; transform: translateY(-30px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
   }
   @keyframes shimmer {
     100% { transform: translateX(100%); }
   }
   @keyframes catFadeIn {
     from { opacity: 0; transform: translateY(6px); }
-    to { opacity: 1; transform: translateY(0); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-  /* Transitions Polish Motion Tokens */
-  --duration-stagger: 40ms;
-  --duration-micro: 80ms;
-  --duration-quick: 150ms;
-  --duration-fast: 250ms;
-  --duration-medium: 350ms;
-  --duration-slow: 400ms;
+
+  --duration-stagger:   40ms;
+  --duration-micro:     80ms;
+  --duration-quick:     150ms;
+  --duration-fast:      250ms;
+  --duration-medium:    350ms;
+  --duration-slow:      400ms;
   --duration-very-slow: 500ms;
 
   --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-in-out: ease-in-out;
-  --ease-out: ease-out;
+  --ease-in-out:     ease-in-out;
+  --ease-out:        ease-out;
 
-  --distance-micro: 4px;
-  --distance-small: 6px;
-  --distance-base: 8px;
+  --distance-micro:  4px;
+  --distance-small:  6px;
+  --distance-base:   8px;
   --distance-medium: 12px;
 
-  /* Custom breakpoint: compact → standard hero mode threshold */
   --breakpoint-xs: 390px;
 }
 
+/* ── Default body — bright base ────────────────────────────── */
 body {
-  background: var(--color-dark-bg);
-  color: var(--color-text-main);
+  background: #fdf8f0;
+  color: var(--color-ink, #1a1017);
   overflow-x: hidden;
+
+  /* Semantic token defaults — all components get bright unless a
+     theme wrapper overrides. Eliminates dark fallback values. */
+  --surface:           #fdf8f0;
+  --surface-raised:    #f7f0e4;
+  --surface-elevated:  #ede4d4;
+  --text-primary:      #1a1017;
+  --text-secondary:    #3d2e38;
+  --accent:            #8b1a42;
+  --accent-functional: #8b1a42;
+  --accent-gold:       #9a7a42;
+  --border:            rgba(26, 16, 23, 0.09);
+  --border-accent:     rgba(139, 26, 66, 0.50);
+  --glass-bg:          rgba(253, 248, 240, 0.85);
+  --glass-border:      rgba(139, 26, 66, 0.15);
+  --pointer-glow:      rgba(139, 26, 66, 0.05);
 }
 
 @layer utilities {
+  /* Hero still uses dark cinematic overlay on the shop photograph */
   .bg-hero-pattern {
-    background-image: linear-gradient(rgba(10, 10, 10, 0.85), rgba(10, 10, 10, 0.95)), url('/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg');
+    background-image: linear-gradient(rgba(10, 10, 10, 0.82), rgba(10, 10, 10, 0.92)), url('/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg');
   }
 
   .glass-panel {
-    background: var(--color-glass-bg);
+    background: var(--glass-bg, var(--color-glass-bg));
     -webkit-backdrop-filter: blur(12px);
     backdrop-filter: blur(12px);
-    border: 1px solid var(--color-glass-border);
+    border: 1px solid var(--glass-border, var(--color-glass-border));
   }
 
+  .glass-liquid {
+    background: var(--glass-bg, rgba(248, 246, 246, 0.70));
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .btn-tactile {
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease;
+  }
+  
+  .btn-tactile:active {
+    transform: scale(0.98) translateY(1px);
+  }
+
+  .transition-premium {
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  /* Wine display color — used on light surfaces */
   .text-gradient {
-    background: linear-gradient(135deg, var(--color-gold-light), var(--color-gold-primary), var(--color-gold-dark));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--color-wine);
   }
 
-  /* Ribbon bookmark shape — used by the pre-launch ribbon component */
+  /* Ribbon bookmark shape */
   .ribbon-clip {
     clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 85%, 0 100%);
   }
 
-  /* Stitch Typography Classes */
-  .text-body-md { font-size: 16px; line-height: 24px; font-weight: 400; }
-  .text-headline-lg { font-size: 40px; line-height: 48px; letter-spacing: -0.01em; font-weight: 400; }
-  .text-headline-md { font-size: 24px; line-height: 32px; letter-spacing: 0.02em; font-weight: 500; }
-  .text-ui-button { font-size: 14px; line-height: 20px; letter-spacing: 0.05em; font-weight: 500; }
-  .text-label-caps { font-size: 12px; line-height: 16px; letter-spacing: 0.15em; font-weight: 600; }
-  .text-body-lg { font-size: 18px; line-height: 28px; font-weight: 400; }
-  .text-headline-lg-mobile { font-size: 32px; line-height: 40px; font-weight: 400; }
-  .text-headline-xl { font-size: 64px; line-height: 72px; letter-spacing: -0.02em; font-weight: 400; }
+  /* Stitch Typography — Modern Luxury Scale */
+  .text-body-md          { font-size: 17px; line-height: 28px; font-weight: 400; }
+  .text-headline-lg      { font-size: 48px; line-height: 54px; letter-spacing: -0.015em; font-weight: 400; }
+  .text-headline-md      { font-size: 28px; line-height: 36px; letter-spacing: 0.01em; font-weight: 500; }
+  .text-ui-button        { font-size: 15px; line-height: 22px; letter-spacing: 0.08em; font-weight: 600; }
+  .text-label-caps       { font-size: 13px; line-height: 18px; letter-spacing: 0.2em; font-weight: 600; }
+  .text-body-lg          { font-size: 20px; line-height: 32px; font-weight: 300; }
+  .text-headline-lg-mobile { font-size: 38px; line-height: 44px; font-weight: 400; }
+  .text-headline-xl      { font-size: 80px; line-height: 84px; letter-spacing: -0.02em; font-weight: 300; }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   MATERIAL CINEMA — Global CSS Custom Properties
-   All animation-driven values are updated via JS.
+   RUNTIME CSS PROPERTIES — updated by JS / GSAP
    ───────────────────────────────────────────────────────────── */
 
 :root {
-  /* Pointer lighting — updated on pointermove */
   --pointer-x: 50%;
   --pointer-y: 50%;
 
-  /* Atmospheric background channels — updated via scroll progress */
   --atm-r: 10;
   --atm-g: 10;
   --atm-b: 12;
 
-  /* Scroll velocity skew — updated via GSAP ScrollTrigger */
   --scroll-skew: 0deg;
 
-  /* Mobile conversion bar height token */
   --mobile-bar-height: 56px;
 }
 
-/* Reserve document space for the fixed mobile conversion bar */
 @media (max-width: 1023px) {
   body {
     padding-bottom: calc(var(--mobile-bar-height) + env(safe-area-inset-bottom, 0px));
   }
 }
 
-/* Hide conversion bar when mobile nav drawer is open */
 html[data-drawer-open] .mobile-conversion-bar {
   display: none;
 }
 
+/* ── Keyframes ───────────────────────────────────────────────── */
 
-/* Aperture transition — architectural doorway reveal between chapters */
 @keyframes aperture-open {
   from { clip-path: inset(50% 50% 50% 50%); }
   to   { clip-path: inset(0% 0% 0% 0%); }
 }
 
-/* Reflective light sweep — single pass over metal surfaces */
 @keyframes light-sweep {
   0%   { transform: translateX(-120%) skewX(-20deg); opacity: 0; }
   10%  { opacity: 1; }
@@ -212,16 +268,16 @@ html[data-drawer-open] .mobile-conversion-bar {
   100% { transform: translateX(220%) skewX(-20deg); opacity: 0; }
 }
 
-/* Pointer light utility — apply to layers that react to cursor */
+/* ── Pointer light ───────────────────────────────────────────── */
 .pointer-light {
   background-image: radial-gradient(
     circle 600px at var(--pointer-x) var(--pointer-y),
-    rgba(200, 169, 110, 0.06),
+    var(--pointer-glow, rgba(139, 26, 66, 0.05)),
     transparent 70%
   );
 }
 
-/* Metal light sweep overlay — placed over hardware product images */
+/* ── Chrome sweep — dark sections & product photography only ─── */
 .light-sweep-overlay {
   position: absolute;
   inset: 0;
@@ -240,9 +296,9 @@ html[data-drawer-open] .mobile-conversion-bar {
   background: linear-gradient(
     105deg,
     transparent 0%,
-    rgba(255, 255, 255, 0.04) 40%,
-    rgba(255, 255, 255, 0.12) 50%,
-    rgba(255, 255, 255, 0.04) 60%,
+    rgba(255,255,255,0.04) 40%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0.04) 60%,
     transparent 100%
   );
   mix-blend-mode: screen;
@@ -250,59 +306,32 @@ html[data-drawer-open] .mobile-conversion-bar {
   animation-delay: var(--sweep-delay, 0s);
 }
 
-/* Scroll velocity skew wrapper — decorative layers only */
 .cinema-skew-layer {
   transform: skewY(var(--scroll-skew));
   will-change: transform;
   transition: transform 0.1s linear;
 }
 
-/* Lenis smooth scrolling rules */
-html.lenis, html.lenis body {
-  height: auto;
-}
+/* ── Lenis ───────────────────────────────────────────────────── */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-scrolling iframe { pointer-events: none; }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto !important;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
-
-/* ─────────────────────────────────────────────────────────────
-   LIQUID GLASS NAVIGATION — Visual Depth & Ambient Shimmer
-   ───────────────────────────────────────────────────────────── */
-
+/* ── Liquid glass shimmer (nav) ──────────────────────────────── */
 @keyframes liquid-glass-shimmer {
-  0% {
-    transform: translate(-20%, -15%) rotate(0deg) scale(1);
-    opacity: 0.035;
-  }
-  50% {
-    transform: translate(25%, 15%) rotate(3deg) scale(1.1);
-    opacity: 0.07;
-  }
-  100% {
-    transform: translate(-20%, -15%) rotate(0deg) scale(1);
-    opacity: 0.035;
-  }
+  0%   { transform: translate(-20%, -15%) rotate(0deg) scale(1);   opacity: 0.035; }
+  50%  { transform: translate(25%, 15%)  rotate(3deg) scale(1.1); opacity: 0.07; }
+  100% { transform: translate(-20%, -15%) rotate(0deg) scale(1);   opacity: 0.035; }
 }
 
 .liquid-glass-reflection {
   background: radial-gradient(
     ellipse 70% 80% at 50% 0%,
-    rgba(255, 255, 255, 0.13) 0%,
-    rgba(200, 169, 110, 0.06) 40%,
-    rgba(200, 169, 110, 0.02) 60%,
+    rgba(255,255,255,0.13) 0%,
+    rgba(139,26,66,0.06)  40%,
+    rgba(139,26,66,0.02)  60%,
     transparent 75%
   );
   animation: liquid-glass-shimmer 18s ease-in-out infinite;
@@ -310,183 +339,276 @@ html.lenis, html.lenis body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .liquid-glass-reflection {
-    animation: none !important;
-  }
+  .liquid-glass-reflection { animation: none !important; }
 }
-
 
 /* ─────────────────────────────────────────────────────────────
    KOMBAI DESIGN TOKENS & INTERACTION SYSTEM
    ───────────────────────────────────────────────────────────── */
 
 :root {
-  --black: #090909;
+  /* Surfaces */
+  --white:    #ffffff;
+  --pearl:    #f8f6f6;
+  --mist:     #f0ecec;
+
+  /* Dark surfaces — consumed by .theme-dark sections */
+  --black:    #090909;
   --obsidian: #11100f;
   --graphite: #181716;
-  --bone: #e8e3d9;
-  --muted: #aaa49a;
-  --brass: #c8a96e;
-  --rule: rgba(232, 227, 217, 0.14);
-  --soft-rule: rgba(232, 227, 217, 0.08);
+
+  /* Text */
+  --ink:      #1a1017;
+  --charcoal: #3d2e38;
+  --muted:    #7a6872;
+  --bone:     #e8e3d9;
+  --bone-muted: #aaa49a;
+
+  /* Brand accents */
+  --wine:       #8b1a42;
+  --wine-deep:  #6b1432;
+  --wine-mid:   #b5406a;
+  --brass:      #c8a96e;
+  --chrome:     #c0c0c0;
+  --silver:     #e0dedc;
+
+  /* Rules & dividers */
+  --rule:       rgba(26, 16, 23, 0.10);
+  --soft-rule:  rgba(26, 16, 23, 0.06);
+  --wine-rule:  rgba(139, 26, 66, 0.55);
   --brass-rule: rgba(200, 169, 110, 0.55);
-  --standard: cubic-bezier(0.25, 0.1, 0.25, 1);
-  --cinematic: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Easing */
+  --standard:      cubic-bezier(0.25, 0.1, 0.25, 1);
+  --cinematic:     cubic-bezier(0.22, 1, 0.36, 1);
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --dur-micro: 140ms;
-  --dur-fast: 180ms;
-  --dur-base: 240ms;
-  --dur-slow: 350ms;
+  --dur-fast:  180ms;
+  --dur-base:  240ms;
+  --dur-slow:  350ms;
 }
 
-.hc-root { font-family: var(--font-dmsans), 'DM Sans', sans-serif; background: var(--black); color: var(--bone); }
-.hc-serif { font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif; }
-.hc-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-.hc-root button, .hc-root a, .hc-root input { font: inherit; }
-.hc-focus:focus-visible { outline: 2px solid var(--brass); outline-offset: 3px; }
+/* ─────────────────────────────────────────────────────────────
+   SEMANTIC THEME SYSTEM
+   Apply .theme-dark or .theme-light to any section wrapper.
+   Components consume the variables — no per-component overrides.
 
-/* Interactive rules & micro-animations */
+   Page section hierarchy:
+     Hero              → .theme-dark   (cinematic photography)
+     Brand credibility → .theme-light
+     About             → .theme-dark
+     Categories        → .theme-light
+     Featured          → .theme-dark
+     Why HC            → .theme-light
+     Showroom          → .theme-dark
+     Reviews           → .theme-light
+     Final CTA         → .theme-dark
+     Footer            → .theme-dark
+   ───────────────────────────────────────────────────────────── */
+
+.theme-dark {
+  /* Overridden to warm-bright — all sections are bright, no dark */
+  --surface:           #fdf8f0;
+  --surface-raised:    #f7f0e4;
+  --surface-elevated:  #ede4d4;
+
+  --text-primary:      #1a1017;
+  --text-secondary:    #3d2e38;
+
+  --accent:            #8b1a42;
+  --accent-hover:      #6b1432;
+  --accent-functional: #8b1a42;
+  --accent-gold:       #9a7a42;
+
+  --border:            rgba(26, 16, 23, 0.09);
+  --border-accent:     rgba(139, 26, 66, 0.50);
+
+  --glass-bg:          rgba(253, 248, 240, 0.85);
+  --glass-border:      rgba(139, 26, 66, 0.15);
+
+  --pointer-glow:      rgba(139, 26, 66, 0.05);
+
+  background-color: var(--surface);
+  color:            var(--text-primary);
+
+  .light-sweep-overlay { display: none; }
+}
+
+/* Alias — existing TSX still references theme-ivory */
+.theme-ivory,
+.theme-light {
+  --surface:           #fdf8f0;
+  --surface-raised:    #f7f0e4;
+  --surface-elevated:  #ede4d4;
+
+  --text-primary:      #1a1017;
+  --text-secondary:    #3d2e38;
+
+  --accent:            #8b1a42;
+  --accent-hover:      #6b1432;
+  --accent-functional: #8b1a42;
+  --accent-gold:       #9a7a42;
+
+  --border:            rgba(26, 16, 23, 0.09);
+  --border-accent:     rgba(139, 26, 66, 0.50);
+
+  --glass-bg:          rgba(253, 248, 240, 0.85);
+  --glass-border:      rgba(139, 26, 66, 0.15);
+
+  --pointer-glow:      rgba(139, 26, 66, 0.05);
+
+  background-color: var(--surface);
+  color:            var(--text-primary);
+
+  /* Screen-blend effects invert on light — suppress them */
+  .light-sweep-overlay { display: none; }
+  .pointer-light {
+    background-image: radial-gradient(
+      circle 600px at var(--pointer-x) var(--pointer-y),
+      var(--pointer-glow),
+      transparent 70%
+    );
+  }
+}
+
+/* ── KOMBAI component classes ──────────────────────────────── */
+
+.hc-root { font-family: var(--font-dmsans), 'DM Sans', sans-serif; background: var(--white); color: var(--ink); }
+.hc-serif { font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif; }
+.hc-mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+.hc-root button, .hc-root a, .hc-root input { font: inherit; }
+.hc-focus:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
+
+/* Underline sweep — wine on interactive elements */
 .architecture-rule { position: relative; }
-.architecture-rule::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0.18); transform-origin: left; transition: transform 220ms var(--standard); }
+.architecture-rule::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--wine); transform: scaleX(0.18); transform-origin: left; transition: transform 220ms var(--standard); }
 .architecture-rule:hover::after, .architecture-rule:focus-within::after { transform: scaleX(1); }
 
 .rail-button { position: relative; overflow: hidden; transition: color var(--dur-micro) var(--ease-out-expo); }
-.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--cinematic); }
+.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--wine); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--cinematic); }
 .rail-button:hover::after, .rail-button:focus-visible::after { transform: scaleX(1); }
 
-.brass-plate { position: relative; background-color: var(--brass); color: #090909; box-shadow: inset 0 0 0 1px #090909; transition: background-color 220ms var(--cinematic), color 220ms var(--cinematic), transform var(--dur-micro) var(--ease-out-expo); }
-.brass-plate:hover, .brass-plate:focus-visible { background-color: #e8e3d9; color: #090909; }
+/* Primary CTA — wine plate */
+.brass-plate { position: relative; background-color: var(--wine); color: #ffffff; box-shadow: inset 0 0 0 1px var(--wine-deep); transition: background-color 220ms var(--cinematic), color 220ms var(--cinematic), transform var(--dur-micro) var(--ease-out-expo); }
+.brass-plate:hover, .brass-plate:focus-visible { background-color: var(--wine-deep); color: #ffffff; }
 .brass-plate:active { transform: scale(0.98); }
-.brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(9,9,9,.72); transform-origin: left; transition: transform 220ms var(--cinematic); }
+.brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(255,255,255,.40); transform-origin: left; transition: transform 220ms var(--cinematic); }
 .brass-plate:hover::after, .brass-plate:focus-visible::after { transform: translateX(12px); }
 
+/* Aperture hover — chrome sweep */
 .aperture-sweep { position: absolute; top: 18%; bottom: 10%; left: 34%; width: 18%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent); transform: skewX(-18deg); opacity: .42; transition: transform 520ms var(--cinematic), opacity 260ms ease; pointer-events: none; }
 .aperture:hover .aperture-sweep, .aperture:focus-within .aperture-sweep { transform: translateX(76px) skewX(-18deg); opacity: .72; }
 .aperture-image { filter: contrast(1.04) saturate(.78); transition: filter 260ms ease; }
 .aperture:hover .aperture-image, .aperture:focus-within .aperture-image { filter: contrast(1.12) saturate(.96); }
 
-.specimen-tray { position: relative; background: var(--obsidian); border: 1px solid var(--rule); transition: border-color 220ms var(--standard), transform var(--dur-micro) var(--ease-out-expo); }
-.specimen-tray:hover, .specimen-tray:focus-within { border-color: var(--brass-rule); }
+/* Product cards */
+.specimen-tray { position: relative; background: var(--surface-raised, var(--pearl)); border: 1px solid var(--border, var(--rule)); transition: border-color 220ms var(--standard), transform var(--dur-micro) var(--ease-out-expo); }
+.specimen-tray:hover, .specimen-tray:focus-within { border-color: var(--border-accent, var(--wine-rule)); }
 .specimen-tray:active { transform: scale(0.99); }
-.specimen-frame { position: relative; isolation: isolate; overflow: hidden; background: var(--graphite); border: 1px solid var(--soft-rule); }
-.specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(232,227,217,.10); pointer-events: none; z-index: 2; transition: border-color 220ms var(--standard); }
-.specimen-frame::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: 12%; height: 20%; z-index: 1; background: linear-gradient(90deg, transparent, rgba(200,169,110,.26), transparent); transform: translateX(-14%); transition: transform 220ms var(--cinematic), left 220ms var(--standard), right 220ms var(--standard); pointer-events: none; }
-.specimen-tray:hover .specimen-frame::before, .specimen-tray:focus-within .specimen-frame::before { border-color: rgba(200,169,110,.48); }
+.specimen-frame { position: relative; isolation: isolate; overflow: hidden; background: var(--surface-elevated, var(--mist)); border: 1px solid var(--border, var(--soft-rule)); }
+.specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(26,16,23,.06); pointer-events: none; z-index: 2; transition: border-color 220ms var(--standard); }
+.specimen-frame::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: 12%; height: 20%; z-index: 1; background: linear-gradient(90deg, transparent, rgba(139,26,66,.12), transparent); transform: translateX(-14%); transition: transform 220ms var(--cinematic), left 220ms var(--standard), right 220ms var(--standard); pointer-events: none; }
+.specimen-tray:hover .specimen-frame::before, .specimen-tray:focus-within .specimen-frame::before { border-color: rgba(139,26,66,.30); }
 .specimen-tray:hover .specimen-frame::after, .specimen-tray:focus-within .specimen-frame::after { transform: translateX(14%); left: 12%; right: 12%; }
 
+/* Shortlist toggle */
 .shortlist-control .ti-plus, .shortlist-control .shortlist-icon { transition: transform 180ms var(--standard); }
-.shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon, .shortlist-control[aria-pressed='true'] .ti-plus, .shortlist-control[aria-pressed='true'] .shortlist-icon { transform: rotate(45deg); }
-.shortlist-control[aria-pressed='true'] { background: var(--brass); color: var(--black); border-color: var(--brass); }
+.shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon,
+.shortlist-control[aria-pressed='true'] .ti-plus, .shortlist-control[aria-pressed='true'] .shortlist-icon { transform: rotate(45deg); }
+.shortlist-control[aria-pressed='true'] { background: var(--wine); color: #ffffff; border-color: var(--wine); }
 
+/* Threshold card */
 .threshold-card { position: relative; transition: transform var(--dur-micro) var(--ease-out-expo); }
 .threshold-card:active { transform: scale(0.99); }
-.threshold-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(200,169,110,0); transition: background-color 220ms var(--cinematic); }
-.threshold-card:hover::before, .threshold-card:focus-within::before { background: var(--brass); }
+.threshold-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(139,26,66,0); transition: background-color 220ms var(--cinematic); }
+.threshold-card:hover::before, .threshold-card:focus-within::before { background: var(--wine); }
 .threshold-card .threshold-action i, .threshold-card .threshold-action svg { transform: translateX(0); transition: transform 220ms var(--cinematic); }
-.threshold-card:hover .threshold-action i, .threshold-card:hover .threshold-action svg, .threshold-card:focus-within .threshold-action i, .threshold-card:focus-within .threshold-action svg { transform: translateX(6px); }
+.threshold-card:hover .threshold-action i, .threshold-card:hover .threshold-action svg,
+.threshold-card:focus-within .threshold-action i, .threshold-card:focus-within .threshold-action svg { transform: translateX(6px); }
 .threshold-card .threshold-image { transition: filter 220ms ease; }
 .threshold-card:hover .threshold-image, .threshold-card:focus-within .threshold-image { filter: contrast(1.08) brightness(1.04); }
 
+/* Mobile list row */
 .mobile-row { min-height: 78px; position: relative; }
 .mobile-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: transparent; transition: background-color 180ms ease; }
-.mobile-row:hover::before, .mobile-row:focus-within::before { background: var(--brass); }
+.mobile-row:hover::before, .mobile-row:focus-within::before { background: var(--wine); }
 .mobile-row i, .mobile-row svg { transform: translateX(0); transition: transform 180ms var(--cinematic); }
 .mobile-row:hover i, .mobile-row:hover svg, .mobile-row:focus-within i, .mobile-row:focus-within svg { transform: translateX(5px); }
 
-.phone-frame { box-shadow: inset 0 0 0 1px rgba(232,227,217,.22), 0 0 0 8px #11100f, 0 0 0 9px rgba(232,227,217,.1); }
-.check-box { width: 16px; height: 16px; border: 1px solid rgba(232,227,217,.32); display: inline-flex; align-items: center; justify-content: center; color: var(--black); flex: 0 0 auto; transition: all var(--dur-micro) var(--ease-out-expo); }
-.check-box.is-checked { background: var(--brass); border-color: var(--brass); }
-.index-row { min-height: 44px; border-bottom: 1px solid var(--soft-rule); transition: color var(--dur-micro) var(--ease-out-expo); }
-.index-row.is-active { color: var(--bone); }
+/* Phone frame mockup */
+.phone-frame { box-shadow: inset 0 0 0 1px rgba(26,16,23,.14), 0 0 0 8px var(--pearl), 0 0 0 9px rgba(26,16,23,.08); }
+
+/* Checkbox */
+.check-box { width: 16px; height: 16px; border: 1px solid rgba(26,16,23,.28); display: inline-flex; align-items: center; justify-content: center; color: #ffffff; flex: 0 0 auto; transition: all var(--dur-micro) var(--ease-out-expo); }
+.check-box.is-checked { background: var(--wine); border-color: var(--wine); }
+
+/* Index rows */
+.index-row { min-height: 44px; border-bottom: 1px solid var(--rule); transition: color var(--dur-micro) var(--ease-out-expo); }
+.index-row.is-active { color: var(--ink); }
 .index-row.is-active .index-rule { transform: scaleX(1); }
-.index-rule { width: 34px; height: 2px; background: var(--brass); transform: scaleX(.35); transform-origin: left; transition: transform 180ms var(--standard); }
+.index-rule { width: 34px; height: 2px; background: var(--wine); transform: scaleX(.35); transform-origin: left; transition: transform 180ms var(--standard); }
 
 
-/* The navbar slogan only earns its place when the brand column is wide enough to
-   render it legibly (~10.5px). The navbar's md:grid-cols-3 leaves the brand ~221px
-   at 768px, which would put the slogan at 6px, so below the threshold it is hidden
-   rather than shrunk. The footer mark, which has room, always shows it. */
+/* Navbar brand tagline visibility */
 @container (max-width: 389px) {
-  .brand-tagline-optional {
-    display: none;
-  }
+  .brand-tagline-optional { display: none; }
 }
 
-
 /* ─────────────────────────────────────────────────────────────
-   BROWSER SURFACES
-   The chrome we did not draw still ships with the page: selection,
-   caret, scrollbar, tap highlight and the default focus ring all
-   arrive un-themed unless they are claimed here.
+   BROWSER SURFACES — selection, caret, scrollbar, focus ring
    ───────────────────────────────────────────────────────────── */
 
 html {
   -webkit-text-size-adjust: 100%;
   scrollbar-width: thin;
-  scrollbar-color: rgba(200, 169, 110, 0.38) var(--black);
+  scrollbar-color: rgba(139, 26, 66, 0.40) var(--pearl);
 }
 
 ::selection {
-  background: var(--brass);
-  color: var(--black);
+  background: var(--wine);
+  color: #ffffff;
 }
 
 input,
 textarea,
 select {
-  caret-color: var(--brass);
+  caret-color: var(--wine);
 }
 
 *,
 ::before,
 ::after {
-  -webkit-tap-highlight-color: rgba(200, 169, 110, 0.16);
+  -webkit-tap-highlight-color: rgba(139, 26, 66, 0.14);
 }
 
-::-webkit-scrollbar {
-  width: 10px;
-  height: 10px;
-}
-::-webkit-scrollbar-track {
-  background: var(--black);
-}
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--pearl); }
 ::-webkit-scrollbar-thumb {
-  background: rgba(200, 169, 110, 0.3);
-  border: 2px solid var(--black);
+  background: rgba(139, 26, 66, 0.28);
+  border: 2px solid var(--pearl);
   border-radius: 999px;
 }
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(200, 169, 110, 0.55);
-}
-::-webkit-scrollbar-corner {
-  background: var(--black);
-}
+::-webkit-scrollbar-thumb:hover { background: rgba(139, 26, 66, 0.55); }
+::-webkit-scrollbar-corner { background: var(--pearl); }
 
-/* Baseline keyboard affordance. Components that draw their own ring opt out
-   with `focus-visible:outline-none`, so this only fills the gaps. */
 :focus-visible {
-  outline: 2px solid var(--brass);
+  outline: 2px solid var(--wine);
   outline-offset: 3px;
 }
 
 /* ─────────────────────────────────────────────────────────────
-   REDUCED MOTION
-   Reduced motion is a first-class path, not a degradation: every
-   ambient loop on the page stops, and nothing that carries meaning
-   is only reachable through movement.
+   REDUCED MOTION — first-class path, not a degradation
    ───────────────────────────────────────────────────────────── */
 
 @media (prefers-reduced-motion: reduce) {
-  .light-sweep-overlay {
-    display: none;
-  }
+  .light-sweep-overlay { display: none; }
 
   .animate-review-marquee,
   .animate-review-marquee-mobile,
   .animate-ticker-left,
   .animate-ticker-right,
   .animate-float,
-  .animate-pulse-gold,
+  .animate-pulse-wine,
   .animate-gradient-x {
     animation: none !important;
   }
@@ -496,7 +618,5 @@ select {
     transition: none !important;
   }
 
-  .pointer-light {
-    background-image: none;
-  }
+  .pointer-light { background-image: none; }
 }

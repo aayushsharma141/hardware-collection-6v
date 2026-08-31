@@ -775,8 +775,8 @@ export const PRODUCTS: Product[] = [
 ];
 
 export const SHOWROOM_STATS = [
-  { label: "Years in Business", value: "20+", sub: "Serving Jamshedpur since 2002" },
-  { label: "Authorized Brands", value: "6 Premium", sub: "Hafele, Dorset, Labacha, Godrej, Hettich, Kich" },
+  { label: "Years in Business", value: "10+", sub: "Serving Jamshedpur with excellence" },
+  { label: "Authorized Brands", value: "Curated", sub: "Hafele, Dorset, Labacha, Godrej, Hettich, Kich & more" },
   { label: "Showroom Location", value: "Sakchi", sub: "Live Display in Jamshedpur" },
   { label: "Google Rating", value: "4.4 ★", sub: "55+ Verified Customer Reviews" },
 ];

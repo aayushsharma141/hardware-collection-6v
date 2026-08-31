@@ -18,11 +18,11 @@ export default function ShowroomExperience() {
       
       {/* Header */}
       <div className="text-center mb-16">
-        <div className="inline-flex items-center gap-2 border border-[var(--color-accent)]/50 rounded-none px-4 py-1.5 text-xs font-bold text-[var(--color-accent)] tracking-widest bg-black/60 uppercase mb-4">
+        <div className="inline-flex items-center gap-2 border border-[var(--color-accent)]/50 rounded-none px-4 py-1.5 text-xs font-bold text-[var(--color-accent)] tracking-widest bg-[var(--surface)]/60 uppercase mb-4">
           <Building className="w-3.5 h-3.5" />
           The Ground Reality & Experience
         </div>
-        <h2 className="font-display text-3xl md:text-5xl font-semibold text-white mb-4">
+        <h2 className="font-display text-3xl md:text-5xl font-semibold text-[var(--text-primary)] mb-4">
           Visit Our Flagship Sakchi Showroom
         </h2>
         <p className="font-body text-sm md:text-base text-[#ACACAC] max-w-2xl mx-auto">
@@ -35,15 +35,15 @@ export default function ShowroomExperience() {
         {SHOWROOM_STATS.map((stat, i) => (
           <div
             key={i}
-            className="bg-zinc-950/80 border border-zinc-800 p-6 rounded-sm text-center backdrop-blur-xl relative overflow-hidden group hover:border-[var(--color-accent)]/50 transition-all"
+            className="bg-[var(--surface)]/80 border border-[var(--border)] p-6 rounded-sm text-center backdrop-blur-xl relative overflow-hidden group hover:border-[var(--color-accent)]/50 transition-all"
           >
             <div className="font-display text-3xl md:text-4xl font-bold text-gradient mb-1">
               {stat.value}
             </div>
-            <div className="font-body font-bold text-xs uppercase text-white tracking-wider mb-1">
+            <div className="font-body font-bold text-xs uppercase text-[var(--text-primary)] tracking-wider mb-1">
               {stat.label}
             </div>
-            <div className="font-body text-[0.7rem] text-zinc-400">
+            <div className="font-body text-[0.7rem] text-[var(--text-secondary)]">
               {stat.sub}
             </div>
           </div>
@@ -55,7 +55,7 @@ export default function ShowroomExperience() {
         
         {/* Left Column: Visual Photos */}
         <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <div className="relative h-64 sm:h-80 rounded-sm overflow-hidden border border-zinc-800 shadow-2xl group">
+          <div className="relative h-64 sm:h-80 rounded-sm overflow-hidden border border-[var(--border)] shadow-2xl group">
             <Image
               src="/Hardware Collection/hardware_collection_sakchi_shop_exterior_view.png"
               alt="Hardware Collection Sakchi Exterior Showroom View"
@@ -63,12 +63,12 @@ export default function ShowroomExperience() {
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-4">
-              <span className="font-body font-bold text-xs text-white">Sakchi Flagship Façade</span>
+              <span className="font-body font-bold text-xs text-[var(--text-primary)]">Sakchi Flagship FaÃ§ade</span>
               <span className="font-body text-[0.65rem] text-[var(--color-accent)]">Near Durga Puja Maidan, Kashidih</span>
             </div>
           </div>
 
-          <div className="relative h-64 sm:h-80 rounded-sm overflow-hidden border border-zinc-800 shadow-2xl group sm:mt-6">
+          <div className="relative h-64 sm:h-80 rounded-sm overflow-hidden border border-[var(--border)] shadow-2xl group sm:mt-6">
             <Image
               src="/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg"
               alt="Hardware Collection Sakchi Interior Display"
@@ -76,56 +76,56 @@ export default function ShowroomExperience() {
               className="object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent flex flex-col justify-end p-4">
-              <span className="font-body font-bold text-xs text-white">Live Consultation Gallery</span>
+              <span className="font-body font-bold text-xs text-[var(--text-primary)]">Live Consultation Gallery</span>
               <span className="font-body text-[0.65rem] text-[var(--color-accent)]">Authorized Brand Live Experience</span>
             </div>
           </div>
         </div>
 
         {/* Right Column: Founder & Story */}
-        <div className="lg:col-span-6 flex flex-col gap-6 bg-zinc-950/80 border border-zinc-800/90 rounded-sm p-8 backdrop-blur-xl">
+        <div className="lg:col-span-6 flex flex-col gap-6 bg-[var(--surface)]/80 border border-[var(--border)]/90 rounded-sm p-8 backdrop-blur-xl">
           <div className="inline-flex items-center gap-2 text-xs font-body font-bold uppercase text-[var(--color-accent)] tracking-wider">
             <Sparkles className="w-4 h-4 text-[var(--color-accent)]" />
-            20+ Years in Sakchi
+            10+ Years in Sakchi
           </div>
 
-          <h3 className="font-display text-2xl md:text-3xl text-white font-semibold leading-snug">
-            20+ authorized brands on physical display in Sakchi.
+          <h3 className="font-display text-2xl md:text-3xl text-[var(--text-primary)] font-semibold leading-snug">
+            Leading authorized brands on physical display in Sakchi.
           </h3>
 
-          <p className="font-body text-sm text-zinc-300 leading-relaxed">
-            Founded by <strong className="text-white">Mukesh Khandelwal</strong>, Hardware Collection was built on a single steadfast principle: <em className="text-[var(--color-accent)]">never sell grey-market hardware; only deliver genuine, authorized brand engineering with hands-on consultation</em>.
+          <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed">
+            Founded by <strong className="text-[var(--text-primary)]">Mukesh Khandelwal</strong>, Hardware Collection was built on a single steadfast principle: <em className="text-[var(--color-accent)]">never sell grey-market hardware; only deliver genuine, authorized brand engineering with hands-on consultation</em>.
           </p>
 
-          <p className="font-body text-xs text-zinc-400 leading-relaxed">
+          <p className="font-body text-xs text-[var(--text-secondary)] leading-relaxed">
             Today, homeowners, leading architects, and top builders from across East Singhbhum visit our Sakchi showroom to test live biometric locks, slide German-engineered wardrobes, and finalize modular kitchen blueprints before installation.
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
             <div className="flex items-center gap-2 text-xs text-zinc-200">
-              <Check className="w-4 h-4 text-zinc-300 shrink-0" />
+              <Check className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
               <span>Full Live Mockup Kitchens</span>
             </div>
             <div className="flex items-center gap-2 text-xs text-zinc-200">
-              <Check className="w-4 h-4 text-zinc-300 shrink-0" />
+              <Check className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
               <span>Working Smart Deadbolt Demos</span>
             </div>
             <div className="flex items-center gap-2 text-xs text-zinc-200">
-              <Check className="w-4 h-4 text-zinc-300 shrink-0" />
+              <Check className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
               <span>Architect Blueprint Consultation</span>
             </div>
             <div className="flex items-center gap-2 text-xs text-zinc-200">
-              <Check className="w-4 h-4 text-zinc-300 shrink-0" />
+              <Check className="w-4 h-4 text-[var(--text-secondary)] shrink-0" />
               <span>Comprehensive Physical Displays</span>
             </div>
           </div>
 
-          <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-zinc-900">
+          <div className="flex flex-wrap items-center gap-4 pt-4 border-t border-[var(--border)]">
             <a
               href="https://maps.app.goo.gl/6qokJfpuQgfNwqZK9"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-5 py-3 rounded-sm bg-zinc-900 border border-zinc-700 hover:border-[var(--color-accent)] text-white font-body font-bold text-xs tracking-wide transition-all hover:scale-105"
+              className="inline-flex items-center gap-2 px-5 py-3 rounded-sm bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--color-accent)] text-[var(--text-primary)] font-body font-bold text-xs tracking-wide transition-all hover:scale-105"
             >
               <Navigation className="w-4 h-4 text-[#ff3b5c]" />
               GET SHOWROOM DIRECTIONS
@@ -147,20 +147,20 @@ export default function ShowroomExperience() {
       </div>
 
       {/* Service Coverage Radius in Jamshedpur */}
-      <div className="bg-zinc-950/60 border border-zinc-800/80 rounded-sm p-6 md:p-8 backdrop-blur-xl">
+      <div className="bg-[var(--surface)]/60 border border-[var(--border)]/80 rounded-sm p-6 md:p-8 backdrop-blur-xl">
         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
           <div className="flex items-center gap-3">
             <Compass className="w-5 h-5 text-[var(--color-accent)]" />
             <div>
-              <h4 className="font-body font-bold text-sm text-white uppercase tracking-wider">
+              <h4 className="font-body font-bold text-sm text-[var(--text-primary)] uppercase tracking-wider">
                 Direct Supply & Installation Coverage
               </h4>
-              <p className="font-body text-xs text-zinc-400">
+              <p className="font-body text-xs text-[var(--text-secondary)]">
                 Serving residential & commercial architectural hardware throughout Jamshedpur & surrounding industrial nodes
               </p>
             </div>
           </div>
-          <span className="text-[0.65rem] font-bold font-body text-zinc-300 bg-zinc-900/60 border border-zinc-700/60 px-3 py-1 rounded-none uppercase tracking-wider">
+          <span className="text-[0.65rem] font-bold font-body text-[var(--text-secondary)] bg-[var(--surface-raised)]/60 border border-[var(--border)]/60 px-3 py-1 rounded-none uppercase tracking-wider">
             Authorized Showroom Supply
           </span>
         </div>
@@ -169,9 +169,9 @@ export default function ShowroomExperience() {
           {SERVICE_AREAS.map((area, idx) => (
             <span
               key={idx}
-              className="px-3.5 py-1.5 rounded-sm bg-zinc-900 border border-zinc-800 text-xs font-body text-zinc-300 hover:border-[var(--color-accent)]/50 hover:text-white transition-colors"
+              className="px-3.5 py-1.5 rounded-sm bg-[var(--surface-raised)] border border-[var(--border)] text-xs font-body text-[var(--text-secondary)] hover:border-[var(--color-accent)]/50 hover:text-[var(--text-primary)] transition-colors"
             >
-              📍 {area}
+              ðŸ“ {area}
             </span>
           ))}
         </div>
@@ -180,3 +180,4 @@ export default function ShowroomExperience() {
     </section>
   );
 }
+

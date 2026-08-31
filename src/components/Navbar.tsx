@@ -69,7 +69,7 @@ export default function Navbar({
   /**
    * The drawer is a modal: it covers the page, traps the pointer behind a
    * backdrop and locks body scroll. It previously did none of the keyboard
-   * half of that — Tab walked straight out of the open drawer and into the
+   * half of that &mdash; Tab walked straight out of the open drawer and into the
    * page behind it, and closing left focus wherever it had wandered.
    */
   const handleKeyDown = useCallback(
@@ -203,7 +203,7 @@ export default function Navbar({
 
   return (
     <>
-      {/* ── Floating Liquid Glass Header ───────────────────────── */}
+      {/* â”€â”€ Floating Liquid Glass Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <header
         role="banner"
         className={`navbar-island fixed left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-400 ease-out ${
@@ -215,11 +215,11 @@ export default function Navbar({
         }}
       >
         <div
-          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded-full transition-all duration-400 ${
+          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded-full transition-premium ${
             isScrolled
-              ? "h-[56px] md:h-[60px] bg-[#0E0C0C]/95 border-white/[0.14] shadow-[0_20px_50px_rgba(0,0,0,0.65)]"
-              : "h-[58px] md:h-[66px] bg-[#0E0C0C]/75 border-white/[0.10] shadow-[0_16px_45px_rgba(0,0,0,0.40)]"
-          } backdrop-blur-2xl [-webkit-backdrop-filter:blur(24px)_saturate(140%)] border [box-shadow:inset_0_1px_0_rgba(255,255,255,0.12)]`}
+              ? "h-[56px] md:h-[60px] shadow-[0_8px_24px_rgba(26,16,23,0.10)]"
+              : "h-[58px] md:h-[66px] shadow-[0_4px_16px_rgba(26,16,23,0.06)]"
+          } glass-liquid`}
         >
           {/* Subtle ambient specular shimmer */}
           <div
@@ -241,7 +241,7 @@ export default function Navbar({
               px short of the links and put "Catalog" under the phone pill. */}
           <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] items-center h-full px-4 sm:px-6 md:px-8">
             
-            {/* ── Column 1: Brand Lockup (Left-Aligned) ────────── */}
+            {/* â”€â”€ Column 1: Brand Lockup (Left-Aligned) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <div
               className="flex items-center justify-start min-w-0"
               style={{ containerType: "inline-size" }}
@@ -249,8 +249,8 @@ export default function Navbar({
               <Link
                 href="/"
                 onClick={handleLogoClick}
-                className="group inline-block max-w-full py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-md transition-opacity duration-300 select-none"
-                aria-label="Hardware Collection — The Jewelry of Fittings, home"
+                className="group inline-block max-w-full py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] rounded-md transition-opacity duration-300 select-none"
+                aria-label="Hardware Collection &mdash; The Jewelry of Fittings, home"
               >
                 <BrandLockup
                   layout="inline"
@@ -261,7 +261,7 @@ export default function Navbar({
               </Link>
             </div>
 
-            {/* ── Column 2: Exact Center Nav Links ──────────────── */}
+            {/* â”€â”€ Column 2: Exact Center Nav Links â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
             <nav
               aria-label="Primary Navigation"
               className="hidden lg:flex items-center justify-center gap-6 xl:gap-11"
@@ -273,10 +273,10 @@ export default function Navbar({
                     key={link.id}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link)}
-                    className={`relative py-2 text-[12.5px] lg:text-[13px] uppercase tracking-[0.18em] transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] rounded-sm select-none ${
+                    className={`relative py-2 text-[12.5px] lg:text-[13px] uppercase tracking-[0.18em] transition-premium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] rounded-sm select-none ${
                       isActive
-                        ? "text-white font-semibold"
-                        : "text-[#aaa49a] font-medium hover:text-white"
+                        ? "text-[#1a1017] font-semibold"
+                        : "text-[#7a6872] font-medium hover:text-[#1a1017]"
                     }`}
                     style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                     aria-current={isActive ? "page" : undefined}
@@ -285,7 +285,7 @@ export default function Navbar({
                     {isActive && (
                       <motion.span
                         layoutId="active-nav-glow"
-                        className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-[2px] bg-[#C8A96E] rounded-full shadow-[0_0_8px_rgba(200,169,110,0.85)]"
+                        className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-[2px] bg-[#8b1a42] rounded-full shadow-[0_0_8px_rgba(139,26,66,0.55)]"
                         transition={{
                           type: "spring",
                           stiffness: 400,
@@ -303,18 +303,18 @@ export default function Navbar({
               {/* Desktop Phone Contact Pill */}
               <a
                 href={`tel:${cleanPhone}`}
-                className="hidden lg:inline-flex items-center gap-2 h-9 px-3.5 rounded-full bg-white/[0.04] border border-white/[0.10] hover:border-white/20 hover:bg-white/[0.08] text-[12px] font-medium uppercase tracking-[0.12em] text-[#d4cec5] hover:text-white transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E] select-none"
+                className="hidden lg:inline-flex items-center gap-2 h-11 min-h-[44px] px-4 rounded-full bg-[#f8f6f6] border border-[#1a1017]/[0.10] hover:border-[#8b1a42]/30 hover:bg-[#f0ecec] text-[12px] font-medium uppercase tracking-[0.12em] text-[#3d2e38] hover:text-[#1a1017] transition-premium btn-tactile focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label={`Call Hardware Collection at ${primaryPhone}`}
               >
-                <Phone className="w-3.5 h-3.5 text-[#C8A96E] shrink-0" />
+                <Phone className="w-3.5 h-3.5 text-[#8b1a42] shrink-0" />
                 <span className="leading-none">{primaryPhone}</span>
               </a>
 
               {/* Desktop Inquire CTA Button */}
               <button
                 onClick={() => openDrawer({ source: "navbar", intent: "consultation" })}
-                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-9 px-5 rounded-full bg-gradient-to-r from-[#C8A96E] to-[#e5c487] hover:from-[#d8b97e] hover:to-[#f0d49e] text-[#0E0C0C] text-[12px] font-bold uppercase tracking-[0.14em] leading-none shadow-[0_4px_16px_rgba(200,169,110,0.25)] hover:shadow-[0_6px_22px_rgba(200,169,110,0.4)] hover:-translate-y-[1px] active:translate-y-0 transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A96E] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-11 min-h-[44px] px-5 rounded-full bg-[#8b1a42] hover:bg-[#6b1432] text-white text-[12px] font-bold uppercase tracking-[0.14em] leading-none shadow-[0_4px_16px_rgba(139,26,66,0.22)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.35)] btn-tactile transition-premium group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b1a42] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
               >
                 <span>Inquire</span>
@@ -325,7 +325,7 @@ export default function Navbar({
               <button
                 ref={menuButtonRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-9 h-9 rounded-full bg-white/[0.06] border border-white/[0.12] text-white/90 hover:text-white hover:bg-white/[0.12] transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#C8A96E]"
+                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#f8f6f6] border border-[#1a1017]/[0.10] text-[#1a1017] hover:text-[#8b1a42] hover:bg-[#f0ecec] transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42]"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-nav-modal"
@@ -342,7 +342,7 @@ export default function Navbar({
         </div>
       </header>
 
-      {/* ── Dedicated Mobile Liquid Glass Modal ────────────────── */}
+      {/* â”€â”€ Dedicated Mobile Liquid Glass Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <div
@@ -359,7 +359,7 @@ export default function Navbar({
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.25 }}
-              className="fixed inset-0 bg-black/75 backdrop-blur-xl -z-10"
+              className="fixed inset-0 bg-[var(--surface)]/80 backdrop-blur-xl -z-10"
               onClick={() => setMobileMenuOpen(false)}
               aria-hidden="true"
             />
@@ -371,7 +371,7 @@ export default function Navbar({
               exit={{ opacity: 0, y: -12, scale: 0.98 }}
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
               ref={dialogRef}
-              className="relative w-full max-w-sm mx-auto bg-[#0E0C0C]/95 border border-white/[0.14] rounded-3xl p-6 shadow-[0_25px_60px_rgba(0,0,0,0.8)] backdrop-blur-2xl [box-shadow:inset_0_1px_0_rgba(255,255,255,0.15)] overflow-hidden"
+              className="relative w-full max-w-sm mx-auto rounded-3xl p-6 shadow-[0_16px_48px_rgba(26,16,23,0.12)] glass-liquid overflow-hidden"
             >
               {/* Ambient reflection */}
               <div
@@ -379,7 +379,7 @@ export default function Navbar({
                 aria-hidden="true"
               >
                 <div className="liquid-glass-reflection absolute -inset-full opacity-40" />
-                <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-[#C8A96E]/40 to-transparent" />
+                <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-[#8b1a42]/20 to-transparent" />
               </div>
 
               {/* Modal Top Header (Redirects to Home) */}
@@ -392,7 +392,7 @@ export default function Navbar({
                       handleLogoClick(e);
                     }}
                     className="group inline-block max-w-full select-none"
-                    aria-label="Hardware Collection — The Jewelry of Fittings, home"
+                    aria-label="Hardware Collection &mdash; The Jewelry of Fittings, home"
                   >
                     <BrandLockup
                       layout="inline"
@@ -403,7 +403,7 @@ export default function Navbar({
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-8 h-8 rounded-full bg-white/[0.06] border border-white/[0.1] flex items-center justify-center text-white/70 hover:text-white transition-colors"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#f8f6f6] border border-[#1a1017]/[0.08] flex items-center justify-center text-[#7a6872] hover:text-[#1a1017] transition-colors"
                   aria-label="Close Navigation"
                 >
                   <X className="w-4 h-4" />
@@ -421,8 +421,8 @@ export default function Navbar({
                       onClick={(e) => handleNavClick(e, link)}
                       className={`flex items-center justify-between py-3 px-3.5 rounded-xl transition-all duration-200 ${
                         isActive
-                          ? "bg-white/[0.08] text-white font-semibold"
-                          : "text-[#aaa49a] hover:text-white hover:bg-white/[0.04]"
+                          ? "bg-[#f0dade] text-[#8b1a42] font-semibold"
+                          : "text-[#7a6872] hover:text-[#1a1017] hover:bg-[#f8f6f6]"
                       }`}
                       style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
                     >
@@ -430,7 +430,7 @@ export default function Navbar({
                         {link.name}
                       </span>
                       {isActive && (
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#C8A96E] shadow-[0_0_6px_rgba(200,169,110,0.8)]" />
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#8b1a42] shadow-[0_0_6px_rgba(139,26,66,0.55)]" />
                       )}
                     </Link>
                   );
@@ -444,10 +444,10 @@ export default function Navbar({
               <div className="pt-3 space-y-2.5">
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="flex items-center justify-center gap-2.5 py-3 rounded-xl bg-white/[0.04] hover:bg-white/[0.08] border border-white/[0.09] text-white/90 font-medium text-xs tracking-wider transition-colors"
+                  className="flex items-center justify-center gap-2.5 py-3 rounded-xl bg-[#f8f6f6] hover:bg-[#f0ecec] border border-[#1a1017]/[0.08] text-[#3d2e38] font-medium text-xs tracking-wider transition-premium btn-tactile"
                   style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#C8A96E]" />
+                  <Phone className="w-3.5 h-3.5 text-[#8b1a42]" />
                   <span>Call Showroom ({primaryPhone})</span>
                 </a>
 
@@ -456,7 +456,7 @@ export default function Navbar({
                     setMobileMenuOpen(false);
                     openDrawer({ source: "navbar", intent: "consultation" });
                   }}
-                  className="flex w-full items-center justify-center gap-2 py-3 rounded-full bg-gradient-to-r from-[#C8A96E] to-[#e5c487] text-[#0E0C0C] font-bold text-xs uppercase tracking-[0.14em] shadow-[0_4px_16px_rgba(200,169,110,0.25)] hover:shadow-[0_6px_22px_rgba(200,169,110,0.4)] active:scale-[0.99] transition-all"
+                  className="flex w-full items-center justify-center gap-2 py-3 rounded-full bg-[#8b1a42] hover:bg-[#6b1432] text-white font-bold text-xs uppercase tracking-[0.14em] shadow-[0_4px_16px_rgba(139,26,66,0.22)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.35)] btn-tactile transition-premium"
                   style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
                 >
                   <span>Consult Specialist</span>
@@ -470,3 +470,5 @@ export default function Navbar({
     </>
   );
 }
+
+

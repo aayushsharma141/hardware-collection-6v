@@ -31,10 +31,10 @@ export default function CompactCollectionGrid({
           <Link
             key={category._id || category.id || slug}
             href={`/collections/${slug}`}
-            className="threshold-card hc-focus group block rounded-lg bg-[#141314] border border-white/[0.08] p-4 transition-colors duration-150 hover:border-[#c8a96e]"
+            className="threshold-card hc-focus group block rounded-2xl bg-[var(--surface-raised)] border border-[var(--border)] p-5 md:p-6 transition-colors duration-150 hover:border-[var(--accent)] shadow-sm"
           >
             {/* Image Container — pinned to aspect-[4/3] (CLS gate) */}
-            <div className="relative aspect-[4/3] w-full overflow-hidden rounded bg-zinc-900 mb-4">
+            <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[var(--surface-raised)] mb-5">
               <Image
                 src={imageUrl}
                 alt={category.name}
@@ -50,17 +50,17 @@ export default function CompactCollectionGrid({
 
             {/* Content block */}
             <div className="flex flex-col">
-              <h3 className="hc-serif text-lg sm:text-xl font-normal uppercase tracking-[0.02em] text-[#e8e3d9] mb-1.5">
+              <h3 className="hc-serif text-xl sm:text-2xl font-normal uppercase tracking-[0.01em] text-[var(--text-primary)] mb-2">
                 {category.name}
               </h3>
 
               {category.description && (
-                <p className="text-xs sm:text-sm text-[#aaa49a] font-light line-clamp-2 leading-relaxed mb-3">
+                <p className="text-sm sm:text-base text-[var(--text-secondary)] font-light line-clamp-2 leading-relaxed mb-4">
                   {category.description}
                 </p>
               )}
 
-              <span className="text-xs uppercase tracking-widest text-[#c8a96e] inline-flex items-center gap-1.5 font-medium group-hover:text-white transition-colors duration-150 mt-auto pt-1">
+              <span className="text-xs sm:text-sm uppercase tracking-widest text-[#c8a96e] inline-flex items-center gap-2 font-semibold group-hover:text-[var(--text-primary)] transition-colors duration-150 mt-auto pt-1">
                 Explore {category.name}
                 <span
                   aria-hidden="true"
@@ -70,7 +70,7 @@ export default function CompactCollectionGrid({
                       : "transition-transform duration-[180ms] group-hover:translate-x-1"
                   }
                 >
-                  →
+                  &rarr;
                 </span>
               </span>
             </div>
@@ -80,3 +80,6 @@ export default function CompactCollectionGrid({
     </div>
   );
 }
+
+
+

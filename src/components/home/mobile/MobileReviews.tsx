@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import React from "react";
 import { Testimonial, formatTestimonialDate, clampRating } from "@/types/testimonial";
@@ -44,7 +44,7 @@ export default function MobileReviews({ reviews = [] }: { reviews?: Testimonial[
               className="text-primary hover:underline text-xs font-medium ml-auto inline-flex items-center gap-1"
             >
               <span>View on Maps</span>
-              <span aria-hidden="true">→</span>
+              <span aria-hidden="true">â†’</span>
             </a>
           </div>
         </div>
@@ -127,3 +127,4 @@ function MobileReviewCard({ review }: { review: Testimonial }) {
     </div>
   );
 }
+
