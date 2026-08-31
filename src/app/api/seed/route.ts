@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "next-sanity";
-import { CATEGORIES, BRANDS, PRODUCTS } from "@/data/catalog";
-import { apiVersion, dataset, projectId, useCdn } from "@/sanity/env";
+import { CATEGORIES, BRANDS, PRODUCTS } from "@/content/fallback/catalog";
+import { apiVersion, dataset, projectId, useCdn } from "@/content/sanity/env";
 
 export async function POST(request: Request) {
   try {

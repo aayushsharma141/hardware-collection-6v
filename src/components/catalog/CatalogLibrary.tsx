@@ -6,7 +6,7 @@ import { ArrowUpRight, BookOpen } from "lucide-react";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { Brand, ResolvedBrand } from "@/types/catalog";
 
-import { CANONICAL_BRANDS, CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/data/brands";
+import { CANONICAL_BRANDS, CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 
 interface CatalogLibraryProps {
   brands: Brand[];

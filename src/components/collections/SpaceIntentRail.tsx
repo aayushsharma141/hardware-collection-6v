@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useReducedMotion } from "motion/react";
 import { Space } from "@/types/catalog";
-import { SpaceInfo } from "@/data/spaces";
+import { SpaceInfo } from "@/content/fallback/spaces";
 
 export interface SpaceIntentRailProps {
   spaces: Array<Space | SpaceInfo>;

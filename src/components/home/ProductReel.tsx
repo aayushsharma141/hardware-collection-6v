@@ -7,7 +7,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion, motion } from "motion/react";
 import { MagneticButton } from "@/components/animations/MagneticButton";
-import { SIGNATURE_PIECES, SignaturePiece } from "@/data/home";
+import { SIGNATURE_PIECES, SignaturePiece } from "@/content/fallback/home";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 

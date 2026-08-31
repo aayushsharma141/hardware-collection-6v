@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { CATEGORY_FAMILIES, SIGNATURE_PIECES } from "@/data/home";
-import { CATEGORIES } from "@/data/catalog";
+import { CATEGORY_FAMILIES, SIGNATURE_PIECES } from "@/content/fallback/home";
+import { CATEGORIES } from "@/content/fallback/catalog";
 
 // Anticipated D-02 space slugs — pending final naming by 09-08. Not yet backed
-// by any code (no `@/data/spaces` module exists at Wave 0). Declared inline so
+// by any code (no `@/content/fallback/spaces` module exists at Wave 0). Declared inline so
 // this test never imports a module that doesn't exist yet.
 const ANTICIPATED_SPACE_SLUGS = [
   "kitchen",

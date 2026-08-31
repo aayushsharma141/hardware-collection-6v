@@ -70,7 +70,7 @@ Supporting truths that are separately verifiable and may be stated plainly: auth
 - Founding facts: operating in Sakchi since 2002; grown from a 113 sq ft shop to a 7,500 sq ft showroom.
 - Twenty-three authorized brand logo assets in `/public/brands/`.
 - Cinema and showroom photography in `/public/cinema/`.
-- Thirteen canonical categories and the product catalog in `src/data/catalog.ts`.
+- Thirteen canonical categories and the product catalog in `src/content/fallback/catalog.ts`.
 - Live functional demonstrations in the showroom: soft-close drawer motion, biometric and digital lock operation, kitchen setups.
 
 **Absent — future work must not fabricate around these.**

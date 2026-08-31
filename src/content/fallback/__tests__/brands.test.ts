@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { BRANDS, CATEGORIES, PRODUCTS } from "@/data/catalog";
+import { BRANDS, CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
 
 describe("Canonical brand roster (D-05/D-07/D-26)", () => {
   it("has every brand referenced in CATEGORIES.brands and PRODUCTS.brand present in BRANDS", () => {

@@ -1,9 +1,9 @@
 import { createClient } from "next-sanity";
 import dotenv from "dotenv";
 import path from "path";
-import { SPACES } from "../src/data/spaces";
-import { CANONICAL_BRANDS as BRANDS } from "../src/data/brands";
-import { CATEGORIES } from "../src/data/catalog";
+import { SPACES } from "../src/content/fallback/spaces";
+import { CANONICAL_BRANDS as BRANDS } from "../src/content/fallback/brands";
+import { CATEGORIES } from "../src/content/fallback/catalog";
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 

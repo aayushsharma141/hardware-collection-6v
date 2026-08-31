@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CATEGORY_FAMILIES } from "@/data/home";
+import { CATEGORY_FAMILIES } from "@/content/fallback/home";
 
 /**
  * MobileCategoryDiscovery — the showroom families, as cards.

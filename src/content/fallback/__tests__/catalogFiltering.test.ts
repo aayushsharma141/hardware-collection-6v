@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { Product } from "@/types/catalog";
-import { SHOWROOM_FAMILIES } from "@/data/catalog";
+import { SHOWROOM_FAMILIES } from "@/content/fallback/catalog";
 
 // Pure filtering function extracted from CollectionsClient logic for testing
 export function filterProducts(

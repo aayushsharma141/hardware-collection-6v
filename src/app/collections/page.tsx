@@ -8,9 +8,9 @@ import {
   getSiteSettings,
   getSpaces,
   getCollectionCounts,
-} from "@/sanity/queries";
-import { CATEGORIES, BRANDS, PRODUCTS } from "@/data/catalog";
-import { SPACES } from "@/data/spaces";
+} from "@/content/sanity/queries";
+import { CATEGORIES, BRANDS, PRODUCTS } from "@/content/fallback/catalog";
+import { SPACES } from "@/content/fallback/spaces";
 import { Category, Product, Brand, Space } from "@/types/catalog";
 
 // Use Next.js revalidation strategy for Sanity content

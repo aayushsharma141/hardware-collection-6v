@@ -34,7 +34,7 @@ src/app/           — Next.js App Router pages and API routes
 src/components/    — Shared UI components
 src/hooks/         — Custom React hooks (useCollectionsState, useScrollLock, …)
 src/lib/           — Server utilities (leads, sanity client, scroll lock)
-src/sanity/        — Sanity schema definitions and config
+src/content/sanity/ — Sanity schema definitions and config (canonical source)
 src/types/         — Shared TypeScript types (catalog, etc.)
 scripts/           — Developer utilities, CMS seed, DB tools
 prisma/            — Prisma schema (Lead model)

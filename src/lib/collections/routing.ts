@@ -1,5 +1,5 @@
 import { Category, Space } from "@/types/catalog";
-import { getCategoryBySlug, getSpaceBySlug } from "@/sanity/queries";
+import { getCategoryBySlug, getSpaceBySlug } from "@/content/sanity/queries";
 
 /**
  * D-24: Spaces and categories share one route family, `/collections/[slug]`.

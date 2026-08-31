@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CANONICAL_BRANDS, BrandInfo } from "@/data/brands";
+import { CANONICAL_BRANDS, BrandInfo } from "@/content/fallback/brands";
 
 export interface BrandItem extends BrandInfo {
   href: string;

@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import CatalogsClient from "./CatalogsClient";
-import { getBrands, getSiteSettings } from "@/sanity/queries";
-import { BRANDS } from "@/data/catalog";
+import { getBrands, getSiteSettings } from "@/content/sanity/queries";
+import { BRANDS } from "@/content/fallback/catalog";
 import { Brand } from "@/types/catalog";
 
 export const revalidate = 60;

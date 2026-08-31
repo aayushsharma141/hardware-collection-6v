@@ -2,7 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { buildWhatsAppUrl } from "@/lib/config";
-import { SIGNATURE_PIECES } from "@/data/home";
+import { SIGNATURE_PIECES } from "@/content/fallback/home";
 
 /**
  * MobileProductReel &mdash; flagship pieces, with a per-piece WhatsApp handoff.

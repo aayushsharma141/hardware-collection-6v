@@ -1,6 +1,6 @@
 import React from "react";
 import Footer from "@/components/layout/Footer";
-import { getHomePage, getSiteSettings, getBrands, getTestimonials } from "@/sanity/queries";
+import { getHomePage, getSiteSettings, getBrands, getTestimonials } from "@/content/sanity/queries";
 import MobileConversionBar from "@/components/home/MobileConversionBar";
 
 // Global cinema system

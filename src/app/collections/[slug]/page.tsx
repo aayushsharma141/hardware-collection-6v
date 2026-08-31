@@ -1,16 +1,16 @@
 import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
-import { client } from "@/sanity/client";
+import { client } from "@/content/sanity/client";
 import {
   getProductsByCategoryQuery,
   getCategorySlugs,
   getSpaceSlugs,
   getSiteSettings,
-} from "@/sanity/queries";
+} from "@/content/sanity/queries";
 import { resolveCollectionSlug } from "@/lib/collections/routing";
 import { getSlugString } from "@/types/catalog";
-import { CATEGORIES } from "@/data/catalog";
-import { SPACES } from "@/data/spaces";
+import { CATEGORIES } from "@/content/fallback/catalog";
+import { SPACES } from "@/content/fallback/spaces";
 import CategoryDetailClient from "@/components/collections/CategoryDetailClient";
 import SpaceLandingClient from "@/components/collections/SpaceLandingClient";
 

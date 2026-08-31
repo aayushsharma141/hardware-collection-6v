@@ -2,7 +2,7 @@
 
 import React from "react";
 import { motion } from "motion/react";
-import { CATEGORY_FAMILIES } from "@/data/home";
+import { CATEGORY_FAMILIES } from "@/content/fallback/home";
 
 const containerVariants = {
   hidden: { opacity: 0 },

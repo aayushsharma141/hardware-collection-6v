@@ -5,7 +5,7 @@ import {
   isReservedSlug,
   RESERVED_SLUGS,
   SlugDoc,
-} from "@/sanity/lib/slugUniqueness";
+} from "@/content/sanity/lib/slugUniqueness";
 
 describe("Cross-type slug uniqueness (D-27 + Pitfall 5)", () => {
   it("detects a slug collision between a space doc and a category doc", () => {
