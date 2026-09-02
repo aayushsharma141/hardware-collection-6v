@@ -308,28 +308,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
           </div>
         </div>
 
-        {/* Hero Section Bottom Status Bar */}
-        <div className="hero-bottom-bar border-t border-[#1a1017]/[0.10] h-[54px] flex items-center justify-between pt-2">
-          <div className="flex items-center gap-4">
-            <span className="hc-mono text-[10px] tracking-[0.16em] text-[#8b1a42] font-semibold tabular-nums">
-              {pad2(currentSlideIndex + 1)}
-            </span>
-            <span className="hc-mono text-[10px] tracking-[0.18em] text-[#7a6872] tabular-nums">
-              / {pad2(slides.length)}
-            </span>
-            <span className="h-px w-12 bg-[#8b1a42]/[0.35]" />
-            <span className="text-[10px] uppercase tracking-[0.18em] text-[#7a6872]">
-              The threshold
-            </span>
-          </div>
 
-          <a
-            href="#categories"
-            className="hc-mono text-[10px] uppercase tracking-[0.18em] text-[#7a6872] hover:text-[#8b1a42] transition-colors no-underline"
-          >
-            Scroll to showroom families ↓
-          </a>
-        </div>
       </div>
     </section>
   );
