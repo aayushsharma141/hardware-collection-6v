@@ -645,6 +645,21 @@ select {
   outline-offset: 3px;
 }
 
+/* Hero Carousel Progress Refill Animation */
+@keyframes heroProgressRefill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-hero-refill {
+  animation: heroProgressRefill 8s linear forwards;
+}
+
+
 /* ─────────────────────────────────────────────────────────────
    REDUCED MOTION — first-class path, not a degradation
    ───────────────────────────────────────────────────────────── */

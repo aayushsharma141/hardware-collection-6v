@@ -39,14 +39,14 @@ export default function HeroStage({ slides }: HeroStageProps) {
     setCurrentSlideIndex((prev) => (prev - 1 + slides.length) % slides.length);
   }, [slides]);
 
-  // Auto-advance every 8 seconds if reduced motion is not enabled
+  // Auto-advance every 8 seconds if reduced motion is not enabled (resets on slide change)
   useEffect(() => {
     if (shouldReduceMotion || !slides || slides.length <= 1) return;
     const timer = setInterval(() => {
       handleNextSlide();
     }, 8000);
     return () => clearInterval(timer);
-  }, [handleNextSlide, shouldReduceMotion, slides]);
+  }, [handleNextSlide, shouldReduceMotion, slides, currentSlideIndex]);
 
   useGSAP(
     () => {
@@ -282,8 +282,8 @@ export default function HeroStage({ slides }: HeroStageProps) {
 
       </div>
 
-      {/* Minimal Floating Carousel Stepper */}
-      <div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-40 flex items-center gap-6">
+      {/* Centered Minimal Stepper — Bold Line with Stretching & Refill Animation */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3">
         {slides.map((s, idx) => {
           const isActive = currentSlideIndex === idx;
           return (
@@ -291,23 +291,23 @@ export default function HeroStage({ slides }: HeroStageProps) {
               key={s.id || idx}
               type="button"
               onClick={() => setCurrentSlideIndex(idx)}
-              className="group flex items-center gap-2.5 py-2 cursor-pointer focus:outline-none"
+              className="group py-2.5 px-0.5 cursor-pointer focus:outline-none flex items-center"
               aria-label={`Go to slide ${idx + 1}`}
             >
-              <span
-                className={`hc-mono text-[10px] tracking-[0.2em] transition-colors duration-300 ${
-                  isActive ? "text-[#8b1a42] font-medium" : "text-[#1a1017]/30 group-hover:text-[#1a1017]/60 font-light"
+              <div
+                className={`h-[3.5px] rounded-full transition-all duration-700 ease-out overflow-hidden relative ${
+                  isActive
+                    ? "w-14 sm:w-16 bg-[#1a1017]/15"
+                    : "w-4 bg-[#1a1017]/25 hover:bg-[#1a1017]/45 hover:w-6"
                 }`}
               >
-                {pad2(idx + 1)}
-              </span>
-              <span
-                className={`block h-px transition-all duration-500 ease-out ${
-                  isActive
-                    ? "bg-[#8b1a42] w-8"
-                    : "bg-[#1a1017]/15 w-3 group-hover:w-5 group-hover:bg-[#1a1017]/30"
-                }`}
-              />
+                {isActive && (
+                  <span
+                    key={`refill-${currentSlideIndex}`}
+                    className="absolute inset-0 bg-[#8b1a42] rounded-full origin-left animate-hero-refill"
+                  />
+                )}
+              </div>
             </button>
           );
         })}
