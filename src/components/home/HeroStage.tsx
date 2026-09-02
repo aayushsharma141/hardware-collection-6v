@@ -56,6 +56,8 @@ export default function HeroStage({ slides }: HeroStageProps) {
       const heroP = containerRef.current.querySelector(".hero-p");
       const heroImage = containerRef.current.querySelector(".hero-bg-image");
       const aperture = apertureRef.current;
+      const apertureImage = containerRef.current.querySelector(".aperture-image");
+      const apertureMeta = containerRef.current.querySelector(".aperture-meta");
 
       // Scroll-linked parallax for background
       if (heroImage) {
@@ -105,6 +107,24 @@ export default function HeroStage({ slides }: HeroStageProps) {
           0.1
         );
       }
+
+      if (apertureImage) {
+        tl.fromTo(
+          apertureImage,
+          { autoAlpha: 0, scale: 0.96 },
+          { autoAlpha: 0.88, scale: 1.0, duration: 0.65, ease: "power2.out" },
+          0.05
+        );
+      }
+
+      if (apertureMeta) {
+        tl.fromTo(
+          apertureMeta,
+          { autoAlpha: 0, y: 8 },
+          { autoAlpha: 1, y: 0, duration: 0.45, ease: "power2.out" },
+          0.15
+        );
+      }
     },
     { scope: containerRef, dependencies: [currentSlideIndex, shouldReduceMotion, slides] }
   );
@@ -140,7 +160,10 @@ export default function HeroStage({ slides }: HeroStageProps) {
           {/* Left Column: Typography & CTAs */}
           <div className="hero-text-col pb-4">
             <div className="flex items-center gap-3 mb-6">
-              <span className="h-2 w-2 bg-[#8b1a42] shrink-0 rounded-full" />
+              <div className="relative flex items-center justify-center shrink-0">
+                <span className="absolute h-3.5 w-3.5 bg-[#8b1a42]/25 rounded-full animate-ping opacity-75" />
+                <span className="relative h-2 w-2 bg-[#8b1a42] rounded-full" />
+              </div>
               <p className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[#8b1a42]">
                 {currentSlide.eyebrow || "Architectural Hardware Experts Since 2002"}
               </p>
@@ -157,14 +180,14 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 "Premium architectural hardware and modular solutions, curated for contemporary spaces."}
             </p>
 
-            {/* Dual CTAs as requested in mockup */}
+            {/* Dual CTAs with physical tactile feedback */}
             <div className="mt-10 flex flex-wrap items-center gap-4">
               {isExternalCta ? (
                 <a
                   href={ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="brass-plate hc-focus h-[54px] px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] btn-tactile transition-premium rounded shadow-lg"
+                  className="brass-plate hc-focus h-[54px] px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] active:scale-[0.975] active:duration-100 transition-all duration-200 btn-tactile transition-premium rounded shadow-lg"
                 >
                   <span>{ctaLabel}</span>
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -174,7 +197,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
               ) : (
                 <Link
                   href={ctaHref}
-                  className="brass-plate hc-focus h-[54px] px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] btn-tactile transition-premium rounded shadow-lg"
+                  className="brass-plate hc-focus h-[54px] px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] active:scale-[0.975] active:duration-100 transition-all duration-200 btn-tactile transition-premium rounded shadow-lg"
                 >
                   <span>{ctaLabel}</span>
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -183,12 +206,12 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 </Link>
               )}
 
-              {/* Secondary WhatsApp CTA */}
+              {/* Secondary WhatsApp CTA with tactile feedback */}
               <a
                 href={generateWhatsAppUrl("general-enquiry")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hc-focus h-[54px] px-7 bg-transparent border border-[#c8a96e]/70 hover:border-[#8b1a42] hover:bg-[#8b1a42] hover:text-white text-[#1a1017] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] flex items-center gap-2.5 rounded transition-all duration-300 shadow-sm"
+                className="hc-focus h-[54px] px-7 bg-transparent border border-[#c8a96e]/70 hover:border-[#8b1a42] hover:bg-[#8b1a42] hover:text-white active:scale-[0.975] active:duration-100 text-[#1a1017] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] flex items-center gap-2.5 rounded transition-all duration-200 shadow-sm"
               >
                 <MessageCircle className="w-4 h-4 text-[#c8a96e] group-hover:text-white" />
                 <span>WhatsApp The Showroom</span>
@@ -219,7 +242,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
             <img
               key={`aperture-${currentSlideIndex}`}
               alt="Close detail of a brass hardware finish"
-              className="aperture-image absolute inset-[44px_24px_80px] h-[380px] xl:h-[430px] w-[410px] xl:w-[450px] object-contain mix-blend-multiply opacity-[0.88] transition-all duration-500"
+              className="aperture-image absolute inset-[44px_24px_80px] h-[380px] xl:h-[430px] w-[410px] xl:w-[450px] object-contain mix-blend-multiply opacity-[0.88] will-change-transform"
               decoding="async"
               src={currentSlide.productUrl || "/cinema/hero/HC-01-HERO-03.png"}
             />
@@ -227,7 +250,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
             <div className="aperture-sweep" />
 
             <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between border-t border-[#1a1017]/[0.10] pt-4">
-              <div>
+              <div className="aperture-meta">
                 <p className="hc-mono text-[9px] uppercase tracking-[0.18em] text-[#7a6872]">
                   {specimenStudy.study}
                 </p>
