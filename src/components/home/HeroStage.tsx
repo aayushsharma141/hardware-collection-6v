@@ -216,36 +216,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
               </a>
             </div>
 
-            {/* Carousel Stepper Bar: 01 —— 02 —— 03 */}
-            <div className="mt-12 flex items-center gap-4">
-              {slides.map((s, idx) => {
-                const isActive = currentSlideIndex === idx;
-                return (
-                  <button
-                    key={s.id || idx}
-                    type="button"
-                    onClick={() => setCurrentSlideIndex(idx)}
-                    className="flex items-center gap-2 group cursor-pointer focus:outline-none"
-                    aria-label={`Go to slide ${idx + 1}`}
-                  >
-                    <span
-                      className={`hc-mono text-xs font-semibold tabular-nums transition-colors duration-200 ${
-                        isActive ? "text-[#8b1a42]" : "text-[#7a6872] group-hover:text-[#1a1017]"
-                      }`}
-                    >
-                      {pad2(idx + 1)}
-                    </span>
-                    <div
-                      className={`h-0.5 w-10 xl:w-14 rounded-full transition-all duration-400 ${
-                        isActive
-                          ? "bg-[#8b1a42]"
-                          : "bg-[#1a1017]/[0.15] group-hover:bg-[#8b1a42]/40"
-                      }`}
-                    />
-                  </button>
-                );
-              })}
-            </div>
+
           </div>
 
           {/* Right Column: Hero Product Aperture Card */}
@@ -309,6 +280,37 @@ export default function HeroStage({ slides }: HeroStageProps) {
         </div>
 
 
+      </div>
+
+      {/* Floating Centered Carousel Stepper */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-4 px-6 py-3.5 bg-[#fdf8f0]/75 backdrop-blur-md border border-[#1a1017]/[0.08] rounded-full shadow-[0_4px_24px_rgba(26,16,23,0.04)]">
+        {slides.map((s, idx) => {
+          const isActive = currentSlideIndex === idx;
+          return (
+            <button
+              key={s.id || idx}
+              type="button"
+              onClick={() => setCurrentSlideIndex(idx)}
+              className="flex items-center gap-2 group cursor-pointer focus:outline-none"
+              aria-label={`Go to slide ${idx + 1}`}
+            >
+              <span
+                className={`hc-mono text-[11px] tracking-wider font-semibold tabular-nums transition-colors duration-300 ${
+                  isActive ? "text-[#8b1a42]" : "text-[#7a6872] group-hover:text-[#1a1017]"
+                }`}
+              >
+                {pad2(idx + 1)}
+              </span>
+              <div
+                className={`h-[2px] rounded-full transition-all duration-500 ease-out ${
+                  isActive
+                    ? "bg-[#8b1a42] w-12"
+                    : "bg-[#1a1017]/[0.15] w-4 group-hover:bg-[#8b1a42]/40 group-hover:w-6"
+                }`}
+              />
+            </button>
+          );
+        })}
       </div>
     </section>
   );
