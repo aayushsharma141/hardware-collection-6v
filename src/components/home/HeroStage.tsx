@@ -133,27 +133,6 @@ export default function HeroStage({ slides }: HeroStageProps) {
       />
       <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#fdf8f0] via-[#fdf8f0]/[0.85] to-transparent" />
 
-      {/* Floating Left & Right Carousel Navigation Arrows */}
-      {slides.length > 1 && (
-        <>
-          <button
-            type="button"
-            onClick={handlePrevSlide}
-            aria-label="Previous slide"
-            className="absolute left-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full border border-[#1a1017]/[0.12] bg-[#fdf8f0]/90 backdrop-blur-md text-[#1a1017] hover:bg-[#8b1a42] hover:text-white hover:border-[#8b1a42] flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105"
-          >
-            <ChevronLeft className="w-5 h-5 stroke-[1.75]" />
-          </button>
-          <button
-            type="button"
-            onClick={handleNextSlide}
-            aria-label="Next slide"
-            className="absolute right-6 top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full border border-[#1a1017]/[0.12] bg-[#fdf8f0]/90 backdrop-blur-md text-[#1a1017] hover:bg-[#8b1a42] hover:text-white hover:border-[#8b1a42] flex items-center justify-center transition-all duration-300 shadow-md hover:scale-105"
-          >
-            <ChevronRight className="w-5 h-5 stroke-[1.75]" />
-          </button>
-        </>
-      )}
 
       {/* Main Content Area */}
       <div className="relative z-10 mx-[80px] xl:mx-[100px] h-full flex flex-col justify-between pt-[110px] pb-[60px]">
