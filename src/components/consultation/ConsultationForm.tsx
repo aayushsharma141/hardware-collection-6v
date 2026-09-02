@@ -3,9 +3,19 @@
 import React, { useState, useId } from "react";
 import { ConsultationSuccess } from "./ConsultationSuccess";
 import { useConsultationStore } from "./store";
-import { Loader2, ArrowRight, Check, AlertCircle, RefreshCw } from "lucide-react";
+import {
+  Loader2,
+  ArrowRight,
+  Check,
+  AlertCircle,
+  RefreshCw,
+  Compass,
+  Home,
+  Building2,
+  Store,
+} from "lucide-react";
 
-// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─
 
 type CustomerType =
   | "Architect / Interior Designer"
@@ -35,32 +45,37 @@ interface ConsultationFormProps {
   inline?: boolean;
 }
 
-// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─
 
 const CUSTOMER_TYPES: {
   id: CustomerType;
   label: string;
   description: string;
+  icon: React.ComponentType<{ className?: string }>;
 }[] = [
   {
     id: "Architect / Interior Designer",
     label: "Architect / Designer",
     description: "Specs, CAD files & trade tiering",
+    icon: Compass,
   },
   {
     id: "Home Owner",
     label: "Home Owner",
     description: "Touch, feel & luxury hardware",
+    icon: Home,
   },
   {
     id: "Builder / Project",
     label: "Builder / Project",
     description: "Volume procurement & schedules",
+    icon: Building2,
   },
   {
     id: "Retailer",
     label: "Retailer",
     description: "Distribution & dealer inquiries",
+    icon: Store,
   },
 ];
 
@@ -82,23 +97,23 @@ const INITIAL_FORM_VALUES: FormValues = {
   projectType: "Modular Kitchen",
 };
 
-// â”€â”€ Shared style tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+// â”€â”€ Shared style tokens â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─
 
 const CLS_INPUT =
   "w-full bg-[var(--surface-raised)]/70 border border-[var(--border)] rounded-xl px-4 py-3 text-sm text-[var(--text-primary)] placeholder:text-zinc-600 focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[#C8A96E]/50 transition-all";
 const CLS_SELECT =
   "w-full bg-[var(--surface-raised)]/90 border border-[var(--border)] rounded-xl px-4 py-3 text-sm text-[var(--text-primary)] focus:outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[#C8A96E]/50 transition-all cursor-pointer";
 const CLS_LABEL =
-  "text-[11px] text-[var(--text-secondary)] uppercase tracking-widest font-semibold";
+  "text-[12px] text-[var(--text-secondary)] uppercase tracking-widest font-semibold";
 const CLS_SUBMIT =
-  "w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-[#C8A96E] to-[#e5c487] hover:from-[#d8b97e] hover:to-[#f0d49e] text-[#0E0C0C] font-bold text-xs uppercase tracking-[0.16em] transition-premium btn-tactile flex items-center justify-center gap-2 group disabled:opacity-60 shadow-[0_4px_20px_rgba(200,169,110,0.2)]";
+  "w-full py-3.5 px-6 rounded-full bg-gradient-to-r from-[#C8A96E] to-[#e5c487] hover:from-[#d8b97e] hover:to-[#f0d49e] text-[#0E0C0C] font-bold text-[14px] uppercase tracking-[0.16em] transition-premium btn-tactile flex items-center justify-center gap-2 group disabled:opacity-60 shadow-[0_4px_20px_rgba(200,169,110,0.2)]";
 
 // â”€â”€ Main Component â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 export function ConsultationForm({ onSuccess, inline = false }: ConsultationFormProps) {
   const { context } = useConsultationStore();
 
-  // The form mounts more than once per document â€” the inline section form and
+  // The form mounts more than once per document — the inline section form and
   // the navbar drawer coexist, and the mobile and desktop trees are both in the
   // DOM. Hardcoded field ids therefore collided, which points every duplicated
   // <label for> at whichever copy happens to come first.
@@ -260,7 +275,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
 
         {/* Recoverable Retry Alert if Telegram notification failed on server */}
         {telegramStatus === "failed" && (
-          <div className="mt-4 p-3 bg-amber-950/40 border border-amber-500/30 rounded-xl flex items-center justify-between gap-3 text-xs text-amber-200/90 max-w-md w-full">
+          <div className="mt-4 p-3 bg-amber-950/40 border border-amber-500/30 rounded-xl flex items-center justify-between gap-3 text-[13px] text-amber-200/90 max-w-md w-full">
             <div className="flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
               <span>We&apos;re having trouble alerting our team in real-time.</span>
@@ -280,7 +295,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
     );
   }
 
-  // â”€â”€ Form Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // â”€â”€ Form Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─
 
   return (
     <div
@@ -291,12 +306,12 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
       }`}
     >
       {/* Header. Inline, this form sits beside the section's own heading and intro,
-          so it takes only the eyebrow as a label â€” repeating the headline verbatim
+          so it takes only the eyebrow as a label — repeating the headline verbatim
           in both columns read as a duplication bug. The drawer has no surrounding
           copy, so there it still carries the full heading. */}
       <div className="mb-6">
         <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] font-semibold mb-1">
-          DIRECT ENQUIRY Â· SAKCHI SHOWROOM
+          DIRECT ENQUIRY &middot; SAKCHI SHOWROOM
         </p>
         {!inline && (
           <>
@@ -306,7 +321,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
             >
               Let&apos;s discuss your project.
             </h2>
-            <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed">
+            <p className="t-body-sm text-[var(--text-secondary)] font-light">
               Tell us who you are and what you&apos;re building. Our showroom specialists will prepare recommendations immediately.
             </p>
           </>
@@ -323,6 +338,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3" role="radiogroup" aria-labelledby={`${uid}-customer-type-label`}>
             {CUSTOMER_TYPES.map((type) => {
               const isSelected = values.customerType === type.id;
+              const Icon = type.icon;
               return (
                 <button
                   key={type.id}
@@ -330,27 +346,41 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
                   onClick={() => setField("customerType")(type.id)}
                   role="radio"
                   aria-checked={isSelected}
-                  className={`p-3.5 rounded-xl border text-left flex flex-col justify-between transition-all duration-200 relative ${
+                  className={`p-3.5 sm:p-4 rounded-xl border text-left flex items-start gap-3.5 transition-all duration-200 relative group cursor-pointer ${
                     isSelected
-                      ? "bg-[#C8A96E]/10 border-[var(--accent)] shadow-[0_0_15px_rgba(200,169,110,0.15)]"
-                      : "bg-[var(--surface-raised)]/40 border-[var(--border)] hover:border-zinc-700 text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                      ? "bg-[#8b1a42]/10 border-[#8b1a42] shadow-[0_0_15px_rgba(139,26,66,0.12)]"
+                      : "bg-[var(--surface-raised)]/40 border-[var(--border)] hover:border-[#c8a96e]/50 hover:bg-[#fdf8f0] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                   }`}
                 >
-                  <div className="flex items-center justify-between mb-1">
-                    <span
-                      className={`text-xs font-bold tracking-wide ${
-                        isSelected ? "text-[var(--text-primary)]" : "text-[var(--text-primary)]"
-                      }`}
-                    >
-                      {type.label}
-                    </span>
-                    {isSelected && (
-                      <div className="w-4 h-4 rounded-full bg-[#C8A96E] flex items-center justify-center">
-                        <Check className="w-2.5 h-2.5 text-black font-bold" />
-                      </div>
-                    )}
+                  <div
+                    className={`w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors duration-200 ${
+                      isSelected
+                        ? "bg-[#8b1a42] text-white"
+                        : "bg-[#c8a96e]/15 text-[#8b1a42] group-hover:bg-[#c8a96e]/25 group-hover:text-[#8b1a42]"
+                    }`}
+                  >
+                    <Icon className="w-4 h-4 stroke-[1.8]" />
                   </div>
-                  <span className="text-[11px] text-[var(--text-secondary)] font-light">{type.description}</span>
+
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center justify-between mb-0.5">
+                      <span
+                        className={`text-[14px] sm:text-[15px] font-semibold transition-colors ${
+                          isSelected ? "text-[#8b1a42]" : "text-[var(--text-primary)]"
+                        }`}
+                      >
+                        {type.label}
+                      </span>
+                      {isSelected && (
+                        <div className="w-4 h-4 rounded-full bg-[#8b1a42] flex items-center justify-center shrink-0 ml-2">
+                          <Check className="w-2.5 h-2.5 text-white font-bold" />
+                        </div>
+                      )}
+                    </div>
+                    <span className="text-[12px] sm:text-[13px] text-[var(--text-secondary)] font-light leading-snug block">
+                      {type.description}
+                    </span>
+                  </div>
                 </button>
               );
             })}
@@ -427,7 +457,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
 
         {/* Error message */}
         {errorMsg && (
-          <p className="text-red-400 text-xs bg-red-950/40 border border-red-900/60 p-3 rounded-lg flex items-center gap-2">
+          <p className="text-red-400 text-[13px] bg-red-950/40 border border-red-900/60 p-3 rounded-lg flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMsg}</span>
           </p>
@@ -445,7 +475,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           )}
         </button>
 
-        <p className="text-center text-[var(--text-secondary)] text-[11px] font-light -mt-2">
+        <p className="text-center t-body-sm text-[var(--text-secondary)] font-light -mt-2">
           Your details are directly routed to the Sakchi showroom team.
         </p>
       </form>

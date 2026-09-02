@@ -9,7 +9,7 @@ A: Yes — Hardware Collection is an authorized dealer for Hafele, Dorset, Labac
 A: Yes, we work with contractors, architects, and builders on project supply. Contact us on WhatsApp for bulk pricing.
 
 **Q: Where are you located?**
-A: 1/18, Kashidih, Near Baradwari Durga Puja Maidan, Sakchi, Jamshedpur — open 10 AM–8 PM daily.
+A: 1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur — open 10 AM–8 PM daily.
 
 ## Digital Locks
 **Q: Is it rust-proof / will it work in Jamshedpur's humidity?**

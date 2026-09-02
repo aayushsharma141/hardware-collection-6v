@@ -1,7 +1,7 @@
-# BUG-06 — In-Memory Rate Limiting: Architectural Limitation
+# BUG-06 â€” In-Memory Rate Limiting: Architectural Limitation
 
 ## Status
-**Accepted limitation** — Documented for future resolution.
+**Accepted limitation** â€” Documented for future resolution.
 
 ## Summary
 The current rate-limiting implementation stores request counters in a **Node.js module-level `Map`**. This works correctly in development and single-instance deployments but has known limitations in serverless/multi-instance environments.
@@ -24,7 +24,7 @@ Unbounded growth of the `Map` under high cardinality of client IPs is possible i
 
 ## Recommended Upgrade Path
 
-### Option A — Upstash Redis (Recommended for Vercel)
+### Option A â€” Upstash Redis (Recommended for Vercel)
 ```ts
 import { Ratelimit } from "@upstash/ratelimit";
 import { Redis } from "@upstash/redis";
@@ -38,10 +38,10 @@ const { success } = await ratelimit.limit(ip);
 if (!success) return new Response("Too Many Requests", { status: 429 });
 ```
 
-### Option B — Vercel KV
+### Option B â€” Vercel KV
 Use `@vercel/kv` with a sliding window algorithm.
 
-### Option C — Redis via `ioredis` (Self-hosted)
+### Option C â€” Redis via `ioredis` (Self-hosted)
 Use `INCR` + `EXPIRE` or a Lua script for atomic sliding window logic.
 
 ## Impact Assessment
@@ -54,6 +54,6 @@ Use `INCR` + `EXPIRE` or a Lua script for atomic sliding window logic.
 | High-traffic production | Potential memory growth without TTL eviction |
 
 ## References
-- `src/app/api/leads/route.ts` — primary rate-limit implementation
+- `src/app/api/leads/route.ts` â€” primary rate-limit implementation
 - Upstash Rate Limiting: https://upstash.com/docs/redis/sdks/ratelimit/overview
 - Vercel KV: https://vercel.com/docs/storage/vercel-kv

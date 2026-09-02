@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import Image from "next/image";
@@ -74,11 +74,11 @@ export default function ProductCard({
 
           {/* Live Display or Focal Badge */}
           {product.displayStatus ? (
-            <span className="absolute left-4 top-4 z-[3] border border-[var(--accent)]/60 bg-white/80 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[var(--accent)]">
+            <span className="absolute left-4 top-4 z-[3] border border-[var(--accent)]/60 bg-[#fdf8f0]/90 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[var(--accent)] font-semibold">
               {product.displayStatus}
             </span>
           ) : isFeatured ? (
-            <span className="absolute left-4 top-4 z-[3] border border-[var(--accent)]/60 bg-white/80 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[var(--accent)]">
+            <span className="absolute left-4 top-4 z-[3] border border-[var(--accent)]/60 bg-[#fdf8f0]/90 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[var(--accent)] font-semibold">
               Featured Specimen
             </span>
           ) : null}

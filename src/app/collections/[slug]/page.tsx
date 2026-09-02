@@ -55,19 +55,29 @@ export async function generateMetadata({
   const resolution = await resolveCollectionSlug(slug);
 
   if (resolution.kind === "category") {
-    const title = `${resolution.category.name || "Curated Collection"} | Hardware Collection Jamshedpur`;
+    const seo = resolution.category.seo;
+    const title = seo?.metaTitle || `${resolution.category.name || "Curated Collection"} | Hardware Collection Jamshedpur`;
     const description =
+      seo?.metaDescription ||
       resolution.category.description ||
       `Explore genuine architectural hardware for ${resolution.category.name} in Sakchi, Jamshedpur.`;
-    return { title, description };
+    return { 
+      title, 
+      description,
+    };
   }
 
   if (resolution.kind === "space") {
-    const title = `${resolution.space.name} Architectural Hardware | Hardware Collection`;
+    const seo = resolution.space.seo;
+    const title = seo?.metaTitle || `${resolution.space.name} Architectural Hardware | Hardware Collection`;
     const description =
+      seo?.metaDescription ||
       resolution.space.description ||
       `Curated hardware solutions for ${resolution.space.name} in Sakchi, Jamshedpur.`;
-    return { title, description };
+    return { 
+      title, 
+      description,
+    };
   }
 
   return {

@@ -1,156 +1,238 @@
-﻿"use client";
+"use client";
 
-import React, { useEffect, useState } from "react";
-import { X, ZoomIn, ZoomOut, Maximize, ShieldAlert, ChevronLeft, ChevronRight, FileText } from "lucide-react";
+import React, { useEffect, useMemo, useState } from "react";
+import { X, ShieldCheck, FileText } from "lucide-react";
 import { motion } from "motion/react";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
-import { Brand } from "@/types/catalog";
+import dynamic from "next/dynamic";
+import { Brand, BrandCatalog, getSlugString } from "@/types/catalog";
+
+/**
+ * pdf.js is ~1MB and touches browser-only APIs, so it stays out of this
+ * page's import graph and off the server render entirely.
+ */
+const CatalogPdfViewer = dynamic(() => import("./CatalogPdfViewer"), {
+  ssr: false,
+  loading: () => (
+    <div className="h-full flex flex-col items-center justify-center text-[#998f81]">
+      <div className="w-8 h-8 border-2 border-[var(--border)] border-t-[#e5c487] rounded-full animate-spin mb-4" />
+      <span className="font-body text-xs uppercase tracking-widest">Opening catalog…</span>
+    </div>
+  ),
+});
 
 interface CatalogViewerModalProps {
   brand: Brand;
   onClose: () => void;
 }
 
+function catalogLabel(entry: BrandCatalog, brandName: string, index: number): string {
+  return entry.title || `${brandName} Catalog ${index + 1}`;
+}
+
+function catalogMeta(entry: BrandCatalog): string {
+  return [
+    entry.type && entry.type !== "catalog" ? entry.type : null,
+    entry.version ? `v${entry.version}` : null,
+    entry.releaseDate ? entry.releaseDate.slice(0, 4) : null,
+  ]
+    .filter(Boolean)
+    .join(" • ");
+}
+
 export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModalProps) {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const catalogs = useMemo<BrandCatalog[]>(() => brand.officialCatalogs ?? [], [brand]);
+  const slug = getSlugString(brand.slug);
+  const [active, setActive] = useState(0);
 
-  // Security layer: disable right-click, keyboard shortcuts, text selection
+  const hasCatalogs = catalogs.length > 0 && Boolean(slug);
+  const external = !hasCatalogs ? brand.officialCatalogUrl : null;
+
   useEffect(() => {
-    const handleContextMenu = (e: MouseEvent) => {
-      e.preventDefault();
-    };
+    const blockContextMenu = (e: MouseEvent) => e.preventDefault();
+    const blockDrag = (e: DragEvent) => e.preventDefault();
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
-      
-      // Prevent Print (Ctrl+P, Cmd+P), Save (Ctrl+S, Cmd+S)
-      if ((e.ctrlKey || e.metaKey) && (e.key === 'p' || e.key === 's')) {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        onClose();
+        return;
+      }
+      // Ctrl/Cmd+P and Ctrl/Cmd+S would otherwise offer the rendered page.
+      if ((e.ctrlKey || e.metaKey) && (e.key === "p" || e.key === "s")) {
         e.preventDefault();
-        console.warn("Catalog DRM: print/save shortcut intercepted.");
       }
     };
 
-    document.addEventListener("contextmenu", handleContextMenu);
-    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("contextmenu", blockContextMenu);
+    document.addEventListener("dragstart", blockDrag);
+    document.addEventListener("keydown", onKeyDown);
+    // Paired with the @media print rule in globals.css.
+    document.body.classList.add("catalog-locked");
     lockScroll(); // BUG-05 fix: centralized scroll lock
-    
-    // Simulate loading the pre-rendered images
-    const timer = setTimeout(() => {
-      setIsLoaded(true);
-    }, 1200);
 
     return () => {
-      document.removeEventListener("contextmenu", handleContextMenu);
-      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("contextmenu", blockContextMenu);
+      document.removeEventListener("dragstart", blockDrag);
+      document.removeEventListener("keydown", onKeyDown);
+      document.body.classList.remove("catalog-locked");
       unlockScroll();
-      clearTimeout(timer);
     };
   }, [onClose]);
 
+  const selector = catalogs.length > 1 && (
+    <nav
+      aria-label={`${brand.name} catalogs`}
+      className="shrink-0 border-b md:border-b-0 md:border-r border-[var(--border)] bg-[var(--surface-raised)] md:w-72 md:overflow-y-auto"
+    >
+      <p className="hidden md:block font-body text-[10px] uppercase tracking-[0.18em] text-[#998f81] px-5 pt-5 pb-3">
+        {catalogs.length} catalogs
+      </p>
+      <ul className="flex md:flex-col gap-2 md:gap-1 p-3 md:px-3 md:pb-4 md:pt-0 overflow-x-auto md:overflow-x-visible">
+        {catalogs.map((entry, i) => {
+          const isActive = i === active;
+          const meta = catalogMeta(entry);
+          return (
+            <li key={i} className="shrink-0 md:shrink">
+              <button
+                type="button"
+                onClick={() => setActive(i)}
+                aria-current={isActive ? "true" : undefined}
+                className={`w-full text-left rounded-lg px-4 py-3 border transition-colors duration-150 hc-focus ${
+                  isActive
+                    ? "bg-[var(--surface-elevated)] border-[var(--accent)]/60"
+                    : "bg-transparent border-transparent hover:bg-[var(--surface-elevated)]/60 hover:border-[var(--border)]"
+                }`}
+              >
+                <span className="flex items-start gap-3">
+                  <FileText
+                    className={`w-4 h-4 mt-0.5 shrink-0 ${
+                      isActive ? "text-[var(--accent)]" : "text-[#998f81]"
+                    }`}
+                  />
+                  <span className="min-w-0">
+                    <span
+                      className={`block font-body text-sm leading-snug whitespace-nowrap md:whitespace-normal ${
+                        isActive ? "text-[var(--text-primary)]" : "text-[var(--text-secondary)]"
+                      }`}
+                    >
+                      {catalogLabel(entry, brand.name, i)}
+                    </span>
+                    {meta && (
+                      <span className="block font-body text-[10px] uppercase tracking-wider text-[#998f81] mt-1">
+                        {meta}
+                      </span>
+                    )}
+                  </span>
+                </span>
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </nav>
+  );
+
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
+      initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
-      exit={{ opacity: 0, scale: 0.95 }}
+      exit={{ opacity: 0, scale: 0.98 }}
       transition={{ type: "spring", stiffness: 300, damping: 30 }}
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
-      className="fixed inset-0 z-[100] bg-white text-[var(--text-primary)] flex flex-col select-none"
+      className="fixed inset-0 z-[100] bg-[#fdf8f0] text-[var(--text-primary)] flex flex-col select-none"
     >
-      
-      {/* Viewer Header */}
-      <header className="h-16 bg-[var(--surface-raised)] border-b border-[var(--border)] flex items-center justify-between px-6 shrink-0">
-        <div className="flex items-center gap-4">
-          <button onClick={onClose} aria-label="Close Official Catalog" className="text-[#998f81] hover:text-[var(--text-primary)] transition-colors p-2 -ml-2">
+      <header className="h-16 bg-[var(--surface-raised)] border-b border-[var(--border)] flex items-center justify-between px-4 md:px-6 shrink-0">
+        <div className="flex items-center gap-3 md:gap-4 min-w-0">
+          <button
+            onClick={onClose}
+            aria-label="Close catalog"
+            className="text-[#998f81] hover:text-[var(--text-primary)] transition-colors p-2 -ml-2 hc-focus"
+          >
             <X className="w-6 h-6" />
           </button>
-          <div className="w-px h-6 bg-[#262626]"></div>
-          <span id="modal-title" className="font-display tracking-widest uppercase text-sm text-[var(--text-primary)]">
-            {brand.name} Official Catalog
+          <div className="w-px h-6 bg-[var(--border)]" />
+          <span
+            id="modal-title"
+            className="font-display tracking-widest uppercase text-xs md:text-sm text-[var(--text-primary)] truncate"
+          >
+            {hasCatalogs
+              ? catalogLabel(catalogs[active], brand.name, active)
+              : `${brand.name} Official Catalog`}
           </span>
         </div>
 
-        <div className="flex items-center gap-6">
-          <div className="hidden md:flex items-center gap-4 text-[#998f81]">
-            <button aria-label="Zoom out" className="hover:text-[var(--text-primary)] transition-colors"><ZoomOut className="w-4 h-4" /></button>
-            <span className="font-body text-xs" aria-label="Current Zoom Level">100%</span>
-            <button aria-label="Zoom in" className="hover:text-[var(--text-primary)] transition-colors"><ZoomIn className="w-4 h-4" /></button>
-            <div className="w-px h-4 bg-[#262626]"></div>
-            <button aria-label="Maximize viewer" className="hover:text-[var(--text-primary)] transition-colors"><Maximize className="w-4 h-4" /></button>
-          </div>
-          
+        <div className="flex items-center gap-4 shrink-0">
+          <span className="hidden lg:inline-flex items-center gap-2 text-[#998f81]">
+            <ShieldCheck className="w-4 h-4 text-[#c8a96e]" />
+            <span className="font-body text-[10px] uppercase tracking-wider">View only</span>
+          </span>
           <a
-            href={buildWhatsAppUrl(`Hi Hardware Collection, I am viewing the ${brand.name} catalog and need a specific product.`)}
+            href={buildWhatsAppUrl(
+              `Hi Hardware Collection, I am viewing the ${brand.name} catalog and need a specific product.`
+            )}
             target="_blank"
             rel="noopener noreferrer"
-            className="bg-[#e5c487] text-[#131314] px-4 py-2 font-body font-bold text-[10px] uppercase tracking-wider hover:bg-white transition-colors"
+            className="bg-[#e5c487] text-[#131314] px-3 md:px-4 py-2 font-body font-bold text-[10px] uppercase tracking-wider hover:bg-[#8b1a42] hover:text-white transition-colors hc-focus"
           >
             WhatsApp Specialist
           </a>
         </div>
       </header>
 
-      {/* Viewer Body (Friction Layer) */}
-      <main className="flex-1 relative overflow-hidden flex flex-col">
-        {/* Anti-screenshot Watermark overlay */}
-        <div className="absolute inset-0 z-20 pointer-events-none opacity-[0.03] bg-[url('/noise.png')] mix-blend-overlay"></div>
-        <div className="absolute inset-0 z-20 pointer-events-none flex flex-wrap items-center justify-center opacity-5 gap-20 p-10 overflow-hidden" aria-hidden="true">
-          {Array.from({ length: 24 }).map((_, i) => (
-            <span key={i} className="font-display text-4xl -rotate-45 text-[var(--text-primary)]">HARDWARE COLLECTION</span>
+      <div className="flex-1 min-h-0 flex flex-col md:flex-row relative">
+        {/* Screenshot deterrent, kept out of the pointer path. */}
+        <div
+          className="absolute inset-0 z-20 pointer-events-none flex flex-wrap items-center justify-center opacity-[0.045] gap-20 p-10 overflow-hidden"
+          aria-hidden="true"
+        >
+          {Array.from({ length: 18 }).map((_, i) => (
+            <span key={i} className="font-display text-4xl -rotate-45 whitespace-nowrap">
+              HARDWARE COLLECTION
+            </span>
           ))}
         </div>
 
-        {/* Protection Warning */}
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 z-30 bg-[var(--surface-raised)] border border-[var(--border)] px-4 py-2 rounded-full flex items-center gap-2 shadow-2xl">
-          <ShieldAlert className="w-4 h-4 text-[#e5c487]" />
-          <span className="font-body text-[10px] text-[#998f81] uppercase tracking-wider">
-            View-Only Mode â€¢ Casual-Copy Friction Layer Active
-          </span>
-        </div>
+        {selector}
 
-        {/* Viewer Area (Option B: Pre-rendered pages state) */}
-        <div className="flex-1 overflow-auto p-4 md:p-8 flex justify-center bg-white">
-          {!isLoaded ? (
-            <div className="flex flex-col items-center justify-center h-full text-[#998f81]">
-              <div className="w-8 h-8 border-2 border-[var(--border)] border-t-[#e5c487] rounded-full animate-spin mb-4"></div>
-              <span className="font-body text-xs uppercase tracking-widest">Loading Secure Viewer...</span>
-            </div>
+        <div className="flex-1 min-h-0 min-w-0">
+          {hasCatalogs ? (
+            <CatalogPdfViewer
+              key={`${slug}-${active}`}
+              src={`/api/catalog/${encodeURIComponent(slug)}/${active}`}
+            />
           ) : (
-            <div className="w-full max-w-4xl min-h-[800px] relative flex flex-col items-center justify-center">
-              <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-16 text-center max-w-2xl w-full">
-                <FileText className="w-16 h-16 text-[#444] mx-auto mb-8" />
-                <h2 className="font-display text-3xl text-[var(--text-primary)] mb-4 uppercase tracking-widest">
-                  Assets Pending
+            <div className="h-full flex items-center justify-center p-8">
+              <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-10 md:p-14 text-center max-w-lg w-full rounded-xl">
+                <FileText className="w-14 h-14 text-[#c8a96e] mx-auto mb-6 opacity-60" />
+                <h2 className="font-display text-2xl md:text-3xl text-[var(--text-primary)] mb-4 uppercase tracking-widest">
+                  Not yet available
                 </h2>
-                <p className="font-body text-sm text-[#d0c5b5] leading-relaxed mb-8">
-                  The official pre-rendered catalog pages for <strong>{brand.name}</strong> have not been uploaded yet. This viewer is structurally complete and will serve the Option B image-based architecture once assets are provided.
+                <p className="font-body text-sm text-[var(--text-secondary)] leading-relaxed mb-8">
+                  {external
+                    ? `${brand.name} publishes its catalog on the manufacturer's own site.`
+                    : `We have not received the current ${brand.name} catalog yet. Message a specialist and we will send it to you directly.`}
                 </p>
-                <div className="inline-block bg-[var(--surface-raised)] px-6 py-3 font-body text-xs text-[#998f81] uppercase tracking-wider border border-[var(--border)]">
-                  Awaiting Input: Brand Distributor PDFs
-                </div>
+                <a
+                  href={
+                    external ||
+                    buildWhatsAppUrl(
+                      `Hi Hardware Collection, could you send me the ${brand.name} catalog?`
+                    )
+                  }
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block bg-[#e5c487] text-[#131314] px-6 py-3 font-body text-xs font-bold uppercase tracking-wider hover:bg-[#8b1a42] hover:text-white transition-colors hc-focus"
+                >
+                  {external ? "Visit manufacturer site" : "Request this catalog"}
+                </a>
               </div>
             </div>
           )}
         </div>
-
-        {/* Viewer Footer (Pagination) */}
-        <footer className="h-16 bg-[var(--surface-raised)] border-t border-[var(--border)] flex items-center justify-center shrink-0 z-30 relative">
-          <div className="flex items-center gap-6">
-            <button aria-label="Previous page" disabled className="w-8 h-8 rounded-full border border-[var(--border)] flex items-center justify-center text-[#998f81] opacity-50 cursor-not-allowed">
-              <ChevronLeft className="w-4 h-4" />
-            </button>
-            <span className="font-body text-xs text-[#d0c5b5]">
-              Page <span className="text-[var(--text-primary)]">-</span> of -
-            </span>
-            <button aria-label="Next page" disabled className="w-8 h-8 rounded-full border border-[var(--border)] flex items-center justify-center text-[#998f81] opacity-50 cursor-not-allowed">
-              <ChevronRight className="w-4 h-4" />
-            </button>
-          </div>
-        </footer>
-      </main>
+      </div>
     </motion.div>
   );
 }
-

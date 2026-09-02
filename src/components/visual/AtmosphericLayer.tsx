@@ -1,4 +1,4 @@
-﻿import { BrandWatermark } from "./BrandWatermark";
+import { BrandWatermark } from "./BrandWatermark";
 import { ParticleWave } from "./ParticleWave";
 
 export type AtmosphericPreset = "hero" | "footer";

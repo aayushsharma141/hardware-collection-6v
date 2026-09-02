@@ -25,6 +25,11 @@
   --color-brass:        #c8a96e;
   --color-brass-dark:   #9a7a42;
   --color-brass-light:  #e8d5a8;
+  /* Brass for text on the ivory surfaces. #c8a96e reads 2.1:1 on #fdf8f0 and
+     2.0:1 on #f7f0e4 — it was drawn for the dark theme this site no longer
+     ships. This holds the same hue at 4.9:1. Decorative brass (rules, borders,
+     icons) still uses --color-brass. */
+  --color-brass-ink:    #85683a;
 
   /* CHROME SILVER — 3D logo body */
   --color-chrome:       #c0c0c0;
@@ -95,20 +100,8 @@
   --font-label-caps:        var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* ── Motion ──────────────────────────────────────────────── */
-  --animate-float:      float 6s ease-in-out infinite;
-  --animate-pulse-wine: pulse-wine 2s infinite;
   --animate-gradient-x: gradient-x 15s ease infinite;
 
-  @keyframes float {
-    0%   { transform: translateY(0px); }
-    50%  { transform: translateY(-10px); }
-    100% { transform: translateY(0px); }
-  }
-  @keyframes pulse-wine {
-    0%   { transform: scale(1);    box-shadow: 0 0 0 0   rgba(139, 26, 66, 0.35); }
-    70%  { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(139, 26, 66, 0); }
-    100% { transform: scale(1);    box-shadow: 0 0 0 0   rgba(139, 26, 66, 0); }
-  }
   @keyframes gradient-x {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
@@ -128,6 +121,13 @@
   @keyframes catFadeIn {
     from { opacity: 0; transform: translateY(6px); }
     to   { opacity: 1; transform: translateY(0); }
+  }
+  /* Transform-only load-in. Content is legible at every frame including the
+     first, so a cascade can never leave a row invisible the way an
+     opacity-from-0 reveal can when the timeline is throttled or stalled. */
+  @keyframes catRise {
+    from { transform: translateY(8px); }
+    to   { transform: translateY(0); }
   }
 
   --duration-stagger:   40ms;
@@ -155,6 +155,8 @@ body {
   background: #fdf8f0;
   color: var(--color-ink, #1a1017);
   overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 
   /* Semantic token defaults — all components get bright unless a
      theme wrapper overrides. Eliminates dark fallback values. */
@@ -225,6 +227,27 @@ body {
   .text-body-lg          { font-size: 20px; line-height: 32px; font-weight: 300; }
   .text-headline-lg-mobile { font-size: 38px; line-height: 44px; font-weight: 400; }
   .text-headline-xl      { font-size: 80px; line-height: 84px; letter-spacing: -0.02em; font-weight: 300; }
+
+  /* ── Editorial type roles ──────────────────────────────────────────
+     Semantic roles for the mobile homepage, so sections stop inventing
+     one-off sizes. Each fluid role clamps between a 375px value and a
+     ceiling reached at ~430px, which means every viewport at and above
+     the `sm` breakpoint — desktop included — sits on the ceiling and is
+     unchanged by these classes.
+
+     Display and headings take Cormorant (hc-serif); body, supporting
+     copy and buttons take DM Sans/Manrope; eyebrow and metadata take
+     hc-mono. The role sets size, leading and tracking only — colour and
+     family stay with the component. */
+  .t-display   { font-size: clamp(48px, 13vw,   60px); line-height: 0.94; letter-spacing: -0.015em; }
+  .t-h2        { font-size: clamp(38px, 10.5vw, 48px); line-height: 0.98; letter-spacing: -0.012em; }
+  .t-h3        { font-size: clamp(28px, 7.6vw,  34px); line-height: 1.08; letter-spacing: -0.006em; }
+  .t-h4        { font-size: clamp(20px, 5.4vw,  22px); line-height: 1.15; }
+  .t-body      { font-size: clamp(15px, 4.2vw,  17px); line-height: 1.6;  }
+  .t-body-sm   { font-size: clamp(14px, 3.8vw,  15px); line-height: 1.55; }
+  .t-eyebrow   { font-size: 11px; line-height: 1.4;  letter-spacing: 0.22em; font-weight: 600; text-transform: uppercase; }
+  .t-meta      { font-size: 12px; line-height: 1.45; letter-spacing: 0.16em; }
+  .t-button    { font-size: 14px; line-height: 1.4;  letter-spacing: 0.1em;  font-weight: 600; }
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -267,6 +290,35 @@ html[data-drawer-open] .mobile-conversion-bar {
   90%  { opacity: 0.6; }
   100% { transform: translateX(220%) skewX(-20deg); opacity: 0; }
 }
+
+@keyframes ticker-left {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@keyframes ticker-right {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.animate-ticker-left {
+  animation: ticker-left 35s linear infinite;
+  will-change: transform;
+}
+
+.animate-ticker-right {
+  animation: ticker-right 35s linear infinite;
+  will-change: transform;
+}
+
 
 /* ── Pointer light ───────────────────────────────────────────── */
 .pointer-light {
@@ -516,6 +568,7 @@ html.lenis, html.lenis body { height: auto; }
 .shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon,
 .shortlist-control[aria-pressed='true'] .ti-plus, .shortlist-control[aria-pressed='true'] .shortlist-icon { transform: rotate(45deg); }
 .shortlist-control[aria-pressed='true'] { background: var(--wine); color: #ffffff; border-color: var(--wine); }
+.shortlist-control:active { transform: scale(0.95); }
 
 /* Threshold card */
 .threshold-card { position: relative; transition: transform var(--dur-micro) var(--ease-out-expo); }
@@ -549,10 +602,6 @@ html.lenis, html.lenis body { height: auto; }
 .index-rule { width: 34px; height: 2px; background: var(--wine); transform: scaleX(.35); transform-origin: left; transition: transform 180ms var(--standard); }
 
 
-/* Navbar brand tagline visibility */
-@container (max-width: 389px) {
-  .brand-tagline-optional { display: none; }
-}
 
 /* ─────────────────────────────────────────────────────────────
    BROWSER SURFACES — selection, caret, scrollbar, focus ring
@@ -607,8 +656,6 @@ select {
   .animate-review-marquee-mobile,
   .animate-ticker-left,
   .animate-ticker-right,
-  .animate-float,
-  .animate-pulse-wine,
   .animate-gradient-x {
     animation: none !important;
   }
@@ -619,4 +666,14 @@ select {
   }
 
   .pointer-light { background-image: none; }
+
+  .shortlist-control:active { transform: none; }
+}
+
+/* Catalog viewer: Ctrl/Cmd+P must not produce a printable copy of a
+   view-only catalog. Paired with the body class set by CatalogViewerModal. */
+@media print {
+  body.catalog-locked {
+    display: none !important;
+  }
 }

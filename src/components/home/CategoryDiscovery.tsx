@@ -59,14 +59,14 @@ export default function CategoryDiscovery() {
             <motion.article
               variants={itemVariants}
               key={cat.id}
-              className={`threshold-card bg-[var(--surface-raised)] pb-6 flex flex-col justify-between ${
+              className={`threshold-card group/card bg-[var(--surface-raised)] pb-6 flex flex-col justify-between ${
                 cat.isFocal ? "relative z-10" : ""
               }`}
             >
               <div className="threshold-image relative aspect-[5/7] overflow-hidden bg-[#181716]">
                 <img
                   alt={`${cat.name} showroom family`}
-                  className={`h-full w-full object-cover ${
+                  className={`h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:scale-[1.03] ${
                     cat.isFocal ? "opacity-[0.9]" : "opacity-[0.8]"
                   }`}
                   decoding="async"
@@ -91,7 +91,7 @@ export default function CategoryDiscovery() {
               >
                 <div>
                   <h3
-                    className={`hc-serif leading-[0.95] text-[var(--text-primary)] ${
+                    className={`hc-serif leading-[0.95] text-[var(--text-primary)] transition-transform duration-500 ease-out group-hover/card:translate-x-1 ${
                       cat.isFocal ? "text-[34px] xl:text-[38px]" : "text-[26px] xl:text-[30px]"
                     }`}
                   >
@@ -113,7 +113,7 @@ export default function CategoryDiscovery() {
 
                 <a
                   href={cat.href}
-                  className="threshold-action mt-6 flex items-center gap-2.5 text-xs uppercase tracking-widest font-semibold text-[var(--text-secondary)] no-underline hover:text-[var(--accent)]"
+                  className="threshold-action mt-6 flex items-center gap-2.5 text-xs uppercase tracking-widest font-semibold text-[var(--text-secondary)] no-underline hover:text-[var(--accent)] transition-transform duration-500 ease-out group-hover/card:translate-x-1"
                 >
                   <span>View {cat.name}</span>
                   <svg className="w-4 h-4 text-[#c8a96e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">

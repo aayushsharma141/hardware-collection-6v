@@ -203,7 +203,7 @@ export default function CollectionSearch({
                             {cat.name}
                           </span>
                           <span className="text-xs text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">
-                            View Collection â†’
+                            View Collection →
                           </span>
                         </Link>
                       );
@@ -242,7 +242,7 @@ export default function CollectionSearch({
                             )}
                           </div>
                           <span className="text-xs text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">
-                            Explore â†’
+                            Explore →
                           </span>
                         </Link>
                       );
@@ -279,7 +279,7 @@ export default function CollectionSearch({
                             {brand.name}
                           </span>
                           <span className="text-xs text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">
-                            Ask Specialist â†’
+                            Ask Specialist →
                           </span>
                         </button>
                       );

@@ -1,9 +1,9 @@
-﻿import { Star } from "lucide-react";
+import { Star } from "lucide-react";
 
 /**
- * StarRating â€” a rating out of five, drawn.
+ * StarRating — a rating out of five, drawn.
  *
- * Both review surfaces previously rendered `rating` copies of the "â˜…"
+ * Both review surfaces previously rendered `rating` copies of the "★"
  * character and nothing else, so a four-star review showed four stars with no
  * empty fifth and read as full marks. The unfilled remainder is what makes a
  * rating legible, so it is always drawn.

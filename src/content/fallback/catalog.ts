@@ -41,7 +41,6 @@ export interface CategoryInfo {
   brands: string[];
   pendingVerificationBrands?: string[];
   keyFeatures: string[];
-  status: "draft" | "review" | "published";
   verificationStatus: "unverified" | "brand_verified" | "catalog_verified";
   whatsappMessage: string;
   featured?: boolean;
@@ -204,7 +203,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Triple Anti-Prise Heavy Deadbolts",
       "Emergency Mechanical Key & USB Backup"
     ],
-    status: "published",
     verificationStatus: "catalog_verified",
     whatsappMessage: "Hardware Collection — I would like to consult on Digital Locks & Biometric Security for my project.",
     featured: true,
@@ -230,7 +228,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Computerized Dimple Key Master Keying Options",
       "Corrosion-Resistant PVD Finished Faceplates"
     ],
-    status: "draft",
     verificationStatus: "brand_verified",
     whatsappMessage: "Hardware Collection — Inquiring about Mortise & Architectural Door Locks.",
     featured: false,
@@ -255,7 +252,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Salt-Spray Tested Luxury PVD Coating",
       "Back-to-Back Glass & Wooden Door Mountings"
     ],
-    status: "draft",
     verificationStatus: "brand_verified",
     whatsappMessage: "Hardware Collection — Inquiring about Main Entrance Pull Handles & Finishes.",
     featured: false,
@@ -280,7 +276,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Extruded Aluminum Seamless Edge Profiles",
       "Anti-Fingerprint Anodized Finishes"
     ],
-    status: "draft",
     verificationStatus: "brand_verified",
     whatsappMessage: "Hardware Collection — Inquiring about Cabinet & Wardrobe Handles.",
     featured: false,
@@ -306,7 +301,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Corner Carousel & Blind Corner Magic Storage",
       "Integrated 3D Tool-less Front Alignment"
     ],
-    status: "published",
     verificationStatus: "catalog_verified",
     whatsappMessage: "Hardware Collection — Inquiring about German Modular Kitchen Hardware Systems.",
     featured: true,
@@ -332,7 +326,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "360° Swivel Pull-Out Dual-Spray Faucets",
       "Sound-Dampening Heavy Composite Basin"
     ],
-    status: "draft",
     verificationStatus: "brand_verified",
     whatsappMessage: "Hardware Collection — Inquiring about Labacha Quartz Sinks & Kitchen Faucets.",
     featured: false,
@@ -357,7 +350,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Silent System Dampened Opening & Soft-Closing",
       "Ergonomic Hydraulic Wardrobe Pull-Down Lifts"
     ],
-    status: "draft",
     verificationStatus: "brand_verified",
     whatsappMessage: "Hardware Collection — Inquiring about Wardrobe Sliding Systems & Internal Fittings.",
     featured: false,
@@ -382,7 +374,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Integrated Hydraulic Soft-Closing Damper",
       "Certified 200,000 Cycle Fatigue Endurance"
     ],
-    status: "draft",
     verificationStatus: "brand_verified",
     whatsappMessage: "Hardware Collection — Inquiring about 3D Concealed Hinges & Soft-Close Systems.",
     featured: false,
@@ -407,7 +398,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Push-to-Open & Soft-Close Combined Capabilities",
       "Galvanized Steel Heavy-Duty Load Ratings"
     ],
-    status: "draft",
     verificationStatus: "brand_verified",
     whatsappMessage: "Hardware Collection — Inquiring about Concealed Drawer Runners & Slides.",
     featured: false,
@@ -433,7 +423,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "SS 304 Anti-Odor Linear Floor Drainage",
       "PVD Brushed Gold & Matte Black Finish Durability"
     ],
-    status: "draft",
     verificationStatus: "unverified",
     whatsappMessage: "Hardware Collection — Inquiring about Luxury Bathroom Fixtures & Accessories.",
     featured: false,
@@ -459,7 +448,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Frameless Shower Door Pivot Hinges & Brackets",
       "Heavy Commercial Glass Facade Spider Fittings"
     ],
-    status: "draft",
     verificationStatus: "unverified",
     whatsappMessage: "Hardware Collection — Inquiring about Architectural Glass Fittings.",
     featured: false,
@@ -485,7 +473,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Concealed In-Door Frame Installation",
       "EN 1154 Fire-Rated Compliance Standards"
     ],
-    status: "draft",
     verificationStatus: "unverified",
     whatsappMessage: "Hardware Collection — Inquiring about Hydraulic Door Closers & Stoppers.",
     featured: false,
@@ -511,7 +498,6 @@ export const CATEGORIES: CategoryInfo[] = [
       "Biometric + PIN Multi-User Access Memory",
       "Tamper Alarm Auto-Freeze Security Protocol"
     ],
-    status: "draft",
     verificationStatus: "unverified",
     whatsappMessage: "Hardware Collection — Inquiring about Biometric Home & Office Safes.",
     featured: false,

@@ -89,6 +89,13 @@ export interface SignaturePiece {
   href: string;
   /** Longer material- and mechanism-led copy, used where a card has room. */
   blurb: string;
+  /**
+   * The single strongest sentence from `blurb`, for surfaces where the
+   * photograph leads and a paragraph would compete with it — the mobile
+   * reel, where three stacked blurbs read as a wall of text under a
+   * cinematic image.
+   */
+  statement: string;
   sweepDelay: string;
 }
 
@@ -103,6 +110,8 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     href: "/collections/main-door-handles",
     blurb:
       "Long-format entrance pulls in satin stainless — a low-reflectance surface that holds its finish under daily contact and reads quietly against timber, glass and stone.",
+    statement:
+      "A low-reflectance surface that holds its finish under daily contact.",
     sweepDelay: "0s",
   },
   {
@@ -115,6 +124,8 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     href: "/collections/mortise-door-locks",
     blurb:
       "Lever-on-rose mortice sets in antique brass, matched to the lock body and strike so the whole door schedule specifies as one line rather than three.",
+    statement:
+      "Lever, lock body and strike matched, so the door schedule specifies as one line.",
     sweepDelay: "1.5s",
   },
   {
@@ -127,6 +138,8 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     href: "/collections/digital-locks",
     blurb:
       "Fingerprint, PIN and key access in one graphite body. Working units are on the wall in Sakchi — enrol a print and feel the throw before you specify it.",
+    statement:
+      "Fingerprint, PIN and key in one graphite body. Working units are on the wall in Sakchi.",
     sweepDelay: "3s",
   },
   {
@@ -139,6 +152,8 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     href: "/collections/drawer-channels",
     blurb:
       "Full-extension runners with integrated soft-close damping. The difference between grades is in the last centimetre of travel, which is why we keep them loaded and open on display.",
+    statement:
+      "Full-extension runners — the difference between grades is the last centimetre of travel.",
     sweepDelay: "0.5s",
   },
   {
@@ -151,6 +166,8 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     href: "/collections/bathroom-accessories",
     blurb:
       "Grade 304 stainless bath accessories in a satin finish, sized as a coordinated suite rather than assembled piece by piece.",
+    statement:
+      "Grade 304 stainless, sized as a coordinated suite rather than assembled piece by piece.",
     sweepDelay: "2s",
   },
   {
@@ -163,6 +180,8 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     href: "/collections/cabinet-wardrobe-handles",
     blurb:
       "Small-format knobs in matte gold — the detail a kitchen is read by, and the one most often chosen from a photograph rather than in the hand.",
+    statement:
+      "The detail a kitchen is read by, and the one most often chosen from a photograph.",
     sweepDelay: "4s",
   },
 ];

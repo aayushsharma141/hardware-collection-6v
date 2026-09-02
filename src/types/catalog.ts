@@ -1,7 +1,4 @@
-/**
- * Shared domain types for the Hardware Collection catalog.
- * Represents runtime data from Sanity CMS and static catalog registry.
- */
+import { SanitySeo, SanityCta } from "./sanity";
 
 export interface ProductSpecification {
   key: string;
@@ -54,6 +51,8 @@ export interface Product {
   displayStatus?: "Live Display" | "Available on Order" | "Exclusive Demo Unit" | string;
   specifications?: ProductSpecification[];
   officialFiles?: string[];
+  seo?: SanitySeo;
+  cta?: SanityCta;
 }
 
 export interface Category {
@@ -74,7 +73,6 @@ export interface Category {
   itemCount?: number;
   primaryRail?: string;
   familySlugs?: string[];
-  subcategories?: string[];
   cardVariant?: "standard" | "wide" | "feature";
   suitableFor?: string[];
   brands?: string[];
@@ -85,9 +83,10 @@ export interface Category {
   heroImageLqip?: string;
   galleryUrls?: string[];
   searchKeywords?: string[];
-  status?: "draft" | "review" | "published";
   brandRefs?: Array<{ name: string; slug: string; logoUrl: string | null }>;
   displayOrder?: number;
+  seo?: SanitySeo;
+  cta?: SanityCta;
 }
 
 export interface Space {
@@ -102,6 +101,7 @@ export interface Space {
   displayOrder?: number;
   linkedCategories?: Category[];
   linkedCategorySlugs?: string[];
+  seo?: SanitySeo;
 }
 
 export interface Subcategory {
@@ -112,6 +112,15 @@ export interface Subcategory {
   description?: string;
   imageUrl?: string;
   imageLqip?: string;
+}
+
+/** One entry in a brand's `officialCatalogs` array. */
+export interface BrandCatalog {
+  title?: string | null;
+  type?: string | null;
+  version?: string | null;
+  releaseDate?: string | null;
+  size?: number | null;
 }
 
 export interface Brand {
@@ -126,7 +135,7 @@ export interface Brand {
   authorizedStatus?: string;
   authorized?: boolean;
   website?: string | null;
-  officialCatalogPdf?: string | null;
+  officialCatalogs?: BrandCatalog[];
   officialCatalogUrl?: string | null;
   featured?: boolean;
   country?: string;
@@ -135,6 +144,8 @@ export interface Brand {
   establishedYear?: string;
   heroImage?: string;
   keyHighlights?: string[];
+  seo?: SanitySeo;
+  cta?: SanityCta;
 }
 
 export interface ResolvedBrand extends Brand {
@@ -143,7 +154,6 @@ export interface ResolvedBrand extends Brand {
   website: string | null;
   tagline: string;
   country?: string;
-  officialCatalogPdf?: string | null;
   [key: string]: unknown;
 }
 

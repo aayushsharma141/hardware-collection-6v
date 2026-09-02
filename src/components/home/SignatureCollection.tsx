@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef } from "react";
 import Link from "next/link";
@@ -45,7 +45,7 @@ export default function SignatureCollection() {
             <div className="mt-8">
               <h3 className="text-3xl text-[var(--text-primary)] font-light mb-2">SMART ENTRANCE</h3>
               <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">
-                Explore Edition â†’
+                Explore Edition →
               </Link>
             </div>
           </motion.div>
@@ -66,7 +66,7 @@ export default function SignatureCollection() {
             <div className="mt-8">
               <h3 className="text-3xl text-[var(--text-primary)] font-light mb-2">MODERN KITCHEN</h3>
               <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">
-                Explore Edition â†’
+                Explore Edition →
               </Link>
             </div>
           </motion.div>

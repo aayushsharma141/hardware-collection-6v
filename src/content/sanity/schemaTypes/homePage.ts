@@ -103,6 +103,48 @@ export const homePageType = defineType({
       type: "text",
       group: "showroom",
     }),
+
+    // --- NEW FIELDS (Additive for Phase 2) ---
+    defineField({
+      name: "seo",
+      title: "SEO Metadata",
+      type: "seo",
+    }),
+    defineField({
+      name: "trustedBrands",
+      title: "Trusted Brands",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "brand" }] }],
+    }),
+    defineField({
+      name: "featuredCategories",
+      title: "Featured Categories",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "category" }] }],
+    }),
+    defineField({
+      name: "featuredProducts",
+      title: "Featured Products",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "product" }] }],
+    }),
+    defineField({
+      name: "showroomGallery",
+      title: "Showroom Gallery",
+      type: "array",
+      of: [{ type: "image", options: { hotspot: true } }],
+    }),
+    defineField({
+      name: "testimonials",
+      title: "Testimonials",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "testimonial" }] }],
+    }),
+    defineField({
+      name: "finalCTA",
+      title: "Final Call to Action",
+      type: "cta",
+    }),
   ],
   preview: {
     prepare() {

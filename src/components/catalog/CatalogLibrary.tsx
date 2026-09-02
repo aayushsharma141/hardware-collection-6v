@@ -64,6 +64,9 @@ export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibrary
             const tagline = brand.tagline ?? meta.tagline;
             const country = brand.country ?? meta.country;
 
+            const catalogCount =
+              brand.officialCatalogs?.length || (brand.officialCatalogUrl ? 1 : 0);
+
             const handleCardClick = () => {
               if (onSelectBrand) {
                 onSelectBrand({
@@ -116,17 +119,19 @@ export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibrary
                 
                 {/* Bottom Actions: View Catalog + Visit Brand Website */}
                 <div className="flex items-center justify-between pt-5 border-t border-[var(--border)] gap-4">
-                  <button
-                    type="button"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      handleCardClick();
-                    }}
-                    className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-sm"
-                  >
-                    <BookOpen className="w-4 h-4" />
-                    <span>View Catalog</span>
-                  </button>
+                  {catalogCount > 0 && (
+                    <button
+                      type="button"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleCardClick();
+                      }}
+                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-sm"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      <span>{catalogCount > 1 ? `View ${catalogCount} Catalogs` : "View Catalog"}</span>
+                    </button>
+                  )}
 
                   {websiteUrl ? (
                     <a

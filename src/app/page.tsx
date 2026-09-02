@@ -1,4 +1,5 @@
 import React from "react";
+import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
 import { getHomePage, getSiteSettings, getBrands, getTestimonials } from "@/content/sanity/queries";
 import MobileConversionBar from "@/components/home/MobileConversionBar";
@@ -10,6 +11,7 @@ import { ScrollProgress } from "@/components/animations/ScrollProgress";
 
 // 7 Cinematic Chapters
 import HeroStage from "@/components/home/HeroStage";           // CH01 — HIGH tension
+import HeroTrustBadges from "@/components/home/HeroTrustBadges";  // 6 Trust Pillars with Icons
 import BrandTrustStrip from "@/components/brand/BrandTrustStrip";        // CH02 — LOW tension
 import CategoryDiscovery from "@/components/home/CategoryDiscovery";       // CH03 — MEDIUM tension
 import MaterialJourney from "@/components/home/MaterialJourney";           // CH04 — VERY HIGH tension
@@ -30,10 +32,10 @@ export const revalidate = 60;
 const fallbackHeroSlides = [
   {
     id: "ch01",
-    eyebrow: "HARDWARE COLLECTION · SAKCHI, JAMSHEDPUR",
+    eyebrow: "ARCHITECTURAL HARDWARE EXPERTS SINCE 2002",
     title: "The Art of\nthe Finish.",
     description:
-      "Architectural hardware chosen for spaces that deserve better details. Official partner for Häfele, Dorset, Labacha, Godrej & Hettich in Sakchi.",
+      "Premium architectural hardware and modular solutions, curated for contemporary spaces. Official partner for Häfele, Dorset, Labacha, Godrej & Hettich in Sakchi.",
     primaryCta: "Explore Collections",
     ctaTarget: "/collections",
     imageUrl: "/cinema/hero/HC-01-HERO-01.png",
@@ -46,14 +48,36 @@ const fallbackHeroSlides = [
     eyebrow: "LIVE SHOWROOM EXPERIENCE",
     title: "Touch Before\nYou Decide.",
     description:
-      "Experience German soft-close drawers, live biometric lock demos, and luxury kitchen setups at our Sakchi flagship showroom.",
-    primaryCta: "Get Showroom Directions",
-    ctaTarget: "https://maps.app.goo.gl/6qokJfpuQgfNwqZK9",
+      "Experience German soft-close drawers, live biometric lock demos, and full-scale luxury kitchen setups at our Sakchi flagship showroom.",
+    primaryCta: "Explore Collections",
+    ctaTarget: "/collections",
     imageUrl: "/cinema/showroom/interior.png",
-    // Fallback product overlays for the second slide
     productUrl: "/cinema/hero/HC-01-HERO-03.png",
   },
+  {
+    id: "ch03",
+    eyebrow: "CURATED SELECTION · SAKCHI",
+    title: "Curated For\nDiscriminating Spaces.",
+    description:
+      "Biometric security, German kitchen systems, precision door handles, and luxury bathroom fittings engineered for tactile longevity.",
+    primaryCta: "Explore Collections",
+    ctaTarget: "/collections",
+    imageUrl: "/cinema/categories/HC-03-DOORS.png",
+    productUrl: "/cinema/materials/HC-04-PVD-BRASS.png",
+  },
 ];
+
+export async function generateMetadata(): Promise<Metadata> {
+  const homeData = await getHomePage();
+  const seo = homeData?.seo;
+  
+  if (!seo) return {};
+
+  return {
+    title: seo.metaTitle,
+    description: seo.metaDescription,
+  };
+}
 
 export default async function HomePage() {
   const [homeData, siteSettings, brands, testimonials] = await Promise.all([
@@ -91,15 +115,10 @@ export default async function HomePage() {
         </div>
         <HeroStage slides={heroSlides} />
 
-        {/* CH02 — Specified By (LOW)
-            Rendered once, for both viewports, which is why the hero above is
-            split out rather than nested in the two trees below. This section
-            used to live inside the desktop branch only, so the navbar's
-            "Brands" link — which scrolls to #brands — pointed at an element
-            that does not exist on a phone and did nothing when tapped. A single
-            instance also keeps `id="brands"` unique in the document. */}
+        {/* CH02 — Specified By (LOW) */}
         <div className="theme-ivory">
           <BrandTrustStrip />
+          <HeroTrustBadges />
         </div>
 
         {/* Mobile Experience (Stitch Redesign) */}
@@ -137,7 +156,7 @@ export default async function HomePage() {
 
           {/* CH07 — Come Feel It · Quiet Conversion Zone (QUIET)
                Zone split is internal: reviews → theme-ivory, CTA → theme-dark */}
-          <FloatingCTA reviews={testimonials} />
+          <FloatingCTA reviews={testimonials} cta={homeData?.finalCTA} />
         </div>
       </main>
 
@@ -146,7 +165,7 @@ export default async function HomePage() {
 
       {/* ── Mobile Conversion Bar ───────────────────────────────── */}
       {/* Fixed bottom bar: Call / WhatsApp / Visit — hidden on lg+ */}
-      <MobileConversionBar />
+      <MobileConversionBar cta={homeData?.finalCTA} />
     </div>
   );
 }

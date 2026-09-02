@@ -11,7 +11,9 @@ export const getCategoriesQuery = groq`
     icon,
     "imageUrl": image.asset->url,
     "imageLqip": image.asset->metadata.lqip,
-    featured
+    featured,
+    seo,
+    cta
   }
 `;
 
@@ -25,9 +27,19 @@ export const getBrandsQuery = groq`
     description,
     authorizedStatus,
     website,
-    "officialCatalogPdf": officialCatalog.asset->url,
+    // No asset URL here on purpose: catalogs are streamed through
+    // /api/catalog/<slug>/<index> so no CDN link reaches the browser.
+    "officialCatalogs": officialCatalogs[]{
+      "title": assetTitle,
+      "type": assetType,
+      version,
+      releaseDate,
+      "size": asset->size
+    },
     officialCatalogUrl,
-    featured
+    featured,
+    seo,
+    cta
   }
 `;
 
@@ -42,7 +54,10 @@ export const getFeaturedProductsQuery = groq`
     "imageUrl": images[0].asset->url,
     "imageLqip": images[0].asset->metadata.lqip,
     "subcategorySlug": subcategory->slug.current,
-    "collectionSlugs": curatedCollections[]->slug.current
+    "collectionSlugs": curatedCollections[]->slug.current,
+    "officialFiles": officialFiles[].asset->url,
+    seo,
+    cta
   }
 `;
 
@@ -69,7 +84,10 @@ export const getProductsByCategoryQuery = groq`
     "imageLqip": images[0].asset->metadata.lqip,
     catalogReference,
     "subcategorySlug": subcategory->slug.current,
-    "collectionSlugs": curatedCollections[]->slug.current
+    "collectionSlugs": curatedCollections[]->slug.current,
+    "officialFiles": officialFiles[].asset->url,
+    seo,
+    cta
   }
 `;
 
@@ -88,7 +106,9 @@ export const getAllProductsQuery = groq`
     specifications,
     "officialFiles": officialFiles[].asset->url,
     "subcategorySlug": subcategory->slug.current,
-    "collectionSlugs": curatedCollections[]->slug.current
+    "collectionSlugs": curatedCollections[]->slug.current,
+    seo,
+    cta
   }
 `;
 
@@ -197,7 +217,14 @@ export async function getHomePage() {
     "featuresImageUrl": featuresImage.asset->url,
     "featuresImageLqip": featuresImage.asset->metadata.lqip,
     showroomHeading,
-    showroomDescription
+    showroomDescription,
+    seo,
+    "trustedBrandRefs": trustedBrands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url },
+    "featuredCategoryRefs": featuredCategories[]->{ name, "slug": slug.current, "imageUrl": image.asset->url },
+    "featuredProductRefs": featuredProducts[]->{ name, "slug": slug.current, "imageUrl": images[0].asset->url, "brandName": brand->name },
+    "showroomGalleryUrls": showroomGallery[].asset->url,
+    "testimonialRefs": testimonials[]->{ _id, customerName, quote, rating, source, date },
+    finalCTA
   }`;
   try {
     return await client.fetch(query);
@@ -217,7 +244,8 @@ export async function getSiteSettings() {
     showroomHours,
     googleMapsUrl,
     googleMapsEmbedUrl,
-    "defaultCategoryImageUrl": defaultCategoryImage.asset->url
+    "defaultCategoryImageUrl": defaultCategoryImage.asset->url,
+    seo
   }`;
   try {
     return await client.fetch(query);
@@ -230,12 +258,12 @@ export async function getSiteSettings() {
 export const getCategoryBySlugQuery = groq`
   *[_type == "category" && slug.current == $slug][0] {
     _id, name, "slug": slug.current, eyebrow, description, overview,
-    cardVariant, families, subcategories, primaryRail, suitableFor, keyFeatures, icon,
+    cardVariant, families, primaryRail, suitableFor, keyFeatures, icon,
     "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip,
     "heroImageUrl": heroImage.asset->url, "heroImageLqip": heroImage.asset->metadata.lqip,
     "galleryUrls": gallery[].asset->url,
     "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url },
-    searchKeywords, whatsappMessage, featured, displayOrder, status
+    searchKeywords, whatsappMessage, featured, displayOrder, seo, cta
   }
 `;
 export async function getCategoryBySlug(slug: string) {
@@ -303,7 +331,7 @@ export async function getSpaceSlugs() {
 }
 
 export const getCollectionCountsQuery = groq`{
-  "categoryCount": count(*[_type == "category" && status == "published"]),
+  "categoryCount": count(*[_type == "category"]),
   "brandCount": count(*[_type == "brand"])
 }`;
 export async function getCollectionCounts() {

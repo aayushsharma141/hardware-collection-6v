@@ -1,13 +1,13 @@
 "use client";
 
-import { buildWhatsAppUrl, SHOWROOM_MAP_URL, SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY } from "@/lib/config";
+import { generateWhatsAppUrl, SHOWROOM_MAP_URL, SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY } from "@/lib/config";
 
 /**
- * MobileConversionBar â€” Persistent fixed bottom bar on mobile/tablet.
+ * MobileConversionBar — Persistent fixed bottom bar on mobile/tablet.
  * Hidden on desktop (lg+). Sourced entirely from /lib/config.ts.
  *
  * Layout:
- *   [ â˜Ž CALL ]  [ â— WHATSAPP ]  [ â—Ž VISIT ]
+ *   [ ☎ CALL ]  [ ● WHATSAPP ]  [ ◎ VISIT ]
  *
  * WhatsApp is the primary action (brass/black).
  * Call and Visit are secondary (transparent/white).
@@ -16,10 +16,12 @@ import { buildWhatsAppUrl, SHOWROOM_MAP_URL, SHOWROOM_PHONE_HREF, SHOWROOM_PHONE
  * The body padding-bottom is set in globals.css to match.
  *
  * Hides automatically when the mobile nav drawer is open (Navbar sets
- * html[data-drawer-open] as the signal â€” handled in globals.css).
+ * html[data-drawer-open] as the signal — handled in globals.css).
  */
-export default function MobileConversionBar() {
-  const waUrl = buildWhatsAppUrl();
+import { SanityCta } from "@/types/sanity";
+
+export default function MobileConversionBar({ cta }: { cta?: SanityCta }) {
+  const waUrl = cta ? generateWhatsAppUrl(cta.type) : generateWhatsAppUrl();
 
   return (
     <div
@@ -32,9 +34,9 @@ export default function MobileConversionBar() {
       aria-label="Quick contact actions"
     >
       {/* Frosted separator */}
-      <div className="absolute inset-0 bg-white/95 backdrop-blur-md border-t border-[var(--border)]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[#fdf8f0]/95 backdrop-blur-md border-t border-[var(--border)]" aria-hidden="true" />
 
-      {/* Button row â€” constrained to --mobile-bar-height, safe area is padding below */}
+      {/* Button row — constrained to --mobile-bar-height, safe area is padding below */}
       <div
         className="relative flex items-stretch w-full"
         style={{
@@ -48,13 +50,13 @@ export default function MobileConversionBar() {
           className="flex-1 flex flex-col items-center justify-center gap-0.5 text-[var(--text-primary)] active:bg-white/5 transition-colors duration-150 min-h-[44px]"
         >
           <PhoneIcon />
-          <span className="text-[11px] tracking-widest uppercase font-medium">Call</span>
+          <span className="text-[12px] tracking-[0.14em] uppercase font-medium">Call</span>
         </a>
 
         {/* Divider */}
         <div className="w-px bg-[var(--border)] self-stretch my-2" aria-hidden="true" />
 
-        {/* WhatsApp â€” primary */}
+        {/* WhatsApp — primary */}
         <a
           href={waUrl}
           target="_blank"
@@ -63,7 +65,7 @@ export default function MobileConversionBar() {
           className="flex-1 flex flex-col items-center justify-center gap-0.5 bg-[var(--accent)] text-white active:brightness-90 transition-all duration-150 min-h-[44px]"
         >
           <WhatsAppIcon />
-          <span className="text-[11px] tracking-widest uppercase font-semibold">WhatsApp</span>
+          <span className="text-[13px] tracking-[0.14em] uppercase font-semibold">WhatsApp</span>
         </a>
 
         {/* Divider */}
@@ -78,7 +80,7 @@ export default function MobileConversionBar() {
           className="flex-1 flex flex-col items-center justify-center gap-0.5 text-[var(--text-primary)] active:bg-white/5 transition-colors duration-150 min-h-[44px]"
         >
           <MapIcon />
-          <span className="text-[11px] tracking-widest uppercase font-medium">Visit</span>
+          <span className="text-[12px] tracking-[0.14em] uppercase font-medium">Visit</span>
         </a>
       </div>
 

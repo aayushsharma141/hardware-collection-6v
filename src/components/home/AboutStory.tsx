@@ -1,12 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { motion } from "motion/react";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { MagneticButton } from "@/components/animations/MagneticButton";
-import { buildWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
+import { generateWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
 
 /**
- * AboutStory â€” Chapter 06.5 "Our Legacy"
+ * AboutStory — Chapter 06.5 "Our Legacy"
  * Visual tension: LOW / EDITORIAL BREATH
  *
  * Sits inside the showroom chapter, between "Live Demonstrations" (scene 02)
@@ -27,7 +28,7 @@ const SHOWROOM_IMAGE =
 const SHOWROOM_IMAGE_ALT =
   "Cabinet handles and pulls in brass, matte black and ivory finishes displayed on the Hardware Collection showroom wall";
 
-const TOP_BRANDS = "HÃ„FELE Â· BLUM Â· DORSET Â· LABACHA Â· TATTVA";
+const TOP_BRANDS = "HÄFELE · BLUM · DORSET · LABACHA · TATTVA";
 
 const PILLARS = [
   {
@@ -82,11 +83,11 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
       />
 
       {/* ── Mobile Layout (< lg) ────────────────────────────────────────── */}
-      <div className="relative block lg:hidden px-6 py-16">
-        <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase mb-3">
+      <div className="relative block lg:hidden px-6 pt-[96px] pb-[72px]">
+        <p className="hc-mono t-eyebrow text-brass-ink mb-4">
           OUR LEGACY
         </p>
-        <h2 className="hc-serif text-4xl sm:text-5xl font-light text-[var(--text-primary)] leading-[1.05] mb-6">
+        <h2 className="hc-serif t-h2 font-light text-[var(--text-primary)] mb-7">
           Hardware that
           <br />
           <span className="text-[var(--text-secondary)]">completes the space.</span>
@@ -112,46 +113,52 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
           />
         </div>
 
-        <div className="space-y-4 text-base sm:text-lg text-[var(--text-secondary)] font-light leading-relaxed">
+        {/* Two ~50-word paragraphs stood here, listing the audience and then
+            the catalogue almost item by item. The stat pair above already
+            states the years, the pillars below already name the audience, and
+            the categories are their own chapter — so this keeps the claim and
+            drops the inventory. */}
+        <div className="space-y-4 t-body text-[var(--text-secondary)] font-light">
           <p>
-            Hardware Collection is a trusted destination for premium architectural
-            hardware, modular kitchen solutions and home hardware in Sakchi,
-            Jamshedpur. For more than a decade we have helped homeowners,
-            architects, interior designers, builders and contractors find hardware
-            that brings together function, durability and design.
+            Architectural hardware, digital locks and modular kitchen and
+            wardrobe systems &mdash; chosen in Sakchi for homeowners, architects
+            and contractors alike.
           </p>
           <p>
-            From door hardware and digital locks to modular kitchen fittings,
-            wardrobe systems, furniture hardware, glass fittings, bathroom
-            accessories, sinks and architectural fittings &mdash; our showroom brings
-            together a carefully selected range for modern residential and
+            Door and glass fittings, bathroom accessories, sinks and joinery
+            hardware, selected as one range for modern residential and
             commercial spaces.
           </p>
         </div>
 
-        <div className="mt-8 border-l-2 border-[#C8A96E] pl-5">
-          <h3 className="hc-serif text-2xl text-[var(--text-primary)] leading-snug mb-3">
+        <div className="mt-10 border-l-2 border-[#C8A96E] pl-5">
+          <h3 className="hc-serif t-h3 text-[var(--text-primary)] mb-3">
             Authorized brands. Genuine products. Expert guidance.
           </h3>
-          <p className="text-sm sm:text-base text-[var(--text-secondary)] font-light leading-relaxed">
-            What sets us apart is not the number of brands on our shelves &mdash; it is
-            the experience of choosing the right solution. Our team helps you
-            compare options, understand applications and decide with confidence.
+          <p className="t-body-sm text-[var(--text-secondary)] font-light">
+            What sets us apart is not the number of brands on our shelves
+            &mdash; it is help choosing the right one.
           </p>
         </div>
 
         {/* Mobile Pillars list */}
-        <div className="mt-10 pt-8 border-t border-[var(--border)] space-y-6">
+        {/* Typography-first, no icons: the number is set as part of the
+            composition and a hairline separates each pillar, so the list reads
+            as an editorial index rather than a feature grid. */}
+        <div className="mt-12 border-t border-[var(--border)]">
           {PILLARS.map((pillar) => (
-            <div key={pillar.id} className="flex gap-4 items-start">
-              <span className="hc-mono text-xs font-semibold text-[#c8a96e] shrink-0 pt-0.5">
+            <div
+              key={pillar.id}
+              className="flex gap-5 items-baseline border-b border-[var(--border)] py-6"
+            >
+              <span className="hc-mono t-meta font-semibold text-brass-ink shrink-0">
                 {pillar.index}
               </span>
-              <div>
-                <p className="text-base text-[var(--text-primary)] font-medium mb-1">
+              <div className="min-w-0">
+                <h3 className="hc-serif t-h4 text-[var(--text-primary)] mb-1.5">
                   {pillar.title}
-                </p>
-                <p className="text-sm text-[var(--text-secondary)] font-light leading-relaxed">
+                </h3>
+                <p className="t-body-sm text-[var(--text-secondary)] font-light">
                   {pillar.body}
                 </p>
               </div>
@@ -166,7 +173,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
           {/* Left — editorial narrative */}
           <div className="col-span-7 pr-4">
             <FadeIn>
-              <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase mb-3">
+              <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase mb-3">
                 OUR LEGACY
               </p>
               <h2 className="hc-serif text-6xl xl:text-7xl 2xl:text-8xl font-light text-[var(--text-primary)] leading-[0.95] tracking-[-0.01em] mb-8">
@@ -211,8 +218,15 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
             </FadeIn>
 
             <FadeIn delay={0.15}>
-              <div className="mt-12 border-l-2 border-[#C8A96E] pl-6 max-w-2xl">
-                <h3 className="hc-serif text-3xl xl:text-4xl text-[var(--text-primary)] leading-tight mb-3">
+              <div className="mt-16 xl:mt-24 relative pl-8 max-w-2xl">
+                <motion.div
+                  initial={{ scaleY: 0 }}
+                  whileInView={{ scaleY: 1 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 1.2, ease: [0.25, 1, 0.5, 1] }}
+                  className="absolute left-0 top-0 bottom-0 w-[2px] bg-[#C8A96E] origin-top"
+                />
+                <h3 className="hc-serif text-3xl xl:text-4xl text-[var(--text-primary)] leading-tight mb-4">
                   Authorized brands. Genuine products. Expert guidance.
                 </h3>
                 <p className="text-base xl:text-lg text-[var(--text-secondary)] font-light leading-relaxed">
@@ -246,7 +260,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
                 />
 
                 {/* Standing stat — the one number that carries the section */}
-                <div className="absolute bottom-6 left-6 bg-white/90 dark:bg-zinc-900/90 backdrop-blur-md border border-[var(--border)] px-7 py-5 rounded-2xl shadow-lg">
+                <div className="absolute bottom-6 left-6 bg-[#fdf8f0]/95 backdrop-blur-md border border-[var(--border)] px-7 py-5 rounded-2xl shadow-lg">
                   <p className="hc-serif text-5xl text-[var(--accent)] leading-none mb-1.5 font-normal">
                     10+
                   </p>
@@ -266,7 +280,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
                   </span>
                 </div>
                 <div className="px-7 py-5">
-                  <p className="hc-mono text-[10px] tracking-[0.25em] text-[#c8a96e] uppercase font-semibold mb-2.5">
+                  <p className="hc-mono text-[11px] tracking-[0.25em] text-brass-ink uppercase font-semibold mb-2.5">
                     Top Brand Partners
                   </p>
                   <p className="hc-mono text-xs tracking-[0.16em] text-[var(--text-secondary)] uppercase leading-relaxed font-medium">
@@ -280,14 +294,30 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
 
         {/* ── Why Hardware Collection ────────────────────────────────────────── */}
         <FadeIn delay={0.1}>
-          <div className="mt-24 xl:mt-32 border-t border-[var(--border)] pt-14">
-            <div className="grid grid-cols-4 gap-10">
-              {PILLARS.map((pillar) => (
+          <div className="mt-32 xl:mt-40 relative pt-16">
+            <motion.div
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
+              className="absolute top-0 left-0 right-0 h-[1px] bg-[var(--border)] origin-left"
+            />
+            <div className="grid grid-cols-4 gap-12">
+              {PILLARS.map((pillar, idx) => (
                 <div
                   key={pillar.id}
-                  className="border-l border-[var(--border)] pl-6 first:border-l-0 first:pl-0"
+                  className="relative pl-8 pt-4"
                 >
-                  <p className="hc-mono text-xs font-semibold text-[#c8a96e] tracking-[0.2em] mb-3">
+                  {idx !== 0 && (
+                    <motion.div
+                      initial={{ scaleY: 0 }}
+                      whileInView={{ scaleY: 1 }}
+                      viewport={{ once: true, margin: "-50px" }}
+                      transition={{ duration: 0.8, delay: 0.2, ease: [0.25, 1, 0.5, 1] }}
+                      className="absolute left-0 top-0 bottom-0 w-[1px] bg-[var(--border)] origin-top hidden lg:block"
+                    />
+                  )}
+                  <p className="hc-mono text-xs font-semibold text-brass-ink tracking-[0.2em] mb-4">
                     {pillar.index}
                   </p>
                   <p className="text-lg xl:text-xl text-[var(--text-primary)] font-medium leading-snug mb-2">
@@ -310,51 +340,50 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
           <img
             src="/cinema/showroom/exterior-2.png"
             alt="Showroom Location Entrance"
-            className="w-full h-full object-cover opacity-20 filter contrast-110 brightness-80"
+            className="w-full h-full object-cover opacity-10 filter grayscale contrast-125 mix-blend-multiply"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-black/20 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-black/30 via-black/20 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-b from-[var(--surface-raised)] via-transparent to-[var(--surface-raised)] opacity-90" />
         </div>
 
-        <div className="relative z-10 max-w-[1320px] mx-auto px-6 lg:px-12 py-20 lg:py-28 flex flex-col xl:flex-row xl:items-center justify-between gap-12">
-          <div className="max-w-3xl">
-            <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase mb-4">
+        <div className="relative z-10 max-w-[1320px] mx-auto px-6 lg:px-12 py-16 lg:py-24 flex flex-col xl:flex-row xl:items-start justify-between gap-12">
+          <div className="max-w-2xl">
+            <p className="hc-mono text-brass-ink font-bold tracking-[0.25em] text-[11px] sm:text-xs uppercase mb-4">
               VISIT SAKCHI SHOWROOM
             </p>
             <p className="hc-serif text-3xl sm:text-4xl lg:text-5xl text-[var(--text-primary)] font-light leading-tight">
               Visit Hardware Collection, Sakchi &mdash; and discover the details that
               make a space feel complete.
             </p>
-            <p className="mt-5 text-base lg:text-lg text-[var(--text-secondary)] font-light leading-relaxed max-w-2xl">
+            <p className="mt-6 text-sm lg:text-base text-[var(--text-secondary)] font-light leading-relaxed max-w-lg">
               Authorized partner for leading architectural hardware, security and kitchen brands. Open Monday to Sunday, 10:00 AM – 8:00 PM.
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row flex-wrap gap-4 shrink-0">
+          <div className="flex flex-col gap-3 shrink-0 w-full xl:w-auto xl:min-w-[320px]">
             <MagneticButton>
               <a
                 href={SHOWROOM_MAP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 bg-white text-black font-semibold text-xs lg:text-sm tracking-widest uppercase hover:bg-zinc-200 transition-colors duration-200 w-full sm:w-auto rounded shadow-sm"
+                className="inline-flex items-center justify-center px-8 py-4 bg-[var(--text-primary)] text-[var(--surface-raised)] font-medium text-xs tracking-[0.2em] uppercase hover:bg-[var(--text-secondary)] transition-colors duration-200 w-full rounded"
               >
-                GET DIRECTIONS &rarr;
+                GET DIRECTIONS
               </a>
             </MagneticButton>
             <MagneticButton>
               <Link
                 href="/collections"
-                className="inline-flex items-center justify-center px-8 py-4 border border-[var(--border)] text-[var(--text-primary)] font-semibold text-xs lg:text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-200 w-full sm:w-auto rounded"
+                className="inline-flex items-center justify-center px-8 py-4 border border-[var(--border)] text-[var(--text-primary)] font-semibold text-xs lg:text-sm tracking-widest uppercase hover:bg-[var(--text-primary)] hover:text-[var(--surface-raised)] transition-colors duration-200 w-full rounded"
               >
                 EXPLORE COLLECTIONS &rarr;
               </Link>
             </MagneticButton>
             <MagneticButton>
               <a
-                href={buildWhatsAppUrl(WA_MESSAGE)}
+                href={generateWhatsAppUrl("general-enquiry")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-8 py-4 border border-[#C8A96E]/50 text-[#c8a96e] font-semibold text-xs lg:text-sm tracking-widest uppercase hover:bg-[#8b1a42] hover:text-white hover:border-[#8b1a42] transition-colors duration-200 w-full sm:w-auto rounded"
+                className="inline-flex items-center justify-center px-8 py-4 border border-[#C8A96E]/60 text-brass-ink font-semibold text-[13px] lg:text-sm tracking-widest uppercase hover:bg-[#8b1a42] hover:text-white hover:border-[#8b1a42] transition-colors duration-200 w-full sm:w-auto rounded"
               >
                 TALK TO AN EXPERT &rarr;
               </a>

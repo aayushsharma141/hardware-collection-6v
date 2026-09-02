@@ -55,7 +55,6 @@ export async function POST(request: Request) {
         suitableFor: cat.suitableFor,
         keyFeatures: cat.keyFeatures,
         icon: cat.iconName,
-        status: cat.status,
         whatsappMessage: cat.whatsappMessage,
         displayOrder: CATEGORIES.indexOf(cat),
         featured: cat.featured || false,

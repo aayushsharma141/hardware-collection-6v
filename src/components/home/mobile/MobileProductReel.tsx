@@ -1,117 +1,181 @@
-﻿import React from "react";
+"use client";
+
+import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { buildWhatsAppUrl } from "@/lib/config";
+import { generateWhatsAppUrl } from "@/lib/config";
 import { SIGNATURE_PIECES } from "@/content/fallback/home";
 
 /**
- * MobileProductReel &mdash; flagship pieces, with a per-piece WhatsApp handoff.
+ * MobileProductReel - flagship pieces, one open at a time.
  *
- * The three pieces here are the first of the shared signature set, so mobile
- * and desktop name the same hardware from the same authorized brands. The
- * earlier version invented two products ("The Obsidian Lever", "Aura Smart
- * Lock") that are in no catalog.
+ * Three pieces used to render as three stacked blocks, each a full-bleed 4:5
+ * photograph followed by brand, name, blurb and two actions: 2603px on an
+ * 812px screen. The pieces are genuinely equivalent - nothing in the data
+ * ranks them - so a vertical sequence charged a viewport of scrolling per
+ * piece and still gave the visitor no way to compare the set.
  *
- * Each inquiry carries the brand and the finish into the message, so the
- * specialist opens the conversation already knowing what is being asked about.
+ * They now read as an index that opens. Every piece is named in a single
+ * glance; the open one gets the photograph and the material copy. Choosing
+ * between pieces is a tap rather than a scroll, and the WhatsApp handoff
+ * still carries brand and finish into the message.
+ *
+ * The open panel takes `statement`, not `blurb`. Three 30-word paragraphs
+ * under cinematic photography read as a wall of text; the photograph is the
+ * argument here and one sentence is enough to support it.
+ *
+ * The section also moves to `bg-surface-obsidian` from `bg-background`. Its
+ * type is bone (#e8e3d9) and `--color-background` resolves to white, so every
+ * heading and blurb here was shipping at 1.13:1 - "Flagship pieces" was
+ * invisible on a phone.
  */
 const FEATURED = SIGNATURE_PIECES.slice(0, 3);
 
 export default function MobileProductReel() {
+  const [openIndex, setOpenIndex] = useState(FEATURED[0].index);
+
   return (
-    <section className="w-full py-unit-xl bg-background flex flex-col space-y-unit-xl border-t border-outline-variant lg:hidden">
-      <div className="px-margin-mobile flex flex-col space-y-unit-xs">
-        <p className="font-label-caps text-label-caps text-primary uppercase">
+    <section className="w-full px-margin-mobile pt-[88px] pb-[72px] bg-surface-obsidian border-t border-outline-variant lg:hidden">
+      <div className="flex flex-col">
+        <p className="font-label-caps t-eyebrow text-[#c8a96e]">
           Selected hardware
         </p>
-        <h2 className="font-headline-md text-[30px] leading-[1.1] text-text-bone">
+        <h2 className="font-headline-md t-h2 mt-3 text-text-bone">
           Flagship pieces
         </h2>
       </div>
 
-      <div className="flex flex-col space-y-unit-xl">
-        {FEATURED.map((piece) => (
-          <article
-            key={piece.index}
-            className="flex flex-col px-margin-mobile gap-base"
-          >
-            <div className="relative w-full aspect-[4/5] bg-surface-graphite border border-outline-variant overflow-hidden">
-              <Image
-                src={piece.img}
-                alt={`${piece.brand} ${piece.name.toLowerCase()} in ${piece.finish}`}
-                fill
-                sizes="(max-width: 1024px) 100vw, 400px"
-                className="object-cover opacity-90"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-background/70 via-transparent to-transparent" />
-              <span className="absolute left-unit-md top-unit-md hc-mono text-[10px] tracking-[0.16em] text-primary">
-                {piece.index}
-              </span>
-            </div>
+      <ul className="mt-unit-lg border-t border-outline-variant">
+        {FEATURED.map((piece) => {
+          const isOpen = piece.index === openIndex;
+          const panelId = `piece-panel-${piece.index}`;
 
-            <div className="w-full flex flex-col space-y-unit-sm">
-              <p className="hc-mono text-[11px] uppercase tracking-[0.2em] text-primary">
-                {piece.brand}
-                <span className="text-text-muted"> &middot; {piece.finish}</span>
-              </p>
+          return (
+            <li key={piece.index} className="border-b border-outline-variant">
+              <h3>
+                <button
+                  type="button"
+                  onClick={() => setOpenIndex(piece.index)}
+                  aria-expanded={isOpen}
+                  aria-controls={isOpen ? panelId : undefined}
+                  className="hc-focus flex w-full items-start gap-unit-md py-5 min-h-[64px] text-left transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] motion-reduce:transition-none motion-reduce:active:scale-100"
+                >
+                  <span className="hc-mono t-meta shrink-0 pt-1.5 text-[#c8a96e]">
+                    {piece.index}
+                  </span>
 
-              <h3 className="font-headline-md text-[26px] leading-[1.15] text-text-bone">
-                {piece.name}
+                  {/* Brand reads above the name: the specifier scans for the
+                      manufacturer first, and it keeps the serif name as the
+                      one large object in the row. */}
+                  <span className="min-w-0 flex-1">
+                    <span className="hc-mono block text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                      {piece.brand}
+                    </span>
+                    <span className="block font-headline-md t-h3 mt-1 text-text-bone">
+                      {piece.name}
+                    </span>
+                  </span>
+
+                  <span
+                    aria-hidden="true"
+                    className={`shrink-0 pt-1 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                      isOpen ? "rotate-45" : ""
+                    }`}
+                  >
+                    <svg
+                      className="w-4 h-4 text-[#c8a96e]"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path strokeLinecap="round" strokeWidth={1.5} d="M12 5v14M5 12h14" />
+                    </svg>
+                  </span>
+                </button>
               </h3>
 
-              <p className="font-body-md text-[14px] leading-[1.65] font-light text-text-muted max-w-[46ch]">
-                {piece.blurb}
-              </p>
-
-              <div className="flex flex-wrap items-center gap-3 pt-unit-sm">
-                <a
-                  href={buildWhatsAppUrl(
-                    `Hi Hardware Collection, I'd like details on the ${piece.brand} ${piece.name} in ${piece.finish}.`
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="hc-focus inline-flex items-center min-h-[44px] px-unit-lg border border-primary text-text-bone font-ui-button text-ui-button uppercase transition-colors duration-200 hover:bg-primary hover:text-on-primary active:bg-primary active:text-on-primary"
+              {/* Rendered only while open. A grid 0fr-to-1fr reveal was tried
+                  first and does not survive here: the container is auto-height,
+                  so the available space is indefinite and both fr endpoints
+                  resolve to the same content contribution - the closed track
+                  measured 478px. Mounting on open also keeps three product
+                  photographs off the wire until one is actually asked for. */}
+              {isOpen && (
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-label={`${piece.brand} ${piece.name}`}
+                  className="pb-unit-lg [animation:catFadeIn_.45s_cubic-bezier(0.16,1,0.3,1)_both] motion-reduce:animate-none"
                 >
-                  Ask about this
-                </a>
-
-                <Link
-                  href={piece.href}
-                  className="hc-focus inline-flex items-center gap-2 min-h-[44px] text-[10px] uppercase tracking-[0.18em] text-text-muted hover:text-text-bone transition-colors"
-                >
-                  View in {piece.category}
-                  <svg
-                    className="w-3.5 h-3.5 text-primary"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M9 5l7 7-7 7"
+                  {/* Full-bleed: width stays auto so the negative margins
+                      expand the frame to the viewport edges while the copy
+                      below holds the section margin. */}
+                  <div className="relative -mx-margin-mobile aspect-[3/2] overflow-hidden border-y border-outline-variant bg-surface-graphite">
+                    <Image
+                      src={piece.img}
+                      alt={`${piece.brand} ${piece.name.toLowerCase()} in ${piece.finish}`}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 400px"
+                      className="object-cover opacity-90"
                     />
-                  </svg>
-                </Link>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
+                  </div>
 
-      <div className="px-margin-mobile">
-        <Link
-          href="/collections"
-          className="hc-focus flex items-center justify-center gap-3 min-h-[52px] w-full border border-outline-variant text-text-bone font-ui-button text-ui-button uppercase transition-colors duration-200 hover:border-primary hover:text-primary"
-        >
-          Explore the full collection
-          <span aria-hidden="true">â†’</span>
-        </Link>
-      </div>
+                  <p className="hc-mono t-meta mt-unit-md uppercase text-text-muted">
+                    {piece.finish}
+                  </p>
+
+                  <p className="t-body-sm mt-2 font-light text-text-muted max-w-[62ch]">
+                    {piece.statement}
+                  </p>
+
+                  <div className="mt-unit-lg flex flex-wrap items-center gap-3">
+                    <a
+                      href={generateWhatsAppUrl(
+                        "product-enquiry",
+                        `${piece.brand} ${piece.name} in ${piece.finish}`
+                      )}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="hc-focus inline-flex items-center min-h-[44px] px-unit-lg border border-[#c8a96e] text-text-bone font-ui-button text-ui-button uppercase transition-[color,background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:bg-[#c8a96e] active:text-surface-obsidian active:scale-[0.97] motion-reduce:active:scale-100"
+                    >
+                      Ask about this
+                    </a>
+
+                    <Link
+                      href={piece.href}
+                      className="hc-focus inline-flex items-center gap-2 min-h-[44px] text-[13px] font-medium uppercase tracking-[0.14em] text-text-muted active:text-text-bone transition-colors"
+                    >
+                      View in {piece.category}
+                      <svg
+                        className="w-3.5 h-3.5 text-[#c8a96e]"
+                        fill="none"
+                        viewBox="0 0 24 24"
+                        stroke="currentColor"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M9 5l7 7-7 7"
+                        />
+                      </svg>
+                    </Link>
+                  </div>
+                </div>
+              )}
+            </li>
+          );
+        })}
+      </ul>
+
+      <Link
+        href="/collections"
+        className="hc-focus mt-unit-lg flex items-center justify-center gap-3 min-h-[52px] w-full border border-outline-variant text-text-bone font-ui-button text-ui-button uppercase transition-[color,border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:border-[#c8a96e] active:text-[#c8a96e] active:scale-[0.98] motion-reduce:active:scale-100"
+      >
+        Explore the full collection
+        <span aria-hidden="true">&rarr;</span>
+      </Link>
     </section>
   );
 }
-
-

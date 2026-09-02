@@ -5,7 +5,7 @@ import { useReducedMotion } from "motion/react";
 import { HeroSlide } from "@/types/hero";
 import { HeroControls } from "./HeroControls";
 import { MagneticButton } from "@/components/animations/MagneticButton";
-import { buildWhatsAppUrl } from "@/lib/config";
+import { generateWhatsAppUrl } from "@/lib/config";
 
 interface HeroCarouselProps {
   slides: HeroSlide[];
@@ -181,9 +181,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
             const isActive = idx === activeIndex;
             
             // WhatsApp URL from config with slide-contextual message
-            const waUrl = buildWhatsAppUrl(
-              `Hi, I\u2019m interested in the collection on the Hardware Collection website: ${slide.title.replace(/\n/g, ' ')}`
-            );
+            const waUrl = generateWhatsAppUrl("general-enquiry");
 
             return (
               <div 

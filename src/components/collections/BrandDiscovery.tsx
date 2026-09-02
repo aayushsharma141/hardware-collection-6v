@@ -32,7 +32,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
   return (
     <section
       aria-labelledby="brand-discovery-heading"
-      className="py-16 md:py-24 bg-white text-[var(--text-primary)] border-t border-[var(--border)]"
+      className="py-16 md:py-24 bg-[#fdf8f0] text-[var(--text-primary)] border-t border-[var(--border)]"
     >
       <div className="max-w-[1320px] mx-auto px-6">
         {/* Header */}
@@ -70,7 +70,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
             </div>
           </div>
 
-          {/* Desktop Layout (â‰¥ lg): Interactive Ambient Typographic List */}
+          {/* Desktop Layout (≥ lg): Interactive Ambient Typographic List */}
           <div className="hidden lg:block">
             <div className="flex flex-col">
               {featuredBrands.map((brand, i) => {
@@ -117,20 +117,31 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                             {brand.description}
                           </p>
                         )}
-                        <button
-                          type="button"
-                          onClick={() => askAboutBrand(brand)}
-                          tabIndex={isHovered ? 0 : -1}
-                          className="inline-flex items-center gap-2 text-[var(--accent)] text-xs tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors duration-150 architecture-rule hc-focus w-fit mt-1 group/btn"
-                        >
-                          Explore Collection
-                          <span
-                            aria-hidden="true"
-                            className="transition-transform duration-150 group-hover/btn:translate-x-1"
+                        <div className="flex flex-wrap items-center gap-4 mt-1">
+                          <button
+                            type="button"
+                            onClick={() => askAboutBrand(brand)}
+                            tabIndex={isHovered ? 0 : -1}
+                            className="inline-flex items-center gap-2 text-[var(--accent)] text-xs tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors duration-150 architecture-rule hc-focus w-fit group/btn"
                           >
-                            &rarr;
-                          </span>
-                        </button>
+                            Explore Collection
+                            <span
+                              aria-hidden="true"
+                              className="transition-transform duration-150 group-hover/btn:translate-x-1"
+                            >
+                              &rarr;
+                            </span>
+                          </button>
+                          {(brand.officialCatalogs?.length || brand.officialCatalogUrl) && (
+                            <a
+                              href="/catalogs"
+                              tabIndex={isHovered ? 0 : -1}
+                              className="inline-flex items-center gap-2 text-[var(--text-secondary)] text-xs tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors duration-150 hc-focus w-fit"
+                            >
+                              View Catalog
+                            </a>
+                          )}
+                        </div>
                       </motion.div>
                     </div>
                   </div>
@@ -152,7 +163,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
               </h3>
             </div>
             <p className="text-xs text-[var(--text-secondary)] font-light">
-              Alphabetical index Â· Tap any brand to request availability
+              Alphabetical index · Tap any brand to request availability
             </p>
           </div>
 

@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const payload = await request.json();
+    const payload = (await request.json()) as Record<string, unknown>;
     
     // Honeypot check
     if (payload._honey) {

@@ -1,4 +1,4 @@
-﻿
+
 You are a senior multidisciplinary digital experience strategist specializing in:
 
 - Luxury brand websites
@@ -15,7 +15,7 @@ You are a senior multidisciplinary digital experience strategist specializing in
 
 You are researching and developing the UX/UI strategy for:
 
-# HARDWARE COLLECTION â€” SAKCHI, JAMSHEDPUR
+# HARDWARE COLLECTION — SAKCHI, JAMSHEDPUR
 
 The goal is NOT to create another generic "luxury dark website."
 
@@ -85,7 +85,7 @@ Secondary conversions:
 
 Authorized brands currently approved:
 
-- HÃ¤fele
+- Häfele
 - Dorset
 - Labacha
 - Godrej
@@ -149,13 +149,13 @@ Local showroom conversion
 Core psychological sequence:
 
 DESIRE
-â†“
+↓
 RELEVANCE
-â†“
+↓
 EVIDENCE
-â†“
+↓
 TRUST
-â†“
+↓
 ACTION
 
 The website should feel:
@@ -271,8 +271,8 @@ Distinguish between:
 FORMAL TAXONOMY
 
 Category
-â†’ Subcategory
-â†’ Product
+→ Subcategory
+→ Product
 
 and:
 
@@ -318,7 +318,7 @@ SEE IT. TOUCH IT. EXPERIENCE IT.
 
 ARCHITECTURAL HARDWARE FOR CONSIDERED SPACES.
 
-7,500 SQ FT SHOWROOM â€” SAKCHI
+7,500 SQ FT SHOWROOM — SAKCHI
 
 Do not simply rotate promotional banners.
 
@@ -333,25 +333,25 @@ Research the ideal homepage sequence for this business.
 Evaluate:
 
 Hero
-â†“
+↓
 Intent Discovery
-â†“
+↓
 Material / Sensory Experience
-â†“
+↓
 Categories
-â†“
+↓
 Curated Collections
-â†“
+↓
 Authorized Brands
-â†“
+↓
 Why Trust Us
-â†“
+↓
 Reviews / Social Proof
-â†“
+↓
 Architect & Interior Designer section
-â†“
+↓
 Showroom Experience
-â†“
+↓
 Final WhatsApp CTA
 
 Do not assume this order is perfect.
@@ -407,19 +407,19 @@ SHOP BY CATEGORY
 [Kitchen & Wardrobes]
 [Furniture Hardware]
 
-â†“
+↓
 
 Selected category
 
-â†“
+↓
 
 Subcategories
 
-â†“
+↓
 
 Products
 
-â†“
+↓
 
 Product Drawer
 
@@ -436,27 +436,27 @@ Research premium product-detail experiences.
 Determine the ideal information hierarchy:
 
 Brand
-â†“
+↓
 Product name
-â†“
+↓
 Hero product image
-â†“
+↓
 Short description
-â†“
+↓
 Verified specifications
-â†“
+↓
 Finish / material information
-â†“
+↓
 Application
-â†“
+↓
 Installation information
-â†“
+↓
 Related products
-â†“
+↓
 WhatsApp CTA
-â†“
+↓
 Selection CTA
-â†“
+↓
 Showroom CTA
 
 The product must NOT feel like an ecommerce PDP.
@@ -526,8 +526,8 @@ It is:
 The purpose is:
 
 Select products
-â†’ send selected products to showroom specialist
-â†’ continue conversation on WhatsApp
+→ send selected products to showroom specialist
+→ continue conversation on WhatsApp
 
 Research:
 
@@ -555,7 +555,7 @@ AUTHORIZED BRAND SHOWCASE CARDS
 
 Approved brands:
 
-HÃ¤fele
+Häfele
 Dorset
 Labacha
 Godrej
@@ -611,7 +611,7 @@ Research:
 - WhatsApp visit request
 - showroom proof
 - virtual showroom possibilities
-- whether 360Â°/3D is actually valuable or unnecessary
+- whether 360°/3D is actually valuable or unnecessary
 
 Do not recommend expensive technology merely because it looks impressive.
 
@@ -804,17 +804,17 @@ Research at least these personas:
 For each:
 
 ENTRY SOURCE
-â†“
+↓
 LANDING SECTION
-â†“
+↓
 DISCOVERY
-â†“
+↓
 PRODUCT
-â†“
+↓
 TRUST
-â†“
+↓
 ACTION
-â†“
+↓
 WHATSAPP / SHOWROOM
 
 Identify:
@@ -871,7 +871,7 @@ Architectural material brands
 
 Include relevant examples from brands such as:
 
-- HÃ¤fele
+- Häfele
 - Hettich
 - Dorset
 - Godrej
@@ -910,7 +910,7 @@ DIFFERENTIATE FROM
 20. MOODBOARD RESEARCH
 ==================================================
 
-Create 4â€“6 distinct visual directions.
+Create 4–6 distinct visual directions.
 
 For each:
 
@@ -1126,19 +1126,19 @@ BRAND DISCOVERY MODEL
 
 Create detailed flows for:
 
-A. Homepage â†’ Product â†’ WhatsApp
+A. Homepage → Product → WhatsApp
 
-B. Google Search â†’ Homepage â†’ Product â†’ WhatsApp
+B. Google Search → Homepage → Product → WhatsApp
 
-C. Instagram â†’ Homepage â†’ Collections â†’ Product
+C. Instagram → Homepage → Collections → Product
 
-D. Architect â†’ Product â†’ Selection â†’ WhatsApp
+D. Architect → Product → Selection → WhatsApp
 
-E. Homeowner â†’ Inspiration â†’ Product â†’ Showroom
+E. Homeowner → Inspiration → Product → Showroom
 
-F. Brand â†’ Collection â†’ Product
+F. Brand → Collection → Product
 
-G. Product â†’ Showroom Visit
+G. Product → Showroom Visit
 
 Use simple text diagrams.
 
@@ -1275,82 +1275,82 @@ Use this order:
 
 EXECUTIVE VERDICT
 
-â†“
+↓
 MARKET / COMPETITOR FINDINGS
 
-â†“
+↓
 DESIGN OPPORTUNITY
 
-â†“
+↓
 TARGET USERS
 
-â†“
+↓
 USER JOURNEYS
 
-â†“
+↓
 INFORMATION ARCHITECTURE
 
-â†“
+↓
 HOMEPAGE BLUEPRINT
 
-â†“
+↓
 COLLECTIONS BLUEPRINT
 
-â†“
+↓
 PRODUCT EXPERIENCE
 
-â†“
+↓
 BRAND EXPERIENCE
 
-â†“
+↓
 WHATSAPP CONVERSION UX
 
-â†“
+↓
 SHOWROOM EXPERIENCE
 
-â†“
+↓
 DESIGN SYSTEM
 
-â†“
+↓
 COLOR SYSTEM
 
-â†“
+↓
 TYPOGRAPHY
 
-â†“
+↓
 MOODBOARDS
 
-â†“
+↓
 PHOTOGRAPHY / ART DIRECTION
 
-â†“
+↓
 MOTION
 
-â†“
+↓
 ACCESSIBILITY
 
-â†“
+↓
 PERFORMANCE
 
-â†“
+↓
 SEO / LOCAL UX
 
-â†“
+↓
 CMS / CONTENT ARCHITECTURE
 
-â†“
+↓
 RESPONSIVE DESIGN
 
-â†“
+↓
 COMPONENT SYSTEM
 
-â†“
+↓
 IMPLEMENTATION ROADMAP
 
-â†“
+↓
 RISKS / ANTI-PATTERNS
 
-â†“
+↓
 FINAL RECOMMENDED DESIGN
 
 ==================================================

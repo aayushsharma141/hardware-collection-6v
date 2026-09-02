@@ -4,7 +4,7 @@ import path from "path";
 
 export async function POST(request: Request) {
   try {
-    const payload = await request.json();
+    const payload = (await request.json()) as Record<string, unknown>;
     const timestamp = new Date().toISOString();
 
     const telemetryEvent = {

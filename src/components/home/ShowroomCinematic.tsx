@@ -7,7 +7,7 @@ import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
 import { MagneticButton } from "@/components/animations/MagneticButton";
 import AboutStory from "@/components/home/AboutStory";
-import { buildWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
+import { generateWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -16,7 +16,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * Visual tension: HIGH
  *
  * Desktop (GSAP, pinned, 3 scenes):
- *   Scene 1 &mdash; Entrance: Exterior photograph, scale 1.15â†’1.0, "20+ AUTHORIZED BRANDS &middot; SAKCHI"
+ *   Scene 1 &mdash; Entrance: Exterior photograph, scale 1.15→1.0, "20+ AUTHORIZED BRANDS &middot; SAKCHI"
  *   Scene 2 &mdash; Product Wall: Interior horizontal pan (translateX), door hardware display
  *   Scene 3 &mdash; Location: Atmosphere dims, CTAs appear as quiet zone transition begins
  *
@@ -62,16 +62,20 @@ export default function ShowroomCinematic() {
         // Scene 1: entrance scale animation
         const img1 = scene1Ref.current?.querySelector<HTMLImageElement>(".scene-img");
         if (img1) {
-          gsap.from(img1, {
-            scale: 1.15,
-            ease: "none",
-            scrollTrigger: {
-              trigger: scene1Ref.current,
-              start: "top bottom",
-              end: "bottom top",
-              scrub: 1,
-            },
-          });
+          gsap.fromTo(img1, 
+            { yPercent: -8, scale: 1.15 },
+            {
+              yPercent: 8,
+              scale: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: scene1Ref.current,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1.5,
+              },
+            }
+          );
         }
 
         // Scene 2: horizontal pan (camera-move feel)
@@ -79,15 +83,17 @@ export default function ShowroomCinematic() {
         if (img2) {
           gsap.fromTo(
             img2,
-            { xPercent: -6 },
+            { xPercent: -5, yPercent: 0, scale: 1.05 },
             {
-              xPercent: 6,
+              xPercent: 5,
+              yPercent: 0,
+              scale: 1.05,
               ease: "none",
               scrollTrigger: {
                 trigger: scene2Ref.current,
                 start: "top bottom",
                 end: "bottom top",
-                scrub: 1,
+                scrub: 1.5,
               },
             }
           );
@@ -205,7 +211,7 @@ function CinematicScene({
           src={scene.img}
           alt=""
           aria-hidden="true"
-          className="scene-img w-full h-full object-cover will-change-transform"
+          className="scene-img absolute top-[-10%] left-[-5%] w-[110%] h-[120%] object-cover will-change-transform"
           style={{
             opacity: isLast ? 0.4 : 0.65,
             filter: "contrast(1.15) saturate(0.65) brightness(0.9) sepia(0.15)",
@@ -259,17 +265,17 @@ function CinematicScene({
                 href={SHOWROOM_MAP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 bg-white text-black font-medium text-sm tracking-widest uppercase hover:bg-zinc-200 transition-colors duration-200"
+                className="inline-flex items-center px-8 py-4 bg-[#8b1a42] text-white font-medium text-sm tracking-widest uppercase hover:bg-[#6b1432] transition-colors duration-200 rounded-sm shadow-md"
               >
                 GET DIRECTIONS &rarr;
               </a>
             </MagneticButton>
             <MagneticButton>
               <a
-                href={buildWhatsAppUrl("Hi Hardware Collection, I would like to visit the Sakchi showroom.")}
+                href={generateWhatsAppUrl("showroom-visit")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 border border-zinc-600 text-[var(--text-primary)] font-medium text-sm tracking-widest uppercase hover:bg-white hover:text-black transition-colors duration-200"
+                className="inline-flex items-center px-8 py-4 border border-[#c8a96e] text-[#1a1017] font-medium text-sm tracking-widest uppercase hover:bg-[#8b1a42] hover:text-white hover:border-[#8b1a42] transition-colors duration-200 rounded-sm"
               >
                 WHATSAPP &rarr;
               </a>

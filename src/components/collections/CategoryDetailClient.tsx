@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useState, useCallback } from "react";
 import Image from "next/image";
@@ -8,6 +8,7 @@ import { Category, Product, SiteSettings, getSlugString } from "@/types/catalog"
 import ProductCard from "@/components/collections/ProductCard";
 import ProductDetailDrawer from "@/components/collections/ProductDetailDrawer";
 import { buildCategoryConsultMessage, buildEmptyCategoryMessage, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
+import { generateWhatsAppUrl } from "@/lib/config";
 import { useConsultationStore } from "@/components/consultation/store";
 
 export interface CategoryDetailClientProps {
@@ -59,7 +60,9 @@ export default function CategoryDetailClient({
     categoryTitle,
     category.whatsappMessage
   );
-  const whatsappUrl = buildWhatsAppLink(consultMessage, settings);
+  const whatsappUrl = category.cta
+    ? generateWhatsAppUrl(category.cta.type, categoryTitle, settings?.whatsappNumber)
+    : buildWhatsAppLink(consultMessage, settings);
 
   const emptyCategoryMessage = buildEmptyCategoryMessage(categoryTitle);
   const emptyWhatsappUrl = buildWhatsAppLink(emptyCategoryMessage, settings);
@@ -74,7 +77,7 @@ export default function CategoryDetailClient({
       : category.description || category.shortDesc;
 
   return (
-    <div className="min-h-screen bg-white text-[var(--text-primary)]">
+    <div className="min-h-screen bg-[#fdf8f0] text-[var(--text-primary)]">
       {/* Back Navigation */}
       <div className="max-w-[1320px] mx-auto px-6 pt-8 pb-4">
         <Link
@@ -182,7 +185,7 @@ export default function CategoryDetailClient({
               {/* Specifications Cards */}
               <div className="lg:col-span-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {category.keyFeatures && category.keyFeatures.length > 0 && (
-                  <div className="p-6 rounded-lg bg-white border border-[var(--border)]">
+                  <div className="p-6 rounded-lg bg-[var(--surface-raised)] border border-[var(--border)]">
                     <div className="flex items-center gap-2 mb-3">
                       <CheckCircle2 className="w-4 h-4 text-[var(--accent)]" />
                       <h3 className="hc-mono text-xs uppercase tracking-widest text-[var(--text-primary)]">
@@ -195,7 +198,7 @@ export default function CategoryDetailClient({
                           key={feat}
                           className="text-xs text-[var(--text-secondary)] font-light flex items-start gap-2"
                         >
-                          <span className="text-[var(--accent)]">â€¢</span>
+                          <span className="text-[var(--accent)]">•</span>
                           {feat}
                         </li>
                       ))}
@@ -204,7 +207,7 @@ export default function CategoryDetailClient({
                 )}
 
                 {category.suitableFor && category.suitableFor.length > 0 && (
-                  <div className="p-6 rounded-lg bg-white border border-[var(--border)]">
+                  <div className="p-6 rounded-lg bg-[var(--surface-raised)] border border-[var(--border)]">
                     <div className="flex items-center gap-2 mb-3">
                       <Layers className="w-4 h-4 text-[var(--accent)]" />
                       <h3 className="hc-mono text-xs uppercase tracking-widest text-[var(--text-primary)]">
@@ -217,7 +220,7 @@ export default function CategoryDetailClient({
                           key={app}
                           className="text-xs text-[var(--text-secondary)] font-light flex items-start gap-2"
                         >
-                          <span className="text-[var(--accent)]">â€¢</span>
+                          <span className="text-[var(--accent)]">•</span>
                           {app}
                         </li>
                       ))}

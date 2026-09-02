@@ -6,17 +6,27 @@ export const categoryType = defineType({
   name: "category",
   title: "Category",
   type: "document",
+  groups: [
+    { name: "essentials", title: "Essentials" },
+    { name: "description", title: "Description" },
+    { name: "photos", title: "Photos" },
+    { name: "whereItBelongs", title: "Where it belongs" },
+    { name: "files", title: "Files" },
+    { name: "seo", title: "SEO" },
+  ],
   fields: [
     defineField({
       name: "name",
       title: "Category Name",
       type: "string",
+      group: "essentials",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
-      title: "Slug",
+      title: "Web address (slug)",
       type: "slug",
+      group: "essentials",
       options: {
         source: "name",
       },
@@ -46,25 +56,30 @@ export const categoryType = defineType({
     }),
     defineField({
       name: "eyebrow",
-      title: "Eyebrow / Sub-tagline",
+      title: "Small line above the title (eyebrow)",
       type: "string",
+      group: "description",
     }),
     defineField({
       name: "description",
       title: "Short Description",
       type: "text",
+      group: "description",
       rows: 2,
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "overview",
       title: "Editorial Overview",
       type: "text",
+      group: "description",
       rows: 4,
     }),
     defineField({
       name: "cardVariant",
-      title: "Card Variant (Blueprint Grid)",
+      title: "Card size in the grid (cardVariant)",
       type: "string",
+      group: "essentials",
       options: {
         list: [
           { title: "Standard (4-col)", value: "standard" },
@@ -79,6 +94,7 @@ export const categoryType = defineType({
       name: "families",
       title: "Showroom Families",
       type: "array",
+      group: "whereItBelongs",
       of: [{ type: "string" }],
       options: {
         list: [
@@ -90,16 +106,12 @@ export const categoryType = defineType({
         ],
       },
     }),
-    defineField({
-      name: "subcategories",
-      title: "Subcategories / Product Lines",
-      type: "array",
-      of: [{ type: "string" }],
-    }),
+
     defineField({
       name: "primaryRail",
       title: "Primary Discovery Rail Group",
       type: "string",
+      group: "whereItBelongs",
       options: {
         list: [
           { title: "Handles & Knobs", value: "handles-knobs" },
@@ -116,6 +128,7 @@ export const categoryType = defineType({
       name: "suitableFor",
       title: "Suitable For",
       type: "array",
+      group: "whereItBelongs",
       of: [{ type: "string" }],
       options: {
         list: [
@@ -129,18 +142,21 @@ export const categoryType = defineType({
       name: "brands",
       title: "Authorized Brands",
       type: "array",
+      group: "whereItBelongs",
       of: [{ type: "reference", to: [{ type: "brand" }] }],
     }),
     defineField({
       name: "keyFeatures",
       title: "Key Features",
       type: "array",
+      group: "description",
       of: [{ type: "string" }],
     }),
     defineField({
       name: "searchKeywords",
       title: "Search Keywords / Synonyms",
       type: "array",
+      group: "seo",
       of: [{ type: "string" }],
       description:
         "Customer-language search terms this category should also match (e.g. 'cupboard slides' for Drawer Channels). Doubles as SEO keywords.",
@@ -150,11 +166,13 @@ export const categoryType = defineType({
       title: "Icon Name",
       description: "Name of the lucide-react icon to use (e.g., Lock, ChefHat, Bath)",
       type: "string",
+      group: "photos",
     }),
     defineField({
       name: "image",
       title: "Category Hero Image",
       type: "image",
+      group: "photos",
       options: {
         hotspot: true,
       },
@@ -163,40 +181,32 @@ export const categoryType = defineType({
       name: "heroImage",
       title: "Cinematic Hero Image",
       type: "image",
+      group: "photos",
       options: {
         hotspot: true,
       },
+      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "gallery",
       title: "Gallery",
       type: "array",
+      group: "photos",
       of: [{ type: "image", options: { hotspot: true } }],
     }),
     defineField({
       name: "displayOrder",
       title: "Display Order",
       type: "number",
+      group: "essentials",
       initialValue: 0,
     }),
-    defineField({
-      name: "status",
-      title: "Content Status",
-      type: "string",
-      options: {
-        list: [
-          { title: "Draft", value: "draft" },
-          { title: "In Review", value: "review" },
-          { title: "Published", value: "published" },
-        ],
-        layout: "radio",
-      },
-      initialValue: "draft",
-    }),
+
     defineField({
       name: "verificationStatus",
       title: "Data Verification Status",
       type: "string",
+      group: "essentials",
       options: {
         list: [
           { title: "Unverified (Pending Source)", value: "unverified" },
@@ -211,13 +221,23 @@ export const categoryType = defineType({
       name: "whatsappMessage",
       title: "WhatsApp Consultation Message Template",
       type: "text",
+      group: "description",
       rows: 2,
     }),
     defineField({
       name: "featured",
       title: "Featured on Homepage",
       type: "boolean",
+      group: "essentials",
       initialValue: false,
+    }),
+    
+    // --- NEW FIELDS (Additive for Phase 2) ---
+    defineField({
+      name: "seo",
+      title: "SEO Metadata",
+      type: "seo",
+      group: "seo",
     }),
   ],
   preview: {

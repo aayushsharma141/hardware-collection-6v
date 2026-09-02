@@ -4,7 +4,7 @@ import { sendTelegramAlert } from "@/lib/leads/telegram";
 
 export async function POST(request: Request) {
   try {
-    const { lead_id } = await request.json();
+    const { lead_id } = (await request.json()) as { lead_id?: string };
 
     if (!lead_id || typeof lead_id !== "string") {
       return NextResponse.json(

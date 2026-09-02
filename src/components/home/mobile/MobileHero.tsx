@@ -1,8 +1,15 @@
-import React from "react";
+"use client";
+
+import React, { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import { HeroSlide } from "@/types/hero";
 import { SHOWROOM_MAP_URL } from "@/lib/config";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface MobileHeroProps {
   slides: HeroSlide[];
@@ -18,58 +25,131 @@ interface MobileHeroProps {
  * brass hairline as the only drawn geometry.
  */
 export default function MobileHero({ slides }: MobileHeroProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+
+  useGSAP(
+    () => {
+      if (!containerRef.current) return;
+
+      const heroImage = containerRef.current.querySelector(".mobile-hero-bg");
+      const heroH1 = containerRef.current.querySelector(".mobile-hero-h1");
+      const heroContent = containerRef.current.querySelectorAll(".mobile-hero-fade");
+
+      // Scroll-linked parallax
+      if (heroImage) {
+        gsap.fromTo(
+          heroImage,
+          { scale: 1.03, y: 0 },
+          {
+            scale: 1.0,
+            y: "5%",
+            ease: "none",
+            scrollTrigger: {
+              trigger: containerRef.current,
+              start: "top top",
+              end: "bottom top",
+              scrub: true,
+            },
+          }
+        );
+      }
+
+      // Entrance animation
+      const tl = gsap.timeline();
+
+      if (heroH1) {
+        tl.fromTo(
+          heroH1,
+          { y: "100%" },
+          { y: "0%", duration: 1.2, ease: "power4.out" },
+          0.1
+        );
+      }
+
+      if (heroContent.length > 0) {
+        tl.fromTo(
+          heroContent,
+          { autoAlpha: 0, y: 15 },
+          { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power2.out" },
+          0.3
+        );
+      }
+    },
+    { scope: containerRef, dependencies: [currentSlideIndex] }
+  );
+
   if (!slides || slides.length === 0) return null;
-  const slide = slides[0];
+  const slide = slides[currentSlideIndex] || slides[0];
 
   const heading = slide.title || "The Art of\nthe Finish.";
-  const ctaLabel = slide.primaryCta || "Explore collections";
+  const ctaLabel = slide.primaryCta || "Explore Collections";
   const ctaHref = slide.ctaTarget || "/collections";
   const isExternalCta = /^https?:\/\//.test(ctaHref);
 
   return (
-    <section className="relative w-full min-h-[92svh] flex flex-col justify-end pt-16 pb-10 px-6 lg:hidden overflow-hidden bg-[var(--surface)]">
+    <section ref={containerRef} className="relative w-full min-h-[92svh] flex flex-col justify-end pt-16 pb-10 px-6 lg:hidden overflow-hidden bg-[var(--surface)]">
       {/* Photography */}
       <div className="absolute inset-0 z-0">
         <Image
+          key={`mob-bg-${currentSlideIndex}`}
           src={slide.imageUrl || "/cinema/hero/HC-01-HERO-01.png"}
           alt="Brass lever handle on a dark door in the Hardware Collection showroom"
           fill
           priority
           sizes="100vw"
-          className="object-cover"
+          className="mobile-hero-bg object-cover will-change-transform transition-opacity duration-500"
         />
-        {/* Bottom-weighted scrim: the copy sits in the darkest part of the
-            frame, so contrast holds regardless of which photograph an editor
-            publishes from Sanity. Kept to a single pass &mdash; stacking a dimmed
-            image under two gradients took the photograph to near-black and
-            threw away the one thing carrying the viewport. */}
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-[var(--surface)]/85 via-45% to-[var(--surface)]/15" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 w-full">
-        <div className="h-px w-full bg-gradient-to-r from-[#c8a96e]/70 to-transparent mb-5" />
+        <div className="mobile-hero-fade h-px w-full bg-gradient-to-r from-[#c8a96e]/70 to-transparent mb-5" />
 
-        <p className="hc-mono text-xs uppercase tracking-[0.25em] leading-[1.7] font-semibold text-[#c8a96e] mb-4">
-          {slide.eyebrow || "Sakchi &middot; Jamshedpur"}
-        </p>
+        <div className="flex items-center justify-between mb-4">
+          <p className="mobile-hero-fade hc-mono t-eyebrow text-brass-ink">
+            {slide.eyebrow || "Architectural Hardware Experts Since 2002"}
+          </p>
+          {slides.length > 1 && (
+            <div className="flex items-center gap-1.5">
+              {slides.map((_, idx) => (
+                /* The visible bar is 6px tall. The pseudo-element carries the
+                   touch target out to a comfortable size without changing the
+                   layout or the mark itself. */
+                <button
+                  key={idx}
+                  type="button"
+                  onClick={() => setCurrentSlideIndex(idx)}
+                  className={`hc-focus relative h-1.5 rounded-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] before:absolute before:-inset-x-1.5 before:-inset-y-5 before:content-[''] ${
+                    currentSlideIndex === idx ? "w-6 bg-[#8b1a42]" : "w-2 bg-[#1a1017]/20"
+                  }`}
+                  aria-label={`Show slide ${idx + 1} of ${slides.length}`}
+                  aria-current={currentSlideIndex === idx}
+                />
+              ))}
+            </div>
+          )}
+        </div>
 
-        <h1 className="hc-serif text-5xl xs:text-6xl leading-[0.92] font-light tracking-[-0.01em] text-[var(--text-primary)] mb-5 whitespace-pre-line">
-          {heading}
-        </h1>
+        <div className="overflow-hidden mb-6 pb-1">
+          <h1 className="mobile-hero-h1 hc-serif t-display font-light text-[var(--text-primary)] whitespace-pre-line">
+            {heading}
+          </h1>
+        </div>
 
-        <p className="max-w-[340px] text-base leading-relaxed font-light text-[var(--text-secondary)] mb-8">
+        <p className="mobile-hero-fade t-body max-w-[45ch] font-light text-[var(--text-secondary)] mb-9">
           {slide.description ||
             "Architectural hardware chosen for spaces that deserve better details."}
         </p>
 
-        <div className="flex flex-col gap-4">
+        <div className="mobile-hero-fade flex flex-col gap-4">
           {isExternalCta ? (
             <a
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="brass-plate hc-focus h-[56px] w-full bg-[#8b1a42] text-white text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-3 no-underline hover:bg-[#6b1432] rounded shadow-md"
+              className="brass-plate hc-focus h-[56px] w-full bg-[#8b1a42] text-white t-button uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline hover:bg-[#6b1432] rounded shadow-[0_10px_28px_-12px_rgba(139,26,66,0.55)] transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] motion-reduce:active:scale-100"
             >
               <span>{ctaLabel}</span>
               <ArrowRight />
@@ -77,7 +157,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
           ) : (
             <Link
               href={ctaHref}
-              className="brass-plate hc-focus h-[56px] w-full bg-[#8b1a42] text-white text-xs sm:text-sm font-bold uppercase tracking-widest flex items-center justify-center gap-3 no-underline hover:bg-[#6b1432] rounded shadow-md"
+              className="brass-plate hc-focus h-[56px] w-full bg-[#8b1a42] text-white t-button uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline hover:bg-[#6b1432] rounded shadow-[0_10px_28px_-12px_rgba(139,26,66,0.55)] transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] motion-reduce:active:scale-100"
             >
               <span>{ctaLabel}</span>
               <ArrowRight />
@@ -88,7 +168,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
             href={SHOWROOM_MAP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rail-button hc-focus min-h-[44px] self-start text-xs uppercase tracking-widest font-semibold text-[var(--text-primary)] flex items-center gap-2 no-underline"
+            className="rail-button hc-focus min-h-[44px] self-start text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--text-secondary)] flex items-center gap-2 no-underline transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.97] motion-reduce:active:scale-100"
           >
             <span>Get showroom directions</span>
             <svg

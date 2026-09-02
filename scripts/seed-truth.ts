@@ -34,7 +34,7 @@ async function seedTruth() {
       whatsappNumber: "919835190738",
       defaultWhatsappMessage: "Hi Hardware Collection, I would like to inquire about your architectural hardware collections.",
       storeEmail: "",
-      showroomAddress: "1/18, Kashidih, Near Baradwari Durga Puja Maidan,\nSakchi, Jamshedpur,\nJharkhand 831001",
+      showroomAddress: "1/18, Kashidih, Near Durga Puja Maidan,\nSakchi, Jamshedpur,\nJharkhand 831001",
       showroomHours: "10:00 AM — 8:00 PM (Mon-Sun)",
       googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Hardware+Collection,+Kashidih,+Sakchi,+Jamshedpur",
       googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3677.892699292556!2d86.20885231542845!3d22.806427385061614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f5e31e5088fcc1%3A0x6fb7ebaa2fb0327e!2sKashidih%2C%20Sakchi%2C%20Jamshedpur%2C%20Jharkhand%20831001!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"

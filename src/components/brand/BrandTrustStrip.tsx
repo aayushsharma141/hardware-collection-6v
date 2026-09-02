@@ -34,14 +34,14 @@ export const AUTHORIZED_BRAND_COUNT = CANONICAL_BRANDS.length;
 
 export default function BrandTrustStrip() {
   /**
-   * Renders brand logo asset in full colour, or standard typography wordmark when logo is absent.
+   * Renders brand logo asset in authentic original color, or standard typography wordmark when logo is absent.
    */
   const renderBrandVisual = (brand: BrandItem) => {
     if (brand.logo) {
       return (
         <div
           className={`relative flex items-center justify-center ${
-            brand.containerClass || "w-40 md:w-52 lg:w-60 h-12 md:h-16 lg:h-20"
+            brand.containerClass || "w-36 sm:w-44 md:w-52 lg:w-56 h-12 md:h-16 lg:h-18"
           }`}
         >
           <Image
@@ -59,7 +59,7 @@ export default function BrandTrustStrip() {
     }
 
     return (
-      <span className="font-sans font-medium uppercase tracking-[0.28em] text-lg md:text-xl lg:text-2xl whitespace-nowrap text-[var(--text-primary,#e8e3d9)] opacity-55 group-hover/item:opacity-100 transition-opacity duration-300">
+      <span className="font-sans font-medium uppercase tracking-[0.22em] text-base sm:text-lg md:text-xl lg:text-2xl whitespace-nowrap text-[var(--text-primary,#1a1017)] hover:text-[#8b1a42] transition-colors duration-300">
         {brand.name}
       </span>
     );
@@ -72,10 +72,10 @@ export default function BrandTrustStrip() {
     >
       {/* Header */}
       <div className="max-w-4xl mx-auto px-6 text-center mb-16 md:mb-20">
-        <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-3">
+        <p className="hc-mono text-[11px] sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-4">
           Authorized partners
         </p>
-        <h2 className="hc-serif text-4xl sm:text-5xl lg:text-6xl font-light tracking-[-0.01em] text-[var(--text-primary,#e8e3d9)] leading-tight mb-4">
+        <h2 className="hc-serif text-[38px] sm:text-5xl lg:text-6xl font-light tracking-[-0.01em] text-[var(--text-primary,#e8e3d9)] leading-tight mb-4">
           Authorized Brands
         </h2>
         <p className="text-base sm:text-lg leading-relaxed text-[var(--text-secondary,#aaa49a)] font-light max-w-2xl mx-auto">
@@ -158,6 +158,32 @@ export default function BrandTrustStrip() {
           </div>
         </div>
       </div>
+
+      <style jsx global>{`
+        @keyframes ticker-left {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+        @keyframes ticker-right {
+          0% {
+            transform: translate3d(-50%, 0, 0);
+          }
+          100% {
+            transform: translate3d(0, 0, 0);
+          }
+        }
+        .animate-ticker-left {
+          animation: ticker-left 35s linear infinite;
+        }
+        .animate-ticker-right {
+          animation: ticker-right 35s linear infinite;
+        }
+      `}</style>
     </section>
   );
 }
+

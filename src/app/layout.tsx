@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans, Cinzel, Manrope } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, Cinzel, Manrope, Jost } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -26,36 +26,56 @@ const manrope = Manrope({
   weight: ["400", "500", "600", "700"],
 });
 
-export const metadata: Metadata = {
-  title: "Premium Hardware & Digital Locks | Hardware Collection",
-  description: "Authorized Hafele & Dorset Dealer in Sakchi, Jamshedpur. Premium architectural hardware and digital locks.",
-};
+/**
+ * Jost is a geometric sans in the Futura lineage, used only for the brand
+ * wordmark. Futura itself is a licensed Monotype face and cannot be bundled;
+ * swap the `--font-wordmark` value for a self-hosted Futura when a licence is
+ * bought and nothing else has to change.
+ */
+const jost = Jost({
+  variable: "--font-wordmark",
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
 
+import { getSiteSettings } from "@/content/sanity/queries";
+import { CANONICAL_BRANDS } from "@/content/fallback/brands";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
 import Navbar from "@/components/layout/Navbar";
-import { CANONICAL_BRANDS } from "@/content/fallback/brands";
 
-export default function RootLayout({
+export async function generateMetadata(): Promise<Metadata> {
+  const settings = await getSiteSettings();
+  const seo = settings?.seo;
+
+  return {
+    title: seo?.metaTitle || "Premium Hardware & Digital Locks | Hardware Collection",
+    description: seo?.metaDescription || "Authorized Hafele & Dorset Dealer in Sakchi, Jamshedpur. Premium architectural hardware and digital locks.",
+  };
+}
+
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const settings = await getSiteSettings();
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "HomeGoodsStore",
     name: "Hardware Collection",
     description:
-      "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
+      settings?.seo?.description || "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
     address: {
       "@type": "PostalAddress",
-      streetAddress: "1/18, Kashidih, Near Baradwari Durga Puja Maidan, Sakchi",
+      streetAddress: settings?.showroomAddress || "1/18, Kashidih, Near Durga Puja Maidan, Sakchi",
       addressLocality: "Jamshedpur",
       addressRegion: "Jharkhand",
       postalCode: "831001",
       addressCountry: "IN",
     },
-    telephone: "+919835190738",
+    telephone: settings?.primaryPhone || "+919835190738",
     brand: CANONICAL_BRANDS.map((brand) => ({
       "@type": "Brand",
       name: brand.name,
@@ -65,7 +85,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${dmSans.variable} ${cinzel.variable} ${manrope.variable} h-full antialiased dark`}
+      className={`${cormorant.variable} ${dmSans.variable} ${cinzel.variable} ${manrope.variable} ${jost.variable} h-full antialiased dark`}
     >
       <head>
         <link rel="preconnect" href="https://wa.me" />
@@ -74,7 +94,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-manrope bg-dark-bg text-text-main">
+      <body className="min-h-full flex flex-col font-manrope hc-root antialiased">
         <MotionProvider>
           <Navbar />
           {children}

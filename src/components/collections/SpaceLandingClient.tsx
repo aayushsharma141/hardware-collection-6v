@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -38,13 +38,13 @@ export default function SpaceLandingClient({
     SPACE_FALLBACK_IMAGES[slug] ||
     "/cinema/categories/HC-03-DOORS.png";
 
-  const consultMessage = `Hardware Collection â€” I'd like to consult on hardware specifications for ${space.name}.`;
+  const consultMessage = `Hardware Collection — I'd like to consult on hardware specifications for ${space.name}.`;
   const whatsappUrl = buildWhatsAppLink(consultMessage, settings);
 
   const categories = space.linkedCategories || [];
 
   return (
-    <div className="min-h-screen bg-white text-[var(--text-primary)]">
+    <div className="min-h-screen bg-[#fdf8f0] text-[var(--text-primary)]">
       {/* Back Navigation */}
       <div className="max-w-[1320px] mx-auto px-6 pt-8 pb-4">
         <Link

@@ -33,7 +33,7 @@ Supporting truths that are separately verifiable and may be stated plainly: auth
 ## Operating Context
 
 - **Discovery is local and mobile-heavy.** Visitors find the business through Google Search and Google Business Profile in the Jamshedpur area, frequently on mid-range Android devices over mobile data. Load performance is an audience-reach concern, not only a technical one.
-- **The showroom is the destination.** 1/18, Kashidih, Near Baradwari Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001. Open 10:00 AM – 8:00 PM, Monday through Sunday. NAP consistency across the site, Google Business Profile, and Maps is an operating requirement.
+- **The showroom is the destination.** 1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001. Open 10:00 AM – 8:00 PM, Monday through Sunday. NAP consistency across the site, Google Business Profile, and Maps is an operating requirement.
 - **Conversion runs through WhatsApp to a named person.** Primary phone +91 98351 90738; WhatsApp 919835190738. Product-level inquiries carry a prefilled message containing the product and brand so the specialist has context before replying. A separate technical-consultation line exists at wa.me/919431111550.
 - **Leads are captured to a Google Sheet pipeline** via webhook. The Prisma/Postgres `Lead` model exists for lead capture only and holds no catalog data.
 - **Content is owned by CMS editors, not engineers.** Sanity is the single source of truth for products, categories, brands, and site settings. The site renders canonical fallback data when Sanity returns nothing, so an empty CMS degrades gracefully rather than breaking.

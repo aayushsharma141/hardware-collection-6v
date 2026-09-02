@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useReducedMotion } from "motion/react";
 import { useEffect, useRef } from "react";

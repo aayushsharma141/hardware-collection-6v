@@ -126,7 +126,6 @@ async function seedCategories() {
       suitableFor: cat.suitableFor,
       keyFeatures: cat.keyFeatures,
       icon: cat.iconName,
-      status: cat.status,
       whatsappMessage: cat.whatsappMessage,
       displayOrder: index,
       featured: cat.featured ?? false,

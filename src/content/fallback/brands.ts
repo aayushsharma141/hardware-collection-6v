@@ -1,4 +1,4 @@
-﻿import { Brand } from "@/types/catalog";
+import { Brand } from "@/types/catalog";
 
 export interface BrandInfo {
   id: string;
@@ -92,7 +92,6 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     tagline: "Safe & Secure",
     description: "Ozone is a leading player in Architectural Hardware and Security Solutions.",
     keyHighlights: ["Glass Fittings", "Door Hardware", "Safes"],
-    imageClass: "brightness-0 opacity-70",
   },
   {
     id: "backer",
@@ -154,7 +153,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     description: "Labacha brings Italian-inspired quartz composite granite sinks, workstation kitchen sinks, and luxury bathroom mixers to modern living spaces.",
     establishedYear: "2010",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: ["Quartz Composite", "Heat & Scratch Resistant", "360Â° Faucets", "Nano-Coating"]
+    keyHighlights: ["Quartz Composite", "Heat & Scratch Resistant", "360° Faucets", "Nano-Coating"]
   },
   {
     id: "rexton",
@@ -229,15 +228,15 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     keyHighlights: ["Danish Design", "Premium Finishes"]
   },
   {
-    id: "marnello",
-    name: "Marnello",
+    id: "maranello",
+    name: "Maranello",
     country: "Global",
     tier: "Hardware Solutions",
     authorized: true,
     logo: "",
     website: null,
     tagline: "Hardware Excellence",
-    description: "Marnello offers a comprehensive range of hardware products.",
+    description: "Maranello offers a comprehensive range of hardware products.",
     keyHighlights: ["Excellence", "Durability"]
   },
   {
@@ -317,7 +316,7 @@ export const BRAND_ALIASES: Record<string, string[]> = {
   rexton:   ["rexton"],
   madhuram: ["madhuram"],
   furnipart:["furnipart"],
-  marnello: ["marnello"],
+  maranello: ["maranello", "marnello"],
   helix:    ["helix"],
   liftor:   ["liftor"],
   taco:     ["taco"],

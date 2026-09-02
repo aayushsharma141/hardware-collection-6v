@@ -185,30 +185,38 @@ function ProductCard({
         <img
           src={product.img}
           alt={`${product.brand} ${product.name}`}
-          className="w-full h-full object-cover opacity-80 group-hover:scale-[1.04] transition-transform duration-700 ease-out will-change-transform"
+          className="w-full h-full object-cover opacity-80 group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
         />
+        {/* Hover darkened overlay for editorial contrast */}
+        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
         {/* Reflective light sweep */}
         <div
-          className="light-sweep-overlay"
+          className="light-sweep-overlay pointer-events-none"
           aria-hidden="true"
           style={{ "--sweep-delay": product.sweepDelay } as React.CSSProperties}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/20 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/30 to-transparent pointer-events-none" />
       </div>
 
       {/* Specimen label */}
-      <div className="space-y-0.5">
-        <p className="text-[var(--text-secondary)] text-xs tracking-widest uppercase">{product.index} &middot; {product.category}</p>
-        <div className="flex items-baseline justify-between">
-          <p className="text-[var(--text-secondary)] text-xs tracking-wide group-hover:translate-y-[-4px] transition-transform duration-200">
-            {product.brand}
+      <div className="space-y-1">
+        <div className="flex items-baseline justify-between mb-2">
+          <p className="text-[var(--text-secondary)] text-[10px] tracking-widest uppercase opacity-70">
+            {product.index} &middot; {product.category}
           </p>
-          <span className="text-[var(--text-secondary)] text-xs group-hover:translate-x-[6px] transition-transform duration-200" aria-hidden="true">
-            â†’
+          <span className="text-[var(--text-secondary)] text-sm group-hover:translate-x-1 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]" aria-hidden="true">
+            &rarr;
           </span>
         </div>
-        <h3 className="text-[var(--text-primary)] font-light text-xl">{product.name}</h3>
-        <p className="text-[var(--text-secondary)] text-xs">{product.finish}</p>
+        <p className="text-[#c8a96e] text-xs font-medium tracking-wide uppercase">
+          {product.brand}
+        </p>
+        <h3 className="hc-serif text-[var(--text-primary)] font-light text-[26px] leading-tight">
+          {product.name}
+        </h3>
+        <p className="text-[var(--text-secondary)] text-[11px] font-light uppercase tracking-widest opacity-80 pt-1">
+          {product.finish}
+        </p>
       </div>
     </div>
   );
@@ -237,7 +245,7 @@ function CollectionCTA() {
         className="inline-flex items-center gap-3 px-8 py-5 border border-[var(--border)] text-[var(--text-primary)] font-medium text-sm tracking-widest uppercase hover:bg-[var(--text-primary)] hover:text-[var(--surface)] transition-colors duration-300"
       >
         EXPLORE FULL COLLECTION
-        <span aria-hidden="true" className="text-base">â†’</span>
+        <span aria-hidden="true" className="text-base">→</span>
       </Link>
     </MagneticButton>
   );
@@ -245,7 +253,7 @@ function CollectionCTA() {
 
 /**
  * MobileProductCard &mdash; editorial mobile card layout
- * Simplified hierarchy: image â†’ brand â†’ title â†’ explore
+ * Simplified hierarchy: image → brand → title → explore
  * Card is the tap target (parent <a>). No secondary actions.
  */
 function MobileProductCard({
@@ -270,7 +278,7 @@ function MobileProductCard({
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/30 to-transparent" />
       </div>
 
-      {/* Editorial label: brand (brass) â†’ name â†’ explore */}
+      {/* Editorial label: brand (brass) → name → explore */}
       <div className="space-y-1 px-0.5">
         <p className="text-[#C8A96E] text-[13px] tracking-widest uppercase font-medium">
           {product.brand}
@@ -279,7 +287,7 @@ function MobileProductCard({
           {product.name}
         </h3>
         <p className="text-[var(--text-secondary)] text-[13px] tracking-wide group-hover:translate-x-1 transition-transform duration-200">
-          Explore â†’
+          Explore →
         </p>
       </div>
     </div>

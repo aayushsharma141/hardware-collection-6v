@@ -203,7 +203,7 @@ export default function Navbar({
 
   return (
     <>
-      {/* â”€â”€ Floating Liquid Glass Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â”€â”€ Floating Liquid Glass Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─ */}
       <header
         role="banner"
         className={`navbar-island fixed left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-400 ease-out ${
@@ -250,7 +250,7 @@ export default function Navbar({
                 href="/"
                 onClick={handleLogoClick}
                 className="group inline-block max-w-full py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] rounded-md transition-opacity duration-300 select-none"
-                aria-label="Hardware Collection &mdash; The Jewelry of Fittings, home"
+                aria-label="Hardware Collection, home"
               >
                 <BrandLockup
                   layout="inline"
@@ -392,7 +392,7 @@ export default function Navbar({
                       handleLogoClick(e);
                     }}
                     className="group inline-block max-w-full select-none"
-                    aria-label="Hardware Collection &mdash; The Jewelry of Fittings, home"
+                    aria-label="Hardware Collection, home"
                   >
                     <BrandLockup
                       layout="inline"

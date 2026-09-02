@@ -19,7 +19,7 @@ It is a **retail/trader business**, not an e-commerce operation and not an enter
 |---|---|
 | Legal/trade name | Hardware Collection |
 | Owner | Mukesh Khandelwal |
-| Address | 1/18, Kashidih, Near Baradwari Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001 |
+| Address | 1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001 |
 | Phone / WhatsApp | +91 98351 90738 |
 | Hours | 10:00 AM – 8:00 PM, Monday–Sunday |
 | Domain | hardwarecollection.co (GoDaddy, DNS → Vercel) |

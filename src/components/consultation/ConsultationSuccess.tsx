@@ -1,7 +1,8 @@
-﻿"use client";
+"use client";
 
 import React from "react";
 import { ArrowRight, Check, PhoneCall } from "lucide-react";
+import { motion } from "motion/react";
 import { buildWhatsAppUrl, SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY } from "@/lib/config";
 
 interface ConsultationSuccessProps {
@@ -15,14 +16,19 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
   );
 
   return (
-    <div className="flex flex-col items-center justify-center py-8 px-4 text-center max-w-md mx-auto font-dmsans">
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.25, ease: "easeOut" }}
+      className="flex flex-col items-center justify-center py-8 px-4 text-center max-w-md mx-auto font-dmsans"
+    >
       {/* Quiet Gold Icon Badge */}
       <div className="w-12 h-12 rounded-full bg-[#C8A96E]/10 border border-[var(--accent)]/30 flex items-center justify-center mb-5">
         <Check className="w-5 h-5 text-[var(--accent)]" />
       </div>
 
       <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] font-semibold mb-2">
-        HARDWARE COLLECTION Â· SAKCHI
+        HARDWARE COLLECTION · SAKCHI
       </p>
 
       <h3
@@ -42,7 +48,7 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
         <p className="text-[var(--accent)] font-mono text-sm sm:text-base font-bold tracking-wider">{leadId}</p>
       </div>
 
-      {/* Action Buttons Row: WhatsApp Us Â· Call Now */}
+      {/* Action Buttons Row: WhatsApp Us · Call Now */}
       <div className="flex flex-col sm:flex-row gap-3 w-full">
         <a
           href={waUrl}
@@ -66,7 +72,7 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
       <p className="text-[11px] text-[var(--text-secondary)] mt-5">
         Direct showroom desk: <span className="text-[var(--text-primary)] font-medium">{SHOWROOM_PHONE_DISPLAY}</span>
       </p>
-    </div>
+    </motion.div>
   );
 }
 

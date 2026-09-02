@@ -83,6 +83,13 @@ export const siteSettingsType = defineType({
       description:
         "Used when a category has no heroImage/image and a product has no images[] (D-12 resolution chain terminus).",
     }),
+    
+    // --- NEW FIELDS (Additive for Phase 2) ---
+    defineField({
+      name: "seo",
+      title: "Global SEO Fallback",
+      type: "seo",
+    }),
   ],
   preview: {
     prepare() {

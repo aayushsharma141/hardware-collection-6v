@@ -15,14 +15,14 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  *
  * Desktop (pinned, GSAP scrub):
  *   Each material occupies 100vh of scroll.
- *   Image: begins 40% viewport width, scale 1.4 â†’ opens to full bleed (clip-path).
+ *   Image: begins 40% viewport width, scale 1.4 → opens to full bleed (clip-path).
  *   Material name: 8xl serif, z=1 (behind image), low opacity ghost text.
  *   Specification copy: slides in from below, z=3.
- *   Scroll sequence per material: surface â†’ grain â†’ reflection â†’ edge â†’ complete piece.
+ *   Scroll sequence per material: surface → grain → reflection → edge → complete piece.
  *
  * Material Lens interaction:
- *   pointermove â†’ shifts radial highlight mask (simulates light on metal surface)
- *   + micro-zoom on the image (scale 1.0 â†’ 1.015)
+ *   pointermove → shifts radial highlight mask (simulates light on metal surface)
+ *   + micro-zoom on the image (scale 1.0 → 1.015)
  *   User feels: "I am inspecting this metal."
  *
  * Reflective light sweep: .light-sweep-overlay &mdash; subtly loops, pauses on pointer enter.
@@ -51,7 +51,7 @@ const MATERIALS = [
     name: "MATTE BLACK",
     subName: "Architectural Black",
     desc: "Crisp contrast. Modern spatial definition. Matte black hardware reads as a deliberate decision &mdash; geometry made visible.",
-    spec: "Process: Powder-coat or PVD black &middot; Sheen: 0â€“5Â° gloss units &middot; Application: Contemporary & industrial interiors",
+    spec: "Process: Powder-coat or PVD black &middot; Sheen: 0–5° gloss units &middot; Application: Contemporary & industrial interiors",
     img: "/cinema/materials/HC-04-MATTE.png",
     sweepDelay: "4s",
   },
@@ -132,10 +132,11 @@ export default function MaterialJourney() {
           // containerAnimation expects a gsap.core.Animation (the tween, not ScrollTrigger)
           gsap.fromTo(
             imgWrap,
-            { clipPath: "inset(0% 30% 0% 30%)", scale: 1.4 },
+            { clipPath: "inset(0% 30% 0% 30%)", scale: 1.25, opacity: 0.4 },
             {
               clipPath: "inset(0% 0% 0% 0%)",
               scale: 1,
+              opacity: 1,
               ease: "none",
               scrollTrigger: {
                 trigger: panel,
@@ -257,6 +258,11 @@ export default function MaterialJourney() {
                 alt="Architectural Brass Finish"
                 className="w-full h-full object-cover opacity-90"
               />
+              <div 
+                className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-[0.04]"
+                style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')" }}
+                aria-hidden="true"
+              />
               <div
                 className="light-sweep-overlay"
                 aria-hidden="true"
@@ -371,6 +377,12 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
             alt={mat.subName}
             className="w-full h-full object-cover"
             style={{ filter: "contrast(1.05) brightness(0.85)" }}
+          />
+          {/* Subtle Grain Overlay */}
+          <div 
+            className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-[0.04]"
+            style={{ backgroundImage: "url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noise%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.8%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noise)%22/%3E%3C/svg%3E')" }}
+            aria-hidden="true"
           />
           {/* Material Lens highlight */}
           <div

@@ -1,13 +1,23 @@
 "use client";
 
 import { ConsultationForm } from "@/components/consultation/ConsultationForm";
-import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL } from "@/lib/config";
-import { PhoneCall, Navigation, Star } from "lucide-react";
+import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL, generateWhatsAppUrl } from "@/lib/config";
+import { MessageCircle, PhoneCall, Navigation, Star } from "lucide-react";
 import { Testimonial, formatTestimonialDate, clampRating } from "@/types/testimonial";
 import { StarRating } from "@/components/reviews/StarRating";
+import { motion, Variants } from "motion/react";
+
+const quietFade: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 1.2, ease: [0.25, 1, 0.5, 1] }
+  }
+};
 
 /**
- * FloatingCTA â€” Chapter 07 "Come Feel It"
+ * FloatingCTA — Chapter 07 "Come Feel It"
  * Visual tension: QUIET / CONVERSION ZONE
  *
  * Principle: The page deliberately slows down here.
@@ -18,20 +28,29 @@ import { StarRating } from "@/components/reviews/StarRating";
  *   Top: 3 editorial testimonials (grid, not carousel)
  *   Rule: visual pause / horizontal line
  *   Editorial statement
- *   3 CTAs: WhatsApp (primary) Â· Call Â· Directions
+ *   3 CTAs: WhatsApp (primary) · Call · Directions
  *
- * Absorbs ReviewsSlide.tsx â€” that component is deleted.
+ * Absorbs ReviewsSlide.tsx — that component is deleted.
  */
 
-export default function FloatingCTA({ reviews = [] }: { reviews?: Testimonial[] }) {
+import { SanityCta } from "@/types/sanity";
+
+export default function FloatingCTA({ reviews = [], cta }: { reviews?: Testimonial[], cta?: SanityCta }) {
   return (
     <section
       data-chapter="7"
       className="relative z-10"
     >
-      {/* â”€â”€ REVIEWS ZONE â€” theme-ivory â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* â”€â”€ REVIEWS ZONE — theme-ivory â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─ */}
       {reviews.length > 0 && (
-      <div data-zone="reviews" className="theme-ivory border-t border-[var(--border)]">
+      <motion.div 
+        data-zone="reviews" 
+        className="theme-ivory border-t border-[var(--border)]"
+        variants={quietFade}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+      >
         <div className="relative z-10 w-full pt-20 sm:pt-24 pb-14 sm:pb-16 overflow-hidden">
         {/* Section Header */}
         <div className="container mx-auto px-6 lg:px-16 mb-8 sm:mb-10">
@@ -54,7 +73,7 @@ export default function FloatingCTA({ reviews = [] }: { reviews?: Testimonial[] 
                 4.4
               </span>
               <span className="text-[var(--text-secondary,#5a5550)] text-xs">50+ Google Reviews</span>
-              <span className="text-[var(--text-secondary,#5a5550)]">Â·</span>
+              <span className="text-[var(--text-secondary,#5a5550)]">·</span>
               <a
                 href={SHOWROOM_MAP_URL}
                 target="_blank"
@@ -62,7 +81,7 @@ export default function FloatingCTA({ reviews = [] }: { reviews?: Testimonial[] 
                 className="text-[var(--accent,#C8A96E)] hover:text-[var(--accent,#9a7a42)] text-xs font-medium inline-flex items-center gap-1 transition-colors"
               >
                 <span>View on Maps</span>
-                <span aria-hidden="true">â†’</span>
+                <span aria-hidden="true">→</span>
               </a>
             </div>
           </div>
@@ -70,7 +89,7 @@ export default function FloatingCTA({ reviews = [] }: { reviews?: Testimonial[] 
 
         {/* Marquee Track with Edge Fade Gradients */}
         <div className="relative w-full overflow-hidden group/marquee">
-          {/* Left / Right Vignette Shadows â€” must match --surface to prevent seam */}
+          {/* Left / Right Vignette Shadows — must match --surface to prevent seam */}
           <div
             className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 lg:w-44 bg-gradient-to-r from-[var(--surface,#f5f2ec)] to-transparent z-10"
             aria-hidden="true"
@@ -99,14 +118,22 @@ export default function FloatingCTA({ reviews = [] }: { reviews?: Testimonial[] 
         </div>
       </div>
 
-      {/* Visual pause â€” horizontal rule inside reviews zone (renders as warm-dark line on ivory) */}
+      {/* Visual pause — horizontal rule inside reviews zone (renders as warm-dark line on ivory) */}
       <div className="border-t border-[var(--border)] mx-6 lg:mx-16" aria-hidden="true" />
-      </div>
+      <div className="border-t border-[var(--border)] mx-6 lg:mx-16" aria-hidden="true" />
+      </motion.div>
       )}
 
-      {/* â”€â”€ CTA ZONE â€” theme-dark â€” quiet conversion zone â”€â”€â”€â”€â”€â”€ */}
-      <div data-zone="cta" className="theme-ivory">
-        {/* Quiet conversion zone â€” 2-Column Luxury Consultation Studio */}
+      {/* —— CTA ZONE — theme-dark — quiet conversion zone ────── */}
+      <motion.div 
+        data-zone="cta" 
+        className="theme-ivory"
+        variants={quietFade}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+      >
+        {/* Quiet conversion zone — 2-Column Luxury Consultation Studio */}
         <div id="directions" className="container mx-auto px-6 lg:px-16 py-20 lg:py-28 scroll-mt-24">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch">
 
@@ -114,7 +141,7 @@ export default function FloatingCTA({ reviews = [] }: { reviews?: Testimonial[] 
             <div className="lg:col-span-5 flex flex-col space-y-10 lg:pt-10">
               <div>
                 <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] font-semibold mb-3">
-                  Private consultation Â· Sakchi, Jamshedpur
+                  Private consultation · Sakchi, Jamshedpur
                 </p>
                 <h2
                   className="font-cormorant text-3xl sm:text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-[1.15] mb-6"
@@ -146,23 +173,34 @@ export default function FloatingCTA({ reviews = [] }: { reviews?: Testimonial[] 
                 </div>
 
                 {/* Direct Click-to-Call & Map Links */}
-                <div className="flex flex-col sm:flex-row gap-3">
+                <div className="flex flex-col gap-3">
                   <a
-                    href={SHOWROOM_PHONE_HREF}
-                    className="flex-1 inline-flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--accent)] text-[var(--text-primary)] hover:text-[var(--accent)] text-xs font-semibold uppercase tracking-wider transition-colors"
-                  >
-                    <PhoneCall className="w-4 h-4 text-[var(--accent)]" />
-                    <span>Call {SHOWROOM_PHONE_DISPLAY}</span>
-                  </a>
-                  <a
-                    href={SHOWROOM_MAP_URL}
+                    href={cta ? generateWhatsAppUrl(cta.type) : generateWhatsAppUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--border-accent)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-medium uppercase tracking-wider transition-colors"
+                    className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-3.5 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 hover:border-[#25D366] hover:bg-[#25D366]/20 text-[#25D366] text-xs font-semibold uppercase tracking-wider transition-colors"
                   >
-                    <Navigation className="w-4 h-4 text-[var(--text-secondary)]" />
-                    <span>Open in Maps</span>
+                    <MessageCircle className="w-4 h-4" />
+                    <span>{cta?.label || "WhatsApp Us"}</span>
                   </a>
+                  <div className="flex flex-col sm:flex-row gap-3">
+                    <a
+                      href={SHOWROOM_PHONE_HREF}
+                      className="flex-1 inline-flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--accent)] text-[var(--text-primary)] hover:text-[var(--accent)] text-xs font-semibold uppercase tracking-wider transition-colors"
+                    >
+                      <PhoneCall className="w-4 h-4 text-[var(--accent)]" />
+                      <span>Call {SHOWROOM_PHONE_DISPLAY}</span>
+                    </a>
+                    <a
+                      href={SHOWROOM_MAP_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--border-accent)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-medium uppercase tracking-wider transition-colors"
+                    >
+                      <Navigation className="w-4 h-4 text-[var(--text-secondary)]" />
+                      <span>Open in Maps</span>
+                    </a>
+                  </div>
                 </div>
 
               </div>
@@ -191,7 +229,7 @@ export default function FloatingCTA({ reviews = [] }: { reviews?: Testimonial[] 
             />
           </div>
         </div>
-      </div>
+      </motion.div>
 
       <style jsx global>{`
         @keyframes review-marquee {
