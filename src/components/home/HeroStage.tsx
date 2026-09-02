@@ -282,8 +282,8 @@ export default function HeroStage({ slides }: HeroStageProps) {
 
       </div>
 
-      {/* Floating Centered Carousel Stepper */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-4 px-6 py-3.5 bg-[#fdf8f0]/75 backdrop-blur-md border border-[#1a1017]/[0.08] rounded-full shadow-[0_4px_24px_rgba(26,16,23,0.04)]">
+      {/* Minimal Floating Carousel Stepper */}
+      <div className="absolute bottom-7 left-1/2 -translate-x-1/2 z-40 flex items-center gap-6">
         {slides.map((s, idx) => {
           const isActive = currentSlideIndex === idx;
           return (
@@ -291,21 +291,21 @@ export default function HeroStage({ slides }: HeroStageProps) {
               key={s.id || idx}
               type="button"
               onClick={() => setCurrentSlideIndex(idx)}
-              className="flex items-center gap-2 group cursor-pointer focus:outline-none"
+              className="group flex items-center gap-2.5 py-2 cursor-pointer focus:outline-none"
               aria-label={`Go to slide ${idx + 1}`}
             >
               <span
-                className={`hc-mono text-[11px] tracking-wider font-semibold tabular-nums transition-colors duration-300 ${
-                  isActive ? "text-[#8b1a42]" : "text-[#7a6872] group-hover:text-[#1a1017]"
+                className={`hc-mono text-[10px] tracking-[0.2em] transition-colors duration-300 ${
+                  isActive ? "text-[#8b1a42] font-medium" : "text-[#1a1017]/30 group-hover:text-[#1a1017]/60 font-light"
                 }`}
               >
                 {pad2(idx + 1)}
               </span>
-              <div
-                className={`h-[2px] rounded-full transition-all duration-500 ease-out ${
+              <span
+                className={`block h-px transition-all duration-500 ease-out ${
                   isActive
-                    ? "bg-[#8b1a42] w-12"
-                    : "bg-[#1a1017]/[0.15] w-4 group-hover:bg-[#8b1a42]/40 group-hover:w-6"
+                    ? "bg-[#8b1a42] w-8"
+                    : "bg-[#1a1017]/15 w-3 group-hover:w-5 group-hover:bg-[#1a1017]/30"
                 }`}
               />
             </button>
