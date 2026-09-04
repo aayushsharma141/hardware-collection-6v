@@ -119,32 +119,12 @@ export default function CollectionsClient({
 
         {/* 3. Space-led Discovery Rail (Horizontal Scroll-Snap) */}
         {spaces.length > 0 && (
-          <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
-            <div className="mb-6">
-              <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
-                INTENT-LED SPECIFICATION
-              </span>
-              <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
-                Browse by Architectural Space
-              </h2>
-            </div>
-            <SpaceIntentRail spaces={spaces} />
-          </div>
+          <SpaceIntentRail spaces={spaces} />
         )}
 
         {/* 4. Tier-1 Featured Chapters (Cinematic Alternating Layout) */}
         {featuredCats.length > 0 && (
-          <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
-            <div className="mb-8">
-              <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
-                FEATURED RANGES
-              </span>
-              <h2 className="hc-serif text-2xl sm:text-4xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
-                Cinematic Collection Chapters
-              </h2>
-            </div>
-            <FeaturedChapters categories={categories} />
-          </div>
+          <FeaturedChapters categories={categories} />
         )}
 
         {/* 5. Tier-2 Compact Collection Grid */}
@@ -181,7 +161,7 @@ export default function CollectionsClient({
         </div>
 
         {/* 8. Bottom Showroom Consultation CTA */}
-        <section className="py-16 border-t border-[var(--border)] bg-[var(--surface-raised)]">
+        <section id="collections-bottom-cta" className="py-16 border-t border-[var(--border)] bg-[var(--surface-raised)]">
           <div className="max-w-[1320px] mx-auto px-6 text-center">
             <MessageSquare
               className="w-8 h-8 text-[#c8a96e] mx-auto mb-4 opacity-80"
@@ -202,7 +182,7 @@ export default function CollectionsClient({
                     intent: "consultation",
                   })
                 }
-                className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-4 text-xs tracking-widest uppercase font-medium text-[var(--text-inverse, #fff)] rounded transition-transform duration-150 active:scale-95"
+                className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-4 text-xs tracking-widest uppercase font-medium text-white rounded transition-transform duration-150 active:scale-95 shadow-md"
               >
                 BOOK SHOWROOM CONSULTATION
               </button>
@@ -236,7 +216,7 @@ export default function CollectionsClient({
         displayImage={selectedProduct ? getProductDisplayImage(selectedProduct) : ""}
       />
 
-      <FloatingConsultationCapsule />
+      <FloatingConsultationCapsule hasShortlist={shortlist.length > 0} />
 
       {/* Global Footer */}
       <Footer settings={settings || undefined} brands={brands} />

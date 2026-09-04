@@ -5,7 +5,7 @@ import { ArrowRight } from "lucide-react";
 import { useConsultationStore } from "./store";
 import { AnimatePresence, motion } from "motion/react";
 
-export function FloatingConsultationCapsule() {
+export function FloatingConsultationCapsule({ hasShortlist = false }: { hasShortlist?: boolean }) {
   const { openDrawer } = useConsultationStore();
   const [isVisible, setIsVisible] = useState(false);
 
@@ -16,8 +16,11 @@ export function FloatingConsultationCapsule() {
     const updateVisibility = () => {
       const scrollY = window.scrollY;
       
-      // Hide once the reference library / catalog section enters view
-      const refSection = document.getElementById("reference-library-section") || document.getElementById("official-catalogs");
+      // Hide once the reference library, catalog section, or bottom consultation section enters view
+      const refSection =
+        document.getElementById("collections-bottom-cta") ||
+        document.getElementById("reference-library-section") ||
+        document.getElementById("official-catalogs");
       let isPastReferenceSection = false;
       
       if (refSection) {
@@ -59,7 +62,7 @@ export function FloatingConsultationCapsule() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", stiffness: 350, damping: 30 }}
-          className="fixed bottom-6 lg:bottom-10 left-1/2 -translate-x-1/2 z-50 pointer-events-auto"
+          className={`fixed left-1/2 -translate-x-1/2 z-40 pointer-events-auto hidden sm:block ${hasShortlist ? "bottom-20 lg:bottom-10" : "bottom-6 lg:bottom-10"}`}
         >
           <button
             onClick={() =>

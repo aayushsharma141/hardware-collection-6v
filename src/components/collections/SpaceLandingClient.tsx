@@ -7,6 +7,7 @@ import { Space, SiteSettings } from "@/types/catalog";
 import CompactCollectionGrid from "@/components/collections/CompactCollectionGrid";
 import { buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import { useConsultationStore } from "@/components/consultation/store";
+import Footer from "@/components/layout/Footer";
 
 export interface SpaceLandingClientProps {
   space: Space;
@@ -46,7 +47,7 @@ export default function SpaceLandingClient({
   return (
     <div className="min-h-screen bg-[#fdf8f0] text-[var(--text-primary)]">
       {/* Back Navigation */}
-      <div className="max-w-[1320px] mx-auto px-6 pt-8 pb-4">
+      <div className="max-w-[1320px] mx-auto px-6 pt-28 md:pt-32 pb-4">
         <Link
           href="/collections"
           className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors duration-150 hc-focus py-2"
@@ -68,22 +69,18 @@ export default function SpaceLandingClient({
               priority
               className="object-cover"
             />
-            {/* Mandated Scrim */}
-            <div
-              aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/80 to-[#090909]/60 pointer-events-none"
-            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#fdf8f0] via-[#fdf8f0]/80 to-transparent" />
           </div>
 
           <div className="max-w-3xl">
-            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] mb-3 block">
+            <span className="hc-mono text-xs uppercase tracking-[0.25em] font-semibold text-[var(--accent)] mb-3 block">
               CURATED ARCHITECTURAL SPACE
             </span>
-            <h1 className="hc-serif text-4xl sm:text-6xl md:text-7xl font-normal tracking-[0.02em] text-[var(--text-primary)] uppercase leading-tight mb-5">
+            <h1 className="hc-serif text-5xl sm:text-7xl lg:text-8xl font-light tracking-[-0.01em] text-[var(--text-primary)] uppercase leading-[0.95] mb-6">
               {space.name}
             </h1>
             {space.description && (
-              <p className="text-base sm:text-lg text-[var(--text-secondary)] font-light leading-relaxed mb-8 max-w-2xl">
+              <p className="text-base sm:text-xl text-[var(--text-secondary)] font-light leading-relaxed mb-8 max-w-2xl">
                 {space.description}
               </p>
             )}
@@ -98,7 +95,7 @@ export default function SpaceLandingClient({
                     category: { slug, name: space.name },
                   })
                 }
-                className="brass-plate hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[#090909] rounded transition-transform duration-150 active:scale-95"
+                className="brass-plate hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-white rounded transition-transform duration-150 active:scale-95 shadow-md"
               >
                 REQUEST SPACE CONSULTATION
               </button>
@@ -107,7 +104,7 @@ export default function SpaceLandingClient({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[var(--text-primary)] border border-white/[0.15] hover:border-[var(--accent)] rounded transition-colors duration-150"
+                className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[var(--text-primary)] border border-[#1a1017]/[0.20] hover:border-[var(--accent)] rounded transition-colors duration-150"
               >
                 WHATSAPP SPECIALIST
               </a>
@@ -155,13 +152,14 @@ export default function SpaceLandingClient({
                 category: { slug, name: space.name },
               })
             }
-            className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-3.5 text-xs tracking-widest uppercase font-medium text-[#090909] rounded transition-transform duration-150 active:scale-95"
+            className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-3.5 text-xs tracking-widest uppercase font-medium text-white rounded transition-transform duration-150 active:scale-95 shadow-md"
           >
             BOOK SHOWROOM CONSULTATION
           </button>
         </div>
       </section>
+
+      <Footer />
     </div>
   );
 }
-

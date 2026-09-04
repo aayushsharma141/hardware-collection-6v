@@ -10,6 +10,7 @@ import ProductDetailDrawer from "@/components/collections/ProductDetailDrawer";
 import { buildCategoryConsultMessage, buildEmptyCategoryMessage, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import { generateWhatsAppUrl } from "@/lib/config";
 import { useConsultationStore } from "@/components/consultation/store";
+import Footer from "@/components/layout/Footer";
 
 export interface CategoryDetailClientProps {
   category: Category;
@@ -79,7 +80,7 @@ export default function CategoryDetailClient({
   return (
     <div className="min-h-screen bg-[#fdf8f0] text-[var(--text-primary)]">
       {/* Back Navigation */}
-      <div className="max-w-[1320px] mx-auto px-6 pt-8 pb-4">
+      <div className="max-w-[1320px] mx-auto px-6 pt-28 md:pt-32 pb-4">
         <Link
           href="/collections"
           className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--accent)] transition-colors duration-150 hc-focus py-2"
@@ -103,7 +104,7 @@ export default function CategoryDetailClient({
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-t from-[#090909] via-[#090909]/80 to-[#090909]/60 pointer-events-none"
+              className="absolute inset-0 bg-gradient-to-r from-[#fdf8f0] via-[#fdf8f0]/80 to-transparent pointer-events-none"
             />
           </div>
 
@@ -130,7 +131,7 @@ export default function CategoryDetailClient({
                     category: { slug, name: categoryTitle },
                   })
                 }
-                className="brass-plate hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[#090909] rounded transition-transform duration-150 active:scale-95"
+                className="brass-plate hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-white rounded transition-transform duration-150 active:scale-95 shadow-md"
               >
                 REQUEST SPECIFICATION CONSULTATION
               </button>
@@ -139,7 +140,7 @@ export default function CategoryDetailClient({
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[var(--text-primary)] border border-white/[0.15] hover:border-[var(--accent)] rounded transition-colors duration-150"
+                className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[var(--text-primary)] border border-[#1a1017]/[0.20] hover:border-[var(--accent)] rounded transition-colors duration-150"
               >
                 WHATSAPP SPECIALIST
               </a>
@@ -324,7 +325,7 @@ export default function CategoryDetailClient({
                       category: { slug, name: categoryTitle },
                     })
                   }
-                  className="brass-plate hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[#090909] rounded transition-transform duration-150 active:scale-95"
+                  className="brass-plate hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-white rounded transition-transform duration-150 active:scale-95 shadow-md"
                 >
                   REQUEST AVAILABILITY & QUOTE
                 </button>
@@ -332,7 +333,7 @@ export default function CategoryDetailClient({
                   href={emptyWhatsappUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[var(--text-primary)] border border-white/[0.15] hover:border-[var(--accent)] rounded transition-colors duration-150"
+                  className="rail-button hc-focus inline-flex items-center justify-center px-6 py-3.5 text-xs tracking-widest uppercase font-medium text-[var(--text-primary)] border border-[#1a1017]/[0.20] hover:border-[var(--accent)] rounded transition-colors duration-150"
                 >
                   WHATSAPP SPECIALIST
                 </a>
@@ -365,12 +366,14 @@ export default function CategoryDetailClient({
                 category: { slug, name: categoryTitle },
               })
             }
-            className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-3.5 text-xs tracking-widest uppercase font-medium text-[#090909] rounded transition-transform duration-150 active:scale-95"
+            className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-3.5 text-xs tracking-widest uppercase font-medium text-white rounded transition-transform duration-150 active:scale-95 shadow-md"
           >
             BOOK SHOWROOM CONSULTATION
           </button>
         </div>
       </section>
+
+      <Footer />
 
       {/* Product Detail Lookbook Drawer */}
       <ProductDetailDrawer

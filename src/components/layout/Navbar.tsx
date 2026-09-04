@@ -5,7 +5,7 @@ import Link from "next/link";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { usePathname } from "next/navigation";
 import { Phone, ArrowUpRight, Menu, X } from "lucide-react";
-import { motion, AnimatePresence } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { useConsultationStore } from "@/components/consultation/store";
 import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
 
@@ -37,6 +37,7 @@ export default function Navbar({
   const [currentHash, setCurrentHash] = useState("");
   const pathname = usePathname();
   const { openDrawer } = useConsultationStore();
+  const shouldReduceMotion = useReducedMotion();
 
   // Suppress rendering inside Sanity Studio CMS
   const isStudio = pathname?.startsWith("/studio");
@@ -203,10 +204,10 @@ export default function Navbar({
 
   return (
     <>
-      {/* â”€â”€ Floating Liquid Glass Header â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─ */}
+      {/* ── Floating Tactile Glass Header ─────────────────────── */}
       <header
         role="banner"
-        className={`navbar-island fixed left-0 right-0 z-50 flex justify-center pointer-events-none transition-all duration-400 ease-out ${
+        className={`navbar-island fixed left-0 right-0 z-50 flex justify-center pointer-events-none transition-[top,padding] duration-300 ease-out ${
           isScrolled ? "top-2 md:top-3 px-3 md:px-8" : "top-3 md:top-5 px-3 md:px-8"
         }`}
         style={{
@@ -215,37 +216,17 @@ export default function Navbar({
         }}
       >
         <div
-          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded-full transition-premium ${
+          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded-full transition-[height,background-color,box-shadow,border-color] duration-300 ease-out border border-[#1a1017]/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur-md ${
             isScrolled
-              ? "h-[56px] md:h-[60px] shadow-[0_8px_24px_rgba(26,16,23,0.10)]"
-              : "h-[58px] md:h-[66px] shadow-[0_4px_16px_rgba(26,16,23,0.06)]"
-          } glass-liquid`}
+              ? "h-[56px] md:h-[60px] bg-[#fdf8f0]/95 shadow-[0_8px_30px_rgba(26,16,23,0.09)]"
+              : "h-[58px] md:h-[66px] bg-[#fdf8f0]/85 shadow-[0_4px_20px_rgba(26,16,23,0.04)]"
+          }`}
         >
-          {/* Subtle ambient specular shimmer */}
-          <div
-            className="absolute inset-0 rounded-full overflow-hidden pointer-events-none -z-10"
-            aria-hidden="true"
-          >
-            <div className="liquid-glass-reflection absolute -inset-full opacity-50" />
-            <div className="absolute top-0 inset-x-8 h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent" />
-          </div>
-
-          {/* Strict Balanced 3-Zone Desktop Grid & 2-Zone Mobile Layout.
-              The switch happens at lg, not md: between 768px and 1023px the
-              three centred links needed ~308px inside a 231px column, so the
-              brand lockup overlapped "Collections" and "Catalog" ran under the
-              phone pill. lg is also where the page itself swaps its mobile and
-              desktop trees, so the header and the content now agree on where
-              desktop begins. The centre column is sized to its content rather
-              than to an equal third: at 1024px exactly, a third was still a few
-              px short of the links and put "Catalog" under the phone pill. */}
-          <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[1fr_auto_1fr] items-center h-full px-4 sm:px-6 md:px-8">
+          {/* Strict Balanced 3-Zone Desktop Grid & 2-Zone Mobile Layout */}
+          <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[auto_1fr_auto] items-center h-full px-4 sm:px-6 md:px-8">
             
-            {/* â”€â”€ Column 1: Brand Lockup (Left-Aligned) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
-            <div
-              className="flex items-center justify-start min-w-0"
-              style={{ containerType: "inline-size" }}
-            >
+            {/* ── Column 1: Brand Lockup (Left-Aligned) ─────────── */}
+            <div className="flex items-center justify-start shrink-0">
               <Link
                 href="/"
                 onClick={handleLogoClick}
@@ -254,17 +235,17 @@ export default function Navbar({
               >
                 <BrandLockup
                   layout="inline"
-                  fontSize="clamp(11px, 5.4cqw, 22px)"
+                  fontSize="clamp(11px, 1.15vw, 13.5px)"
                   emblemSizes="96px"
                   priority
                 />
               </Link>
             </div>
 
-            {/* â”€â”€ Column 2: Exact Center Nav Links â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+            {/* ── Column 2: Exact Center Nav Links ────────────────── */}
             <nav
               aria-label="Primary Navigation"
-              className="hidden lg:flex items-center justify-center gap-6 xl:gap-11"
+              className="hidden lg:flex items-center justify-center gap-1.5 xl:gap-3 px-4"
             >
               {NAV_LINKS.map((link) => {
                 const isActive = isLinkActive(link);
@@ -273,59 +254,63 @@ export default function Navbar({
                     key={link.id}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link)}
-                    className={`relative py-2 text-[12.5px] lg:text-[13px] uppercase tracking-[0.18em] transition-premium focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] rounded-sm select-none ${
+                    className={`relative px-3.5 xl:px-4 py-1.5 text-[11.5px] xl:text-[12.5px] uppercase tracking-[0.14em] xl:tracking-[0.18em] rounded-full select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${
                       isActive
-                        ? "text-[#1a1017] font-semibold"
-                        : "text-[#7a6872] font-medium hover:text-[#1a1017]"
+                        ? "text-[#8b1a42] font-semibold"
+                        : "text-[#7a6872] font-medium hover:text-[#1a1017] hover:bg-[#1a1017]/[0.03]"
                     }`}
                     style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                     aria-current={isActive ? "page" : undefined}
                   >
-                    <span>{link.name}</span>
                     {isActive && (
                       <motion.span
-                        layoutId="active-nav-glow"
-                        className="absolute -bottom-0.5 left-1/2 -translate-x-1/2 w-4 h-[2px] bg-[#8b1a42] rounded-full shadow-[0_0_8px_rgba(139,26,66,0.55)]"
-                        transition={{
-                          type: "spring",
-                          stiffness: 400,
-                          damping: 32,
-                        }}
+                        layoutId={shouldReduceMotion ? undefined : "active-nav-capsule"}
+                        className="absolute inset-0 rounded-full bg-[#8b1a42]/[0.06] border border-[#8b1a42]/[0.10] -z-10"
+                        transition={
+                          shouldReduceMotion
+                            ? { duration: 0 }
+                            : {
+                                type: "spring",
+                                stiffness: 420,
+                                damping: 32,
+                              }
+                        }
                       />
                     )}
+                    <span className="relative z-10">{link.name}</span>
                   </Link>
                 );
               })}
             </nav>
 
             {/* ── Column 3: Contact & CTAs (Right-Aligned) ───────── */}
-            <div className="flex items-center justify-end gap-3 sm:gap-3.5 md:gap-4">
+            <div className="flex items-center justify-end gap-2.5 sm:gap-3.5 md:gap-4 shrink-0">
               {/* Desktop Phone Contact Pill */}
               <a
                 href={`tel:${cleanPhone}`}
-                className="hidden lg:inline-flex items-center gap-2 h-11 min-h-[44px] px-4 rounded-full bg-[#f8f6f6] border border-[#1a1017]/[0.10] hover:border-[#8b1a42]/30 hover:bg-[#f0ecec] text-[12px] font-medium uppercase tracking-[0.12em] text-[#3d2e38] hover:text-[#1a1017] transition-premium btn-tactile focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded-full bg-[#f8f6f6]/80 border border-[#1a1017]/[0.08] hover:border-[#8b1a42]/25 hover:bg-[#f7f0e4]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[#3d2e38] hover:text-[#1a1017] whitespace-nowrap shrink-0 transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label={`Call Hardware Collection at ${primaryPhone}`}
               >
                 <Phone className="w-3.5 h-3.5 text-[#8b1a42] shrink-0" />
-                <span className="leading-none">{primaryPhone}</span>
+                <span className="hidden xl:inline leading-none whitespace-nowrap">{primaryPhone}</span>
               </a>
 
               {/* Desktop Inquire CTA Button */}
               <button
                 onClick={() => openDrawer({ source: "navbar", intent: "consultation" })}
-                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-11 min-h-[44px] px-5 rounded-full bg-[#8b1a42] hover:bg-[#6b1432] text-white text-[12px] font-bold uppercase tracking-[0.14em] leading-none shadow-[0_4px_16px_rgba(139,26,66,0.22)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.35)] btn-tactile transition-premium group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b1a42] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-11 min-h-[44px] px-4 xl:px-5 rounded-full bg-[#8b1a42] hover:bg-[#6b1432] text-white text-[11px] xl:text-[12px] font-bold uppercase tracking-[0.14em] leading-none whitespace-nowrap shrink-0 shadow-[0_4px_14px_rgba(139,26,66,0.20)] hover:shadow-[0_6px_20px_rgba(139,26,66,0.30)] active:scale-[0.98] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b1a42] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
               >
-                <span>Inquire</span>
-                <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.4] transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 text-[#0E0C0C]" />
+                <span>Book Consultation</span>
+                <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.4] text-white transition-transform duration-[220ms] ease-out group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
               </button>
 
               {/* Mobile Menu Button */}
               <button
                 ref={menuButtonRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#f8f6f6] border border-[#1a1017]/[0.10] text-[#1a1017] hover:text-[#8b1a42] hover:bg-[#f0ecec] transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42]"
+                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#f8f6f6]/80 border border-[#1a1017]/[0.08] text-[#1a1017] hover:text-[#8b1a42] hover:bg-[#f0ecec] active:scale-[0.96] transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42]"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-nav-modal"
@@ -341,6 +326,7 @@ export default function Navbar({
           </div>
         </div>
       </header>
+
 
       {/* â”€â”€ Dedicated Mobile Liquid Glass Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <AnimatePresence>
@@ -371,16 +357,8 @@ export default function Navbar({
               exit={{ opacity: 0, y: -12, scale: 0.98 }}
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
               ref={dialogRef}
-              className="relative w-full max-w-sm mx-auto rounded-3xl p-6 shadow-[0_16px_48px_rgba(26,16,23,0.12)] glass-liquid overflow-hidden"
+              className="relative w-full max-w-sm mx-auto rounded-3xl p-6 bg-[#fdf8f0]/95 backdrop-blur-xl border border-[#1a1017]/[0.08] shadow-[0_16px_48px_rgba(26,16,23,0.12),inset_0_1px_0_rgba(255,255,255,0.7)] overflow-hidden"
             >
-              {/* Ambient reflection */}
-              <div
-                className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none -z-10"
-                aria-hidden="true"
-              >
-                <div className="liquid-glass-reflection absolute -inset-full opacity-40" />
-                <div className="absolute top-0 inset-x-6 h-[1px] bg-gradient-to-r from-transparent via-[#8b1a42]/20 to-transparent" />
-              </div>
 
               {/* Modal Top Header (Redirects to Home) */}
               <div className="flex items-center justify-between pb-5 border-b border-white/[0.08]">
@@ -391,7 +369,7 @@ export default function Navbar({
                       setMobileMenuOpen(false);
                       handleLogoClick(e);
                     }}
-                    className="group inline-block max-w-full select-none"
+                    className="group inline-block max-w-full select-none focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b1a42] rounded-lg p-1"
                     aria-label="Hardware Collection, home"
                   >
                     <BrandLockup
