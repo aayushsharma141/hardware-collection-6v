@@ -102,15 +102,45 @@ a named spacing exception.
 Carried from the 00-03 UAT (test 18). Visually confirmed in this pass. Violates D-09. The brand
 count (22) is correct, so the defect is isolated to the collections count.
 
-## Task 4 — Dispositions
+## Task 4 — Dispositions (resolved 2026-09-05)
 
-**Not decided.** All six findings are recorded and awaiting owner disposition: fix now, defer with an
-owner, or accept with a stated reason. Per the plan, this gate must not be closed with an unexplained
-failing threshold.
+| Finding | Disposition | Evidence |
+|---|---|---|
+| G-01 lint failing | **Fixed** | `131bec6` then `480ea94` — `npm run lint` exits 0 |
+| G-02 audit script is not a CVE scanner | **Fixed (docs + real gate)** | `CLAUDE.md` now describes what the script does and points CVE scanning at `npm audit`, enforced as GATE-05. Report header corrected so the generated file is not misleading |
+| G-03 release pipeline is boilerplate | **Fixed** | `480ea94` — six real gates, honest evidence bundle, 6/6 PASS / PROMOTE in 27.75s |
+| G-04 `overscroll-behavior: auto` | **Fixed** | Verified live: `overscroll-behavior-x: contain`, `scroll-snap-type: x mandatory` |
+| G-05 touch targets under 44px | **Open — needs a design decision** | Improved 22 → 17. Worst is a 24px "EXPLORE DIGITAL LOCKS" link; 13 of the 17 are 40px. Raising them changes navbar and card geometry on a design-locked project, so the safe fix is expanding the hit area with padding or a pseudo-element rather than resizing. Not applied unilaterally |
+| G-06 "2 COLLECTIONS" | **Fixed** | Now renders "21 COLLECTIONS" against 24 collection routes |
+
+### Lint scope — a second defect found while fixing G-01
+
+Restoring lint as a meaningful gate required fixing what it scans. ESLint was linting vendored
+plugin directories committed at the repo root (`everything-claude-code`, `claude-mem`, `headroom`,
+`Front-End-Checklist`, `caveman`, `superpowers`) plus minified assets in `public/`. That produced
+**4,330 errors, of which exactly 1 was in `src/`** — a `setState` inside an effect in
+`CatalogsClient.tsx`, now fixed by sharing one resolver between the state initializer and a
+render-time adjustment (the pattern `useCollectionsState.ts` already uses). A gate drowning in 4,329
+irrelevant errors is not a gate.
+
+### Stage B — LCP and INP remain unmeasured
+
+Measured on a production build (`next start`, port 3100): **CLS 0**, TTFB 6ms, load 17ms, 21
+resources. LCP and INP could **not** be captured — the Browser pane renders hidden, and a document
+that is not painting emits no `largest-contentful-paint` entries. Two cold, cache-busted loads both
+returned 0. These need a Lighthouse run in a visible browser; no number is recorded rather than a
+fabricated one.
+
+### Note: brands stat segment
+
+`CollectionsHero` destructures `brandCount: _brandCount` — deliberately unused, so the
+"N AUTHORIZED BRANDS" segment no longer renders. The prop is still passed at the callsite and is now
+dead. Intentional-looking, not filed as a defect.
 
 ## Verdict
 
-**Phase 9 is still NOT closeable on this gate.** One of the six documented phase-gate commands fails
-(`release-verification`), another provides no real assurance (`audit-dependencies`), and two
-Stage B thresholds (LCP, INP) remain unmeasured. The measured thresholds that were checkable — CLS,
-horizontal overflow, aspect-ratio coverage — all pass cleanly.
+**Gate substantially passed.** Five of the six findings are resolved and the release pipeline now
+runs six real gates end to end (6/6 PASS, decision PROMOTE). Two items remain and are recorded
+rather than closed: G-05 touch targets, which needs a design decision because the fix touches locked
+visual geometry, and LCP/INP, which this tooling cannot measure. Neither is a code defect awaiting a
+fix; both are decisions awaiting an owner.

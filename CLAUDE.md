@@ -15,10 +15,16 @@ npm run lint                            # ESLint 9
 npx tsc --noEmit                        # TypeScript check (no emit)
 npm test                                # Vitest unit test suite
 npm run test:e2e                        # Playwright browser specs (tests/e2e)
-node scripts/audit-dependencies.cjs     # dependency CVE audit
+npm audit --audit-level=critical        # dependency CVE audit
+node scripts/audit-dependencies.cjs     # legacy design-token / button.tsx migration audit
 npx tsx scripts/evidence-engine.ts --validate   # evidence platform gate
-npx tsx scripts/release-verification.ts         # release quality gate
+npx tsx scripts/release-verification.ts         # release quality gate (runs all of the above)
 ```
+
+> `scripts/audit-dependencies.cjs` is **not** a CVE scanner despite its name — it scans
+> for `ui/primitives/button` imports and legacy `var(--site-*)` tokens, and currently
+> reports zero of both. Real vulnerability scanning is `npm audit`, enforced as GATE-05
+> of the release pipeline.
 
 ---
 
@@ -97,4 +103,8 @@ describing what belongs inside.
 ## Evidence Platform (`scripts/`)
 
 - Release claims are validated against `scripts/evidence-engine.ts` and `scripts/release-verification.ts`.
-- Thresholds: zero critical CVE alerts, 100% build pass rate, verified Sanity schema integrity.
+- `release-verification.ts` runs six gates, all critical: lint, `tsc --noEmit`, unit tests,
+  production build, `npm audit --audit-level=critical`, and evidence schema validation.
+  A failure aborts the pipeline and records a `HOLD` decision.
+- Evidence bundles in `docs/evidence/` record only measured stage results. They are
+  Ed25519-signed, so they must never assert anything the pipeline did not actually observe.

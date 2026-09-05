@@ -51,7 +51,10 @@ walkDir(rootDir, (filePath) => {
     }
 });
 
-let markdown = `# Dependency Audit Report (Phase 29D.1)\n\n`;
+// NOTE: this script audits legacy design-token and button.tsx usage — it is NOT a
+// dependency/CVE scanner despite the filename. Vulnerability scanning is `npm audit`,
+// enforced as GATE-05 in scripts/release-verification.ts.
+let markdown = `# Legacy Design-Token & Component Migration Audit\n\n> Not a CVE scan. For vulnerabilities run \`npm audit --audit-level=critical\`.\n\n`;
 
 markdown += `## Legacy \`button.tsx\` Dependencies\n`;
 markdown += `- **Critical (Blocks Deletion)**: ${report.button.critical.length} files\n`;
