@@ -15,6 +15,20 @@ const eslintConfig = defineConfig([
     "ECC/**",
     "audit-reports/**",
     "scripts/**",
+    // Vendored / non-application content checked into the repo root. Linting these as
+    // app source produced 4,329 of the 4,330 reported errors and made `npm run lint`
+    // useless as a release gate — the application itself had exactly 1.
+    "superpowers/**",
+    "everything-claude-code/**",
+    "claude-mem/**",
+    "headroom/**",
+    "Front-End-Checklist/**",
+    "caveman/**",
+    "Hardware Collection/**",
+    "verify_phase5.js",
+    // Static assets, not source. public/pdf.worker.min.mjs alone contributed 6 errors
+    // and 1,571 warnings from minified vendor code.
+    "public/**",
   ]),
 ]);
 
