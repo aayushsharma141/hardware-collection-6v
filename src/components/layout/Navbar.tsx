@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useCallback, useRef } from "react";
+import React, { useState, useEffect, useLayoutEffect, useCallback, useRef } from "react";
 import Link from "next/link";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { usePathname } from "next/navigation";
@@ -21,6 +21,23 @@ interface NavLinkItem {
   id: "collections" | "brands" | "catalog";
 }
 
+/**
+ * Distance from the top of the viewport to the resting bar's bottom edge
+ * (top-5 + h-76px at the widest breakpoint). Everything above this line is
+ * covered by the bar, so it is the depth at which a hero stops being "behind"
+ * it and the glass has to come back.
+ */
+const NAV_BAND_PX = 96;
+
+/**
+ * The hero measurement has to land before the browser paints the hydrated
+ * tree, or the bar shows its glass for a frame and then dissolves. `useEffect`
+ * is the server-safe half of the pair; only the client ever runs the layout
+ * one, which is where the measurement happens.
+ */
+const useIsomorphicLayoutEffect =
+  typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
 const NAV_LINKS: NavLinkItem[] = [
   { name: "Collections", href: "/collections", id: "collections" },
   { name: "Brands", href: "/#brands", id: "brands" },
@@ -31,6 +48,7 @@ export default function Navbar({
   primaryPhone = "+91 98351 90738",
 }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOverHero, setIsOverHero] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -51,15 +69,53 @@ export default function Navbar({
     return () => window.removeEventListener("hashchange", updateHash);
   }, []);
 
-  // Scroll listener for density transition
-  useEffect(() => {
+  /**
+   * One scroll listener drives both bar states.
+   *
+   * `isScrolled` is density &mdash; the bar shrinks once the page has moved.
+   * `isOverHero` is material: while the bar sits on top of a page's hero it
+   * drops its fill, border, blur and shadow entirely, because a cream capsule
+   * over a cream cinematic composition reads as a chip pasted across the
+   * frame rather than as chrome. Past the hero the glass island returns.
+   *
+   * A hero opts in with `data-nav-hero`; a page without one keeps the solid
+   * bar, which is also the server-rendered default so the first paint is
+   * always legible. The hero's bottom edge is measured once in document
+   * space, so the scroll handler stays pure arithmetic with no layout reads.
+   */
+  useIsomorphicLayoutEffect(() => {
+    let heroBottom = 0;
+
+    const measureHero = () => {
+      heroBottom = 0;
+      document.querySelectorAll("[data-nav-hero]").forEach((el) => {
+        const rect = el.getBoundingClientRect();
+        // The desktop and mobile heroes are both mounted with one of them
+        // display:none. The hidden one measures zero and drops out here.
+        if (rect.height === 0) return;
+        heroBottom = Math.max(heroBottom, rect.bottom + window.scrollY);
+      });
+    };
+
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50);
+      setIsOverHero(window.scrollY + NAV_BAND_PX < heroBottom);
     };
+
+    const handleResize = () => {
+      measureHero();
+      handleScroll();
+    };
+
+    measureHero();
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [pathname]);
 
   const [prevPathname, setPrevPathname] = useState(pathname);
   if (prevPathname !== pathname) {
@@ -150,19 +206,23 @@ export default function Navbar({
 
   const cleanPhone = primaryPhone.replace(/\s+/g, "");
 
+  // Height tracks density; fill, border, blur and shadow track the hero. The
+  // two shadows are one declaration because Tailwind resolves a second
+  // `shadow-*` class by replacing the first, which had been quietly dropping
+  // the inset highlight.
+  const barMaterial = isOverHero
+    ? "border-transparent bg-transparent shadow-none"
+    : isScrolled
+      ? "border-[#1a1017]/[0.08] bg-[#fbf5ea]/95 backdrop-blur-md shadow-[0_8px_30px_rgba(26,16,23,0.09),inset_0_1px_0_rgba(255,255,255,0.65)]"
+      : "border-[#1a1017]/[0.08] bg-[#fbf5ea]/85 backdrop-blur-md shadow-[0_4px_20px_rgba(26,16,23,0.04),inset_0_1px_0_rgba(255,255,255,0.65)]";
+
   const isLinkActive = (link: NavLinkItem) => {
     if (link.id === "collections") {
-      return (
-        pathname === "/collections" &&
-        !currentHash.includes("reference-library") &&
-        !currentHash.includes("official-catalogs")
-      );
+      // Category detail pages (/collections/kitchen) belong to Collections too.
+      return pathname === "/collections" || Boolean(pathname?.startsWith("/collections/"));
     }
     if (link.id === "catalog") {
-      return (
-        pathname === "/collections" &&
-        (currentHash.includes("reference-library") || currentHash.includes("official-catalogs"))
-      );
+      return pathname === "/catalogs";
     }
     if (link.id === "brands") {
       return pathname === "/" && currentHash.includes("brands");
@@ -215,12 +275,23 @@ export default function Navbar({
           WebkitFontSmoothing: "antialiased",
         }}
       >
+        {/* Dropping the capsule also drops what guaranteed the mark's contrast.
+            The desktop hero is a photograph at 20% over cream so it stays
+            light, but the mobile one runs its image nearly un-scrimmed at the
+            top &mdash; exactly where the bar sits. This full-bleed wash rides
+            under the bar in the transparent state instead: legibility without
+            an edge for the eye to read as chrome. */}
         <div
-          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded-full transition-[height,background-color,box-shadow,border-color] duration-300 ease-out border border-[#1a1017]/[0.08] shadow-[inset_0_1px_0_rgba(255,255,255,0.65)] backdrop-blur-md ${
-            isScrolled
-              ? "h-[56px] md:h-[60px] bg-[#fdf8f0]/95 shadow-[0_8px_30px_rgba(26,16,23,0.09)]"
-              : "h-[58px] md:h-[66px] bg-[#fdf8f0]/85 shadow-[0_4px_20px_rgba(26,16,23,0.04)]"
+          aria-hidden="true"
+          className={`absolute inset-x-0 -top-3 md:-top-5 h-[130px] md:h-[150px] bg-gradient-to-b from-[var(--surface)]/85 via-[var(--surface)]/45 to-transparent transition-opacity duration-300 ease-out ${
+            isOverHero ? "opacity-100" : "opacity-0"
           }`}
+        />
+
+        <div
+          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded-full border transition-[height,background-color,box-shadow,border-color,backdrop-filter] duration-300 ease-out ${
+            isScrolled ? "h-[58px] md:h-[64px]" : "h-[64px] md:h-[76px]"
+          } ${barMaterial}`}
         >
           {/* Strict Balanced 3-Zone Desktop Grid & 2-Zone Mobile Layout */}
           <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[auto_1fr_auto] items-center h-full px-4 sm:px-6 md:px-8">
@@ -230,13 +301,18 @@ export default function Navbar({
               <Link
                 href="/"
                 onClick={handleLogoClick}
-                className="group inline-block max-w-full py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] rounded-md transition-opacity duration-300 select-none"
+                className="navbar-brand group inline-block max-w-full py-1 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] rounded-md transition-opacity duration-300 select-none"
                 aria-label="Hardware Collection, home"
               >
                 <BrandLockup
                   layout="inline"
-                  fontSize="clamp(11px, 1.15vw, 13.5px)"
-                  emblemSizes="96px"
+                  /* --nav-brand-size (globals.css) is ~1.4x the previous mark
+                     at full desktop width. It steps down with the bar on
+                     scroll but stays above the old resting size, so the logo
+                     remains the strongest anchor in the compact state. */
+                  fontSize={`calc(var(--nav-brand-size) * ${isScrolled ? "0.88" : "1"})`}
+                  emblemSizes="(max-width: 768px) 64px, 128px"
+                  animateEntrance
                   priority
                 />
               </Link>
@@ -245,7 +321,7 @@ export default function Navbar({
             {/* ── Column 2: Exact Center Nav Links ────────────────── */}
             <nav
               aria-label="Primary Navigation"
-              className="hidden lg:flex items-center justify-center gap-1.5 xl:gap-3 px-4"
+              className="hidden lg:flex items-center justify-center gap-1 xl:gap-3 px-1 xl:px-4"
             >
               {NAV_LINKS.map((link) => {
                 const isActive = isLinkActive(link);
@@ -254,7 +330,7 @@ export default function Navbar({
                     key={link.id}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link)}
-                    className={`relative px-3.5 xl:px-4 py-1.5 text-[11.5px] xl:text-[12.5px] uppercase tracking-[0.14em] xl:tracking-[0.18em] rounded-full select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${
+                    className={`relative px-2.5 xl:px-4 py-1.5 text-[11.5px] xl:text-[12.5px] uppercase tracking-[0.14em] xl:tracking-[0.18em] rounded-full select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${
                       isActive
                         ? "text-[#8b1a42] font-semibold"
                         : "text-[#7a6872] font-medium hover:text-[#1a1017] hover:bg-[#1a1017]/[0.03]"
@@ -288,12 +364,12 @@ export default function Navbar({
               {/* Desktop Phone Contact Pill */}
               <a
                 href={`tel:${cleanPhone}`}
-                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded-full bg-[#f8f6f6]/80 border border-[#1a1017]/[0.08] hover:border-[#8b1a42]/25 hover:bg-[#f7f0e4]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[#3d2e38] hover:text-[#1a1017] whitespace-nowrap shrink-0 transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded-full bg-[#f7f0e2]/80 border border-[#1a1017]/[0.08] hover:border-[#8b1a42]/25 hover:bg-[#f7f0e2]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[#3d2e38] hover:text-[#1a1017] whitespace-nowrap shrink-0 transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label={`Call Hardware Collection at ${primaryPhone}`}
               >
                 <Phone className="w-3.5 h-3.5 text-[#8b1a42] shrink-0" />
-                <span className="hidden xl:inline leading-none whitespace-nowrap">{primaryPhone}</span>
+                <span className="hidden 2xl:inline leading-none whitespace-nowrap">{primaryPhone}</span>
               </a>
 
               {/* Desktop Inquire CTA Button */}
@@ -310,7 +386,7 @@ export default function Navbar({
               <button
                 ref={menuButtonRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#f8f6f6]/80 border border-[#1a1017]/[0.08] text-[#1a1017] hover:text-[#8b1a42] hover:bg-[#f0ecec] active:scale-[0.96] transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42]"
+                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#f7f0e2]/80 border border-[#1a1017]/[0.08] text-[#1a1017] hover:text-[#8b1a42] hover:bg-[#ece4d6] active:scale-[0.96] transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42]"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-nav-modal"
@@ -357,7 +433,7 @@ export default function Navbar({
               exit={{ opacity: 0, y: -12, scale: 0.98 }}
               transition={{ type: "spring", stiffness: 350, damping: 30 }}
               ref={dialogRef}
-              className="relative w-full max-w-sm mx-auto rounded-3xl p-6 bg-[#fdf8f0]/95 backdrop-blur-xl border border-[#1a1017]/[0.08] shadow-[0_16px_48px_rgba(26,16,23,0.12),inset_0_1px_0_rgba(255,255,255,0.7)] overflow-hidden"
+              className="relative w-full max-w-sm mx-auto rounded-3xl p-6 bg-[#fbf5ea]/95 backdrop-blur-xl border border-[#1a1017]/[0.08] shadow-[0_16px_48px_rgba(26,16,23,0.12),inset_0_1px_0_rgba(255,255,255,0.7)] overflow-hidden"
             >
 
               {/* Modal Top Header (Redirects to Home) */}
@@ -374,14 +450,14 @@ export default function Navbar({
                   >
                     <BrandLockup
                       layout="inline"
-                      fontSize="clamp(11px, 5.4cqw, 19px)"
-                      emblemSizes="80px"
+                      fontSize="clamp(14.5px, 6cqw, 22px)"
+                      emblemSizes="112px"
                     />
                   </Link>
                 </div>
                 <button
                   onClick={() => setMobileMenuOpen(false)}
-                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#f8f6f6] border border-[#1a1017]/[0.08] flex items-center justify-center text-[#7a6872] hover:text-[#1a1017] transition-colors"
+                  className="w-11 h-11 min-w-[44px] min-h-[44px] rounded-full bg-[#f7f0e2] border border-[#1a1017]/[0.08] flex items-center justify-center text-[#7a6872] hover:text-[#1a1017] transition-colors"
                   aria-label="Close Navigation"
                 >
                   <X className="w-4 h-4" />
@@ -400,7 +476,7 @@ export default function Navbar({
                       className={`flex items-center justify-between py-3 px-3.5 rounded-xl transition-all duration-200 ${
                         isActive
                           ? "bg-[#f0dade] text-[#8b1a42] font-semibold"
-                          : "text-[#7a6872] hover:text-[#1a1017] hover:bg-[#f8f6f6]"
+                          : "text-[#7a6872] hover:text-[#1a1017] hover:bg-[#f7f0e2]"
                       }`}
                       style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
                     >
@@ -422,7 +498,7 @@ export default function Navbar({
               <div className="pt-3 space-y-2.5">
                 <a
                   href={`tel:${cleanPhone}`}
-                  className="flex items-center justify-center gap-2.5 py-3 rounded-xl bg-[#f8f6f6] hover:bg-[#f0ecec] border border-[#1a1017]/[0.08] text-[#3d2e38] font-medium text-xs tracking-wider transition-premium btn-tactile"
+                  className="flex items-center justify-center gap-2.5 py-3 rounded-xl bg-[#f7f0e2] hover:bg-[#ece4d6] border border-[#1a1017]/[0.08] text-[#3d2e38] font-medium text-xs tracking-wider transition-premium btn-tactile"
                   style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
                 >
                   <Phone className="w-3.5 h-3.5 text-[#8b1a42]" />

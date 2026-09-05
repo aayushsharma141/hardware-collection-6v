@@ -4,6 +4,7 @@ import { ConsultationForm } from "@/components/consultation/ConsultationForm";
 import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL, generateWhatsAppUrl } from "@/lib/config";
 import { MessageCircle, PhoneCall, Navigation, Star } from "lucide-react";
 import { Testimonial, formatTestimonialDate, clampRating } from "@/types/testimonial";
+import { AUTHORIZED_BRAND_COUNT } from "@/components/brand/BrandTrustStrip";
 import { StarRating } from "@/components/reviews/StarRating";
 import { motion, Variants } from "motion/react";
 
@@ -163,7 +164,7 @@ export default function FloatingCTA({ reviews = [], cta }: { reviews?: Testimoni
                     <p className="text-[10px] uppercase tracking-wider text-[var(--text-secondary)] font-medium">Years in Sakchi</p>
                   </div>
                   <div>
-                    <p className="text-xl font-normal text-[var(--accent)] font-cormorant tabular-nums" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>100%</p>
+                    <p className="text-xl font-normal text-[var(--accent)] font-cormorant tabular-nums" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>{AUTHORIZED_BRAND_COUNT}</p>
                     <p className="text-[10px] uppercase tracking-wider text-[var(--text-secondary)] font-medium">Authorized Brands</p>
                   </div>
                   <div>

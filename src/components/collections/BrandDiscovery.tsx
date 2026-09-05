@@ -32,7 +32,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
   return (
     <section
       aria-labelledby="brand-discovery-heading"
-      className="py-16 md:py-24 bg-[#fdf8f0] text-[var(--text-primary)] border-t border-[var(--border)]"
+      className="py-16 md:py-24 bg-[#fbf5ea] text-[var(--text-primary)] border-t border-[var(--border)]"
     >
       <div className="max-w-[1320px] mx-auto px-6">
         {/* Header */}
@@ -89,10 +89,10 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                       <motion.h3
                         animate={{
                           color: isHovered
-                            ? "#ffffff"
+                            ? "#8b1a42"
                             : isDimmed
-                            ? "rgba(255,255,255,0.15)"
-                            : "rgba(255,255,255,0.4)",
+                            ? "rgba(26,16,23,0.2)"
+                            : "#1a1017",
                           x: isHovered ? (shouldReduceMotion ? 0 : 12) : 0,
                         }}
                         transition={{ duration: 0.18, ease: [0.25, 0.1, 0.25, 1] }}
@@ -175,7 +175,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                 onClick={() => askAboutBrand(brand)}
                 aria-label={`Ask about ${brand.name} in a consultation`}
                 title={`${brand.name} — Ask about availability`}
-                className="relative aspect-[3/2] flex items-center justify-center p-3 sm:p-4 rounded-lg bg-[var(--surface-raised)] border border-white/[0.12] hover:border-[var(--accent)] focus-visible:border-[var(--accent)] transition-colors duration-150 group/cell overflow-hidden cursor-pointer"
+                className="relative aspect-[3/2] flex items-center justify-center p-3 sm:p-4 rounded-lg bg-[var(--surface-raised)] border border-[#1a1017]/[0.08] hover:border-[var(--accent)] focus-visible:border-[var(--accent)] transition-colors duration-150 group/cell overflow-hidden cursor-pointer"
               >
                 {brand.logoUrl ? (
                   <div className="relative w-full h-full flex items-center justify-center">

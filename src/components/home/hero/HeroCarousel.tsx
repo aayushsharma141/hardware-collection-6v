@@ -110,7 +110,7 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
                 src={slide.imageUrl}
                 alt=""
                 aria-hidden="true"
-                className="w-full h-full object-cover opacity-50 will-change-transform"
+                className="w-full h-full object-cover opacity-[0.85] will-change-transform"
                 style={{ contentVisibility: isActive ? 'visible' : 'hidden' }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/30 to-zinc-950/60" />
@@ -153,14 +153,14 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
                 src={slide.productUrl}
                 alt={slide.title}
                 className="w-full h-full object-contain object-center relative z-10"
-                style={{ filter: "contrast(1.05) brightness(0.95) drop-shadow(0 32px 64px rgba(0,0,0,0.8))" }}
+                style={{ filter: "contrast(1.05) drop-shadow(0 32px 64px rgba(0,0,0,0.8))" }}
               />
               {slide.reflectionUrl && (
                 <img
                   src={slide.reflectionUrl}
                   alt=""
                   aria-hidden="true"
-                  className="absolute inset-0 w-full h-full object-contain object-center z-20 light-sweep-overlay opacity-60"
+                  className="absolute inset-0 w-full h-full object-contain object-center z-20 light-sweep-overlay"
                   style={{ mixBlendMode: "screen" }}
                 />
               )}

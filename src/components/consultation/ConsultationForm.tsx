@@ -15,7 +15,7 @@ import {
   Store,
 } from "lucide-react";
 
-// â”€â”€ Types â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─
+// ── Types ───────────────────────────────────────────────────────────────────
 
 type CustomerType =
   | "Architect / Interior Designer"
@@ -45,7 +45,7 @@ interface ConsultationFormProps {
   inline?: boolean;
 }
 
-// â”€â”€ Constants â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─
+// ── Constants ───────────────────────────────────────────────────────────────
 
 const CUSTOMER_TYPES: {
   id: CustomerType;
@@ -295,7 +295,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
     );
   }
 
-  // â”€â”€ Form Screen â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─
+  // ── Form Screen ────────────────────────────────────────────────────────────
 
   return (
     <div
@@ -311,7 +311,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           copy, so there it still carries the full heading. */}
       <div className="mb-6">
         <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] font-semibold mb-1">
-          DIRECT ENQUIRY &middot; SAKCHI SHOWROOM
+          DIRECT ENQUIRY · SAKCHI SHOWROOM
         </p>
         {!inline && (
           <>
@@ -349,7 +349,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
                   className={`p-3.5 sm:p-4 rounded-xl border text-left flex items-start gap-3.5 transition-all duration-200 relative group cursor-pointer ${
                     isSelected
                       ? "bg-[#8b1a42]/10 border-[#8b1a42] shadow-[0_0_15px_rgba(139,26,66,0.12)]"
-                      : "bg-[var(--surface-raised)]/40 border-[var(--border)] hover:border-[#c8a96e]/50 hover:bg-[#fdf8f0] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                      : "bg-[var(--surface-raised)]/40 border-[var(--border)] hover:border-[#c8a96e]/50 hover:bg-[#fbf5ea] text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                   }`}
                 >
                   <div
@@ -455,9 +455,9 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           </div>
         </div>
 
-        {/* Error message */}
+        {/* Error message (WCAG 4.1.3 & 3.3.1) */}
         {errorMsg && (
-          <p className="text-red-400 text-[13px] bg-red-950/40 border border-red-900/60 p-3 rounded-lg flex items-center gap-2">
+          <p role="alert" aria-live="assertive" className="text-red-400 text-[13px] bg-red-950/40 border border-red-900/60 p-3 rounded-lg flex items-center gap-2">
             <AlertCircle className="w-4 h-4 shrink-0" />
             <span>{errorMsg}</span>
           </p>

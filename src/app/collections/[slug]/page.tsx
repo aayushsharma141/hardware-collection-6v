@@ -9,7 +9,7 @@ import {
 } from "@/content/sanity/queries";
 import { resolveCollectionSlug } from "@/lib/collections/routing";
 import { getSlugString } from "@/types/catalog";
-import { CATEGORIES } from "@/content/fallback/catalog";
+import { CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
 import { SPACES } from "@/content/fallback/spaces";
 import CategoryDetailClient from "@/components/collections/CategoryDetailClient";
 import SpaceLandingClient from "@/components/collections/SpaceLandingClient";
@@ -113,10 +113,14 @@ export default async function CollectionSlugPage({
     return <SpaceLandingClient space={resolution.space} settings={settings} />;
   }
 
-  // Parameterized GROQ fetch (T-9-02)
-  const products = await client.fetch(getProductsByCategoryQuery, {
+  // Parameterized GROQ fetch (T-9-02) with fallback to curated PRODUCTS
+  const sanityProducts = await client.fetch(getProductsByCategoryQuery, {
     categorySlug: slug,
   });
+  const fallbackCategoryProducts = PRODUCTS.filter((p) => p.categorySlug === slug);
+  const products = (sanityProducts && sanityProducts.length > 0)
+    ? sanityProducts
+    : fallbackCategoryProducts;
 
   return (
     <CategoryDetailClient

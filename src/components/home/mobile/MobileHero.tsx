@@ -88,7 +88,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
   const isExternalCta = /^https?:\/\//.test(ctaHref);
 
   return (
-    <section ref={containerRef} className="relative w-full min-h-[92svh] flex flex-col justify-end pt-16 pb-10 px-6 lg:hidden overflow-hidden bg-[var(--surface)]">
+    <section ref={containerRef} data-nav-hero className="relative w-full min-h-[92svh] flex flex-col justify-end pt-16 pb-10 px-6 lg:hidden overflow-hidden bg-[var(--surface)]">
       {/* Photography */}
       <div className="absolute inset-0 z-0">
         <Image
@@ -98,9 +98,13 @@ export default function MobileHero({ slides }: MobileHeroProps) {
           fill
           priority
           sizes="100vw"
-          className="mobile-hero-bg object-cover will-change-transform transition-opacity duration-500"
+          className="mobile-hero-bg object-cover will-change-transform transition-opacity duration-500
+            sepia-[0.22] saturate-[1.25] contrast-[1.04] brightness-[1.02]"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-[var(--surface)]/85 via-45% to-[var(--surface)]/15" />
+        {/* The photograph is a cold blue-grey macro; the sepia grade above pulls it
+            into the ivory palette and this scrim seats it, rather than leaving the top
+            of the screen reading as fog behind the navbar. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-[var(--surface)]/85 via-45% to-[var(--surface)]/28" />
       </div>
 
       {/* Content */}

@@ -49,7 +49,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = settings?.seo;
 
   return {
-    title: seo?.metaTitle || "Premium Hardware & Digital Locks | Hardware Collection",
+    title: {
+      default: seo?.metaTitle || "Hardware Collection | Premium Architectural Hardware in Jamshedpur",
+      template: "%s | Hardware Collection",
+    },
     description: seo?.metaDescription || "Authorized Hafele & Dorset Dealer in Sakchi, Jamshedpur. Premium architectural hardware and digital locks.",
   };
 }
@@ -85,7 +88,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${dmSans.variable} ${cinzel.variable} ${manrope.variable} ${jost.variable} h-full antialiased dark`}
+      className={`${cormorant.variable} ${dmSans.variable} ${cinzel.variable} ${manrope.variable} ${jost.variable} h-full antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://wa.me" />

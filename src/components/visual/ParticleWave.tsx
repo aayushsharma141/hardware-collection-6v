@@ -34,10 +34,13 @@ export function ParticleWave({
 
     // Reduced Motion Fallback
     if (shouldReduceMotion) {
-      ctx.fillStyle = "#0E0C0C";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      // Transparent, like the animated path's clearRect: the section's own warm
+      // ground shows through. Filling this with obsidian laid a dark slab over
+      // the ivory footer for every reduced-motion visitor.
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
       for (let i = 0; i < 200; i++) {
-        ctx.fillStyle = `rgba(200, 169, 110, ${Math.random() * 0.04})`;
+        // Brass at 4% is invisible on a light ground; the darker gold reads.
+        ctx.fillStyle = `rgba(154, 122, 66, ${Math.random() * 0.14})`;
         ctx.beginPath();
         ctx.arc(Math.random() * canvas.width, Math.random() * canvas.height, Math.random() * 1.5, 0, Math.PI * 2);
         ctx.fill();

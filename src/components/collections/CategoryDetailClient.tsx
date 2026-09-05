@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLeft, Compass, CheckCircle2, ShieldCheck, Layers, MessageSquare } from "lucide-react";
@@ -26,6 +26,28 @@ export default function CategoryDetailClient({
   const { openDrawer } = useConsultationStore();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [shortlist, setShortlist] = useState<Product[]>([]);
+  const [selectedBrand, setSelectedBrand] = useState<string>("ALL");
+
+  // Derive unique brands strictly from actual category products (no hard-coded mappings)
+  const availableBrands = useMemo(() => {
+    const brandSet = new Set<string>();
+    (products || []).forEach((p) => {
+      const b = p.brandName || p.brand;
+      if (b && typeof b === "string" && b.trim()) {
+        brandSet.add(b.trim());
+      }
+    });
+    return Array.from(brandSet).sort((a, b) => a.localeCompare(b));
+  }, [products]);
+
+  // Filtered product subset according to selected brand refinement
+  const filteredProducts = useMemo(() => {
+    if (selectedBrand === "ALL") return products;
+    return products.filter((p) => {
+      const b = (p.brandName || p.brand || "").trim().toLowerCase();
+      return b === selectedBrand.toLowerCase();
+    });
+  }, [products, selectedBrand]);
 
   const slug = getSlugString(category.slug);
   const categoryTitle = category.name || category.title || "Curated Collection";
@@ -78,7 +100,7 @@ export default function CategoryDetailClient({
       : category.description || category.shortDesc;
 
   return (
-    <div className="min-h-screen bg-[#fdf8f0] text-[var(--text-primary)]">
+    <div className="min-h-screen bg-[#fbf5ea] text-[var(--text-primary)]">
       {/* Back Navigation */}
       <div className="max-w-[1320px] mx-auto px-6 pt-28 md:pt-32 pb-4">
         <Link
@@ -104,7 +126,7 @@ export default function CategoryDetailClient({
             />
             <div
               aria-hidden="true"
-              className="absolute inset-0 bg-gradient-to-r from-[#fdf8f0] via-[#fdf8f0]/80 to-transparent pointer-events-none"
+              className="absolute inset-0 bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/80 to-transparent pointer-events-none"
             />
           </div>
 
@@ -281,24 +303,85 @@ export default function CategoryDetailClient({
             </h2>
           </div>
 
+          {/* Progressive Brand Filter (Rendered ONLY if category contains multiple brands) */}
+          {availableBrands.length > 1 && (
+            <nav aria-label="Filter products by brand" className="mb-8 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <div className="flex items-center gap-2 min-w-max" role="tablist" aria-label={`Filter ${categoryTitle} by brand`}>
+                <button
+                  type="button"
+                  role="tab"
+                  aria-selected={selectedBrand === "ALL"}
+                  aria-pressed={selectedBrand === "ALL"}
+                  onClick={() => setSelectedBrand("ALL")}
+                  className={`hc-focus px-4 py-2 min-h-[44px] rounded-full text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-200 cursor-pointer ${
+                    selectedBrand === "ALL"
+                      ? "bg-[#8b1a42] text-white shadow-sm"
+                      : "bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[#8b1a42]/40"
+                  }`}
+                >
+                  All ({products.length})
+                </button>
+                {availableBrands.map((b) => {
+                  const count = products.filter(
+                    (p) => (p.brandName || p.brand || "").trim().toLowerCase() === b.toLowerCase()
+                  ).length;
+                  const isSelected = selectedBrand.toLowerCase() === b.toLowerCase();
+                  return (
+                    <button
+                      key={b}
+                      type="button"
+                      role="tab"
+                      aria-selected={isSelected}
+                      aria-pressed={isSelected}
+                      onClick={() => setSelectedBrand(b)}
+                      className={`hc-focus px-4 py-2 min-h-[44px] rounded-full text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-200 cursor-pointer ${
+                        isSelected
+                          ? "bg-[#8b1a42] text-white shadow-sm"
+                          : "bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[#8b1a42]/40"
+                      }`}
+                    >
+                      {b} ({count})
+                    </button>
+                  );
+                })}
+              </div>
+            </nav>
+          )}
+
           {products.length > 0 ? (
-            /* Product Grid */
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
-              {products.map((product, idx) => (
-                <ProductCard
-                  key={product._id || product.id || product.name}
-                  product={product}
-                  index={idx}
-                  totalInCategory={products.length}
-                  isShortlisted={shortlist.some(
-                    (p) => (p._id || p.id) === (product._id || product.id)
-                  )}
-                  onSelect={(p) => setSelectedProduct(p)}
-                  onToggleShortlist={handleToggleShortlist}
-                  displayImage={getProductDisplayImage(product)}
-                />
-              ))}
-            </div>
+            filteredProducts.length > 0 ? (
+              /* Product Grid */
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-4">
+                {filteredProducts.map((product, idx) => (
+                  <ProductCard
+                    key={product._id || product.id || product.name}
+                    product={product}
+                    index={idx}
+                    totalInCategory={filteredProducts.length}
+                    isShortlisted={shortlist.some(
+                      (p) => (p._id || p.id) === (product._id || product.id)
+                    )}
+                    onSelect={(p) => setSelectedProduct(p)}
+                    onToggleShortlist={handleToggleShortlist}
+                    displayImage={getProductDisplayImage(product)}
+                  />
+                ))}
+              </div>
+            ) : (
+              /* Zero Filter Result State */
+              <div className="py-12 text-center p-8 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] max-w-md mx-auto">
+                <p className="text-sm text-[var(--text-secondary)] mb-4 font-light">
+                  No products matching &ldquo;{selectedBrand}&rdquo; in {categoryTitle}.
+                </p>
+                <button
+                  type="button"
+                  onClick={() => setSelectedBrand("ALL")}
+                  className="hc-focus px-5 py-2.5 min-h-[44px] rounded-full bg-[#8b1a42] text-white text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-[#6b1432]"
+                >
+                  View All {categoryTitle} Products
+                </button>
+              </div>
+            )
           ) : (
             /* D-13: Substantive Empty-Category Variant */
             <div className="p-12 md:p-16 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] text-center flex flex-col items-center max-w-2xl mx-auto">

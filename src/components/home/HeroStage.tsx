@@ -6,6 +6,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
 import Link from "next/link";
+import Image from "next/image";
 import { ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
 import { HeroSlide } from "@/types/hero";
 import { generateWhatsAppUrl } from "@/lib/config";
@@ -141,22 +142,25 @@ export default function HeroStage({ slides }: HeroStageProps) {
     <section
       ref={containerRef}
       data-chapter="1"
-      className="hidden lg:block relative min-h-[860px] h-[100dvh] w-full border-b border-[#1a1017]/[0.10] overflow-hidden bg-[#fdf8f0]"
+      data-nav-hero
+      className="hidden lg:block relative min-h-[860px] h-[100dvh] w-full border-b border-[#1a1017]/[0.10] overflow-hidden bg-[#fbf5ea]"
     >
       {/* Background Image — scroll-linked cinematic parallax */}
-      <img
+      <Image
         key={`bg-${currentSlideIndex}`}
         alt="Architectural brass hardware in the Hardware Collection showroom"
-        className="hero-bg-image absolute inset-0 h-full w-full object-cover opacity-[0.20] transition-opacity duration-700 will-change-transform"
-        decoding="async"
+        className="hero-bg-image absolute inset-0 h-full w-full object-cover opacity-[0.45] transition-opacity duration-700 will-change-transform"
+        fill
+        priority
+        sizes="100vw"
         src={currentSlide.imageUrl || "/cinema/hero/HC-01-HERO-01.png"}
       />
-      <div className="absolute inset-y-0 left-0 w-[60%] bg-gradient-to-r from-[#fdf8f0] via-[#fdf8f0]/[0.85] to-transparent" />
+      <div className="absolute inset-y-0 left-0 w-[62%] bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/[0.94] to-transparent" />
 
 
       {/* Main Content Area */}
-      <div className="relative z-10 mx-[80px] xl:mx-[100px] h-full flex flex-col justify-between pt-[110px] pb-[60px]">
-        <div className="grid grid-cols-[minmax(480px,580px)_1fr] items-end gap-12 my-auto">
+      <div className="relative z-10 mx-6 lg:mx-10 xl:mx-[80px] 2xl:mx-[100px] h-full flex flex-col justify-between pt-[110px] pb-[60px]">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(460px,580px)_1fr] items-end gap-8 xl:gap-12 my-auto">
           {/* Left Column: Typography & CTAs */}
           <div className="hero-text-col pb-4">
             <div className="flex items-center gap-3 mb-6">
@@ -170,24 +174,24 @@ export default function HeroStage({ slides }: HeroStageProps) {
             </div>
 
             <div className="overflow-hidden mb-6 pb-2">
-              <h1 className="hero-h1 hc-serif text-[84px] xl:text-[98px] 2xl:text-[112px] leading-[0.90] font-light tracking-[-0.01em] text-[#1a1017] whitespace-pre-line">
+              <h1 className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[98px] 2xl:text-[112px] leading-[0.92] font-light tracking-[-0.01em] text-[#1a1017] whitespace-pre-line">
                 {currentSlide.title || "The Art of\nthe Finish."}
               </h1>
             </div>
 
-            <p className="hero-p mt-4 max-w-[500px] text-lg xl:text-xl leading-[1.65] font-light text-[#2e232b]">
+            <p className="hero-p mt-4 max-w-[500px] text-base lg:text-lg xl:text-xl leading-[1.65] font-light text-[#2e232b]">
               {currentSlide.description ||
                 "Premium architectural hardware and modular solutions, curated for contemporary spaces."}
             </p>
 
             {/* Dual CTAs with physical tactile feedback */}
-            <div className="mt-10 flex flex-wrap items-center gap-4">
+            <div className="mt-8 xl:mt-10 flex flex-wrap items-center gap-4">
               {isExternalCta ? (
                 <a
                   href={ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="brass-plate hc-focus h-[54px] px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] active:scale-[0.975] active:duration-100 transition-all duration-200 btn-tactile transition-premium rounded shadow-lg"
+                  className="brass-plate hc-focus h-[50px] xl:h-[54px] px-6 xl:px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] active:scale-[0.975] active:duration-100 transition-all duration-200 btn-tactile transition-premium rounded shadow-lg shrink-0"
                 >
                   <span>{ctaLabel}</span>
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -197,7 +201,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
               ) : (
                 <Link
                   href={ctaHref}
-                  className="brass-plate hc-focus h-[54px] px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] active:scale-[0.975] active:duration-100 transition-all duration-200 btn-tactile transition-premium rounded shadow-lg"
+                  className="brass-plate hc-focus h-[50px] xl:h-[54px] px-6 xl:px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] active:scale-[0.975] active:duration-100 transition-all duration-200 btn-tactile transition-premium rounded shadow-lg shrink-0"
                 >
                   <span>{ctaLabel}</span>
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -211,7 +215,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 href={generateWhatsAppUrl("general-enquiry")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hc-focus h-[54px] px-7 bg-transparent border border-[#c8a96e]/70 hover:border-[#8b1a42] hover:bg-[#8b1a42] hover:text-white active:scale-[0.975] active:duration-100 text-[#1a1017] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] flex items-center gap-2.5 rounded transition-all duration-200 shadow-sm"
+                className="hc-focus h-[50px] xl:h-[54px] px-5 xl:px-7 bg-transparent border border-[#c8a96e]/70 hover:border-[#8b1a42] hover:bg-[#8b1a42] hover:text-white active:scale-[0.975] active:duration-100 text-[#1a1017] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] flex items-center gap-2.5 rounded transition-all duration-200 shadow-sm shrink-0"
               >
                 <MessageCircle className="w-4 h-4 text-[#c8a96e] group-hover:text-white" />
                 <span>WhatsApp The Showroom</span>
@@ -225,7 +229,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
           <div
             ref={apertureRef}
             aria-label="Hero product aperture"
-            className="aperture relative justify-self-end h-[520px] w-[460px] xl:h-[580px] xl:w-[500px] border-x border-[#1a1017]/[0.10] bg-[#f8f6f6] overflow-hidden focus-within:border-[#8b1a42]/[0.60] shadow-xl rounded-sm"
+            className="aperture relative justify-self-end h-[480px] w-[380px] xl:h-[580px] xl:w-[500px] border-x border-[#1a1017]/[0.10] bg-[#f7f0e2] overflow-hidden focus-within:border-[#8b1a42]/[0.60] shadow-xl rounded-sm shrink-0"
             tabIndex={0}
           >
             <div className="absolute inset-x-0 top-0 h-px bg-[#8b1a42]/[0.50]" />
@@ -242,7 +246,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
             <img
               key={`aperture-${currentSlideIndex}`}
               alt="Close detail of a brass hardware finish"
-              className="aperture-image absolute inset-[44px_24px_80px] h-[380px] xl:h-[430px] w-[410px] xl:w-[450px] object-contain mix-blend-multiply opacity-[0.88] will-change-transform"
+              className="aperture-image absolute inset-[44px_20px_80px] xl:inset-[44px_24px_80px] h-[340px] xl:h-[430px] w-auto max-w-[340px] xl:max-w-[450px] object-contain mix-blend-multiply will-change-transform m-auto"
               decoding="async"
               src={currentSlide.productUrl || "/cinema/hero/HC-01-HERO-03.png"}
             />

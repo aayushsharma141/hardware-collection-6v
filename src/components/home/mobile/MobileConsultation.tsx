@@ -18,17 +18,17 @@ export default function MobileConsultation() {
   return (
     <section
       id="consultation"
-      className="w-full px-margin-mobile pt-[104px] pb-[80px] bg-surface-obsidian border-t border-outline-variant lg:hidden scroll-mt-24"
+      className="w-full px-margin-mobile pt-[104px] pb-[80px] bg-[#fbf5ea] border-t border-[#1a1017]/[0.08] lg:hidden scroll-mt-24"
     >
       <div className="max-w-xl mx-auto flex flex-col space-y-unit-lg">
         <div className="flex flex-col">
-          <p className="font-label-caps t-eyebrow text-[#c8a96e]">
-            Private consultation &middot; Sakchi
+          <p className="font-label-caps t-eyebrow text-[#8b1a42] font-semibold tracking-[0.22em] uppercase text-xs">
+            Private consultation · Sakchi
           </p>
-          <h2 className="font-headline-md t-h2 mt-3 text-text-bone">
+          <h2 className="font-headline-md t-h2 mt-3 text-[#1a1017] text-3xl sm:text-4xl font-light">
             Let&rsquo;s discuss your project.
           </h2>
-          <p className="t-body mt-4 font-light text-text-muted max-w-[44ch]">
+          <p className="t-body mt-4 font-light text-[#5a4854] max-w-[44ch] text-sm sm:text-base leading-relaxed">
             Tell us what you&rsquo;re working on. We&rsquo;ll help you navigate
             brands, finishes and specifications.
           </p>
@@ -36,14 +36,14 @@ export default function MobileConsultation() {
 
         <ConsultationForm inline />
 
-        <div className="flex flex-col gap-3 border-t border-outline-variant pt-unit-lg">
-          <p className="hc-mono t-meta uppercase text-text-muted">
+        <div className="flex flex-col gap-3 border-t border-[#1a1017]/[0.10] pt-unit-lg">
+          <p className="hc-mono t-meta uppercase text-[#7a6872] text-xs tracking-wider">
             Or reach the showroom directly
           </p>
           <div className="flex flex-col sm:flex-row gap-3">
             <a
               href={SHOWROOM_PHONE_HREF}
-              className="hc-focus flex-1 inline-flex items-center justify-center min-h-[48px] px-4 border border-outline-variant text-text-bone text-[13px] font-semibold uppercase tracking-[0.14em] transition-[color,border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-primary hover:text-primary active:scale-[0.98] motion-reduce:active:scale-100"
+              className="hc-focus flex-1 inline-flex items-center justify-center min-h-[48px] px-4 rounded-lg bg-[#f7f0e2] border border-[#1a1017]/[0.12] text-[#1a1017] text-[13px] font-semibold uppercase tracking-[0.14em] transition-[color,border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#8b1a42] hover:text-[#8b1a42] active:scale-[0.98] motion-reduce:active:scale-100"
             >
               Call {SHOWROOM_PHONE_DISPLAY}
             </a>
@@ -51,7 +51,7 @@ export default function MobileConsultation() {
               href={SHOWROOM_MAP_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className="hc-focus flex-1 inline-flex items-center justify-center min-h-[48px] px-4 border border-outline-variant text-text-muted text-[13px] font-medium uppercase tracking-[0.14em] transition-[color,border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-text-bone hover:text-text-bone active:scale-[0.98] motion-reduce:active:scale-100"
+              className="hc-focus flex-1 inline-flex items-center justify-center min-h-[48px] px-4 rounded-lg bg-[#f7f0e2] border border-[#1a1017]/[0.12] text-[#5a4854] text-[13px] font-medium uppercase tracking-[0.14em] transition-[color,border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] hover:border-[#1a1017] hover:text-[#1a1017] active:scale-[0.98] motion-reduce:active:scale-100"
             >
               Open in Maps
             </a>

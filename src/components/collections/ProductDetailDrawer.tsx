@@ -102,11 +102,11 @@ export default function ProductDetailDrawer({
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ duration: 0.25, ease: "easeOut" }}
-            className="relative w-full max-w-2xl bg-[#fdf8f0] h-full overflow-y-auto border-l border-[#1a1017]/[0.10] flex flex-col shadow-2xl z-10 focus:outline-none"
+            className="relative w-full max-w-2xl bg-[#fbf5ea] h-full overflow-y-auto border-l border-[#1a1017]/[0.10] flex flex-col shadow-2xl z-10 focus:outline-none"
             tabIndex={-1}
           >
             {/* Sticky Architectural Drawer Header */}
-            <div className="sticky top-0 flex items-center justify-between p-5 sm:p-6 bg-[#fdf8f0]/95 backdrop-blur-xl border-b border-[var(--border)] z-10">
+            <div className="sticky top-0 flex items-center justify-between p-5 sm:p-6 bg-[#fbf5ea]/95 backdrop-blur-xl border-b border-[var(--border)] z-10">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#8b1a42]" />
                 <span className="font-dmsans text-[10.5px] uppercase tracking-[0.18em] text-[var(--accent)] font-medium">
@@ -136,7 +136,7 @@ export default function ProductDetailDrawer({
                   placeholder={product.imageLqip ? "blur" : "empty"}
                   blurDataURL={product.imageLqip}
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-contain p-6 relative z-[2] opacity-90"
+                  className="object-contain p-6 relative z-[2]"
                 />
               </div>
 

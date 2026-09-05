@@ -45,7 +45,7 @@ export default function SpaceLandingClient({
   const categories = space.linkedCategories || [];
 
   return (
-    <div className="min-h-screen bg-[#fdf8f0] text-[var(--text-primary)]">
+    <div className="min-h-screen bg-[#fbf5ea] text-[var(--text-primary)]">
       {/* Back Navigation */}
       <div className="max-w-[1320px] mx-auto px-6 pt-28 md:pt-32 pb-4">
         <Link
@@ -69,7 +69,7 @@ export default function SpaceLandingClient({
               priority
               className="object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-[#fdf8f0] via-[#fdf8f0]/80 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/80 to-transparent" />
           </div>
 
           <div className="max-w-3xl">

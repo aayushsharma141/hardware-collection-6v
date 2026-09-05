@@ -56,12 +56,12 @@ export function ConsultationDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 220 }}
-            className="relative w-full max-w-xl h-[100dvh] bg-[#fdf8f0] border-l border-[#1a1017]/[0.10] shadow-[0_0_80px_rgba(0,0,0,0.2)] flex flex-col overflow-y-auto"
+            className="relative w-full max-w-xl h-[100dvh] bg-[#fbf5ea] border-l border-[#1a1017]/[0.10] shadow-[0_0_80px_rgba(0,0,0,0.2)] flex flex-col overflow-y-auto"
             role="dialog"
             aria-modal="true"
           >
             {/* Header */}
-            <div className="sticky top-0 z-20 bg-[#fdf8f0]/95 backdrop-blur-xl border-b border-[var(--border)] flex justify-between items-center px-6 py-4">
+            <div className="sticky top-0 z-20 bg-[#fbf5ea]/95 backdrop-blur-xl border-b border-[var(--border)] flex justify-between items-center px-6 py-4">
               <div className="flex items-center gap-2">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#8b1a42]" />
                 <span className="text-[11px] text-[var(--accent)] tracking-[0.2em] uppercase font-semibold font-dmsans">

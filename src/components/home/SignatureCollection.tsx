@@ -38,10 +38,9 @@ export default function SignatureCollection() {
               <motion.img 
                 src="/cinema/showroom/exterior.png"
                 alt="Smart Entrance"
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80"
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-[var(--surface)]/10 transition-colors duration-500 group-hover:bg-transparent" />
-            </div>
+                          </div>
             <div className="mt-8">
               <h3 className="text-3xl text-[var(--text-primary)] font-light mb-2">SMART ENTRANCE</h3>
               <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">
@@ -59,10 +58,9 @@ export default function SignatureCollection() {
               <motion.img 
                 src="/cinema/showroom/interior.png"
                 alt="Modern Kitchen"
-                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105 opacity-80"
+                className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-[var(--surface)]/10 transition-colors duration-500 group-hover:bg-transparent" />
-            </div>
+                          </div>
             <div className="mt-8">
               <h3 className="text-3xl text-[var(--text-primary)] font-light mb-2">MODERN KITCHEN</h3>
               <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">

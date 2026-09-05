@@ -67,3 +67,10 @@
 
   ⚠ 09-03 is not executable by an agent — it holds three blocking owner decisions
   (WhatsApp number F-01, brand removals F-06, unverified claims F-04).
+
+- [ ] **Phase 10 — Brand Showcase & Light Roster Presentation** 📋 READY TO EXECUTE
+  Display all 22 authorized architectural hardware brands in authentic original conditions on luxury light ivory background.
+  - Plan 10-01: Canonical brand list & aliases sync (`brands.ts`)
+  - Plan 10-02: Homepage `BrandTrustStrip.tsx` visual upgrade with porcelain plinths
+  - Plan 10-03: Visual & responsive audit on staging environment
+

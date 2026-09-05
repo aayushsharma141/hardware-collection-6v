@@ -57,10 +57,11 @@ export function AtmosphericLayer({
         <BrandWatermark />
       </div>
       
-      {/* 
-        Subtle gradient overlay to ensure content above it is legible 
+      {/*
+        Grounding wash under the footer content. Warm surface, not white — a
+        white veil over the ivory ground desaturated the whole panel.
       */}
-      <div className="absolute inset-0 bg-gradient-to-t from-white/40 via-transparent to-transparent" style={{ zIndex: 3 }} />
+      <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/25 via-transparent to-transparent" style={{ zIndex: 3 }} />
     </div>
   );
 }

@@ -6,7 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
 import { MagneticButton } from "@/components/animations/MagneticButton";
-import AboutStory from "@/components/home/AboutStory";
 import { generateWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
@@ -122,7 +121,7 @@ export default function ShowroomCinematic() {
             <img
               src="/cinema/showroom/exterior.png"
               alt="Hardware Collection Showroom Exterior"
-              className="w-full h-full object-cover opacity-50 filter contrast-110 brightness-90 sepia-[0.1]"
+              className="w-full h-full object-cover opacity-[0.78] filter contrast-105 saturate-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
           </div>
@@ -135,7 +134,7 @@ export default function ShowroomCinematic() {
               <span className="text-[var(--text-secondary)]">Sakchi, Jamshedpur.</span>
             </h2>
             <p className="text-[var(--text-primary)] text-base font-light leading-relaxed max-w-md pt-1">
-              Architectural hardware, security, and kitchen systems from leading authorized brands &mdash; on display, and in your hands before you specify.
+              Architectural hardware, security, and kitchen systems from leading authorized brands — on display, and in your hands before you specify.
             </p>
           </div>
         </div>
@@ -146,7 +145,7 @@ export default function ShowroomCinematic() {
             <img
               src="/cinema/showroom/interior.png"
               alt="Showroom Interior Displays"
-              className="w-full h-full object-cover opacity-45 filter contrast-110 brightness-85 sepia-[0.1]"
+              className="w-full h-full object-cover opacity-[0.74] filter contrast-105 saturate-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
           </div>
@@ -178,9 +177,6 @@ export default function ShowroomCinematic() {
           />
         ))}
       </div>
-
-      {/* ── CH06.5 — Our Legacy ────────────────────────────────────────── */}
-      <AboutStory />
     </div>
   );
 }
@@ -213,21 +209,20 @@ function CinematicScene({
           aria-hidden="true"
           className="scene-img absolute top-[-10%] left-[-5%] w-[110%] h-[120%] object-cover will-change-transform"
           style={{
-            opacity: isLast ? 0.4 : 0.65,
-            filter: "contrast(1.15) saturate(0.65) brightness(0.9) sepia(0.15)",
-            mixBlendMode: "luminosity",
+            opacity: isLast ? 0.62 : 0.85,
+            filter: "contrast(1.06) saturate(1.04)",
           }}
         />
         
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "radial-gradient(circle at center, transparent 30%, rgba(248,246,246,0.55) 100%)",
+            background: "radial-gradient(circle at center, transparent 45%, rgba(247, 240, 226,0.32) 100%)",
           }}
         />
 
         <div
-          className="absolute inset-0 mix-blend-overlay opacity-70 pointer-events-none"
+          className="absolute inset-0 mix-blend-overlay opacity-40 pointer-events-none"
           style={{
             background: "radial-gradient(ellipse at top right, rgba(200, 169, 110, 0.45) 0%, transparent 60%)",
           }}
@@ -236,10 +231,10 @@ function CinematicScene({
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            background: "linear-gradient(to bottom, transparent 0%, rgba(248,246,246,0.80) 100%)",
+            background: "linear-gradient(to bottom, transparent 0%, rgba(247, 240, 226,0.80) 100%)",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface-raised)]/80 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface-raised)]/95 via-[var(--surface-raised)]/65 to-transparent pointer-events-none" />
       </div>
 
       {/* Z=3: Typography */}

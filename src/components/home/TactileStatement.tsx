@@ -42,7 +42,7 @@ export default function TactileStatement() {
               HARDWARE<br />YOU CAN<br />EXPERIENCE.
             </h2>
             <p className="text-xl text-[var(--text-secondary)] font-light max-w-md">
-              Weight. Texture. Resistance. True quality isn&apos;t just seen&mdash;it communicates through touch.
+              Weight. Texture. Resistance. True quality isn&apos;t just seen—it communicates through touch.
             </p>
           </motion.div>
           
@@ -72,7 +72,7 @@ export default function TactileStatement() {
               <img 
                 src="/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg" 
                 alt="Detail"
-                className="w-full h-full object-cover opacity-80"
+                className="w-full h-full object-cover"
               />
             </motion.div>
           </div>

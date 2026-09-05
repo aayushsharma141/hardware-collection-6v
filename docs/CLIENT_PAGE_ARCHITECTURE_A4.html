@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hardware Collection — Website Route Architecture & Client Use Case Map</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf9f6;
+      --surface: #ffffff;
+      --border: #e8e4dc;
+      --gold: #b38b4d;
+      --gold-dark: #8c6830;
+      --gold-light: #f6f1e8;
+      --text: #1a1918;
+      --muted: #5e5a54;
+      --radius: 8px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.45;
+      font-size: 13px;
+      padding: 24px;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+
+    /* A4 Printable Sheet Container */
+    .sheet {
+      max-width: 210mm;
+      min-height: 297mm;
+      margin: 0 auto;
+      background: var(--surface);
+      padding: 18mm 16mm;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+      border-radius: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    @media print {
+      body {
+        padding: 0;
+        background: #fff;
+      }
+      .sheet {
+        box-shadow: none;
+        padding: 10mm 12mm;
+        max-width: 100%;
+        min-height: auto;
+      }
+      .no-print {
+        display: none !important;
+      }
+    }
+
+    /* Header */
+    .header {
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+    }
+
+    .brand-title {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 26px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      color: var(--text);
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 2px;
+    }
+
+    .meta-tag {
+      font-size: 11px;
+      color: var(--muted);
+      text-align: right;
+    }
+
+    /* Visual Architecture Flow */
+    .section-title {
+      font-size: 13px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--gold-dark);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* Flow Stages */
+    .flow-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .flow-tier {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px 12px;
+      background: #fdfdfc;
+    }
+
+    .tier-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .tier-label {
+      font-weight: 700;
+      font-size: 12px;
+      color: var(--gold-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tier-intent {
+      font-size: 11px;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    .pill-cluster {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .pill {
+      background: #fff;
+      border: 1px solid var(--border);
+      padding: 4px 9px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 500;
+      color: #2b2927;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .pill.hub {
+      border-color: var(--gold);
+      background: var(--gold-light);
+      font-weight: 600;
+      color: var(--gold-dark);
+    }
+
+    .pill.space {
+      border-color: #bcd4e6;
+      background: #f0f7fb;
+      color: #1e4d6d;
+    }
+
+    .pill.cat {
+      background: #fbfbfb;
+      color: #3b3a36;
+    }
+
+    .flow-arrow {
+      text-align: center;
+      color: var(--gold);
+      font-size: 14px;
+      line-height: 1;
+      font-weight: bold;
+    }
+
+    /* Use Case Table */
+    .usecase-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 11.5px;
+      margin-top: 4px;
+    }
+
+    .usecase-table th {
+      background: #f4efe6;
+      color: #3f3526;
+      text-align: left;
+      padding: 6px 8px;
+      font-weight: 600;
+      border: 1px solid #e0d8c9;
+      text-transform: uppercase;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+    }
+
+    .usecase-table td {
+      padding: 6px 8px;
+      border: 1px solid var(--border);
+      vertical-align: top;
+    }
+
+    .usecase-table tr:nth-child(even) td {
+      background: #faf9f6;
+    }
+
+    .page-name {
+      font-weight: 700;
+      color: var(--text);
+      white-space: nowrap;
+    }
+
+    .page-route {
+      font-size: 10px;
+      color: var(--muted);
+      font-family: monospace;
+    }
+
+    .who-tag {
+      display: inline-block;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: 9.5px;
+      font-weight: 600;
+      background: #eee;
+      color: #444;
+      margin-bottom: 2px;
+    }
+
+    .who-architect { background: #e2eff8; color: #1e5276; }
+    .who-homeowner { background: #e8f5e9; color: #1e6d2b; }
+    .who-contractor { background: #fff3e0; color: #935102; }
+
+    /* Footer Note */
+    .footer-note {
+      margin-top: auto;
+      border-top: 1px solid var(--border);
+      padding-top: 8px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 10.5px;
+      color: var(--muted);
+    }
+
+    .print-btn {
+      position: fixed;
+      top: 16px;
+      right: 16px;
+      background: var(--gold-dark);
+      color: #fff;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <button class="print-btn no-print" onclick="window.print()">Print / Save as PDF (A4)</button>
+
+  <div class="sheet">
+    <!-- Header -->
+    <header class="header">
+      <div>
+        <div class="brand-title">Hardware Collection</div>
+        <div class="subtitle">Architecture Map &amp; Client Use Case Blueprint</div>
+      </div>
+      <div class="meta-tag">
+        <strong>A4 Executive Reference</strong><br>
+        Published for Client &amp; Stakeholders
+      </div>
+    </header>
+
+    <!-- Visual 3-Tier Journey Map -->
+    <section>
+      <div class="section-title">1. The 3-Tier Customer Journey (How Pages Connect)</div>
+      
+      <div class="flow-grid">
+        <!-- Tier 1 -->
+        <div class="flow-tier">
+          <div class="tier-header">
+            <span class="tier-label">Tier 1: Entry &amp; Trust Hubs</span>
+            <span class="tier-intent">Initial Arrival &amp; Brand Authority</span>
+          </div>
+          <div class="pill-cluster">
+            <span class="pill hub"><strong>/</strong> (Showroom Showcase)</span>
+            <span class="pill hub"><strong>/collections</strong> (Guided Discovery)</span>
+            <span class="pill hub"><strong>/catalogs</strong> (Brand Spec Sheets)</span>
+          </div>
+        </div>
+
+        <div class="flow-arrow">▼ User chooses: "Browse by Room" OR "Browse by Hardware"</div>
+
+        <!-- Tier 2 -->
+        <div class="flow-tier" style="border-left: 3px solid #5ea5d4;">
+          <div class="tier-header">
+            <span class="tier-label">Tier 2: "Shop by Room" (Space Landings)</span>
+            <span class="tier-intent">For Homeowners &amp; Architects designing a specific room</span>
+          </div>
+          <div class="pill-cluster">
+            <span class="pill space">/collections/entrance</span>
+            <span class="pill space">/collections/kitchen</span>
+            <span class="pill space">/collections/wardrobe</span>
+            <span class="pill space">/collections/bathroom</span>
+            <span class="pill space">/collections/living-interior</span>
+            <span class="pill space">/collections/commercial</span>
+          </div>
+        </div>
+
+        <div class="flow-arrow">▼ Filter down into specific engineered fittings</div>
+
+        <!-- Tier 3 -->
+        <div class="flow-tier" style="border-left: 3px solid #70c170;">
+          <div class="tier-header">
+            <span class="tier-label">Tier 3: "Shop by Hardware Type" (Category Landings)</span>
+            <span class="tier-intent">Technical specs, live brand filters, and instant WhatsApp consultation</span>
+          </div>
+          <div class="pill-cluster">
+            <span class="pill cat">Main Door Handles</span>
+            <span class="pill cat">Digital &amp; Biometric Locks</span>
+            <span class="pill cat">Mortise Locks</span>
+            <span class="pill cat">Modular Kitchen Hardware</span>
+            <span class="pill cat">Kitchen Sinks &amp; Faucets</span>
+            <span class="pill cat">Wardrobe Sliding</span>
+            <span class="pill cat">Soft-Close Hinges</span>
+            <span class="pill cat">Drawer Channels</span>
+            <span class="pill cat">Bathroom Accessories</span>
+            <span class="pill cat">Glass Hardware</span>
+            <span class="pill cat">Door Closers</span>
+            <span class="pill cat">Safes</span>
+          </div>
+        </div>
+
+        <div class="flow-arrow" style="color: #27ae60;">▼ Direct Outcome</div>
+
+        <!-- Conversion Goal -->
+        <div class="flow-tier" style="background: #eafaf1; border-color: #a3e4d7; text-align: center; padding: 7px;">
+          <strong style="color: #196f3d; font-size: 11.5px;">Outcome:</strong>
+          <span style="font-size: 11px; color: #1e4d2b;">Direct WhatsApp Inquiry pre-filled with chosen item &amp; showroom phone call to <strong>+91 98351 90738</strong></span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Table of Pages and Use Cases -->
+    <section>
+      <div class="section-title">2. Client Use Case &amp; Purpose Matrix</div>
+      
+      <table class="usecase-table">
+        <thead>
+          <tr>
+            <th style="width: 25%;">Page &amp; Route</th>
+            <th style="width: 25%;">Target Visitor</th>
+            <th style="width: 28%;">What Visitor Does Here</th>
+            <th style="width: 22%;">Business Value</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="page-name">Showroom Home</div>
+              <div class="page-route">/</div>
+            </td>
+            <td><span class="who-tag who-homeowner">Homeowner</span> <span class="who-tag who-architect">Architect</span></td>
+            <td>Explores live showroom bays, 20+ partner brands, store location, and schedules visit.</td>
+            <td>Builds premium brand trust and drives store footfall.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="page-name">Collections Hub</div>
+              <div class="page-route">/collections</div>
+            </td>
+            <td><span class="who-tag who-homeowner">Homeowner</span> <span class="who-tag who-contractor">Interior Designer</span></td>
+            <td>Searches keywords or selects room tabs (Kitchen, Wardrobe, Entrance).</td>
+            <td>Prevents overwhelm by organizing 100+ hardware types into simple choices.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="page-name">Space Landings (6)</div>
+              <div class="page-route">/collections/[space]</div>
+            </td>
+            <td><span class="who-tag who-homeowner">Renovator</span> <span class="who-tag who-architect">Architect</span></td>
+            <td>Sees everything required to complete that room (e.g. Kitchen = Sinks + Soft-close + Channels).</td>
+            <td>Increases basket value by bundling complementary products.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="page-name">Category Pages (18)</div>
+              <div class="page-route">/collections/[category]</div>
+            </td>
+            <td><span class="who-tag who-contractor">Contractor</span> <span class="who-tag who-architect">Specifier</span></td>
+            <td>Filters by brand (Hafele, Dorset, Godrej), reviews finishes, clicks WhatsApp inquiry.</td>
+            <td>Converts high-intent visitors directly into verified sales leads.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="page-name">Brand Catalogs</div>
+              <div class="page-route">/catalogs</div>
+            </td>
+            <td><span class="who-tag who-architect">Architect</span> <span class="who-tag who-contractor">Fabricator</span></td>
+            <td>Downloads technical PDF catalogs, architectural dimension sheets, and brand specs.</td>
+            <td>Proves authorized dealership and supports large project bidding.</td>
+          </tr>
+          <tr>
+            <td>
+              <div class="page-name">Sanity Studio</div>
+              <div class="page-route">/studio</div>
+            </td>
+            <td><span class="who-tag">Showroom Staff</span></td>
+            <td>Edits live products, adjusts bay photos, and adds new arrivals without a developer.</td>
+            <td>Keeps inventory fresh without recurring maintenance costs.</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-note">
+      <div><strong>Hardware Collection Jamshedpur</strong> &bull; Architectural Hardware &amp; Luxury Security</div>
+      <div>Single-Segment Route Architecture (Total 39 SSG Endpoints)</div>
+    </footer>
+  </div>
+
+</body>
+</html>

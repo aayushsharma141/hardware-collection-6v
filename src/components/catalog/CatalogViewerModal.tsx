@@ -142,7 +142,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
       role="dialog"
       aria-modal="true"
       aria-labelledby="modal-title"
-      className="fixed inset-0 z-[100] bg-[#fdf8f0] text-[var(--text-primary)] flex flex-col select-none"
+      className="fixed inset-0 z-[100] bg-[#fbf5ea] text-[var(--text-primary)] flex flex-col select-none"
     >
       <header className="h-16 bg-[var(--surface-raised)] border-b border-[var(--border)] flex items-center justify-between px-4 md:px-6 shrink-0">
         <div className="flex items-center gap-3 md:gap-4 min-w-0">

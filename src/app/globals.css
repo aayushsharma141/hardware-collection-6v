@@ -11,8 +11,9 @@
 
   /* LIGHT SURFACES */
   --color-white:        #ffffff;
-  --color-pearl:        #f8f6f6;
-  --color-mist:         #f0ecec;
+  --color-ivory:        #fbf5ea;
+  --color-pearl:        #f7f0e2;
+  --color-mist:         #ece4d6;
   --color-wine-tint:    #f7e8ee;
 
   /* BRAND PRIMARY — Wine Crimson (HC logo lettermark colour) */
@@ -25,8 +26,8 @@
   --color-brass:        #c8a96e;
   --color-brass-dark:   #9a7a42;
   --color-brass-light:  #e8d5a8;
-  /* Brass for text on the ivory surfaces. #c8a96e reads 2.1:1 on #fdf8f0 and
-     2.0:1 on #f7f0e4 — it was drawn for the dark theme this site no longer
+  /* Brass for text on the ivory surfaces. #c8a96e reads 2.1:1 on #fbf5ea and
+     2.0:1 on #f7f0e2 — it was drawn for the dark theme this site no longer
      ships. This holds the same hue at 4.9:1. Decorative brass (rules, borders,
      icons) still uses --color-brass. */
   --color-brass-ink:    #85683a;
@@ -49,7 +50,7 @@
   --color-metal-highlight:      rgba(255,255,255,.16);
   --color-surface-obsidian:     var(--color-obsidian);
   --color-surface-graphite:     var(--color-graphite);
-  --color-background:           var(--color-white);
+  --color-background:           var(--color-ivory);
   --color-on-surface:           var(--color-ink);
   --color-primary:              var(--color-wine);
   --color-on-primary:           #ffffff;
@@ -152,7 +153,7 @@
 
 /* ── Default body — bright base ────────────────────────────── */
 body {
-  background: #fdf8f0;
+  background: #fbf5ea;
   color: var(--color-ink, #1a1017);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
@@ -160,9 +161,9 @@ body {
 
   /* Semantic token defaults — all components get bright unless a
      theme wrapper overrides. Eliminates dark fallback values. */
-  --surface:           #fdf8f0;
-  --surface-raised:    #f7f0e4;
-  --surface-elevated:  #ede4d4;
+  --surface:           #fbf5ea;
+  --surface-raised:    #f7f0e2;
+  --surface-elevated:  #ede2d0;
   --text-primary:      #1a1017;
   --text-secondary:    #3d2e38;
   --accent:            #8b1a42;
@@ -170,7 +171,7 @@ body {
   --accent-gold:       #9a7a42;
   --border:            rgba(26, 16, 23, 0.09);
   --border-accent:     rgba(139, 26, 66, 0.50);
-  --glass-bg:          rgba(253, 248, 240, 0.85);
+  --glass-bg:          rgba(251, 245, 234, 0.85);
   --glass-border:      rgba(139, 26, 66, 0.15);
   --pointer-glow:      rgba(139, 26, 66, 0.05);
 }
@@ -189,7 +190,7 @@ body {
   }
 
   .glass-liquid {
-    background: var(--glass-bg, rgba(248, 246, 246, 0.70));
+    background: var(--glass-bg, rgba(247, 240, 226, 0.70));
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     backdrop-filter: blur(16px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.1);
@@ -401,8 +402,8 @@ html.lenis, html.lenis body { height: auto; }
 :root {
   /* Surfaces */
   --white:    #ffffff;
-  --pearl:    #f8f6f6;
-  --mist:     #f0ecec;
+  --pearl:    #f7f0e2;
+  --mist:     #ece4d6;
 
   /* Dark surfaces — consumed by .theme-dark sections */
   --black:    #090909;
@@ -460,9 +461,9 @@ html.lenis, html.lenis body { height: auto; }
 
 .theme-dark {
   /* Overridden to warm-bright — all sections are bright, no dark */
-  --surface:           #fdf8f0;
-  --surface-raised:    #f7f0e4;
-  --surface-elevated:  #ede4d4;
+  --surface:           #fbf5ea;
+  --surface-raised:    #f7f0e2;
+  --surface-elevated:  #ede2d0;
 
   --text-primary:      #1a1017;
   --text-secondary:    #3d2e38;
@@ -475,7 +476,7 @@ html.lenis, html.lenis body { height: auto; }
   --border:            rgba(26, 16, 23, 0.09);
   --border-accent:     rgba(139, 26, 66, 0.50);
 
-  --glass-bg:          rgba(253, 248, 240, 0.85);
+  --glass-bg:          rgba(251, 245, 234, 0.85);
   --glass-border:      rgba(139, 26, 66, 0.15);
 
   --pointer-glow:      rgba(139, 26, 66, 0.05);
@@ -489,9 +490,9 @@ html.lenis, html.lenis body { height: auto; }
 /* Alias — existing TSX still references theme-ivory */
 .theme-ivory,
 .theme-light {
-  --surface:           #fdf8f0;
-  --surface-raised:    #f7f0e4;
-  --surface-elevated:  #ede4d4;
+  --surface:           #fbf5ea;
+  --surface-raised:    #f7f0e2;
+  --surface-elevated:  #ede2d0;
 
   --text-primary:      #1a1017;
   --text-secondary:    #3d2e38;
@@ -504,7 +505,7 @@ html.lenis, html.lenis body { height: auto; }
   --border:            rgba(26, 16, 23, 0.09);
   --border-accent:     rgba(139, 26, 66, 0.50);
 
-  --glass-bg:          rgba(253, 248, 240, 0.85);
+  --glass-bg:          rgba(251, 245, 234, 0.85);
   --glass-border:      rgba(139, 26, 66, 0.15);
 
   --pointer-glow:      rgba(139, 26, 66, 0.05);
@@ -525,7 +526,15 @@ html.lenis, html.lenis body { height: auto; }
 
 /* ── KOMBAI component classes ──────────────────────────────── */
 
-.hc-root { font-family: var(--font-dmsans), 'DM Sans', sans-serif; background: var(--white); color: var(--ink); }
+.hc-root {
+  font-family: var(--font-dmsans), 'DM Sans', sans-serif;
+  /* The page canvas is the warm ivory surface, not paper white. This used to
+     read var(--white), which outranked `body { background }` on specificity and
+     left every gutter and un-themed section rendering #ffffff — the warm ramp
+     only ever showed up inside .theme-* wrappers. */
+  background: var(--surface);
+  color: var(--text-primary);
+}
 .hc-serif { font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif; }
 .hc-mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
 .hc-root button, .hc-root a, .hc-root input { font: inherit; }
@@ -550,8 +559,8 @@ html.lenis, html.lenis body { height: auto; }
 /* Aperture hover — chrome sweep */
 .aperture-sweep { position: absolute; top: 18%; bottom: 10%; left: 34%; width: 18%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent); transform: skewX(-18deg); opacity: .42; transition: transform 520ms var(--cinematic), opacity 260ms ease; pointer-events: none; }
 .aperture:hover .aperture-sweep, .aperture:focus-within .aperture-sweep { transform: translateX(76px) skewX(-18deg); opacity: .72; }
-.aperture-image { filter: contrast(1.04) saturate(.78); transition: filter 260ms ease; }
-.aperture:hover .aperture-image, .aperture:focus-within .aperture-image { filter: contrast(1.12) saturate(.96); }
+.aperture-image { filter: contrast(1.03) saturate(1.02); transition: filter 260ms ease; }
+.aperture:hover .aperture-image, .aperture:focus-within .aperture-image { filter: contrast(1.09) saturate(1.10); }
 
 /* Product cards */
 .specimen-tray { position: relative; background: var(--surface-raised, var(--pearl)); border: 1px solid var(--border, var(--rule)); transition: border-color 220ms var(--standard), transform var(--dur-micro) var(--ease-out-expo); }
@@ -691,4 +700,151 @@ select {
   body.catalog-locked {
     display: none !important;
   }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   BRAND LOCKUP — cinematic entrance + recurring light sweep
+   The mark is the navbar's visual anchor: it gets a one-time
+   entrance, then a metallic sweep that repeats on a slow cycle.
+   The sweep is periodic rather than back-to-back — the pass keeps
+   its ~980ms travel and the mark then rests for ~6s — so it reads
+   as a recurring highlight, not a pulsing badge. Still no glow,
+   no scale loop and no rotation on the emblem itself.
+   ───────────────────────────────────────────────────────────── */
+
+@keyframes brand-emblem-enter {
+  from { opacity: 0; transform: scale(0.92); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+@keyframes brand-words-enter {
+  from { opacity: 0; transform: translateX(-0.32em); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* Metallic highlight crossing the mark, then holding off-frame for the rest
+   of the cycle. The travel is packed into the first 14% so the gap between
+   passes lives inside the same animation — CSS has no inter-iteration delay. */
+@keyframes brand-sheen-loop {
+  0%    { transform: translateX(-150%) skewX(-18deg); opacity: 0; }
+  1.5%  { opacity: 1; }
+  12%   { opacity: 1; }
+  14%   { transform: translateX(260%) skewX(-18deg); opacity: 0; }
+  100%  { transform: translateX(260%) skewX(-18deg); opacity: 0; }
+}
+
+.brand-lockup__emblem-img {
+  transition:
+    transform 500ms cubic-bezier(0.16, 1, 0.3, 1),
+    filter 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Hover: a small lift on the emblem plus a restrained warm halo —
+   deliberately not a gold bloom. */
+.group:hover .brand-lockup__emblem-img {
+  transform: scale(1.055);
+  filter: drop-shadow(0 2px 7px rgba(139, 26, 66, 0.20))
+          drop-shadow(0 0 2px rgba(198, 160, 94, 0.35));
+}
+
+.brand-lockup--enter .brand-lockup__emblem {
+  animation: brand-emblem-enter 780ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.brand-lockup--enter .brand-lockup__words {
+  animation: brand-words-enter 720ms cubic-bezier(0.16, 1, 0.3, 1) 140ms both;
+}
+
+.brand-lockup__sheen {
+  position: absolute;
+  /* The emblem's negative margins push it past the lockup's layout box, so the
+     sweep's clip region is opened up vertically to cover the whole mark. */
+  top: -0.55em;
+  bottom: -0.55em;
+  left: 0;
+  right: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: 0.35em;
+}
+
+.brand-lockup__sheen::before {
+  content: "";
+  position: absolute;
+  top: -20%;
+  bottom: -20%;
+  left: 0;
+  width: 42%;
+  opacity: 0;
+  /* `screen` leaves the near-white bar untouched and only lifts the dark
+     glyphs and the emblem's shadows as it passes — a highlight travelling
+     over the mark rather than a bright bar sliding across the navbar.
+     `overlay` reads as nothing at all on a ground this light. */
+  mix-blend-mode: screen;
+  background: linear-gradient(
+    100deg,
+    rgba(255, 255, 255, 0)    0%,
+    rgba(226, 195, 141, 0.30) 34%,
+    rgba(255, 252, 246, 0.62) 50%,
+    rgba(226, 195, 141, 0.30) 66%,
+    rgba(255, 255, 255, 0)    100%
+  );
+}
+
+/* First pass lands ~620ms in, just after the entrance settles; every 7s
+   thereafter. Linear, because the easing now spans the whole cycle rather
+   than the travel alone. Adjust the 7s to change how often it comes round. */
+.brand-lockup--enter .brand-lockup__sheen::before {
+  animation: brand-sheen-loop 7s linear 620ms infinite both;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-lockup--enter .brand-lockup__emblem,
+  .brand-lockup--enter .brand-lockup__words,
+  .brand-lockup--enter .brand-lockup__sheen::before {
+    animation: none !important;
+  }
+  .brand-lockup__sheen { display: none; }
+  .group:hover .brand-lockup__emblem-img {
+    transform: none;
+    filter: none;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   NAVBAR MARK SIZING
+   The bar is a three-zone grid whose centre nav and right-hand
+   CTA cluster both step up at lg and xl, so the width left over
+   for the mark is a moving target. A single vw clamp either
+   stays timid on wide screens or overflows the pill at 1024, so
+   the budget is tracked per breakpoint instead.
+   ───────────────────────────────────────────────────────────── */
+
+.navbar-brand {
+  /* Phone: only a hamburger sits opposite the mark, so the ceiling is the
+     wordmark's own run length rather than the bar's other content. */
+  --nav-brand-size: clamp(15px, 4.3vw, 20.5px);
+}
+
+@media (min-width: 768px) {
+  /* Tablet: still hamburger-only, and plenty of room. */
+  .navbar-brand { --nav-brand-size: 22.5px; }
+}
+
+/* The mark steps down with the bar on scroll; without this it would snap
+   while the pill's own height animates. */
+.navbar-brand .brand-lockup {
+  transition: font-size 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .navbar-brand .brand-lockup { transition: none; }
+}
+
+@media (min-width: 1024px) {
+  /* Desktop nav, phone pill and CTA all appear at once. Since the emblem and
+     text heights now match cleanly, the logo has a balanced profile and can
+     comfortably scale up to 21.5px. */
+  .navbar-brand { --nav-brand-size: clamp(15.5px, 1.1vw + 5.5px, 21.5px); }
 }

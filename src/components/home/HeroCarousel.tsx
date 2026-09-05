@@ -146,7 +146,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                 priority={index === 0}
                 placeholder={slide.imageLqip ? "blur" : "empty"}
                 blurDataURL={slide.imageLqip}
-                className={`object-cover transition-transform duration-[20s] ease-out brightness-[0.7] ${
+                className={`object-cover transition-transform duration-[20s] ease-out brightness-[0.88] ${
                   isActive && !isReducedMotion ? "scale-105" : "scale-100"
                 }`}
               />

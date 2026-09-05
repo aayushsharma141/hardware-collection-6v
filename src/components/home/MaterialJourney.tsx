@@ -34,32 +34,32 @@ const MATERIALS = [
   {
     name: "SATIN",
     subName: "Satin Steel",
-    desc: "Restrained. Architectural. Timeless. Satin finish diffuses light without glare &mdash; the professional's choice for contemporary residential and commercial specification.",
-    spec: "Surface: 180-grit satin brush &middot; Sheen: Low reflectance &middot; Application: Interior door & cabinet hardware",
+    desc: "Restrained. Architectural. Timeless. Satin finish diffuses light without glare — the professional's choice for contemporary residential and commercial specification.",
+    spec: "Surface: 180-grit satin brush · Sheen: Low reflectance · Application: Interior door & cabinet hardware",
     img: "/cinema/materials/HC-04-SATIN.png",
     sweepDelay: "0s",
   },
   {
     name: "BRASS",
     subName: "Living Brass",
-    desc: "Warm, breathing finish that deepens with time. Each handle develops a unique patina &mdash; the mark of architectural confidence and material honesty.",
-    spec: "Alloy: C26000 cartridge brass &middot; Treatment: Lacquer-free, living finish &middot; Note: Patination expected and valued",
+    desc: "Warm, breathing finish that deepens with time. Each handle develops a unique patina — the mark of architectural confidence and material honesty.",
+    spec: "Alloy: C26000 cartridge brass · Treatment: Lacquer-free, living finish · Note: Patination expected and valued",
     img: "/cinema/materials/HC-04-PVD-BRASS.png",
     sweepDelay: "2s",
   },
   {
     name: "MATTE BLACK",
     subName: "Architectural Black",
-    desc: "Crisp contrast. Modern spatial definition. Matte black hardware reads as a deliberate decision &mdash; geometry made visible.",
-    spec: "Process: Powder-coat or PVD black &middot; Sheen: 0–5° gloss units &middot; Application: Contemporary & industrial interiors",
+    desc: "Crisp contrast. Modern spatial definition. Matte black hardware reads as a deliberate decision — geometry made visible.",
+    spec: "Process: Powder-coat or PVD black · Sheen: 0–5° gloss units · Application: Contemporary & industrial interiors",
     img: "/cinema/materials/HC-04-MATTE.png",
     sweepDelay: "4s",
   },
   {
     name: "CHROME",
     subName: "Polished Chrome",
-    desc: "Brilliant precision. Chrome reflects its environment without apology &mdash; for spaces designed to impress at every surface.",
-    spec: "Process: Triple-layered PVD chrome &middot; Hardness: 9H surface &middot; Application: Bathrooms, hospitality, feature entrances",
+    desc: "Brilliant precision. Chrome reflects its environment without apology — for spaces designed to impress at every surface.",
+    spec: "Process: Triple-layered PVD chrome · Hardness: 9H surface · Application: Bathrooms, hospitality, feature entrances",
     img: "/cinema/materials/HC-04-BRUSHED.png", // Reusing Brushed as Chrome stand-in for now
     sweepDelay: "1s",
   },
@@ -67,7 +67,7 @@ const MATERIALS = [
     name: "BRONZE",
     subName: "Oil-Rubbed Bronze",
     desc: "Deep heritage. Rich transitional character. Bronze hardware speaks of a space that considers its history and its future simultaneously.",
-    spec: "Base: Solid brass &middot; Treatment: Chemical patina, sealed &middot; Application: Heritage, luxury residential, hospitality",
+    spec: "Base: Solid brass · Treatment: Chemical patina, sealed · Application: Heritage, luxury residential, hospitality",
     img: "/cinema/materials/HC-04-DARK-METAL.png",
     sweepDelay: "3s",
   },
@@ -207,9 +207,9 @@ export default function MaterialJourney() {
             <img
               src={MATERIALS[1].img}
               alt="Architectural Brass Finish"
-              className="w-full h-full object-cover opacity-90"
+              className="w-full h-full object-cover"
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/80 via-transparent to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/55 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
               <div>
                 <p className="text-[var(--accent)] text-[10px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
@@ -256,7 +256,7 @@ export default function MaterialJourney() {
               <img
                 src={MATERIALS[1].img}
                 alt="Architectural Brass Finish"
-                className="w-full h-full object-cover opacity-90"
+                className="w-full h-full object-cover"
               />
               <div 
                 className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-[0.04]"
@@ -268,7 +268,7 @@ export default function MaterialJourney() {
                 aria-hidden="true"
                 style={{ "--sweep-delay": "1s" } as React.CSSProperties}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/85 via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/60 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
                 <div>
                   <p className="hc-mono text-[#c8a96e] text-xs tracking-widest uppercase font-semibold">FEATURED SPECIMEN</p>
@@ -376,7 +376,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
             src={mat.img}
             alt={mat.subName}
             className="w-full h-full object-cover"
-            style={{ filter: "contrast(1.05) brightness(0.85)" }}
+            style={{ filter: "contrast(1.04) saturate(1.03)" }}
           />
           {/* Subtle Grain Overlay */}
           <div 
@@ -403,7 +403,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
             aria-hidden="true"
             style={{ "--sweep-delay": mat.sweepDelay } as React.CSSProperties}
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[var(--surface)]/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[var(--surface)]/28" />
         </div>
 
         {/* Right: Typography */}
@@ -422,7 +422,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
             className="mat-spec text-[var(--text-secondary)] text-sm leading-relaxed max-w-md font-normal opacity-0"
             style={{ whiteSpace: "pre-line" }}
           >
-            {mat.spec.replace(" &middot; ", "\n")}
+            {mat.spec.replace(" · ", "\n")}
           </p>
           <Link
             href="/collections"

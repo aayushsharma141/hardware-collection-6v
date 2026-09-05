@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-30T15:27:26.056Z",
+  "generatedAt": "2026-09-05T06:45:36.604Z",
   "algorithm": "Ed25519",
-  "totalArtifacts": 2,
-  "signature": "1c355e8889168bbea6da9be4ae7339b6ab53ba571d091fac3abc01740a10f5fe504d791f6798960fb5175d6913ba950275417d2aa1da2f472691c9c81d16430d",
+  "totalArtifacts": 4,
+  "signature": "28539c83a487beb4f858c86a69546e82bb9a0eb92be504f9d758e58faec8aa3bd30801abda180e2c074f6341913337c7409edeb9719c84a02bfabf33efe8f80a",
   "publicKeyPath": "docs/evidence/public.key"
 }

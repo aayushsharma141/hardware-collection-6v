@@ -94,7 +94,7 @@ export default async function HomePage() {
 
   return (
     <div
-      className="min-h-[100dvh] text-[#1a1017] bg-[#fdf8f0] overflow-x-hidden relative selection:bg-[#8b1a42] selection:text-white"
+      className="min-h-[100dvh] text-[#1a1017] bg-[#fbf5ea] overflow-x-hidden relative selection:bg-[#8b1a42] selection:text-white"
       style={{}}
     >
       {/* ── Global Cinema System ─────────────────────────────────── */}
@@ -121,18 +121,14 @@ export default async function HomePage() {
           <HeroTrustBadges />
         </div>
 
-        {/* Mobile Experience (Stitch Redesign) */}
+        {/* Mobile Mid-Section Experience */}
         <div className="block lg:hidden">
           <MobileCategoryDiscovery />
           <MobileProductReel />
           <MobileReviews reviews={testimonials} />
-          {/* Our Legacy — mirrors the desktop placement: the story of the
-              business immediately before the invitation to visit. */}
-          <AboutStory id="about-mobile" />
-          <MobileConsultation />
         </div>
 
-        {/* Desktop Experience (Legacy) */}
+        {/* Desktop Mid-Section Experience */}
         <div className="hidden lg:block">
           {/* CH03 — Form & Function (MEDIUM) */}
           <div className="theme-ivory">
@@ -153,9 +149,18 @@ export default async function HomePage() {
           <div className="theme-ivory">
             <ShowroomCinematic />
           </div>
+        </div>
 
-          {/* CH07 — Come Feel It · Quiet Conversion Zone (QUIET)
-               Zone split is internal: reviews → theme-ivory, CTA → theme-dark */}
+        {/* CH06.5 — Our Legacy (Single responsive semantic instance) */}
+        <div className="theme-ivory">
+          <AboutStory id="about" />
+        </div>
+
+        {/* CH07 — Final Conversion & Consultation Zone */}
+        <div className="block lg:hidden">
+          <MobileConsultation />
+        </div>
+        <div className="hidden lg:block">
           <FloatingCTA reviews={testimonials} cta={homeData?.finalCTA} />
         </div>
       </main>

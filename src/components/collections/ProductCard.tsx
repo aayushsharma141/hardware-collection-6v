@@ -69,16 +69,16 @@ export default function ProductCard({
             placeholder={product.imageLqip ? "blur" : "empty"}
             blurDataURL={product.imageLqip}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-            className="object-contain p-4 relative z-[2] opacity-85 transition-transform duration-500 ease-out group-hover:scale-105"
+            className="object-contain p-4 relative z-[2] transition-transform duration-500 ease-out group-hover:scale-105"
           />
 
           {/* Live Display or Focal Badge */}
           {product.displayStatus ? (
-            <span className="absolute left-4 top-4 z-[3] border border-[var(--accent)]/60 bg-[#fdf8f0]/90 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[var(--accent)] font-semibold">
+            <span className="absolute left-4 top-4 z-[3] border border-[var(--accent)]/60 bg-[#fbf5ea]/90 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[var(--accent)] font-semibold">
               {product.displayStatus}
             </span>
           ) : isFeatured ? (
-            <span className="absolute left-4 top-4 z-[3] border border-[var(--accent)]/60 bg-[#fdf8f0]/90 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[var(--accent)] font-semibold">
+            <span className="absolute left-4 top-4 z-[3] border border-[var(--accent)]/60 bg-[#fbf5ea]/90 px-2.5 py-1 text-[9px] uppercase tracking-[0.16em] text-[var(--accent)] font-semibold">
               Featured Specimen
             </span>
           ) : null}

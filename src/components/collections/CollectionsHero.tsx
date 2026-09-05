@@ -30,7 +30,7 @@ export default function CollectionsHero({
         <div className="max-w-4xl">
           {/* Eyebrow */}
           <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-4 block">
-            ARCHITECTURAL HARDWARE &middot; SAKCHI &middot; JAMSHEDPUR
+            ARCHITECTURAL HARDWARE · SAKCHI · JAMSHEDPUR
           </span>
 
           {/* Title */}
@@ -73,7 +73,7 @@ export default function CollectionsHero({
                     {stat}
                   </span>
                   {idx < stats.length - 1 && (
-                    <span className="h-3.5 w-px bg-white/[0.20]" aria-hidden="true" />
+                    <span className="h-3.5 w-px bg-[var(--text-secondary)]/25" aria-hidden="true" />
                   )}
                 </div>
               ))}

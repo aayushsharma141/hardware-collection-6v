@@ -60,7 +60,7 @@ export default function HeroTrustBadges() {
   return (
     <section
       aria-label="Showroom Trust Indicators"
-      className="w-full bg-[#fdf8f0] border-b border-[#1a1017]/[0.08] py-8 lg:py-10 relative z-10"
+      className="w-full bg-[#fbf5ea] border-b border-[#1a1017]/[0.08] py-8 lg:py-10 relative z-10"
     >
       <div className="max-w-[1360px] mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-6 lg:gap-0 lg:divide-x lg:divide-[#1a1017]/[0.08]">

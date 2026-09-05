@@ -24,10 +24,11 @@ import { SIGNATURE_PIECES } from "@/content/fallback/home";
  * under cinematic photography read as a wall of text; the photograph is the
  * argument here and one sentence is enough to support it.
  *
- * The section also moves to `bg-surface-obsidian` from `bg-background`. Its
- * type is bone (#e8e3d9) and `--color-background` resolves to white, so every
- * heading and blurb here was shipping at 1.13:1 - "Flagship pieces" was
- * invisible on a phone.
+ * The section sits on `--surface-raised`, a step up from the page ground, so
+ * it reads as featured without leaving the warm palette. It was previously
+ * flipped to obsidian because its type is bone (#e8e3d9) and the page canvas
+ * resolved to white - 1.13:1, invisible on a phone. The canvas is warm ivory
+ * now and the type here is on-light, so the dark island is no longer needed.
  */
 const FEATURED = SIGNATURE_PIECES.slice(0, 3);
 
@@ -35,23 +36,23 @@ export default function MobileProductReel() {
   const [openIndex, setOpenIndex] = useState(FEATURED[0].index);
 
   return (
-    <section className="w-full px-margin-mobile pt-[88px] pb-[72px] bg-surface-obsidian border-t border-outline-variant lg:hidden">
+    <section className="w-full px-margin-mobile pt-[88px] pb-[72px] bg-[var(--surface-raised)] border-t border-[var(--border)] lg:hidden">
       <div className="flex flex-col">
-        <p className="font-label-caps t-eyebrow text-[#c8a96e]">
+        <p className="font-label-caps t-eyebrow text-brass-ink">
           Selected hardware
         </p>
-        <h2 className="font-headline-md t-h2 mt-3 text-text-bone">
+        <h2 className="font-headline-md t-h2 mt-3 text-[var(--text-primary)]">
           Flagship pieces
         </h2>
       </div>
 
-      <ul className="mt-unit-lg border-t border-outline-variant">
+      <ul className="mt-unit-lg border-t border-[var(--border)]">
         {FEATURED.map((piece) => {
           const isOpen = piece.index === openIndex;
           const panelId = `piece-panel-${piece.index}`;
 
           return (
-            <li key={piece.index} className="border-b border-outline-variant">
+            <li key={piece.index} className="border-b border-[var(--border)]">
               <h3>
                 <button
                   type="button"
@@ -60,7 +61,7 @@ export default function MobileProductReel() {
                   aria-controls={isOpen ? panelId : undefined}
                   className="hc-focus flex w-full items-start gap-unit-md py-5 min-h-[64px] text-left transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] motion-reduce:transition-none motion-reduce:active:scale-100"
                 >
-                  <span className="hc-mono t-meta shrink-0 pt-1.5 text-[#c8a96e]">
+                  <span className="hc-mono t-meta shrink-0 pt-1.5 text-brass-ink">
                     {piece.index}
                   </span>
 
@@ -68,10 +69,10 @@ export default function MobileProductReel() {
                       manufacturer first, and it keeps the serif name as the
                       one large object in the row. */}
                   <span className="min-w-0 flex-1">
-                    <span className="hc-mono block text-[11px] uppercase tracking-[0.2em] text-text-muted">
+                    <span className="hc-mono block text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
                       {piece.brand}
                     </span>
-                    <span className="block font-headline-md t-h3 mt-1 text-text-bone">
+                    <span className="block font-headline-md t-h3 mt-1 text-[var(--text-primary)]">
                       {piece.name}
                     </span>
                   </span>
@@ -83,7 +84,7 @@ export default function MobileProductReel() {
                     }`}
                   >
                     <svg
-                      className="w-4 h-4 text-[#c8a96e]"
+                      className="w-4 h-4 text-brass-ink"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"
@@ -110,21 +111,21 @@ export default function MobileProductReel() {
                   {/* Full-bleed: width stays auto so the negative margins
                       expand the frame to the viewport edges while the copy
                       below holds the section margin. */}
-                  <div className="relative -mx-margin-mobile aspect-[3/2] overflow-hidden border-y border-outline-variant bg-surface-graphite">
+                  <div className="relative -mx-margin-mobile aspect-[3/2] overflow-hidden border-y border-[var(--border)] bg-[var(--surface-elevated)]">
                     <Image
                       src={piece.img}
                       alt={`${piece.brand} ${piece.name.toLowerCase()} in ${piece.finish}`}
                       fill
                       sizes="(max-width: 1024px) 100vw, 400px"
-                      className="object-cover opacity-90"
+                      className="object-cover"
                     />
                   </div>
 
-                  <p className="hc-mono t-meta mt-unit-md uppercase text-text-muted">
+                  <p className="hc-mono t-meta mt-unit-md uppercase text-[var(--text-secondary)]">
                     {piece.finish}
                   </p>
 
-                  <p className="t-body-sm mt-2 font-light text-text-muted max-w-[62ch]">
+                  <p className="t-body-sm mt-2 font-light text-[var(--text-secondary)] max-w-[62ch]">
                     {piece.statement}
                   </p>
 
@@ -136,18 +137,18 @@ export default function MobileProductReel() {
                       )}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="hc-focus inline-flex items-center min-h-[44px] px-unit-lg border border-[#c8a96e] text-text-bone font-ui-button text-ui-button uppercase transition-[color,background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:bg-[#c8a96e] active:text-surface-obsidian active:scale-[0.97] motion-reduce:active:scale-100"
+                      className="hc-focus inline-flex items-center min-h-[44px] px-unit-lg border border-[var(--accent)] text-[var(--accent)] font-ui-button text-ui-button uppercase transition-[color,background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:bg-[var(--accent)] active:text-white active:scale-[0.97] motion-reduce:active:scale-100"
                     >
                       Ask about this
                     </a>
 
                     <Link
                       href={piece.href}
-                      className="hc-focus inline-flex items-center gap-2 min-h-[44px] text-[13px] font-medium uppercase tracking-[0.14em] text-text-muted active:text-text-bone transition-colors"
+                      className="hc-focus inline-flex items-center gap-2 min-h-[44px] text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--text-secondary)] active:text-[var(--text-primary)] transition-colors"
                     >
                       View in {piece.category}
                       <svg
-                        className="w-3.5 h-3.5 text-[#c8a96e]"
+                        className="w-3.5 h-3.5 text-[var(--accent)]"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -171,7 +172,7 @@ export default function MobileProductReel() {
 
       <Link
         href="/collections"
-        className="hc-focus mt-unit-lg flex items-center justify-center gap-3 min-h-[52px] w-full border border-outline-variant text-text-bone font-ui-button text-ui-button uppercase transition-[color,border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:border-[#c8a96e] active:text-[#c8a96e] active:scale-[0.98] motion-reduce:active:scale-100"
+        className="hc-focus mt-unit-lg flex items-center justify-center gap-3 min-h-[52px] w-full border border-[var(--border)] text-[var(--text-primary)] font-ui-button text-ui-button uppercase transition-[color,border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:border-[var(--accent)] active:text-[var(--accent)] active:scale-[0.98] motion-reduce:active:scale-100"
       >
         Explore the full collection
         <span aria-hidden="true">&rarr;</span>

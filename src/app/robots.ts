@@ -4,7 +4,7 @@ export default function robots(): MetadataRoute.Robots {
   return {
     rules: {
       userAgent: '*',
-      allow: ['/', '/collections'],
+      allow: '/',
       disallow: ['/studio/', '/api/'],
     },
     sitemap: 'https://hardwarecollection.co/sitemap.xml',

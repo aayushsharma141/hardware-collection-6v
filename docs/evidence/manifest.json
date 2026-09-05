@@ -1,10 +1,12 @@
 {
   "schemaVersion": "1.0",
-  "generatedAt": "2026-08-30T15:27:26.056Z",
+  "generatedAt": "2026-09-05T06:45:36.604Z",
   "generator": "antigravity-evidence-engine@1.0",
-  "totalArtifacts": 2,
+  "totalArtifacts": 4,
   "checksums": {
     "EV-4ffebf0-2026-08-30T1527-v1.0.json": "c334b1c428ea1dc9bdaeb83b9c2ff54d1372b468812b5fb21651436f236de3c6",
-    "latest-release.json": "c334b1c428ea1dc9bdaeb83b9c2ff54d1372b468812b5fb21651436f236de3c6"
+    "EV-997e530-2026-09-05T0639-v1.0.json": "a3f299d08e715e5d3b4d3d4bc120d5c3fad1a388965f2c7a46d12bc6d06a70a0",
+    "EV-997e530-2026-09-05T0645-v1.0.json": "d5ff0aedabe438465098f8b556d2d3e72a1e50e0a28ed62fe0a3c1afab045b92",
+    "latest-release.json": "d5ff0aedabe438465098f8b556d2d3e72a1e50e0a28ed62fe0a3c1afab045b92"
   }
 }

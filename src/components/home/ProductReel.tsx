@@ -138,7 +138,7 @@ export default function ProductReel() {
               Selected architectural hardware from our authorized partners.
             </p>
             <p className="text-[var(--text-secondary)] text-xs mt-6">
-              01 &mdash; {PRODUCTS.length.toString().padStart(2, "0")}
+              01 — {PRODUCTS.length.toString().padStart(2, "0")}
             </p>
           </div>
 
@@ -185,7 +185,7 @@ function ProductCard({
         <img
           src={product.img}
           alt={`${product.brand} ${product.name}`}
-          className="w-full h-full object-cover opacity-80 group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
+          className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
         />
         {/* Hover darkened overlay for editorial contrast */}
         <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -195,14 +195,14 @@ function ProductCard({
           aria-hidden="true"
           style={{ "--sweep-delay": product.sweepDelay } as React.CSSProperties}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/30 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/12 to-transparent pointer-events-none" />
       </div>
 
       {/* Specimen label */}
       <div className="space-y-1">
         <div className="flex items-baseline justify-between mb-2">
           <p className="text-[var(--text-secondary)] text-[10px] tracking-widest uppercase opacity-70">
-            {product.index} &middot; {product.category}
+            {product.index} · {product.category}
           </p>
           <span className="text-[var(--text-secondary)] text-sm group-hover:translate-x-1 transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)]" aria-hidden="true">
             &rarr;
@@ -268,14 +268,14 @@ function MobileProductCard({
         <img
           src={product.img}
           alt={`${product.brand} ${product.name}`}
-          className="w-full h-full object-cover opacity-80 group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
+          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
         />
         <div
           className="light-sweep-overlay"
           aria-hidden="true"
           style={{ "--sweep-delay": product.sweepDelay } as React.CSSProperties}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/12 to-transparent" />
       </div>
 
       {/* Editorial label: brand (brass) → name → explore */}

@@ -12,6 +12,15 @@ import {
 import { CATEGORIES, BRANDS, PRODUCTS } from "@/content/fallback/catalog";
 import { SPACES } from "@/content/fallback/spaces";
 import { Category, Product, Brand, Space } from "@/types/catalog";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: {
+    absolute: "Architectural Hardware Collections | Hardware Collection Jamshedpur",
+  },
+  description:
+    "Explore curated architectural hardware collections in Sakchi, Jamshedpur. Premium door handles, digital locks, modular kitchen systems, and luxury fittings.",
+};
 
 // Use Next.js revalidation strategy for Sanity content
 export const revalidate = 60; // Revalidate every 60 seconds
@@ -110,7 +119,7 @@ export default async function CollectionsPage() {
   return (
     <Suspense
       fallback={
-        <div className="w-full min-h-screen bg-[#0E0C0C] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[#A39E93]">
+        <div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">
           Loading collections...
         </div>
       }

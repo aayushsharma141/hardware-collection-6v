@@ -66,14 +66,11 @@ export default function CategoryDiscovery() {
               <div className="threshold-image relative aspect-[5/7] overflow-hidden bg-[#181716]">
                 <img
                   alt={`${cat.name} showroom family`}
-                  className={`h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:scale-[1.03] ${
-                    cat.isFocal ? "opacity-[0.9]" : "opacity-[0.8]"
-                  }`}
+                  className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:scale-[1.03]"
                   decoding="async"
                   loading="lazy"
                   src={cat.image}
                 />
-                <div className="absolute inset-0 bg-[var(--surface)]/[0.15]" />
                 <span className="absolute left-4 top-4 hc-mono text-xs tracking-[0.18em] font-semibold text-[#c8a96e]">
                   {cat.index}
                 </span>
@@ -138,7 +135,7 @@ export default function CategoryDiscovery() {
             </h3>
           </div>
           <span className="hc-mono text-xs tracking-[0.16em] text-[var(--text-secondary)]">
-            01 &mdash; 05
+            01 — 05
           </span>
         </div>
 
@@ -161,7 +158,7 @@ export default function CategoryDiscovery() {
               </span>
               <img
                 alt={cat.name}
-                className="h-[56px] w-[80px] object-cover opacity-[0.9] rounded-lg border border-[var(--border)]"
+                className="h-[56px] w-[80px] object-cover rounded-lg border border-[var(--border)]"
                 decoding="async"
                 loading="lazy"
                 src={cat.image}

@@ -16,10 +16,12 @@ import { generateWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
  * typographic hierarchy, no pinning, no parallax. It is where the scroll slows
  * down long enough to say who the business is before asking anyone to visit.
  *
- * The years figure follows the brand direction given by the owner. The brand
- * count is no longer written here: it is derived from the roster in
- * BrandTrustStrip, which is what resolves this section saying "20+ Authorised
- * Brands" while the conversion chapter said "23 Authorized Brands".
+ * Years and brand count follow the owner's stated positioning: 10+ years and
+ * 20+ authorized brands. "20+" is deliberately a floor rather than an exact
+ * figure — CANONICAL_BRANDS currently holds 22, so the claim stays true as the
+ * roster moves. AUTHORIZED_BRAND_COUNT in BrandTrustStrip is the exact number
+ * where one is needed. Spelling is "Authorized" throughout, matching the rest
+ * of the site rather than the British form used in the brief.
  */
 
 const SHOWROOM_IMAGE =
@@ -40,7 +42,7 @@ const PILLARS = [
   {
     id: "brands",
     index: "02",
-    title: "Leading Authorized Brands",
+    title: "20+ Authorized Brands",
     body: "Genuine products, sourced through official partnerships.",
   },
   {
@@ -96,7 +98,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
         {/* Stat pair */}
         <div className="grid grid-cols-2 border border-[var(--border)] divide-x divide-white/10 mb-8 rounded-xl overflow-hidden bg-[var(--surface-raised)]">
           <Stat value="10+" label="Years of Trust" />
-          <Stat value="100%" label="Authorized Sourcing" />
+          <Stat value="20+" label="Authorized Brands" />
         </div>
 
         <div className="relative aspect-[4/3] w-full overflow-hidden border border-[var(--border)] mb-8 rounded-2xl bg-[var(--surface-raised)]">
@@ -104,7 +106,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
             src={SHOWROOM_IMAGE}
             alt={SHOWROOM_IMAGE_ALT}
             className="w-full h-full object-cover"
-            style={{ filter: "contrast(1.08) saturate(0.85) brightness(0.92)" }}
+            style={{ filter: "contrast(1.05) saturate(1.03)" }}
             loading="lazy"
           />
           <div
@@ -121,7 +123,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
         <div className="space-y-4 t-body text-[var(--text-secondary)] font-light">
           <p>
             Architectural hardware, digital locks and modular kitchen and
-            wardrobe systems &mdash; chosen in Sakchi for homeowners, architects
+            wardrobe systems — chosen in Sakchi for homeowners, architects
             and contractors alike.
           </p>
           <p>
@@ -137,7 +139,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
           </h3>
           <p className="t-body-sm text-[var(--text-secondary)] font-light">
             What sets us apart is not the number of brands on our shelves
-            &mdash; it is help choosing the right one.
+            — it is help choosing the right one.
           </p>
         </div>
 
@@ -184,7 +186,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
               <p className="hc-mono text-xs tracking-[0.2em] uppercase font-medium text-[var(--text-secondary)] mb-10">
                 10+ Years of Trust
                 <span className="text-[var(--accent)] mx-3">·</span>
-                Authorized Brands
+                20+ Authorized Brands
                 <span className="text-[var(--accent)] mx-3">·</span>
                 One Destination
               </p>
@@ -203,7 +205,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
                 <p>
                   From door hardware and digital locks to modular kitchen fittings,
                   wardrobe systems, furniture hardware, glass fittings, bathroom
-                  accessories, sinks and architectural fittings &mdash; our showroom
+                  accessories, sinks and architectural fittings — our showroom
                   brings together a carefully selected range for modern residential
                   and commercial spaces.
                 </p>
@@ -231,7 +233,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
                 </h3>
                 <p className="text-base xl:text-lg text-[var(--text-secondary)] font-light leading-relaxed">
                   What sets Hardware Collection apart is not simply the number of
-                  brands on our shelves &mdash; it is the experience of choosing the
+                  brands on our shelves — it is the experience of choosing the
                   right solution. Whether you are building a new home, renovating a
                   kitchen, specifying hardware for a project or upgrading security,
                   our team helps you compare options, understand applications and
@@ -250,7 +252,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
                   alt={SHOWROOM_IMAGE_ALT}
                   className="w-full h-full object-cover"
                   style={{
-                    filter: "contrast(1.12) saturate(0.8) brightness(0.9)",
+                    filter: "contrast(1.06) saturate(1.03)",
                   }}
                   loading="lazy"
                 />
@@ -260,7 +262,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
                 />
 
                 {/* Standing stat — the one number that carries the section */}
-                <div className="absolute bottom-6 left-6 bg-[#fdf8f0]/95 backdrop-blur-md border border-[var(--border)] px-7 py-5 rounded-2xl shadow-lg">
+                <div className="absolute bottom-6 left-6 bg-[#fbf5ea]/95 backdrop-blur-md border border-[var(--border)] px-7 py-5 rounded-2xl shadow-lg">
                   <p className="hc-serif text-5xl text-[var(--accent)] leading-none mb-1.5 font-normal">
                     10+
                   </p>
@@ -273,10 +275,10 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
               <div className="mt-6 border border-[var(--border)] divide-y divide-[var(--border)] rounded-2xl overflow-hidden bg-[var(--surface-raised)]">
                 <div className="px-7 py-5 flex items-baseline gap-4">
                   <span className="hc-serif text-4xl text-[var(--accent)] leading-none tabular-nums font-normal">
-                    100%
+                    20+
                   </span>
                   <span className="hc-mono text-xs uppercase tracking-[0.2em] font-semibold text-[var(--text-secondary)]">
-                    Authorized Sourcing
+                    Authorized Brands
                   </span>
                 </div>
                 <div className="px-7 py-5">
@@ -340,7 +342,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
           <img
             src="/cinema/showroom/exterior-2.png"
             alt="Showroom Location Entrance"
-            className="w-full h-full object-cover opacity-10 filter grayscale contrast-125 mix-blend-multiply"
+            className="w-full h-full object-cover opacity-[0.08] filter sepia-[0.45] contrast-110 mix-blend-multiply"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--surface-raised)] via-transparent to-[var(--surface-raised)] opacity-90" />
         </div>
@@ -351,7 +353,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
               VISIT SAKCHI SHOWROOM
             </p>
             <p className="hc-serif text-3xl sm:text-4xl lg:text-5xl text-[var(--text-primary)] font-light leading-tight">
-              Visit Hardware Collection, Sakchi &mdash; and discover the details that
+              Visit Hardware Collection, Sakchi — and discover the details that
               make a space feel complete.
             </p>
             <p className="mt-6 text-sm lg:text-base text-[var(--text-secondary)] font-light leading-relaxed max-w-lg">

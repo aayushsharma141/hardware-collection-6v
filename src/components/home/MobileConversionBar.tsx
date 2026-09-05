@@ -34,7 +34,7 @@ export default function MobileConversionBar({ cta }: { cta?: SanityCta }) {
       aria-label="Quick contact actions"
     >
       {/* Frosted separator */}
-      <div className="absolute inset-0 bg-[#fdf8f0]/95 backdrop-blur-md border-t border-[var(--border)]" aria-hidden="true" />
+      <div className="absolute inset-0 bg-[#fbf5ea]/95 backdrop-blur-md border-t border-[var(--border)]" aria-hidden="true" />
 
       {/* Button row — constrained to --mobile-bar-height, safe area is padding below */}
       <div
@@ -71,7 +71,7 @@ export default function MobileConversionBar({ cta }: { cta?: SanityCta }) {
         {/* Divider */}
         <div className="w-px bg-[var(--border)] self-stretch my-2" aria-hidden="true" />
 
-        {/* Visit */}
+        {/* Directions */}
         <a
           href={SHOWROOM_MAP_URL}
           target="_blank"
@@ -80,7 +80,7 @@ export default function MobileConversionBar({ cta }: { cta?: SanityCta }) {
           className="flex-1 flex flex-col items-center justify-center gap-0.5 text-[var(--text-primary)] active:bg-white/5 transition-colors duration-150 min-h-[44px]"
         >
           <MapIcon />
-          <span className="text-[12px] tracking-[0.14em] uppercase font-medium">Visit</span>
+          <span className="text-[12px] tracking-[0.14em] uppercase font-medium">Directions</span>
         </a>
       </div>
 

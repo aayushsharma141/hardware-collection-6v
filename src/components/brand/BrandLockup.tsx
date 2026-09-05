@@ -11,8 +11,9 @@ const COLLECTION_LETTERS = "COLLECTION".split("");
 // looks like it should, so these fractions pull the layout box in to hug the mark.
 // Box side, in em, per layout. Each is (that layout's text-block height) / 0.6632,
 // so the *visible* mark ends up exactly as tall as the type beside it. The stacked
-// wordmark is 2.49em tall; the inline one is 1.66em.
-const EMBLEM_BOX_EM = { stacked: 3.75, inline: 2.8 } as const;
+// wordmark is 2.49em tall (2.49 / 0.6632 ≈ 3.75); the inline wordmark is 0.98em
+// tall (0.98 / 0.6632 ≈ 1.48).
+const EMBLEM_BOX_EM = { stacked: 3.75, inline: 1.48 } as const;
 const EMBLEM_PAD = { top: 0.1808, bottom: 0.156, left: 0.0651 } as const;
 
 export interface BrandLockupProps {
@@ -28,6 +29,12 @@ export interface BrandLockupProps {
   priority?: boolean;
   /** Rendered width of the emblem bitmap, passed through to next/image. */
   emblemSizes?: string;
+  /**
+   * Plays the entrance on mount — emblem scale-in, wordmark slide — and then
+   * runs the metallic sweep across the mark on a slow repeating cycle.
+   * Reserved for the navbar, where the mark is the page's visual anchor.
+   */
+  animateEntrance?: boolean;
   className?: string;
 }
 
@@ -42,13 +49,16 @@ export function BrandLockup({
   fontSize,
   priority = false,
   emblemSizes = "120px",
+  animateEntrance = false,
   className = "",
 }: BrandLockupProps) {
   const box = EMBLEM_BOX_EM[layout];
 
   return (
     <span
-      className={`inline-flex items-stretch align-bottom gap-[0.45em] max-w-full leading-none ${className}`}
+      className={`brand-lockup relative inline-flex items-stretch align-bottom gap-[0.45em] max-w-full leading-none ${
+        animateEntrance ? "brand-lockup--enter" : ""
+      } ${className}`}
       style={{
         // Jost — a geometric sans in the Futura lineage. Futura itself is a
         // licensed Monotype face; point --font-wordmark at self-hosted files
@@ -63,7 +73,7 @@ export function BrandLockup({
           EMBLEM_PAD), so the emblem optically matches the wordmark's height
           instead of rendering a third smaller inside its own padding. */}
       <span
-        className="relative block shrink-0 self-center"
+        className="brand-lockup__emblem relative block shrink-0 self-center"
         style={{
           width: `${box}em`,
           height: `${box}em`,
@@ -78,11 +88,11 @@ export function BrandLockup({
           fill
           sizes={emblemSizes}
           priority={priority}
-          className="object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+          className="brand-lockup__emblem-img object-contain"
         />
       </span>
 
-      <span className="flex flex-col items-stretch justify-center min-w-0">
+      <span className="brand-lockup__words flex flex-col items-stretch justify-center min-w-0">
         {layout === "stacked" ? (
           <>
             {/* HARDWARE — crimson, moderately tight tracking. The negative right
@@ -133,6 +143,13 @@ export function BrandLockup({
         )}
 
       </span>
+
+      {/* Recurring metallic pass over the finished mark. Purely decorative,
+          sits above the lockup and clips to it; removed entirely under
+          prefers-reduced-motion. */}
+      {animateEntrance && (
+        <span className="brand-lockup__sheen" aria-hidden="true" />
+      )}
     </span>
   );
 }

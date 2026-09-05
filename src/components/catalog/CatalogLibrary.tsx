@@ -11,6 +11,7 @@ import { CANONICAL_BRANDS, CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/c
 interface CatalogLibraryProps {
   brands: Brand[];
   onSelectBrand?: (brand: ResolvedBrand) => void;
+  selectedBrandSlug?: string | null;
 }
 
 const DEFAULT_BRANDS = CANONICAL_BRANDS.map((b) => ({
@@ -18,7 +19,7 @@ const DEFAULT_BRANDS = CANONICAL_BRANDS.map((b) => ({
   slug: b.id,
 }));
 
-export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibraryProps) {
+export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlug }: CatalogLibraryProps) {
   const displayBrands: Brand[] = [...DEFAULT_BRANDS];
   if (brands && brands.length > 0) {
     brands.forEach(b => {
@@ -31,6 +32,16 @@ export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibrary
       }
     });
   }
+
+  React.useEffect(() => {
+    if (!selectedBrandSlug) return;
+    const targetKey = selectedBrandSlug.toLowerCase().replace(/[^a-z0-9]/g, "");
+    const el = document.getElementById(`brand-card-${targetKey}`);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth", block: "center" });
+    }
+  }, [selectedBrandSlug]);
+
   return (
     <section id="official-catalogs" className="py-20 md:py-28 bg-[var(--surface)] text-[var(--text-primary)] border-t border-[var(--border)]">
       <div className="max-w-[1320px] mx-auto px-6">
@@ -79,16 +90,31 @@ export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibrary
               }
             };
 
+            const isSelected = Boolean(
+              selectedBrandSlug &&
+              (key === selectedBrandSlug.toLowerCase().replace(/[^a-z0-9]/g, "") ||
+               meta.name.toLowerCase().replace(/[^a-z0-9]/g, "") === selectedBrandSlug.toLowerCase().replace(/[^a-z0-9]/g, ""))
+            );
+
             return (
               <div 
+                id={`brand-card-${key}`}
                 key={brand._id || brand.id || key || idx}
                 onClick={handleCardClick}
-                className="bg-[var(--surface-raised)] border border-[var(--border)] p-8 flex flex-col justify-between min-h-[340px] rounded-2xl group relative overflow-hidden cursor-pointer transition-all duration-300 hover:border-[var(--accent)]/50 hover:bg-[var(--surface-elevated)] hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)]"
+                className={`bg-[var(--surface-raised)] border p-8 flex flex-col justify-between min-h-[340px] rounded-2xl group relative overflow-hidden cursor-pointer transition-all duration-300 hover:bg-[var(--surface-elevated)] ${
+                  isSelected
+                    ? "border-[#8b1a42] ring-2 ring-[#8b1a42]/30 shadow-[0_20px_45px_rgba(139,26,66,0.18)] bg-[var(--surface-elevated)]"
+                    : "border-[var(--border)] hover:border-[var(--accent)]/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)]"
+                }`}
               >
                 {/* Top Badge */}
-                <div className="flex items-center justify-between">
-                  <span className="text-xs uppercase font-bold tracking-[0.2em] text-[#c8a96e] bg-[#C8A96E]/10 px-3 py-1 rounded-full border border-[#C8A96E]/20">
-                    Authorized Partner
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <span className={`text-xs uppercase font-bold tracking-[0.2em] px-3 py-1 rounded-full border ${
+                    isSelected
+                      ? "text-white bg-[#8b1a42] border-[#8b1a42]"
+                      : "text-[#c8a96e] bg-[#C8A96E]/10 border-[#C8A96E]/20"
+                  }`}>
+                    {isSelected ? "Selected Brand Partner" : "Authorized Partner"}
                   </span>
                   <span className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
                     {country}
@@ -126,7 +152,7 @@ export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibrary
                         e.stopPropagation();
                         handleCardClick();
                       }}
-                      className="inline-flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-sm"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-sm"
                     >
                       <BookOpen className="w-4 h-4" />
                       <span>{catalogCount > 1 ? `View ${catalogCount} Catalogs` : "View Catalog"}</span>
@@ -139,7 +165,7 @@ export default function CatalogLibrary({ brands, onSelectBrand }: CatalogLibrary
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors py-1 group/link"
+                      className="inline-flex items-center gap-1.5 min-h-[44px] px-2 py-2 text-xs sm:text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors group/link"
                     >
                       <span>Visit Website</span>
                       <ArrowUpRight className="w-4 h-4 text-[#c8a96e] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
