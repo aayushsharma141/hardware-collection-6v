@@ -13,42 +13,47 @@ graph TD
     classDef cat fill:#ffffff,stroke:#999,stroke-width:1px,color:#2b2927;
     classDef outcome fill:#eafaf1,stroke:#27ae60,stroke-width:2px,color:#196f3d;
 
-    subgraph TIER1 ["TIER 1: Brand & Discovery Entry Points"]
-        HOME["🏠 Showroom Showcase<br/><code>/</code>"]:::hub
-        COLLECTIONS["🔍 Collections Hub<br/><code>/collections</code>"]:::hub
-        CATALOGS["📚 Official Brand Catalogs<br/><code>/catalogs</code>"]:::hub
+    subgraph TIER1 [TIER 1 - Brand and Discovery Entry Hubs]
+        HOME["Showroom Showcase (/)"]:::hub
+        COLLECTIONS["Collections Hub (/collections)"]:::hub
+        CATALOGS["Official Brand Catalogs (/catalogs)"]:::hub
     end
 
     HOME --> COLLECTIONS
     HOME --> CATALOGS
 
-    subgraph TIER2 ["TIER 2: 'Shop by Room' (Space Landings)"]
-        ENTRANCE["🚪 Entrance<br/><code>/collections/entrance</code>"]:::space
-        KITCHEN["🍳 Kitchen<br/><code>/collections/kitchen</code>"]:::space
-        WARDROBE["👔 Wardrobe<br/><code>/collections/wardrobe</code>"]:::space
-        BATH["🚿 Bathroom<br/><code>/collections/bathroom</code>"]:::space
-        LIVING["🛋️ Living / Interior<br/><code>/collections/living-interior</code>"]:::space
-        COMMERCIAL["🏢 Commercial<br/><code>/collections/commercial</code>"]:::space
+    subgraph TIER2 [TIER 2 - Shop by Room Spaces]
+        ROOMS["Space Intent Rail: Entrance | Kitchen | Wardrobe | Bath | Living | Commercial"]:::space
     end
 
-    COLLECTIONS -->|Intent Selection| TIER2
+    COLLECTIONS -->|Select Room| ROOMS
 
-    subgraph TIER3 ["TIER 3: 'Shop by Hardware' (Category Details)"]
-        DOOR_HARDWARE["Door Handles & Digital Locks<br/><code>/collections/digital-locks</code><br/><code>/collections/mortise-door-locks</code><br/><code>/collections/main-door-handles</code>"]:::cat
-        KITCHEN_FITTINGS["Kitchen Sinks & Soft-Close Drawers<br/><code>/collections/modular-kitchen-hardware</code><br/><code>/collections/kitchen-sinks-faucets</code>"]:::cat
-        FURNITURE_FITTINGS["Wardrobe Sliding & Concealed Hinges<br/><code>/collections/wardrobe-hardware-sliding</code><br/><code>/collections/hinges-soft-close</code><br/><code>/collections/drawer-channels</code>"]:::cat
-        BATH_GLASS["Bath Accessories & Glass Hardware<br/><code>/collections/bathroom-accessories</code><br/><code>/collections/glass-hardware</code>"]:::cat
+    subgraph TIER3 [TIER 3 - Shop by Hardware Categories]
+        CAT_DOOR["Door Handles, Mortise & Digital Locks"]:::cat
+        CAT_KITCHEN["Modular Kitchen Fittings & Sinks"]:::cat
+        CAT_WARDROBE["Wardrobe Sliding & Concealed Hinges"]:::cat
+        CAT_BATH["Bath Accessories & Glass Hardware"]:::cat
     end
 
-    TIER2 -->|Bundled Recommendations| TIER3
-    COLLECTIONS -->|Direct Hardware Grid| TIER3
+    ROOMS -->|Curated Room Specs| CAT_DOOR
+    ROOMS -->|Curated Room Specs| CAT_KITCHEN
+    ROOMS -->|Curated Room Specs| CAT_WARDROBE
+    ROOMS -->|Curated Room Specs| CAT_BATH
 
-    subgraph CONVERSION ["CONVERSION GOAL"]
-        WHATSAPP["💬 Verified WhatsApp Inquiry (+91 98351 90738)<br/>Pre-filled with chosen product, brand, and finish"]:::outcome
+    COLLECTIONS -->|Browse Direct Grid| CAT_DOOR
+    COLLECTIONS -->|Browse Direct Grid| CAT_KITCHEN
+    COLLECTIONS -->|Browse Direct Grid| CAT_WARDROBE
+    COLLECTIONS -->|Browse Direct Grid| CAT_BATH
+
+    subgraph CONVERSION [CONVERSION GOAL]
+        WHATSAPP["Verified WhatsApp Inquiry (+91 98351 90738)"]:::outcome
     end
 
-    TIER3 --> WHATSAPP
-    CATALOGS --> WHATSAPP
+    CAT_DOOR -->|Product Inquiry| WHATSAPP
+    CAT_KITCHEN -->|Product Inquiry| WHATSAPP
+    CAT_WARDROBE -->|Product Inquiry| WHATSAPP
+    CAT_BATH -->|Product Inquiry| WHATSAPP
+    CATALOGS -->|Catalog Request| WHATSAPP
 ```
 
 ---

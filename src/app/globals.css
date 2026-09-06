@@ -824,12 +824,12 @@ select {
 .navbar-brand {
   /* Phone: only a hamburger sits opposite the mark, so the ceiling is the
      wordmark's own run length rather than the bar's other content. */
-  --nav-brand-size: clamp(15px, 4.3vw, 20.5px);
+  --nav-brand-size: clamp(18px, 5.5vw, 26px);
 }
 
 @media (min-width: 768px) {
   /* Tablet: still hamburger-only, and plenty of room. */
-  .navbar-brand { --nav-brand-size: 22.5px; }
+  .navbar-brand { --nav-brand-size: 28px; }
 }
 
 /* The mark steps down with the bar on scroll; without this it would snap
@@ -845,6 +845,6 @@ select {
 @media (min-width: 1024px) {
   /* Desktop nav, phone pill and CTA all appear at once. Since the emblem and
      text heights now match cleanly, the logo has a balanced profile and can
-     comfortably scale up to 21.5px. */
-  .navbar-brand { --nav-brand-size: clamp(15.5px, 1.1vw + 5.5px, 21.5px); }
+     comfortably scale up. */
+  .navbar-brand { --nav-brand-size: clamp(19px, 1.4vw + 7px, 28px); }
 }

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Hardware Collection — Website Route Architecture & Client Use Case Map</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
+    rel="stylesheet">
   <style>
     :root {
       --bg: #faf9f6;
@@ -55,12 +58,14 @@
         padding: 0;
         background: #fff;
       }
+
       .sheet {
         box-shadow: none;
         padding: 10mm 12mm;
         max-width: 100%;
         min-height: auto;
       }
+
       .no-print {
         display: none !important;
       }
@@ -252,9 +257,20 @@
       margin-bottom: 2px;
     }
 
-    .who-architect { background: #e2eff8; color: #1e5276; }
-    .who-homeowner { background: #e8f5e9; color: #1e6d2b; }
-    .who-contractor { background: #fff3e0; color: #935102; }
+    .who-architect {
+      background: #e2eff8;
+      color: #1e5276;
+    }
+
+    .who-homeowner {
+      background: #e8f5e9;
+      color: #1e6d2b;
+    }
+
+    .who-contractor {
+      background: #fff3e0;
+      color: #935102;
+    }
 
     /* Footer Note */
     .footer-note {
@@ -279,10 +295,11 @@
       font-size: 13px;
       font-weight: 600;
       cursor: pointer;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
     }
   </style>
 </head>
+
 <body>
 
   <button class="print-btn no-print" onclick="window.print()">Print / Save as PDF (A4)</button>
@@ -303,7 +320,7 @@
     <!-- Visual 3-Tier Journey Map -->
     <section>
       <div class="section-title">1. The 3-Tier Customer Journey (How Pages Connect)</div>
-      
+
       <div class="flow-grid">
         <!-- Tier 1 -->
         <div class="flow-tier">
@@ -365,7 +382,8 @@
         <!-- Conversion Goal -->
         <div class="flow-tier" style="background: #eafaf1; border-color: #a3e4d7; text-align: center; padding: 7px;">
           <strong style="color: #196f3d; font-size: 11.5px;">Outcome:</strong>
-          <span style="font-size: 11px; color: #1e4d2b;">Direct WhatsApp Inquiry pre-filled with chosen item &amp; showroom phone call to <strong>+91 98351 90738</strong></span>
+          <span style="font-size: 11px; color: #1e4d2b;">Direct WhatsApp Inquiry pre-filled with chosen item &amp;
+            showroom phone call to <strong>+91 98351 90738</strong></span>
         </div>
       </div>
     </section>
@@ -373,7 +391,7 @@
     <!-- Table of Pages and Use Cases -->
     <section>
       <div class="section-title">2. Client Use Case &amp; Purpose Matrix</div>
-      
+
       <table class="usecase-table">
         <thead>
           <tr>
@@ -389,7 +407,8 @@
               <div class="page-name">Showroom Home</div>
               <div class="page-route">/</div>
             </td>
-            <td><span class="who-tag who-homeowner">Homeowner</span> <span class="who-tag who-architect">Architect</span></td>
+            <td><span class="who-tag who-homeowner">Homeowner</span> <span
+                class="who-tag who-architect">Architect</span></td>
             <td>Explores live showroom bays, 20+ partner brands, store location, and schedules visit.</td>
             <td>Builds premium brand trust and drives store footfall.</td>
           </tr>
@@ -398,7 +417,8 @@
               <div class="page-name">Collections Hub</div>
               <div class="page-route">/collections</div>
             </td>
-            <td><span class="who-tag who-homeowner">Homeowner</span> <span class="who-tag who-contractor">Interior Designer</span></td>
+            <td><span class="who-tag who-homeowner">Homeowner</span> <span class="who-tag who-contractor">Interior
+                Designer</span></td>
             <td>Searches keywords or selects room tabs (Kitchen, Wardrobe, Entrance).</td>
             <td>Prevents overwhelm by organizing 100+ hardware types into simple choices.</td>
           </tr>
@@ -407,7 +427,8 @@
               <div class="page-name">Space Landings (6)</div>
               <div class="page-route">/collections/[space]</div>
             </td>
-            <td><span class="who-tag who-homeowner">Renovator</span> <span class="who-tag who-architect">Architect</span></td>
+            <td><span class="who-tag who-homeowner">Renovator</span> <span
+                class="who-tag who-architect">Architect</span></td>
             <td>Sees everything required to complete that room (e.g. Kitchen = Sinks + Soft-close + Channels).</td>
             <td>Increases basket value by bundling complementary products.</td>
           </tr>
@@ -416,7 +437,8 @@
               <div class="page-name">Category Pages (18)</div>
               <div class="page-route">/collections/[category]</div>
             </td>
-            <td><span class="who-tag who-contractor">Contractor</span> <span class="who-tag who-architect">Specifier</span></td>
+            <td><span class="who-tag who-contractor">Contractor</span> <span
+                class="who-tag who-architect">Specifier</span></td>
             <td>Filters by brand (Hafele, Dorset, Godrej), reviews finishes, clicks WhatsApp inquiry.</td>
             <td>Converts high-intent visitors directly into verified sales leads.</td>
           </tr>
@@ -425,7 +447,8 @@
               <div class="page-name">Brand Catalogs</div>
               <div class="page-route">/catalogs</div>
             </td>
-            <td><span class="who-tag who-architect">Architect</span> <span class="who-tag who-contractor">Fabricator</span></td>
+            <td><span class="who-tag who-architect">Architect</span> <span
+                class="who-tag who-contractor">Fabricator</span></td>
             <td>Downloads technical PDF catalogs, architectural dimension sheets, and brand specs.</td>
             <td>Proves authorized dealership and supports large project bidding.</td>
           </tr>
@@ -450,4 +473,5 @@
   </div>
 
 </body>
+
 </html>

@@ -74,3 +74,25 @@
   - Plan 10-02: Homepage `BrandTrustStrip.tsx` visual upgrade with porcelain plinths
   - Plan 10-03: Visual & responsive audit on staging environment
 
+
+- [ ] **Phase 11 — Showroom Taxonomy Completion** 📋 DRAFT — BLOCKED ON PHOTOGRAPHY
+  Make the site's browsable taxonomy match the physical showroom board. The board lists
+  5 families and ~50 sub-items; only 15 are browsable today. 35 categories are missing.
+  See `.planning/phases/11-showroom-taxonomy-completion/11-CONTEXT.md`.
+
+  - Wave 0 — photography + copy + brand attribution (owner; blocking, no code)
+  - Wave 1 — Handles & Knobs (11 missing — the headline family has zero style pages)
+  - Wave 2 — Furniture Hardware (9 missing)
+  - Wave 3 — Bathroom (8 missing)
+  - Wave 4 — Door Hardware (4 missing)
+  - Wave 5 — Kitchen & Wardrobes (3 missing)
+  - Wave 6 — coverage regression gate + sitemap/internal-link pass
+
+  This phase is ~90% content production. The `/collections/[slug]` route, the card grid,
+  the D-13 empty state and the schema all already work — nothing needs building to make a
+  14th category render. The blocker is that Sanity holds exactly 6 image assets and not one
+  photograph of a handle, knob, channel or mirror cabinet exists. Eleven *style* collections
+  sharing one generic render would be worse than shipping none.
+
+  Four owner decisions are open (D1 styles-as-categories, D2 drop "(Sale)",
+  D3 pluralisation, D4 ship empty categories) — see §6 of 11-CONTEXT.md.

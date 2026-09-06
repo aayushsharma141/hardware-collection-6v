@@ -502,7 +502,1057 @@ export const CATEGORIES: CategoryInfo[] = [
     whatsappMessage: "Hardware Collection — Inquiring about Biometric Home & Office Safes.",
     featured: false,
     itemCount: 0
-  }
+  },
+{
+  "id": "kids-collection",
+  "slug": "kids-collection",
+  "title": "Kids Collection",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium kids collection for architectural and interior applications.",
+  "overview": "Discover our extensive range of kids collection, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Kids Collection.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "modern-collection",
+  "slug": "modern-collection",
+  "title": "Modern Collection",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium modern collection for architectural and interior applications.",
+  "overview": "Discover our extensive range of modern collection, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Modern Collection.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "classical-collection",
+  "slug": "classical-collection",
+  "title": "Classical Collection",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium classical collection for architectural and interior applications.",
+  "overview": "Discover our extensive range of classical collection, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Classical Collection.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "long-bar-handles",
+  "slug": "long-bar-handles",
+  "title": "Long Bar Handles",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium long bar handles for architectural and interior applications.",
+  "overview": "Discover our extensive range of long bar handles, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Long Bar Handles.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "flush-collection",
+  "slug": "flush-collection",
+  "title": "Flush Collection",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium flush collection for architectural and interior applications.",
+  "overview": "Discover our extensive range of flush collection, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Flush Collection.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "leather-collection",
+  "slug": "leather-collection",
+  "title": "Leather Collection",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium leather collection for architectural and interior applications.",
+  "overview": "Discover our extensive range of leather collection, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Leather Collection.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "luxury-collection",
+  "slug": "luxury-collection",
+  "title": "Luxury Collection",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium luxury collection for architectural and interior applications.",
+  "overview": "Discover our extensive range of luxury collection, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Luxury Collection.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "wooden-collection",
+  "slug": "wooden-collection",
+  "title": "Wooden Collection",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium wooden collection for architectural and interior applications.",
+  "overview": "Discover our extensive range of wooden collection, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Wooden Collection.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "italian-collection",
+  "slug": "italian-collection",
+  "title": "Italian Collection",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium italian collection for architectural and interior applications.",
+  "overview": "Discover our extensive range of italian collection, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Italian Collection.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "ceramic-collection",
+  "slug": "ceramic-collection",
+  "title": "Ceramic Collection",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium ceramic collection for architectural and interior applications.",
+  "overview": "Discover our extensive range of ceramic collection, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Ceramic Collection.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "profile-handles",
+  "slug": "profile-handles",
+  "title": "Profile Handles",
+  "eyebrow": "Handles & Knobs Collection",
+  "shortDesc": "Premium profile handles for architectural and interior applications.",
+  "overview": "Discover our extensive range of profile handles, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "handles-knobs",
+  "familySlugs": [
+    "handles-knobs"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Profile Handles.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "hotel-locks",
+  "slug": "hotel-locks",
+  "title": "Hotel Locks",
+  "eyebrow": "Door Hardware Collection",
+  "shortDesc": "Premium hotel locks for architectural and interior applications.",
+  "overview": "Discover our extensive range of hotel locks, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "door-hardware",
+  "familySlugs": [
+    "door-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Hotel Locks.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "door-knobs",
+  "slug": "door-knobs",
+  "title": "Door Knobs",
+  "eyebrow": "Door Hardware Collection",
+  "shortDesc": "Premium door knobs for architectural and interior applications.",
+  "overview": "Discover our extensive range of door knobs, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "door-hardware",
+  "familySlugs": [
+    "door-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Door Knobs.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "door-sliding",
+  "slug": "door-sliding",
+  "title": "Door Sliding",
+  "eyebrow": "Door Hardware Collection",
+  "shortDesc": "Premium door sliding for architectural and interior applications.",
+  "overview": "Discover our extensive range of door sliding, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "door-hardware",
+  "familySlugs": [
+    "door-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Door Sliding.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "window-hardware",
+  "slug": "window-hardware",
+  "title": "Window Hardware",
+  "eyebrow": "Door Hardware Collection",
+  "shortDesc": "Premium window hardware for architectural and interior applications.",
+  "overview": "Discover our extensive range of window hardware, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "door-hardware",
+  "familySlugs": [
+    "door-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Window Hardware.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "bathroom-shelf",
+  "slug": "bathroom-shelf",
+  "title": "Bathroom Shelf",
+  "eyebrow": "Bathroom Collection",
+  "shortDesc": "Premium bathroom shelf for architectural and interior applications.",
+  "overview": "Discover our extensive range of bathroom shelf, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "bathroom",
+  "familySlugs": [
+    "bathroom"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Bathroom Shelf.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "shaving-mirrors",
+  "slug": "shaving-mirrors",
+  "title": "Shaving Mirrors",
+  "eyebrow": "Bathroom Collection",
+  "shortDesc": "Premium shaving mirrors for architectural and interior applications.",
+  "overview": "Discover our extensive range of shaving mirrors, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "bathroom",
+  "familySlugs": [
+    "bathroom"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Shaving Mirrors.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "ss-mirror-cabinets",
+  "slug": "ss-mirror-cabinets",
+  "title": "SS Mirror Cabinets",
+  "eyebrow": "Bathroom Collection",
+  "shortDesc": "Premium ss mirror cabinets for architectural and interior applications.",
+  "overview": "Discover our extensive range of ss mirror cabinets, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "bathroom",
+  "familySlugs": [
+    "bathroom"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about SS Mirror Cabinets.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "signages",
+  "slug": "signages",
+  "title": "Signages",
+  "eyebrow": "Bathroom Collection",
+  "shortDesc": "Premium signages for architectural and interior applications.",
+  "overview": "Discover our extensive range of signages, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "bathroom",
+  "familySlugs": [
+    "bathroom"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Signages.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "hooks",
+  "slug": "hooks",
+  "title": "Hooks",
+  "eyebrow": "Bathroom Collection",
+  "shortDesc": "Premium hooks for architectural and interior applications.",
+  "overview": "Discover our extensive range of hooks, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "bathroom",
+  "familySlugs": [
+    "bathroom"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Hooks.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "mail-box",
+  "slug": "mail-box",
+  "title": "Mail Box",
+  "eyebrow": "Bathroom Collection",
+  "shortDesc": "Premium mail box for architectural and interior applications.",
+  "overview": "Discover our extensive range of mail box, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "bathroom",
+  "familySlugs": [
+    "bathroom"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Mail Box.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "ladders",
+  "slug": "ladders",
+  "title": "Ladders",
+  "eyebrow": "Bathroom Collection",
+  "shortDesc": "Premium ladders for architectural and interior applications.",
+  "overview": "Discover our extensive range of ladders, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "bathroom",
+  "familySlugs": [
+    "bathroom"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Ladders.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "dustbins",
+  "slug": "dustbins",
+  "title": "Dustbins",
+  "eyebrow": "Bathroom Collection",
+  "shortDesc": "Premium dustbins for architectural and interior applications.",
+  "overview": "Discover our extensive range of dustbins, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "bathroom",
+  "familySlugs": [
+    "bathroom"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Dustbins.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "kitchen-accessories",
+  "slug": "kitchen-accessories",
+  "title": "Kitchen Accessories",
+  "eyebrow": "Kitchen & Wardrobes Collection",
+  "shortDesc": "Premium kitchen accessories for architectural and interior applications.",
+  "overview": "Discover our extensive range of kitchen accessories, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "kitchen-wardrobes",
+  "familySlugs": [
+    "kitchen-wardrobes"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Kitchen Accessories.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "lights",
+  "slug": "lights",
+  "title": "Lights",
+  "eyebrow": "Kitchen & Wardrobes Collection",
+  "shortDesc": "Premium lights for architectural and interior applications.",
+  "overview": "Discover our extensive range of lights, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "kitchen-wardrobes",
+  "familySlugs": [
+    "kitchen-wardrobes"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Lights.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "kitchen-appliances",
+  "slug": "kitchen-appliances",
+  "title": "Kitchen Appliances",
+  "eyebrow": "Kitchen & Wardrobes Collection",
+  "shortDesc": "Premium kitchen appliances for architectural and interior applications.",
+  "overview": "Discover our extensive range of kitchen appliances, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "kitchen-wardrobes",
+  "familySlugs": [
+    "kitchen-wardrobes"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Kitchen Appliances.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "invisible-locks",
+  "slug": "invisible-locks",
+  "title": "Invisible Locks",
+  "eyebrow": "Furniture Hardware Collection",
+  "shortDesc": "Premium invisible locks for architectural and interior applications.",
+  "overview": "Discover our extensive range of invisible locks, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "furniture-hardware",
+  "familySlugs": [
+    "furniture-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Invisible Locks.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "furniture-profiles",
+  "slug": "furniture-profiles",
+  "title": "Furniture Profiles",
+  "eyebrow": "Furniture Hardware Collection",
+  "shortDesc": "Premium furniture profiles for architectural and interior applications.",
+  "overview": "Discover our extensive range of furniture profiles, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "furniture-hardware",
+  "familySlugs": [
+    "furniture-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Furniture Profiles.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "furniture-locks",
+  "slug": "furniture-locks",
+  "title": "Furniture Locks",
+  "eyebrow": "Furniture Hardware Collection",
+  "shortDesc": "Premium furniture locks for architectural and interior applications.",
+  "overview": "Discover our extensive range of furniture locks, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "furniture-hardware",
+  "familySlugs": [
+    "furniture-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Furniture Locks.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "carvings",
+  "slug": "carvings",
+  "title": "Carvings",
+  "eyebrow": "Furniture Hardware Collection",
+  "shortDesc": "Premium carvings for architectural and interior applications.",
+  "overview": "Discover our extensive range of carvings, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "furniture-hardware",
+  "familySlugs": [
+    "furniture-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Carvings.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "bed-fittings",
+  "slug": "bed-fittings",
+  "title": "Bed Fittings",
+  "eyebrow": "Furniture Hardware Collection",
+  "shortDesc": "Premium bed fittings for architectural and interior applications.",
+  "overview": "Discover our extensive range of bed fittings, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "furniture-hardware",
+  "familySlugs": [
+    "furniture-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Bed Fittings.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "wheels-legs",
+  "slug": "wheels-legs",
+  "title": "Wheels & Legs",
+  "eyebrow": "Furniture Hardware Collection",
+  "shortDesc": "Premium wheels & legs for architectural and interior applications.",
+  "overview": "Discover our extensive range of wheels & legs, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "furniture-hardware",
+  "familySlugs": [
+    "furniture-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Wheels & Legs.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "office-fittings",
+  "slug": "office-fittings",
+  "title": "Office Fittings",
+  "eyebrow": "Furniture Hardware Collection",
+  "shortDesc": "Premium office fittings for architectural and interior applications.",
+  "overview": "Discover our extensive range of office fittings, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "furniture-hardware",
+  "familySlugs": [
+    "furniture-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Office Fittings.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "table-extension",
+  "slug": "table-extension",
+  "title": "Table Extension",
+  "eyebrow": "Furniture Hardware Collection",
+  "shortDesc": "Premium table extension for architectural and interior applications.",
+  "overview": "Discover our extensive range of table extension, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "furniture-hardware",
+  "familySlugs": [
+    "furniture-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Table Extension.",
+  "featured": false,
+  "itemCount": 0
+},
+{
+  "id": "furniture-fittings",
+  "slug": "furniture-fittings",
+  "title": "Furniture Fittings",
+  "eyebrow": "Furniture Hardware Collection",
+  "shortDesc": "Premium furniture fittings for architectural and interior applications.",
+  "overview": "Discover our extensive range of furniture fittings, crafted with precision and available in multiple finishes.",
+  "iconName": "LayoutGrid",
+  "primaryRail": "furniture-hardware",
+  "familySlugs": [
+    "furniture-hardware"
+  ],
+  "subcategories": [],
+  "cardVariant": "standard",
+  "suitableFor": [
+    "Residential",
+    "Commercial"
+  ],
+  "brands": [],
+  "pendingVerificationBrands": [],
+  "keyFeatures": [
+    "Premium architectural grade material",
+    "Multiple finish options available",
+    "Durable and tested for high usage"
+  ],
+  "verificationStatus": "unverified",
+  "whatsappMessage": "Hardware Collection — Inquiring about Furniture Fittings.",
+  "featured": false,
+  "itemCount": 0
+}
 ];
 
 export const SHOWROOM_ZONES: ShowroomZone[] = [

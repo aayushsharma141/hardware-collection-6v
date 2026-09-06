@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import type {
   PDFDocumentLoadingTask,
   PDFDocumentProxy,
   RenderTask,
 } from "pdfjs-dist";
-import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react";
 
 /**
  * Renders a catalog page-by-page onto a canvas.
@@ -14,6 +13,11 @@ import { ChevronLeft, ChevronRight, ZoomIn, ZoomOut } from "lucide-react";
  * `src` points at /api/catalog/<slug>/<n>, never at the Sanity CDN, and the
  * document is drawn rather than embedded so there is no browser PDF chrome
  * offering a download or print button.
+ *
+ * This component is *controlled*: page, zoom, rotation and fit are owned by
+ * CatalogViewerModal, which renders the controls in its side rails. The canvas
+ * element is handed up through `canvasRef` so the snipping tool can crop from
+ * exactly what was drawn.
  */
 
 type PdfJs = typeof import("pdfjs-dist");
@@ -31,30 +35,58 @@ function loadPdfjs(): Promise<PdfJs> {
   return pdfjsPromise;
 }
 
+export type CatalogViewerStatus = "loading" | "ready" | "error";
+export type CatalogFitMode = "width" | "page";
+
 interface CatalogPdfViewerProps {
   src: string;
+  page: number;
+  zoom: number;
+  /** User rotation in degrees, added to the page's own orientation. */
+  rotation: number;
+  fit: CatalogFitMode;
+  /** Describes the drawn page to assistive tech. */
+  pageLabel: string;
+  canvasRef: React.RefObject<HTMLCanvasElement | null>;
+  onLoaded: (numPages: number) => void;
+  onStatusChange: (status: CatalogViewerStatus, message?: string) => void;
 }
 
-const MIN_ZOOM = 0.5;
-const MAX_ZOOM = 3;
-
-/** Give this a `key` per catalog: switching documents remounts it, which is
- *  how paging and zoom reset rather than being cleared in an effect. */
-export default function CatalogPdfViewer({ src }: CatalogPdfViewerProps) {
-  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+/** Give this a `key` per catalog so switching documents remounts it. */
+export default function CatalogPdfViewer({
+  src,
+  page,
+  zoom,
+  rotation,
+  fit,
+  pageLabel,
+  canvasRef,
+  onLoaded,
+  onStatusChange,
+}: CatalogPdfViewerProps) {
   const shellRef = useRef<HTMLDivElement | null>(null);
   const docRef = useRef<PDFDocumentProxy | null>(null);
   // destroy() lives on the loading task in pdf.js 6, not on the document.
   const loadingTaskRef = useRef<PDFDocumentLoadingTask | null>(null);
   const taskRef = useRef<RenderTask | null>(null);
 
-  const [numPages, setNumPages] = useState(0);
-  const [page, setPage] = useState(1);
-  const [zoom, setZoom] = useState(1);
-  const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-  const [message, setMessage] = useState<string | null>(null);
+  // Callbacks live in refs so the parent does not have to memoize them to keep
+  // the load and render effects from re-running.
+  const onLoadedRef = useRef(onLoaded);
+  const onStatusRef = useRef(onStatusChange);
+  useEffect(() => {
+    onLoadedRef.current = onLoaded;
+    onStatusRef.current = onStatusChange;
+  });
 
-  // Load (or reload) the document.
+  const [status, setStatus] = useState<CatalogViewerStatus>("loading");
+  const [message, setMessage] = useState<string | null>(null);
+  const [pageText, setPageText] = useState("");
+  // Bumped by the ResizeObserver so fit-to-width/page re-render on layout change.
+  const [shellTick, setShellTick] = useState(0);
+
+  // Load the document. The parent keys this component per catalog, so a
+  // different `src` arrives on a fresh mount with `status` already "loading".
   useEffect(() => {
     let cancelled = false;
 
@@ -78,14 +110,16 @@ export default function CatalogPdfViewer({ src }: CatalogPdfViewerProps) {
       .then((doc) => {
         if (cancelled) return;
         docRef.current = doc;
-        setNumPages(doc.numPages);
         setStatus("ready");
+        onLoadedRef.current(doc.numPages);
+        onStatusRef.current("ready");
       })
       .catch((err) => {
         if (cancelled) return;
         console.error("Catalog failed to load:", err);
         setMessage("This catalog could not be opened.");
         setStatus("error");
+        onStatusRef.current("error", "This catalog could not be opened.");
       });
 
     return () => {
@@ -104,6 +138,22 @@ export default function CatalogPdfViewer({ src }: CatalogPdfViewerProps) {
     []
   );
 
+  // Re-fit when the viewport changes size.
+  useEffect(() => {
+    const shell = shellRef.current;
+    if (!shell || typeof ResizeObserver === "undefined") return;
+    let frame = 0;
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => setShellTick((t) => t + 1));
+    });
+    observer.observe(shell);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, []);
+
   // Draw the current page.
   useEffect(() => {
     const doc = docRef.current;
@@ -118,10 +168,20 @@ export default function CatalogPdfViewer({ src }: CatalogPdfViewerProps) {
         const pdfPage = await doc.getPage(page);
         if (cancelled) return;
 
-        const available = (shellRef.current?.clientWidth ?? 900) - 32;
-        const natural = pdfPage.getViewport({ scale: 1 });
-        const fit = Math.min(available / natural.width, 1.6);
-        const viewport = pdfPage.getViewport({ scale: Math.max(fit, 0.2) * zoom });
+        const angle = (((pdfPage.rotate + rotation) % 360) + 360) % 360;
+        const natural = pdfPage.getViewport({ scale: 1, rotation: angle });
+
+        const availableWidth = (shellRef.current?.clientWidth ?? 900) - 32;
+        const availableHeight = (shellRef.current?.clientHeight ?? 1200) - 32;
+        const widthFit = availableWidth / natural.width;
+        const base =
+          fit === "page"
+            ? Math.min(widthFit, availableHeight / natural.height)
+            : Math.min(widthFit, 1.6);
+        const viewport = pdfPage.getViewport({
+          scale: Math.max(base, 0.2) * zoom,
+          rotation: angle,
+        });
 
         const dpr = Math.min(window.devicePixelRatio || 1, 2);
         canvas.width = Math.floor(viewport.width * dpr);
@@ -136,6 +196,18 @@ export default function CatalogPdfViewer({ src }: CatalogPdfViewerProps) {
         const task = pdfPage.render({ canvas, viewport });
         taskRef.current = task;
         await task.promise;
+
+        // A canvas is opaque to screen readers, so the page text is mirrored
+        // into a visually hidden region beside it.
+        const content = await pdfPage.getTextContent();
+        if (cancelled) return;
+        setPageText(
+          content.items
+            .map((item) => ("str" in item ? item.str : ""))
+            .join(" ")
+            .replace(/\s+/g, " ")
+            .trim()
+        );
       } catch (err) {
         const name = (err as { name?: string })?.name;
         if (name === "RenderingCancelledException" || cancelled) return;
@@ -147,106 +219,44 @@ export default function CatalogPdfViewer({ src }: CatalogPdfViewerProps) {
     return () => {
       cancelled = true;
     };
-  }, [page, zoom, status, numPages]);
-
-  const go = useCallback(
-    (delta: number) => setPage((p) => Math.min(Math.max(p + delta, 1), numPages || 1)),
-    [numPages]
-  );
-
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight" || e.key === "PageDown") go(1);
-      if (e.key === "ArrowLeft" || e.key === "PageUp") go(-1);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [go]);
+  }, [page, zoom, rotation, fit, status, shellTick, canvasRef]);
 
   return (
-    <div className="flex flex-col h-full min-h-0">
-      <div
-        ref={shellRef}
-        className="flex-1 min-h-0 overflow-auto flex items-start justify-center p-4 bg-[#f3ece1]"
-      >
-        {status === "loading" && (
-          <div className="flex flex-col items-center justify-center h-full text-[#998f81]">
-            <div className="w-8 h-8 border-2 border-[var(--border)] border-t-[#e5c487] rounded-full animate-spin mb-4" />
-            <span className="font-body text-xs uppercase tracking-widest">Opening catalog…</span>
-          </div>
-        )}
+    <div
+      ref={shellRef}
+      className="h-full min-h-0 overflow-auto flex items-start justify-center p-4 bg-[#f3ece1]"
+    >
+      {status === "loading" && (
+        <div className="flex h-full flex-col items-center justify-center text-[#998f81]">
+          <div className="mb-4 h-8 w-8 animate-spin rounded-full border-2 border-[var(--border)] border-t-[#e5c487]" />
+          <span className="font-body text-xs uppercase tracking-widest">Opening catalog…</span>
+        </div>
+      )}
 
-        {status === "error" && (
-          <div className="flex flex-col items-center justify-center h-full text-center px-8">
-            <p className="font-body text-sm text-[var(--text-secondary)] max-w-sm">
-              {message ?? "This catalog could not be opened."}
-            </p>
-          </div>
-        )}
+      {status === "error" && (
+        <div className="flex h-full flex-col items-center justify-center px-8 text-center">
+          <p className="max-w-sm font-body text-sm text-[var(--text-secondary)]">
+            {message ?? "This catalog could not be opened."}
+          </p>
+        </div>
+      )}
 
+      <div className={status === "ready" ? "relative" : "hidden"}>
         <canvas
           ref={canvasRef}
-          className={`shadow-[0_10px_40px_-18px_rgba(26,16,23,0.5)] bg-white ${
-            status === "ready" ? "" : "hidden"
-          }`}
+          role="img"
+          aria-label={pageLabel}
+          className="bg-white shadow-[0_10px_40px_-18px_rgba(26,16,23,0.5)]"
           // Belt and braces alongside the modal-level handlers.
           onContextMenu={(e) => e.preventDefault()}
           onDragStart={(e) => e.preventDefault()}
         />
+        {pageText && (
+          <p className="sr-only" data-testid="catalog-page-text">
+            {pageText}
+          </p>
+        )}
       </div>
-
-      <footer className="h-14 shrink-0 border-t border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center gap-6 px-4">
-        <button
-          type="button"
-          onClick={() => go(-1)}
-          disabled={page <= 1 || status !== "ready"}
-          aria-label="Previous page"
-          className="w-8 h-8 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-        >
-          <ChevronLeft className="w-4 h-4" />
-        </button>
-
-        <span className="font-body text-xs text-[var(--text-secondary)] tabular-nums min-w-[7rem] text-center">
-          Page <span className="text-[var(--text-primary)]">{status === "ready" ? page : "–"}</span>{" "}
-          of {numPages || "–"}
-        </span>
-
-        <button
-          type="button"
-          onClick={() => go(1)}
-          disabled={page >= numPages || status !== "ready"}
-          aria-label="Next page"
-          className="w-8 h-8 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[var(--accent)] disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
-        >
-          <ChevronRight className="w-4 h-4" />
-        </button>
-
-        <div className="w-px h-5 bg-[var(--border)] hidden sm:block" />
-
-        <div className="hidden sm:flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => setZoom((z) => Math.max(MIN_ZOOM, +(z - 0.25).toFixed(2)))}
-            disabled={zoom <= MIN_ZOOM || status !== "ready"}
-            aria-label="Zoom out"
-            className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] disabled:opacity-40 transition-colors"
-          >
-            <ZoomOut className="w-4 h-4" />
-          </button>
-          <span className="font-body text-xs text-[var(--text-secondary)] tabular-nums w-10 text-center">
-            {Math.round(zoom * 100)}%
-          </span>
-          <button
-            type="button"
-            onClick={() => setZoom((z) => Math.min(MAX_ZOOM, +(z + 0.25).toFixed(2)))}
-            disabled={zoom >= MAX_ZOOM || status !== "ready"}
-            aria-label="Zoom in"
-            className="text-[var(--text-secondary)] hover:text-[var(--text-primary)] disabled:opacity-40 transition-colors"
-          >
-            <ZoomIn className="w-4 h-4" />
-          </button>
-        </div>
-      </footer>
     </div>
   );
 }

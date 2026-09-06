@@ -116,7 +116,7 @@ graph TD
     HOME -.->|Invalid Route Trigger| NOT_FOUND
 
     %% Spaces Subgraph
-    subgraph SPACES["Space Intent Landings (/collections/[slug])"]
+    subgraph SPACES [Space Intent Landings]
         SPACE_ENTRANCE["/collections/entrance"]:::space
         SPACE_KITCHEN["/collections/kitchen"]:::space
         SPACE_WARDROBE["/collections/wardrobe"]:::space
@@ -125,11 +125,15 @@ graph TD
         SPACE_COMMERCIAL["/collections/commercial"]:::space
     end
 
-    COLLECTIONS -->|Space Intent Rail| SPACES
-    HOME -->|Space Feature Rail| SPACES
+    COLLECTIONS -->|Space Intent Rail| SPACE_ENTRANCE
+    COLLECTIONS -->|Space Intent Rail| SPACE_KITCHEN
+    COLLECTIONS -->|Space Intent Rail| SPACE_WARDROBE
+
+    HOME -->|Space Feature Rail| SPACE_ENTRANCE
+    HOME -->|Space Feature Rail| SPACE_KITCHEN
 
     %% Categories Subgraph
-    subgraph CATEGORIES["Technical Category Landings (/collections/[slug])"]
+    subgraph CATEGORIES [Technical Category Landings]
         CAT_DIGITAL["/collections/digital-locks"]:::category
         CAT_MORTISE["/collections/mortise-door-locks"]:::category
         CAT_HANDLES["/collections/main-door-handles"]:::category
@@ -145,7 +149,9 @@ graph TD
         CAT_SAFES["/collections/safes"]:::category
     end
 
-    COLLECTIONS -->|Direct Category Grid| CATEGORIES
+    COLLECTIONS -->|Direct Category Grid| CAT_DIGITAL
+    COLLECTIONS -->|Direct Category Grid| CAT_MODULAR
+    COLLECTIONS -->|Direct Category Grid| CAT_HANDLES
 
     %% Space to Category Curated Interconnections
     SPACE_ENTRANCE -->|Linked Categories| CAT_HANDLES
@@ -175,7 +181,8 @@ graph TD
     SPACE_COMMERCIAL -->|Linked Categories| CAT_SAFES
 
     %% Cross-Hub Interconnections
-    CATEGORIES -->|Brand Chip Click| CATALOGS
+    CAT_DIGITAL -->|Brand Chip Click| CATALOGS
+    CAT_MODULAR -->|Brand Chip Click| CATALOGS
     CATALOGS -->|Category Filter Click| COLLECTIONS
     NOT_FOUND -->|Recovery Button| COLLECTIONS
 ```

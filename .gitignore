@@ -68,3 +68,7 @@ public/*.png
 # graphify generated artifacts (>100MB)
 /graphify-out/
 /.planning/graphs/
+
+# local Sanity snapshots taken before destructive CMS migrations
+/.backups/
+

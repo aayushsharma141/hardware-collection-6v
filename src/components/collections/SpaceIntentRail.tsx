@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useReducedMotion } from "motion/react";
@@ -21,6 +22,54 @@ const SPACE_FALLBACK_IMAGES: Record<string, string> = {
 
 export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
   const shouldReduceMotion = useReducedMotion();
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
+  
+  const dragState = useRef({
+    isDown: false,
+    startX: 0,
+    scrollLeft: 0,
+    dragged: false
+  });
+
+  const onMouseDown = (e: React.MouseEvent) => {
+    if (!scrollRef.current) return;
+    dragState.current.isDown = true;
+    dragState.current.dragged = false;
+    setIsDragging(true);
+    dragState.current.startX = e.pageX - scrollRef.current.offsetLeft;
+    dragState.current.scrollLeft = scrollRef.current.scrollLeft;
+  };
+
+  const onMouseLeave = () => {
+    dragState.current.isDown = false;
+    setIsDragging(false);
+  };
+
+  const onMouseUp = () => {
+    dragState.current.isDown = false;
+    setIsDragging(false);
+  };
+
+  const onMouseMove = (e: React.MouseEvent) => {
+    if (!dragState.current.isDown || !scrollRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - scrollRef.current.offsetLeft;
+    const walk = (x - dragState.current.startX) * 1.5; // Smooth drag speed
+    
+    if (Math.abs(walk) > 10) {
+      dragState.current.dragged = true;
+    }
+    
+    scrollRef.current.scrollLeft = dragState.current.scrollLeft - walk;
+  };
+
+  const onClickCapture = (e: React.MouseEvent) => {
+    if (dragState.current.dragged) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+  };
 
   return (
     <section aria-labelledby="space-rail-heading" className="py-16 md:py-24">
@@ -38,10 +87,18 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
 
       <div className="max-w-[1320px] mx-auto px-6">
         <div
+          ref={scrollRef}
+          onMouseDown={onMouseDown}
+          onMouseLeave={onMouseLeave}
+          onMouseUp={onMouseUp}
+          onMouseMove={onMouseMove}
+          onClickCapture={onClickCapture}
           data-lenis-prevent
           role="list"
           aria-label="Explore by space"
-          className="flex gap-5 overflow-x-auto snap-x snap-mandatory overscroll-x-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 -my-2"
+          className={`flex gap-5 overflow-x-auto overscroll-x-contain [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden py-2 -my-2 select-none ${
+            isDragging ? "snap-none cursor-grabbing" : "snap-x snap-mandatory cursor-grab"
+          }`}
         >
           {spaces.map((space) => {
             const slug =
@@ -63,6 +120,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                 key={(" _id" in space && (space as { _id?: string })._id) || slug}
                 role="listitem"
                 href={`/collections/${slug}`}
+                draggable={false}
                 className="snap-start shrink-0 w-[85vw] sm:w-[46vw] lg:w-[30vw] aspect-[3/4] relative rounded-2xl overflow-hidden group block threshold-card hc-focus border border-[var(--border)] shadow-sm"
               >
                 {/* Background Photography */}
@@ -70,8 +128,9 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                   src={heroImg}
                   alt={space.name}
                   fill
+                  draggable={false}
                   sizes="(max-width: 640px) 85vw, (max-width: 1024px) 46vw, 30vw"
-                  className={`object-cover ${
+                  className={`object-cover pointer-events-none ${
                     shouldReduceMotion
                       ? ""
                       : "transition-transform duration-[180ms] ease-out group-hover:scale-105"
@@ -85,7 +144,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                 />
 
                 {/* Content Overlay */}
-                <div className="absolute inset-0 p-7 flex flex-col justify-end text-left">
+                <div className="absolute inset-0 p-7 flex flex-col justify-end text-left pointer-events-none">
                   <h3 className="hc-serif text-2xl sm:text-3xl lg:text-4xl font-normal uppercase tracking-[0.01em] text-white mb-2.5">
                     {space.name}
                   </h3>

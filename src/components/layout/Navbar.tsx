@@ -18,7 +18,7 @@ interface NavbarProps {
 interface NavLinkItem {
   name: string;
   href: string;
-  id: "collections" | "brands" | "catalog";
+  id: "collections" | "catalog";
 }
 
 /**
@@ -40,8 +40,7 @@ const useIsomorphicLayoutEffect =
 
 const NAV_LINKS: NavLinkItem[] = [
   { name: "Collections", href: "/collections", id: "collections" },
-  { name: "Brands", href: "/#brands", id: "brands" },
-  { name: "Catalog", href: "/catalogs", id: "catalog" },
+  { name: "Brands & Catalogs", href: "/catalogs", id: "catalog" },
 ];
 
 export default function Navbar({
@@ -224,23 +223,12 @@ export default function Navbar({
     if (link.id === "catalog") {
       return pathname === "/catalogs";
     }
-    if (link.id === "brands") {
-      return pathname === "/" && currentHash.includes("brands");
-    }
     return false;
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: NavLinkItem) => {
     setMobileMenuOpen(false);
-    if (link.id === "brands" && pathname === "/") {
-      e.preventDefault();
-      const el = document.getElementById("brands");
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth" });
-        window.history.pushState(null, "", "/#brands");
-        setCurrentHash("#brands");
-      }
-    } else if (link.id === "catalog" && pathname === "/catalogs") {
+    if (link.id === "catalog" && pathname === "/catalogs") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
       window.history.pushState(null, "", "/catalogs");
@@ -332,8 +320,8 @@ export default function Navbar({
                     onClick={(e) => handleNavClick(e, link)}
                     className={`relative px-2.5 xl:px-4 py-1.5 text-[11.5px] xl:text-[12.5px] uppercase tracking-[0.14em] xl:tracking-[0.18em] rounded-full select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${
                       isActive
-                        ? "text-[#8b1a42] font-semibold"
-                        : "text-[#7a6872] font-medium hover:text-[#1a1017] hover:bg-[#1a1017]/[0.03]"
+                        ? "text-[#8b1a42] font-bold"
+                        : "text-[#8b1a42] font-semibold hover:text-[#6b1432] hover:bg-[#8b1a42]/[0.06]"
                     }`}
                     style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                     aria-current={isActive ? "page" : undefined}
@@ -464,7 +452,7 @@ export default function Navbar({
                 </button>
               </div>
 
-              {/* Navigation Links (Collections, Brands, Catalog) */}
+              {/* Navigation Links (Collections, Brands & Catalogs) */}
               <nav className="flex flex-col py-4 space-y-1" aria-label="Mobile Navigation">
                 {NAV_LINKS.map((link) => {
                   const isActive = isLinkActive(link);
