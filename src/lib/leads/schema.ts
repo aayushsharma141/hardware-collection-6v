@@ -77,7 +77,7 @@ export const ProjectTypeSchema = z.enum([
 // Mode 2: Enquiry
 export const EnquiryLeadSchema = BaseLeadSchema.extend({
   intent: z.literal("enquiry"),
-  customerType: CustomerTypeSchema,
+  customerType: CustomerTypeSchema.optional(),
   location: z.string().min(2, "Location is required"),
   projectType: ProjectTypeSchema,
   category: z.string().optional().or(z.literal("")),

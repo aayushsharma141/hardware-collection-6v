@@ -78,9 +78,12 @@ export default function CatalogsClient({ brands, settings }: CatalogsClientProps
       {/* Official Catalog Viewer Modal */}
       <AnimatePresence>
         {selectedCatalogBrand && (
-          <CatalogViewerModal 
-            brand={selectedCatalogBrand} 
-            onClose={() => setSelectedCatalogBrand(null)} 
+          <CatalogViewerModal
+            // Keyed by brand so switching brands opens a fresh viewer rather
+            // than carrying the previous catalog's page and zoom across.
+            key={normalizeBrandKey(selectedCatalogBrand)}
+            brand={selectedCatalogBrand}
+            onClose={() => setSelectedCatalogBrand(null)}
           />
         )}
       </AnimatePresence>

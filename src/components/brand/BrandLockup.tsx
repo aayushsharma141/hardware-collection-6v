@@ -31,7 +31,7 @@ export interface BrandLockupProps {
   emblemSizes?: string;
   /**
    * Plays the entrance on mount — emblem scale-in, wordmark slide — and then
-   * runs the metallic sweep across the mark on a slow repeating cycle.
+   * runs the metallic sweep across the mark on a continuous repeating cycle.
    * Reserved for the navbar, where the mark is the page's visual anchor.
    */
   animateEntrance?: boolean;
