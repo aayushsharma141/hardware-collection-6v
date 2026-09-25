@@ -1,12 +1,14 @@
 "use client";
 
 import { useRef, type RefObject } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
 import { MagneticButton } from "@/components/animations/MagneticButton";
 import { generateWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
+import { useScrollTriggerRefreshOnImages } from "@/hooks/useScrollTriggerRefreshOnImages";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -48,6 +50,9 @@ export default function ShowroomCinematic() {
   const scene2Ref = useRef<HTMLDivElement>(null);
   const scene3Ref = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+
+  // next/image lazy-loads: re-measure triggers as these settle.
+  useScrollTriggerRefreshOnImages(containerRef, !shouldReduceMotion);
 
   const sceneRefs = [scene1Ref, scene2Ref, scene3Ref];
 
@@ -118,10 +123,12 @@ export default function ShowroomCinematic() {
         {/* Scene 1: Flagship Showroom */}
         <div className="relative min-h-[55svh] flex items-end p-6 border-b border-[var(--border)] overflow-hidden">
           <div className="absolute inset-0 bg-[var(--surface-raised)]">
-            <img
+            <Image
               src="/cinema/showroom/exterior.png"
               alt="Hardware Collection Showroom Exterior"
-              className="w-full h-full object-cover opacity-[0.78] filter contrast-105 saturate-105"
+              fill
+              sizes="100vw"
+              className="object-cover opacity-[0.78] filter contrast-105 saturate-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
           </div>
@@ -142,10 +149,12 @@ export default function ShowroomCinematic() {
         {/* Scene 2: Live Experience Narrative */}
         <div className="relative min-h-[55svh] flex items-end p-6 border-b border-[var(--border)] overflow-hidden">
           <div className="absolute inset-0 bg-[var(--surface-raised)]">
-            <img
+            <Image
               src="/cinema/showroom/interior.png"
               alt="Showroom Interior Displays"
-              className="w-full h-full object-cover opacity-[0.74] filter contrast-105 saturate-105"
+              fill
+              sizes="100vw"
+              className="object-cover opacity-[0.74] filter contrast-105 saturate-105"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
           </div>

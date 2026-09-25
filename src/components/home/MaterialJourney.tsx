@@ -2,10 +2,12 @@
 
 import { useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
+import { useScrollTriggerRefreshOnImages } from "@/hooks/useScrollTriggerRefreshOnImages";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -77,6 +79,9 @@ export default function MaterialJourney() {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+
+  // next/image lazy-loads: re-measure triggers as these settle.
+  useScrollTriggerRefreshOnImages(containerRef, !shouldReduceMotion);
 
   // Material Lens: pointer tracking per panel
   const handleLensMove = useCallback((e: React.PointerEvent<HTMLDivElement>, panelEl: HTMLElement) => {
@@ -204,10 +209,12 @@ export default function MaterialJourney() {
           </p>
 
           <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-sm mb-6 border border-[var(--border)]">
-            <img
+            <Image
               src={MATERIALS[1].img}
               alt="Architectural Brass Finish"
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 100vw, 640px"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/55 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
@@ -253,10 +260,12 @@ export default function MaterialJourney() {
 
             {/* Featured Material Visual with Light Sweep */}
             <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-2xl mb-6 border border-[var(--border)] shadow-md">
-              <img
+              <Image
                 src={MATERIALS[1].img}
                 alt="Architectural Brass Finish"
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 640px"
+                className="object-cover"
               />
               <div 
                 className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-[0.04]"
@@ -372,10 +381,12 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
             transition: "transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)",
           }}
         >
-          <img
+          <Image
             src={mat.img}
             alt={mat.subName}
-            className="w-full h-full object-cover"
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover"
             style={{ filter: "contrast(1.04) saturate(1.03)" }}
           />
           {/* Subtle Grain Overlay */}

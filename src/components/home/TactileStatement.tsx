@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef } from "react";
+import Image from "next/image";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 
 export default function TactileStatement() {
@@ -69,10 +70,12 @@ export default function TactileStatement() {
               style={{ y: useTransform(scrollYProgress, [0, 1], [50, -150]) }}
               className="absolute -bottom-10 -left-10 w-48 h-64 border border-[var(--border)] hidden lg:block bg-[var(--surface-raised)] overflow-hidden"
             >
-              <img 
-                src="/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg" 
+              <Image
+                src="/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg"
                 alt="Detail"
-                className="w-full h-full object-cover"
+                fill
+                sizes="192px"
+                className="object-cover"
               />
             </motion.div>
           </div>

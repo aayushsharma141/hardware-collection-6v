@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import Image from "next/image";
 import { useReducedMotion } from "motion/react";
 import { HeroSlide } from "@/types/hero";
 import { HeroControls } from "./HeroControls";
@@ -106,11 +107,14 @@ export function HeroCarousel({ slides }: HeroCarouselProps) {
               }`}
               style={{ transitionDuration: `${TRANSITION_DURATION}ms` }}
             >
-              <img
+              <Image
                 src={slide.imageUrl}
                 alt=""
                 aria-hidden="true"
-                className="w-full h-full object-cover opacity-[0.85] will-change-transform"
+                fill
+                sizes="100vw"
+                priority={idx === 0}
+                className="object-cover opacity-[0.85] will-change-transform"
                 style={{ contentVisibility: isActive ? 'visible' : 'hidden' }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/90 via-zinc-950/30 to-zinc-950/60" />
