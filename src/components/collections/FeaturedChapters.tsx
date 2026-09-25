@@ -47,7 +47,7 @@ export default function FeaturedChapters({ categories }: FeaturedChaptersProps) 
             const imageUrl =
               category.heroImageUrl ||
               category.imageUrl ||
-              "/cinema/categories/HC-03-DOORS.png";
+              "/cinema/categories/HC-03-DOORS.webp";
 
             const brandLine =
               category.brandRefs && category.brandRefs.length > 0

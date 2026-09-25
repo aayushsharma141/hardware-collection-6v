@@ -58,7 +58,7 @@ export default function TactileStatement() {
             >
               <motion.img 
                 style={{ scale: shouldReduceMotion ? 1 : imageScale }}
-                src="/Hardware Collection/hero_bg.png" 
+                src="/Hardware Collection/hero_bg.webp" 
                 alt="Macro texture of architectural hardware"
                 className="absolute inset-0 w-full h-full object-cover"
               />

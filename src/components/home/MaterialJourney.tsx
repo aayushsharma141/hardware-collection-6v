@@ -36,7 +36,7 @@ const MATERIALS = [
     subName: "Satin Steel",
     desc: "Restrained. Architectural. Timeless. Satin finish diffuses light without glare — the professional's choice for contemporary residential and commercial specification.",
     spec: "Surface: 180-grit satin brush · Sheen: Low reflectance · Application: Interior door & cabinet hardware",
-    img: "/cinema/materials/HC-04-SATIN.png",
+    img: "/cinema/materials/HC-04-SATIN.webp",
     sweepDelay: "0s",
   },
   {
@@ -44,7 +44,7 @@ const MATERIALS = [
     subName: "Living Brass",
     desc: "Warm, breathing finish that deepens with time. Each handle develops a unique patina — the mark of architectural confidence and material honesty.",
     spec: "Alloy: C26000 cartridge brass · Treatment: Lacquer-free, living finish · Note: Patination expected and valued",
-    img: "/cinema/materials/HC-04-PVD-BRASS.png",
+    img: "/cinema/materials/HC-04-PVD-BRASS.webp",
     sweepDelay: "2s",
   },
   {
@@ -52,7 +52,7 @@ const MATERIALS = [
     subName: "Architectural Black",
     desc: "Crisp contrast. Modern spatial definition. Matte black hardware reads as a deliberate decision — geometry made visible.",
     spec: "Process: Powder-coat or PVD black · Sheen: 0–5° gloss units · Application: Contemporary & industrial interiors",
-    img: "/cinema/materials/HC-04-MATTE.png",
+    img: "/cinema/materials/HC-04-MATTE.webp",
     sweepDelay: "4s",
   },
   {
@@ -60,7 +60,7 @@ const MATERIALS = [
     subName: "Polished Chrome",
     desc: "Brilliant precision. Chrome reflects its environment without apology — for spaces designed to impress at every surface.",
     spec: "Process: Triple-layered PVD chrome · Hardness: 9H surface · Application: Bathrooms, hospitality, feature entrances",
-    img: "/cinema/materials/HC-04-BRUSHED.png", // Reusing Brushed as Chrome stand-in for now
+    img: "/cinema/materials/HC-04-BRUSHED.webp", // Reusing Brushed as Chrome stand-in for now
     sweepDelay: "1s",
   },
   {
@@ -68,7 +68,7 @@ const MATERIALS = [
     subName: "Oil-Rubbed Bronze",
     desc: "Deep heritage. Rich transitional character. Bronze hardware speaks of a space that considers its history and its future simultaneously.",
     spec: "Base: Solid brass · Treatment: Chemical patina, sealed · Application: Heritage, luxury residential, hospitality",
-    img: "/cinema/materials/HC-04-DARK-METAL.png",
+    img: "/cinema/materials/HC-04-DARK-METAL.webp",
     sweepDelay: "3s",
   },
 ];

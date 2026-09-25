@@ -340,7 +340,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
         {/* Subtle background element */}
         <div className="absolute inset-0 bg-[var(--surface-raised)]">
           <img
-            src="/cinema/showroom/exterior-2.png"
+            src="/cinema/showroom/exterior-2.webp"
             alt="Showroom Location Entrance"
             className="w-full h-full object-cover opacity-[0.08] filter sepia-[0.45] contrast-110 mix-blend-multiply"
           />

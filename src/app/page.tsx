@@ -38,10 +38,10 @@ const fallbackHeroSlides = [
       "Premium architectural hardware and modular solutions, curated for contemporary spaces. Official partner for Häfele, Dorset, Labacha, Godrej & Hettich in Sakchi.",
     primaryCta: "Explore Collections",
     ctaTarget: "/collections",
-    imageUrl: "/cinema/hero/HC-01-HERO-01.png",
-    productUrl: "/cinema/hero/HC-01-HERO-02.png",
-    macroUrl: "/cinema/hero/HC-01-HERO-03.png",
-    reflectionUrl: "/cinema/hero/HC-01-HERO-04.png",
+    imageUrl: "/cinema/hero/HC-01-HERO-01.webp",
+    productUrl: "/cinema/hero/HC-01-HERO-02.webp",
+    macroUrl: "/cinema/hero/HC-01-HERO-03.webp",
+    reflectionUrl: "/cinema/hero/HC-01-HERO-04.webp",
   },
   {
     id: "ch02",
@@ -52,7 +52,7 @@ const fallbackHeroSlides = [
     primaryCta: "Explore Collections",
     ctaTarget: "/collections",
     imageUrl: "/cinema/showroom/interior.png",
-    productUrl: "/cinema/hero/HC-01-HERO-03.png",
+    productUrl: "/cinema/hero/HC-01-HERO-03.webp",
   },
   {
     id: "ch03",
@@ -62,8 +62,8 @@ const fallbackHeroSlides = [
       "Biometric security, German kitchen systems, precision door handles, and luxury bathroom fittings engineered for tactile longevity.",
     primaryCta: "Explore Collections",
     ctaTarget: "/collections",
-    imageUrl: "/cinema/categories/HC-03-DOORS.png",
-    productUrl: "/cinema/materials/HC-04-PVD-BRASS.png",
+    imageUrl: "/cinema/categories/HC-03-DOORS.webp",
+    productUrl: "/cinema/materials/HC-04-PVD-BRASS.webp",
   },
 ];
 

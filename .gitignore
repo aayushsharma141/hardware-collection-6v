@@ -72,3 +72,6 @@ public/*.png
 # local Sanity snapshots taken before destructive CMS migrations
 /.backups/
 
+# typescript incremental build cache (was tracked; churns on every `tsc` run)
+tsconfig.tsbuildinfo
+*.tsbuildinfo

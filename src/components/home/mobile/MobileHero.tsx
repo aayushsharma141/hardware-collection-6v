@@ -93,7 +93,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
       <div className="absolute inset-0 z-0">
         <Image
           key={`mob-bg-${currentSlideIndex}`}
-          src={slide.imageUrl || "/cinema/hero/HC-01-HERO-01.png"}
+          src={slide.imageUrl || "/cinema/hero/HC-01-HERO-01.webp"}
           alt="Brass lever handle on a dark door in the Hardware Collection showroom"
           fill
           priority

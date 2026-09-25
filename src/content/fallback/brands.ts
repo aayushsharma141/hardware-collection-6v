@@ -28,7 +28,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     tagline: "German Architectural & Kitchen Hardware",
     description: "Hafele is a world-renowned German manufacturer of architectural hardware, furniture fittings, and electronic access control systems.",
     establishedYear: "1923",
-    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
+    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp",
     keyHighlights: ["German Precision", "Matrix Box", "3D Hinges", "Biometric Locks"]
   },
   {
@@ -54,7 +54,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     tagline: "Digital Locks & Architectural Mortise",
     description: "Dorset is a premier provider of door controls, locksets, digital security systems, and architectural ironmongery.",
     establishedYear: "1995",
-    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
+    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp",
     keyHighlights: ["SS 304 Handle Sets", "Biometric Locks", "200,000 Cycle Durability"]
   },
   {
@@ -141,7 +141,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     tagline: "Luxury Granite Sinks & Bath Mixers",
     description: "Labacha brings Italian-inspired quartz composite granite sinks, workstation kitchen sinks, and luxury bathroom mixers to modern living spaces.",
     establishedYear: "2010",
-    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
+    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp",
     keyHighlights: ["Quartz Composite", "Heat & Scratch Resistant", "360° Faucets", "Nano-Coating"]
   },
   {
@@ -239,7 +239,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     tagline: "India's Trusted Smart Biometric Security",
     description: "Godrej Security Solutions is synonymous with unyielding trust and enterprise security in India.",
     establishedYear: "1897",
-    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
+    heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp",
     keyHighlights: ["Biometric Sensor", "Anti-Prise Locks", "Smart Mobile App", "Pan-India Service"]
   },
   {

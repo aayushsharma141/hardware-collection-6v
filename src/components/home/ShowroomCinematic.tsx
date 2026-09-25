@@ -29,7 +29,7 @@ const SCENES = [
     eyebrow: "THE SHOWROOM",
     title: "FLAGSHIP SHOWROOM\nSAKCHI",
     sub: "Architectural hardware, security, and kitchen systems from leading authorized brands, on physical display.",
-    img: "/cinema/showroom/exterior.png",
+    img: "/cinema/showroom/exterior.webp",
     panType: "scale" as const,
   },
   {
@@ -119,7 +119,7 @@ export default function ShowroomCinematic() {
         <div className="relative min-h-[55svh] flex items-end p-6 border-b border-[var(--border)] overflow-hidden">
           <div className="absolute inset-0 bg-[var(--surface-raised)]">
             <img
-              src="/cinema/showroom/exterior.png"
+              src="/cinema/showroom/exterior.webp"
               alt="Hardware Collection Showroom Exterior"
               className="w-full h-full object-cover opacity-[0.78] filter contrast-105 saturate-105"
             />

@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 
-const EMBLEM_SRC = "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png";
+const EMBLEM_SRC = "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp";
 
 const COLLECTION_LETTERS = "COLLECTION".split("");
 

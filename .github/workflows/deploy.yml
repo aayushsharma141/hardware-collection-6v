@@ -1,14 +1,23 @@
 name: Deploy to Vercel
 
+# Gated on CI. This previously triggered directly on `push` to main with no
+# dependency on any check, so a red build could still ship to production —
+# and, while ci.yml targeted a non-existent monorepo, CI was red on every
+# push. `workflow_run` is the only way to depend on another workflow's result;
+# `needs:` cannot cross workflow files.
+
 on:
-  push:
-    branches:
-      - main  # Auto-deploy to production when merging to main
+  workflow_run:
+    workflows: ["CI"]
+    branches: [main]
+    types: [completed]
 
 jobs:
   deploy-production:
     name: Deploy → Production
     runs-on: ubuntu-latest
+    # Only ship a green CI run on main.
+    if: github.event.workflow_run.conclusion == 'success'
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
@@ -17,12 +26,16 @@ jobs:
       VERCEL_ORG_ID: "${{ secrets.VERCEL_ORG_ID }}"
       VERCEL_PROJECT_ID: "${{ secrets.VERCEL_PROJECT_ID }}"
     steps:
-      - uses: actions/checkout@v4
-
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v7
         with:
-          node-version: "20.x"
+          # workflow_run checks out the default branch by default; pin to the
+          # exact commit CI actually verified.
+          ref: ${{ github.event.workflow_run.head_sha }}
+
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22.x"
           cache: "npm"
 
       - name: Install dependencies
@@ -31,6 +44,11 @@ jobs:
       - name: Deploy to Vercel (Production)
         id: deploy
         run: |
+          set -o pipefail
           DEPLOY_URL=$(npx vercel --prod --archive=tgz --token="$VERCEL_TOKEN" 2>&1 | grep -oP 'https://[^\s]+vercel\.app' | tail -1)
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "::error::Could not parse a deployment URL from the Vercel CLI output."
+            exit 1
+          fi
           echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
           echo "✅ Deployed to: $DEPLOY_URL"

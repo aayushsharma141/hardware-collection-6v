@@ -12,12 +12,12 @@ export interface SpaceIntentRailProps {
 }
 
 const SPACE_FALLBACK_IMAGES: Record<string, string> = {
-  kitchen: "/cinema/categories/HC-03-KITCHEN.png",
-  bathroom: "/cinema/categories/HC-03-BATHROOM.png",
-  wardrobe: "/cinema/categories/HC-03-WARDROBE.png",
-  entrance: "/cinema/categories/HC-03-SECURITY.png",
-  commercial: "/cinema/categories/HC-03-GLASS.png",
-  "living-interior": "/cinema/categories/HC-03-DOORS.png",
+  kitchen: "/cinema/categories/HC-03-KITCHEN.webp",
+  bathroom: "/cinema/categories/HC-03-BATHROOM.webp",
+  wardrobe: "/cinema/categories/HC-03-WARDROBE.webp",
+  entrance: "/cinema/categories/HC-03-SECURITY.webp",
+  commercial: "/cinema/categories/HC-03-GLASS.webp",
+  "living-interior": "/cinema/categories/HC-03-DOORS.webp",
 };
 
 export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
@@ -113,7 +113,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                 ? space.heroImageUrl
                 : null) ||
               SPACE_FALLBACK_IMAGES[slug] ||
-              "/cinema/categories/HC-03-DOORS.png";
+              "/cinema/categories/HC-03-DOORS.webp";
 
             return (
               <Link

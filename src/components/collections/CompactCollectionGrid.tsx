@@ -25,7 +25,7 @@ export default function CompactCollectionGrid({
         const imageUrl =
           category.heroImageUrl ||
           category.imageUrl ||
-          "/cinema/categories/HC-03-DOORS.png";
+          "/cinema/categories/HC-03-DOORS.webp";
 
         return (
           <Link

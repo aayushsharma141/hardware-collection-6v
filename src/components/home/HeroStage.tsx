@@ -153,7 +153,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
         fill
         priority
         sizes="100vw"
-        src={currentSlide.imageUrl || "/cinema/hero/HC-01-HERO-01.png"}
+        src={currentSlide.imageUrl || "/cinema/hero/HC-01-HERO-01.webp"}
       />
       <div className="absolute inset-y-0 left-0 w-[62%] bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/[0.94] to-transparent" />
 
@@ -248,7 +248,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
               alt="Close detail of a brass hardware finish"
               className="aperture-image absolute inset-[44px_20px_80px] xl:inset-[44px_24px_80px] h-[340px] xl:h-[430px] w-auto max-w-[340px] xl:max-w-[450px] object-contain mix-blend-multiply will-change-transform m-auto"
               decoding="async"
-              src={currentSlide.productUrl || "/cinema/hero/HC-01-HERO-03.png"}
+              src={currentSlide.productUrl || "/cinema/hero/HC-01-HERO-03.webp"}
             />
 
             <div className="aperture-sweep" />

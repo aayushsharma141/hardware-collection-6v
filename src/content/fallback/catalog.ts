@@ -1563,7 +1563,7 @@ export const SHOWROOM_ZONES: ShowroomZone[] = [
     category: "Kitchen & Appliances",
     description: "Experience fully functional modular kitchen units featuring Hafele Matrix Box drawer systems, corner carousel magic corners, and Labacha quartz sinks with live water displays.",
     featuredProducts: ["hafele-matrix-drawer", "labacha-quartz-sink-black"],
-    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
+    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp",
     highlights: ["Live Water Test Faucets", "Corner Carousel Pull-Outs", "Soft-Close Drawer Systems"]
   },
   {
@@ -1573,7 +1573,7 @@ export const SHOWROOM_ZONES: ShowroomZone[] = [
     category: "Smart Security",
     description: "Test drive live smart biometric locks from Dorset, Godrej, and Hafele. Experience instant 0.3s fingerprint scanning, RFID keycard entry, PIN codes, and mobile app unlocking.",
     featuredProducts: ["dorset-biometric-x1", "godrej-advantis-revolution"],
-    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
+    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp",
     highlights: ["Fingerprint Speed Demo", "Mobile App Unlock Bar", "Emergency Key Override Test"]
   },
   {
@@ -1583,7 +1583,7 @@ export const SHOWROOM_ZONES: ShowroomZone[] = [
     category: "Door Locks & Handles",
     description: "Browse over 80+ full-sized door panels displaying Dorset, Hafele, and Kich mortise handles in PVD Rose Gold, Satin Chrome, Antique Brass, and Matte Black finishes.",
     featuredProducts: ["dorset-pvd-mortise-rose", "hafele-3d-concealed-hinge"],
-    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
+    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp",
     highlights: ["Full-Size Door Mounting", "PVD Finish Touch & Feel", "Heavy-Duty Concealed Hinges"]
   },
   {
@@ -1593,7 +1593,7 @@ export const SHOWROOM_ZONES: ShowroomZone[] = [
     category: "Bath Fittings",
     description: "Immerse in luxury bath fittings including Labacha designer rain showers, solid brass thermostatic mixers, SS 304 glass cubicle brackets, and anti-odor linear floor drains.",
     featuredProducts: ["labacha-thermostatic-shower", "kich-glass-patch-fitting"],
-    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
+    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp",
     highlights: ["Thermostatic Water Control", "Frameless Glass Brackets", "Anti-Odor Floor Drain Demo"]
   },
   {
@@ -1603,7 +1603,7 @@ export const SHOWROOM_ZONES: ShowroomZone[] = [
     category: "Wardrobe & Sliding",
     description: "Discover Hettich top-running sliding door fittings, internal wardrobe pull-outs, trouser racks, shoe organizers, and motion-sensor aluminum LED wardrobe profiles.",
     featuredProducts: ["hettich-sliding-system", "hafele-wardrobe-lift"],
-    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
+    image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).webp",
     highlights: ["Silent Top-Running Sliding", "Sensor LED Illumination", "Ergonomic Wardrobe Lifts"]
   }
 ];

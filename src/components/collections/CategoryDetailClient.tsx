@@ -54,7 +54,7 @@ export default function CategoryDetailClient({
   const heroImage =
     category.heroImageUrl ||
     category.imageUrl ||
-    "/cinema/categories/HC-03-DOORS.png";
+    "/cinema/categories/HC-03-DOORS.webp";
 
   const galleryImages = category.galleryUrls || [];
 
@@ -74,7 +74,7 @@ export default function CategoryDetailClient({
       if (category.heroImageUrl) return category.heroImageUrl;
       if (category.imageUrl) return category.imageUrl;
       if (settings?.defaultCategoryImageUrl) return settings.defaultCategoryImageUrl;
-      return "/cinema/categories/HC-03-DOORS.png";
+      return "/cinema/categories/HC-03-DOORS.webp";
     },
     [category, settings]
   );
@@ -467,7 +467,7 @@ export default function CategoryDetailClient({
         displayImage={
           selectedProduct
             ? getProductDisplayImage(selectedProduct)
-            : "/cinema/categories/HC-03-DOORS.png"
+            : "/cinema/categories/HC-03-DOORS.webp"
         }
       />
     </div>

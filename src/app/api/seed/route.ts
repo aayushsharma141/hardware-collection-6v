@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import { createClient } from "next-sanity";
 import { CATEGORIES, BRANDS, PRODUCTS } from "@/content/fallback/catalog";
-import { apiVersion, dataset, projectId, useCdn } from "@/content/sanity/env";
+import { apiVersion, getDataset, getProjectId, useCdn } from "@/content/sanity/env";
 
 export async function POST(request: Request) {
   try {
@@ -16,8 +16,8 @@ export async function POST(request: Request) {
     }
 
     const client = createClient({
-      projectId,
-      dataset,
+      projectId: getProjectId(),
+      dataset: getDataset(),
       apiVersion,
       useCdn,
       token: process.env.SANITY_API_TOKEN,

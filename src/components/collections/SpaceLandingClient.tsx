@@ -15,12 +15,12 @@ export interface SpaceLandingClientProps {
 }
 
 const SPACE_FALLBACK_IMAGES: Record<string, string> = {
-  kitchen: "/cinema/categories/HC-03-KITCHEN.png",
-  bathroom: "/cinema/categories/HC-03-BATHROOM.png",
-  wardrobe: "/cinema/categories/HC-03-WARDROBE.png",
-  entrance: "/cinema/categories/HC-03-SECURITY.png",
-  commercial: "/cinema/categories/HC-03-GLASS.png",
-  "living-interior": "/cinema/categories/HC-03-DOORS.png",
+  kitchen: "/cinema/categories/HC-03-KITCHEN.webp",
+  bathroom: "/cinema/categories/HC-03-BATHROOM.webp",
+  wardrobe: "/cinema/categories/HC-03-WARDROBE.webp",
+  entrance: "/cinema/categories/HC-03-SECURITY.webp",
+  commercial: "/cinema/categories/HC-03-GLASS.webp",
+  "living-interior": "/cinema/categories/HC-03-DOORS.webp",
 };
 
 export default function SpaceLandingClient({
@@ -37,7 +37,7 @@ export default function SpaceLandingClient({
   const heroImage =
     space.heroImageUrl ||
     SPACE_FALLBACK_IMAGES[slug] ||
-    "/cinema/categories/HC-03-DOORS.png";
+    "/cinema/categories/HC-03-DOORS.webp";
 
   const consultMessage = `Hardware Collection — I'd like to consult on hardware specifications for ${space.name}.`;
   const whatsappUrl = buildWhatsAppLink(consultMessage, settings);

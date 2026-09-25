@@ -36,7 +36,7 @@ export default function SignatureCollection() {
           >
             <div className="relative aspect-square overflow-hidden bg-[var(--surface-raised)] group">
               <motion.img 
-                src="/cinema/showroom/exterior.png"
+                src="/cinema/showroom/exterior.webp"
                 alt="Smart Entrance"
                 className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
               />

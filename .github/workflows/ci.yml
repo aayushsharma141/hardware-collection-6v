@@ -1,81 +1,107 @@
 name: CI
 
+# This repository is a single npm package ("website") at the root. It has no
+# `workspaces` key and no `apps/` directory. The previous version of this file
+# targeted an `apps/web` monorepo, so every lint, typecheck and build step
+# failed on every push, and nothing here ran the project's real gates.
+#
+# The jobs below mirror scripts/release-verification.ts, which is the project's
+# canonical gate definition. Keep the two in sync.
+
 on:
   push:
     branches: ["**"]
   pull_request:
     branches: ["main"]
 
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  # The build no longer requires these — src/content/sanity/env.ts resolves them
+  # lazily and the site falls back to src/content/fallback/ when they are absent.
+  # They are passed anyway so CI builds what production builds when the secrets
+  # exist, and degrades to a fallback-content build when they do not.
+  NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ secrets.NEXT_PUBLIC_SANITY_PROJECT_ID }}
+  NEXT_PUBLIC_SANITY_DATASET: ${{ secrets.NEXT_PUBLIC_SANITY_DATASET }}
+
 jobs:
-  lint-and-typecheck:
-    name: Lint & Type Check
+  verify:
+    name: Verify (lint, types, tests, build)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           cache: "npm"
 
+      # `npm ci` runs the postinstall `prisma generate`, which needs no database.
       - name: Install dependencies
         run: npm ci
 
+      # GATE-01
       - name: Lint
-        run: npm run lint --workspace=web
+        run: npm run lint
 
-      - name: Type Check
-        run: npm run typecheck --workspace=web
+      # GATE-02. Note: tsconfig.json excludes scripts/, so this does not cover
+      # scripts/release-verification.ts or scripts/evidence-engine.ts.
+      - name: Type check
+        run: npx tsc --noEmit
 
-  quality-gates:
-    name: Quality Gates
+      # GATE-03
+      - name: Unit tests
+        run: npm test
+
+      # GATE-04
+      - name: Production build
+        run: npm run build
+
+  audit:
+    name: Dependency audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Security audit (high severity)
-        run: npm audit --audit-level=high --workspace=apps/web
-        continue-on-error: true  # Report but don't block until all remaining highs are resolved
+      # GATE-05, at the same threshold release-verification.ts enforces.
+      - name: Blocking — critical advisories
+        run: npm audit --audit-level=critical
 
-      - name: No console.log in production source
-        run: node apps/web/scripts/checks/no-console-log.js
+      # Reported but not blocking: there are currently 10 high advisories, most
+      # reaching the tree through prisma and sanity build tooling rather than
+      # request-path code. Flip this to a blocking step (and raise GATE-05 to
+      # `high` in scripts/release-verification.ts) once they are cleared.
+      - name: Advisory — high severity
+        run: npm audit --audit-level=high
+        continue-on-error: true
 
-      - name: Architectural layer enforcement (dependency-cruiser)
-        run: npm run arch:check --workspace=apps/web
-        continue-on-error: true  # Enforce once baseline violations are resolved
-
-  build:
-    name: Build
+  evidence:
+    name: Evidence platform gate
     runs-on: ubuntu-latest
-    # Only build on main and PRs to main — saves CI minutes on feature branches
-    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
-    env:
-      VITE_SUPABASE_URL: "${{ secrets.VITE_SUPABASE_URL }}"
-      VITE_SUPABASE_ANON_KEY: "${{ secrets.VITE_SUPABASE_ANON_KEY }}"
-      VITE_POSTHOG_KEY: "${{ secrets.VITE_POSTHOG_KEY }}"
-      VITE_SENTRY_DSN: "${{ secrets.VITE_SENTRY_DSN }}"
-      VITE_IMAGEKIT_URL_ENDPOINT: "${{ secrets.VITE_IMAGEKIT_URL_ENDPOINT }}"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
-      - name: Use Node.js 20
-        uses: actions/setup-node@v4
+      - name: Use Node.js 22
+        uses: actions/setup-node@v7
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           cache: "npm"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Build web app
-        run: npm run build --workspace=apps/web
+      # GATE-06. Validation only — this never signs, so it needs no key.
+      - name: Validate evidence bundles
+        run: npx tsx scripts/evidence-engine.ts --validate
