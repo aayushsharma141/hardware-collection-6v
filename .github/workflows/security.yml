@@ -12,6 +12,17 @@ jobs:
   analyze:
     name: CodeQL Analyze
     runs-on: ubuntu-latest
+    # The scan itself runs fine, but uploading results needs GitHub code
+    # scanning, which requires Advanced Security — unavailable on a private
+    # repo owned by a personal account. The job therefore failed on upload
+    # every single run ("Code scanning is not enabled for this repository")
+    # and had never once produced an alert.
+    #
+    # Skipped while the repo is private. Make the repo public, or move it to
+    # an org with Advanced Security, and this starts working again with no
+    # edit. Secret scanning (TruffleHog), Gitleaks and the npm audit gate are
+    # unaffected and still run on every PR.
+    if: github.event.repository.visibility == 'public'
     permissions:
       actions: read
       contents: read
