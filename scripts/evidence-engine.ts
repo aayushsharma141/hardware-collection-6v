@@ -9,43 +9,111 @@ const INDEX_PATH = path.join(EVIDENCE_DIR, "index.json");
 const SIGNATURE_PATH = path.join(EVIDENCE_DIR, "signature.json");
 const PRIVATE_KEY_PATH = path.join(EVIDENCE_DIR, "private.key");
 const PUBLIC_KEY_PATH = path.join(EVIDENCE_DIR, "public.key");
+// Published so anyone can verify a bundle without holding the signing key.
+// The engine only ever reads this, so a local key generation cannot clobber it.
+// `.pub`, not `.pem`: the repo's .gitignore excludes *.pem and *.key, and
+// force-adding past that rule is how the old signing key came to be committed.
+const VERIFICATION_KEY_PATH = path.join(EVIDENCE_DIR, "verification-public-key.pub");
 
 function calculateSHA256(filePath: string): string {
   const fileBuffer = fs.readFileSync(filePath);
   return crypto.createHash("sha256").update(fileBuffer).digest("hex");
 }
 
+/**
+ * An env var field often cannot hold the newlines a PEM needs, so a key may be
+ * supplied either as a PEM or as base64 of one.
+ */
+function decodeKey(value: string): string {
+  const trimmed = value.trim();
+  if (trimmed.includes("-----BEGIN")) return trimmed;
+  return Buffer.from(trimmed, "base64").toString("utf-8");
+}
+
+/**
+ * Resolves the signing keypair, in order of trustworthiness:
+ *
+ *   1. EVIDENCE_PRIVATE_KEY from the environment. The public half is derived
+ *      from it rather than read separately, so the two can never disagree.
+ *      EVIDENCE_PUBLIC_KEY alone is enough to verify without being able to sign.
+ *   2. docs/evidence/{private,public}.key on disk, for local runs. These are
+ *      gitignored: a signing key in version control is readable by everyone
+ *      with repo access, which leaves the signature unable to distinguish a
+ *      genuine bundle from a forged one.
+ *   3. A freshly generated throwaway key — only outside CI, and only with a
+ *      loud warning, because a bundle signed this way attests to nothing. In
+ *      CI this throws instead: an unsigned-in-practice release bundle should
+ *      fail the pipeline, not sail through it.
+ */
 export function ensureEd25519Keys(): { privateKey: string; publicKey: string } {
-  if (process.env.EVIDENCE_PRIVATE_KEY && process.env.EVIDENCE_PUBLIC_KEY) {
-    return {
-      privateKey: process.env.EVIDENCE_PRIVATE_KEY,
-      publicKey: process.env.EVIDENCE_PUBLIC_KEY,
-    };
+  const envPrivate = process.env.EVIDENCE_PRIVATE_KEY;
+  if (envPrivate) {
+    const privateKey = decodeKey(envPrivate);
+    const publicKey = crypto
+      .createPublicKey(privateKey)
+      .export({ type: "spki", format: "pem" })
+      .toString();
+    return { privateKey, publicKey };
+  }
+
+  // Verify-only: a public key with no private half can check signatures.
+  const envPublic = process.env.EVIDENCE_PUBLIC_KEY;
+  if (envPublic) {
+    return { privateKey: "", publicKey: decodeKey(envPublic) };
   }
 
   if (!fs.existsSync(EVIDENCE_DIR)) {
     fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
   }
 
-  if (fs.existsSync(PRIVATE_KEY_PATH) && fs.existsSync(PUBLIC_KEY_PATH)) {
+  if (fs.existsSync(PRIVATE_KEY_PATH)) {
+    const privateKey = fs.readFileSync(PRIVATE_KEY_PATH, "utf-8");
+    const publicKey = crypto
+      .createPublicKey(privateKey)
+      .export({ type: "spki", format: "pem" })
+      .toString();
+    return { privateKey, publicKey };
+  }
+
+  if (fs.existsSync(VERIFICATION_KEY_PATH)) {
     return {
-      privateKey: fs.readFileSync(PRIVATE_KEY_PATH, "utf-8"),
-      publicKey: fs.readFileSync(PUBLIC_KEY_PATH, "utf-8"),
+      privateKey: "",
+      publicKey: fs.readFileSync(VERIFICATION_KEY_PATH, "utf-8"),
     };
   }
+
+  if (process.env.CI) {
+    throw new Error(
+      "No Ed25519 signing key available. Set EVIDENCE_PRIVATE_KEY (PEM, or " +
+        "base64 of one) in the environment. Refusing to generate a throwaway " +
+        "key in CI: a bundle signed with a key nobody can check is not evidence.",
+    );
+  }
+
+  console.warn(
+    "⚠️  No EVIDENCE_PRIVATE_KEY set and no local key found — generating an " +
+      "ephemeral keypair. Bundles signed with it prove nothing to anyone else. " +
+      "Do not commit the generated key, and do not publish these bundles.",
+  );
 
   const { privateKey, publicKey } = crypto.generateKeyPairSync("ed25519", {
     privateKeyEncoding: { type: "pkcs8", format: "pem" },
     publicKeyEncoding: { type: "spki", format: "pem" },
   });
 
-  fs.writeFileSync(PRIVATE_KEY_PATH, privateKey);
-  fs.writeFileSync(PUBLIC_KEY_PATH, publicKey);
+  fs.writeFileSync(PRIVATE_KEY_PATH, privateKey, { mode: 0o600 });
+  fs.writeFileSync(PUBLIC_KEY_PATH, publicKey, { mode: 0o600 });
   return { privateKey, publicKey };
 }
 
 export function signData(data: string): string {
   const { privateKey } = ensureEd25519Keys();
+  if (!privateKey) {
+    throw new Error(
+      "Cannot sign: only a public key is available. Set EVIDENCE_PRIVATE_KEY " +
+        "to sign, or run verification only.",
+    );
+  }
   const signature = crypto.sign(null, Buffer.from(data), privateKey);
   return signature.toString("hex");
 }
