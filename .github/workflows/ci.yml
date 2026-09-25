@@ -59,6 +59,18 @@ jobs:
     runs-on: ubuntu-latest
     # Only build on main and PRs to main — saves CI minutes on feature branches
     if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
+    env:
+      # src/content/sanity/env.ts throws at module load without these, which
+      # fails page-data collection for every route. They are NEXT_PUBLIC_ —
+      # they ship in the client bundle and are not secrets — so they are
+      # repository variables, not secrets.
+      #
+      # The placeholders are deliberate: with no reachable Sanity project the
+      # build falls through to src/content/fallback/, so CI also proves the
+      # offline-resilience path still renders all 69 routes. Set the repo
+      # variables to build against real content instead.
+      NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID || 'dummyprojectid' }}
+      NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET || 'production' }}
     steps:
       - uses: actions/checkout@v4
 
