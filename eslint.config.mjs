@@ -29,6 +29,11 @@ const eslintConfig = defineConfig([
     // Static assets, not source. public/pdf.worker.min.mjs alone contributed 6 errors
     // and 1,571 warnings from minified vendor code.
     "public/**",
+    // Claude Code creates a full git worktree per background task under
+    // .claude/worktrees/. Without this, linting a nested copy of the whole
+    // repo turned 30 warnings into 1,713 problems and 49 errors, so the gate
+    // failed whenever a background task happened to be running.
+    ".claude/**",
   ]),
 ]);
 
