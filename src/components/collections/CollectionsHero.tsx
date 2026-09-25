@@ -29,7 +29,7 @@ export default function CollectionsHero({
       <div className="max-w-[1320px] mx-auto px-6">
         <div className="max-w-4xl">
           {/* Eyebrow */}
-          <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-4 block">
+          <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-brass-ink mb-4 block">
             ARCHITECTURAL HARDWARE · SAKCHI · JAMSHEDPUR
           </span>
 
@@ -69,7 +69,7 @@ export default function CollectionsHero({
             <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-[var(--border)]">
               {stats.map((stat, idx) => (
                 <div key={stat} className="flex items-center gap-6">
-                  <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.2em] font-medium text-[#c8a96e]">
+                  <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.2em] font-medium text-brass-ink">
                     {stat}
                   </span>
                   {idx < stats.length - 1 && (

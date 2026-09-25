@@ -46,7 +46,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
     <section id="official-catalogs" className="py-20 md:py-28 bg-[var(--surface)] text-[var(--text-primary)] border-t border-[var(--border)]">
       <div className="max-w-[1320px] mx-auto px-6">
         <div className="max-w-4xl mb-16 md:mb-20">
-          <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-3 block">
+          <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
             Authorized Reference Library
           </span>
           <h2 className="hc-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.0] mb-5">
@@ -112,7 +112,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                   <span className={`text-xs uppercase font-bold tracking-[0.2em] px-3 py-1 rounded-full border ${
                     isSelected
                       ? "text-white bg-[#8b1a42] border-[#8b1a42]"
-                      : "text-[#c8a96e] bg-[#C8A96E]/10 border-[#C8A96E]/20"
+                      : "text-brass-ink bg-[#C8A96E]/10 border-[#C8A96E]/20"
                   }`}>
                     {isSelected ? "Selected Brand Partner" : "Authorized Partner"}
                   </span>

@@ -59,3 +59,37 @@ describe("WCAG contrast — UI-SPEC color table", () => {
     expect(ratio).toBeLessThan(4.5);
   });
 });
+
+// The site ships the warm-ivory identity, not the dark theme the table above
+// was drawn for. These pairs guard the light-surface text colours.
+describe("WCAG contrast — ivory surfaces", () => {
+  const IVORY = "#fbf5ea";
+  const PEARL = "#f7f0e2";
+
+  const passing: Array<{ name: string; fg: string; bg: string }> = [
+    { name: "ink on ivory", fg: "#1a1017", bg: IVORY },
+    { name: "charcoal (secondary text) on ivory", fg: "#3d2e38", bg: IVORY },
+    { name: "wine on ivory", fg: "#8b1a42", bg: IVORY },
+    { name: "brass-ink eyebrow on ivory", fg: "#85683a", bg: IVORY },
+    { name: "brass-ink eyebrow on pearl", fg: "#85683a", bg: PEARL },
+    { name: "white on wine button fill", fg: "#ffffff", bg: "#8b1a42" },
+    { name: "white on wine-deep hover fill", fg: "#ffffff", bg: "#6b1432" },
+  ];
+
+  passing.forEach(({ name, fg, bg }) => {
+    it(`${name} (${fg} on ${bg}) meets WCAG AA for normal text`, () => {
+      expect(contrastRatio(fg, bg)).toBeGreaterThanOrEqual(4.5);
+    });
+  });
+
+  // This is the regression the brass-ink token exists to prevent: decorative
+  // brass was used as body/eyebrow text once the surfaces went light.
+  it.each([
+    ["ivory", IVORY],
+    ["pearl", PEARL],
+  ])("flags decorative brass #c8a96e as text on %s", (_label, bg) => {
+    const ratio = contrastRatio("#c8a96e", bg);
+    expect(ratio).toBeLessThan(3);
+    expect(contrastRatio("#85683a", bg)).toBeGreaterThan(ratio);
+  });
+});

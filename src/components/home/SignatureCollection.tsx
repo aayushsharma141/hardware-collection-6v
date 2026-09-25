@@ -21,7 +21,7 @@ export default function SignatureCollection() {
     <section ref={containerRef} className="py-32 lg:py-48 bg-[var(--surface)] overflow-hidden relative">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="text-center mb-24 lg:mb-40">
-          <p className="text-[#C8A96E] font-medium tracking-widest text-sm uppercase mb-4">
+          <p className="text-brass-ink font-medium tracking-widest text-sm uppercase mb-4">
             CURATED
           </p>
           <h2 className="text-4xl lg:text-6xl font-light text-[var(--text-primary)]">Signature Collections</h2>
@@ -43,7 +43,7 @@ export default function SignatureCollection() {
                           </div>
             <div className="mt-8">
               <h3 className="text-3xl text-[var(--text-primary)] font-light mb-2">SMART ENTRANCE</h3>
-              <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">
+              <Link href="/collections" className="text-sm text-brass-ink tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">
                 Explore Edition →
               </Link>
             </div>
@@ -63,7 +63,7 @@ export default function SignatureCollection() {
                           </div>
             <div className="mt-8">
               <h3 className="text-3xl text-[var(--text-primary)] font-light mb-2">MODERN KITCHEN</h3>
-              <Link href="/collections" className="text-sm text-[#C8A96E] tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">
+              <Link href="/collections" className="text-sm text-brass-ink tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors">
                 Explore Edition →
               </Link>
             </div>

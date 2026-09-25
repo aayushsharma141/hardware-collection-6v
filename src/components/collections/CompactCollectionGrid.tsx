@@ -60,7 +60,7 @@ export default function CompactCollectionGrid({
                 </p>
               )}
 
-              <span className="text-xs sm:text-sm uppercase tracking-widest text-[#c8a96e] inline-flex items-center gap-2 font-semibold group-hover:text-[var(--text-primary)] transition-colors duration-150 mt-auto pt-1">
+              <span className="text-xs sm:text-sm uppercase tracking-widest text-brass-ink inline-flex items-center gap-2 font-semibold group-hover:text-[var(--text-primary)] transition-colors duration-150 mt-auto pt-1">
                 Explore {category.name}
                 <span
                   aria-hidden="true"

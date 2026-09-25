@@ -208,7 +208,7 @@ function ProductCard({
             &rarr;
           </span>
         </div>
-        <p className="text-[#c8a96e] text-xs font-medium tracking-wide uppercase">
+        <p className="text-brass-ink text-xs font-medium tracking-wide uppercase">
           {product.brand}
         </p>
         <h3 className="hc-serif text-[var(--text-primary)] font-light text-[26px] leading-tight">
@@ -280,7 +280,7 @@ function MobileProductCard({
 
       {/* Editorial label: brand (brass) → name → explore */}
       <div className="space-y-1 px-0.5">
-        <p className="text-[#C8A96E] text-[13px] tracking-widest uppercase font-medium">
+        <p className="text-brass-ink text-[13px] tracking-widest uppercase font-medium">
           {product.brand}
         </p>
         <h3 className="text-[var(--text-primary)] text-[20px] font-light leading-snug">

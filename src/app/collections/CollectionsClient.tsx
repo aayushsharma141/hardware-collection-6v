@@ -131,7 +131,7 @@ export default function CollectionsClient({
         {tier2Categories.length > 0 && (
           <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
             <div className="mb-8">
-              <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
+              <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-brass-ink mb-1 block">
                 CATALOGUE SPECTRUM
               </span>
               <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
@@ -145,7 +145,7 @@ export default function CollectionsClient({
         {/* 6. Complete Numbered Editorial Index */}
         <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
           <div className="mb-6">
-            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
+            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-brass-ink mb-1 block">
               TAXONOMY INDEX
             </span>
             <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">

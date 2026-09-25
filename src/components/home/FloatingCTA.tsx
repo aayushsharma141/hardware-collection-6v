@@ -179,7 +179,7 @@ export default function FloatingCTA({ reviews = [], cta }: { reviews?: Testimoni
                     href={cta ? generateWhatsAppUrl(cta.type) : generateWhatsAppUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-3.5 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 hover:border-[#25D366] hover:bg-[#25D366]/20 text-[#25D366] text-xs font-semibold uppercase tracking-wider transition-colors"
+                    className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-3.5 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 hover:border-[#25D366] hover:bg-[#25D366]/20 text-[#0b6b36] text-xs font-semibold uppercase tracking-wider transition-colors"
                   >
                     <MessageCircle className="w-4 h-4" />
                     <span>{cta?.label || "WhatsApp Us"}</span>

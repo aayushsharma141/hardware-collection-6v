@@ -126,7 +126,7 @@ export default function ShowroomCinematic() {
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
           </div>
           <div className="relative z-10 space-y-3 pb-6">
-            <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase">
+            <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase">
               Flagship showroom
             </p>
             <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.02]">
@@ -150,7 +150,7 @@ export default function ShowroomCinematic() {
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
           </div>
           <div className="relative z-10 space-y-3 pb-6">
-            <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase">
+            <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase">
               LIVE DEMONSTRATIONS
             </p>
             <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.02]">
@@ -242,7 +242,7 @@ function CinematicScene({
         className="relative max-w-[1320px] mx-auto w-full px-8 lg:px-16 flex flex-col items-start justify-end pb-24 lg:pb-32 h-full"
         style={{ zIndex: 3 }}
       >
-        <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs sm:text-sm uppercase mb-4">
+        <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs sm:text-sm uppercase mb-4">
           {scene.eyebrow}
         </p>
         <h2 className="hc-serif text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-light text-[var(--text-primary)] leading-[0.92] mb-6 whitespace-pre-line tracking-[-0.01em]">
