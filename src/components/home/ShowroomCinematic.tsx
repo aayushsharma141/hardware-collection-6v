@@ -1,6 +1,7 @@
-"use client";
+﻿"use client";
 
 import { useRef, type RefObject } from "react";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -15,7 +16,7 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * Visual tension: HIGH
  *
  * Desktop (GSAP, pinned, 3 scenes):
- *   Scene 1 &mdash; Entrance: Exterior photograph, scale 1.15→1.0, "20+ AUTHORIZED BRANDS &middot; SAKCHI"
+ *   Scene 1 &mdash; Entrance: Exterior photograph, scale 1.15â†’1.0, "20+ AUTHORIZED BRANDS &middot; SAKCHI"
  *   Scene 2 &mdash; Product Wall: Interior horizontal pan (translateX), door hardware display
  *   Scene 3 &mdash; Location: Atmosphere dims, CTAs appear as quiet zone transition begins
  *
@@ -134,70 +135,7 @@ export default function ShowroomCinematic() {
         style={{ zIndex: 0 }}
       />
 
-      {/* â”€â”€ Mobile Layout (< lg): Cohesive Showroom Narrative â”€â”€â”€â”€ */}
-      <div className="block lg:hidden w-full max-w-md mx-auto">
-        {/* Scene 1: Flagship Showroom */}
-        <div className="p-4 pt-12 pb-3">
-          <div className="relative min-h-[60svh] flex items-end p-6 overflow-hidden rounded-[2rem] ring-1 ring-black/5 dark:ring-white/10 bg-black/5 dark:bg-white/5">
-            <div className="absolute inset-[6px] overflow-hidden rounded-[calc(2rem-6px)] bg-[var(--surface-raised)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
-              <img
-                src="/cinema/showroom/exterior.png"
-                alt="Hardware Collection Showroom Exterior"
-                className="mobile-scene-img w-[110%] h-[110%] absolute top-[-5%] left-[-5%] object-cover opacity-[0.85] filter contrast-105 saturate-105 will-change-transform"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)]/95 via-[var(--surface-raised)]/40 to-transparent pointer-events-none" />
-            </div>
-            
-            <div className="relative z-10 pb-2 px-1 w-full">
-              <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/10 backdrop-blur-md mb-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
-                <span className="hc-mono text-[var(--text-primary)] font-medium tracking-[0.2em] text-[9px] uppercase">
-                  Flagship showroom
-                </span>
-              </div>
-              <h2 className="hc-serif text-5xl sm:text-6xl font-light tracking-[-0.02em] text-[var(--text-primary)] leading-[0.95]">
-                Flagship Showroom<br />
-                <span className="text-[var(--text-secondary)]">Sakchi, Jamshedpur.</span>
-              </h2>
-              <p className="text-[var(--text-primary)] text-sm font-light leading-relaxed pt-5 opacity-90 max-w-[280px]">
-                Architectural hardware, security, and kitchen systems from leading authorized brands, on display and in your hands before you specify.
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Scene 2: Live Experience Narrative */}
-        <div className="p-4 pb-12 pt-3">
-          <div className="relative min-h-[60svh] flex items-end p-6 overflow-hidden rounded-[2rem] ring-1 ring-black/5 dark:ring-white/10 bg-black/5 dark:bg-white/5">
-            <div className="absolute inset-[6px] overflow-hidden rounded-[calc(2rem-6px)] bg-[var(--surface-raised)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
-              <img
-                src="/cinema/showroom/interior.png"
-                alt="Showroom Interior Displays"
-                className="mobile-scene-img w-[110%] h-[110%] absolute top-[-5%] left-[-5%] object-cover opacity-[0.85] filter contrast-105 saturate-105 will-change-transform"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)]/95 via-[var(--surface-raised)]/40 to-transparent pointer-events-none" />
-            </div>
-
-            <div className="relative z-10 pb-2 px-1 w-full">
-              <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/10 backdrop-blur-md mb-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
-                <span className="hc-mono text-[var(--text-primary)] font-medium tracking-[0.2em] text-[9px] uppercase">
-                  LIVE DEMONSTRATIONS
-                </span>
-              </div>
-              <h2 className="hc-serif text-5xl sm:text-6xl font-light tracking-[-0.02em] text-[var(--text-primary)] leading-[0.95]">
-                Touch Before<br />
-                <span className="text-[var(--text-secondary)]">You Decide.</span>
-              </h2>
-              <div className="text-[var(--text-primary)] text-sm font-light space-y-2 pt-5 opacity-90">
-                <p>&bull; See the living and PVD finishes under gallery lighting.</p>
-                <p>&bull; Compare German soft-close and biometric mechanisms.</p>
-                <p>&bull; Experience the tactile weight before specification.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* ── Desktop Layout (>= lg): Scenes 01–02 ────────────────────────── */}
+      {/* â”€â”€ Desktop Layout (>= lg): Scenes 01â€“02 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="hidden lg:block">
         {SCENES.slice(0, 2).map((scene, i) => (
           <CinematicScene
@@ -234,12 +172,21 @@ function CinematicScene({
     >
       {/* Z=1: Background photography with Cinematic CSS Grading */}
       <div className="absolute inset-0 overflow-hidden bg-[var(--surface-raised)]" style={{ zIndex: 1 }}>
-        <img
+        {/* unoptimized preserves the exact src path that GSAP ScrollTrigger
+            targets via the .scene-img selector â€” Next.js image transforms
+            would change the URL and break the animation binding. */}
+        <Image
           src={scene.img}
           alt=""
           aria-hidden="true"
-          className="scene-img absolute top-[-10%] left-[-5%] w-[110%] h-[120%] object-cover will-change-transform"
+          fill
+          unoptimized
+          className="scene-img object-cover will-change-transform"
           style={{
+            top: "-10%",
+            left: "-5%",
+            width: "110%",
+            height: "120%",
             opacity: isLast ? 0.62 : 0.85,
             filter: "contrast(1.06) saturate(1.04)",
           }}

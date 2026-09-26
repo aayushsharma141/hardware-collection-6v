@@ -618,6 +618,7 @@ html.lenis, html.lenis body { height: auto; }
 
 html {
   -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
   scrollbar-width: thin;
   scrollbar-color: rgba(139, 26, 66, 0.40) var(--pearl);
 }
