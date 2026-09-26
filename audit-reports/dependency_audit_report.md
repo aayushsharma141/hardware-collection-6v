@@ -1,4 +1,6 @@
-# Dependency Audit Report (Phase 29D.1)
+# Legacy Design-Token & Component Migration Audit
+
+> Not a CVE scan. For vulnerabilities run `npm audit --audit-level=critical`.
 
 ## Legacy `button.tsx` Dependencies
 - **Critical (Blocks Deletion)**: 0 files

@@ -1,6 +1,6 @@
 {
   "schemaVersion": "1.0",
-  "catalogUpdatedAt": "2026-09-25T19:51:43.316Z",
+  "catalogUpdatedAt": "2026-09-26T05:10:47.432Z",
   "totalEvidenceEntries": 4,
   "entries": [
     {
@@ -21,7 +21,7 @@
       "gitSha": "997e530c940dd9a7d06f34e780373e3943b91f43",
       "gitBranch": "refactor/structure-legibility",
       "generator": "hardware-collection-release-pipeline@2.0",
-      "checksum": "a3f299d08e715e5d3b4d3d4bc120d5c3fad1a388965f2c7a46d12bc6d06a70a0"
+      "checksum": "a3d691d6936742ad07b520f9231e66eccb7b51c104f58485a3464f2b0c526b87"
     },
     {
       "file": "EV-997e530-2026-09-05T0645-v1.0.json",
@@ -31,7 +31,7 @@
       "gitSha": "997e530c940dd9a7d06f34e780373e3943b91f43",
       "gitBranch": "refactor/structure-legibility",
       "generator": "hardware-collection-release-pipeline@2.0",
-      "checksum": "d5ff0aedabe438465098f8b556d2d3e72a1e50e0a28ed62fe0a3c1afab045b92"
+      "checksum": "593252dae01d37a1dac8d49742a6a1c80ee58e938cc45bdcd238c3ed06abd5c4"
     },
     {
       "file": "latest-release.json",
@@ -41,7 +41,7 @@
       "gitSha": "997e530c940dd9a7d06f34e780373e3943b91f43",
       "gitBranch": "refactor/structure-legibility",
       "generator": "hardware-collection-release-pipeline@2.0",
-      "checksum": "d5ff0aedabe438465098f8b556d2d3e72a1e50e0a28ed62fe0a3c1afab045b92"
+      "checksum": "593252dae01d37a1dac8d49742a6a1c80ee58e938cc45bdcd238c3ed06abd5c4"
     }
   ]
 }

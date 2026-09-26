@@ -53,6 +53,10 @@ export function ensureEd25519Keys(): { privateKey: string; publicKey: string } {
       .createPublicKey(privateKey)
       .export({ type: "spki", format: "pem" })
       .toString();
+    // Write the derived public half to the committed path so verifiers can
+    // always find a key that matches the current signature.json.
+    if (!fs.existsSync(EVIDENCE_DIR)) fs.mkdirSync(EVIDENCE_DIR, { recursive: true });
+    fs.writeFileSync(VERIFICATION_KEY_PATH, publicKey);
     return { privateKey, publicKey };
   }
 
@@ -221,7 +225,7 @@ export function buildEvidenceManifest() {
     algorithm: "Ed25519",
     totalArtifacts: files.length,
     signature: signatureHex,
-    publicKeyPath: "docs/evidence/public.key",
+    publicKeyPath: "docs/evidence/verification-public-key.pub",
   };
   fs.writeFileSync(SIGNATURE_PATH, JSON.stringify(sigPayload, null, 2));
 
