@@ -120,8 +120,8 @@ export const SHOWROOM_FAMILIES: ShowroomFamily[] = [
     id: "bathroom",
     slug: "bathroom",
     name: "Bathroom",
-    tagline: "Luxury shower fittings, mirrors, and precision stainless steel suites",
-    description: "Solid brass thermostatic shower suites, stainless steel accessories, designer mirrors, and anti-odor drainage solutions.",
+    tagline: "Bathroom accessories, mirrors and stainless steel mirror cabinets",
+    description: "Coordinated bathroom accessories: towel bars, robe hooks, shelves, shaving mirrors, SS mirror cabinets and washroom essentials.",
     subcategories: [
       "Bathroom Accessories",
       "Bathroom Shelves",
@@ -246,7 +246,7 @@ export const CATEGORIES: CategoryInfo[] = [
     subcategories: ["Door Pull Handles", "Modern Collection", "Classical Collection", "Luxury Collection", "Italian Collection"],
     cardVariant: "standard",
     suitableFor: ["Residential", "Commercial", "Hospitality"],
-    brands: ["Dorset", "Hafele", "Kich"],
+    brands: ["Dorset", "Hafele"],
     keyFeatures: [
       "Forged Solid Brass & SS 304 Stainless Steel",
       "Salt-Spray Tested Luxury PVD Coating",
@@ -270,7 +270,7 @@ export const CATEGORIES: CategoryInfo[] = [
     subcategories: ["Long Bar Handles", "Profile Handles", "Flush Collection", "Knobs", "Leather Collection", "Ceramic Collection", "Wooden Collection"],
     cardVariant: "standard",
     suitableFor: ["Residential", "Hospitality"],
-    brands: ["Hafele", "Kich"],
+    brands: ["Hafele"],
     keyFeatures: [
       "Precision Knurled Solid Brass Textures",
       "Extruded Aluminum Seamless Edge Profiles",
@@ -407,9 +407,9 @@ export const CATEGORIES: CategoryInfo[] = [
     id: "bathroom-accessories",
     slug: "bathroom-accessories",
     title: "Bathroom Accessories",
-    eyebrow: "Luxury Shower Suites & Solid SS Fixtures",
-    shortDesc: "Rain showers, thermostatic bath mixers, SS 304 towel racks, soap dispensers, and linear drains.",
-    overview: "Tactile luxury bathroom suites crafted with solid brass valves, PVD coatings, and anti-clog linear floor drains.",
+    eyebrow: "Coordinated Stainless Steel Accessories",
+    shortDesc: "Towel bars, towel rings, robe hooks, soap dispensers, tumbler holders and toilet-roll holders in coordinated suites.",
+    overview: "Bathroom accessories chosen as matching suites, so towel bars, hooks, shelves and mirrors share one finish across the room.",
     iconName: "Bath",
     primaryRail: "bathroom",
     familySlugs: ["bathroom"],
@@ -417,14 +417,14 @@ export const CATEGORIES: CategoryInfo[] = [
     cardVariant: "standard",
     suitableFor: ["Residential", "Hospitality"],
     brands: [],
-    pendingVerificationBrands: ["Labacha", "Kich"],
+    pendingVerificationBrands: ["Labacha"],
     keyFeatures: [
-      "Solid Brass Thermostatic Cartridges",
-      "SS 304 Anti-Odor Linear Floor Drainage",
+      "Matching Suites Across Towel Bars, Hooks & Shelves",
+      "SS 304 Stainless Steel Construction",
       "PVD Brushed Gold & Matte Black Finish Durability"
     ],
     verificationStatus: "unverified",
-    whatsappMessage: "Hardware Collection — Inquiring about Luxury Bathroom Fixtures & Accessories.",
+    whatsappMessage: "Hardware Collection — Inquiring about Bathroom Accessories.",
     featured: false,
     itemCount: 0
   },
@@ -433,19 +433,19 @@ export const CATEGORIES: CategoryInfo[] = [
     slug: "glass-hardware",
     title: "Glass Hardware",
     eyebrow: "Frameless Glass Architecture & Balustrades",
-    shortDesc: "Stainless steel patch fittings, shower hinges, spider fittings, and glass railings.",
-    overview: "High-grade stainless steel architectural fittings engineered for commercial glass facades and luxury frameless shower enclosures.",
+    shortDesc: "Stainless steel patch fittings, glass door handles, spider fittings and glass railing hardware.",
+    overview: "High-grade stainless steel fittings for frameless glass doors, partitions and railings in homes and commercial spaces.",
     iconName: "Building2",
     primaryRail: "door-hardware",
     familySlugs: ["door-hardware"],
-    subcategories: ["Glass Door Fittings", "Spider Fittings", "Shower Hinges", "Patch Fittings"],
+    subcategories: ["Glass Door Fittings", "Spider Fittings", "Glass Door Handles", "Patch Fittings"],
     cardVariant: "standard",
     suitableFor: ["Commercial", "Residential", "Hospitality"],
     brands: [],
-    pendingVerificationBrands: ["Kich", "Hafele"],
+    pendingVerificationBrands: ["Hafele"],
     keyFeatures: [
       "AISI 316 Marine Grade Solid Forged Stainless Steel",
-      "Frameless Shower Door Pivot Hinges & Brackets",
+      "Patch Fittings & Floor-Spring Pivots for Glass Doors",
       "Heavy Commercial Glass Facade Spider Fittings"
     ],
     verificationStatus: "unverified",
@@ -1581,7 +1581,7 @@ export const SHOWROOM_ZONES: ShowroomZone[] = [
     bayNumber: "Bay #3",
     title: "Main Entrance Mortise & Designer Handle Gallery",
     category: "Door Locks & Handles",
-    description: "Browse over 80+ full-sized door panels displaying Dorset, Hafele, and Kich mortise handles in PVD Rose Gold, Satin Chrome, Antique Brass, and Matte Black finishes.",
+    description: "Browse over 80+ full-sized door panels displaying Dorset and Hafele mortise handles in PVD Rose Gold, Satin Chrome, Antique Brass, and Matte Black finishes.",
     featuredProducts: ["dorset-pvd-mortise-rose", "hafele-3d-concealed-hinge"],
     image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
     highlights: ["Full-Size Door Mounting", "PVD Finish Touch & Feel", "Heavy-Duty Concealed Hinges"]
@@ -1589,12 +1589,12 @@ export const SHOWROOM_ZONES: ShowroomZone[] = [
   {
     id: "bay-4",
     bayNumber: "Bay #4",
-    title: "Luxury Bathroom & Glass Shower Suite",
-    category: "Bath Fittings",
-    description: "Immerse in luxury bath fittings including Labacha designer rain showers, solid brass thermostatic mixers, SS 304 glass cubicle brackets, and anti-odor linear floor drains.",
-    featuredProducts: ["labacha-thermostatic-shower", "kich-glass-patch-fitting"],
+    title: "Bathroom Accessories Suite",
+    category: "Bath Accessories",
+    description: "Bathroom accessories on display as complete suites: towel bars, robe hooks, shelves, shaving mirrors and SS mirror cabinets.",
+    featuredProducts: [],
     image: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    highlights: ["Thermostatic Water Control", "Frameless Glass Brackets", "Anti-Odor Floor Drain Demo"]
+    highlights: ["Matching Accessory Suites", "Shaving Mirrors & Mirror Cabinets", "Finish Matching"]
   },
   {
     id: "bay-5",
@@ -1775,44 +1775,11 @@ export const PRODUCTS: Product[] = [
       { key: "Track Mounting", value: "Concealed Top Running Extrusion" }
     ]
   },
-  {
-    id: "kich-glass-patch-fitting",
-    name: "Kich Architectural Glass Patch Fitting & Door Pivot Set",
-    category: "Glass Hardware",
-    categorySlug: "glass-hardware",
-    categoryLabel: "Architectural & Glass Fittings",
-    brand: "Kich",
-    brandName: "Kich",
-    model: "KICH-SS316-PATCH",
-    catalogReference: "KICH-GLS-PCH",
-    shortDescription: "Marine grade AISI 316 stainless steel frameless glass door patch fittings and pivot set.",
-    description: "Marine grade AISI 316 stainless steel frameless glass door patch fittings and floor spring pivot set engineered for high-traffic commercial glass doors.",
-    features: [
-      "AISI 316 Grade Stainless Steel Solid Forged Construction",
-      "Mirror Polish & Satin Brushed Corrosion-Resistant Finishes",
-      "Precision Ball Bearing Internal Pivot Mechanism",
-      "For 10mm to 12mm Toughened Glass Doors"
-    ],
-    finishes: ["Satin Stainless Steel", "Mirror Polished SS", "PVD Gold"],
-    application: "Commercial Entrance Doors, Glass Partitions & Showrooms",
-    featured: false,
-    whatsappMessage: "Hi Hardware Collection, I would like to inquire about Kich Glass Patch Fittings.",
-    material: "Solid AISI 316 Stainless Steel",
-    durability: "Grade 10 Corrosion Tested (500hr Salt Spray)",
-    dimensions: "For Glass Thickness: 10mm - 12mm",
-    showroomBay: "Bay #4: Bath & Glass Suite",
-    displayStatus: "Live Display",
-    specifications: [
-      { key: "Steel Grade", value: "Marine Grade AISI 316 Stainless Steel" },
-      { key: "Glass Suitability", value: "10mm to 12mm Toughened Safety Glass" },
-      { key: "Finish Options", value: "Satin Brushed, Mirror Polished, PVD Gold" }
-    ]
-  }
 ];
 
 export const SHOWROOM_STATS = [
   { label: "Years in Business", value: "10+", sub: "Serving Jamshedpur with excellence" },
-  { label: "Authorized Brands", value: "Curated", sub: "Hafele, Dorset, Labacha, Godrej, Hettich, Kich & more" },
+  { label: "Authorized Brands", value: "Curated", sub: "Blum, Hafele, Dorset, Hettich, Tattva & more" },
   { label: "Showroom Location", value: "Sakchi", sub: "Live Display in Jamshedpur" },
   { label: "Google Rating", value: "4.4 ★", sub: "55+ Verified Customer Reviews" },
 ];

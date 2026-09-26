@@ -83,7 +83,7 @@ export default async function TermsPage() {
             </h2>
             <p className="mb-3">
               Hardware Collection is an authorized dealer and specification partner for world-class manufacturers
-              including Häfele, Blum, Dorset, Godrej, Kich, Labacha, and other represented brands.
+              including Blum, Häfele, Dorset, Hettich, Tattva, and other represented brands.
             </p>
             <ul className="list-disc pl-6 space-y-1 text-[#3d2e38]">
               <li>

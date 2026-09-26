@@ -19,7 +19,7 @@ import { generateWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
  *
  * Years and brand count follow the owner's stated positioning: 10+ years and
  * 20+ authorized brands. "20+" is deliberately a floor rather than an exact
- * figure — CANONICAL_BRANDS currently holds 22, so the claim stays true as the
+ * figure — CANONICAL_BRANDS currently holds 21, so the claim stays true as the
  * roster moves. AUTHORIZED_BRAND_COUNT in BrandTrustStrip is the exact number
  * where one is needed. Spelling is "Authorized" throughout, matching the rest
  * of the site rather than the British form used in the brief.

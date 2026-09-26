@@ -52,7 +52,7 @@ export const SPACES: SpaceInfo[] = [
     id: "bathroom",
     slug: "bathroom",
     name: "Bathroom",
-    description: "Luxury shower fittings, mirrors and frameless glass for the bathroom.",
+    description: "Accessories, mirrors and mirror cabinets for the bathroom.",
     linkedCategorySlugs: ["bathroom-accessories", "glass-hardware"],
     displayOrder: 3,
   },

@@ -57,8 +57,8 @@ export const CATEGORY_FAMILIES: CategoryFamily[] = [
     id: "bathroom",
     index: "03 / 05",
     name: "Bathroom",
-    subtitle: "Luxury shower fittings, mirrors and precision stainless steel suites.",
-    detail: "Solid brass thermostatic shower suite, matte black.",
+    subtitle: "Bathroom accessories, mirrors and stainless steel mirror cabinets.",
+    detail: "Coordinated stainless steel towel bars, hooks and shelving.",
     image: "/cinema/categories/HC-03-BATHROOM.png",
     href: "/collections/bathroom-hardware",
   },
@@ -163,20 +163,6 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
   },
   {
     index: "05",
-    name: "Towel Bar Set",
-    brand: "KICH",
-    finish: "Satin 304 SS",
-    category: "Bathroom",
-    img: "/cinema/categories/HC-03-BATHROOM.png",
-    href: "/collections/bathroom-hardware#bathroom-accessories",
-    blurb:
-      "Grade 304 stainless bath accessories in a satin finish, sized as a coordinated suite rather than assembled piece by piece.",
-    statement:
-      "Grade 304 stainless, sized as a coordinated suite rather than assembled piece by piece.",
-    sweepDelay: "2s",
-  },
-  {
-    index: "06",
     name: "Cabinet Knob",
     brand: "LABACHA",
     finish: "Matte Gold",
