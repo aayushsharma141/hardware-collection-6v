@@ -3,47 +3,32 @@ import type { Metadata } from "next";
 import { client } from "@/content/sanity/client";
 import {
   getProductsByCategoryQuery,
-  getCategorySlugs,
-  getSpaceSlugs,
   getSiteSettings,
 } from "@/content/sanity/queries";
 import { resolveCollectionSlug } from "@/lib/collections/routing";
+import { ROUTABLE_COLLECTION_SLUGS } from "@/lib/collections/routes";
 import { getSlugString } from "@/types/catalog";
-import { CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
-import { SPACES } from "@/content/fallback/spaces";
+import { PRODUCTS } from "@/content/fallback/catalog";
 import CategoryDetailClient from "@/components/collections/CategoryDetailClient";
 import SpaceLandingClient from "@/components/collections/SpaceLandingClient";
 
+
 export const revalidate = 60;
 
+/**
+ * Phase 12: only the 11 slugs in ROUTABLE_COLLECTION_SLUGS are served — five
+ * showroom families and six spaces. The 13 legacy category slugs redirect at
+ * the Next.js layer (next.config.ts), which runs before this route.
+ *
+ * `dynamicParams = false` is what actually enforces that. generateStaticParams
+ * alone only controls what is prerendered; with the default of `true`, every
+ * other category slug still exists in Sanity and would render on demand, so
+ * the 42 non-routable categories would stay live as pages of their own.
+ */
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
-  try {
-    const [catDocs, spaceDocs] = await Promise.all([
-      getCategorySlugs(),
-      getSpaceSlugs(),
-    ]);
-
-    const catSlugs = (catDocs || []).map((d: string | { slug?: string }) =>
-      typeof d === "string" ? d : d?.slug || ""
-    );
-    const spaceSlugs = (spaceDocs || []).map((d: string | { slug?: string }) =>
-      typeof d === "string" ? d : d?.slug || ""
-    );
-
-    const fallbackSlugs = [
-      ...CATEGORIES.map((c) => c.slug),
-      ...SPACES.map((s) => s.slug),
-    ];
-
-    const allSlugs = Array.from(
-      new Set([...catSlugs, ...spaceSlugs, ...fallbackSlugs])
-    ).filter(Boolean);
-
-    return allSlugs.map((slug) => ({ slug }));
-  } catch (err) {
-    console.error("Error in generateStaticParams:", err);
-    return CATEGORIES.map((c) => ({ slug: c.slug }));
-  }
+  return ROUTABLE_COLLECTION_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({

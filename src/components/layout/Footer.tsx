@@ -51,12 +51,12 @@ interface FooterProps {
 }
 
 const SPECIMEN_CATEGORIES = [
-  { name: "Door Hardware & Locks", slug: "entrance", icon: DoorClosed },
-  { name: "Handles & Knobs", slug: "main-door-handles", icon: GripHorizontal },
+  { name: "Door Hardware & Locks", slug: "door-hardware", icon: DoorClosed },
+  { name: "Handles & Knobs", slug: "handles-knobs", icon: GripHorizontal },
   { name: "Modular Kitchen Systems", slug: "kitchen", icon: UtensilsCrossed },
-  { name: "Biometric & Digital Locks", slug: "digital-locks", icon: Fingerprint },
+  { name: "Biometric & Digital Locks", slug: "door-hardware#digital-locks", icon: Fingerprint },
   { name: "Luxury Bathroom Suites", slug: "bathroom", icon: Bath },
-  { name: "Furniture Hardware", slug: "wardrobe", icon: Layers },
+  { name: "Furniture Hardware", slug: "furniture-hardware", icon: Layers },
 ];
 
 const FALLBACK_BRANDS = [

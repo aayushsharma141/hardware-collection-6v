@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useReducedMotion } from "motion/react";
 import { Category, getSlugString } from "@/types/catalog";
 import { selectFeaturedCategories } from "@/lib/collections/tiers";
+import { categoryHref } from "@/lib/collections/routes";
 
 export interface FeaturedChaptersProps {
   categories: Category[];
@@ -98,7 +99,7 @@ export default function FeaturedChapters({ categories }: FeaturedChaptersProps) 
                       </p>
                     )}
                     <Link
-                      href={`/collections/${slug}`}
+                      href={categoryHref(category)}
                       className="text-xs sm:text-sm uppercase tracking-widest text-[#c8a96e] inline-flex items-center gap-2.5 font-semibold hover:text-white transition-colors duration-150 w-fit"
                     >
                       Explore {category.name}
@@ -143,7 +144,7 @@ export default function FeaturedChapters({ categories }: FeaturedChaptersProps) 
                     </p>
                   )}
                   <Link
-                    href={`/collections/${slug}`}
+                    href={categoryHref(category)}
                     className="text-xs sm:text-sm uppercase tracking-widest text-brass-ink inline-flex items-center gap-2.5 font-semibold hover:text-[var(--text-primary)] transition-colors duration-150 w-fit"
                   >
                     Explore {category.name}

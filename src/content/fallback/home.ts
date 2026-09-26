@@ -107,7 +107,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Satin Stainless",
     category: "Door Hardware",
     img: "/cinema/categories/HC-03-DOORS.png",
-    href: "/collections/main-door-handles",
+    href: "/collections/handles-knobs#main-door-handles",
     blurb:
       "Long-format entrance pulls in satin stainless — a low-reflectance surface that holds its finish under daily contact and reads quietly against timber, glass and stone.",
     statement:
@@ -121,7 +121,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Antique Brass",
     category: "Door Hardware",
     img: "/cinema/collection/HC-05-01.png",
-    href: "/collections/mortise-door-locks",
+    href: "/collections/door-hardware#mortise-door-locks",
     blurb:
       "Lever-on-rose mortice sets in antique brass, matched to the lock body and strike so the whole door schedule specifies as one line rather than three.",
     statement:
@@ -135,7 +135,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Graphite",
     category: "Digital Locks",
     img: "/cinema/categories/HC-03-SECURITY.png",
-    href: "/collections/digital-locks",
+    href: "/collections/door-hardware#digital-locks",
     blurb:
       "Fingerprint, PIN and key access in one graphite body. Working units are on the wall in Sakchi — enrol a print and feel the throw before you specify it.",
     statement:
@@ -149,7 +149,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Galvanised Steel",
     category: "Cabinet Hardware",
     img: "/cinema/categories/HC-03-WARDROBE.png",
-    href: "/collections/drawer-channels",
+    href: "/collections/kitchen-wardrobes#drawer-channels",
     blurb:
       "Full-extension runners with integrated soft-close damping. The difference between grades is in the last centimetre of travel, which is why we keep them loaded and open on display.",
     statement:
@@ -163,7 +163,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Satin 304 SS",
     category: "Bathroom",
     img: "/cinema/categories/HC-03-BATHROOM.png",
-    href: "/collections/bathroom-accessories",
+    href: "/collections/bathroom-hardware#bathroom-accessories",
     blurb:
       "Grade 304 stainless bath accessories in a satin finish, sized as a coordinated suite rather than assembled piece by piece.",
     statement:
@@ -177,7 +177,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Matte Gold",
     category: "Cabinet Hardware",
     img: "/cinema/collection/HC-05-02.png",
-    href: "/collections/cabinet-wardrobe-handles",
+    href: "/collections/handles-knobs#cabinet-wardrobe-handles",
     blurb:
       "Small-format knobs in matte gold — the detail a kitchen is read by, and the one most often chosen from a photograph rather than in the hand.",
     statement:
