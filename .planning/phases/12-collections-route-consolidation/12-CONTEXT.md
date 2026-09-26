@@ -1,6 +1,6 @@
 # Phase 12 — Collections Route Consolidation
 
-**Status:** DRAFT — blocked on a Sanity token and one slug decision
+**Status:** Steps 1–4 and 7 DONE (PR #23, 2026-09-26). Remaining: step 5 (family page sections), step 6 (homepage cards).
 **Created:** 2026-09-26
 **Supersedes:** Phase 11's routing assumption (not its content work)
 
@@ -119,3 +119,34 @@ repoint them in step 3.
   `/contact` — five top-level routes that do not exist. "Simplify" reduces depth here
   but adds breadth; net page count may not fall.
 - `heroImage` and brand attribution remain unset on the 35 September categories.
+
+---
+
+## 8. Progress — 2026-09-26
+
+**Done, in PR #23:**
+
+- **B-1 resolved.** Token replaced. *Note: the new token was pasted in plaintext into a chat
+  transcript and a shell command during setup — rotate it.*
+- **B-2 resolved** as recommended: the family routes as `bathroom-hardware`.
+- **Step 2** — five family category documents created in Sanity by
+  `scripts/cms/seed-family-categories.ts`. `searchKeywords` carries each family's full
+  board sub-item list so every wall name stays searchable.
+- **Step 3** — routing restricted to the 11, and actually *enforced* by
+  `dynamicParams = false`. The first attempt restricted only `generateStaticParams`,
+  which controls prerendering, not routing: the 42 non-routable categories kept
+  rendering on demand because their documents exist in Sanity.
+- **Step 4** — 13 permanent redirects. They were initially added before the family
+  documents existed, which briefly made 13 live URLs redirect into 404s on an
+  uncommitted `main`. Step 2 closed that before anything was pushed.
+- **Step 7** — sitemap lists the 11.
+- **Links** — `src/lib/collections/routes.ts` is now the single rule for where a
+  category lives; every category link on the site goes through it. Verified: zero broken
+  `/collections` links across 7 crawled pages.
+
+**Remaining:**
+
+- **Step 5** — the family page must render one section per board item with
+  `id={categorySlug}`. Links already point at `/collections/<family>#<slug>`; until this
+  lands they resolve to the top of the family page rather than the section.
+- **Step 6** — homepage collection cards → the five board families.
