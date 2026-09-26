@@ -8,10 +8,17 @@ export const getCategoriesQuery = groq`
     name,
     "slug": slug.current,
     description,
+    eyebrow,
     icon,
     "imageUrl": image.asset->url,
     "imageLqip": image.asset->metadata.lqip,
     featured,
+    displayOrder,
+    primaryRail,
+    // Sanity stores this as \`families\`; the app-wide name is \`familySlugs\`,
+    // which is what src/content/fallback/catalog.ts uses. Normalise here so
+    // both content sources hand the UI the same shape.
+    "familySlugs": coalesce(families, []),
     seo,
     cta
   }

@@ -22,8 +22,7 @@ import CollectionsHero from "@/components/collections/CollectionsHero";
 import CollectionSearch from "@/components/collections/CollectionSearch";
 import SpaceIntentRail from "@/components/collections/SpaceIntentRail";
 import FeaturedChapters from "@/components/collections/FeaturedChapters";
-import CompactCollectionGrid from "@/components/collections/CompactCollectionGrid";
-import CollectionIndex from "@/components/collections/CollectionIndex";
+import HardwareFamilyIndex from "@/components/collections/HardwareFamilyIndex";
 import BrandDiscovery from "@/components/collections/BrandDiscovery";
 import ShortlistPill from "@/components/collections/ShortlistPill";
 import ProductDetailDrawer from "@/components/collections/ProductDetailDrawer";
@@ -75,15 +74,6 @@ export default function CollectionsClient({
       ),
     [categories]
   );
-  const featuredSlugs = useMemo(
-    () => new Set(featuredCats.map((c) => getSlugString(c.slug))),
-    [featuredCats]
-  );
-  const tier2Categories = useMemo(
-    () => categories.filter((c) => !featuredSlugs.has(getSlugString(c.slug))),
-    [categories, featuredSlugs]
-  );
-
   const bottomConsultationWhatsapp = buildWhatsAppLink(
     buildGeneralInquiryWhatsappLink(settings?.whatsappNumber),
     settings
@@ -127,40 +117,20 @@ export default function CollectionsClient({
           <FeaturedChapters categories={categories} />
         )}
 
-        {/* 5. Tier-2 Compact Collection Grid */}
-        {tier2Categories.length > 0 && (
-          <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
-            <div className="mb-8">
-              <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
-                CATALOGUE SPECTRUM
-              </span>
-              <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
-                All Architectural Hardware Collections
-              </h2>
-            </div>
-            <CompactCollectionGrid categories={tier2Categories} />
-          </div>
-        )}
-
-        {/* 6. Complete Numbered Editorial Index */}
+        {/* 5. Explore by Hardware — the five showroom families.
+             Replaces the former "Catalogue Spectrum" grid and "Taxonomy Index"
+             list, which rendered the same flat category set twice under
+             marketplace-voiced headings. Grouping, not filtering (D-18). */}
         <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
-          <div className="mb-6">
-            <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[#c8a96e] mb-1 block">
-              TAXONOMY INDEX
-            </span>
-            <h2 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
-              Complete Collections Index
-            </h2>
-          </div>
-          <CollectionIndex categories={categories} />
+          <HardwareFamilyIndex categories={categories} />
         </div>
 
-        {/* 7. Authorized Brand Discovery & Static Wall */}
+        {/* 6. Authorized Brand Discovery & Static Wall */}
         <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
           <BrandDiscovery brands={brands} />
         </div>
 
-        {/* 8. Bottom Showroom Consultation CTA */}
+        {/* 7. Bottom Showroom Consultation CTA */}
         <section id="collections-bottom-cta" className="py-16 border-t border-[var(--border)] bg-[var(--surface-raised)]">
           <div className="max-w-[1320px] mx-auto px-6 text-center">
             <MessageSquare

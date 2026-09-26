@@ -156,3 +156,56 @@ photographed first.
 - `/collections` hero count matches the real category count.
 - Every new category has a distinct `heroImage` asset — no two categories share one.
 - `npx tsx scripts/release-verification.ts` passes all six gates.
+
+---
+
+## 8. Amendment — 2026-09-26
+
+Waves 1–5 are **done at the data layer**. All 35 categories now exist in Sanity and
+every board item resolves to a real page. What remains of this phase is Wave 0
+(photography and brand attribution) and Wave 6 (coverage gate).
+
+### What commit 074657e actually did, and what it missed
+
+The taxonomy expansion authored all 35 categories into
+`src/content/fallback/catalog.ts`, taking `CATEGORIES` from 13 to 48. It did **not**
+add them to Sanity, which CLAUDE.md names as the canonical content source — the
+fallback exists only so the site keeps rendering when Sanity is unreachable.
+
+That produced a quiet defect:
+
+- `generateStaticParams` unions the Sanity slugs with the fallback slugs, so the
+  build prerendered all 54 `/collections/[slug]` paths.
+- `resolveCollectionSlug` queries Sanity **only**; there is no fallback branch for
+  the category document itself, so a miss calls `notFound()`.
+- Result: 35 of the 54 prerendered paths served a 404.
+
+Nothing linked to them and `sitemap.xml` is a hardcoded short list, so no visitor hit
+a broken link and no 404 was submitted to search. But they were dead URLs, and they
+blocked the family-grouped UI below — that section's whole job is to link to them.
+
+### Fixed
+
+- **35 categories seeded into Sanity** by `scripts/cms/seed-showroom-categories.ts`
+  (idempotent, `createIfNotExists`, never overwrites Studio edits). Sanity: 13 → 48.
+  Verified: 0 fallback slugs now absent from Sanity; build prerenders 54 paths, all
+  resolving.
+- **Board order preserved.** The new documents were created with `displayOrder: 0`,
+  which sorted them alphabetically — "Ceramic, Classical, Flush…" instead of the
+  wall's "Kids, Modern, Classical, Long Bar…". The script now reconciles
+  `displayOrder` against `CATEGORIES` order on every run, touching nothing else (D3).
+- **`getCategoriesQuery` now projects the family fields.** It previously selected
+  neither `families` nor `primaryRail`, so the collections page had no family data
+  available at all. Sanity's `families` is normalised to `familySlugs` in the
+  projection so both content sources hand the UI one shape.
+
+### Still open (Wave 0)
+
+`heroImage` is deliberately left unset on all 35, so Studio flags each one as needing
+real photography — that is the genuine outstanding owner task, and the warning is the
+reminder. `image` is set to the nearest of the six existing category renders so grid
+cards are not blank. **Do not silence the warnings by pointing every style collection
+at one shared render**: eleven Handles & Knobs collections are told apart by how they
+look, and a shared stock image would make them indistinguishable. Brand attribution is
+also still empty — the owner has not confirmed which partner supplies which collection,
+and the seed does not invent references.
