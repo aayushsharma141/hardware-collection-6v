@@ -169,7 +169,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 <span className="relative h-2 w-2 bg-[#8b1a42] rounded-full" />
               </div>
               <p className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[#8b1a42]">
-                {currentSlide.eyebrow || "Architectural Hardware Experts Since 2002"}
+                {currentSlide.eyebrow || "Architectural Hardware Experts · 10+ Years"}
               </p>
             </div>
 

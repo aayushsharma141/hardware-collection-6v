@@ -22,7 +22,10 @@
  * References are stored in priority order, so every consumer that renders them
  * as-is already shows the top brands first.
  *
- * Usage:  npx tsx scripts/cms/seed-brand-attribution.ts [--dry-run]
+ * Studio is the source of truth once a category has brands: this script only
+ * fills categories whose brand list is empty. Pass --force to overwrite.
+ *
+ * Usage:  npx tsx scripts/cms/seed-brand-attribution.ts [--dry-run] [--force]
  */
 import { createClient } from "next-sanity";
 import dotenv from "dotenv";
@@ -40,6 +43,7 @@ if (!projectId || !dataset || !token) {
 }
 
 const isDryRun = process.argv.includes("--dry-run");
+const force = process.argv.includes("--force");
 const client = createClient({ projectId, dataset, apiVersion: "2024-02-12", useCdn: false, token });
 
 const TOP_FIVE = ["blum", "hafele", "dorset", "hettich", "tattva"];
@@ -89,12 +93,16 @@ async function main() {
 
   console.log(`\n2. Category attribution${label}`);
   for (const [catSlug, brandSlugs] of wanted) {
-    const doc = await client.fetch<{ _id: string } | null>(
-      `*[_type == "category" && slug.current == $slug][0]{ _id }`,
+    const doc = await client.fetch<{ _id: string; existing: number | null } | null>(
+      `*[_type == "category" && slug.current == $slug][0]{ _id, "existing": count(brands) }`,
       { slug: catSlug }
     );
     if (!doc) {
       console.warn(`   WARNING: category "${catSlug}" not in Sanity — skipped.`);
+      continue;
+    }
+    if (doc.existing && !force) {
+      console.log(`   ${catSlug.padEnd(28)} kept — already has ${doc.existing} brand(s) set in Studio`);
       continue;
     }
     const sorted = [...brandSlugs].sort((a, b) => priority.get(a)! - priority.get(b)!);

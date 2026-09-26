@@ -24,7 +24,7 @@ export const homePageType = defineType({
         {
           type: "object",
           fields: [
-            defineField({ name: "eyebrow", title: "Eyebrow", type: "string", description: "Small text above the main title (e.g., 'ESTABLISHED 2002')" }),
+            defineField({ name: "eyebrow", title: "Eyebrow", type: "string", description: "Small text above the main title (e.g., '10+ YEARS IN SAKCHI')" }),
             defineField({ name: "title", title: "Title", type: "string", validation: (Rule) => Rule.required() }),
             defineField({ name: "description", title: "Description", type: "text" }),
             defineField({ name: "primaryCta", title: "Primary CTA Text", type: "string" }),
@@ -42,7 +42,7 @@ export const homePageType = defineType({
       title: "Legacy Heading",
       type: "string",
       group: "legacy",
-      description: "Heading for the legacy section (e.g., 'Two Decades of Architectural Expertise')",
+      description: "Heading for the legacy section (e.g., 'Over a Decade of Architectural Expertise')",
     }),
     defineField({
       name: "legacyDescription",

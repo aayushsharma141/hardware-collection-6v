@@ -416,8 +416,8 @@ export const CATEGORIES: CategoryInfo[] = [
     subcategories: ["Bathroom Accessories", "Bathroom Shelves", "Shaving Mirrors", "SS Mirror Cabinets", "Signages", "Hooks", "Mail Boxes", "Ladders", "Dustbins"],
     cardVariant: "standard",
     suitableFor: ["Residential", "Hospitality"],
-    brands: [],
-    pendingVerificationBrands: ["Labacha"],
+    brands: ["Labacha"],
+    pendingVerificationBrands: [],
     keyFeatures: [
       "Matching Suites Across Towel Bars, Hooks & Shelves",
       "SS 304 Stainless Steel Construction",

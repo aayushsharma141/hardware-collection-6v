@@ -32,7 +32,7 @@ export const revalidate = 60;
 const fallbackHeroSlides = [
   {
     id: "ch01",
-    eyebrow: "ARCHITECTURAL HARDWARE EXPERTS SINCE 2002",
+    eyebrow: "ARCHITECTURAL HARDWARE EXPERTS · 10+ YEARS",
     title: "The Art of\nthe Finish.",
     description:
       "Premium architectural hardware and modular solutions, curated for contemporary spaces. Official partner for Häfele, Dorset, Labacha, Godrej & Hettich in Sakchi.",

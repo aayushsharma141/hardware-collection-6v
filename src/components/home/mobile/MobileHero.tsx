@@ -113,7 +113,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
 
         <div className="flex items-center justify-between mb-4">
           <p className="mobile-hero-fade hc-mono t-eyebrow text-brass-ink">
-            {slide.eyebrow || "Architectural Hardware Experts Since 2002"}
+            {slide.eyebrow || "Architectural Hardware Experts · 10+ Years"}
           </p>
           {slides.length > 1 && (
             <div className="flex items-center gap-1.5">

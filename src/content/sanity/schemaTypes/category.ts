@@ -141,6 +141,8 @@ export const categoryType = defineType({
     defineField({
       name: "brands",
       title: "Authorized Brands",
+      description:
+        "Brands this showroom is authorised to sell in this category. Shown on the family page. Order does not matter: brands are ranked by each brand's Display Order.",
       type: "array",
       group: "whereItBelongs",
       of: [{ type: "reference", to: [{ type: "brand" }] }],
