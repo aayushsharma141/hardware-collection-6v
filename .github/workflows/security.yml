@@ -80,8 +80,14 @@ jobs:
           cache: "npm"
       - name: Install dependencies
         run: npm ci
+      # cyclonedx-npm shells out to `npm ls --json --long --all`, which exits 1
+      # with ELSPROBLEMS on this tree and aborts the SBOM: sharp's optional
+      # wasm variants register as extraneous, and sanity's nested
+      # @portabletext/editor wants react ^19.2.8 against the installed 19.2.4.
+      # Neither is a CI concern — the second is a dependency decision — so the
+      # generator is told to describe the tree as installed rather than refuse.
       - name: Generate CycloneDX SBOM
-        run: npx --yes @cyclonedx/cyclonedx-npm --output-format JSON --output-file bom.json
+        run: npx --yes @cyclonedx/cyclonedx-npm --ignore-npm-errors --output-format JSON --output-file bom.json
       # v3 is decommissioned: GitHub fails those runs automatically, which is
       # what this job had been doing rather than producing an SBOM.
       - name: Upload SBOM
