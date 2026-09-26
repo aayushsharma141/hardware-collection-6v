@@ -51,6 +51,14 @@ jobs:
       - name: Security audit (critical severity)
         run: npm audit --audit-level=critical
 
+      # .agents/rules/coding.md and CLAUDE.md both hold src/ to zero
+      # console.log. CI referenced this check for months at
+      # apps/web/scripts/checks/no-console-log.js — a path that has never
+      # existed here — so it only ever failed with MODULE_NOT_FOUND and the
+      # rule went unenforced. Script recovered from a7f619e.
+      - name: No console.log in production source
+        run: node scripts/checks/no-console-log.js
+
       - name: Legacy design-token / button.tsx migration audit
         run: node scripts/audit-dependencies.cjs
 
