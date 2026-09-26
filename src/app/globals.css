@@ -722,15 +722,22 @@ select {
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Metallic highlight crossing the mark, then holding off-frame for the rest
-   of the cycle. The travel is packed into the first 14% so the gap between
-   passes lives inside the same animation — CSS has no inter-iteration delay. */
+/* Continuous metallic highlight crossing the mark in a seamless loop. */
 @keyframes brand-sheen-loop {
-  0%    { transform: translateX(-150%) skewX(-18deg); opacity: 0; }
-  1.5%  { opacity: 1; }
-  12%   { opacity: 1; }
-  14%   { transform: translateX(260%) skewX(-18deg); opacity: 0; }
-  100%  { transform: translateX(260%) skewX(-18deg); opacity: 0; }
+  0% {
+    transform: translateX(-150%) skewX(-20deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  85% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(280%) skewX(-20deg);
+    opacity: 0;
+  }
 }
 
 .brand-lockup__emblem-img {
@@ -791,11 +798,9 @@ select {
   );
 }
 
-/* First pass lands ~620ms in, just after the entrance settles; every 7s
-   thereafter. Linear, because the easing now spans the whole cycle rather
-   than the travel alone. Adjust the 7s to change how often it comes round. */
+/* Continuous sweep starts after entrance settles and repeats seamlessly. */
 .brand-lockup--enter .brand-lockup__sheen::before {
-  animation: brand-sheen-loop 7s linear 620ms infinite both;
+  animation: brand-sheen-loop 2.8s linear 620ms infinite;
   will-change: transform, opacity;
 }
 

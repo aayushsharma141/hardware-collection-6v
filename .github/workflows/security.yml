@@ -12,6 +12,17 @@ jobs:
   analyze:
     name: CodeQL Analyze
     runs-on: ubuntu-latest
+    # The scan itself runs fine, but uploading results needs GitHub code
+    # scanning, which requires Advanced Security — unavailable on a private
+    # repo owned by a personal account. The job therefore failed on upload
+    # every single run ("Code scanning is not enabled for this repository")
+    # and had never once produced an alert.
+    #
+    # Skipped while the repo is private. Make the repo public, or move it to
+    # an org with Advanced Security, and this starts working again with no
+    # edit. Secret scanning (TruffleHog), Gitleaks and the npm audit gate are
+    # unaffected and still run on every PR.
+    if: github.event.repository.visibility == 'public'
     permissions:
       actions: read
       contents: read
@@ -19,37 +30,40 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Initialize CodeQL
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@v3
       with:
-        languages: javascript, typescript
+        languages: javascript-typescript
 
     - name: Perform CodeQL Analysis
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@v3
 
   dependabot-audit:
     name: Dependabot NPM Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "20.x"
+          cache: "npm"
       - name: Install dependencies
         run: npm ci
-        working-directory: apps/web
+      # Matches GATE-05 in CLAUDE.md. High and moderate findings are reported
+      # by Dependabot and triaged there rather than blocking every PR.
       - name: Run NPM Audit
-        run: npm audit --audit-level=high
-        working-directory: apps/web
+        run: npm audit --audit-level=critical
 
   secret-scanning:
     name: Secret Scanning
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - name: TruffleHog OSS
         uses: trufflesecurity/trufflehog@main
         with:
@@ -61,35 +75,37 @@ jobs:
     name: Generate SBOM
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "20.x"
+          cache: "npm"
       - name: Install dependencies
         run: npm ci
-        working-directory: apps/web
+      # --ignore-npm-errors: `npm ls` exits non-zero on the pre-existing
+      # @portabletext/editor peer range (wants react ^19.2.8, tree has 19.2.4).
+      # That is a dependency-health matter for the audit job, not a reason to
+      # withhold the inventory.
       - name: Generate CycloneDX SBOM
-        run: npx cyclonedx-npm --output-format JSON --output-file bom.json
-        working-directory: apps/web
+        run: npx --yes @cyclonedx/cyclonedx-npm --ignore-npm-errors --output-format JSON --output-file bom.json
       - name: Upload SBOM
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: sbom
-          path: apps/web/bom.json
+          path: bom.json
 
   license-audit:
     name: License Audit
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup Node
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: 18
+          node-version: "20.x"
+          cache: "npm"
       - name: Install dependencies
         run: npm ci
-        working-directory: apps/web
       - name: Check for restricted licenses (GPL, AGPL)
-        run: npx license-checker --failOn "AGPL;GPL"
-        working-directory: apps/web
+        run: npx --yes license-checker --failOn "AGPL;GPL"

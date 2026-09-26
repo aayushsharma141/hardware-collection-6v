@@ -1,0 +1,9 @@
+# pdf.js runtime assets, synced from pdfjs-dist by scripts/sync-pdfjs-assets.mjs.
+#
+# These are generated files that must round-trip byte for byte: line-ending
+# normalisation would corrupt the binary ones (wasm decoders, packed cmaps,
+# fonts, ICC profiles), and it makes the text ones show as modified on every
+# sync even when the content is identical. `-text` turns normalisation off for
+# the whole synced tree.
+public/pdfjs/**            -text
+public/pdf.worker.min.mjs  -text

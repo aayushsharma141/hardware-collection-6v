@@ -440,6 +440,7 @@ export default function Navbar({
                       layout="inline"
                       fontSize="clamp(14.5px, 6cqw, 22px)"
                       emblemSizes="112px"
+                      animateEntrance
                     />
                   </Link>
                 </div>
