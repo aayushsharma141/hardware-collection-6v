@@ -1,6 +1,6 @@
 # Phase 12 — Collections Route Consolidation
 
-**Status:** Steps 1–5 and 7 DONE (PR #23, 2026-09-26). Remaining: step 6 (homepage cards), plus content (see §9).
+**Status:** All code steps DONE (PR #23, 2026-09-26). Remaining: content only (see §9).
 **Created:** 2026-09-26
 **Supersedes:** Phase 11's routing assumption (not its content work)
 
@@ -184,3 +184,18 @@ the main number and the calling-only number appears nowhere.
    family page, it reads as filler. Each needs one real line of copy.
 3. **Photography** — unchanged from Phase 11: product cards without photos fall back to
    the family image, so a sink card shows a kitchen-drawer render.
+
+---
+
+## 10. Step 6 — homepage cards (2026-09-26)
+
+**Done.** The homepage family cards already carried the board's five names; their links
+were the problem. Under D-25 they pointed at spaces, because family pages did not exist
+yet, so "Handles & Knobs" opened Living / Interior and "Furniture Hardware" opened
+Wardrobe. They now open their own family pages. The reel card "Pull Handle", labelled
+Door Hardware, opened the Handles & Knobs page; it now opens Door Hardware.
+
+`homeLinks.test.ts` gained a guard: any homepage link labelled with a family name must go
+to that family's page. Verified by mutation against the original D-25 target.
+
+Every `/collections` link on the homepage returns 200 directly, with no redirect hops.

@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { CATEGORY_FAMILIES, SIGNATURE_PIECES } from "@/content/fallback/home";
-import { CATEGORIES } from "@/content/fallback/catalog";
-import { ROUTABLE_COLLECTION_SLUGS } from "@/lib/collections/routes";
+import { CATEGORIES, SHOWROOM_FAMILIES } from "@/content/fallback/catalog";
+import { ROUTABLE_COLLECTION_SLUGS, familyRouteSlug } from "@/lib/collections/routes";
 
 const ALL_HOME_LINKS = [...CATEGORY_FAMILIES, ...SIGNATURE_PIECES];
 
@@ -26,6 +26,28 @@ describe("Homepage deep links resolve to real routes (D-25/F-05)", () => {
       const slug = link.href.match(ROUTE_SHAPE)?.[1];
       expect(ROUTABLE_COLLECTION_SLUGS, link.href).toContain(slug);
     });
+  });
+
+  it("sends a link labelled with a family name to that family's page", () => {
+    // Guards two real bugs: under D-25 the "Handles & Knobs" card linked to the
+    // Living / Interior space, and a reel card labelled "Door Hardware" once
+    // opened the Handles & Knobs page.
+    const routeByFamilyName = new Map(
+      SHOWROOM_FAMILIES.map((f) => [f.name, familyRouteSlug(f.id)])
+    );
+    const labelled = [
+      ...CATEGORY_FAMILIES.map((c) => ({
+        label: [c.name, c.nameBreak].filter(Boolean).join(" "),
+        href: c.href,
+      })),
+      ...SIGNATURE_PIECES.map((p) => ({ label: p.category, href: p.href })),
+    ];
+
+    for (const { label, href } of labelled) {
+      const familyRoute = routeByFamilyName.get(label);
+      if (!familyRoute) continue;
+      expect(href.match(ROUTE_SHAPE)?.[1], `"${label}" -> ${href}`).toBe(familyRoute);
+    }
   });
 
   it("anchors only to sections that name a real category", () => {
