@@ -2,14 +2,20 @@ import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { client } from "@/content/sanity/client";
 import {
+  getFamilySections,
   getProductsByCategoryQuery,
   getSiteSettings,
 } from "@/content/sanity/queries";
 import { resolveCollectionSlug } from "@/lib/collections/routing";
-import { ROUTABLE_COLLECTION_SLUGS } from "@/lib/collections/routes";
-import { getSlugString } from "@/types/catalog";
+import {
+  FAMILY_ROUTE_SLUGS,
+  ROUTABLE_COLLECTION_SLUGS,
+  categoryFamily,
+} from "@/lib/collections/routes";
+import { getSlugString, type Category, type Product } from "@/types/catalog";
 import { PRODUCTS } from "@/content/fallback/catalog";
 import CategoryDetailClient from "@/components/collections/CategoryDetailClient";
+import type { FamilySection } from "@/components/collections/FamilySections";
 import SpaceLandingClient from "@/components/collections/SpaceLandingClient";
 
 
@@ -96,6 +102,35 @@ export default async function CollectionSlugPage({
       }
     }
     return <SpaceLandingClient space={resolution.space} settings={settings} />;
+  }
+
+  // Phase 12: a family page carries one section per member category. Each
+  // section takes its Sanity products and falls back to the curated PRODUCTS
+  // for that category — the same per-category fallback the old category pages
+  // used — so no product disappears when its category stops being a route.
+  if ((FAMILY_ROUTE_SLUGS as readonly string[]).includes(slug)) {
+    const family = categoryFamily(resolution.category);
+    const rows: Array<Category & { products?: Product[] }> = family
+      ? await getFamilySections(family, FAMILY_ROUTE_SLUGS)
+      : [];
+    const sections: FamilySection[] = rows.map(({ products: sanity, ...category }) => {
+      const memberSlug = getSlugString(category.slug);
+      return {
+        category,
+        products: sanity?.length
+          ? sanity
+          : PRODUCTS.filter((p) => p.categorySlug === memberSlug),
+      };
+    });
+
+    return (
+      <CategoryDetailClient
+        category={resolution.category}
+        products={[]}
+        sections={sections}
+        settings={settings}
+      />
+    );
   }
 
   // Parameterized GROQ fetch (T-9-02) with fallback to curated PRODUCTS

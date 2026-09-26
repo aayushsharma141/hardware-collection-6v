@@ -8,7 +8,7 @@ import {
   categoryHref,
   familyRouteSlug,
 } from "../routes";
-import { SHOWROOM_FAMILIES } from "../../../content/fallback/catalog";
+import { CATEGORIES, PRODUCTS, SHOWROOM_FAMILIES } from "../../../content/fallback/catalog";
 
 /**
  * Phase 12 routing contract. /collections/[slug] sets `dynamicParams = false`,
@@ -68,6 +68,29 @@ describe("Phase 12 collection routes", () => {
     expect(categoryHref({ slug: { current: "hooks" }, primaryRail: "bathroom" })).toBe(
       "/collections/bathroom-hardware#hooks"
     );
+  });
+
+  it("places every category on at least one family page", () => {
+    // A category with no family appears on no family page, and collectionHref
+    // can only send its links to the collections hub.
+    const familyIds = new Set(SHOWROOM_FAMILIES.map((f) => f.id));
+    const homeless = CATEGORIES.filter((c) => !c.familySlugs.some((f) => familyIds.has(f)));
+    expect(homeless.map((c) => c.slug)).toEqual([]);
+  });
+
+  it("keeps every product reachable once its category stops being a route", () => {
+    // Regression: when the 13 original categories began redirecting to family
+    // pages, those pages only looked up products for their own slug, so every
+    // product on the site appeared on no collection page. A family page now
+    // gathers products across its members; that only works if each product's
+    // category belongs to a family.
+    const categoryBySlug = new Map(CATEGORIES.map((c) => [c.slug, c]));
+    for (const product of PRODUCTS) {
+      const category = categoryBySlug.get(product.categorySlug ?? "");
+      expect(category, `${product.name}: unknown category`).toBeDefined();
+      const href = collectionHref(product.categorySlug ?? "", category?.familySlugs[0]);
+      expect(href, product.name).toMatch(/^\/collections\/[a-z0-9-]+#[a-z0-9-]+$/);
+    }
   });
 
   it("only redirects legacy collection URLs to routable pages", async () => {

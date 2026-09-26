@@ -1,6 +1,6 @@
 # Phase 12 — Collections Route Consolidation
 
-**Status:** Steps 1–4 and 7 DONE (PR #23, 2026-09-26). Remaining: step 5 (family page sections), step 6 (homepage cards).
+**Status:** Steps 1–5 and 7 DONE (PR #23, 2026-09-26). Remaining: step 6 (homepage cards), plus content (see §9).
 **Created:** 2026-09-26
 **Supersedes:** Phase 11's routing assumption (not its content work)
 
@@ -150,3 +150,37 @@ repoint them in step 3.
   `id={categorySlug}`. Links already point at `/collections/<family>#<slug>`; until this
   lands they resolve to the top of the family page rather than the section.
 - **Step 6** — homepage collection cards → the five board families.
+
+---
+
+## 9. Step 5 — family page sections (2026-09-26)
+
+**Done.** Each family page renders one numbered section per board item, in board order,
+with `id={categorySlug}` and `scroll-mt-28` to clear the fixed nav. Sections with products
+expand into product cards; sections without stay a compact row with a WhatsApp enquiry.
+A jump list at the top mirrors the showroom wall as in-page navigation (not a filter, D-18).
+
+**It also fixed a regression the route consolidation introduced.** All 7 products on the
+site (6 fallback + 1 in Sanity) belonged to categories that now redirect, and the family
+pages only looked up products for their own slug, so every product appeared on no
+collection page. Family pages now gather products across their members, with the same
+per-category fallback the old category pages used. Verified by name in the browser.
+
+Also fixed: the "Authorized Partners" line joined brand *objects*, which would have
+printed `[object Object]` the moment a category got brands attached.
+
+Verified on a production build: anchors land at 112px (just under the 96px nav) on direct
+load, on click-through from /collections, and from the in-page jump list, with Lenis
+active; 375px mobile has no overflow and every target is ≥44px; every WhatsApp link uses
+the main number and the calling-only number appears nowhere.
+
+**Content gaps this made visible — owner tasks, not code:**
+
+1. **Brand attribution.** No category in Sanity has any authorised brand attached. The
+   fallback holds verified brands for the 13 original categories (with unverified ones
+   kept separately in `pendingVerificationBrands`); none of it reached the CMS.
+2. **Descriptions.** All 35 September categories carry the same templated sentence —
+   "Premium {name} for architectural and interior applications." Listed together on a
+   family page, it reads as filler. Each needs one real line of copy.
+3. **Photography** — unchanged from Phase 11: product cards without photos fall back to
+   the family image, so a sink card shows a kitchen-drawer render.
