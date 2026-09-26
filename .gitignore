@@ -72,3 +72,6 @@ public/*.png
 # local Sanity snapshots taken before destructive CMS migrations
 /.backups/
 
+
+# graft session cache
+/graft/

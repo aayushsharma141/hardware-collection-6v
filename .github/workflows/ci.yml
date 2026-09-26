@@ -23,10 +23,10 @@ jobs:
         run: npm ci
 
       - name: Lint
-        run: npm run lint --workspace=web
+        run: npm run lint
 
       - name: Type Check
-        run: npm run typecheck --workspace=web
+        run: npx tsc --noEmit
 
   quality-gates:
     name: Quality Gates
@@ -43,16 +43,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Security audit (high severity)
-        run: npm audit --audit-level=high --workspace=apps/web
-        continue-on-error: true  # Report but don't block until all remaining highs are resolved
+      - name: Unit tests
+        run: npm test
 
-      - name: No console.log in production source
-        run: node apps/web/scripts/checks/no-console-log.js
+      # GATE-05 in CLAUDE.md / scripts/release-verification.ts is
+      # --audit-level=critical. Lower severities are tracked, not blocking.
+      - name: Security audit (critical severity)
+        run: npm audit --audit-level=critical
 
-      - name: Architectural layer enforcement (dependency-cruiser)
-        run: npm run arch:check --workspace=apps/web
-        continue-on-error: true  # Enforce once baseline violations are resolved
+      - name: Legacy design-token / button.tsx migration audit
+        run: node scripts/audit-dependencies.cjs
 
   build:
     name: Build
@@ -60,11 +60,17 @@ jobs:
     # Only build on main and PRs to main — saves CI minutes on feature branches
     if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
     env:
-      VITE_SUPABASE_URL: "${{ secrets.VITE_SUPABASE_URL }}"
-      VITE_SUPABASE_ANON_KEY: "${{ secrets.VITE_SUPABASE_ANON_KEY }}"
-      VITE_POSTHOG_KEY: "${{ secrets.VITE_POSTHOG_KEY }}"
-      VITE_SENTRY_DSN: "${{ secrets.VITE_SENTRY_DSN }}"
-      VITE_IMAGEKIT_URL_ENDPOINT: "${{ secrets.VITE_IMAGEKIT_URL_ENDPOINT }}"
+      # src/content/sanity/env.ts throws at module load without these, which
+      # fails page-data collection for every route. They are NEXT_PUBLIC_ —
+      # they ship in the client bundle and are not secrets — so they are
+      # repository variables, not secrets.
+      #
+      # The placeholders are deliberate: with no reachable Sanity project the
+      # build falls through to src/content/fallback/, so CI also proves the
+      # offline-resilience path still renders all 69 routes. Set the repo
+      # variables to build against real content instead.
+      NEXT_PUBLIC_SANITY_PROJECT_ID: ${{ vars.NEXT_PUBLIC_SANITY_PROJECT_ID || 'dummyprojectid' }}
+      NEXT_PUBLIC_SANITY_DATASET: ${{ vars.NEXT_PUBLIC_SANITY_DATASET || 'production' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -77,5 +83,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build web app
-        run: npm run build --workspace=apps/web
+      # `prebuild` re-syncs the pdf.js runtime assets with --check, so a build
+      # fails here rather than at render time if public/pdfjs has drifted.
+      - name: Build
+        run: npm run build

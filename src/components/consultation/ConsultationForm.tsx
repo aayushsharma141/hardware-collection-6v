@@ -7,12 +7,6 @@ import { Loader2, AlertCircle, RefreshCw, ChevronDown } from "lucide-react";
 
 // ── Types ───────────────────────────────────────────────────────────────────
 
-type CustomerType =
-  | "Architect / Interior Designer"
-  | "Home Owner"
-  | "Builder / Project"
-  | "Retailer";
-
 type ProjectType =
   | "Modular Kitchen"
   | "Home Renovation"
@@ -23,10 +17,9 @@ type ProjectType =
   | "Other";
 
 interface FormValues {
-  customerType: CustomerType | "";
   name: string;
-  location: string;
   phone: string;
+  location: string;
   projectType: ProjectType | "";
 }
 
@@ -36,15 +29,6 @@ interface ConsultationFormProps {
 }
 
 // ── Constants ───────────────────────────────────────────────────────────────
-
-// Short labels only. The API still receives the full `CustomerType` value the
-// lead schema validates against — the label is purely what the pill renders.
-const CUSTOMER_TYPES: { id: CustomerType; label: string }[] = [
-  { id: "Home Owner", label: "Home owner" },
-  { id: "Architect / Interior Designer", label: "Architect / Designer" },
-  { id: "Builder / Project", label: "Builder" },
-  { id: "Retailer", label: "Retailer" },
-];
 
 const PROJECT_TYPES: ProjectType[] = [
   "Modular Kitchen",
@@ -57,23 +41,20 @@ const PROJECT_TYPES: ProjectType[] = [
 ];
 
 const INITIAL_FORM_VALUES: FormValues = {
-  customerType: "Home Owner",
   name: "",
-  location: "",
   phone: "",
+  location: "",
   projectType: "Modular Kitchen",
 };
 
 // ── Shared style tokens ─────────────────────────────────────────────────────
-// Underline fields rather than filled boxes: five stacked bordered cards is
-// most of what made this form feel heavy.
 
 const CLS_FIELD =
-  "w-full bg-transparent border-b border-[var(--border)] pb-2 text-[15px] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)]/60 focus:outline-none focus:border-[var(--accent)] transition-colors";
-const CLS_SELECT = `${CLS_FIELD} appearance-none pr-6 cursor-pointer`;
-const CLS_LABEL = "text-[13px] text-[var(--text-secondary)] font-normal";
+  "w-full bg-transparent border-b border-[#1a1017]/[0.15] hover:border-[#1a1017]/[0.35] focus:border-[#8b1a42] pb-2.5 text-[15px] text-[#1a1017] placeholder:text-[#7a6872]/45 focus:outline-none transition-colors duration-200";
+const CLS_SELECT = `${CLS_FIELD} appearance-none pr-8 cursor-pointer`;
+const CLS_LABEL = "text-[11.5px] uppercase tracking-[0.14em] text-[#6a5a64] font-medium";
 const CLS_SUBMIT =
-  "w-full mt-1 py-3.5 px-6 rounded-full bg-[#8b1a42] hover:bg-[#751637] text-white font-semibold text-[13px] uppercase tracking-[0.14em] transition-colors flex items-center justify-center disabled:opacity-60 cursor-pointer";
+  "w-full mt-2 py-4 px-6 rounded-full bg-[#8b1a42] hover:bg-[#721536] active:scale-[0.99] active:translate-y-[0.5px] text-white font-medium text-[13px] uppercase tracking-[0.16em] transition-all duration-200 flex items-center justify-center disabled:opacity-60 cursor-pointer shadow-[0_4px_16px_rgba(139,26,66,0.18)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.26)]";
 
 // ── Main Component ──────────────────────────────────────────────────────────
 
@@ -107,7 +88,6 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
         win.dataLayer.push({
           event: "enquiry_submitted",
           lead_id: leadId,
-          customer_type: formValues.customerType,
           project_type: formValues.projectType,
           source: context?.source ?? (inline ? "home" : "consultation_drawer"),
         });
@@ -121,20 +101,16 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
     e.preventDefault();
     setErrorMsg("");
 
-    if (!values.customerType) {
-      setErrorMsg("Please select who you are.");
-      return;
-    }
     if (!values.name.trim()) {
       setErrorMsg("Please enter your name.");
       return;
     }
-    if (!values.location.trim()) {
-      setErrorMsg("Please enter your location.");
-      return;
-    }
     if (!values.phone.trim() || values.phone.replace(/\D/g, "").length < 10) {
       setErrorMsg("Please provide a valid 10-digit phone number.");
+      return;
+    }
+    if (!values.location.trim()) {
+      setErrorMsg("Please enter your location.");
       return;
     }
     if (!values.projectType) {
@@ -154,10 +130,9 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
 
     const payload = {
       intent: "enquiry",
-      customerType: values.customerType,
       name: values.name.trim(),
-      location: values.location.trim(),
       phone: values.phone.trim(),
+      location: values.location.trim(),
       projectType: values.projectType,
       source: context?.source ?? (inline ? "home" : "consultation_drawer"),
       pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
@@ -289,37 +264,9 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-7">
+      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
         {/* Honeypot for bot filtering */}
         <input type="text" name="_honey" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
-
-        {/* Who you are — text pills rather than icon cards */}
-        <div className="flex flex-col gap-2.5">
-          <span className={CLS_LABEL} id={`${uid}-customer-type-label`}>
-            I am a
-          </span>
-          <div className="flex flex-wrap gap-2" role="radiogroup" aria-labelledby={`${uid}-customer-type-label`}>
-            {CUSTOMER_TYPES.map((type) => {
-              const isSelected = values.customerType === type.id;
-              return (
-                <button
-                  key={type.id}
-                  type="button"
-                  onClick={() => setField("customerType")(type.id)}
-                  role="radio"
-                  aria-checked={isSelected}
-                  className={`px-3.5 py-2 rounded-full border text-[13px] transition-colors cursor-pointer ${
-                    isSelected
-                      ? "bg-[#8b1a42] border-[#8b1a42] text-white font-medium"
-                      : "bg-transparent border-[var(--border)] text-[var(--text-secondary)] hover:border-[var(--accent)] hover:text-[var(--text-primary)]"
-                  }`}
-                >
-                  {type.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
 
         <div className="flex flex-col gap-1.5">
           <label className={CLS_LABEL} htmlFor={`${uid}-name`}>
@@ -403,9 +350,9 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           <p
             role="alert"
             aria-live="assertive"
-            className="text-[13px] text-[#8b1a42] flex items-center gap-2"
+            className="text-[13px] text-[#8b1a42] bg-[#8b1a42]/[0.06] border border-[#8b1a42]/[0.18] px-3.5 py-2.5 rounded-xl flex items-center gap-2.5"
           >
-            <AlertCircle className="w-4 h-4 shrink-0" />
+            <AlertCircle className="w-4 h-4 shrink-0 text-[#8b1a42]" />
             <span>{errorMsg}</span>
           </p>
         )}

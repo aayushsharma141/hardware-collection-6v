@@ -1,14 +1,12 @@
 "use client";
 
 import { useRef, type RefObject } from "react";
-import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
 import { MagneticButton } from "@/components/animations/MagneticButton";
 import { generateWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
-import { useScrollTriggerRefreshOnImages } from "@/hooks/useScrollTriggerRefreshOnImages";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -50,9 +48,6 @@ export default function ShowroomCinematic() {
   const scene2Ref = useRef<HTMLDivElement>(null);
   const scene3Ref = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
-
-  // next/image lazy-loads: re-measure triggers as these settle.
-  useScrollTriggerRefreshOnImages(containerRef, !shouldReduceMotion);
 
   const sceneRefs = [scene1Ref, scene2Ref, scene3Ref];
 
@@ -105,6 +100,27 @@ export default function ShowroomCinematic() {
 
         // Removed Scene 3 animation
       });
+
+      mm.add("(max-width: 1023px)", () => {
+        // Mobile Parallax for Images
+        gsap.utils.toArray<HTMLImageElement>(".mobile-scene-img").forEach((img) => {
+          gsap.fromTo(
+            img,
+            { yPercent: -5, scale: 1.08 },
+            {
+              yPercent: 5,
+              scale: 1,
+              ease: "none",
+              scrollTrigger: {
+                trigger: img.parentElement,
+                start: "top bottom",
+                end: "bottom top",
+                scrub: 1,
+              },
+            }
+          );
+        });
+      });
     },
     { scope: containerRef, dependencies: [shouldReduceMotion] }
   );
@@ -119,57 +135,63 @@ export default function ShowroomCinematic() {
       />
 
       {/* â”€â”€ Mobile Layout (< lg): Cohesive Showroom Narrative â”€â”€â”€â”€ */}
-      <div className="block lg:hidden">
+      <div className="block lg:hidden w-full max-w-md mx-auto">
         {/* Scene 1: Flagship Showroom */}
-        <div className="relative min-h-[55svh] flex items-end p-6 border-b border-[var(--border)] overflow-hidden">
-          <div className="absolute inset-0 bg-[var(--surface-raised)]">
-            <Image
-              src="/cinema/showroom/exterior.png"
-              alt="Hardware Collection Showroom Exterior"
-              fill
-              sizes="100vw"
-              className="object-cover opacity-[0.78] filter contrast-105 saturate-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
-          </div>
-          <div className="relative z-10 space-y-3 pb-6">
-            <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase">
-              Flagship showroom
-            </p>
-            <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.02]">
-              Flagship Showroom<br />
-              <span className="text-[var(--text-secondary)]">Sakchi, Jamshedpur.</span>
-            </h2>
-            <p className="text-[var(--text-primary)] text-base font-light leading-relaxed max-w-md pt-1">
-              Architectural hardware, security, and kitchen systems from leading authorized brands — on display, and in your hands before you specify.
-            </p>
+        <div className="p-4 pt-12 pb-3">
+          <div className="relative min-h-[60svh] flex items-end p-6 overflow-hidden rounded-[2rem] ring-1 ring-black/5 dark:ring-white/10 bg-black/5 dark:bg-white/5">
+            <div className="absolute inset-[6px] overflow-hidden rounded-[calc(2rem-6px)] bg-[var(--surface-raised)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
+              <img
+                src="/cinema/showroom/exterior.png"
+                alt="Hardware Collection Showroom Exterior"
+                className="mobile-scene-img w-[110%] h-[110%] absolute top-[-5%] left-[-5%] object-cover opacity-[0.85] filter contrast-105 saturate-105 will-change-transform"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)]/95 via-[var(--surface-raised)]/40 to-transparent pointer-events-none" />
+            </div>
+            
+            <div className="relative z-10 pb-2 px-1 w-full">
+              <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/10 backdrop-blur-md mb-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+                <span className="hc-mono text-[var(--text-primary)] font-medium tracking-[0.2em] text-[9px] uppercase">
+                  Flagship showroom
+                </span>
+              </div>
+              <h2 className="hc-serif text-5xl sm:text-6xl font-light tracking-[-0.02em] text-[var(--text-primary)] leading-[0.95]">
+                Flagship Showroom<br />
+                <span className="text-[var(--text-secondary)]">Sakchi, Jamshedpur.</span>
+              </h2>
+              <p className="text-[var(--text-primary)] text-sm font-light leading-relaxed pt-5 opacity-90 max-w-[280px]">
+                Architectural hardware, security, and kitchen systems from leading authorized brands, on display and in your hands before you specify.
+              </p>
+            </div>
           </div>
         </div>
 
         {/* Scene 2: Live Experience Narrative */}
-        <div className="relative min-h-[55svh] flex items-end p-6 border-b border-[var(--border)] overflow-hidden">
-          <div className="absolute inset-0 bg-[var(--surface-raised)]">
-            <Image
-              src="/cinema/showroom/interior.png"
-              alt="Showroom Interior Displays"
-              fill
-              sizes="100vw"
-              className="object-cover opacity-[0.74] filter contrast-105 saturate-105"
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)] via-[var(--surface-raised)]/60 to-transparent" />
-          </div>
-          <div className="relative z-10 space-y-3 pb-6">
-            <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase">
-              LIVE DEMONSTRATIONS
-            </p>
-            <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.02]">
-              Touch Before<br />
-              <span className="text-[var(--text-secondary)]">You Decide.</span>
-            </h2>
-            <div className="text-[var(--text-primary)] text-sm sm:text-base font-light space-y-1.5 pt-1">
-              <p>&bull; See the living and PVD finishes under gallery lighting.</p>
-              <p>&bull; Compare German soft-close and biometric mechanisms.</p>
-              <p>&bull; Experience the tactile weight before specification.</p>
+        <div className="p-4 pb-12 pt-3">
+          <div className="relative min-h-[60svh] flex items-end p-6 overflow-hidden rounded-[2rem] ring-1 ring-black/5 dark:ring-white/10 bg-black/5 dark:bg-white/5">
+            <div className="absolute inset-[6px] overflow-hidden rounded-[calc(2rem-6px)] bg-[var(--surface-raised)] shadow-[inset_0_1px_1px_rgba(255,255,255,0.15)]">
+              <img
+                src="/cinema/showroom/interior.png"
+                alt="Showroom Interior Displays"
+                className="mobile-scene-img w-[110%] h-[110%] absolute top-[-5%] left-[-5%] object-cover opacity-[0.85] filter contrast-105 saturate-105 will-change-transform"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)]/95 via-[var(--surface-raised)]/40 to-transparent pointer-events-none" />
+            </div>
+
+            <div className="relative z-10 pb-2 px-1 w-full">
+              <div className="inline-flex items-center justify-center px-3 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/10 backdrop-blur-md mb-6 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+                <span className="hc-mono text-[var(--text-primary)] font-medium tracking-[0.2em] text-[9px] uppercase">
+                  LIVE DEMONSTRATIONS
+                </span>
+              </div>
+              <h2 className="hc-serif text-5xl sm:text-6xl font-light tracking-[-0.02em] text-[var(--text-primary)] leading-[0.95]">
+                Touch Before<br />
+                <span className="text-[var(--text-secondary)]">You Decide.</span>
+              </h2>
+              <div className="text-[var(--text-primary)] text-sm font-light space-y-2 pt-5 opacity-90">
+                <p>&bull; See the living and PVD finishes under gallery lighting.</p>
+                <p>&bull; Compare German soft-close and biometric mechanisms.</p>
+                <p>&bull; Experience the tactile weight before specification.</p>
+              </div>
             </div>
           </div>
         </div>
@@ -251,13 +273,15 @@ function CinematicScene({
         className="relative max-w-[1320px] mx-auto w-full px-8 lg:px-16 flex flex-col items-start justify-end pb-24 lg:pb-32 h-full"
         style={{ zIndex: 3 }}
       >
-        <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs sm:text-sm uppercase mb-4">
-          {scene.eyebrow}
-        </p>
-        <h2 className="hc-serif text-5xl sm:text-7xl lg:text-8xl xl:text-9xl font-light text-[var(--text-primary)] leading-[0.92] mb-6 whitespace-pre-line tracking-[-0.01em]">
+        <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-[var(--surface-raised)]/20 backdrop-blur-md mb-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
+          <span className="hc-mono text-brass-ink font-medium tracking-[0.2em] text-[10px] sm:text-xs uppercase">
+            {scene.eyebrow}
+          </span>
+        </div>
+        <h2 className="hc-serif text-6xl sm:text-7xl lg:text-[7.5rem] xl:text-[9rem] font-light text-[var(--text-primary)] leading-[0.9] mb-8 whitespace-pre-line tracking-[-0.02em]">
           {scene.title}
         </h2>
-        <p className="text-base sm:text-xl lg:text-2xl text-[var(--text-secondary)] font-light max-w-2xl leading-relaxed mb-10">
+        <p className="text-lg sm:text-xl lg:text-2xl text-[var(--text-secondary)] font-light max-w-2xl leading-relaxed mb-12">
           {scene.sub}
         </p>
 
@@ -269,9 +293,15 @@ function CinematicScene({
                 href={SHOWROOM_MAP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 bg-[#8b1a42] text-white font-medium text-sm tracking-widest uppercase hover:bg-[#6b1432] transition-colors duration-200 rounded-sm shadow-md"
+                className="group inline-flex items-center justify-between pl-7 pr-2 py-2 bg-[var(--text-primary)] text-[var(--surface-base)] rounded-full transition-[transform,background-color,color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:bg-black dark:hover:bg-white"
               >
-                GET DIRECTIONS &rarr;
+                <span className="font-medium text-xs tracking-[0.2em] uppercase mr-6">Get Directions</span>
+                <div className="w-10 h-10 rounded-full bg-[var(--surface-base)]/20 dark:bg-black/10 flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </div>
               </a>
             </MagneticButton>
             <MagneticButton>
@@ -279,9 +309,15 @@ function CinematicScene({
                 href={generateWhatsAppUrl("showroom-visit")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center px-8 py-4 border border-[#c8a96e] text-[#1a1017] font-medium text-sm tracking-widest uppercase hover:bg-[#8b1a42] hover:text-white hover:border-[#8b1a42] transition-colors duration-200 rounded-sm"
+                className="group inline-flex items-center justify-between pl-7 pr-2 py-2 border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 backdrop-blur-sm text-[var(--text-primary)] rounded-full transition-[transform,background-color,border-color,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:bg-black/10 dark:hover:bg-white/10"
               >
-                WHATSAPP &rarr;
+                <span className="font-medium text-xs tracking-[0.2em] uppercase mr-6">WhatsApp</span>
+                <div className="w-10 h-10 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+                    <line x1="7" y1="17" x2="17" y2="7"></line>
+                    <polyline points="7 7 17 7 17 17"></polyline>
+                  </svg>
+                </div>
               </a>
             </MagneticButton>
           </div>
@@ -290,11 +326,12 @@ function CinematicScene({
 
       {/* Scene number */}
       <div
-        className="absolute top-8 right-8 lg:right-12 text-[var(--text-secondary)] text-xs tracking-widest"
+        className="absolute top-8 right-8 lg:right-12 flex items-center gap-4 text-[var(--text-secondary)]"
         style={{ zIndex: 10 }}
         aria-hidden="true"
       >
-        0{index + 1} / 0{SCENES.length}
+        <span className="w-8 lg:w-16 h-px bg-[var(--text-secondary)] opacity-30"></span>
+        <span className="hc-mono text-[10px] tracking-[0.2em] font-medium">0{index + 1} / 0{SCENES.length}</span>
       </div>
     </div>
   );

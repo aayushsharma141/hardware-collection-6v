@@ -1,3 +1,4 @@
+import "@/lib/polyfills";
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans, Cinzel, Manrope, Jost } from "next/font/google";
 import "./globals.css";
