@@ -1,205 +1,219 @@
 # Hardware Collection — Rewritten Phase Roadmap
-**As of 2026-09-26 · Updated with actual completion status**
+**As of 2026-09-26 (evening) · Second rewrite — corrects the first rewrite's stale Phase 11 narrative**
+
+> **Why this file changed again the same day:** the first version of this document (committed
+> `7910b1c`, morning of 2026-09-26) described Phase 11 as "95% done, 35 categories seeded,
+> just needs photography." That was accurate for the branch state at the time, but three
+> open feature branches — `feat/phase-12-route-consolidation` (PR #23),
+> `feat/brand-priority-and-copy` (PR #24), and the now-superseded `feat/collections-family-index`
+> (PR #18) — did substantial, already-committed work the same afternoon/evening that changes
+> the taxonomy architecture outright. This version reads from those branches directly rather
+> than from `main`, because `main` has not caught up yet (PRs #23 and #24 are still open).
 
 ---
 
 ## Executive Summary
 
-The site is **feature-complete at 95% delivery**. What remains is:
-1. **Phase 10 execution** — Light theme visual upgrade (brand plinths, catalogue viewer styling)
-2. **Phase 11 final gate** — Photography + coverage regression testing (all taxonomy is seeded)
-3. **Live deployment** — Vercel hardwarecollection.co with Sanity env vars
+Phase 9 is complete and merged. **Phase 12 replaces Phase 11's entire premise**: instead of
+giving all ~50 board sub-items their own URL, the taxonomy is now consolidated into 11 routes
+(5 families + 6 spaces), with sub-items rendered as sections inside their family's page. Phase
+10 (brand plinth cards) is in progress on `feat/brand-priority-and-copy`. Phase 13 is planned
+but not started, gated on PR #23 and #24 merging.
 
-The public API is locked: `/`, `/collections`, `/collections/[slug]`, `/catalogs`. No new routes or public features will ship.
+**Current branch state (not yet on `main`):**
+```
+main (7910b1c)
+  └─ PR #23  feat/phase-12-route-consolidation   OPEN — Phase 12, route consolidation
+       └─ PR #24  feat/brand-priority-and-copy    OPEN — brand data + Phase 10 visual work (this session)
+```
+
+PR #18 (`feat/collections-family-index`, "group the collection page by showroom family") is
+still open but its intent looks superseded by PR #23 — worth confirming with the owner whether
+it should be closed rather than merged.
 
 ---
 
 ## Completed Phases (0–9)
 
-| Phase | Name | Status | Key Deliverables | Evidence |
-|---|---|---|---|---|
-| **0** | Foundation & Freeze | ✅ COMPLETE | System scaffolding, APEP topology, locked rules | BASE |
-| **1** | Sanity CMS Architecture | ✅ COMPLETE | Schema types, queries, studio route, env wiring | Sanity dataset live, 48 categories, 6 spaces, 22 brands |
-| **2** | Homepage | ✅ COMPLETE | Navbar, Hero, BrandTrustStrip, Testimonials, Footer, WhatsApp CTA | Live at `/` |
-| **2.5** | Content & QA Corrections | ✅ COMPLETE | Stale nav removed, brand completeness, focus-visible a11y, JSON-LD | All Phase 2 content verified |
-| **3** | Catalog UX + Friction Layer | ✅ COMPLETE | `/collections` page, ProductCatalog, search, filter UX, specialist CTA | Live at `/collections` |
-| **4** | Production Readiness | ✅ COMPLETE | Build verification, route audit, console audit, mobile QA, keyboard, CTA, SEO | All CI gates passing |
-| **5** | Lead Operations | ✅ COMPLETE | WhatsApp Business setup, Google Sheet pipeline, lead webhook | Operational in production |
-| **6** | Final QA | ✅ COMPLETE | Build verified, no hydration errors, graceful fallbacks | 11/11 test suites, 62/62 tests green |
-| **7** | Mukesh Acceptance | ✅ COMPLETE | Business-truth validation: brands, products, showroom, claims | Owner sign-off 2026-08-30 |
-| **8** | Production Launch Verification | ✅ COMPLETE | Vercel deployment readiness, NAP verification, accessibility audit, consent compliance | hc-demo deployment green |
-| **9** | Collections Guided Discovery Redesign | ✅ COMPLETE | 18 plans across 6 waves. Replaced filter-driven UX with progressive-disclosure showroom discovery. 35 missing categories seeded. | 18/18 plans done, main branch at commit 75093cf, all CI passing |
+No change from the previous audit — these are on `main` and unaffected by today's branch work.
+
+| Phase | Name | Status |
+|---|---|---|
+| 0 | Foundation & Freeze | ✅ COMPLETE |
+| 1 | Sanity CMS Architecture | ✅ COMPLETE |
+| 2 | Homepage | ✅ COMPLETE |
+| 2.5 | Content & QA Corrections | ✅ COMPLETE |
+| 3 | Catalog UX + Friction Layer | ✅ COMPLETE |
+| 4 | Production Readiness | ✅ COMPLETE |
+| 5 | Lead Operations | ✅ COMPLETE |
+| 6 | Final QA | ✅ COMPLETE |
+| 7 | Mukesh Acceptance | ✅ COMPLETE |
+| 8 | Production Launch Verification | ✅ COMPLETE |
+| 9 | Collections Guided Discovery Redesign | ✅ COMPLETE (18/18 plans, main @ 75093cf) |
 
 ---
 
-## Active Phases (10–11)
+## Phase 10 — Brand Showcase & Light Roster Presentation
 
-### Phase 10: Brand Showcase & Light Roster Presentation
-**Status: READY FOR EXECUTION**  
-**Owner decision dependency:** None — all 22 brand assets verified and in place
+**Status: IN PROGRESS, on `feat/brand-priority-and-copy` (PR #24)**
 
-#### What's done
-- ✅ All 22 brand assets verified, converted to transparent formats, deployed to `public/brands/`
-- ✅ Architectural rules documented: light surface `#FAF7F2`, plinth cards, no filters
-- ✅ `CANONICAL_BRANDS_BY_ID` and `src/content/fallback/brands.ts` canonical source established
+### Done this session
+- ✅ **10-01** `BrandTrustStrip.tsx` (`/#brands`): logos now sit in optical plinth cards
+  (`h-20 md:h-24 w-44 md:w-56`, `bg-white/90`, border `#E7E0D4`, shadow per spec). Logo max
+  sizes reduced to fit the fixed card footprint; gaps tightened. Commit `e54d097`.
+- ✅ **10-02 (partial)** `BrandDiscovery.tsx` (`/collections`, "Full Manufacturer Directory"
+  grid): converted from a flat `aspect-[3/2]` tile grid to the same plinth card, wrapping-flex
+  layout instead of fixed `grid-cols`. Same commit.
 
-#### What's remaining (3 plans)
-1. **10-01: Homepage `BrandTrustStrip.tsx` light-theme upgrade**
-   - Convert from dark to light ivory background
-   - Apply plinth card styling (`h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded-xl bg-white/90 border border-[#E7E0D4] shadow-[0_2px_8px_rgba(0,0,0,0.02)]`)
-   - Test: all 22 brands render in authentic colors on light background
-   - Estimate: 2–3 hours
+### Deliberately not touched, and why
+- **`/catalogs` (`CatalogLibrary.tsx`)** — already uses the site's light CSS-variable palette
+  (`--surface: #fbf5ea`, `--surface-raised: #f7f0e2`) via a global "bright base" default set in
+  `globals.css`. It is not dark. Its card design (badge + logo + tagline + CTA) is a different,
+  intentional pattern from the plinth wall — a reference-library listing, not a decorative brand
+  strip — so it was left alone rather than forced into the plinth shape.
+- **`CatalogViewerModal.tsx`** — root is `bg-[#0E0C0C] text-white`, deliberately dark. This is
+  cinema/lightbox-mode chrome for reading PDF pages, the same convention as Preview, Lightroom,
+  or a video player's theater mode. A light background here would glare against white PDF pages.
+  Confirmed this is a design decision (see the component's own top-of-file doc comment), not a
+  leftover dark theme — no change made.
 
-2. **10-02: Catalogue Library page styling alignment**
-   - `/catalogs` page brand cards should match the light-theme treatment
-   - Ensure the CatalogViewerModal uses consistent ivory background and branding
-   - Test: brand card grid on desktop, tablet, mobile
-   - Estimate: 1–2 hours
-
-3. **10-03: Visual & responsive audit on hc-demo**
-   - Screenshot both updated surfaces (homepage + /catalogs) on mobile, tablet, desktop
-   - Verify no artificial filters, authentic brand colors preserved
-   - Measure text readability (WCAG AA) on light backgrounds
-   - Compare to reference light-theme catalog
-   - Estimate: 1–2 hours
-
-**Gated on:** None. Ready to execute immediately after Phase 9 merge.
+### Remaining
+- **10-03: Visual & responsive audit** — screenshot both updated surfaces on mobile/tablet/desktop,
+  verify WCAG AA contrast, confirm no artificial filters. Not yet done (dev-server Sanity auth in
+  this environment blocks a live render check; build/tsc/unit tests all pass clean).
 
 ---
 
-### Phase 11: Showroom Taxonomy Completion
-**Status: 95% DONE — AWAITING PHOTOGRAPHY**  
-**Last updated:** 2026-09-26 amendment
+## Phase 11 — Showroom Taxonomy Completion: SUPERSEDED
 
-#### What's done (Waves 1–5 = Data Layer)
-- ✅ All 35 missing categories seeded to Sanity (script: `scripts/cms/seed-showroom-categories.ts`)
-- ✅ Categories seeded to fallback `src/content/fallback/catalog.ts` (13 → 48 total)
-- ✅ Board order preserved via `displayOrder` reconciliation
-- ✅ Query projection updated: `getCategoriesQuery` now includes `families` and `primaryRail`
-- ✅ `/collections/[slug]` routes working for all 54 paths (13 existing + 35 new)
-- ✅ D-13 empty state handles missing products gracefully (routes to WhatsApp consultation)
+**Original plan (35 missing categories, each with its own URL, gated on 35 hero photos) is no
+longer the plan.** Phase 12 (below) replaced it. The `11-CONTEXT.md` file still describes the
+old approach and should be treated as historical — do not resume Wave 0–6 as written there.
 
-**Verification snapshot:**
-- Build: 54 paths pre-rendered (13 existing + 35 new)
-- All paths resolve without 404 ✅
-- No fallback slug absent from Sanity ✅
-- Board items → category slugs mapping complete ✅
-
-#### What's remaining (Waves 0 & 6)
-
-**Wave 0: Photography & Brand Attribution** (blocking, owner task)
-- [ ] 35 hero images at 1376×768px (one per new category)
-  - Why: Handles & Knobs has 11 style collections. A shared stock image makes them indistinguishable.
-  - Target: distinct photography per collection
-  - Deadline: owner + photographer (no engineering blocker)
-
-- [ ] Brand attribution per collection
-  - Which partner supplies "Kids Handles"? "Classical Handles"? "Ceramic Handles"?
-  - Seeded with empty `brands[]` as a deliberate Studio reminder
-  - No code fix needed; Studio flags each as "needs content"
-
-**Wave 6: Coverage Regression Gate** (engineering)
-1. **`SHOWROOM_FAMILIES.flatMap(f => f.subcategories)`** must resolve to routable categories
-   - Add to `scripts/release-verification.ts` as a gated assertion
-   - Assert: every board string → valid `/collections/[slug]` path
-   - Estimate: 1–2 hours
-
-2. **Sitemap & internal-link pass**
-   - Extend `src/app/sitemap.ts` to include all 54 category paths
-   - Search `src/components/collections/` for any hard-coded category lists; ensure Phase 11 categories are linked
-   - Check FeaturedChapters, family rails, brand discovery routes
-   - Estimate: 1–2 hours
-
-3. **Release verification**
-   - `npm run build` — all 54 paths pre-render, zero 404s
-   - `npm test` — all tests pass
-   - `npm run test:e2e` — spot-check 2–3 new category pages load
-   - Estimate: 30 minutes
-
-**Total remaining:** ~5–6 hours engineering (Wave 6) + owner-dependent photography (Wave 0)
+What actually happened to the 35 categories: they still exist as Sanity documents (content), but
+per Phase 12 they no longer get an individual route. They render as sections inside their
+family's page instead. The "need 35 distinct hero photos before shipping" blocker is resolved
+architecturally — a family page can ship with some sections photographed and others not, rather
+than an all-or-nothing gate across 35 separate pages.
 
 ---
 
-## Catalogue Viewer Status — Fully Implemented
+## Phase 12 — Collections Route Consolidation
 
-### Current state
-- ✅ `/catalogs` route live and linked in navbar
-- ✅ `CatalogLibrary.tsx` — brand grid with 22 brands, card click opens viewer
-- ✅ `CatalogViewerModal.tsx` — full PDF viewer with zoom, pan, search, annotations
-- ✅ Viewer subcomponents: `PdfCanvas`, `ThumbnailDrawer`, `AnnotationLayer`, `CatalogSearch`, etc.
-- ✅ WhatsApp CTA integrated into viewer
-- ✅ Query parameter sync: `?brand=` opens specific catalog
+**Status: DONE on `feat/phase-12-route-consolidation`, OPEN as PR #23, not yet merged to `main`**
 
-### What Phase 10 fixes
-The catalogue viewer is **fully functional** but uses **dark theme** styling. Phase 10-02 will:
-- Align brand card background to light ivory `#FAF7F2`
-- Update modal chrome to match light-theme aesthetic
-- Ensure PDF canvas remains readable on both light nav + dark background
+### What it did
+Collapsed `/collections/[slug]` from 54 routes to **11**: 5 showroom families
+(`handles-knobs`, `door-hardware`, `bathroom-hardware`, `kitchen-wardrobes`, `furniture-hardware`)
+and 6 spaces (`kitchen`, `entrance`, `wardrobe`, `bathroom`, `living-interior`, `commercial`). The
+48 category documents remain in Sanity as content of these 11 pages — they simply no longer mint
+a URL of their own.
 
-No new functionality needed; only visual consistency with Phase 10's light-theme update.
+Key mechanics (`src/lib/collections/routes.ts`):
+- `ROUTABLE_COLLECTION_SLUGS` is the single source of truth for what gets a page.
+- `/collections/[slug]/page.tsx` sets `dynamicParams = false` — this was required to actually
+  enforce the cut, since `generateStaticParams` alone only controls prerendering; without the
+  flag, non-listed slugs still rendered on demand (verified: sampled leaves went 200 → 404 only
+  after adding it).
+- The 13 pre-expansion categories that were possibly indexed now permanently redirect to their
+  family page. The 35 September-seeded categories never resolved in production, so they need no
+  redirect.
+- `bathroom` is already a space slug and spaces resolve first, so the Bathroom **family** routes
+  as `bathroom-hardware` to avoid the collision (documented as decision B-2).
+- `sitemap.xml` now lists the 11 routes; the two retired category URLs were dropped.
+- New `FamilySections.tsx` component renders "a section per board item" inside each family page.
+- `HardwareFamilyIndex.tsx` and the homepage family cards now link through `collectionHref()`,
+  which resolves a category to either its own page (if routable) or `#slug` anchor on its
+  family's page.
+
+At the time of this change, the CMS held 48 category docs, 1 product, and 0 hero images — so 47
+of 48 category pages were rendering the empty state pre-consolidation. This was the real
+motivating fact: shipping 47 near-identical empty pages was worse than 5 well-populated family
+pages with clearly-labeled unphotographed sections.
+
+### Still open before this can merge to main
+- PR #23 review/approval
+- Confirm PR #18 (`feat/collections-family-index`) is superseded and can close, not merge —
+  needs owner or reviewer confirmation, not assumed here.
 
 ---
 
-## Beyond Phase 11: Future Roadmap (Locked)
+## Phase 13 — CMS Photography & Scheduled Offers
 
-These phases are **explicitly deferred** pending Phase 8 launch completion and owner sign-off:
+**Status: PLANNED, not started. Gated on PR #23 and PR #24 merging.**
+See `.planning/phases/13-cms-photography-offers/13-CONTEXT.md` for full detail.
 
-### Phase 12: Advanced Guided Discovery (Conditional)
-- Would add filtering by material, finish, use-case
-- Gated on: owner demand + Phase 11 completion
-- Risk: D-18 (no filter UI) may preclude this indefinitely
+### Owner decisions locked 2026-09-26
+- **D1:** Sanity manages all photography (not ImageKit or a second vendor) — already connected,
+  already resizes/serves WebP/AVIF.
+- **D2:** "Rotation" means two things: (a) swap any photo from Studio, live in ~60s, no deploy;
+  (b) scheduled offer banners with start/end dates that appear and expire on their own.
+- Explicitly **not** wanted: an auto-cycling homepage hero.
 
-### Phase 13: Lead Analytics & Conversion Optimization
-- Would track WhatsApp CTA clicks, consultation form submissions
-- Gated on: launch metrics + Phase 8 live
-- Deferred pending owner business goals
+### Where things stand today
+| | State |
+|---|---|
+| Sanity image CDN | Wired in, `cdn.sanity.io` allowed as a `next/image` host |
+| Image URL builder | **None** — raw asset URLs served full-size; Studio crop/hotspot currently has no effect |
+| Hardcoded images | 23 distinct files under `/public/cinema` and `/public/Hardware Collection`, referenced directly from components — no one can change them without a code deploy |
+| Offers/highlights content type | Does not exist yet |
+| Category photography | 0 of 53 categories have a hero image; cards share 6 renders |
 
-### Phase 14: Mobile App (Out of Scope)
-- No mobile app planned
-- Responsive web is the delivery vehicle
-- May revisit if owner demand changes
+### Planned waves
+1. **Image foundation** — add `@sanity/image-url`, one `urlForImage()` helper using width+height
+   (required for Studio crop/hotspot to actually take effect), project the full image object
+   (not just `asset->url`) in GROQ, swap raw URL usage across category cards/family pages/product cards.
+2. **Move 23 hardcoded images into the CMS** — add image fields to existing singletons
+   (`homePage`, `siteSettings`); every field keeps today's file as fallback so nothing goes blank
+   mid-migration.
+3. **Scheduled offers** — new `offer` document type (title, line, hotspot image, optional linked
+   category/product/brand, WhatsApp CTA, `startsAt`/`endsAt`, placement). Visibility via GROQ
+   `now()` filter; pages already revalidate every 60s so an offer goes live/expires with no
+   deploy. No prices or discount numbers — locked rules still apply ("Festival display now open"
+   is fine; "20% off" is not without an explicit rule change).
+4. **Studio ergonomics** — group image fields by page, add live status (Scheduled/Live/Expired)
+   to the offers list view.
+
+### Owner input still needed before Wave 3
+- Which placements offers should appear in (homepage only vs. also collections/family pages).
+- Whether an offer may ever state a discount (currently barred by locked rules).
 
 ---
 
-## Locked Rules (Immutable)
+## What's Actually Left to Ship
 
-- **Public routes only:** `/`, `/collections`, `/collections/[slug]`, `/catalogs`
-- **No e-commerce:** No pricing, no cart, no stock, no SKU
-- **No fake products:** Every product seeded from Sanity or listed in fallback is canonical
-- **WhatsApp is conversion:** All CTAs route to WhatsApp (919835190738, not 919431111550)
-- **Sanity is source of truth:** Fallback exists for resilience only
+```
+1. PR #23 (Phase 12) → review, merge to main
+2. PR #24 (brand priority/copy + Phase 10 plinth cards) → 10-03 visual audit, review, merge to main
+   (rebase onto main after #23 merges)
+3. Confirm/close PR #18 as superseded
+4. Phase 13 execution (image foundation → CMS photography migration → scheduled offers)
+   — not started, owner decisions already locked
+5. Launch gate: Sanity env vars into hardware-collection-6v, remove coming-soon banner, deploy
+```
+
+Photography is no longer an all-or-nothing 35-image blocker. Phase 12's family-page model means
+categories can ship progressively — Phase 13's image pipeline is what makes adding each photo a
+Studio-only action instead of a code change.
+
+---
+
+## Locked Rules (Immutable, unchanged)
+
+- **Public routes:** `/`, `/collections`, `/collections/[slug]` (now 11, not 54), `/catalogs`
+- **No e-commerce:** no pricing, no cart, no stock, no SKU
+- **No fake products**
+- **WhatsApp is conversion:** 919835190738 only, never 919431111550 in a `wa.me` link
+- **Sanity is source of truth**, fallback is resilience-only
 - **Typographic lock:** Cormorant Garamond (display) + DM Sans (body)
-- **Visual system:** Near-black `#131314` + gold `#e5c487`/`#c8a96e` (Phase 10 adds light ivory `#FAF7F2`)
-
----
-
-## Launch Gate Checklist
-
-Before marking Phase 8 complete and deploying to hardwarecollection.co:
-
-- [ ] Phase 10 complete (light theme, brand plinths, catalogue styling)
-- [ ] Phase 11 Wave 6 complete (coverage gate, sitemap, regression test)
-- [ ] `/collections/[slug]` returns 200 for all 54 paths (no fallback 404s)
-- [ ] Sanity env vars injected into `hardware-collection-6v` Vercel project
-- [ ] `npm run build` passes zero errors
-- [ ] `npm run test:e2e` passes all specs
-- [ ] Search Console + Google Business Profile updated
-- [ ] Analytics wired (GA4 + event tracking)
-- [ ] Ssl cert auto-renewed
-- [ ] NAP consistency verified (address, phone, business name)
-- [ ] Consent banner / privacy / terms compliant
+- **Visual system:** near-black `#131314` / gold `#e5c487`–`#c8a96e`, with light ivory `#FAF7F2`
+  now confirmed for the brand-showcase surfaces (Phase 10)
 
 ---
 
 ## Evidence Trail
 
-- **Phases 0–9:** Full completion evidence in individual phase folders
-- **Phase 10 context:** `.planning/phases/10-brand-showcase-light-presentation/10-CONTEXT.md`
-- **Phase 11 amendment:** `.planning/phases/11-showroom-taxonomy-completion/11-CONTEXT.md` § 8
-- **CI Status:** Main branch at `75093cf`, all gates passing (`hc-demo` deployment green)
-- **Recent commits:**
-  - `75093cf` — Lint fixes (globals.css, ShowroomCinematic.tsx)
-  - `92f7424` — PR #17 merged (dependency audit, evidence re-sign)
-  - `49fa694` — PR #15 merged (consultation form redesign)
-  - `1bbb487` — Dependency audit fixes applied
-
+- Phase 12: `git show 54b9180`, PR #23, `.planning/phases/12-*/12-CONTEXT.md`
+- Phase 13: `.planning/phases/13-cms-photography-offers/13-CONTEXT.md`, commit `6f111f8`
+- Phase 10 (this session): commit `e54d097` on `feat/brand-priority-and-copy`
+- Route source of truth: `src/lib/collections/routes.ts`
