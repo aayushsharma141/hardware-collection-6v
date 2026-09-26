@@ -28,7 +28,7 @@ export default function FeaturedChapters({ categories }: FeaturedChaptersProps) 
     <section aria-labelledby="featured-chapters-heading" className="py-16 md:py-24">
       <div className="max-w-[1320px] mx-auto px-6">
         <div className="max-w-4xl mb-14 md:mb-20">
-          <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-3 block">
+          <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
             CURATED SPOTLIGHT
           </span>
           <h2
@@ -126,7 +126,7 @@ export default function FeaturedChapters({ categories }: FeaturedChaptersProps) 
               >
                 {/* Text Column */}
                 <div className="lg:col-span-7 flex flex-col justify-center order-2 lg:order-1">
-                  <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-3 block">
+                  <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
                     {chapterOrdinal}
                   </span>
                   <h3 className="hc-serif text-3xl sm:text-5xl lg:text-6xl font-normal uppercase tracking-[0.01em] text-[var(--text-primary)] mb-4 leading-tight">
@@ -138,13 +138,13 @@ export default function FeaturedChapters({ categories }: FeaturedChaptersProps) 
                     </p>
                   )}
                   {brandLine && (
-                    <p className="text-xs sm:text-sm text-[#c8a96e]/90 tracking-wider uppercase hc-mono mb-6">
+                    <p className="text-xs sm:text-sm text-brass-ink tracking-wider uppercase hc-mono mb-6">
                       {brandLine}
                     </p>
                   )}
                   <Link
                     href={`/collections/${slug}`}
-                    className="text-xs sm:text-sm uppercase tracking-widest text-[#c8a96e] inline-flex items-center gap-2.5 font-semibold hover:text-[var(--text-primary)] transition-colors duration-150 w-fit"
+                    className="text-xs sm:text-sm uppercase tracking-widest text-brass-ink inline-flex items-center gap-2.5 font-semibold hover:text-[var(--text-primary)] transition-colors duration-150 w-fit"
                   >
                     Explore {category.name}
                     <span

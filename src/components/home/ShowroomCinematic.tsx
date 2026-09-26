@@ -274,7 +274,7 @@ function CinematicScene({
         style={{ zIndex: 3 }}
       >
         <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-[var(--surface-raised)]/20 backdrop-blur-md mb-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
-          <span className="hc-mono text-[#c8a96e] font-medium tracking-[0.2em] text-[10px] sm:text-xs uppercase">
+          <span className="hc-mono text-brass-ink font-medium tracking-[0.2em] text-[10px] sm:text-xs uppercase">
             {scene.eyebrow}
           </span>
         </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { MagneticButton } from "@/components/animations/MagneticButton";
@@ -102,12 +103,13 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
         </div>
 
         <div className="relative aspect-[4/3] w-full overflow-hidden border border-[var(--border)] mb-8 rounded-2xl bg-[var(--surface-raised)]">
-          <img
+          <Image
             src={SHOWROOM_IMAGE}
             alt={SHOWROOM_IMAGE_ALT}
-            className="w-full h-full object-cover"
+            fill
+            sizes="(max-width: 1024px) 100vw, 560px"
+            className="object-cover"
             style={{ filter: "contrast(1.05) saturate(1.03)" }}
-            loading="lazy"
           />
           <div
             className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent"
@@ -247,14 +249,15 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
           <div className="col-span-5">
             <FadeIn delay={0.08} direction="left">
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--surface-raised)] shadow-md">
-                <img
+                <Image
                   src={SHOWROOM_IMAGE}
                   alt={SHOWROOM_IMAGE_ALT}
-                  className="w-full h-full object-cover"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 480px"
+                  className="object-cover"
                   style={{
                     filter: "contrast(1.06) saturate(1.03)",
                   }}
-                  loading="lazy"
                 />
                 <div
                   className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"
@@ -339,10 +342,13 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
       <div className="relative border-t border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden">
         {/* Subtle background element */}
         <div className="absolute inset-0 bg-[var(--surface-raised)]">
-          <img
+          <Image
             src="/cinema/showroom/exterior-2.png"
-            alt="Showroom Location Entrance"
-            className="w-full h-full object-cover opacity-[0.08] filter sepia-[0.45] contrast-110 mix-blend-multiply"
+            alt=""
+            aria-hidden="true"
+            fill
+            sizes="100vw"
+            className="object-cover opacity-[0.08] filter sepia-[0.45] contrast-110 mix-blend-multiply"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--surface-raised)] via-transparent to-[var(--surface-raised)] opacity-90" />
         </div>

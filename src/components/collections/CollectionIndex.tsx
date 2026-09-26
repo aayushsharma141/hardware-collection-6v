@@ -22,7 +22,7 @@ export default function CollectionIndex({ categories }: CollectionIndexProps) {
     >
       <div className="max-w-[1320px] mx-auto px-6">
         <div className="max-w-4xl mb-14 md:mb-18">
-          <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-3 block">
+          <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
             Complete Index
           </span>
           <h2 className="hc-serif text-3xl sm:text-5xl lg:text-6xl font-light tracking-[-0.01em] text-[var(--text-primary)]">
@@ -41,7 +41,7 @@ export default function CollectionIndex({ categories }: CollectionIndexProps) {
                 className="index-row architecture-rule hc-focus group flex items-center justify-between py-6 md:py-8 transition-colors duration-150"
               >
                 <div className="flex items-center min-w-0 pr-6">
-                  <span className="hc-mono text-base md:text-lg font-medium text-[#c8a96e] mr-5 md:mr-10 shrink-0">
+                  <span className="hc-mono text-base md:text-lg font-medium text-brass-ink mr-5 md:mr-10 shrink-0">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <span className="hc-serif text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.01em] text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors duration-150 truncate">

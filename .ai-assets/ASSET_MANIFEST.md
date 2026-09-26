@@ -22,14 +22,18 @@ All prompts reference [VISUAL_DNA.md](../VISUAL_DNA.md). Source tags: `AI-GENERA
 
 | ID | Filename | Ratio | Component | Brand | Source | QA |
 |----|----------|-------|-----------|-------|--------|----|
-| HC-02-HAFELE | `/public/cinema/brands/HC-02-HAFELE.png` | 3:2 | `InteractiveBrandWall.tsx` | Häfele | AI-GENERATED | ✅ APPROVED & LIVE |
-| HC-02-DORSET | `/public/cinema/brands/HC-02-DORSET.png` | 3:2 | `InteractiveBrandWall.tsx` | Dorset | AI-GENERATED | ✅ APPROVED & LIVE |
-| HC-02-LABACHA | `/public/cinema/brands/HC-02-LABACHA.png` | 3:2 | `InteractiveBrandWall.tsx` | Labacha | AI-GENERATED | ✅ APPROVED & LIVE |
-| HC-02-GODREJ | `/public/cinema/brands/HC-02-GODREJ.png` | 3:2 | `InteractiveBrandWall.tsx` | Godrej | AI-GENERATED | ✅ APPROVED & LIVE |
-| HC-02-HETTICH | `/public/cinema/brands/HC-02-HETTICH.png` | 3:2 | `InteractiveBrandWall.tsx` | Hettich | AI-GENERATED | ✅ APPROVED & LIVE |
-| HC-02-KICH | `/public/cinema/brands/HC-02-KICH.png` | 3:2 | `InteractiveBrandWall.tsx` | Kich | AI-GENERATED | ✅ APPROVED & LIVE |
+| HC-02-HAFELE | _removed_ | 3:2 | ~~`InteractiveBrandWall.tsx`~~ (deleted) | Häfele | AI-GENERATED | 🗑 REMOVED |
+| HC-02-DORSET | _removed_ | 3:2 | ~~`InteractiveBrandWall.tsx`~~ (deleted) | Dorset | AI-GENERATED | 🗑 REMOVED |
+| HC-02-LABACHA | _removed_ | 3:2 | ~~`InteractiveBrandWall.tsx`~~ (deleted) | Labacha | AI-GENERATED | 🗑 REMOVED |
+| HC-02-GODREJ | _removed_ | 3:2 | ~~`InteractiveBrandWall.tsx`~~ (deleted) | Godrej | AI-GENERATED | 🗑 REMOVED |
+| HC-02-HETTICH | _removed_ | 3:2 | ~~`InteractiveBrandWall.tsx`~~ (deleted) | Hettich | AI-GENERATED | 🗑 REMOVED |
+| HC-02-KICH | _removed_ | 3:2 | ~~`InteractiveBrandWall.tsx`~~ (deleted) | Kich | AI-GENERATED | 🗑 REMOVED |
 
 ---
+
+> CH02's six renders were deleted once `InteractiveBrandWall.tsx` was removed
+> (commit 8e101c2) in favour of `BrandTrustStrip.tsx`, which uses the vector
+> logos in `/public/brands/`. The files remain recoverable from git history.
 
 ## CH03 — Form & Function (6 assets)
 

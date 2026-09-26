@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Image from "next/image";
 import { motion } from "motion/react";
 import { CATEGORY_FAMILIES } from "@/content/fallback/home";
 
@@ -36,7 +37,7 @@ export default function CategoryDiscovery() {
       <div className="hidden lg:block px-12 xl:px-16">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">
           <div>
-            <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-[#c8a96e]">
+            <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink">
               Showroom families / 05
             </p>
             <h2 className="hc-serif mt-3 text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)]">
@@ -64,18 +65,18 @@ export default function CategoryDiscovery() {
               }`}
             >
               <div className="threshold-image relative aspect-[5/7] overflow-hidden bg-[#181716]">
-                <img
+                <Image
                   alt={`${cat.name} showroom family`}
-                  className="h-full w-full object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:scale-[1.03]"
-                  decoding="async"
-                  loading="lazy"
+                  className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:scale-[1.03]"
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 20vw"
                   src={cat.image}
                 />
                 <span className="absolute left-4 top-4 hc-mono text-xs tracking-[0.18em] font-semibold text-[#c8a96e]">
                   {cat.index}
                 </span>
                 {cat.isFocal && (
-                  <span className="absolute right-4 top-4 border border-[var(--accent)]/[0.5] px-2.5 py-1 hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[#c8a96e] bg-[var(--surface)]/80 backdrop-blur-sm rounded">
+                  <span className="absolute right-4 top-4 border border-[var(--accent)]/[0.5] px-2.5 py-1 hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-brass-ink bg-[var(--surface)]/80 backdrop-blur-sm rounded">
                     Focal family
                   </span>
                 )}
@@ -127,7 +128,7 @@ export default function CategoryDiscovery() {
       <div className="block lg:hidden px-6">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-5">
           <div>
-            <p className="hc-mono text-xs uppercase tracking-[0.2em] font-semibold text-[#c8a96e]">
+            <p className="hc-mono text-xs uppercase tracking-[0.2em] font-semibold text-brass-ink">
               Showroom families
             </p>
             <h3 className="hc-serif mt-2 text-4xl sm:text-5xl leading-none text-[var(--text-primary)]">
@@ -153,14 +154,14 @@ export default function CategoryDiscovery() {
               href={cat.href}
               className="mobile-row w-full py-4 flex items-center gap-4 text-left no-underline hover:bg-[var(--surface-raised)] transition-colors duration-150"
             >
-              <span className="hc-mono w-6 text-xs font-semibold tracking-[0.12em] text-[#c8a96e]">
+              <span className="hc-mono w-6 text-xs font-semibold tracking-[0.12em] text-brass-ink">
                 0{idx + 1}
               </span>
-              <img
+              <Image
                 alt={cat.name}
                 className="h-[56px] w-[80px] object-cover rounded-lg border border-[var(--border)]"
-                decoding="async"
-                loading="lazy"
+                width={80}
+                height={56}
                 src={cat.image}
               />
               <div className="flex-1 min-w-0">

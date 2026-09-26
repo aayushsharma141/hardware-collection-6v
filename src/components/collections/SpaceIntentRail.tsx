@@ -74,7 +74,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
   return (
     <section aria-labelledby="space-rail-heading" className="py-16 md:py-24">
       <div className="max-w-[1320px] mx-auto px-6 mb-10">
-        <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-[#c8a96e] mb-3 block">
+        <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
           CURATED SPACES
         </span>
         <h2

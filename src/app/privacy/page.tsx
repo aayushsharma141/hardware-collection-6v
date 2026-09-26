@@ -1,5 +1,7 @@
 import React from "react";
 import Link from "next/link";
+import Footer from "@/components/layout/Footer";
+import { getSiteSettings, getBrands } from "@/content/sanity/queries";
 import { ArrowLeft, ShieldCheck, Mail, Phone, MapPin } from "lucide-react";
 
 export const metadata = {
@@ -8,7 +10,9 @@ export const metadata = {
     "Privacy Policy for Hardware Collection showroom, Sakchi, Jamshedpur. Learn how we handle project inquiries and contact information.",
 };
 
-export default function PrivacyPage() {
+export default async function PrivacyPage() {
+  const [siteSettings, brands] = await Promise.all([getSiteSettings(), getBrands()]);
+
   return (
     <div className="min-h-screen bg-[#fbf5ea] text-[var(--text-primary)]">
       <main className="max-w-[880px] mx-auto px-6 pt-28 md:pt-36 pb-24">
@@ -142,6 +146,8 @@ export default function PrivacyPage() {
           </section>
         </div>
       </main>
+
+      <Footer settings={siteSettings ?? undefined} brands={brands} />
     </div>
   );
 }

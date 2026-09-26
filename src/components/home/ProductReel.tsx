@@ -2,12 +2,14 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion, motion } from "motion/react";
 import { MagneticButton } from "@/components/animations/MagneticButton";
 import { SIGNATURE_PIECES, SignaturePiece } from "@/content/fallback/home";
+import { useScrollTriggerRefreshOnImages } from "@/hooks/useScrollTriggerRefreshOnImages";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -42,6 +44,9 @@ export default function ProductReel() {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+
+  // next/image lazy-loads: re-measure triggers as these settle.
+  useScrollTriggerRefreshOnImages(containerRef, !shouldReduceMotion);
 
   useGSAP(
     () => {
@@ -182,10 +187,12 @@ function ProductCard({
     <div className="flex flex-col gap-4">
       {/* Image with light sweep + hover zoom */}
       <div className="relative overflow-hidden bg-[var(--surface-raised)] aspect-[3/4] rounded-sm">
-        <img
+        <Image
           src={product.img}
           alt={`${product.brand} ${product.name}`}
-          className="w-full h-full object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
+          fill
+          sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
+          className="object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
         />
         {/* Hover darkened overlay for editorial contrast */}
         <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
@@ -208,7 +215,7 @@ function ProductCard({
             &rarr;
           </span>
         </div>
-        <p className="text-[#c8a96e] text-xs font-medium tracking-wide uppercase">
+        <p className="text-brass-ink text-xs font-medium tracking-wide uppercase">
           {product.brand}
         </p>
         <h3 className="hc-serif text-[var(--text-primary)] font-light text-[26px] leading-tight">
@@ -265,10 +272,12 @@ function MobileProductCard({
     <div className="flex flex-col gap-3">
       {/* Portrait image &mdash; aspect 4:5 */}
       <div className="relative overflow-hidden bg-[var(--surface-raised)] aspect-[4/5] rounded-sm">
-        <img
+        <Image
           src={product.img}
           alt={`${product.brand} ${product.name}`}
-          className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
+          fill
+          sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
+          className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
         />
         <div
           className="light-sweep-overlay"
@@ -280,7 +289,7 @@ function MobileProductCard({
 
       {/* Editorial label: brand (brass) → name → explore */}
       <div className="space-y-1 px-0.5">
-        <p className="text-[#C8A96E] text-[13px] tracking-widest uppercase font-medium">
+        <p className="text-brass-ink text-[13px] tracking-widest uppercase font-medium">
           {product.brand}
         </p>
         <h3 className="text-[var(--text-primary)] text-[20px] font-light leading-snug">

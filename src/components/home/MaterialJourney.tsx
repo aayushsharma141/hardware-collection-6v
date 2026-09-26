@@ -2,10 +2,12 @@
 
 import { useRef, useCallback } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
+import { useScrollTriggerRefreshOnImages } from "@/hooks/useScrollTriggerRefreshOnImages";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -77,6 +79,9 @@ export default function MaterialJourney() {
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
+
+  // next/image lazy-loads: re-measure triggers as these settle.
+  useScrollTriggerRefreshOnImages(containerRef, !shouldReduceMotion);
 
   // Material Lens: pointer tracking per panel
   const handleLensMove = useCallback((e: React.PointerEvent<HTMLDivElement>, panelEl: HTMLElement) => {
@@ -204,10 +209,12 @@ export default function MaterialJourney() {
           </p>
 
           <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-sm mb-6 border border-[var(--border)]">
-            <img
+            <Image
               src={MATERIALS[1].img}
               alt="Architectural Brass Finish"
-              className="w-full h-full object-cover"
+              fill
+              sizes="(max-width: 1024px) 100vw, 640px"
+              className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/55 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
@@ -240,7 +247,7 @@ export default function MaterialJourney() {
       <div className="block lg:hidden">
         <section data-chapter="4" className="py-16 bg-[var(--surface)] border-t border-[var(--border)]">
           <div className="container mx-auto px-6">
-            <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase mb-2">
+            <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase mb-2">
               The finish
             </p>
             <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.05] mb-4">
@@ -253,10 +260,12 @@ export default function MaterialJourney() {
 
             {/* Featured Material Visual with Light Sweep */}
             <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-2xl mb-6 border border-[var(--border)] shadow-md">
-              <img
+              <Image
                 src={MATERIALS[1].img}
                 alt="Architectural Brass Finish"
-                className="w-full h-full object-cover"
+                fill
+                sizes="(max-width: 1024px) 100vw, 640px"
+                className="object-cover"
               />
               <div 
                 className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-[0.04]"
@@ -271,7 +280,7 @@ export default function MaterialJourney() {
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/60 via-transparent to-transparent" />
               <div className="absolute bottom-5 left-5 right-5 flex items-end justify-between">
                 <div>
-                  <p className="hc-mono text-[#c8a96e] text-xs tracking-widest uppercase font-semibold">FEATURED SPECIMEN</p>
+                  <p className="hc-mono text-brass-ink text-xs tracking-widest uppercase font-semibold">FEATURED SPECIMEN</p>
                   <p className="hc-serif text-2xl text-[var(--text-primary)] font-normal">Living Cartridge Brass</p>
                 </div>
                 <span className="text-xs tracking-wider uppercase font-semibold text-[var(--text-secondary)]">Unlacquered</span>
@@ -372,10 +381,12 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
             transition: "transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)",
           }}
         >
-          <img
+          <Image
             src={mat.img}
             alt={mat.subName}
-            className="w-full h-full object-cover"
+            fill
+            sizes="(max-width: 1024px) 100vw, 50vw"
+            className="object-cover"
             style={{ filter: "contrast(1.04) saturate(1.03)" }}
           />
           {/* Subtle Grain Overlay */}
@@ -408,7 +419,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
 
         {/* Right: Typography */}
         <div className="flex flex-col justify-center px-16 relative" style={{ zIndex: 3 }}>
-          <p className="hc-mono text-[#c8a96e] text-xs tracking-[0.25em] font-semibold uppercase mb-4">
+          <p className="hc-mono text-brass-ink text-xs tracking-[0.25em] font-semibold uppercase mb-4">
             FINISH 0{index + 1} / 0{total}
           </p>
           <h3 className="hc-serif text-7xl xl:text-8xl 2xl:text-9xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[0.9] mb-3">
@@ -426,7 +437,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
           </p>
           <Link
             href="/collections"
-            className="mt-8 inline-flex items-center gap-2.5 text-[#c8a96e] text-xs sm:text-sm tracking-widest uppercase font-semibold hover:text-[var(--accent)] hover:gap-4 transition-all duration-200"
+            className="mt-8 inline-flex items-center gap-2.5 text-brass-ink text-xs sm:text-sm tracking-widest uppercase font-semibold hover:text-[var(--accent)] hover:gap-4 transition-all duration-200"
           >
             Explore finishes <span aria-hidden="true">&rarr;</span>
           </Link>
@@ -439,7 +450,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
 function ChapterLabel() {
   return (
     <>
-      <p className="hc-mono text-[#c8a96e] font-semibold tracking-[0.25em] text-xs uppercase">
+      <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase">
         The finish
       </p>
     </>
