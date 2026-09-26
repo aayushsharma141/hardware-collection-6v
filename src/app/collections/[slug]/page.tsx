@@ -123,9 +123,20 @@ export default async function CollectionSlugPage({
       };
     });
 
+    // A family has no brands of its own; they sit on its members. Show every
+    // authorised brand across the family, ranked by brand priority.
+    type BrandRef = NonNullable<Category["brandRefs"]>[number] & { displayOrder?: number };
+    const familyBrands = new Map<string, BrandRef>();
+    for (const { category } of sections) {
+      for (const brand of (category.brandRefs ?? []) as BrandRef[]) familyBrands.set(brand.slug, brand);
+    }
+    const brandRefs = [...familyBrands.values()].sort(
+      (a, b) => (a.displayOrder ?? 999) - (b.displayOrder ?? 999)
+    );
+
     return (
       <CategoryDetailClient
-        category={resolution.category}
+        category={{ ...resolution.category, brandRefs }}
         products={[]}
         sections={sections}
         settings={settings}

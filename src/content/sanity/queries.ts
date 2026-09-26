@@ -286,7 +286,7 @@ export const getFamilySectionsQuery = groq`
     | order(displayOrder asc, name asc) {
     _id, name, "slug": slug.current, eyebrow, description, keyFeatures, whatsappMessage,
     "familySlugs": coalesce(families, []),
-    "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url },
+    "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url, displayOrder },
     "products": *[_type == "product" && category._ref == ^._id] | order(name asc) {
       _id,
       name,
