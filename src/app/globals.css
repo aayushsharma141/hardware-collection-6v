@@ -828,9 +828,12 @@ select {
    ───────────────────────────────────────────────────────────── */
 
 .navbar-brand {
-  /* Phone: only a hamburger sits opposite the mark, so the ceiling is the
-     wordmark's own run length rather than the bar's other content. */
-  --nav-brand-size: clamp(18px, 5.5vw, 26px);
+  /* Phone: only a hamburger sits opposite the mark. The inline lockup runs
+     ~15.1em wide, and the bar leaves (100vw - 108px) for it: 24px island
+     gutter, 32px pill padding, the 44px menu button and an 8px gap. Solving
+     for the font size gives 6.6vw - 7.2px. The old 18px floor pushed the
+     menu button out of the pill below ~390px. */
+  --nav-brand-size: clamp(14px, calc(6.6vw - 7.2px), 26px);
 }
 
 @media (min-width: 768px) {

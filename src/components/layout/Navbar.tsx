@@ -282,7 +282,7 @@ export default function Navbar({
           } ${barMaterial}`}
         >
           {/* Strict Balanced 3-Zone Desktop Grid & 2-Zone Mobile Layout */}
-          <div className="grid grid-cols-[1fr_auto] lg:grid-cols-[auto_1fr_auto] items-center h-full px-4 sm:px-6 md:px-8">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2 lg:gap-0 lg:grid-cols-[auto_1fr_auto] items-center h-full px-4 sm:px-6 md:px-8">
             
             {/* ── Column 1: Brand Lockup (Left-Aligned) ─────────── */}
             <div className="flex items-center justify-start shrink-0">
