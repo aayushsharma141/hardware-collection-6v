@@ -9,141 +9,218 @@ export const homePageType = defineType({
   icon: Home as ComponentType,
   groups: [
     { name: "hero", title: "Hero Section" },
-    { name: "legacy", title: "Legacy Section" },
-    { name: "features", title: "Why Choose Us" },
-    { name: "showroom", title: "Showroom Experience" },
+    { name: "brandTrust", title: "Brand Trust" },
+    { name: "featuredCollections", title: "Featured Collections" },
+    { name: "featuredProducts", title: "Featured Products" },
+    { name: "whyChooseUs", title: "Why Hardware Collection" },
+    { name: "showroom", title: "Showroom" },
+    { name: "customerVoice", title: "Customer Voice" },
+    { name: "materials", title: "Material Journey" },
+    { name: "legacy", title: "Our Legacy" },
+    { name: "finalCta", title: "Final CTA" },
   ],
   fields: [
     // --- Hero Section ---
     defineField({
-      name: "heroSlides",
-      title: "Hero Slides",
-      type: "array",
+      name: "heroEyebrow",
+      title: "Hero Eyebrow",
+      type: "string",
       group: "hero",
-      of: [
-        {
-          type: "object",
-          fields: [
-            defineField({ name: "eyebrow", title: "Eyebrow", type: "string", description: "Small text above the main title (e.g., '10+ YEARS IN SAKCHI')" }),
-            defineField({ name: "title", title: "Title", type: "string", validation: (Rule) => Rule.required() }),
-            defineField({ name: "description", title: "Description", type: "text" }),
-            defineField({ name: "primaryCta", title: "Primary CTA Text", type: "string" }),
-            defineField({ name: "ctaTarget", title: "CTA Target URL/Route", type: "string", description: "e.g., '/collections'" }),
-            defineField({ name: "image", title: "Background Image", type: "image", options: { hotspot: true }, validation: (Rule) => Rule.required() }),
-          ],
-        },
-      ],
-      description: "Slides for the cinematic hero carousel. The order here determines the order on the website.",
+    }),
+    defineField({
+      name: "heroHeadline",
+      title: "Hero Headline",
+      type: "string",
+      group: "hero",
+      validation: (Rule) => Rule.required(),
+    }),
+    defineField({
+      name: "heroDescription",
+      title: "Hero Description",
+      type: "text",
+      group: "hero",
+    }),
+    defineField({
+      name: "primaryCta",
+      title: "Primary CTA Text",
+      type: "string",
+      group: "hero",
+    }),
+    defineField({
+      name: "secondaryCta",
+      title: "Secondary CTA Text",
+      type: "string",
+      group: "hero",
+    }),
+    defineField({
+      name: "heroImageDesktop",
+      title: "Hero Image (Desktop)",
+      type: "image",
+      group: "hero",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "heroImageMobile",
+      title: "Hero Image (Mobile)",
+      type: "image",
+      group: "hero",
+      options: { hotspot: true },
     }),
     
-    // --- Legacy Section ---
+    // --- Brand Trust ---
     defineField({
-      name: "legacyHeading",
-      title: "Legacy Heading",
-      type: "string",
-      group: "legacy",
-      description: "Heading for the legacy section (e.g., 'Over a Decade of Architectural Expertise')",
-    }),
-    defineField({
-      name: "legacyDescription",
-      title: "Legacy Description",
-      type: "text",
-      group: "legacy",
-      description: "Paragraph explaining the company's legacy and founding.",
+      name: "trustedBrands",
+      title: "Trusted Brands",
+      type: "array",
+      group: "brandTrust",
+      of: [{ type: "reference", to: [{ type: "brand" }] }],
+      validation: (Rule) => Rule.min(4).max(6).warning('Recommended to have 4-6 brands for optimal layout.'),
     }),
 
-    // --- Why Choose Us Section ---
+    // --- Featured Collections ---
     defineField({
-      name: "featuresHeading",
-      title: "Features Heading",
-      type: "string",
-      group: "features",
-      description: "Heading for the Why Choose Us section.",
-    }),
-    defineField({
-      name: "featuresDescription",
-      title: "Features Subtitle / Description",
-      type: "text",
-      group: "features",
-    }),
-    defineField({
-      name: "featuresList",
-      title: "Feature Points",
+      name: "featuredCategories",
+      title: "Featured Categories",
       type: "array",
-      group: "features",
+      group: "featuredCollections",
+      of: [{ type: "reference", to: [{ type: "category" }] }],
+      validation: (Rule) => Rule.min(3).max(6),
+    }),
+
+    // --- Featured Products ---
+    defineField({
+      name: "featuredProducts",
+      title: "Featured Products",
+      type: "array",
+      group: "featuredProducts",
+      of: [{ type: "reference", to: [{ type: "product" }] }],
+      validation: (Rule) => Rule.min(4).max(8),
+    }),
+
+    // --- Why Choose Us ---
+    defineField({
+      name: "valuePropositions",
+      title: "Value Propositions",
+      type: "array",
+      group: "whyChooseUs",
       of: [
         {
           type: "object",
           fields: [
             defineField({ name: "title", title: "Title", type: "string" }),
             defineField({ name: "description", title: "Description", type: "text" }),
+            defineField({ name: "icon", title: "Icon (Lucide name)", type: "string" }),
           ],
         },
       ],
-      validation: (Rule) => Rule.max(3),
-    }),
-    defineField({
-      name: "featuresImage",
-      title: "Features Side Image",
-      type: "image",
-      group: "features",
-      options: { hotspot: true },
+      validation: (Rule) => Rule.max(6),
     }),
 
-    // --- Showroom CTA Section ---
-    defineField({
-      name: "showroomHeading",
-      title: "Showroom CTA Heading",
-      type: "string",
-      group: "showroom",
-    }),
-    defineField({
-      name: "showroomDescription",
-      title: "Showroom CTA Description",
-      type: "text",
-      group: "showroom",
-    }),
-
-    // --- NEW FIELDS (Additive for Phase 2) ---
-    defineField({
-      name: "seo",
-      title: "SEO Metadata",
-      type: "seo",
-    }),
-    defineField({
-      name: "trustedBrands",
-      title: "Trusted Brands",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "brand" }] }],
-    }),
-    defineField({
-      name: "featuredCategories",
-      title: "Featured Categories",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "category" }] }],
-    }),
-    defineField({
-      name: "featuredProducts",
-      title: "Featured Products",
-      type: "array",
-      of: [{ type: "reference", to: [{ type: "product" }] }],
-    }),
+    // --- Showroom ---
     defineField({
       name: "showroomGallery",
       title: "Showroom Gallery",
       type: "array",
+      group: "showroom",
       of: [{ type: "image", options: { hotspot: true } }],
     }),
+
+    // --- Customer Voice ---
     defineField({
       name: "testimonials",
       title: "Testimonials",
       type: "array",
+      group: "customerVoice",
       of: [{ type: "reference", to: [{ type: "testimonial" }] }],
+      validation: (Rule) => Rule.min(2).max(6),
+    }),
+
+    // --- Material Journey ---
+    defineField({
+      name: "materialFinishes",
+      title: "Material Finishes",
+      type: "array",
+      group: "materials",
+      of: [
+        {
+          type: "object",
+          fields: [
+            defineField({ name: "name", title: "Material Name (e.g. SATIN)", type: "string" }),
+            defineField({ name: "subName", title: "Sub Name (e.g. Satin Steel)", type: "string" }),
+            defineField({ name: "description", title: "Description", type: "text" }),
+            defineField({ name: "specification", title: "Technical Specification", type: "text" }),
+            defineField({ name: "image", title: "Material Image", type: "image", options: { hotspot: true } }),
+          ],
+        },
+      ],
+      validation: (Rule) => Rule.max(5),
+    }),
+
+    // --- Our Legacy (About Story) ---
+    defineField({
+      name: "legacyYearsOfTrust",
+      title: "Years of Trust",
+      type: "number",
+      group: "legacy",
+      description: "Number only — displayed as '10+' on the website (e.g. enter 10 for '10+')",
+      validation: (Rule) => Rule.min(1).max(100),
     }),
     defineField({
-      name: "finalCTA",
-      title: "Final Call to Action",
+      name: "legacyBrandsCount",
+      title: "Authorized Brands Count",
+      type: "number",
+      group: "legacy",
+      description: "Number only — displayed as '20+' on the website (e.g. enter 20 for '20+')",
+      validation: (Rule) => Rule.min(1).max(200),
+    }),
+    defineField({
+      name: "legacyShowroomImage",
+      title: "Showroom Legacy Image",
+      type: "image",
+      group: "legacy",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "legacyPillars",
+      title: "Legacy Pillars",
+      type: "array",
+      group: "legacy",
+      description: "These appear as the 'Why Hardware Collection' section under the About Story block",
+      of: [
+        {
+          type: "object",
+          name: "legacyPillar",
+          title: "Pillar",
+          fields: [
+            defineField({ name: "title", title: "Title", type: "string", validation: (Rule) => Rule.required() }),
+            defineField({ name: "description", title: "Description", type: "text", rows: 2 }),
+          ],
+          preview: {
+            select: { title: "title", subtitle: "description" },
+          },
+        },
+      ],
+      validation: (Rule) => Rule.max(4),
+    }),
+
+    // --- Final CTA ---
+    defineField({
+      name: "ctaHeading",
+      title: "Final CTA Heading",
+      type: "string",
+      group: "finalCta",
+    }),
+    defineField({
+      name: "ctaDescription",
+      title: "Final CTA Description",
+      type: "text",
+      group: "finalCta",
+    }),
+    defineField({
+      name: "cta",
+      title: "Call to Action",
       type: "cta",
+      group: "finalCta",
     }),
   ],
   preview: {

@@ -226,7 +226,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
               type="button"
               onClick={handleRetryNotification}
               disabled={isRetrying}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-medium transition-colors disabled:opacity-50"
+              className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-medium transition-colors disabled:opacity-50"
             >
               <RefreshCw className={`w-3 h-3 ${isRetrying ? "animate-spin" : ""}`} />
               <span>Retry</span>

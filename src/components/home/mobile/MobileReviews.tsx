@@ -36,7 +36,7 @@ export default function MobileReviews({ reviews = [] }: { reviews?: Testimonial[
             target="_blank"
             rel="noopener noreferrer"
             aria-label="4.4 stars from 50+ Google reviews - view the listing on Maps"
-            className="hc-focus flex items-center gap-2 min-h-[48px] bg-[#f7f0e2] border border-[#1a1017]/[0.10] px-3.5 py-2.5 rounded-lg transition-[border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:border-[#8b1a42] active:scale-[0.985] motion-reduce:active:scale-100"
+            className="hc-focus flex items-center gap-2 min-h-[48px] bg-[#f7f0e2] border border-[#1a1017]/[0.10] px-3.5 py-2.5 rounded transition-[border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:border-[#8b1a42] active:scale-[0.985] motion-reduce:active:scale-100"
           >
             <span className="inline-flex items-center gap-1.5 text-[#8b1a42] font-bold text-[15px] whitespace-nowrap">
               <Star className="w-4 h-4 fill-current" strokeWidth={1.5} aria-hidden="true" />

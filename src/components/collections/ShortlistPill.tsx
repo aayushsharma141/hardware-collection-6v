@@ -60,7 +60,7 @@ export default function ShortlistPill({
                 href={whatsappLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-[#8b1a42] hover:bg-[#6b1432] text-white font-dmsans text-[11px] font-bold uppercase tracking-wider transition-all shadow-md shrink-0"
+                className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-[#8b1a42] hover:bg-[#6b1432] text-white font-dmsans text-[11px] font-bold uppercase tracking-wider transition-all shadow-md shrink-0"
               >
                 <span>WhatsApp Expert</span>
                 <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
@@ -69,7 +69,7 @@ export default function ShortlistPill({
               {/* Clear shortlist button */}
               <button
                 onClick={onClear}
-                className="w-6 h-6 rounded-full bg-white/[0.08] hover:bg-white/[0.15] text-[#A39E93] hover:text-[var(--text-primary)] flex items-center justify-center transition-colors"
+                className="w-6 h-6 rounded bg-white/[0.08] hover:bg-white/[0.15] text-[#A39E93] hover:text-[var(--text-primary)] flex items-center justify-center transition-colors"
                 aria-label="Clear shortlist"
                 title="Clear shortlist"
               >

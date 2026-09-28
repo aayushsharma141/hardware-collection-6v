@@ -9,6 +9,14 @@ export const SHOWROOM_PHONE_DISPLAY = "+91 98351 90738";
 export const SHOWROOM_SECONDARY_PHONE_HREF = "tel:+917033650739";
 export const SHOWROOM_SECONDARY_PHONE_DISPLAY = "+91 70336 50739";
 export const SHOWROOM_WHATSAPP_NUMBER = "919835190738";
+export const SHOWROOM_ADDRESS = "1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001";
+
+/** Used only when Site Settings is unreachable; Studio's showroomHours is the source of truth. */
+export const SHOWROOM_HOURS_FALLBACK = "Wed–Mon: 10:00 AM – 8:00 PM\nTuesday: 10:00 AM – 2:00 PM";
+
+/** Owner-facing stats (Trust signals) */
+export const SHOWROOM_YEARS_OF_TRUST = 10;
+export const SHOWROOM_BRAND_COUNT = 20;
 
 export const SHOWROOM_DEFAULT_WA_MESSAGE =
   "Hi, I\u2019m interested in Hardware Collection\u2019s collections. I\u2019d like to know more.";

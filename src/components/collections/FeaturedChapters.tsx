@@ -46,9 +46,8 @@ export default function FeaturedChapters({ categories }: FeaturedChaptersProps) 
             const isPatternA = index % 2 === 0;
             const chapterOrdinal = `CHAPTER ${String(index + 1).padStart(2, "0")}`;
             const imageUrl =
-              category.heroImageUrl ||
               category.imageUrl ||
-              "/cinema/categories/HC-03-DOORS.png";
+              "";
 
             const brandLine =
               category.brandRefs && category.brandRefs.length > 0
@@ -62,17 +61,23 @@ export default function FeaturedChapters({ categories }: FeaturedChaptersProps) 
                   key={category._id || category.id || slug}
                   className="threshold-card hc-focus relative w-full aspect-[16/9] min-h-[460px] md:min-h-[540px] rounded-3xl overflow-hidden group border border-[var(--border)] shadow-md"
                 >
-                  <Image
-                    src={imageUrl}
-                    alt={category.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 1320px"
-                    className={`object-cover ${
-                      shouldReduceMotion
-                        ? ""
-                        : "transition-transform duration-[180ms] ease-out group-hover:scale-105"
-                    }`}
-                  />
+                  {imageUrl ? (
+                    <Image
+                      src={imageUrl}
+                      alt={category.name}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 1320px"
+                      className={`object-cover ${
+                        shouldReduceMotion
+                          ? ""
+                          : "transition-transform duration-[180ms] ease-out group-hover:scale-105"
+                      }`}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] pointer-events-none">
+                      <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+                    </div>
+                  )}
 
                   {/* Mandatory Gradient Scrim for Legibility */}
                   <div
@@ -163,17 +168,23 @@ export default function FeaturedChapters({ categories }: FeaturedChaptersProps) 
 
                 {/* Image Column — pinned to aspect-[4/5] (CLS gate) */}
                 <div className="lg:col-span-5 relative w-full aspect-[4/5] overflow-hidden rounded-2xl bg-[var(--surface-raised)] order-1 lg:order-2">
-                  <Image
-                    src={imageUrl}
-                    alt={category.name}
-                    fill
-                    sizes="(max-width: 1024px) 100vw, 500px"
-                    className={`object-cover ${
-                      shouldReduceMotion
-                        ? ""
-                        : "transition-transform duration-[180ms] ease-out group-hover:scale-105"
-                    }`}
-                  />
+                  {imageUrl ? (
+                    <Image
+                      src={imageUrl}
+                      alt={category.name}
+                      fill
+                      sizes="(max-width: 1024px) 100vw, 500px"
+                      className={`object-cover ${
+                        shouldReduceMotion
+                          ? ""
+                          : "transition-transform duration-[180ms] ease-out group-hover:scale-105"
+                      }`}
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] pointer-events-none">
+                      <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+                    </div>
+                  )}
                 </div>
               </div>
             );

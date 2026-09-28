@@ -7,7 +7,7 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { HeroSlide } from "@/types/hero";
-import { SHOWROOM_MAP_URL } from "@/lib/config";
+import { SHOWROOM_MAP_URL, SHOWROOM_YEARS_OF_TRUST } from "@/lib/config";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -91,17 +91,22 @@ export default function MobileHero({ slides }: MobileHeroProps) {
     <section ref={containerRef} data-nav-hero className="relative w-full min-h-[92svh] flex flex-col justify-end pt-16 pb-10 px-6 lg:hidden overflow-hidden bg-[var(--surface)]">
       {/* Photography */}
       <div className="absolute inset-0 z-0">
-        <Image
-          key={`mob-bg-${currentSlideIndex}`}
-          src={slide.imageUrl || "/cinema/hero/HC-01-HERO-01.png"}
-          alt="Brass lever handle on a dark door in the Hardware Collection showroom"
-          fill
-          priority
-          // lg:hidden: a 1px slot keeps desktops from preloading this full-width image.
-          sizes="(max-width: 1023px) 100vw, 1px"
-          className="mobile-hero-bg object-cover will-change-transform transition-opacity duration-500
-            sepia-[0.22] saturate-[1.25] contrast-[1.04] brightness-[1.02]"
-        />
+        {slide.imageUrl ? (
+          <Image
+            key={`mob-bg-${currentSlideIndex}`}
+            src={slide.imageUrl}
+            alt="Brass lever handle on a dark door in the Hardware Collection showroom"
+            fill
+            priority
+            sizes="(max-width: 1023px) 100vw, 1px"
+            className="mobile-hero-bg object-cover will-change-transform transition-opacity duration-500
+              sepia-[0.22] saturate-[1.25] contrast-[1.04] brightness-[1.02]"
+          />
+        ) : (
+          <div className="mobile-hero-bg absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)]">
+            <span className="text-[12px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending Mobile BG</span>
+          </div>
+        )}
         {/* The photograph is a cold blue-grey macro; the sepia grade above pulls it
             into the ivory palette and this scrim seats it, rather than leaving the top
             of the screen reading as fog behind the navbar. */}
@@ -114,7 +119,7 @@ export default function MobileHero({ slides }: MobileHeroProps) {
 
         <div className="flex items-center justify-between mb-4">
           <p className="mobile-hero-fade hc-mono t-eyebrow text-brass-ink">
-            {slide.eyebrow || "Architectural Hardware Experts · 10+ Years"}
+            {slide.eyebrow || `Architectural Hardware Experts · ${SHOWROOM_YEARS_OF_TRUST}+ Years`}
           </p>
           {slides.length > 1 && (
             <div className="flex items-center gap-1.5">

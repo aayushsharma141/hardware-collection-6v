@@ -7,6 +7,7 @@
 import {visionTool} from '@sanity/vision'
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
+import {presentationTool} from 'sanity/presentation'
 
 import {apiVersion, dataset, projectId} from './src/content/sanity/env'
 import {schema} from './src/content/sanity/schemaTypes'
@@ -20,6 +21,16 @@ export default defineConfig({
   schema,
   plugins: [
     structureTool({structure}),
+    presentationTool({
+      previewUrl: {
+        // Where the preview panel opens by default
+        preview: '/',
+        previewMode: {
+          // Route that enables Next.js Draft Mode
+          enable: '/api/draft-mode/enable',
+        },
+      },
+    }),
     ...(process.env.NODE_ENV === "development"
       ? [visionTool({defaultApiVersion: apiVersion})]
       : []),

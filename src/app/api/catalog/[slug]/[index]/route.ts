@@ -42,7 +42,7 @@ async function getCatalogUrls(slug: string): Promise<string[] | null> {
     return cached.urls;
   }
   const urls = await client.fetch<string[] | null>(
-    `*[_type == "brand" && slug.current == $slug][0].officialCatalogs[].asset->url`,
+    `*[_type == "catalogue" && brand->slug.current == $slug] | order(_createdAt asc) .pdfFile.asset->url`,
     { slug }
   );
   urlCache.set(slug, { urls, expiresAt: Date.now() + CACHE_TTL_MS });

@@ -4,16 +4,19 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { AnnotationTool, NormPoint, Stroke } from "./types";
 
 /**
- * The drawing surface for Mark mode.
+ * The drawing surface for Select mode.
  *
  * Marks are stored in 0–1 page space, so zooming or re-fitting the page keeps
  * them exactly where the customer put them. The canvas is kept at the same
  * backing resolution as the page canvas so the capture step can composite the
  * two without rescaling.
  *
- * Pen strokes get a light halo underneath: catalogue pages are unpredictable —
- * white product shots, near-black lifestyle spreads — and a single-colour line
- * disappears on one or the other.
+ * Ink follows different rules from chrome. The chrome is colourless because it
+ * sits beside the artwork; a callout sits *on* the artwork and has to survive
+ * a white product shot and a near-black lifestyle spread alike. So it draws in
+ * saturated red under a white halo — a colour a reader already reads as
+ * "someone marked this". Muted chrome tones were tried here and vanished into
+ * the page.
  */
 
 /** Pointer capture throws when the pointer is already gone; drawing must not. */
@@ -33,9 +36,8 @@ function releasePointer(node: Element, pointerId: number): void {
   }
 }
 
-const PEN_COLOR = "#8B1A4A";
+const PEN_COLOR = "#D92D20";
 const PEN_HALO = "rgba(255,255,255,0.9)";
-const HIGHLIGHT_COLOR = "#C8A96E";
 
 interface AnnotationLayerProps {
   pageCanvasRef: React.RefObject<HTMLCanvasElement | null>;
@@ -105,43 +107,76 @@ export default function AnnotationLayer({
 
     const unit = Math.max(canvas.width, canvas.height);
 
-    const trace = (points: NormPoint[]) => {
+    const drawArrow = (p1: NormPoint, p2: NormPoint) => {
+      const x1 = p1.x * canvas.width;
+      const y1 = p1.y * canvas.height;
+      const x2 = p2.x * canvas.width;
+      const y2 = p2.y * canvas.height;
+      const dx = x2 - x1;
+      const dy = y2 - y1;
+      const angle = Math.atan2(dy, dx);
+      const headlen = unit * 0.02;
+      
       ctx.beginPath();
-      points.forEach((point, i) => {
-        const x = point.x * canvas.width;
-        const y = point.y * canvas.height;
-        if (i === 0) ctx.moveTo(x, y);
-        else ctx.lineTo(x, y);
-      });
-      if (points.length === 1) {
-        // A tap should still leave a visible dot.
-        ctx.lineTo(points[0].x * canvas.width + 0.1, points[0].y * canvas.height);
-      }
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.moveTo(x2 - headlen * Math.cos(angle - Math.PI / 6), y2 - headlen * Math.sin(angle - Math.PI / 6));
+      ctx.lineTo(x2, y2);
+      ctx.lineTo(x2 - headlen * Math.cos(angle + Math.PI / 6), y2 - headlen * Math.sin(angle + Math.PI / 6));
       ctx.stroke();
     };
 
+    const drawCircle = (p1: NormPoint, p2: NormPoint) => {
+      const x1 = p1.x * canvas.width;
+      const y1 = p1.y * canvas.height;
+      const x2 = p2.x * canvas.width;
+      const y2 = p2.y * canvas.height;
+      const cx = (x1 + x2) / 2;
+      const cy = (y1 + y2) / 2;
+      const rx = Math.abs(x2 - x1) / 2;
+      const ry = Math.abs(y2 - y1) / 2;
+      ctx.beginPath();
+      ctx.ellipse(cx, cy, rx, ry, 0, 0, 2 * Math.PI);
+      ctx.stroke();
+    };
+
+    const drawBox = (p1: NormPoint, p2: NormPoint) => {
+      const x = Math.min(p1.x, p2.x) * canvas.width;
+      const y = Math.min(p1.y, p2.y) * canvas.height;
+      const w = Math.abs(p2.x - p1.x) * canvas.width;
+      const h = Math.abs(p2.y - p1.y) * canvas.height;
+      ctx.beginPath();
+      ctx.rect(x, y, w, h);
+      ctx.stroke();
+    };
+
+    const drawShape = (p1: NormPoint, p2: NormPoint, toolType: string) => {
+      if (toolType === "arrow") drawArrow(p1, p2);
+      else if (toolType === "circle") drawCircle(p1, p2);
+      else if (toolType === "box") drawBox(p1, p2);
+    };
+
     const drawStroke = (stroke: Stroke) => {
-      if (stroke.points.length === 0) return;
-      if (stroke.tool === "highlight") {
-        ctx.globalAlpha = 0.32;
-        ctx.strokeStyle = HIGHLIGHT_COLOR;
-        ctx.lineWidth = unit * 0.028;
-        trace(stroke.points);
-        ctx.globalAlpha = 1;
-        return;
-      }
+      if (stroke.points.length < 2) return;
+      if (stroke.tool === "select") return;
+
+      const p1 = stroke.points[0];
+      const p2 = stroke.points[1];
+
       ctx.globalAlpha = 1;
       ctx.strokeStyle = PEN_HALO;
       ctx.lineWidth = unit * 0.0085;
-      trace(stroke.points);
+      drawShape(p1, p2, stroke.tool);
+
       ctx.strokeStyle = PEN_COLOR;
       ctx.lineWidth = unit * 0.0045;
-      trace(stroke.points);
+      drawShape(p1, p2, stroke.tool);
     };
 
-    strokes.filter((s) => s.tool === "highlight").forEach(drawStroke);
-    strokes.filter((s) => s.tool === "pen").forEach(drawStroke);
-    if (draftRef.current) drawStroke({ tool, points: draftRef.current });
+    strokes.forEach(drawStroke);
+    if (draftRef.current && draftRef.current.length >= 2 && tool !== "select") {
+      drawStroke({ tool, points: draftRef.current });
+    }
   }, [annotationRef, strokes, tool]);
 
   useEffect(() => {
@@ -157,25 +192,31 @@ export default function AnnotationLayer({
   };
 
   const onPointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!drawable) return;
+    if (!drawable || tool === "select") return;
     capturePointer(event.currentTarget, event.pointerId);
-    draftRef.current = [toNorm(event)];
+    draftRef.current = [toNorm(event), toNorm(event)];
     forceRepaint((n) => n + 1);
     paint();
   };
 
   const onPointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!drawable || !draftRef.current) return;
-    draftRef.current.push(toNorm(event));
+    if (!drawable || !draftRef.current || tool === "select") return;
+    draftRef.current[1] = toNorm(event);
     paint();
   };
 
   const onPointerUp = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!drawable || !draftRef.current) return;
+    if (!drawable || !draftRef.current || tool === "select") return;
     releasePointer(event.currentTarget, event.pointerId);
     const points = draftRef.current;
     draftRef.current = null;
-    if (points.length > 0) onCommit({ tool, points });
+    
+    // Prevent tiny accidental marks (e.g. taps without dragging)
+    const dx = points[1].x - points[0].x;
+    const dy = points[1].y - points[0].y;
+    if (Math.hypot(dx, dy) > 0.01) {
+      onCommit({ tool, points });
+    }
   };
 
   return (

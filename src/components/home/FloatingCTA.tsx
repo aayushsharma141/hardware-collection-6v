@@ -1,7 +1,7 @@
 "use client";
 
 import { ConsultationForm } from "@/components/consultation/ConsultationForm";
-import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL, generateWhatsAppUrl } from "@/lib/config";
+import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL, generateWhatsAppUrl, SHOWROOM_YEARS_OF_TRUST, SHOWROOM_BRAND_COUNT } from "@/lib/config";
 import { MessageCircle, PhoneCall, Navigation, Star } from "lucide-react";
 import { Testimonial, formatTestimonialDate, clampRating } from "@/types/testimonial";
 import { StarRating } from "@/components/reviews/StarRating";
@@ -35,7 +35,7 @@ const quietFade: Variants = {
 
 import { SanityCta } from "@/types/sanity";
 
-export default function FloatingCTA({ reviews = [], cta }: { reviews?: Testimonial[], cta?: SanityCta }) {
+export default function FloatingCTA({ reviews = [], cta, heading, description }: { reviews?: Testimonial[], cta?: SanityCta, heading?: string, description?: string }) {
   return (
     <section
       data-chapter="7"
@@ -146,12 +146,10 @@ export default function FloatingCTA({ reviews = [], cta }: { reviews?: Testimoni
                 <h2
                   className="font-cormorant text-3xl sm:text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-[1.15] mb-6"
                   style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-                >
-                  Let&apos;s discuss<br />
-                  <span className="text-[var(--text-secondary)]">your project.</span>
-                </h2>
+                  dangerouslySetInnerHTML={{ __html: heading ? heading.replace('\n', '<br />') : "Let's discuss<br /><span class=\"text-[var(--text-secondary)]\">your project.</span>" }}
+                />
                 <p className="text-sm sm:text-base text-[var(--text-secondary)] font-light leading-relaxed mb-8 max-w-md">
-                  Tell us what you&apos;re working on. Our technical team will help you navigate brands, tactile finishes, and architectural hardware specifications with zero guesswork.
+                  {description || "Tell us what you're working on. Our technical team will help you navigate brands, tactile finishes, and architectural hardware specifications with zero guesswork."}
                 </p>
               </div>
 
@@ -159,11 +157,11 @@ export default function FloatingCTA({ reviews = [], cta }: { reviews?: Testimoni
               <div className="space-y-6 border-t border-[var(--border)] pt-8">
                 <div className="grid grid-cols-3 gap-4 text-left">
                   <div>
-                    <p className="text-xl font-normal text-[var(--accent)] font-cormorant" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>10+</p>
+                    <p className="text-xl font-normal text-[var(--accent)] font-cormorant" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>{SHOWROOM_YEARS_OF_TRUST}+</p>
                     <p className="text-[10px] uppercase tracking-wider text-[var(--text-secondary)] font-medium">Years in Sakchi</p>
                   </div>
                   <div>
-                    <p className="text-xl font-normal text-[var(--accent)] font-cormorant tabular-nums" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>20+</p>
+                    <p className="text-xl font-normal text-[var(--accent)] font-cormorant tabular-nums" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>{SHOWROOM_BRAND_COUNT}</p>
                     <p className="text-[10px] uppercase tracking-wider text-[var(--text-secondary)] font-medium">Authorized Brands</p>
                   </div>
                   <div>
@@ -178,7 +176,7 @@ export default function FloatingCTA({ reviews = [], cta }: { reviews?: Testimoni
                     href={cta ? generateWhatsAppUrl(cta.type) : generateWhatsAppUrl()}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-3.5 rounded-xl bg-[#25D366]/10 border border-[#25D366]/20 hover:border-[#25D366] hover:bg-[#25D366]/20 text-[#0b6b36] text-xs font-semibold uppercase tracking-wider transition-colors"
+                    className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-3.5 rounded bg-[#25D366]/10 border border-[#25D366]/20 hover:border-[#25D366] hover:bg-[#25D366]/20 text-[#0b6b36] text-xs font-semibold uppercase tracking-wider transition-colors"
                   >
                     <MessageCircle className="w-4 h-4" />
                     <span>{cta?.label || "WhatsApp Us"}</span>
@@ -186,7 +184,7 @@ export default function FloatingCTA({ reviews = [], cta }: { reviews?: Testimoni
                   <div className="flex flex-col sm:flex-row gap-3">
                     <a
                       href={SHOWROOM_PHONE_HREF}
-                      className="flex-1 inline-flex items-center justify-center gap-2.5 px-4 py-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--accent)] text-[var(--text-primary)] hover:text-[var(--accent)] text-xs font-semibold uppercase tracking-wider transition-colors"
+                      className="flex-1 inline-flex items-center justify-center gap-2.5 px-4 py-3 rounded bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--accent)] text-[var(--text-primary)] hover:text-[var(--accent)] text-xs font-semibold uppercase tracking-wider transition-colors"
                     >
                       <PhoneCall className="w-4 h-4 text-[var(--accent)]" />
                       <span>Call {SHOWROOM_PHONE_DISPLAY}</span>
@@ -195,7 +193,7 @@ export default function FloatingCTA({ reviews = [], cta }: { reviews?: Testimoni
                       href={SHOWROOM_MAP_URL}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--border-accent)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-medium uppercase tracking-wider transition-colors"
+                      className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--border-accent)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-medium uppercase tracking-wider transition-colors"
                     >
                       <Navigation className="w-4 h-4 text-[var(--text-secondary)]" />
                       <span>Open in Maps</span>

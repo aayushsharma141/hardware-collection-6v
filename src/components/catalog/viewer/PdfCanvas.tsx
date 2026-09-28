@@ -85,6 +85,29 @@ interface PdfCanvasProps {
   onActivity: () => void;
 }
 
+/**
+ * The scale every page is drawn at.
+ *
+ * Exported for test: when the shell has not been measured yet this returns 1,
+ * and a 1 that never updates means fit and zoom change their labels while the
+ * pages stay at natural size. That failure is invisible in a screenshot, so it
+ * is pinned by a test instead.
+ */
+export function pageScale(
+  natural: Size | null,
+  shell: Size,
+  fit: FitMode,
+  zoom: number
+): number {
+  if (!natural || !shell.w) return 1;
+  const widthFit = (shell.w - SHELL_PADDING * 2) / natural.w;
+  const base =
+    fit === "page"
+      ? Math.min(widthFit, (shell.h - SHELL_PADDING * 2) / natural.h)
+      : Math.min(widthFit, 1.6);
+  return Math.max(base, 0.2) * zoom;
+}
+
 /** Index of the last page whose top is at or above `y`. */
 export function pageAt(tops: number[], y: number): number {
   let lo = 0;
@@ -235,21 +258,21 @@ function PageView({
         role={current ? "img" : undefined}
         aria-label={current ? pageLabel : undefined}
         aria-hidden={current ? undefined : true}
-        className="block bg-white shadow-[0_24px_60px_-30px_rgba(0,0,0,0.9)]"
+        className="block bg-[var(--v-panel)] shadow-md"
         onContextMenu={(e) => e.preventDefault()}
         onDragStart={(e) => e.preventDefault()}
       />
       {current && overlay}
       {failed && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-[#0E0C0C]/85 px-6 text-center">
-          <p className="font-body text-sm text-white/75">This page couldn&apos;t be displayed.</p>
+        <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-[var(--v-chrome)] px-6 text-center backdrop-blur-md">
+          <p className="font-body text-sm text-[var(--v-text-dim)]">This page couldn&apos;t be displayed.</p>
           <button
             type="button"
             onClick={() => {
               setFailed(false);
               setAttempt((a) => a + 1);
             }}
-            className="rounded-full border border-[#C8A96E]/60 px-5 py-2 font-body text-[11px] uppercase tracking-[0.16em] text-[#C8A96E] transition-colors hover:bg-[#C8A96E] hover:text-[#0E0C0C] hc-focus"
+            className="v-press rounded border border-[var(--v-line-strong)] px-5 py-2 font-body text-[11px] text-[var(--v-text-dim)] hover:border-[var(--v-text)] hover:text-[var(--v-text)] hc-focus"
           >
             Retry
           </button>
@@ -382,43 +405,40 @@ export default function PdfCanvas({
   );
 
   // ── Shell size ─────────────────────────────────────────────────────────
-  useEffect(() => {
+  //
+  // Measured synchronously after commit, not inside requestAnimationFrame: a
+  // deferred first measurement can be dropped (a backgrounded tab throttles
+  // rAF), and if it is, `shell` stays {0,0}, `scale` short-circuits to 1 and
+  // every page renders at its natural size — zoom and fit then change the
+  // label but nothing on screen. The observer only handles later changes.
+  useLayoutEffect(() => {
     const node = shellRef.current;
-    if (!node || typeof ResizeObserver === "undefined") return;
-    let frame = 0;
-    const measure = () => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() =>
-        setShell((prev) => {
-          const w = node.clientWidth;
-          const h = node.clientHeight;
-          // A scrollbar appearing shifts the width by ~15px; ignoring that
-          // keeps a render from re-triggering the layout that caused it.
-          return Math.abs(prev.w - w) < 24 && Math.abs(prev.h - h) < 24 ? prev : { w, h };
-        })
-      );
-    };
+    if (!node) return;
+
+    const measure = () =>
+      setShell((prev) => {
+        const w = node.clientWidth;
+        const h = node.clientHeight;
+        // A detached or hidden shell measures zero; keep the last real size
+        // rather than collapsing the layout.
+        if (!w && !h) return prev;
+        // A scrollbar appearing shifts the width by ~15px; ignoring that
+        // keeps a render from re-triggering the layout that caused it.
+        return Math.abs(prev.w - w) < 24 && Math.abs(prev.h - h) < 24 ? prev : { w, h };
+      });
+
+    measure();
+    if (typeof ResizeObserver === "undefined") return;
     const observer = new ResizeObserver(measure);
     observer.observe(node);
-    measure();
-    return () => {
-      cancelAnimationFrame(frame);
-      observer.disconnect();
-    };
+    return () => observer.disconnect();
   }, []);
 
   // ── Layout ─────────────────────────────────────────────────────────────
-  const scale = useMemo(() => {
-    if (!defaultSize || !shell.w) return 1;
-    const availableWidth = shell.w - SHELL_PADDING * 2;
-    const availableHeight = shell.h - SHELL_PADDING * 2;
-    const widthFit = availableWidth / defaultSize.w;
-    const base =
-      fit === "page"
-        ? Math.min(widthFit, availableHeight / defaultSize.h)
-        : Math.min(widthFit, 1.6);
-    return Math.max(base, 0.2) * zoom;
-  }, [defaultSize, shell, fit, zoom]);
+  const scale = useMemo(
+    () => pageScale(defaultSize, shell, fit, zoom),
+    [defaultSize, shell, fit, zoom]
+  );
 
   const layout = useMemo(() => {
     const tops: number[] = [];
@@ -470,7 +490,9 @@ export default function PdfCanvas({
   useEffect(() => {
     const node = shellRef.current;
     if (!numPages || !node) return;
-    const probe = node.scrollTop + shell.h * 0.42;
+    // Live from the DOM: scroll position and viewport height are always
+    // available there, and a stale copy silently shifts which page counts.
+    const probe = node.scrollTop + node.clientHeight * 0.42;
     const next = pageAt(layout.tops, probe) + 1;
     if (next !== currentRef.current) {
       currentRef.current = next;
@@ -660,13 +682,15 @@ export default function PdfCanvas({
       onPointerMove={() => cb.current.onActivity()}
       className={`h-full min-h-0 ${
         // Marking and capture happen on a still page.
-        interactive ? "overflow-auto" : "overflow-hidden touch-none"
+        interactive ? "overflow-auto overscroll-none touch-pan-x touch-pan-y" : "overflow-hidden touch-none"
       }`}
+      style={{ WebkitOverflowScrolling: "touch" }}
+      data-lenis-prevent="true"
     >
       {status === "loading" && (
-        <div className="flex h-full flex-col items-center justify-center text-white/55">
-          <div className="mb-4 h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-[#C8A96E]" />
-          <span className="font-body text-xs uppercase tracking-[0.2em]">Loading catalogue…</span>
+        <div className="flex h-full flex-col items-center justify-center text-[var(--v-text-dim)]">
+          <div className="mb-4 h-8 w-8 animate-spin rounded-md border-2 border-[var(--v-line-strong)] border-t-[var(--v-accent-fg)]" />
+          <span className="font-body text-xs tracking-[0.2em]">Loading catalogue…</span>
         </div>
       )}
 

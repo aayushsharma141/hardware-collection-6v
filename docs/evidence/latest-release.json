@@ -1,14 +1,14 @@
 {
   "schemaVersion": "1.0",
-  "evidenceId": "EV-997e530-2026-09-05T0645-v1.0",
+  "evidenceId": "EV-f200965-2026-09-28T0613-v1.0",
   "generator": "hardware-collection-release-pipeline@2.0",
-  "timestamp": "2026-09-05T06:45:36.596Z",
+  "timestamp": "2026-09-28T06:13:29.423Z",
   "status": "PASSED",
   "releaseDecision": "PROMOTE",
   "policyReference": null,
   "provenance": {
-    "gitSha": "997e530c940dd9a7d06f34e780373e3943b91f43",
-    "gitBranch": "refactor/structure-legibility",
+    "gitSha": "f200965d6cd9258767e60b62230a93f7f697c42e",
+    "gitBranch": "feat/brand-priority-and-copy",
     "workingTreeDirty": true,
     "nodeVersion": "v24.18.0",
     "platform": "win32",
@@ -17,39 +17,39 @@
     "hostname": "Digital-Epic"
   },
   "results": {
-    "durationMs": 27748,
+    "durationMs": 86477,
     "totalStages": 6,
     "passedStages": 6,
     "failedStages": 0,
     "stageResults": {
       "GATE-01": {
         "status": "PASSED",
-        "durationMs": 3977,
+        "durationMs": 4790,
         "check": "npm run lint"
       },
       "GATE-02": {
         "status": "PASSED",
-        "durationMs": 2373,
+        "durationMs": 2707,
         "check": "npx tsc --noEmit"
       },
       "GATE-03": {
         "status": "PASSED",
-        "durationMs": 907,
+        "durationMs": 935,
         "check": "npm test"
       },
       "GATE-04": {
         "status": "PASSED",
-        "durationMs": 10932,
+        "durationMs": 71018,
         "check": "npm run build"
       },
       "GATE-05": {
         "status": "PASSED",
-        "durationMs": 9559,
+        "durationMs": 7026,
         "check": "npm audit --audit-level=critical"
       },
       "GATE-06": {
         "status": "PASSED",
-        "durationMs": 0,
+        "durationMs": 1,
         "check": "in-process check"
       }
     }

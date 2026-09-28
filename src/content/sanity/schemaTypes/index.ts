@@ -12,14 +12,17 @@ import { siteSettingsType } from "./siteSettings";
 import { navigationType } from "./navigation";
 import { galleryType } from "./gallery";
 import { faqType } from "./faq";
+import { catalogueType } from "./catalogue";
+import { legalPageType } from "./legalPage";
 
 // Objects
 import { seoType } from "./objects/seo";
 import { ctaType } from "./objects/cta";
+import { editorialType } from "./objects/editorial";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
-    categoryType, spaceType, subcategoryType, curatedCollectionType, brandType, productType, testimonialType, homePageType, siteSettingsType, navigationType, galleryType, faqType,
-    seoType, ctaType
+    categoryType, spaceType, subcategoryType, curatedCollectionType, brandType, productType, testimonialType, homePageType, siteSettingsType, navigationType, galleryType, faqType, catalogueType, legalPageType,
+    seoType, ctaType, editorialType
   ],
 };

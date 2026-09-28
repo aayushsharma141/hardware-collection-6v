@@ -30,7 +30,30 @@ const itemVariants = {
   }
 };
 
-export default function CategoryDiscovery() {
+interface CategoryDiscoveryProps {
+  categories?: {
+    categoryName: string;
+    slug: string;
+    imageUrl?: string;
+    description?: string;
+  }[];
+}
+
+export default function CategoryDiscovery({ categories }: CategoryDiscoveryProps) {
+  const activeFamilies = categories && categories.length > 0
+    ? categories.map((c, idx) => ({
+        id: c.slug,
+        index: `0${idx + 1}`,
+        name: c.categoryName,
+        nameBreak: undefined,
+        subtitle: c.description || "Premium architectural hardware",
+        detail: "Explore the collection",
+        image: c.imageUrl || "",
+        href: `/catalogs?category=${c.slug}`,
+        isFocal: idx === 0,
+      }))
+    : CATEGORY_FAMILIES;
+
   return (
     <section id="categories" className="bg-[var(--surface)] text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
       {/* Desktop Version */}
@@ -56,22 +79,28 @@ export default function CategoryDiscovery() {
           whileInView="visible"
           viewport={{ once: true, margin: "-100px" }}
         >
-          {CATEGORY_FAMILIES.map((cat) => (
+          {activeFamilies.map((cat) => (
             <motion.article
               variants={itemVariants}
-              key={cat.id}
+              key={cat.id || cat.name}
               className={`threshold-card group/card bg-[var(--surface-raised)] pb-6 flex flex-col justify-between ${
                 cat.isFocal ? "relative z-10" : ""
               }`}
             >
               <div className="threshold-image relative aspect-[5/7] overflow-hidden bg-[#181716]">
-                <Image
-                  alt={`${cat.name} showroom family`}
-                  className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:scale-[1.03]"
-                  fill
-                  sizes="(max-width: 1024px) 50vw, 20vw"
-                  src={cat.image}
-                />
+                {cat.image ? (
+                  <Image
+                    alt={`${cat.name} showroom family`}
+                    className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:scale-[1.03]"
+                    fill
+                    sizes="(max-width: 1024px) 50vw, 20vw"
+                    src={cat.image}
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)]">
+                    <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+                  </div>
+                )}
                 {/* Scrim under the index: the brass numerals lose contrast on
                     brightly lit photography (card 05's shelving). */}
                 <div
@@ -153,23 +182,29 @@ export default function CategoryDiscovery() {
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {CATEGORY_FAMILIES.map((cat, idx) => (
+          {activeFamilies.map((cat, idx) => (
             <motion.a
               variants={itemVariants}
-              key={cat.id}
+              key={cat.id || cat.name}
               href={cat.href}
               className="mobile-row w-full py-4 flex items-center gap-4 text-left no-underline hover:bg-[var(--surface-raised)] transition-colors duration-150"
             >
               <span className="hc-mono w-6 text-xs font-semibold tracking-[0.12em] text-brass-ink">
                 0{idx + 1}
               </span>
-              <Image
-                alt={cat.name}
-                className="h-[56px] w-[80px] object-cover rounded-lg border border-[var(--border)]"
-                width={80}
-                height={56}
-                src={cat.image}
-              />
+              {cat.image ? (
+                <Image
+                  alt={cat.name}
+                  className="h-[56px] w-[80px] object-cover rounded-lg border border-[var(--border)] shrink-0"
+                  width={80}
+                  height={56}
+                  src={cat.image}
+                />
+              ) : (
+                <div className="h-[56px] w-[80px] shrink-0 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center">
+                  <span className="text-[8px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Wait</span>
+                </div>
+              )}
               <div className="flex-1 min-w-0">
                 <strong className="block hc-serif text-2xl leading-tight font-normal text-[var(--text-primary)]">
                   {cat.name} {cat.nameBreak || ""}

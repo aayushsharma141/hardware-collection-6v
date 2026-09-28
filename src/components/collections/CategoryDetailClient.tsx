@@ -61,7 +61,7 @@ export default function CategoryDetailClient({
   const heroImage =
     category.heroImageUrl ||
     category.imageUrl ||
-    "/cinema/categories/HC-03-DOORS.png";
+    "";
 
   const galleryImages = category.galleryUrls || [];
 
@@ -81,7 +81,7 @@ export default function CategoryDetailClient({
       if (category.heroImageUrl) return category.heroImageUrl;
       if (category.imageUrl) return category.imageUrl;
       if (settings?.defaultCategoryImageUrl) return settings.defaultCategoryImageUrl;
-      return "/cinema/categories/HC-03-DOORS.png";
+      return "";
     },
     [category, settings]
   );
@@ -124,13 +124,15 @@ export default function CategoryDetailClient({
         <div className="relative max-w-[1320px] mx-auto px-6 py-16 md:py-24">
           {/* Background image atmosphere */}
           <div className="absolute inset-0 -z-10 opacity-20">
-            <Image
-              src={heroImage}
-              alt={categoryTitle}
-              fill
-              priority
-              className="object-cover"
-            />
+            {heroImage && (
+              <Image
+                src={heroImage}
+                alt={categoryTitle}
+                fill
+                priority
+                className="object-cover"
+              />
+            )}
             <div
               aria-hidden="true"
               className="absolute inset-0 bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/80 to-transparent pointer-events-none"
@@ -334,7 +336,7 @@ export default function CategoryDetailClient({
                   aria-selected={selectedBrand === "ALL"}
                   aria-pressed={selectedBrand === "ALL"}
                   onClick={() => setSelectedBrand("ALL")}
-                  className={`hc-focus px-4 py-2 min-h-[44px] rounded-full text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-200 cursor-pointer ${
+                  className={`hc-focus px-4 py-2 min-h-[44px] rounded text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-200 cursor-pointer ${
                     selectedBrand === "ALL"
                       ? "bg-[#8b1a42] text-white shadow-sm"
                       : "bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[#8b1a42]/40"
@@ -355,7 +357,7 @@ export default function CategoryDetailClient({
                       aria-selected={isSelected}
                       aria-pressed={isSelected}
                       onClick={() => setSelectedBrand(b)}
-                      className={`hc-focus px-4 py-2 min-h-[44px] rounded-full text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-200 cursor-pointer ${
+                      className={`hc-focus px-4 py-2 min-h-[44px] rounded text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-200 cursor-pointer ${
                         isSelected
                           ? "bg-[#8b1a42] text-white shadow-sm"
                           : "bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:border-[#8b1a42]/40"
@@ -397,7 +399,7 @@ export default function CategoryDetailClient({
                 <button
                   type="button"
                   onClick={() => setSelectedBrand("ALL")}
-                  className="hc-focus px-5 py-2.5 min-h-[44px] rounded-full bg-[#8b1a42] text-white text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-[#6b1432]"
+                  className="hc-focus px-5 py-2.5 min-h-[44px] rounded bg-[#8b1a42] text-white text-xs font-semibold uppercase tracking-wider transition-colors hover:bg-[#6b1432]"
                 >
                   View All {categoryTitle} Products
                 </button>
@@ -489,7 +491,7 @@ export default function CategoryDetailClient({
         displayImage={
           selectedProduct
             ? getProductDisplayImage(selectedProduct)
-            : "/cinema/categories/HC-03-DOORS.png"
+            : ""
         }
       />
     </div>

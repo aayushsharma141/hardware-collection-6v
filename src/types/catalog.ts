@@ -114,13 +114,15 @@ export interface Subcategory {
   imageLqip?: string;
 }
 
-/** One entry in a brand's `officialCatalogs` array. */
-export interface BrandCatalog {
+export interface CatalogueDocument {
+  _id: string;
+  catalogueName: string;
   title?: string | null;
-  type?: string | null;
   version?: string | null;
   releaseDate?: string | null;
   size?: number | null;
+  pdfUrl?: string | null;
+  coverUrl?: string | null;
 }
 
 export interface Brand {
@@ -130,12 +132,15 @@ export interface Brand {
   slug?: string | { current?: string };
   logoUrl?: string | null;
   logoLqip?: string;
+  /** Logo width / height from Sanity asset metadata; used to size logos optically. */
+  logoAspect?: number | null;
   logo?: string;
   description?: string;
   authorizedStatus?: string;
   authorized?: boolean;
   website?: string | null;
-  officialCatalogs?: BrandCatalog[];
+  catalogues?: CatalogueDocument[];
+
   officialCatalogUrl?: string | null;
   featured?: boolean;
   country?: string;

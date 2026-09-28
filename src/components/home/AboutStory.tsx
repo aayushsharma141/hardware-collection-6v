@@ -5,7 +5,7 @@ import Image from "next/image";
 import { motion } from "motion/react";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { MagneticButton } from "@/components/animations/MagneticButton";
-import { generateWhatsAppUrl, SHOWROOM_MAP_URL } from "@/lib/config";
+import { generateWhatsAppUrl, SHOWROOM_MAP_URL, SHOWROOM_HOURS_FALLBACK, SHOWROOM_YEARS_OF_TRUST, SHOWROOM_BRAND_COUNT } from "@/lib/config";
 
 /**
  * AboutStory — Chapter 06.5 "Our Legacy"
@@ -58,7 +58,26 @@ const WA_MESSAGE =
  * (mobile / desktop) and both carry this section — two elements with the same
  * anchor id would be invalid markup.
  */
-export default function AboutStory({ id = "about" }: { id?: string }) {
+export default function AboutStory({
+  id = "about",
+  showroomHours,
+  legacyYearsOfTrust,
+  legacyBrandsCount,
+  legacyShowroomImageUrl,
+  legacyPillars,
+}: {
+  id?: string;
+  /** Site Settings' showroomHours; one line per day range. */
+  showroomHours?: string;
+  legacyYearsOfTrust?: number;
+  legacyBrandsCount?: number;
+  legacyShowroomImageUrl?: string;
+  legacyPillars?: Array<{ _key: string, title: string, description: string }>;
+}) {
+  const displayPillars = legacyPillars?.length ? legacyPillars : PILLARS.map(p => ({ _key: p.id, title: p.title, description: p.body }));
+  const displayYears = legacyYearsOfTrust ? `${legacyYearsOfTrust}+` : `${SHOWROOM_YEARS_OF_TRUST}+`;
+  const displayBrandsCount = legacyBrandsCount ? `${legacyBrandsCount}+` : `${SHOWROOM_BRAND_COUNT}+`;
+  const displayImage = legacyShowroomImageUrl || SHOWROOM_IMAGE;
   return (
     <section
       id={id}
@@ -88,13 +107,13 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
 
         {/* Stat pair */}
         <div className="grid grid-cols-2 border border-[var(--border)] divide-x divide-white/10 mb-8 rounded-xl overflow-hidden bg-[var(--surface-raised)]">
-          <Stat value="10+" label="Years of Trust" />
-          <Stat value="20+" label="Authorized Brands" />
+          <Stat value={`${displayYears}`} label="Years of Trust" />
+          <Stat value={`${displayBrandsCount}`} label="Authorized Brands" />
         </div>
 
         <div className="relative aspect-[4/3] w-full overflow-hidden border border-[var(--border)] mb-8 rounded-2xl bg-[var(--surface-raised)]">
           <Image
-            src={SHOWROOM_IMAGE}
+            src={displayImage}
             alt={SHOWROOM_IMAGE_ALT}
             fill
             sizes="(max-width: 1024px) 100vw, 560px"
@@ -140,20 +159,20 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
             composition and a hairline separates each pillar, so the list reads
             as an editorial index rather than a feature grid. */}
         <div className="mt-12 border-t border-[var(--border)]">
-          {PILLARS.map((pillar) => (
+          {displayPillars.map((pillar, index) => (
             <div
-              key={pillar.id}
+              key={pillar._key}
               className="flex gap-5 items-baseline border-b border-[var(--border)] py-6"
             >
               <span className="hc-mono t-meta font-semibold text-brass-ink shrink-0">
-                {pillar.index}
+                0{index + 1}
               </span>
               <div className="min-w-0">
                 <h3 className="hc-serif t-h4 text-[var(--text-primary)] mb-1.5">
                   {pillar.title}
                 </h3>
                 <p className="t-body-sm text-[var(--text-secondary)] font-light">
-                  {pillar.body}
+                  {pillar.description}
                 </p>
               </div>
             </div>
@@ -233,7 +252,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
             <FadeIn delay={0.08} direction="left">
               <div className="relative aspect-[4/5] w-full overflow-hidden rounded-3xl border border-[var(--border)] bg-[var(--surface-raised)] shadow-md">
                 <Image
-                  src={SHOWROOM_IMAGE}
+                  src={displayImage}
                   alt={SHOWROOM_IMAGE_ALT}
                   fill
                   sizes="(max-width: 1024px) 100vw, 480px"
@@ -247,10 +266,9 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
                   aria-hidden="true"
                 />
 
-                {/* Standing stat — the one number that carries the section */}
                 <div className="absolute bottom-6 left-6 bg-[#fbf5ea]/95 backdrop-blur-md border border-[var(--border)] px-7 py-5 rounded-2xl shadow-lg">
                   <p className="hc-serif text-5xl text-[var(--accent)] leading-none mb-1.5 font-normal">
-                    10+
+                    {displayYears}
                   </p>
                   <p className="hc-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[var(--text-secondary)]">
                     Years of Experience
@@ -261,7 +279,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
               <div className="mt-6 border border-[var(--border)] divide-y divide-[var(--border)] rounded-2xl overflow-hidden bg-[var(--surface-raised)]">
                 <div className="px-7 py-5 flex items-baseline gap-4">
                   <span className="hc-serif text-4xl text-[var(--accent)] leading-none tabular-nums font-normal">
-                    20+
+                    {displayBrandsCount}
                   </span>
                   <span className="hc-mono text-xs uppercase tracking-[0.2em] font-semibold text-[var(--text-secondary)]">
                     Authorized Brands
@@ -291,9 +309,9 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
               className="absolute top-0 left-0 right-0 h-[1px] bg-[var(--border)] origin-left"
             />
             <div className="grid grid-cols-2 gap-12 max-w-4xl">
-              {PILLARS.map((pillar, idx) => (
+              {displayPillars.map((pillar, idx) => (
                 <div
-                  key={pillar.id}
+                  key={pillar._key}
                   className="relative pl-8 pt-4"
                 >
                   {idx !== 0 && (
@@ -306,13 +324,13 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
                     />
                   )}
                   <p className="hc-mono text-xs font-semibold text-brass-ink tracking-[0.2em] mb-4">
-                    {pillar.index}
+                    0{idx + 1}
                   </p>
                   <p className="text-lg xl:text-xl text-[var(--text-primary)] font-medium leading-snug mb-2">
                     {pillar.title}
                   </p>
                   <p className="text-sm xl:text-base text-[var(--text-secondary)] font-light leading-relaxed">
-                    {pillar.body}
+                    {pillar.description}
                   </p>
                 </div>
               ))}
@@ -346,7 +364,10 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
               make a space feel complete.
             </p>
             <p className="mt-6 text-sm lg:text-base text-[var(--text-secondary)] font-light leading-relaxed max-w-lg">
-              Authorized partner for leading architectural hardware, security and kitchen brands. Open Monday to Sunday, 10:00 AM – 8:00 PM.
+              Authorized partner for leading architectural hardware, security and kitchen brands.
+            </p>
+            <p className="mt-3 text-sm lg:text-base text-[var(--text-primary)] leading-relaxed whitespace-pre-line">
+              {showroomHours || SHOWROOM_HOURS_FALLBACK}
             </p>
           </div>
           
