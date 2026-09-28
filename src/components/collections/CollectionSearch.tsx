@@ -10,6 +10,7 @@ import {
   buildSearchZeroResultMessage,
 } from "@/lib/integrations/whatsapp";
 import { useConsultationStore } from "@/components/consultation/store";
+import { categoryFamily, categoryHref, collectionHref } from "@/lib/collections/routes";
 
 export interface CollectionSearchProps {
   categories: Category[];
@@ -40,6 +41,13 @@ export default function CollectionSearch({
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { openDrawer } = useConsultationStore();
+
+  // Products only carry a category slug. Resolve its family here so a product
+  // result links to the family page that now holds its category (Phase 12).
+  const familyByCategorySlug = useMemo(
+    () => new Map(categories.map((c) => [getSlugString(c.slug), categoryFamily(c)])),
+    [categories]
+  );
 
   // Debounce keystrokes (150ms)
   useEffect(() => {
@@ -192,7 +200,7 @@ export default function CollectionSearch({
                       return (
                         <Link
                           key={cat._id || cat.id || slug}
-                          href={`/collections/${slug}`}
+                          href={categoryHref(cat)}
                           onClick={() => {
                             setIsFocused(false);
                             onSelect?.({ kind: "category", slug });
@@ -224,7 +232,7 @@ export default function CollectionSearch({
                       return (
                         <Link
                           key={prod._id || prod.id || prod.name}
-                          href={`/collections/${catSlug}`}
+                          href={collectionHref(catSlug, familyByCategorySlug.get(catSlug))}
                           onClick={() => {
                             setIsFocused(false);
                             onSelect?.({ kind: "product", slug: catSlug });

@@ -7,6 +7,7 @@ import { ArrowLeft, Compass, CheckCircle2, ShieldCheck, Layers, MessageSquare } 
 import { Category, Product, SiteSettings, getSlugString } from "@/types/catalog";
 import ProductCard from "@/components/collections/ProductCard";
 import ProductDetailDrawer from "@/components/collections/ProductDetailDrawer";
+import FamilySections, { type FamilySection } from "@/components/collections/FamilySections";
 import { buildCategoryConsultMessage, buildEmptyCategoryMessage, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import { generateWhatsAppUrl } from "@/lib/config";
 import { useConsultationStore } from "@/components/consultation/store";
@@ -16,12 +17,18 @@ export interface CategoryDetailClientProps {
   category: Category;
   products: Product[];
   settings?: SiteSettings | null;
+  /**
+   * Set only on a showroom-family page (Phase 12): one entry per board item,
+   * replacing the single product catalogue below.
+   */
+  sections?: FamilySection[];
 }
 
 export default function CategoryDetailClient({
   category,
   products,
   settings,
+  sections,
 }: CategoryDetailClientProps) {
   const { openDrawer } = useConsultationStore();
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
@@ -198,7 +205,7 @@ export default function CategoryDetailClient({
                     <span className="text-xs text-[var(--text-secondary)] font-light">
                       Authorized Partners:{" "}
                       <strong className="text-[var(--text-primary)] font-normal">
-                        {category.brandRefs.join(", ")}
+                        {category.brandRefs.map((b) => b.name).join(", ")}
                       </strong>
                     </span>
                   </div>
@@ -289,7 +296,21 @@ export default function CategoryDetailClient({
         </section>
       )}
 
+      {/* Family pages list every board item as its own section (Phase 12) */}
+      {sections && (
+        <FamilySections
+          familyName={categoryTitle}
+          sections={sections}
+          settings={settings}
+          shortlist={shortlist}
+          onSelectProduct={setSelectedProduct}
+          onToggleShortlist={handleToggleShortlist}
+          displayImageFor={getProductDisplayImage}
+        />
+      )}
+
       {/* Product Catalog Section */}
+      {!sections && (
       <section className="py-16 md:py-24">
         <div className="max-w-[1320px] mx-auto px-6">
           <div className="max-w-3xl mb-12">
@@ -425,6 +446,7 @@ export default function CategoryDetailClient({
           )}
         </div>
       </section>
+      )}
 
       {/* Bottom Consultation CTA Section */}
       <section className="py-16 border-t border-[var(--border)] bg-[var(--surface-raised)]">

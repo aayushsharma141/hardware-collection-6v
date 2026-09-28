@@ -5,6 +5,9 @@ import { useMemo } from "react";
 import { useReducedMotion } from "motion/react";
 import { Category, getSlugString } from "@/types/catalog";
 import { SHOWROOM_FAMILIES } from "@/content/fallback/catalog";
+import { FAMILY_ROUTE_SLUGS, collectionHref, familyRouteSlug } from "@/lib/collections/routes";
+
+const FAMILY_PAGE_SLUGS = new Set<string>(FAMILY_ROUTE_SLUGS);
 
 export interface HardwareFamilyIndexProps {
   categories: Category[];
@@ -29,6 +32,11 @@ export default function HardwareFamilyIndex({ categories }: HardwareFamilyIndexP
     const byFamily = new Map<string, Category[]>();
 
     for (const category of categories) {
+      // The five family landing pages are themselves category documents, and
+      // each one lists its own family. Skip them, or every group would contain
+      // a link to the very page its heading already points at.
+      if (FAMILY_PAGE_SLUGS.has(getSlugString(category.slug))) continue;
+
       // `familySlugs` is the normalised name across both content sources.
       // `primaryRail` is the older single-value field and still the only
       // signal on categories that predate the families rollout.
@@ -85,7 +93,14 @@ export default function HardwareFamilyIndex({ categories }: HardwareFamilyIndexP
                       {String(i + 1).padStart(2, "0")}
                     </span>
                     <h3 className="hc-serif text-2xl sm:text-3xl md:text-4xl font-normal uppercase tracking-[0.01em] text-[var(--text-primary)]">
-                      {family.name}
+                      <Link
+                        href={`/collections/${familyRouteSlug(family.id)}`}
+                        className={`hc-focus inline-flex min-h-[44px] items-center hover:text-[var(--accent)] ${
+                          shouldReduceMotion ? "" : "transition-colors duration-150"
+                        }`}
+                      >
+                        {family.name}
+                      </Link>
                     </h3>
                   </div>
                   <p className="text-[var(--text-secondary)] text-sm md:text-base font-light leading-relaxed mt-3 lg:ml-[calc(1rem+1.25rem)] max-w-md">
@@ -93,14 +108,17 @@ export default function HardwareFamilyIndex({ categories }: HardwareFamilyIndexP
                   </p>
                 </div>
 
-                {/* Member collections — each one a real route */}
+                {/* Member collections — sections of the family page, not pages
+                    of their own (Phase 12). Linked under the family being
+                    browsed, so a two-family category like Drawer Channels
+                    keeps the visitor where they are. */}
                 <ul className="flex flex-wrap gap-x-2 gap-y-1 lg:flex-1 lg:content-start">
                   {members.map((category) => {
                     const slug = getSlugString(category.slug);
                     return (
                       <li key={category._id || category.id || slug}>
                         <Link
-                          href={`/collections/${slug}`}
+                          href={collectionHref(slug, family.id)}
                           className={`hc-focus inline-flex min-h-[44px] items-center rounded-sm px-3 py-2 text-sm md:text-base font-light text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--surface-raised)] ${
                             shouldReduceMotion ? "" : "transition-colors duration-150"
                           }`}

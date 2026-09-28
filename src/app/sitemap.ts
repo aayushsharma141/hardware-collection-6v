@@ -23,35 +23,75 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'weekly',
       priority: 0.8,
     },
+    // Phase 12: 11 routable collection pages (5 families + 6 spaces)
+    // digital-locks and mortise-door-locks are now 301 → /collections/door-hardware
+    // Family pages
+    {
+      url: `${baseUrl}/collections/handles-knobs`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/collections/door-hardware`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/collections/bathroom-hardware`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/collections/kitchen-wardrobes`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${baseUrl}/collections/furniture-hardware`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    // Space pages
     {
       url: `${baseUrl}/collections/entrance`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/collections/kitchen`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/collections/wardrobe`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.7,
     },
     {
-      url: `${baseUrl}/collections/digital-locks`,
+      url: `${baseUrl}/collections/bathroom`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.7,
     },
     {
-      url: `${baseUrl}/collections/mortise-door-locks`,
+      url: `${baseUrl}/collections/living-interior`,
       lastModified: now,
       changeFrequency: 'monthly',
-      priority: 0.8,
+      priority: 0.7,
+    },
+    {
+      url: `${baseUrl}/collections/commercial`,
+      lastModified: now,
+      changeFrequency: 'monthly',
+      priority: 0.7,
     },
     {
       url: `${baseUrl}/privacy`,

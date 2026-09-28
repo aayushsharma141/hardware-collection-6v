@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useReducedMotion } from "motion/react";
 import { Category, getSlugString } from "@/types/catalog";
+import { categoryHref } from "@/lib/collections/routes";
 
 export interface CompactCollectionGridProps {
   categories: Category[];
@@ -30,7 +31,7 @@ export default function CompactCollectionGrid({
         return (
           <Link
             key={category._id || category.id || slug}
-            href={`/collections/${slug}`}
+            href={categoryHref(category)}
             className="threshold-card hc-focus group block rounded-2xl bg-[var(--surface-raised)] border border-[var(--border)] p-5 md:p-6 transition-colors duration-150 hover:border-[var(--accent)] shadow-sm"
           >
             {/* Image Container — pinned to aspect-[4/3] (CLS gate) */}

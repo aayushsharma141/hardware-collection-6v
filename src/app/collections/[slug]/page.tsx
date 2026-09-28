@@ -2,48 +2,39 @@ import { notFound, redirect } from "next/navigation";
 import type { Metadata } from "next";
 import { client } from "@/content/sanity/client";
 import {
+  getFamilySections,
   getProductsByCategoryQuery,
-  getCategorySlugs,
-  getSpaceSlugs,
   getSiteSettings,
 } from "@/content/sanity/queries";
 import { resolveCollectionSlug } from "@/lib/collections/routing";
-import { getSlugString } from "@/types/catalog";
-import { CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
-import { SPACES } from "@/content/fallback/spaces";
+import {
+  FAMILY_ROUTE_SLUGS,
+  ROUTABLE_COLLECTION_SLUGS,
+  categoryFamily,
+} from "@/lib/collections/routes";
+import { getSlugString, type Category, type Product } from "@/types/catalog";
+import { PRODUCTS } from "@/content/fallback/catalog";
 import CategoryDetailClient from "@/components/collections/CategoryDetailClient";
+import type { FamilySection } from "@/components/collections/FamilySections";
 import SpaceLandingClient from "@/components/collections/SpaceLandingClient";
+
 
 export const revalidate = 60;
 
+/**
+ * Phase 12: only the 11 slugs in ROUTABLE_COLLECTION_SLUGS are served — five
+ * showroom families and six spaces. The 13 legacy category slugs redirect at
+ * the Next.js layer (next.config.ts), which runs before this route.
+ *
+ * `dynamicParams = false` is what actually enforces that. generateStaticParams
+ * alone only controls what is prerendered; with the default of `true`, every
+ * other category slug still exists in Sanity and would render on demand, so
+ * the 42 non-routable categories would stay live as pages of their own.
+ */
+export const dynamicParams = false;
+
 export async function generateStaticParams() {
-  try {
-    const [catDocs, spaceDocs] = await Promise.all([
-      getCategorySlugs(),
-      getSpaceSlugs(),
-    ]);
-
-    const catSlugs = (catDocs || []).map((d: string | { slug?: string }) =>
-      typeof d === "string" ? d : d?.slug || ""
-    );
-    const spaceSlugs = (spaceDocs || []).map((d: string | { slug?: string }) =>
-      typeof d === "string" ? d : d?.slug || ""
-    );
-
-    const fallbackSlugs = [
-      ...CATEGORIES.map((c) => c.slug),
-      ...SPACES.map((s) => s.slug),
-    ];
-
-    const allSlugs = Array.from(
-      new Set([...catSlugs, ...spaceSlugs, ...fallbackSlugs])
-    ).filter(Boolean);
-
-    return allSlugs.map((slug) => ({ slug }));
-  } catch (err) {
-    console.error("Error in generateStaticParams:", err);
-    return CATEGORIES.map((c) => ({ slug: c.slug }));
-  }
+  return ROUTABLE_COLLECTION_SLUGS.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -111,6 +102,35 @@ export default async function CollectionSlugPage({
       }
     }
     return <SpaceLandingClient space={resolution.space} settings={settings} />;
+  }
+
+  // Phase 12: a family page carries one section per member category. Each
+  // section takes its Sanity products and falls back to the curated PRODUCTS
+  // for that category — the same per-category fallback the old category pages
+  // used — so no product disappears when its category stops being a route.
+  if ((FAMILY_ROUTE_SLUGS as readonly string[]).includes(slug)) {
+    const family = categoryFamily(resolution.category);
+    const rows: Array<Category & { products?: Product[] }> = family
+      ? await getFamilySections(family, FAMILY_ROUTE_SLUGS)
+      : [];
+    const sections: FamilySection[] = rows.map(({ products: sanity, ...category }) => {
+      const memberSlug = getSlugString(category.slug);
+      return {
+        category,
+        products: sanity?.length
+          ? sanity
+          : PRODUCTS.filter((p) => p.categorySlug === memberSlug),
+      };
+    });
+
+    return (
+      <CategoryDetailClient
+        category={resolution.category}
+        products={[]}
+        sections={sections}
+        settings={settings}
+      />
+    );
   }
 
   // Parameterized GROQ fetch (T-9-02) with fallback to curated PRODUCTS

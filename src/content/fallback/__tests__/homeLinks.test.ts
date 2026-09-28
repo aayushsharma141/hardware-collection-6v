@@ -1,52 +1,60 @@
 import { describe, it, expect } from "vitest";
 import { CATEGORY_FAMILIES, SIGNATURE_PIECES } from "@/content/fallback/home";
-import { CATEGORIES } from "@/content/fallback/catalog";
-
-// Anticipated D-02 space slugs — pending final naming by 09-08. Not yet backed
-// by any code (no `@/content/fallback/spaces` module exists at Wave 0). Declared inline so
-// this test never imports a module that doesn't exist yet.
-const ANTICIPATED_SPACE_SLUGS = [
-  "kitchen",
-  "entrance",
-  "wardrobe",
-  "bathroom",
-  "living-interior",
-  "commercial",
-];
+import { CATEGORIES, SHOWROOM_FAMILIES } from "@/content/fallback/catalog";
+import { ROUTABLE_COLLECTION_SLUGS, familyRouteSlug } from "@/lib/collections/routes";
 
 const ALL_HOME_LINKS = [...CATEGORY_FAMILIES, ...SIGNATURE_PIECES];
 
+// A real /collections/[slug] route, optionally pointing at a section of that
+// page by anchor. Never a query string: `?category=` was the filter UI that
+// D-18/D-25 removed.
+const ROUTE_SHAPE = /^\/collections\/([a-z0-9-]+)(?:#([a-z0-9-]+))?$/;
+
 describe("Homepage deep links resolve to real routes (D-25/F-05)", () => {
   it("uses a real single-segment /collections/[slug] route, not a query-string filter", () => {
-    const routeShape = /^\/collections\/[a-z0-9-]+$/;
-
-    // EXPECTED RED today: every href in CATEGORY_FAMILIES/SIGNATURE_PIECES is
-    // still `/collections?category=...` (optionally with `&brand=...`). This
-    // goes green once 09-17 repoints the links to real routes.
     ALL_HOME_LINKS.forEach((link) => {
-      expect(link.href).toMatch(routeShape);
+      expect(link.href).toMatch(ROUTE_SHAPE);
+      expect(link.href).not.toContain("?");
     });
   });
 
-  it("resolves the slug segment of any real-route href to a known category or space", () => {
-    const routeShape = /^\/collections\/([a-z0-9-]+)$/;
-    const knownSlugs = [
-      ...CATEGORIES.map((c) => c.slug),
-      ...ANTICIPATED_SPACE_SLUGS,
+  it("targets one of the 11 routable slugs (Phase 12)", () => {
+    // /collections/[slug] sets `dynamicParams = false`: any slug outside
+    // ROUTABLE_COLLECTION_SLUGS is a hard 404, even if a category document by
+    // that name exists in the CMS.
+    ALL_HOME_LINKS.forEach((link) => {
+      const slug = link.href.match(ROUTE_SHAPE)?.[1];
+      expect(ROUTABLE_COLLECTION_SLUGS, link.href).toContain(slug);
+    });
+  });
+
+  it("sends a link labelled with a family name to that family's page", () => {
+    // Guards two real bugs: under D-25 the "Handles & Knobs" card linked to the
+    // Living / Interior space, and a reel card labelled "Door Hardware" once
+    // opened the Handles & Knobs page.
+    const routeByFamilyName = new Map(
+      SHOWROOM_FAMILIES.map((f) => [f.name, familyRouteSlug(f.id)])
+    );
+    const labelled = [
+      ...CATEGORY_FAMILIES.map((c) => ({
+        label: [c.name, c.nameBreak].filter(Boolean).join(" "),
+        href: c.href,
+      })),
+      ...SIGNATURE_PIECES.map((p) => ({ label: p.category, href: p.href })),
     ];
 
-    // Vacuously passes today: no href in ALL_HOME_LINKS currently matches the
-    // route-shape regex (case 1 above fails for all of them), so this filter
-    // yields an empty array. Becomes the real dangling-slug guard once 09-17
-    // repoints the links to /collections/[slug].
-    const realRouteLinks = ALL_HOME_LINKS.filter((link) =>
-      routeShape.test(link.href)
-    );
+    for (const { label, href } of labelled) {
+      const familyRoute = routeByFamilyName.get(label);
+      if (!familyRoute) continue;
+      expect(href.match(ROUTE_SHAPE)?.[1], `"${label}" -> ${href}`).toBe(familyRoute);
+    }
+  });
 
-    realRouteLinks.forEach((link) => {
-      const match = link.href.match(routeShape);
-      const slug = match?.[1];
-      expect(knownSlugs).toContain(slug);
+  it("anchors only to sections that name a real category", () => {
+    const categorySlugs = new Set(CATEGORIES.map((c) => c.slug));
+    ALL_HOME_LINKS.forEach((link) => {
+      const anchor = link.href.match(ROUTE_SHAPE)?.[2];
+      if (anchor) expect(categorySlugs.has(anchor), link.href).toBe(true);
     });
   });
 });

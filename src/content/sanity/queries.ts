@@ -265,7 +265,8 @@ export async function getSiteSettings() {
 export const getCategoryBySlugQuery = groq`
   *[_type == "category" && slug.current == $slug][0] {
     _id, name, "slug": slug.current, eyebrow, description, overview,
-    cardVariant, families, primaryRail, suitableFor, keyFeatures, icon,
+    cardVariant, families, "familySlugs": coalesce(families, []), primaryRail,
+    suitableFor, keyFeatures, icon,
     "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip,
     "heroImageUrl": heroImage.asset->url, "heroImageLqip": heroImage.asset->metadata.lqip,
     "galleryUrls": gallery[].asset->url,
@@ -273,6 +274,45 @@ export const getCategoryBySlugQuery = groq`
     searchKeywords, whatsappMessage, featured, displayOrder, seo, cta
   }
 `;
+
+/**
+ * Phase 12: a family page renders one section per member category, in board
+ * order, each carrying its own products. The five family landing pages are
+ * themselves category documents that list their own family, so they are
+ * excluded through $exclude.
+ */
+export const getFamilySectionsQuery = groq`
+  *[_type == "category" && $family in families && !(slug.current in $exclude)]
+    | order(displayOrder asc, name asc) {
+    _id, name, "slug": slug.current, eyebrow, description, keyFeatures, whatsappMessage,
+    "familySlugs": coalesce(families, []),
+    "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url },
+    "products": *[_type == "product" && category._ref == ^._id] | order(name asc) {
+      _id,
+      name,
+      "slug": slug.current,
+      "brandName": brand->name,
+      "categorySlug": category->slug.current,
+      shortDescription,
+      "imageUrl": images[0].asset->url,
+      "imageLqip": images[0].asset->metadata.lqip,
+      catalogReference,
+      "subcategorySlug": subcategory->slug.current,
+      "collectionSlugs": curatedCollections[]->slug.current,
+      "officialFiles": officialFiles[].asset->url,
+      seo,
+      cta
+    }
+  }
+`;
+export async function getFamilySections(family: string, exclude: readonly string[]) {
+  try {
+    return await client.fetch(getFamilySectionsQuery, { family, exclude });
+  } catch (error) {
+    console.error("Sanity fetch error (getFamilySections):", error);
+    return [];
+  }
+}
 export async function getCategoryBySlug(slug: string) {
   try {
     return await client.fetch(getCategoryBySlugQuery, { slug });
