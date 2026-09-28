@@ -49,9 +49,9 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
           <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
             Authorized Reference Library
           </span>
-          <h2 className="hc-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.0] mb-5">
+          <h1 className="hc-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.0] mb-5">
             Official Brand Partners & Catalogs
-          </h2>
+          </h1>
           <p className="text-base sm:text-xl leading-relaxed text-[var(--text-secondary)] font-light max-w-3xl">
             Access the complete technical specifications and product lines of our authorized partners. 
             Click any brand card to view the official catalog or visit their manufacturer portal.
@@ -129,6 +129,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                         src={logoSrc}
                         alt={`${displayName} Logo`}
                         fill
+                        sizes="220px"
                         className={`object-contain object-left transition-transform duration-300 group-hover:scale-105 ${meta.imageClass || ""}`}
                         unoptimized={typeof logoSrc === "string" && logoSrc.endsWith(".svg")}
                       />

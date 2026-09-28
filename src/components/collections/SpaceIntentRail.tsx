@@ -100,7 +100,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
             isDragging ? "snap-none cursor-grabbing" : "snap-x snap-mandatory cursor-grab"
           }`}
         >
-          {spaces.map((space) => {
+          {spaces.map((space, index) => {
             const slug =
               typeof space.slug === "string"
                 ? space.slug
@@ -117,7 +117,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
 
             return (
               <Link
-                key={(" _id" in space && (space as { _id?: string })._id) || slug}
+                key={("_id" in space && (space as { _id?: string })._id) || slug}
                 role="listitem"
                 href={`/collections/${slug}`}
                 draggable={false}
@@ -129,6 +129,8 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                   alt={space.name}
                   fill
                   draggable={false}
+                  // The first card is the page's largest paint.
+                  priority={index === 0}
                   sizes="(max-width: 640px) 85vw, (max-width: 1024px) 46vw, 30vw"
                   className={`object-cover pointer-events-none ${
                     shouldReduceMotion

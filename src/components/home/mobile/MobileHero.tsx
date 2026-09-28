@@ -97,7 +97,8 @@ export default function MobileHero({ slides }: MobileHeroProps) {
           alt="Brass lever handle on a dark door in the Hardware Collection showroom"
           fill
           priority
-          sizes="100vw"
+          // lg:hidden: a 1px slot keeps desktops from preloading this full-width image.
+          sizes="(max-width: 1023px) 100vw, 1px"
           className="mobile-hero-bg object-cover will-change-transform transition-opacity duration-500
             sepia-[0.22] saturate-[1.25] contrast-[1.04] brightness-[1.02]"
         />

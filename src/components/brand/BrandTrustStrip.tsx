@@ -44,8 +44,8 @@ export default function BrandTrustStrip() {
         <Image
           src={brand.logo}
           alt={brand.name}
-          width={200}
-          height={80}
+          width={400}
+          height={160}
           sizes="(max-width: 640px) 120px, (max-width: 1024px) 160px, 200px"
           className={`
             object-contain

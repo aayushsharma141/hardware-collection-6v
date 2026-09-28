@@ -152,7 +152,8 @@ export default function HeroStage({ slides }: HeroStageProps) {
         className="hero-bg-image absolute inset-0 h-full w-full object-cover opacity-[0.45] transition-opacity duration-700 will-change-transform"
         fill
         priority
-        sizes="100vw"
+        // Hidden below lg: a 1px slot keeps phones from preloading this full-width image.
+        sizes="(min-width: 1024px) 100vw, 1px"
         src={currentSlide.imageUrl || "/cinema/hero/HC-01-HERO-01.png"}
       />
       <div className="absolute inset-y-0 left-0 w-[62%] bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/[0.94] to-transparent" />
