@@ -72,6 +72,12 @@ export default function CategoryDiscovery() {
                   sizes="(max-width: 1024px) 50vw, 20vw"
                   src={cat.image}
                 />
+                {/* Scrim under the index: the brass numerals lose contrast on
+                    brightly lit photography (card 05's shelving). */}
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/55 to-transparent pointer-events-none"
+                />
                 <span className="absolute left-4 top-4 hc-mono text-xs tracking-[0.18em] font-semibold text-[#c8a96e]">
                   {cat.index}
                 </span>

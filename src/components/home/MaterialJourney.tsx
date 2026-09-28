@@ -122,7 +122,9 @@ export default function MaterialJourney() {
             pin: true,
             scrub: 1.2,
             start: "top top",
-            end: () => `+=${(totalPanels - 1) * window.innerHeight * 0.75}`,
+            // 0.6vh of scroll per panel: at 0.75 the five finishes pinned the
+            // page for ~2.7 screens, the longest stretch before any product.
+            end: () => `+=${(totalPanels - 1) * window.innerHeight * 0.6}`,
             invalidateOnRefresh: true,
           },
         });
@@ -429,12 +431,23 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
           <p className="text-[var(--text-primary)] font-light text-xl xl:text-2xl leading-relaxed max-w-xl mb-8">
             {mat.desc}
           </p>
-          <p
-            className="mat-spec text-[var(--text-secondary)] text-sm leading-relaxed max-w-md font-normal opacity-0"
-            style={{ whiteSpace: "pre-line" }}
-          >
-            {mat.spec.replace(" · ", "\n")}
-          </p>
+          {/* One row per "Key: value" pair. String.replace only swapped the
+              first separator, leaving the rest to wrap as one ragged run. */}
+          <dl className="mat-spec max-w-md space-y-2 border-l border-[var(--border)] pl-4 opacity-0">
+            {mat.spec.split(" · ").map((entry) => {
+              const [term, ...rest] = entry.split(": ");
+              return (
+                <div key={term} className="flex flex-wrap items-baseline gap-x-3">
+                  <dt className="hc-mono text-[11px] uppercase tracking-[0.18em] text-brass-ink font-semibold">
+                    {term}
+                  </dt>
+                  <dd className="text-[15px] text-[var(--text-secondary)] leading-snug">
+                    {rest.join(": ")}
+                  </dd>
+                </div>
+              );
+            })}
+          </dl>
           <Link
             href="/collections"
             className="mt-8 inline-flex items-center gap-2.5 text-brass-ink text-xs sm:text-sm tracking-widest uppercase font-semibold hover:text-[var(--accent)] hover:gap-4 transition-all duration-200"

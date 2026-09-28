@@ -85,7 +85,7 @@ export default function SpaceLandingClient({
               </p>
             )}
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4">
               <button
                 type="button"
                 onClick={() =>

@@ -215,10 +215,10 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 href={generateWhatsAppUrl("general-enquiry")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hc-focus h-[50px] xl:h-[54px] px-5 xl:px-7 bg-transparent border border-[#c8a96e]/70 hover:border-[#8b1a42] hover:bg-[#8b1a42] hover:text-white active:scale-[0.975] active:duration-100 text-[#1a1017] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] flex items-center gap-2.5 rounded transition-all duration-200 shadow-sm shrink-0"
+                className="group hc-focus h-[50px] xl:h-[54px] px-5 xl:px-7 bg-transparent border border-[#c8a96e]/70 hover:border-[#8b1a42] hover:bg-[#8b1a42] hover:text-white active:scale-[0.975] active:duration-100 text-[#1a1017] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] flex items-center gap-2.5 rounded transition-all duration-200 shadow-sm shrink-0"
               >
                 <MessageCircle className="w-4 h-4 text-[#c8a96e] group-hover:text-white" />
-                <span>WhatsApp The Showroom</span>
+                <span>WhatsApp Us</span>
               </a>
             </div>
 
