@@ -318,10 +318,13 @@ export default function Navbar({
                     key={link.id}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link)}
-                    className={`relative px-2.5 xl:px-4 py-1.5 text-[11.5px] xl:text-[12.5px] uppercase tracking-[0.14em] xl:tracking-[0.18em] rounded-full select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${
+                    /* 16px regular is the size the nav has actually shipped at
+                       (a global font reset was overriding these classes) and
+                       what --nav-brand-size was balanced against. */
+                    className={`relative px-2.5 xl:px-4 py-1.5 text-base leading-6 uppercase tracking-[0.14em] xl:tracking-[0.18em] rounded-full select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${
                       isActive
-                        ? "text-[#8b1a42] font-bold"
-                        : "text-[#8b1a42] font-semibold hover:text-[#6b1432] hover:bg-[#8b1a42]/[0.06]"
+                        ? "text-[#8b1a42] font-medium"
+                        : "text-[#8b1a42] font-normal hover:text-[#6b1432] hover:bg-[#8b1a42]/[0.06]"
                     }`}
                     style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                     aria-current={isActive ? "page" : undefined}

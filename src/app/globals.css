@@ -537,7 +537,14 @@ html.lenis, html.lenis body { height: auto; }
 }
 .hc-serif { font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif; }
 .hc-mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-.hc-root button, .hc-root a, .hc-root input { font: inherit; }
+/* Base layer, not unlayered: an unlayered rule outranks every @layer
+   utilities class regardless of specificity, and with .hc-root on <body> this
+   `font` shorthand was silently discarding the text-*, font-* and leading-*
+   classes on every link and button on the site. Here it only fills in for
+   controls that declare no type styles of their own. */
+@layer base {
+  .hc-root button, .hc-root a, .hc-root input { font: inherit; }
+}
 .hc-focus:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
 
 /* Underline sweep — wine on interactive elements */
