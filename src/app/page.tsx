@@ -59,7 +59,7 @@ const fallbackHeroSlides = [
     eyebrow: "CURATED SELECTION · SAKCHI",
     title: "Curated For\nDiscriminating Spaces.",
     description:
-      "Biometric security, German kitchen systems, precision door handles, and luxury bathroom fittings engineered for tactile longevity.",
+      "Biometric security, German kitchen systems, precision door handles, and bathroom accessories engineered for tactile longevity.",
     primaryCta: "Explore Collections",
     ctaTarget: "/collections",
     imageUrl: "/cinema/categories/HC-03-DOORS.png",

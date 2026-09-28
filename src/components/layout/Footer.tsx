@@ -11,9 +11,6 @@ import {
   Clock,
   ShieldCheck,
   Award,
-  UserCheck,
-  Package,
-  Headphones,
   MessageCircle,
   DoorClosed,
   GripHorizontal,
@@ -55,7 +52,7 @@ const SPECIMEN_CATEGORIES = [
   { name: "Handles & Knobs", slug: "handles-knobs", icon: GripHorizontal },
   { name: "Modular Kitchen Systems", slug: "kitchen", icon: UtensilsCrossed },
   { name: "Biometric & Digital Locks", slug: "door-hardware#digital-locks", icon: Fingerprint },
-  { name: "Luxury Bathroom Suites", slug: "bathroom", icon: Bath },
+  { name: "Bathroom Accessories", slug: "bathroom", icon: Bath },
   { name: "Furniture Hardware", slug: "furniture-hardware", icon: Layers },
 ];
 
@@ -67,29 +64,6 @@ const FALLBACK_BRANDS = [
   { name: "GODREJ", slug: "godrej" },
   { name: "PANS", slug: "pans" },
   { name: "GEZE", slug: "geze" },
-];
-
-const TRUST_PILLARS_FOOTER = [
-  {
-    title: "PREMIUM QUALITY",
-    subtitle: "Curated from world-class brands",
-    icon: Award,
-  },
-  {
-    title: "EXPERT GUIDANCE",
-    subtitle: "Personalized consultation",
-    icon: UserCheck,
-  },
-  {
-    title: "COMPLETE SOLUTIONS",
-    subtitle: "For every space and every need",
-    icon: Package,
-  },
-  {
-    title: "RELIABLE SUPPORT",
-    subtitle: "Before & after your purchase",
-    icon: Headphones,
-  },
 ];
 
 export default function Footer({ settings, brands }: FooterProps) {
@@ -305,20 +279,28 @@ export default function Footer({ settings, brands }: FooterProps) {
               <div className="w-8 h-8 rounded-lg bg-[#c8a96e]/15 flex items-center justify-center text-[#8b1a42] shrink-0">
                 <Clock className="w-4 h-4" />
               </div>
-              <div className="space-y-2">
-                <div>
-                  <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#8b1a42]">
-                    SUNDAY TO MONDAY
-                  </p>
-                  <p className="text-xs text-[#2e232b]">10:00 AM – 8:00 PM</p>
+              {/* Site Settings owns the hours; the hardcoded pair only renders
+                  while that field is empty in the Studio. */}
+              {settings?.showroomHours ? (
+                <p className="text-xs text-[#2e232b] leading-relaxed whitespace-pre-line">
+                  {settings.showroomHours}
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  <div>
+                    <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#8b1a42]">
+                      SUNDAY TO MONDAY
+                    </p>
+                    <p className="text-xs text-[#2e232b]">10:00 AM – 8:00 PM</p>
+                  </div>
+                  <div className="pt-1 border-t border-[#1a1017]/[0.08]">
+                    <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#8b1a42]">
+                      TUESDAY
+                    </p>
+                    <p className="text-xs text-[#2e232b]">10:00 AM – 2:00 PM</p>
+                  </div>
                 </div>
-                <div className="pt-1 border-t border-[#1a1017]/[0.08]">
-                  <p className="text-[10.5px] font-bold uppercase tracking-[0.14em] text-[#8b1a42]">
-                    TUESDAY
-                  </p>
-                  <p className="text-xs text-[#2e232b]">10:00 AM – 2:00 PM</p>
-                </div>
-              </div>
+              )}
             </div>
 
             {/* CTAs */}
@@ -367,41 +349,6 @@ export default function Footer({ settings, brands }: FooterProps) {
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Bottom Trust Strip (4 Pillars with Sketch) */}
-        <div className="py-8 border-b border-[#1a1017]/[0.08] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6 items-center">
-          {/* Sketch / Brand Mark */}
-          <div className="hidden lg:flex items-center justify-center p-3 rounded-xl bg-[#fbf5ea] border border-[#1a1017]/[0.06] text-center">
-            <div>
-              <p className="hc-serif text-lg font-normal tracking-wide text-[#8b1a42]">
-                Hardware Collection
-              </p>
-              <p className="text-[10px] uppercase tracking-[0.2em] text-[#7a6872] mt-0.5">
-                Sakchi Flagship Showroom
-              </p>
-            </div>
-          </div>
-
-          {/* 4 Trust Indicators */}
-          {TRUST_PILLARS_FOOTER.map((pillar) => {
-            const Icon = pillar.icon;
-            return (
-              <div key={pillar.title} className="flex items-center gap-3 group">
-                <div className="w-10 h-10 rounded-full bg-[#c8a96e]/10 flex items-center justify-center text-[#c8a96e] group-hover:bg-[#8b1a42]/10 group-hover:text-[#8b1a42] transition-colors shrink-0">
-                  <Icon className="w-5 h-5 stroke-[1.5]" />
-                </div>
-                <div>
-                  <h6 className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#1a1017]">
-                    {pillar.title}
-                  </h6>
-                  <p className="text-xs text-[#7a6872] leading-tight mt-0.5">
-                    {pillar.subtitle}
-                  </p>
-                </div>
-              </div>
-            );
-          })}
         </div>
 
         {/* Sub-Footer Bar */}

@@ -33,28 +33,18 @@ const SHOWROOM_IMAGE_ALT =
 
 const TOP_BRANDS = "HÄFELE · BLUM · DORSET · LABACHA · TATTVA";
 
+// Years and brand count are carried by the stat cards beside the photograph
+// (and the stat pair on mobile), so the pillars only hold what those don't.
 const PILLARS = [
   {
-    id: "trust",
-    index: "01",
-    title: "10+ Years of Local Trust",
-    body: "Over a decade of hardware experience, built in Jamshedpur.",
-  },
-  {
-    id: "brands",
-    index: "02",
-    title: "20+ Authorized Brands",
-    body: "Genuine products, sourced through official partnerships.",
-  },
-  {
     id: "selection",
-    index: "03",
+    index: "01",
     title: "Expert Selection",
     body: "Guidance for homeowners, architects, designers and contractors.",
   },
   {
     id: "showroom",
-    index: "04",
+    index: "02",
     title: "Premium Showroom",
     body: "See, compare and handle every finish before you decide.",
   },
@@ -180,18 +170,11 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
               <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase mb-3">
                 OUR LEGACY
               </p>
-              <h2 className="hc-serif text-6xl xl:text-7xl 2xl:text-8xl font-light text-[var(--text-primary)] leading-[0.95] tracking-[-0.01em] mb-8">
+              <h2 className="hc-serif text-6xl xl:text-7xl 2xl:text-8xl font-light text-[var(--text-primary)] leading-[0.95] tracking-[-0.01em] mb-10">
                 Hardware that
                 <br />
                 <span className="text-[var(--text-secondary)]">completes the space.</span>
               </h2>
-              <p className="hc-mono text-xs tracking-[0.2em] uppercase font-medium text-[var(--text-secondary)] mb-10">
-                10+ Years of Trust
-                <span className="text-[var(--accent)] mx-3">·</span>
-                20+ Authorized Brands
-                <span className="text-[var(--accent)] mx-3">·</span>
-                One Destination
-              </p>
             </FadeIn>
 
             <FadeIn delay={0.1}>
@@ -307,7 +290,7 @@ export default function AboutStory({ id = "about" }: { id?: string }) {
               transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
               className="absolute top-0 left-0 right-0 h-[1px] bg-[var(--border)] origin-left"
             />
-            <div className="grid grid-cols-4 gap-12">
+            <div className="grid grid-cols-2 gap-12 max-w-4xl">
               {PILLARS.map((pillar, idx) => (
                 <div
                   key={pillar.id}
