@@ -5,36 +5,42 @@ export const productType = defineType({
   title: "Product",
   type: "document",
   groups: [
-    { name: "essentials", title: "Essentials" },
-    { name: "description", title: "Description" },
-    { name: "photos", title: "Photos" },
-    { name: "whereItBelongs", title: "Where it belongs" },
-    { name: "files", title: "Files" },
+    { name: "identity", title: "Identity" },
+    { name: "presentation", title: "Presentation" },
+    { name: "productInfo", title: "Product Information" },
+    { name: "technicalInfo", title: "Technical Information" },
+    { name: "conversion", title: "Conversion" },
     { name: "seo", title: "SEO" },
+    { name: "editorial", title: "Editorial" },
   ],
   fields: [
+    // Identity
     defineField({
       name: "name",
       title: "Product Name",
       type: "string",
-      group: "essentials",
+      group: "identity",
       validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "catalogReference",
+      title: "Catalog Reference",
+      type: "string",
+      group: "identity",
     }),
     defineField({
       name: "slug",
       title: "Web address (slug)",
       type: "slug",
-      group: "essentials",
-      options: {
-        source: "name",
-      },
+      group: "identity",
+      options: { source: "name" },
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "brand",
       title: "Brand",
       type: "reference",
-      group: "whereItBelongs",
+      group: "identity",
       to: [{ type: "brand" }],
       validation: (rule) => rule.required(),
     }),
@@ -42,31 +48,31 @@ export const productType = defineType({
       name: "category",
       title: "Category",
       type: "reference",
-      group: "whereItBelongs",
+      group: "identity",
       to: [{ type: "category" }],
       validation: (rule) => rule.required(),
     }),
     defineField({
-      name: "subcategory",
-      title: "Subcategory",
-      type: "reference",
-      group: "whereItBelongs",
-      to: [{ type: "subcategory" }],
-      description: "Optional: The specific subcategory this product belongs to.",
+      name: "featured",
+      title: "Featured Product",
+      type: "boolean",
+      group: "identity",
+      initialValue: false,
     }),
     defineField({
-      name: "curatedCollections",
-      title: "Curated Collections",
-      type: "array",
-      group: "whereItBelongs",
-      of: [{ type: "reference", to: [{ type: "curatedCollection" }] }],
-      description: "Optional: Merchandising collections this product belongs to (e.g., 'Italian Collection').",
+      name: "showroomDisplay",
+      title: "Showroom Display",
+      type: "boolean",
+      group: "identity",
+      initialValue: false,
     }),
+
+    // Presentation
     defineField({
       name: "shortDescription",
       title: "Short Description",
       type: "text",
-      group: "description",
+      group: "presentation",
       rows: 3,
       validation: (rule) => rule.required(),
     }),
@@ -74,132 +80,132 @@ export const productType = defineType({
       name: "overview",
       title: "Overview",
       type: "array",
-      group: "description",
+      group: "presentation",
       of: [{ type: "block" }],
     }),
+    defineField({
+      name: "heroImage",
+      title: "Hero Image",
+      type: "image",
+      group: "presentation",
+      options: { hotspot: true },
+      validation: (rule) => rule.required(),
+    }),
+    defineField({
+      name: "productGallery",
+      title: "Product Gallery",
+      type: "array",
+      group: "presentation",
+      of: [{ type: "image", options: { hotspot: true } }],
+    }),
+
+    // Product Information
     defineField({
       name: "features",
       title: "Features",
       type: "array",
-      group: "description",
-      of: [{ type: "string" }],
-    }),
-    defineField({
-      name: "searchKeywords",
-      title: "Search Keywords / Synonyms",
-      type: "array",
-      group: "seo",
-      of: [{ type: "string" }],
-    }),
-    defineField({
-      name: "specifications",
-      title: "Specifications",
-      type: "array",
-      group: "description",
-      of: [
-        {
-          type: "object",
-          fields: [
-            { name: "key", title: "Key", type: "string" },
-            { name: "value", title: "Value", type: "string" },
-          ],
-        },
-      ],
-    }),
-    defineField({
-      name: "finishes",
-      title: "Available Finishes",
-      type: "array",
-      group: "description",
+      group: "productInfo",
       of: [{ type: "string" }],
     }),
     defineField({
       name: "applications",
       title: "Applications",
       type: "array",
-      group: "description",
+      group: "productInfo",
       of: [{ type: "string" }],
     }),
     defineField({
-      name: "images",
-      title: "Product Photos",
+      name: "suitableFor",
+      title: "Suitable For",
       type: "array",
-      group: "photos",
-      validation: (rule) => rule.required().min(1),
+      group: "productInfo",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: 'Residential', value: 'Residential' },
+          { title: 'Commercial', value: 'Commercial' },
+          { title: 'Industrial', value: 'Industrial' },
+        ]
+      }
+    }),
+    defineField({
+      name: "materialFinish",
+      title: "Material & Finish Options",
+      type: "array",
+      group: "productInfo",
+      of: [{ type: "string" }],
+    }),
+
+    // Technical Information
+    defineField({
+      name: "specifications",
+      title: "Specifications",
+      type: "array",
+      group: "technicalInfo",
       of: [
         {
-          type: "image",
-          options: { hotspot: true },
+          type: "object",
+          fields: [
+            { name: "specName", title: "Specification Name", type: "string" },
+            { name: "specValue", title: "Specification Value", type: "string" },
+          ],
         },
       ],
     }),
+
+    // Conversion
     defineField({
-      name: "featured",
-      title: "Featured Product",
+      name: "whatsappCtaEnabled",
+      title: "WhatsApp CTA Enabled",
       type: "boolean",
-      group: "essentials",
-      initialValue: false,
+      group: "conversion",
+      initialValue: true,
     }),
     defineField({
-      name: "catalogReference",
-      title: "Catalog Reference Page",
-      description: "Page number or section in the official brand catalog",
+      name: "ctaMessage",
+      title: "CTA Message",
       type: "string",
-      group: "essentials",
+      group: "conversion",
+      description: "Pre-populated WhatsApp template. (e.g. 'Hi, I am interested in...')",
     }),
     defineField({
-      name: "showroomDisplay",
-      title: "On Display in Showroom",
-      description: "Is this product physically displayed in the Sakchi showroom?",
-      type: "boolean",
-      group: "essentials",
-      initialValue: false,
-    }),
-    defineField({
-      name: "officialFiles",
-      title: "Official Files (CAD/BIM/PDF)",
-      description: "Verified official files provided by the manufacturer",
+      name: "relatedProducts",
+      title: "Related Products",
       type: "array",
-      group: "files",
-      of: [{ 
-        type: "file", 
-        options: { storeOriginalFilename: true },
-        fields: [
-          { name: "assetTitle", title: "Asset Title", type: "string" },
-          { 
-            name: "assetType", 
-            title: "Asset Type", 
-            type: "string", 
-            options: { 
-              list: [
-                { title: 'Catalog', value: 'catalog' },
-                { title: 'Specification', value: 'specification' },
-                { title: 'Certificate', value: 'certificate' },
-                { title: 'CAD', value: 'cad' },
-                { title: 'Marketing', value: 'marketing' },
-                { title: 'Other', value: 'other' }
-              ] 
-            } 
-          },
-          { name: "version", title: "Version", type: "string" },
-          { name: "releaseDate", title: "Release Date", type: "date" }
-        ]
-      }],
+      group: "conversion",
+      of: [{ type: "reference", to: [{ type: "product" }] }],
     }),
-    
-    // --- NEW FIELDS (Additive for Phase 2) ---
+
+    // SEO
     defineField({
       name: "seo",
       title: "SEO Metadata",
       type: "seo",
       group: "seo",
     }),
+
+    // Editorial
+    defineField({
+      name: "editorial",
+      title: "Editorial Status",
+      type: "editorial",
+      group: "editorial",
+    }),
   ],
   preview: {
     select: {
       title: "name",
-      subtitle: "brand.name",
-      media: "images.0",
+      brand: "brand.name",
+      category: "category.name",
+      media: "heroImage",
+    },
+    prepare(selection) {
+      const { title, brand, category, media } = selection;
+      return {
+        title,
+        subtitle: `${brand || "No Brand"} • ${category || "No Category"}`,
+        media,
+      };
     },
   },
 });

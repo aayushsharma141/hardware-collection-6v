@@ -7,26 +7,28 @@ export const categoryType = defineType({
   title: "Category",
   type: "document",
   groups: [
-    { name: "essentials", title: "Essentials" },
-    { name: "description", title: "Description" },
-    { name: "photos", title: "Photos" },
-    { name: "whereItBelongs", title: "Where it belongs" },
-    { name: "files", title: "Files" },
+    { name: "identity", title: "Identity" },
+    { name: "content", title: "Content" },
+    { name: "applications", title: "Applications" },
+    { name: "media", title: "Media" },
+    { name: "catalogues", title: "Catalogues" },
     { name: "seo", title: "SEO" },
+    { name: "editorial", title: "Editorial" },
   ],
   fields: [
+    // Identity
     defineField({
       name: "name",
       title: "Category Name",
       type: "string",
-      group: "essentials",
+      group: "identity",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Web address (slug)",
       type: "slug",
-      group: "essentials",
+      group: "identity",
       options: {
         source: "name",
       },
@@ -54,17 +56,25 @@ export const categoryType = defineType({
           return true;
         }),
     }),
+    
+    // Content
     defineField({
       name: "eyebrow",
-      title: "Small line above the title (eyebrow)",
+      title: "Eyebrow Text",
       type: "string",
-      group: "description",
+      group: "content",
+    }),
+    defineField({
+      name: "icon",
+      title: "Icon Name",
+      type: "string",
+      group: "content",
     }),
     defineField({
       name: "description",
       title: "Short Description",
       type: "text",
-      group: "description",
+      group: "content",
       rows: 2,
       validation: (rule) => rule.required(),
     }),
@@ -72,182 +82,134 @@ export const categoryType = defineType({
       name: "overview",
       title: "Editorial Overview",
       type: "text",
-      group: "description",
+      group: "content",
       rows: 4,
-    }),
-    defineField({
-      name: "cardVariant",
-      title: "Card size in the grid (cardVariant)",
-      type: "string",
-      group: "essentials",
-      options: {
-        list: [
-          { title: "Standard (4-col)", value: "standard" },
-          { title: "Wide (8-col)", value: "wide" },
-          { title: "Feature (12-col)", value: "feature" },
-        ],
-        layout: "radio",
-      },
-      initialValue: "standard",
-    }),
-    defineField({
-      name: "families",
-      title: "Showroom Families",
-      type: "array",
-      group: "whereItBelongs",
-      of: [{ type: "string" }],
-      options: {
-        list: [
-          { title: "Handles & Knobs", value: "handles-knobs" },
-          { title: "Door Hardware", value: "door-hardware" },
-          { title: "Bathroom", value: "bathroom" },
-          { title: "Kitchen & Wardrobes", value: "kitchen-wardrobes" },
-          { title: "Furniture Hardware", value: "furniture-hardware" },
-        ],
-      },
-    }),
-
-    defineField({
-      name: "primaryRail",
-      title: "Primary Discovery Rail Group",
-      type: "string",
-      group: "whereItBelongs",
-      options: {
-        list: [
-          { title: "Handles & Knobs", value: "handles-knobs" },
-          { title: "Door Hardware", value: "door-hardware" },
-          { title: "Bathroom", value: "bathroom" },
-          { title: "Kitchen & Wardrobes", value: "kitchen-wardrobes" },
-          { title: "Furniture Hardware", value: "furniture-hardware" },
-          { title: "More Collections", value: "more" },
-        ],
-      },
-      initialValue: "door-hardware",
-    }),
-    defineField({
-      name: "suitableFor",
-      title: "Suitable For",
-      type: "array",
-      group: "whereItBelongs",
-      of: [{ type: "string" }],
-      options: {
-        list: [
-          { title: "Residential Villas & Apartments", value: "Residential" },
-          { title: "Commercial & Office Spaces", value: "Commercial" },
-          { title: "Hospitality & Luxury Hotels", value: "Hospitality" },
-        ],
-      },
-    }),
-    defineField({
-      name: "brands",
-      title: "Authorized Brands",
-      description:
-        "Brands this showroom is authorised to sell in this category. Shown on the family page. Order does not matter: brands are ranked by each brand's Display Order.",
-      type: "array",
-      group: "whereItBelongs",
-      of: [{ type: "reference", to: [{ type: "brand" }] }],
     }),
     defineField({
       name: "keyFeatures",
       title: "Key Features",
       type: "array",
-      group: "description",
+      group: "content",
       of: [{ type: "string" }],
     }),
+
+    // Applications
     defineField({
-      name: "searchKeywords",
-      title: "Search Keywords / Synonyms",
+      name: "suitableFor",
+      title: "Suitable For",
       type: "array",
-      group: "seo",
+      group: "applications",
       of: [{ type: "string" }],
-      description:
-        "Customer-language search terms this category should also match (e.g. 'cupboard slides' for Drawer Channels). Doubles as SEO keywords.",
-    }),
-    defineField({
-      name: "icon",
-      title: "Icon Name",
-      description: "Name of the lucide-react icon to use (e.g., Lock, ChefHat, Bath)",
-      type: "string",
-      group: "photos",
-    }),
-    defineField({
-      name: "image",
-      title: "Category Hero Image",
-      type: "image",
-      group: "photos",
       options: {
-        hotspot: true,
+        list: [
+          { title: "Residential", value: "Residential" },
+          { title: "Commercial", value: "Commercial" },
+          { title: "Industrial", value: "Industrial" },
+          { title: "Hospitality", value: "Hospitality" },
+        ],
       },
     }),
     defineField({
-      name: "heroImage",
-      title: "Cinematic Hero Image",
+      name: "applications",
+      title: "Applications",
+      type: "array",
+      group: "applications",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "materialFinishOptions",
+      title: "Material & Finish Options",
+      type: "array",
+      group: "applications",
+      of: [{ type: "string" }],
+    }),
+
+    // Media
+    defineField({
+      name: "categoryImage",
+      title: "Category Image",
       type: "image",
-      group: "photos",
+      group: "media",
       options: {
         hotspot: true,
       },
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "gallery",
       title: "Gallery",
       type: "array",
-      group: "photos",
+      group: "media",
       of: [{ type: "image", options: { hotspot: true } }],
+    }),
+
+    // Catalogues
+    defineField({
+      name: "catalogues",
+      title: "Catalogues",
+      type: "array",
+      group: "catalogues",
+      of: [{ type: "reference", to: [{ type: "catalogue" }] }],
+    }),
+
+    // UI Configuration
+    defineField({
+      name: "cardVariant",
+      title: "Card Variant",
+      type: "string",
+      group: "identity",
+      options: {
+        list: ["standard", "wide", "feature"],
+      },
+    }),
+    defineField({
+      name: "primaryRail",
+      title: "Primary Rail",
+      type: "string",
+      group: "identity",
     }),
     defineField({
       name: "displayOrder",
       title: "Display Order",
       type: "number",
-      group: "essentials",
+      group: "identity",
       initialValue: 0,
-    }),
-
-    defineField({
-      name: "verificationStatus",
-      title: "Data Verification Status",
-      type: "string",
-      group: "essentials",
-      options: {
-        list: [
-          { title: "Unverified (Pending Source)", value: "unverified" },
-          { title: "Brand Verified (Partner Mapped)", value: "brand_verified" },
-          { title: "Catalog Verified (PDF/Specs Confirmed)", value: "catalog_verified" },
-        ],
-        layout: "radio",
-      },
-      initialValue: "unverified",
-    }),
-    defineField({
-      name: "whatsappMessage",
-      title: "WhatsApp Consultation Message Template",
-      type: "text",
-      group: "description",
-      rows: 2,
     }),
     defineField({
       name: "featured",
-      title: "Featured on Homepage",
+      title: "Featured",
       type: "boolean",
-      group: "essentials",
+      group: "identity",
       initialValue: false,
     }),
-    
-    // --- NEW FIELDS (Additive for Phase 2) ---
+
+    // SEO
+    defineField({
+      name: "whatsappMessage",
+      title: "WhatsApp Message Template",
+      type: "text",
+      group: "seo",
+      rows: 2,
+    }),
     defineField({
       name: "seo",
       title: "SEO Metadata",
       type: "seo",
       group: "seo",
     }),
+
+    // Editorial
+    defineField({
+      name: "editorial",
+      title: "Editorial Status",
+      type: "editorial",
+      group: "editorial",
+    }),
   ],
   preview: {
     select: {
       title: "name",
       subtitle: "description",
-      media: "image",
+      media: "categoryImage",
     },
   },
 });
-

@@ -4,128 +4,158 @@ export const brandType = defineType({
   name: "brand",
   title: "Brand",
   type: "document",
+  groups: [
+    { name: "identity", title: "Identity" },
+    { name: "story", title: "Brand Story" },
+    { name: "categories", title: "Categories" },
+    { name: "assets", title: "Internal Assets" },
+    { name: "visibility", title: "Visibility" },
+    { name: "editorial", title: "Editorial" },
+  ],
   fields: [
+    // Identity
     defineField({
       name: "name",
       title: "Brand Name",
       type: "string",
+      group: "identity",
       validation: (rule) => rule.required(),
     }),
     defineField({
       name: "slug",
       title: "Slug",
       type: "slug",
-      options: {
-        source: "name",
-      },
+      group: "identity",
+      options: { source: "name" },
       validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "authorizedStatus",
-      title: "Authorized Status",
-      type: "string",
-      description: "e.g., 'Authorized Dealer' or 'Authorized Distributor'",
     }),
     defineField({
       name: "logo",
       title: "Brand Logo",
       type: "image",
-      options: {
-        hotspot: true,
-      },
-      validation: (rule) => rule.required(),
+      group: "identity",
+      options: { hotspot: true },
     }),
     defineField({
-      name: "description",
-      title: "Description / Tagline",
-      type: "text",
-      validation: (rule) => rule.required(),
-    }),
-    defineField({
-      name: "website",
-      title: "Official Website",
-      type: "url",
-    }),
-    defineField({
-      name: "catalogType",
-      title: "How is the catalog provided?",
+      name: "country",
+      title: "Country of Origin",
       type: "string",
-      options: {
-        list: [
-          { title: "Upload PDF", value: "upload" },
-          { title: "External URL", value: "url" },
-        ],
-        layout: "radio",
-      },
-      initialValue: "upload",
+      group: "identity",
     }),
     defineField({
-      name: "officialCatalogs",
-      title: "Official Catalogs (PDFs)",
-      description: "Uploaded official catalog PDFs.",
-      type: "array",
-      of: [
-        {
-          type: "file",
-          options: {
-            storeOriginalFilename: true,
-            accept: ".pdf",
-          },
-          fields: [
-            { name: "assetTitle", title: "Asset Title", type: "string" },
-            { 
-              name: "assetType", 
-              title: "Asset Type", 
-              type: "string", 
-              options: { 
-                list: [
-                  { title: 'Catalog', value: 'catalog' },
-                  { title: 'Specification', value: 'specification' },
-                  { title: 'Certificate', value: 'certificate' },
-                  { title: 'CAD', value: 'cad' },
-                  { title: 'Marketing', value: 'marketing' },
-                  { title: 'Other', value: 'other' }
-                ] 
-              } 
-            },
-            { name: "version", title: "Version", type: "string" },
-            { name: "releaseDate", title: "Release Date", type: "date" }
-          ]
-        }
-      ],
-      hidden: ({ parent }) => parent?.catalogType === 'url',
-    }),
-    defineField({
-      name: "officialCatalogUrl",
-      title: "Official Catalog (External URL)",
-      description: "Link to an external official catalog.",
-      type: "url",
-      hidden: ({ parent }) => parent?.catalogType !== 'url',
+      name: "authorizedStatus",
+      title: "Authorized Status",
+      type: "string",
+      group: "identity",
     }),
     defineField({
       name: "displayOrder",
       title: "Display Order",
       type: "number",
-      initialValue: 0,
+      group: "identity",
     }),
     defineField({
       name: "featured",
       title: "Featured",
       type: "boolean",
+      group: "identity",
+    }),
+
+    // Story
+    defineField({
+      name: "description",
+      title: "Tagline/Short Description",
+      type: "string",
+      group: "story",
+    }),
+    defineField({
+      name: "brandPositioning",
+      title: "Brand Positioning (Internal)",
+      type: "string",
+      group: "story",
+      description: "e.g., Premium, Luxury, Standard",
+    }),
+    defineField({
+      name: "brandStory",
+      title: "Brand Story",
+      type: "array",
+      group: "story",
+      of: [{ type: "block" }],
+    }),
+    defineField({
+      name: "knownFor",
+      title: "Known For",
+      type: "string",
+      group: "story",
+    }),
+    defineField({
+      name: "usp",
+      title: "Unique Selling Proposition (USP)",
+      type: "string",
+      group: "story",
+    }),
+
+    // Categories
+    defineField({
+      name: "popularCategories",
+      title: "Popular Categories",
+      type: "array",
+      group: "categories",
+      of: [{ type: "reference", to: [{ type: "category" }] }],
+    }),
+
+    // Assets (Internal)
+    defineField({
+      name: "officialCatalogue",
+      title: "Official Catalogue (Internal Reference)",
+      type: "file",
+      group: "assets",
+      options: { accept: ".pdf" },
+      description: "Use the Catalogue document type for public catalogues. This is for internal reference.",
+    }),
+    defineField({
+      name: "dealerCertificate",
+      title: "Dealer Certificate",
+      type: "file",
+      group: "assets",
+      options: { accept: ".pdf,image/*" },
+    }),
+    defineField({
+      name: "marketingAssets",
+      title: "Marketing Assets",
+      type: "array",
+      group: "assets",
+      of: [{ type: "file" }],
+    }),
+
+    // Visibility
+    defineField({
+      name: "showBrand",
+      title: "Show Brand on Website",
+      type: "boolean",
+      group: "visibility",
       initialValue: true,
     }),
-    
-    // --- NEW FIELDS (Additive for Phase 2) ---
     defineField({
-      name: "seo",
-      title: "SEO Metadata",
-      type: "seo",
+      name: "showOnHomepage",
+      title: "Show on Homepage",
+      type: "boolean",
+      group: "visibility",
+      initialValue: false,
+    }),
+
+    // Editorial
+    defineField({
+      name: "editorial",
+      title: "Editorial Status",
+      type: "editorial",
+      group: "editorial",
     }),
   ],
   preview: {
     select: {
       title: "name",
-      subtitle: "description",
+      subtitle: "country",
       media: "logo",
     },
   },
