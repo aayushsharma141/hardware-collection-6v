@@ -28,7 +28,7 @@ export const SHOWROOM_DEFAULT_WA_MESSAGE =
  */
 export const SHOWROOM_MAP_URL =
   process.env.NEXT_PUBLIC_SHOWROOM_MAP_URL ??
-  "https://maps.app.goo.gl/6qokJfpuQgfNwqZK9";
+  "https://www.google.com/maps/search/?api=1&query=Hardware+Collection+Jamshedpur";
 
 /** Builds a WhatsApp deep-link with an optional custom message. */
 export function buildWhatsAppUrl(message?: string, number?: string): string {

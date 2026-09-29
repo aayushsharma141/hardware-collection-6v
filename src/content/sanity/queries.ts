@@ -178,8 +178,8 @@ export async function getHomePage() {
     heroEyebrow,
     heroHeadline,
     heroDescription,
-    primaryCta,
-    secondaryCta,
+    primaryCta { label, "url": destination },
+    secondaryCta { label, "url": destination },
     "heroImageDesktopUrl": heroImageDesktop.asset->url,
     "heroImageDesktopLqip": heroImageDesktop.asset->metadata.lqip,
     "heroImageMobileUrl": heroImageMobile.asset->url,
@@ -200,14 +200,14 @@ export async function getHomePage() {
       "logoUrl": logo.asset->url 
     },
     "featuredCategoryRefs": featuredCategories[]->{ 
-      "categoryName": categoryName, 
+      "categoryName": name, 
       "slug": slug.current, 
       "imageUrl": categoryImage.asset->url 
     },
     "featuredProductRefs": featuredProducts[]->{ 
-      "productName": productName, 
+      "productName": name, 
       "slug": slug.current, 
-      "imageUrl": primaryImage.asset->url, 
+      "imageUrl": heroImage.asset->url, 
       "brandName": brand->name 
     },
     "showroomGalleryUrls": showroomGallery[].asset->url,
@@ -283,7 +283,7 @@ export const getCategoryBySlugQuery = groq`
  * excluded through $exclude.
  */
 export const getFamilySectionsQuery = groq`
-  *[_type == "category" && !(slug.current in $exclude)]
+  *[_type == "category" && primaryRail == $family && !(slug.current in $exclude)]
     | order(displayOrder asc, name asc) {
     _id, name, "slug": slug.current, eyebrow, description, keyFeatures, whatsappMessage,
     "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url, displayOrder },

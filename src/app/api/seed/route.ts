@@ -99,8 +99,8 @@ export async function POST(request: Request) {
       address: "1/18, Kashidih, Near Durga Puja Maidan,\nSakchi, Jamshedpur, Jharkhand 831001",
       openingHours: SHOWROOM_HOURS_FALLBACK,
       defaultWhatsappMessage: "Hi Hardware Collection, I would like to connect with your consultation desk regarding architectural hardware.",
-      googleMapsUrl: "https://maps.app.goo.gl/6qokJfpuQgfNwqZK9",
-      googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1m3!1d3677.7289568771146!2d86.2081123!3d22.8124967!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f5e31754020a67%3A0x6b7724fdbcb0e46a!2sHardware%20Collection!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
+      googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Hardware+Collection+Jamshedpur",
+      googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3677.674844391696!2d86.20150000000001!3d22.8028401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f5e3035e707e07%3A0x8f8ee13c908afec6!2sHardware%20Collection!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
       seo: {
         metaTitle: "Hardware Collection | Premium Architectural Hardware in Jamshedpur",
         metaDescription: "Authorized Hafele & Dorset Dealer in Sakchi, Jamshedpur. Premium architectural hardware and digital locks.",

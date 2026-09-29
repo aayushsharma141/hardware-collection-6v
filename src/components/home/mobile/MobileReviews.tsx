@@ -32,7 +32,7 @@ export default function MobileReviews({ reviews = [] }: { reviews?: Testimonial[
         {/* Rating pill in margin-padded container */}
         <div className="px-margin-mobile">
           <a
-            href="https://maps.app.goo.gl/6qokJfpuQgfNwqZK9"
+            href="https://www.google.com/maps/search/?api=1&query=Hardware+Collection+Jamshedpur"
             target="_blank"
             rel="noopener noreferrer"
             aria-label="4.4 stars from 50+ Google reviews - view the listing on Maps"

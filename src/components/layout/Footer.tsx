@@ -88,7 +88,7 @@ export default function Footer({ settings, brands }: FooterProps) {
     "Hi Hardware Collection, I would like to connect with your consultation desk regarding architectural hardware.";
   const mapsUrl =
     settings?.googleMapsUrl ||
-    "https://maps.app.goo.gl/6qokJfpuQgfNwqZK9";
+    "https://www.google.com/maps/search/?api=1&query=Hardware+Collection+Jamshedpur";
   const email = settings?.email || "info@hardwarecollection.in";
 
   const cleanPrimaryPhone = primaryPhone.replace(/\s+/g, "");

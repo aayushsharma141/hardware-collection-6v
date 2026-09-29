@@ -109,7 +109,7 @@ export default async function CollectionSlugPage({
   // for that category — the same per-category fallback the old category pages
   // used — so no product disappears when its category stops being a route.
   if ((FAMILY_ROUTE_SLUGS as readonly string[]).includes(slug)) {
-    const family = categoryFamily(resolution.category);
+    const family = categoryFamily(resolution.category) || slug;
     const rows: Array<Category & { products?: Product[] }> = family
       ? await getFamilySections(family, FAMILY_ROUTE_SLUGS)
       : [];
