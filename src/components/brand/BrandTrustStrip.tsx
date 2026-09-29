@@ -23,12 +23,15 @@ interface BrandTrustStripProps {
 export default function BrandTrustStrip({ brands }: BrandTrustStripProps) {
   // If we have sanity brands, map them to BrandItem. Otherwise use fallback.
   const activeBrands: BrandItem[] = brands && brands.length > 0 
-    ? brands.map(b => ({
-        name: b.brandName,
-        id: b.slug,
-        logo: b.logoUrl,
-        href: `/catalogs?brand=${b.slug}`
-      }))
+    ? brands.map(b => {
+        const canonical = CANONICAL_BRANDS.find(c => c.id === b.slug);
+        return {
+          name: b.brandName,
+          id: b.slug,
+          logo: b.logoUrl || canonical?.logo,
+          href: `/catalogs?brand=${b.slug}`
+        };
+      })
     : CANONICAL_BRANDS.map(b => ({ ...b, href: `/catalogs?brand=${b.id}` }));
 
   const half = Math.ceil(activeBrands.length / 2);

@@ -43,18 +43,21 @@ interface MobileProductReelProps {
 
 export default function MobileProductReel({ products }: MobileProductReelProps) {
   const activeProducts = products && products.length > 0
-    ? products.map((p, idx) => ({
-        index: `0${idx + 1}`,
-        brand: p.brandName || "Premium",
-        name: p.productName,
-        category: "Hardware",
-        finish: "Custom Finish",
-        statement: "Discover this architectural detail.",
-        blurb: "A timeless piece of architectural hardware.",
-        img: p.imageUrl || "",
-        href: `/catalogs?product=${p.slug}`,
-        sweepDelay: "0s",
-      }))
+    ? products.map((p, idx) => {
+        const fb = FEATURED[idx % FEATURED.length];
+        return {
+          index: `0${idx + 1}`,
+          brand: p.brandName || fb.brand,
+          name: p.productName,
+          category: fb.category,
+          finish: fb.finish,
+          statement: fb.statement,
+          blurb: fb.blurb,
+          img: p.imageUrl || fb.img,
+          href: `/catalogs?product=${p.slug}`,
+          sweepDelay: fb.sweepDelay,
+        };
+      })
     : FEATURED;
 
   const [openIndex, setOpenIndex] = useState(activeProducts[0]?.index || "01");

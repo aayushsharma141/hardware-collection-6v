@@ -28,17 +28,27 @@ interface MobileCategoryDiscoveryProps {
 
 export default function MobileCategoryDiscovery({ categories }: MobileCategoryDiscoveryProps) {
   const activeFamilies = categories && categories.length > 0
-    ? categories.map((c, idx) => ({
-        id: c.slug,
-        index: `0${idx + 1}`,
-        name: c.categoryName,
-        nameBreak: undefined,
-        subtitle: c.description || "Premium architectural hardware",
-        detail: "Explore the collection",
-        image: c.imageUrl || "",
-        href: `/catalogs?category=${c.slug}`,
-        isFocal: idx === 0,
-      }))
+    ? categories.map((c, idx) => {
+        const fallback = CATEGORY_FAMILIES.find(f =>
+          c.slug.includes(f.id) ||
+          f.id === "handles" && c.slug.includes("handle") ||
+          f.id === "door" && (c.slug.includes("door") || c.slug.includes("lock")) ||
+          f.id === "bathroom" && c.slug.includes("bath") ||
+          f.id === "kitchen" && (c.slug.includes("kitchen") || c.slug.includes("wardrobe")) ||
+          f.id === "furniture" && c.slug.includes("furniture")
+        ) || CATEGORY_FAMILIES[idx % CATEGORY_FAMILIES.length];
+        return {
+          id: c.slug,
+          index: `0${idx + 1}`,
+          name: c.categoryName,
+          nameBreak: undefined,
+          subtitle: c.description || fallback.subtitle,
+          detail: fallback.detail,
+          image: c.imageUrl || fallback.image,
+          href: `/catalogs?category=${c.slug}`,
+          isFocal: idx === 1,
+        };
+      })
     : CATEGORY_FAMILIES;
 
   const focal: CategoryFamily =

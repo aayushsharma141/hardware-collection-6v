@@ -49,7 +49,7 @@ interface ShowroomCinematicProps {
 
 export default function ShowroomCinematic({ images }: ShowroomCinematicProps) {
   const activeScenes = SCENES.map((scene, i) => {
-    if (images && images.length > i) {
+    if (images && images[i]) {
       return { ...scene, img: images[i] };
     }
     return scene;

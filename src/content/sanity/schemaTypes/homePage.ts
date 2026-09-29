@@ -42,14 +42,14 @@ export const homePageType = defineType({
     }),
     defineField({
       name: "primaryCta",
-      title: "Primary CTA Text",
-      type: "string",
+      title: "Primary CTA",
+      type: "cta",
       group: "hero",
     }),
     defineField({
       name: "secondaryCta",
-      title: "Secondary CTA Text",
-      type: "string",
+      title: "Secondary CTA",
+      type: "cta",
       group: "hero",
     }),
     defineField({

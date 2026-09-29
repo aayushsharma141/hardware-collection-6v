@@ -41,18 +41,30 @@ interface CategoryDiscoveryProps {
 
 export default function CategoryDiscovery({ categories }: CategoryDiscoveryProps) {
   const activeFamilies = categories && categories.length > 0
-    ? categories.map((c, idx) => ({
-        id: c.slug,
-        index: `0${idx + 1}`,
-        name: c.categoryName,
-        nameBreak: undefined,
-        subtitle: c.description || "Premium architectural hardware",
-        detail: "Explore the collection",
-        image: c.imageUrl || "",
-        href: `/catalogs?category=${c.slug}`,
-        isFocal: idx === 0,
-      }))
+    ? categories.map((c, idx) => {
+        // Map each CMS category to a fallback cinema image by slug keyword
+        const fallback = CATEGORY_FAMILIES.find(f =>
+          c.slug.includes(f.id) ||
+          f.id === "handles" && c.slug.includes("handle") ||
+          f.id === "door" && (c.slug.includes("door") || c.slug.includes("lock")) ||
+          f.id === "bathroom" && c.slug.includes("bath") ||
+          f.id === "kitchen" && (c.slug.includes("kitchen") || c.slug.includes("wardrobe")) ||
+          f.id === "furniture" && c.slug.includes("furniture")
+        ) || CATEGORY_FAMILIES[idx % CATEGORY_FAMILIES.length];
+        return {
+          id: c.slug,
+          index: `0${idx + 1}`,
+          name: c.categoryName,
+          nameBreak: undefined,
+          subtitle: c.description || fallback.subtitle,
+          detail: fallback.detail,
+          image: c.imageUrl || fallback.image,
+          href: `/catalogs?category=${c.slug}`,
+          isFocal: idx === 1,
+        };
+      })
     : CATEGORY_FAMILIES;
+
 
   return (
     <section id="categories" className="bg-[var(--surface)] text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">

@@ -51,18 +51,21 @@ interface ProductReelProps {
 
 export default function ProductReel({ products }: ProductReelProps) {
   const activeProducts = products && products.length > 0
-    ? products.map((p, idx) => ({
-        index: `0${idx + 1}`,
-        brand: p.brandName || "Premium",
-        name: p.productName,
-        category: "Hardware",
-        finish: "Custom Finish",
-        statement: "Discover this architectural detail.",
-        blurb: "A timeless piece of architectural hardware.",
-        img: p.imageUrl || "",
-        href: `/catalogs?product=${p.slug}`,
-        sweepDelay: "0s",
-      }))
+    ? products.map((p, idx) => {
+        const fb = PRODUCTS[idx % PRODUCTS.length];
+        return {
+          index: `0${idx + 1}`,
+          brand: p.brandName || fb.brand,
+          name: p.productName,
+          category: fb.category,
+          finish: fb.finish,
+          statement: fb.statement,
+          blurb: fb.blurb,
+          img: p.imageUrl || fb.img,
+          href: `/catalogs?product=${p.slug}`,
+          sweepDelay: fb.sweepDelay,
+        };
+      })
     : PRODUCTS;
 
   const containerRef = useRef<HTMLDivElement>(null);
@@ -220,8 +223,8 @@ function ProductCard({
             className="object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)]">
-            <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)]">
+            <span className="text-3xl font-light opacity-10 hc-serif text-[var(--text-primary)] text-center px-4">{product.brand}</span>
           </div>
         )}
         {/* Hover darkened overlay for editorial contrast */}
@@ -311,8 +314,8 @@ function MobileProductCard({
             className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)]">
-            <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)]">
+            <span className="text-3xl font-light opacity-10 hc-serif text-[var(--text-primary)] text-center px-4">{product.brand}</span>
           </div>
         )}
         <div

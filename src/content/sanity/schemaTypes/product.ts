@@ -89,7 +89,6 @@ export const productType = defineType({
       type: "image",
       group: "presentation",
       options: { hotspot: true },
-      validation: (rule) => rule.required(),
     }),
     defineField({
       name: "productGallery",
