@@ -2,28 +2,59 @@ import { groq } from "next-sanity";
 import { client } from "./client";
 import { Testimonial } from "@/types/testimonial";
 
-export const getCategoriesQuery = groq`
-  *[_type == "category"] {
+
+/** Fields every product card and list needs, in both old and new image shapes. */
+const PRODUCT_LIST_FIELDS = `
     _id,
     name,
     "slug": slug.current,
-    "description": description,
-    "imageUrl": categoryImage.asset->url,
-    "imageLqip": categoryImage.asset->metadata.lqip,
-    seo,
-    "cta": ctaTemplate
+    "brandName": brand->name,
+    "categorySlug": category->slug.current,
+    shortDescription,
+    catalogReference,
+    showroomDisplay,
+    featured,
+    "imageUrl": coalesce(heroImage, images[0]).asset->url,
+    "imageLqip": coalesce(heroImage, images[0]).asset->metadata.lqip,
+    seo
+`;
+
+export const getCategoriesQuery = groq`
+  *[_type == "category"] | order(displayOrder asc, name asc) {
+    _id,
+    name,
+    "slug": slug.current,
+    eyebrow,
+    description,
+    icon,
+    cardVariant,
+    featured,
+    displayOrder,
+    primaryRail,
+    // Stored as \`families\`; the app-wide name is \`familySlugs\`.
+    "familySlugs": coalesce(families, []),
+    searchKeywords,
+    whatsappMessage,
+    // \`image\` / \`heroImage\` are the pre-migration field names; documents
+    // that have not been re-saved still carry the photograph there.
+    "imageUrl": coalesce(categoryImage, image, heroImage).asset->url,
+    "imageLqip": coalesce(categoryImage, image, heroImage).asset->metadata.lqip,
+    seo
   }
 `;
 
 export const getBrandsQuery = groq`
-  *[_type == "brand"] {
+  *[_type == "brand"] | order(displayOrder asc, name asc) {
     _id,
-    "name": name,
+    name,
     "slug": slug.current,
+    authorizedStatus,
+    featured,
+    displayOrder,
     "logoUrl": logo.asset->url,
     "logoLqip": logo.asset->metadata.lqip,
     "logoAspect": logo.asset->metadata.dimensions.aspectRatio,
-    "description": brandPositioning,
+    "description": coalesce(description, brandPositioning),
     country,
     website,
     "officialCatalogUrl": officialCatalogue.asset->url,
@@ -35,20 +66,12 @@ export const getBrandsQuery = groq`
 
 export const getFeaturedProductsQuery = groq`
   *[_type == "product" && featured == true] | order(name asc) {
-    _id,
-    name,
-    "slug": slug.current,
-    "brandName": brand->name,
-    "categorySlug": category->slug.current,
-    shortDescription,
-    "imageUrl": heroImage.asset->url,
-    "imageLqip": heroImage.asset->metadata.lqip,
-    seo
+    ${PRODUCT_LIST_FIELDS}
   }
 `;
 
 export const getTestimonialsQuery = groq`
-  *[_type == "testimonial" && (!defined(editorial) || editorial.needsReview != true)] | order(date desc) {
+  *[_type == "testimonial" && (!defined(approved) || approved == true) && (!defined(editorial) || editorial.needsReview != true)] | order(date desc) {
     _id,
     customerName,
     "quote": testimonialText,
@@ -60,30 +83,14 @@ export const getTestimonialsQuery = groq`
 
 export const getProductsByCategoryQuery = groq`
   *[_type == "product" && category->slug.current == $categorySlug] | order(name asc) {
-    _id,
-    name,
-    "slug": slug.current,
-    "brandName": brand->name,
-    "categorySlug": category->slug.current,
-    shortDescription,
-    "imageUrl": heroImage.asset->url,
-    "imageLqip": heroImage.asset->metadata.lqip,
-    seo
+    ${PRODUCT_LIST_FIELDS}
   }
 `;
 
 export const getAllProductsQuery = groq`
   *[_type == "product"] | order(name asc) {
-    _id,
-    name,
-    "slug": slug.current,
-    "brandName": brand->name,
-    "categorySlug": category->slug.current,
-    shortDescription,
-    "imageUrl": heroImage.asset->url,
-    "imageLqip": heroImage.asset->metadata.lqip,
-    specifications,
-    seo
+    ${PRODUCT_LIST_FIELDS}
+    specifications
   }
 `;
 
@@ -270,9 +277,11 @@ export const getCategoryBySlugQuery = groq`
   *[_type == "category" && slug.current == $slug][0] {
     _id, name, "slug": slug.current, eyebrow, description, overview,
     suitableFor, keyFeatures, icon,
-    "imageUrl": categoryImage.asset->url, "imageLqip": categoryImage.asset->metadata.lqip,
+    "imageUrl": coalesce(categoryImage, image, heroImage).asset->url,
+    "imageLqip": coalesce(categoryImage, image, heroImage).asset->metadata.lqip,
     "galleryUrls": gallery[].asset->url,
-    searchKeywords, whatsappMessage, featured, displayOrder, seo, "cta": ctaTemplate
+    primaryRail, "familySlugs": coalesce(families, []),
+    searchKeywords, whatsappMessage, featured, displayOrder, seo
   }
 `;
 
@@ -288,15 +297,7 @@ export const getFamilySectionsQuery = groq`
     _id, name, "slug": slug.current, eyebrow, description, keyFeatures, whatsappMessage,
     "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url, displayOrder },
     "products": *[_type == "product" && category._ref == ^._id] | order(name asc) {
-      _id,
-      name,
-      "slug": slug.current,
-      "brandName": brand->name,
-      "categorySlug": category->slug.current,
-      shortDescription,
-      "imageUrl": heroImage.asset->url,
-      "imageLqip": heroImage.asset->metadata.lqip,
-      seo
+      ${PRODUCT_LIST_FIELDS}
     }
   }
 `;

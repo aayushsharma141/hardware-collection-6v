@@ -182,6 +182,46 @@ export const categoryType = defineType({
       initialValue: false,
     }),
 
+    defineField({
+      name: "families",
+      title: "Showroom Families",
+      type: "array",
+      group: "identity",
+      description: "Family ids this category is listed under (handles-knobs, door-hardware, bathroom, kitchen-wardrobes, furniture-hardware).",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "brands",
+      title: "Brands",
+      type: "array",
+      group: "identity",
+      description: "Brands shown on this category's family section.",
+      of: [{ type: "reference", to: [{ type: "brand" }] }],
+    }),
+    defineField({
+      name: "searchKeywords",
+      title: "Search Keywords",
+      type: "array",
+      group: "content",
+      description: "Customer-language names (e.g. board sub-items) that should find this category in search.",
+      of: [{ type: "string" }],
+    }),
+    defineField({
+      name: "verificationStatus",
+      title: "Verification Status",
+      type: "string",
+      group: "editorial",
+    }),
+    defineField({
+      name: "image",
+      title: "Image (legacy)",
+      type: "image",
+      group: "media",
+      description: "Pre-migration photograph field. The site still reads it when Category Image is empty; move it to Category Image when convenient.",
+      options: { hotspot: true },
+      hidden: ({ document }) => Boolean(document?.categoryImage),
+    }),
+
     // SEO
     defineField({
       name: "whatsappMessage",

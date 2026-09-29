@@ -37,6 +37,19 @@ export const brandType = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "website",
+      title: "Official Website",
+      type: "url",
+      group: "identity",
+      validation: (rule) => rule.uri({ scheme: ["http", "https"] }),
+    }),
+    defineField({
+      name: "seo",
+      title: "SEO Metadata",
+      type: "seo",
+      group: "identity",
+    }),
+    defineField({
       name: "country",
       title: "Country of Origin",
       type: "string",
