@@ -47,8 +47,8 @@ async function seedTruth() {
       _type: "homePage",
       heroTitle: "The Art of \nthe Finish.",
       heroSubtitle: "Architectural Hardware for Jamshedpur's Finest Homes. Where precision engineering meets unparalleled aesthetic vision.",
-      legacyHeading: "Two Decades of \nArchitectural Expertise \nin Sakchi.",
-      legacyDescription: "Founded by Mukesh Khandelwal, Hardware Collection has spent over 20 years curating the finest architectural hardware and modular kitchen solutions for Jamshedpur's premium residential and commercial spaces.",
+      legacyHeading: "Over a Decade of \nArchitectural Expertise \nin Sakchi.",
+      legacyDescription: "Founded by Mukesh Khandelwal, Hardware Collection has spent more than 10 years curating the finest architectural hardware and modular kitchen solutions for Jamshedpur's premium residential and commercial spaces.",
       featuresHeading: "Why Choose Hardware Collection?",
       featuresDescription: "Building a home is a lifetime investment. We ensure that the hardware you touch every single day looks exquisite, functions flawlessly, and endures the test of time and climate.",
       featuresList: [
@@ -60,7 +60,7 @@ async function seedTruth() {
         {
           _key: "f2",
           title: "Expert Curation & Compatibility",
-          description: "With over two decades of technical knowledge, we ensure your mortise locks fit your doors perfectly and your kitchen systems are engineered for the required weight."
+          description: "With more than 10 years of technical knowledge, we ensure your mortise locks fit your doors perfectly and your kitchen systems are engineered for the required weight."
         },
         {
           _key: "f3",

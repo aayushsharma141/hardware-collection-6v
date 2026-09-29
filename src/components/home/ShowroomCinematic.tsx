@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import { useRef, type RefObject } from "react";
 import Image from "next/image";
@@ -43,7 +43,18 @@ const SCENES = [
   },
 ];
 
-export default function ShowroomCinematic() {
+interface ShowroomCinematicProps {
+  images?: string[];
+}
+
+export default function ShowroomCinematic({ images }: ShowroomCinematicProps) {
+  const activeScenes = SCENES.map((scene, i) => {
+    if (images && images.length > i) {
+      return { ...scene, img: images[i] };
+    }
+    return scene;
+  });
+
   const containerRef = useRef<HTMLDivElement>(null);
   const scene1Ref = useRef<HTMLDivElement>(null);
   const scene2Ref = useRef<HTMLDivElement>(null);
@@ -137,7 +148,7 @@ export default function ShowroomCinematic() {
 
       {/* â”€â”€ Desktop Layout (>= lg): Scenes 01â€“02 â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="hidden lg:block">
-        {SCENES.slice(0, 2).map((scene, i) => (
+        {activeScenes.slice(0, 2).map((scene, i) => (
           <CinematicScene
             key={scene.id}
             scene={scene}
@@ -175,23 +186,23 @@ function CinematicScene({
         {/* unoptimized preserves the exact src path that GSAP ScrollTrigger
             targets via the .scene-img selector â€” Next.js image transforms
             would change the URL and break the animation binding. */}
-        <Image
-          src={scene.img}
-          alt=""
-          aria-hidden="true"
-          fill
-          unoptimized
-          className="scene-img object-cover will-change-transform"
-          style={{
-            top: "-10%",
-            left: "-5%",
-            width: "110%",
-            height: "120%",
-            opacity: isLast ? 0.62 : 0.85,
-            filter: "contrast(1.06) saturate(1.04)",
-          }}
-        />
-        
+        {/* The bleed box is oversized so the GSAP pan/scale never reveals an
+            edge; `fill` forbids sizing the <Image> itself, so the wrapper owns it. */}
+        <div className="absolute" style={{ top: "-10%", left: "-5%", width: "110%", height: "120%" }}>
+          <Image
+            src={scene.img}
+            alt=""
+            aria-hidden="true"
+            fill
+            unoptimized
+            className="scene-img object-cover will-change-transform"
+            style={{
+              opacity: isLast ? 0.8 : 0.95,
+              filter: "contrast(1.06) saturate(1.04)",
+            }}
+          />
+        </div>
+
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
@@ -212,7 +223,7 @@ function CinematicScene({
             background: "linear-gradient(to bottom, transparent 0%, rgba(247, 240, 226,0.80) 100%)",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface-raised)]/95 via-[var(--surface-raised)]/65 to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface-raised)]/90 via-[var(--surface-raised)]/45 via-45% to-transparent to-80% pointer-events-none" />
       </div>
 
       {/* Z=3: Typography */}
@@ -240,10 +251,10 @@ function CinematicScene({
                 href={SHOWROOM_MAP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-between pl-7 pr-2 py-2 bg-[var(--text-primary)] text-[var(--surface-base)] rounded-full transition-[transform,background-color,color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:bg-black dark:hover:bg-white"
+                className="group inline-flex items-center justify-between pl-7 pr-2 py-2 bg-[var(--text-primary)] text-[var(--surface)] rounded transition-[transform,background-color,color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:bg-black dark:hover:bg-white"
               >
                 <span className="font-medium text-xs tracking-[0.2em] uppercase mr-6">Get Directions</span>
-                <div className="w-10 h-10 rounded-full bg-[var(--surface-base)]/20 dark:bg-black/10 flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
+                <div className="w-10 h-10 rounded bg-[var(--surface)]/20 dark:bg-black/10 flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="7" y1="17" x2="17" y2="7"></line>
                     <polyline points="7 7 17 7 17 17"></polyline>
@@ -256,10 +267,10 @@ function CinematicScene({
                 href={generateWhatsAppUrl("showroom-visit")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-between pl-7 pr-2 py-2 border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 backdrop-blur-sm text-[var(--text-primary)] rounded-full transition-[transform,background-color,border-color,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:bg-black/10 dark:hover:bg-white/10"
+                className="group inline-flex items-center justify-between pl-7 pr-2 py-2 border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 backdrop-blur-sm text-[var(--text-primary)] rounded transition-[transform,background-color,border-color,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:bg-black/10 dark:hover:bg-white/10"
               >
                 <span className="font-medium text-xs tracking-[0.2em] uppercase mr-6">WhatsApp</span>
-                <div className="w-10 h-10 rounded-full border border-black/10 dark:border-white/10 flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
+                <div className="w-10 h-10 rounded border border-black/10 dark:border-white/10 flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
                     <line x1="7" y1="17" x2="17" y2="7"></line>
                     <polyline points="7 7 17 7 17 17"></polyline>

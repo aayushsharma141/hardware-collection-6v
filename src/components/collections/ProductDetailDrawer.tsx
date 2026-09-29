@@ -117,7 +117,7 @@ export default function ProductDetailDrawer({
                 ref={closeButtonRef}
                 onClick={onClose}
                 aria-label="Close product specifications"
-                className="w-8 h-8 rounded-full bg-[#1a1017]/[0.05] border border-[var(--border)] flex items-center justify-center text-[#7a6872] hover:text-[#8b1a42] hover:bg-[#1a1017]/[0.10] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] cursor-pointer"
+                className="w-8 h-8 rounded bg-[#1a1017]/[0.05] border border-[var(--border)] flex items-center justify-center text-[#7a6872] hover:text-[#8b1a42] hover:bg-[#1a1017]/[0.10] transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] cursor-pointer"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -217,7 +217,7 @@ export default function ProductDetailDrawer({
                         name: product.brandName || product.brand || "",
                       } : undefined
                     })}
-                    className="flex-1 text-center py-3.5 px-5 bg-[#8b1a42] hover:bg-[#6b1432] text-white font-dmsans font-bold uppercase tracking-widest text-xs rounded-full transition-colors shadow-lg flex items-center justify-center gap-2"
+                    className="flex-1 text-center py-3.5 px-5 bg-[#8b1a42] hover:bg-[#6b1432] text-white font-dmsans font-bold uppercase tracking-widest text-xs rounded transition-colors shadow-lg flex items-center justify-center gap-2"
                   >
                     <MessageCircle className="w-4 h-4 fill-current" />
                     <span>Consult an Expert</span>
@@ -225,7 +225,7 @@ export default function ProductDetailDrawer({
                 
                   <button
                     onClick={() => onToggleShortlist(product)}
-                    className={`px-5 py-3.5 rounded-full font-dmsans text-xs font-semibold uppercase tracking-wider transition-all border ${
+                    className={`px-5 py-3.5 rounded font-dmsans text-xs font-semibold uppercase tracking-wider transition-all border ${
                       isShortlisted
                         ? 'bg-white/[0.1] border-[var(--accent)] text-[var(--accent)]'
                         : 'bg-white/[0.04] border-white/[0.1] text-[var(--text-primary)] hover:bg-white/[0.08]'

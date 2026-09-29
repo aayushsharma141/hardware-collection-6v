@@ -7,6 +7,9 @@ export interface HeroSlide {
   ctaTarget: string;
   imageUrl: string;
   productUrl?: string;
+  /** "Selected specimen" card label and caption; fall back to built-in copy when absent. */
+  specimenLabel?: string;
+  specimenCaption?: string;
   macroUrl?: string;
   reflectionUrl?: string;
 }

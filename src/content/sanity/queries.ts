@@ -3,50 +3,33 @@ import { client } from "./client";
 import { Testimonial } from "@/types/testimonial";
 
 export const getCategoriesQuery = groq`
-  *[_type == "category"] | order(displayOrder asc) {
+  *[_type == "category"] {
     _id,
     name,
     "slug": slug.current,
-    description,
-    eyebrow,
-    icon,
-    "imageUrl": image.asset->url,
-    "imageLqip": image.asset->metadata.lqip,
-    featured,
-    displayOrder,
-    primaryRail,
-    // Sanity stores this as \`families\`; the app-wide name is \`familySlugs\`,
-    // which is what src/content/fallback/catalog.ts uses. Normalise here so
-    // both content sources hand the UI the same shape.
-    "familySlugs": coalesce(families, []),
+    "description": description,
+    "imageUrl": categoryImage.asset->url,
+    "imageLqip": categoryImage.asset->metadata.lqip,
     seo,
-    cta
+    "cta": ctaTemplate
   }
 `;
 
 export const getBrandsQuery = groq`
-  *[_type == "brand"] | order(displayOrder asc) {
+  *[_type == "brand"] {
     _id,
-    name,
+    "name": name,
     "slug": slug.current,
     "logoUrl": logo.asset->url,
     "logoLqip": logo.asset->metadata.lqip,
-    description,
-    authorizedStatus,
+    "logoAspect": logo.asset->metadata.dimensions.aspectRatio,
+    "description": brandPositioning,
+    country,
     website,
-    // No asset URL here on purpose: catalogs are streamed through
-    // /api/catalog/<slug>/<index> so no CDN link reaches the browser.
-    "officialCatalogs": officialCatalogs[]{
-      "title": assetTitle,
-      "type": assetType,
-      version,
-      releaseDate,
-      "size": asset->size
-    },
-    officialCatalogUrl,
-    featured,
-    seo,
-    cta
+    "officialCatalogUrl": officialCatalogue.asset->url,
+    "catalogues": *[_type == "catalogue" && references(^._id)] | order(_createdAt asc) { _id, catalogueName, "title": catalogueName, version, releaseDate, "size": pdfFile.asset->size, "pdfUrl": pdfFile.asset->url, "coverUrl": coverImage.asset->url },
+    "marketingAssets": marketingAssets[].asset->url,
+    seo
   }
 `;
 
@@ -58,21 +41,17 @@ export const getFeaturedProductsQuery = groq`
     "brandName": brand->name,
     "categorySlug": category->slug.current,
     shortDescription,
-    "imageUrl": images[0].asset->url,
-    "imageLqip": images[0].asset->metadata.lqip,
-    "subcategorySlug": subcategory->slug.current,
-    "collectionSlugs": curatedCollections[]->slug.current,
-    "officialFiles": officialFiles[].asset->url,
-    seo,
-    cta
+    "imageUrl": heroImage.asset->url,
+    "imageLqip": heroImage.asset->metadata.lqip,
+    seo
   }
 `;
 
 export const getTestimonialsQuery = groq`
-  *[_type == "testimonial" && approved == true] | order(date desc) {
+  *[_type == "testimonial" && (!defined(editorial) || editorial.needsReview != true)] | order(date desc) {
     _id,
     customerName,
-    quote,
+    "quote": testimonialText,
     rating,
     source,
     date
@@ -87,14 +66,9 @@ export const getProductsByCategoryQuery = groq`
     "brandName": brand->name,
     "categorySlug": category->slug.current,
     shortDescription,
-    "imageUrl": images[0].asset->url,
-    "imageLqip": images[0].asset->metadata.lqip,
-    catalogReference,
-    "subcategorySlug": subcategory->slug.current,
-    "collectionSlugs": curatedCollections[]->slug.current,
-    "officialFiles": officialFiles[].asset->url,
-    seo,
-    cta
+    "imageUrl": heroImage.asset->url,
+    "imageLqip": heroImage.asset->metadata.lqip,
+    seo
   }
 `;
 
@@ -106,16 +80,10 @@ export const getAllProductsQuery = groq`
     "brandName": brand->name,
     "categorySlug": category->slug.current,
     shortDescription,
-    "imageUrl": images[0].asset->url,
-    "imageLqip": images[0].asset->metadata.lqip,
-    catalogReference,
-    showroomDisplay,
+    "imageUrl": heroImage.asset->url,
+    "imageLqip": heroImage.asset->metadata.lqip,
     specifications,
-    "officialFiles": officialFiles[].asset->url,
-    "subcategorySlug": subcategory->slug.current,
-    "collectionSlugs": curatedCollections[]->slug.current,
-    seo,
-    cta
+    seo
   }
 `;
 
@@ -207,31 +175,52 @@ export async function getTestimonials(): Promise<Testimonial[]> {
 
 export async function getHomePage() {
   const query = groq`*[_type == "homePage"][0] {
-    heroSlides[] {
-      eyebrow,
-      title,
-      description,
-      primaryCta,
-      ctaTarget,
-      "imageUrl": image.asset->url,
-      "imageLqip": image.asset->metadata.lqip
-    },
-    legacyHeading,
-    legacyDescription,
-    featuresHeading,
-    featuresDescription,
-    featuresList,
-    "featuresImageUrl": featuresImage.asset->url,
-    "featuresImageLqip": featuresImage.asset->metadata.lqip,
-    showroomHeading,
-    showroomDescription,
+    heroEyebrow,
+    heroHeadline,
+    heroDescription,
+    primaryCta { label, "url": destination },
+    secondaryCta { label, "url": destination },
+    "heroImageDesktopUrl": heroImageDesktop.asset->url,
+    "heroImageDesktopLqip": heroImageDesktop.asset->metadata.lqip,
+    "heroImageMobileUrl": heroImageMobile.asset->url,
+    "heroImageMobileLqip": heroImageMobile.asset->metadata.lqip,
+    
+    valuePropositions,
+    materialFinishes,
+    legacyYearsOfTrust,
+    legacyBrandsCount,
+    "legacyShowroomImageUrl": legacyShowroomImage.asset->url,
+    "legacyShowroomImageLqip": legacyShowroomImage.asset->metadata.lqip,
+    legacyPillars,
+    
     seo,
-    "trustedBrandRefs": trustedBrands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url },
-    "featuredCategoryRefs": featuredCategories[]->{ name, "slug": slug.current, "imageUrl": image.asset->url },
-    "featuredProductRefs": featuredProducts[]->{ name, "slug": slug.current, "imageUrl": images[0].asset->url, "brandName": brand->name },
+    "trustedBrandRefs": trustedBrands[]->{ 
+      "brandName": name, 
+      "slug": slug.current, 
+      "logoUrl": logo.asset->url 
+    },
+    "featuredCategoryRefs": featuredCategories[]->{ 
+      "categoryName": name, 
+      "slug": slug.current, 
+      "imageUrl": categoryImage.asset->url 
+    },
+    "featuredProductRefs": featuredProducts[]->{ 
+      "productName": name, 
+      "slug": slug.current, 
+      "imageUrl": heroImage.asset->url, 
+      "brandName": brand->name 
+    },
     "showroomGalleryUrls": showroomGallery[].asset->url,
-    "testimonialRefs": testimonials[]->{ _id, customerName, quote, rating, source, date },
-    finalCTA
+    "testimonialRefs": testimonials[]->{ 
+      _id, 
+      customerName, 
+      testimonialText, 
+      rating, 
+      customerType 
+    },
+    ctaHeading,
+    ctaDescription,
+    cta
   }`;
   try {
     return await client.fetch(query);
@@ -243,12 +232,13 @@ export async function getHomePage() {
 
 export async function getSiteSettings() {
   const query = groq`*[_type == "siteSettings"][0] {
-    whatsappNumber,
+    "whatsappNumber": whatsapp,
     defaultWhatsappMessage,
-    primaryPhone,
+    "primaryPhone": phone,
     secondaryPhone,
-    showroomAddress,
-    showroomHours,
+    email,
+    "showroomAddress": address,
+    "showroomHours": openingHours,
     googleMapsUrl,
     googleMapsEmbedUrl,
     "defaultCategoryImageUrl": defaultCategoryImage.asset->url,
@@ -262,16 +252,27 @@ export async function getSiteSettings() {
   }
 }
 
+export async function getNavigation() {
+  const query = groq`*[_type == "navigation"][0] {
+    announcementBar,
+    "mainMenu": mainMenu[] { label, path },
+    "footerLegalLinks": footerLegalLinks[] { label, path }
+  }`;
+  try {
+    return await client.fetch(query);
+  } catch (error) {
+    console.error("Sanity fetch error (getNavigation):", error);
+    return null;
+  }
+}
+
 export const getCategoryBySlugQuery = groq`
   *[_type == "category" && slug.current == $slug][0] {
     _id, name, "slug": slug.current, eyebrow, description, overview,
-    cardVariant, families, "familySlugs": coalesce(families, []), primaryRail,
     suitableFor, keyFeatures, icon,
-    "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip,
-    "heroImageUrl": heroImage.asset->url, "heroImageLqip": heroImage.asset->metadata.lqip,
+    "imageUrl": categoryImage.asset->url, "imageLqip": categoryImage.asset->metadata.lqip,
     "galleryUrls": gallery[].asset->url,
-    "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url },
-    searchKeywords, whatsappMessage, featured, displayOrder, seo, cta
+    searchKeywords, whatsappMessage, featured, displayOrder, seo, "cta": ctaTemplate
   }
 `;
 
@@ -282,11 +283,10 @@ export const getCategoryBySlugQuery = groq`
  * excluded through $exclude.
  */
 export const getFamilySectionsQuery = groq`
-  *[_type == "category" && $family in families && !(slug.current in $exclude)]
+  *[_type == "category" && primaryRail == $family && !(slug.current in $exclude)]
     | order(displayOrder asc, name asc) {
     _id, name, "slug": slug.current, eyebrow, description, keyFeatures, whatsappMessage,
-    "familySlugs": coalesce(families, []),
-    "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url },
+    "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url, displayOrder },
     "products": *[_type == "product" && category._ref == ^._id] | order(name asc) {
       _id,
       name,
@@ -294,14 +294,9 @@ export const getFamilySectionsQuery = groq`
       "brandName": brand->name,
       "categorySlug": category->slug.current,
       shortDescription,
-      "imageUrl": images[0].asset->url,
-      "imageLqip": images[0].asset->metadata.lqip,
-      catalogReference,
-      "subcategorySlug": subcategory->slug.current,
-      "collectionSlugs": curatedCollections[]->slug.current,
-      "officialFiles": officialFiles[].asset->url,
-      seo,
-      cta
+      "imageUrl": heroImage.asset->url,
+      "imageLqip": heroImage.asset->metadata.lqip,
+      seo
     }
   }
 `;
@@ -389,4 +384,46 @@ export async function getCollectionCounts() {
     return { categoryCount: 0, brandCount: 0 };
   }
 }
+
+export const getLegalPageBySlugQuery = groq`
+  *[_type == "legalPage" && slug.current == $slug][0] {
+    _id,
+    title,
+    "slug": slug.current,
+    lastUpdated,
+    content,
+    seo
+  }
+`;
+
+export async function getLegalPageBySlug(slug: string) {
+  try {
+    return await client.fetch(getLegalPageBySlugQuery, { slug });
+  } catch (error) {
+    console.error(`Sanity fetch error (getLegalPageBySlug for ${slug}):`, error);
+    return null;
+  }
+}
+
+export const getFaqsQuery = groq`
+  *[_type == "faq"] | order(_createdAt asc) {
+    _id,
+    question,
+    answer,
+    featured,
+    "categorySlug": category->slug.current
+  }
+`;
+
+export async function getFaqs() {
+  try {
+    return await client.fetch(getFaqsQuery);
+  } catch (error) {
+    console.error("Sanity fetch error (getFaqs):", error);
+    return [];
+  }
+}
+
+
+
 

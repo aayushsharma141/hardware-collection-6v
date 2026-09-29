@@ -115,9 +115,8 @@ export default function CaptureSelector({ region, onChange }: CaptureSelectorPro
     );
   };
 
-  const handleClass =
-    "absolute h-11 w-11 touch-none flex items-center justify-center";
-  const dotClass = "h-3.5 w-3.5 rounded-full border-2 border-[#0E0C0C] bg-[#C8A96E]";
+  const handleClass = "absolute h-11 w-11 touch-none flex items-center justify-center";
+  const dotClass = "h-3.5 w-3.5 rounded-md border-2 border-[var(--v-surface)] bg-[var(--v-text)]";
 
   return (
     <div className="absolute inset-0 touch-none" data-capture-host>
@@ -130,14 +129,14 @@ export default function CaptureSelector({ region, onChange }: CaptureSelectorPro
         onPointerMove={move}
         onPointerUp={end}
         onPointerCancel={end}
-        className="absolute cursor-move hc-focus"
+        className="v-press absolute cursor-move hc-focus"
         style={{
           left: `${region.x * 100}%`,
           top: `${region.y * 100}%`,
           width: `${region.w * 100}%`,
           height: `${region.h * 100}%`,
-          boxShadow: "0 0 0 9999px rgba(14,12,12,0.62)",
-          outline: "2px solid #C8A96E",
+          boxShadow: "0 0 0 9999px rgba(247,246,243,0.62)",
+          outline: "2px solid var(--v-text)",
         }}
       >
         {(["nw", "ne", "sw", "se"] as Corner[]).map((corner) => (

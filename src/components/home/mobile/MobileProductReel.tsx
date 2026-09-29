@@ -32,8 +32,32 @@ import { SIGNATURE_PIECES } from "@/content/fallback/home";
  */
 const FEATURED = SIGNATURE_PIECES.slice(0, 3);
 
-export default function MobileProductReel() {
-  const [openIndex, setOpenIndex] = useState(FEATURED[0].index);
+interface MobileProductReelProps {
+  products?: {
+    productName: string;
+    slug: string;
+    imageUrl?: string;
+    brandName?: string;
+  }[];
+}
+
+export default function MobileProductReel({ products }: MobileProductReelProps) {
+  const activeProducts = products && products.length > 0
+    ? products.map((p, idx) => ({
+        index: `0${idx + 1}`,
+        brand: p.brandName || "Premium",
+        name: p.productName,
+        category: "Hardware",
+        finish: "Custom Finish",
+        statement: "Discover this architectural detail.",
+        blurb: "A timeless piece of architectural hardware.",
+        img: p.imageUrl || "",
+        href: `/catalogs?product=${p.slug}`,
+        sweepDelay: "0s",
+      }))
+    : FEATURED;
+
+  const [openIndex, setOpenIndex] = useState(activeProducts[0]?.index || "01");
 
   return (
     <section className="w-full px-margin-mobile pt-[88px] pb-[72px] bg-[var(--surface-raised)] border-t border-[var(--border)] lg:hidden">
@@ -47,7 +71,7 @@ export default function MobileProductReel() {
       </div>
 
       <ul className="mt-unit-lg border-t border-[var(--border)]">
-        {FEATURED.map((piece) => {
+        {activeProducts.map((piece) => {
           const isOpen = piece.index === openIndex;
           const panelId = `piece-panel-${piece.index}`;
 
@@ -112,13 +136,19 @@ export default function MobileProductReel() {
                       expand the frame to the viewport edges while the copy
                       below holds the section margin. */}
                   <div className="relative -mx-margin-mobile aspect-[3/2] overflow-hidden border-y border-[var(--border)] bg-[var(--surface-elevated)]">
-                    <Image
-                      src={piece.img}
-                      alt={`${piece.brand} ${piece.name.toLowerCase()} in ${piece.finish}`}
-                      fill
-                      sizes="(max-width: 1024px) 100vw, 400px"
-                      className="object-cover"
-                    />
+                    {piece.img ? (
+                      <Image
+                        src={piece.img}
+                        alt={`${piece.brand} ${piece.name.toLowerCase()} in ${piece.finish}`}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 400px"
+                        className="object-cover"
+                      />
+                    ) : (
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+                      </div>
+                    )}
                   </div>
 
                   <p className="hc-mono t-meta mt-unit-md uppercase text-[var(--text-secondary)]">

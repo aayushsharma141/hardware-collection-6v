@@ -10,7 +10,7 @@ import { PointerLight } from "@/components/home/cinema/PointerLight";
 import { ScrollProgress } from "@/components/animations/ScrollProgress";
 
 // 7 Cinematic Chapters
-import HeroStage from "@/components/home/HeroStage";           // CH01 — HIGH tension
+import StaticHero from "@/components/home/StaticHero";           // CH01 — HIGH tension
 import HeroTrustBadges from "@/components/home/HeroTrustBadges";  // 6 Trust Pillars with Icons
 import BrandTrustStrip from "@/components/brand/BrandTrustStrip";        // CH02 — LOW tension
 import CategoryDiscovery from "@/components/home/CategoryDiscovery";       // CH03 — MEDIUM tension
@@ -20,7 +20,6 @@ import ShowroomCinematic from "@/components/home/ShowroomCinematic";       // CH
 import FloatingCTA from "@/components/home/FloatingCTA";                   // CH07 — QUIET ZONE
 
 // Mobile specific components
-import MobileHero from "@/components/home/mobile/MobileHero";
 import MobileCategoryDiscovery from "@/components/home/mobile/MobileCategoryDiscovery";
 import MobileProductReel from "@/components/home/mobile/MobileProductReel";
 import MobileReviews from "@/components/home/mobile/MobileReviews";
@@ -29,43 +28,7 @@ import AboutStory from "@/components/home/AboutStory";
 
 export const revalidate = 60;
 
-const fallbackHeroSlides = [
-  {
-    id: "ch01",
-    eyebrow: "ARCHITECTURAL HARDWARE EXPERTS SINCE 2002",
-    title: "The Art of\nthe Finish.",
-    description:
-      "Premium architectural hardware and modular solutions, curated for contemporary spaces. Official partner for Häfele, Dorset, Labacha, Godrej & Hettich in Sakchi.",
-    primaryCta: "Explore Collections",
-    ctaTarget: "/collections",
-    imageUrl: "/cinema/hero/HC-01-HERO-01.png",
-    productUrl: "/cinema/hero/HC-01-HERO-02.png",
-    macroUrl: "/cinema/hero/HC-01-HERO-03.png",
-    reflectionUrl: "/cinema/hero/HC-01-HERO-04.png",
-  },
-  {
-    id: "ch02",
-    eyebrow: "LIVE SHOWROOM EXPERIENCE",
-    title: "Touch Before\nYou Decide.",
-    description:
-      "Experience German soft-close drawers, live biometric lock demos, and full-scale luxury kitchen setups at our Sakchi flagship showroom.",
-    primaryCta: "Explore Collections",
-    ctaTarget: "/collections",
-    imageUrl: "/cinema/showroom/interior.png",
-    productUrl: "/cinema/hero/HC-01-HERO-03.png",
-  },
-  {
-    id: "ch03",
-    eyebrow: "CURATED SELECTION · SAKCHI",
-    title: "Curated For\nDiscriminating Spaces.",
-    description:
-      "Biometric security, German kitchen systems, precision door handles, and luxury bathroom fittings engineered for tactile longevity.",
-    primaryCta: "Explore Collections",
-    ctaTarget: "/collections",
-    imageUrl: "/cinema/categories/HC-03-DOORS.png",
-    productUrl: "/cinema/materials/HC-04-PVD-BRASS.png",
-  },
-];
+
 
 export async function generateMetadata(): Promise<Metadata> {
   const homeData = await getHomePage();
@@ -87,10 +50,6 @@ export default async function HomePage() {
     getTestimonials(),
   ]);
 
-  const heroSlides =
-    homeData?.heroSlides && homeData.heroSlides.length > 0
-      ? homeData.heroSlides
-      : fallbackHeroSlides;
 
   return (
     <div
@@ -110,21 +69,26 @@ export default async function HomePage() {
       {/* ── 7 Cinematic Chapters ─────────────────────────────────── */}
       <main className="relative z-10">
         {/* CH01 — The Art of the Finish (HIGH) */}
-        <div className="block lg:hidden">
-          <MobileHero slides={heroSlides} />
-        </div>
-        <HeroStage slides={heroSlides} />
+        <StaticHero 
+          eyebrow={homeData?.heroEyebrow}
+          headline={homeData?.heroHeadline}
+          description={homeData?.heroDescription}
+          primaryCta={homeData?.primaryCta}
+          secondaryCta={homeData?.secondaryCta}
+          imageDesktopUrl={homeData?.heroImageDesktopUrl}
+          imageMobileUrl={homeData?.heroImageMobileUrl}
+        />
 
         {/* CH02 — Specified By (LOW) */}
         <div className="theme-ivory">
-          <BrandTrustStrip />
-          <HeroTrustBadges />
+          <BrandTrustStrip brands={homeData?.trustedBrandRefs} />
+          <HeroTrustBadges pillars={homeData?.valuePropositions} />
         </div>
 
         {/* Mobile Mid-Section Experience */}
         <div className="block lg:hidden">
-          <MobileCategoryDiscovery />
-          <MobileProductReel />
+          <MobileCategoryDiscovery categories={homeData?.featuredCategoryRefs} />
+          <MobileProductReel products={homeData?.featuredProductRefs} />
           <MobileReviews reviews={testimonials} />
         </div>
 
@@ -132,36 +96,43 @@ export default async function HomePage() {
         <div className="hidden lg:block">
           {/* CH03 — Form & Function (MEDIUM) */}
           <div className="theme-ivory">
-            <CategoryDiscovery />
+            <CategoryDiscovery categories={homeData?.featuredCategoryRefs} />
           </div>
 
           {/* CH04 — The Finish · Primary Material Showcase (VERY HIGH) */}
           <div className="theme-ivory">
-            <MaterialJourney />
+            <MaterialJourney materials={homeData?.materialFinishes} />
           </div>
 
           {/* CH05 — The Collection · Emotion→Consideration Bridge (MEDIUM) */}
           <div className="theme-ivory">
-            <ProductReel />
+            <ProductReel products={homeData?.featuredProductRefs} />
           </div>
 
           {/* CH06 — Inside the Showroom (HIGH) */}
           <div className="theme-ivory">
-            <ShowroomCinematic />
+            <ShowroomCinematic images={homeData?.showroomGalleryUrls} />
           </div>
         </div>
 
         {/* CH06.5 — Our Legacy (Single responsive semantic instance) */}
         <div className="theme-ivory">
-          <AboutStory id="about" />
+          <AboutStory 
+            id="about" 
+            showroomHours={siteSettings?.showroomHours} 
+            legacyYearsOfTrust={homeData?.legacyYearsOfTrust}
+            legacyBrandsCount={homeData?.legacyBrandsCount}
+            legacyShowroomImageUrl={homeData?.legacyShowroomImageUrl}
+            legacyPillars={homeData?.legacyPillars}
+          />
         </div>
 
         {/* CH07 — Final Conversion & Consultation Zone */}
         <div className="block lg:hidden">
-          <MobileConsultation />
+          <MobileConsultation heading={homeData?.ctaHeading} description={homeData?.ctaDescription} cta={homeData?.cta} />
         </div>
         <div className="hidden lg:block">
-          <FloatingCTA reviews={testimonials} cta={homeData?.finalCTA} />
+          <FloatingCTA reviews={testimonials} cta={homeData?.cta} heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />
         </div>
       </main>
 
@@ -170,7 +141,7 @@ export default async function HomePage() {
 
       {/* ── Mobile Conversion Bar ───────────────────────────────── */}
       {/* Fixed bottom bar: Call / WhatsApp / Visit — hidden on lg+ */}
-      <MobileConversionBar cta={homeData?.finalCTA} />
+      <MobileConversionBar cta={homeData?.cta} />
     </div>
   );
 }

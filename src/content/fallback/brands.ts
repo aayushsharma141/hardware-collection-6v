@@ -17,6 +17,20 @@ export interface BrandInfo {
 }
 
 export const CANONICAL_BRANDS: BrandInfo[] = [
+  // Owner-set priority (2026-09-26): Blum, Häfele, Dorset, Hettich and Tattva
+  // lead every brand surface. The rest keep their previous relative order.
+  {
+    id: "blum",
+    name: "Blum",
+    country: "Austria",
+    tier: "Premium Kitchen & Cabinet Hardware",
+    authorized: true,
+    logo: "/brands/Blum_logo.svg",
+    website: "https://www.blum.com/in/en/",
+    tagline: "Perfecting Motion",
+    description: "Blum is an international company that specializes in the production of functional furniture fittings.",
+    keyHighlights: ["Lift Systems", "Hinge Systems", "Pull-out Systems"]
+  },
   {
     id: "hafele",
     name: "Hafele",
@@ -32,18 +46,6 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     keyHighlights: ["German Precision", "Matrix Box", "3D Hinges", "Biometric Locks"]
   },
   {
-    id: "blum",
-    name: "Blum",
-    country: "Austria",
-    tier: "Premium Kitchen & Cabinet Hardware",
-    authorized: true,
-    logo: "/brands/Blum_logo.svg",
-    website: "https://www.blum.com/in/en/",
-    tagline: "Perfecting Motion",
-    description: "Blum is an international company that specializes in the production of functional furniture fittings.",
-    keyHighlights: ["Lift Systems", "Hinge Systems", "Pull-out Systems"]
-  },
-  {
     id: "dorset",
     name: "Dorset",
     country: "India / Global",
@@ -56,6 +58,30 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     establishedYear: "1995",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
     keyHighlights: ["SS 304 Handle Sets", "Biometric Locks", "200,000 Cycle Durability"]
+  },
+  {
+    id: "hettich",
+    name: "Hettich",
+    country: "Germany",
+    tier: "German Furniture & Kitchen Fittings",
+    authorized: true,
+    logo: "/brands/Hettich.svg",
+    website: "https://www.hettich.com/en-in/",
+    tagline: "Fascin[action] German Furniture & Kitchen Fittings",
+    description: "Hettich is a German family-owned manufacturer of furniture and kitchen fittings, engineering soft-close hinges, drawer runners, and sliding door systems used across the Modular Kitchen Hardware, Wardrobe Hardware & Sliding Systems, Hinges & Soft-Close Systems, and Drawer Channels collections.",
+    keyHighlights: ["Sensys Soft-Close Hinges", "Quadro Drawer Runners", "Top-Running Sliding Systems"]
+  },
+  {
+    id: "tattva",
+    name: "Tattva",
+    country: "India",
+    tier: "Premium Hardware",
+    authorized: true,
+    logo: "/brands/TATTVA_cropped.png",
+    website: null,
+    tagline: "Excellence in Hardware",
+    description: "Tattva offers a range of high-quality hardware products.",
+    keyHighlights: ["Premium Quality", "Modern Design"]
   },
   {
     id: "pans",
@@ -104,19 +130,6 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     tagline: "Quality Architectural Hardware",
     description: "Becker provides robust architectural solutions.",
     keyHighlights: ["Durability", "Design"]
-  },
-
-  {
-    id: "tattva",
-    name: "Tattva",
-    country: "India",
-    tier: "Premium Hardware",
-    authorized: true,
-    logo: "/brands/TATTVA_cropped.png",
-    website: null,
-    tagline: "Excellence in Hardware",
-    description: "Tattva offers a range of high-quality hardware products.",
-    keyHighlights: ["Premium Quality", "Modern Design"]
   },
   {
     id: "yale",
@@ -266,31 +279,6 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     description: "Dorio specializes in architectural glass hardware, patch fittings, and frameless glass systems for modern interiors.",
     keyHighlights: ["Patch Fittings", "Frameless Glass", "Architectural Hardware"]
   },
-
-  {
-    id: "hettich",
-    name: "Hettich",
-    country: "Germany",
-    tier: "German Furniture & Kitchen Fittings",
-    authorized: true,
-    logo: "/brands/Hettich.svg",
-    website: "https://www.hettich.com/en-in/",
-    tagline: "Fascin[action] German Furniture & Kitchen Fittings",
-    description: "Hettich is a German family-owned manufacturer of furniture and kitchen fittings, engineering soft-close hinges, drawer runners, and sliding door systems used across the Modular Kitchen Hardware, Wardrobe Hardware & Sliding Systems, Hinges & Soft-Close Systems, and Drawer Channels collections.",
-    keyHighlights: ["Sensys Soft-Close Hinges", "Quadro Drawer Runners", "Top-Running Sliding Systems"]
-  },
-  {
-    id: "kich",
-    name: "Kich",
-    country: "India",
-    tier: "Architectural Stainless Steel & Glass Hardware",
-    authorized: true,
-    logo: "/brands/kich_logo.svg",
-    website: "https://www.kichindia.com/",
-    tagline: "Architectural SS Hardware & Balustrade Systems",
-    description: "Kich is an Indian manufacturer of architectural stainless steel hardware, frameless glass fittings, and balustrade systems, supplying the Main Door Handles, Cabinet & Wardrobe Handles, Bathroom Accessories, and Glass Hardware collections.",
-    keyHighlights: ["AISI 316 Marine Grade Steel", "Frameless Glass Patch Fittings", "Balustrade Systems"]
-  }
 ];
 
 export const CANONICAL_BRANDS_BY_ID: Record<string, BrandInfo> = CANONICAL_BRANDS.reduce(
@@ -307,7 +295,6 @@ export const BRAND_ALIASES: Record<string, string[]> = {
   labacha:    ["labacha", "labachaindia"],
   godrej:     ["godrej", "godrejlocks"],
   hettich:    ["hettich"],
-  kich:       ["kich", "kichindia"],
   blum:       ["blum"],
   geze:       ["geze"],
   yale:       ["yale", "yalehome"],

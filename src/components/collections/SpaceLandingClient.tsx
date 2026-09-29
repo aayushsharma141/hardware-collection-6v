@@ -37,7 +37,7 @@ export default function SpaceLandingClient({
   const heroImage =
     space.heroImageUrl ||
     SPACE_FALLBACK_IMAGES[slug] ||
-    "/cinema/categories/HC-03-DOORS.png";
+    "";
 
   const consultMessage = `Hardware Collection — I'd like to consult on hardware specifications for ${space.name}.`;
   const whatsappUrl = buildWhatsAppLink(consultMessage, settings);
@@ -62,13 +62,15 @@ export default function SpaceLandingClient({
         <div className="relative max-w-[1320px] mx-auto px-6 py-16 md:py-24">
           {/* Background image atmosphere */}
           <div className="absolute inset-0 -z-10 opacity-25">
-            <Image
-              src={heroImage}
-              alt={space.name}
-              fill
-              priority
-              className="object-cover"
-            />
+            {heroImage && (
+              <Image
+                src={heroImage}
+                alt={space.name}
+                fill
+                priority
+                className="object-cover"
+              />
+            )}
             <div className="absolute inset-0 bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/80 to-transparent" />
           </div>
 
@@ -85,7 +87,7 @@ export default function SpaceLandingClient({
               </p>
             )}
 
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-3 sm:gap-4">
               <button
                 type="button"
                 onClick={() =>

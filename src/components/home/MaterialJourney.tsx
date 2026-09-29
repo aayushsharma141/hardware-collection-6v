@@ -18,7 +18,6 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * Desktop (pinned, GSAP scrub):
  *   Each material occupies 100vh of scroll.
  *   Image: begins 40% viewport width, scale 1.4 → opens to full bleed (clip-path).
- *   Material name: 8xl serif, z=1 (behind image), low opacity ghost text.
  *   Specification copy: slides in from below, z=3.
  *   Scroll sequence per material: surface → grain → reflection → edge → complete piece.
  *
@@ -32,8 +31,9 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * Mobile: Static vertical editorial cards, no pinning, no Material Lens.
  */
 
-const MATERIALS = [
+const DEFAULT_MATERIALS = [
   {
+    _key: "mat1",
     name: "SATIN",
     subName: "Satin Steel",
     desc: "Restrained. Architectural. Timeless. Satin finish diffuses light without glare — the professional's choice for contemporary residential and commercial specification.",
@@ -42,6 +42,7 @@ const MATERIALS = [
     sweepDelay: "0s",
   },
   {
+    _key: "mat2",
     name: "BRASS",
     subName: "Living Brass",
     desc: "Warm, breathing finish that deepens with time. Each handle develops a unique patina — the mark of architectural confidence and material honesty.",
@@ -50,6 +51,7 @@ const MATERIALS = [
     sweepDelay: "2s",
   },
   {
+    _key: "mat3",
     name: "MATTE BLACK",
     subName: "Architectural Black",
     desc: "Crisp contrast. Modern spatial definition. Matte black hardware reads as a deliberate decision — geometry made visible.",
@@ -58,6 +60,7 @@ const MATERIALS = [
     sweepDelay: "4s",
   },
   {
+    _key: "mat4",
     name: "CHROME",
     subName: "Polished Chrome",
     desc: "Brilliant precision. Chrome reflects its environment without apology — for spaces designed to impress at every surface.",
@@ -66,6 +69,7 @@ const MATERIALS = [
     sweepDelay: "1s",
   },
   {
+    _key: "mat5",
     name: "BRONZE",
     subName: "Oil-Rubbed Bronze",
     desc: "Deep heritage. Rich transitional character. Bronze hardware speaks of a space that considers its history and its future simultaneously.",
@@ -75,7 +79,35 @@ const MATERIALS = [
   },
 ];
 
-export default function MaterialJourney() {
+interface MaterialItem {
+  _key?: string;
+  name?: string;
+  subName?: string;
+  description?: string;
+  specification?: string;
+  imageUrl?: string;
+  sweepDelay?: string;
+}
+
+interface MaterialJourneyProps {
+  materials?: MaterialItem[];
+}
+
+export default function MaterialJourney({ materials }: MaterialJourneyProps) {
+  // Merge Sanity data with local fallbacks (especially for sweepDelay and images if missing)
+  const displayMaterials = (materials?.length ? materials : DEFAULT_MATERIALS).map((m: MaterialItem, i: number) => {
+    const fallback = DEFAULT_MATERIALS[i] || DEFAULT_MATERIALS[0];
+    return {
+      _key: m._key || fallback._key,
+      name: m.name || fallback.name,
+      subName: m.subName || fallback.subName,
+      desc: m.description || fallback.desc,
+      spec: m.specification || fallback.spec,
+      img: m.imageUrl || fallback.img,
+      sweepDelay: fallback.sweepDelay, // keep visual sweep delays
+    };
+  });
+
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -122,7 +154,9 @@ export default function MaterialJourney() {
             pin: true,
             scrub: 1.2,
             start: "top top",
-            end: () => `+=${(totalPanels - 1) * window.innerHeight * 0.75}`,
+            // 0.6vh of scroll per panel: at 0.75 the five finishes pinned the
+            // page for ~2.7 screens, the longest stretch before any product.
+            end: () => `+=${(totalPanels - 1) * window.innerHeight * 0.6}`,
             invalidateOnRefresh: true,
           },
         });
@@ -130,9 +164,8 @@ export default function MaterialJourney() {
         // Per-panel: image clip-path opens from 40% to full as the panel enters
         panels.forEach((panel) => {
           const imgWrap = panel.querySelector<HTMLElement>(".mat-img-wrap");
-          const ghostText = panel.querySelector<HTMLElement>(".mat-ghost");
           const specText = panel.querySelector<HTMLElement>(".mat-spec");
-          if (!imgWrap || !ghostText || !specText) return;
+          if (!imgWrap || !specText) return;
 
           // containerAnimation expects a gsap.core.Animation (the tween, not ScrollTrigger)
           gsap.fromTo(
@@ -142,23 +175,6 @@ export default function MaterialJourney() {
               clipPath: "inset(0% 0% 0% 0%)",
               scale: 1,
               opacity: 1,
-              ease: "none",
-              scrollTrigger: {
-                trigger: panel,
-                containerAnimation: hScroll,
-                start: "left right",
-                end: "left left",
-                scrub: 1,
-              },
-            }
-          );
-
-          gsap.fromTo(
-            ghostText,
-            { autoAlpha: 0, x: -30 },
-            {
-              autoAlpha: 0.08,
-              x: 0,
               ease: "none",
               scrollTrigger: {
                 trigger: panel,
@@ -210,7 +226,7 @@ export default function MaterialJourney() {
 
           <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-sm mb-6 border border-[var(--border)]">
             <Image
-              src={MATERIALS[1].img}
+              src={displayMaterials[1]?.img || displayMaterials[0]?.img || DEFAULT_MATERIALS[1].img}
               alt="Architectural Brass Finish"
               fill
               sizes="(max-width: 1024px) 100vw, 640px"
@@ -227,9 +243,9 @@ export default function MaterialJourney() {
           </div>
 
           <div className="flex flex-wrap gap-2 pt-2">
-            {MATERIALS.map((mat, i) => (
+            {displayMaterials.map((mat, i) => (
               <span
-                key={i}
+                key={mat._key || i}
                 className="px-3 py-1.5 rounded-full border border-[var(--border)] bg-[var(--surface-raised)] text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
               >
                 {mat.name}
@@ -261,7 +277,7 @@ export default function MaterialJourney() {
             {/* Featured Material Visual with Light Sweep */}
             <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-2xl mb-6 border border-[var(--border)] shadow-md">
               <Image
-                src={MATERIALS[1].img}
+                src={displayMaterials[1]?.img || displayMaterials[0]?.img || DEFAULT_MATERIALS[1].img}
                 alt="Architectural Brass Finish"
                 fill
                 sizes="(max-width: 1024px) 100vw, 640px"
@@ -289,9 +305,9 @@ export default function MaterialJourney() {
 
             {/* 5 Architectural Finishes Strip */}
             <div className="flex flex-wrap gap-2 pt-2">
-              {MATERIALS.map((mat, i) => (
+              {displayMaterials.map((mat, i) => (
                 <span
-                  key={i}
+                  key={mat._key || i}
                   className="px-3 py-1.5 rounded-full border border-[var(--border)] bg-[var(--surface-raised)] text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
                 >
                   {mat.name}
@@ -318,14 +334,14 @@ export default function MaterialJourney() {
         <div
           ref={trackRef}
           className="flex h-full will-change-transform"
-          style={{ width: `${MATERIALS.length * 100}vw` }}
+          style={{ width: `${displayMaterials.length * 100}vw` }}
         >
-          {MATERIALS.map((mat, i) => (
+          {displayMaterials.map((mat, i) => (
             <MaterialPanel
-              key={i}
+              key={mat._key || i}
               mat={mat}
               index={i}
-              total={MATERIALS.length}
+              total={displayMaterials.length}
               onLensMove={handleLensMove}
               onLensLeave={handleLensLeave}
             />
@@ -337,7 +353,7 @@ export default function MaterialJourney() {
 }
 
 interface MaterialPanelProps {
-  mat: (typeof MATERIALS)[number];
+  mat: MaterialItem & { desc: string; spec: string; img: string; };
   index: number;
   total: number;
   onLensMove: (e: React.PointerEvent<HTMLDivElement>, el: HTMLElement) => void;
@@ -361,15 +377,6 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
       onPointerMove={(e) => panelRef.current && onLensMove(e, panelRef.current)}
       onPointerLeave={() => panelRef.current && onLensLeave(panelRef.current)}
     >
-      {/* Z=1: Ghost text &mdash; material name behind image */}
-      <p
-        className="mat-ghost hc-serif absolute inset-0 flex items-center justify-center text-[22vw] text-[var(--border)] leading-none select-none pointer-events-none"
-        style={{ zIndex: 1, opacity: 0 }}
-        aria-hidden="true"
-      >
-        {mat.name}
-      </p>
-
       {/* Z=2: Primary visual &mdash; image with Material Lens */}
       <div className="grid grid-cols-2 gap-0 w-full h-full items-center">
         {/* Left: Full-bleed image */}
@@ -383,7 +390,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
         >
           <Image
             src={mat.img}
-            alt={mat.subName}
+            alt={mat.subName || mat.name || "Material Finish"}
             fill
             sizes="(max-width: 1024px) 100vw, 50vw"
             className="object-cover"
@@ -429,12 +436,23 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
           <p className="text-[var(--text-primary)] font-light text-xl xl:text-2xl leading-relaxed max-w-xl mb-8">
             {mat.desc}
           </p>
-          <p
-            className="mat-spec text-[var(--text-secondary)] text-sm leading-relaxed max-w-md font-normal opacity-0"
-            style={{ whiteSpace: "pre-line" }}
-          >
-            {mat.spec.replace(" · ", "\n")}
-          </p>
+          {/* One row per "Key: value" pair. String.replace only swapped the
+              first separator, leaving the rest to wrap as one ragged run. */}
+          <dl className="mat-spec max-w-md space-y-2 border-l border-[var(--border)] pl-4 opacity-0">
+            {mat.spec.split(" · ").map((entry: string) => {
+              const [term, ...rest] = entry.split(": ");
+              return (
+                <div key={term} className="flex flex-wrap items-baseline gap-x-3">
+                  <dt className="hc-mono text-[11px] uppercase tracking-[0.18em] text-brass-ink font-semibold">
+                    {term}
+                  </dt>
+                  <dd className="text-[15px] text-[var(--text-secondary)] leading-snug">
+                    {rest.join(": ")}
+                  </dd>
+                </div>
+              );
+            })}
+          </dl>
           <Link
             href="/collections"
             className="mt-8 inline-flex items-center gap-2.5 text-brass-ink text-xs sm:text-sm tracking-widest uppercase font-semibold hover:text-[var(--accent)] hover:gap-4 transition-all duration-200"

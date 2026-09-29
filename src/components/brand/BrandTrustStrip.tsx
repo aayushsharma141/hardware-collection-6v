@@ -5,59 +5,55 @@ import Image from "next/image";
 import Link from "next/link";
 import { CANONICAL_BRANDS, BrandInfo } from "@/content/fallback/brands";
 
-export interface BrandItem extends BrandInfo {
+export interface BrandItem {
+  name: string;
+  id?: string;
+  logo?: string;
   href: string;
-  containerClass?: string;
 }
 
-const half = Math.ceil(CANONICAL_BRANDS.length / 2);
+interface BrandTrustStripProps {
+  brands?: {
+    brandName: string;
+    slug: string;
+    logoUrl?: string;
+  }[];
+}
 
-const LANE_1_BRANDS: BrandItem[] = CANONICAL_BRANDS.slice(0, half).map(
-  (brand) => ({
-    ...brand,
-    href: `/catalogs?brand=${brand.id}`,
-  })
-);
+export default function BrandTrustStrip({ brands }: BrandTrustStripProps) {
+  // If we have sanity brands, map them to BrandItem. Otherwise use fallback.
+  const activeBrands: BrandItem[] = brands && brands.length > 0 
+    ? brands.map(b => ({
+        name: b.brandName,
+        id: b.slug,
+        logo: b.logoUrl,
+        href: `/catalogs?brand=${b.slug}`
+      }))
+    : CANONICAL_BRANDS.map(b => ({ ...b, href: `/catalogs?brand=${b.id}` }));
 
-const LANE_2_BRANDS: BrandItem[] = CANONICAL_BRANDS.slice(half).map(
-  (brand) => ({
-    ...brand,
-    href: `/catalogs?brand=${brand.id}`,
-  })
-);
+  const half = Math.ceil(activeBrands.length / 2);
+  const lane1 = activeBrands.slice(0, half);
+  const lane2 = activeBrands.slice(half);
 
-/**
- * The roster is the source of truth for how many dealerships are authorized.
- * Derived dynamically from the canonical roster so it never drifts across components.
- */
-export const AUTHORIZED_BRAND_COUNT = CANONICAL_BRANDS.length;
-
-export default function BrandTrustStrip() {
-  /**
-   * Renders brand logo in authentic original condition.
-   * Resting: 90% opacity — legible at rest, not a ghosted watermark.
-   * Hover: full opacity, scale, warm glow — "attention-seeker" effect.
-   */
   const renderBrandVisual = (brand: BrandItem) => {
     if (brand.logo) {
       return (
         <Image
           src={brand.logo}
           alt={brand.name}
-          width={280}
-          height={80}
-          sizes="(max-width: 640px) 160px, (max-width: 1024px) 220px, 280px"
+          width={400}
+          height={160}
+          sizes="(max-width: 640px) 120px, (max-width: 1024px) 160px, 200px"
           className={`
             object-contain
-            h-12 sm:h-14 md:h-16 lg:h-20
+            h-10 sm:h-12 md:h-14 lg:h-16
             w-auto
-            max-w-[160px] sm:max-w-[200px] md:max-w-[240px] lg:max-w-[280px]
+            max-w-[128px] sm:max-w-[152px] md:max-w-[176px] lg:max-w-[200px]
             opacity-90
             transition-all duration-500 ease-out
             group-hover/item:opacity-100
-            group-hover/item:scale-110
-            group-hover/item:drop-shadow-[0_4px_20px_rgba(0,0,0,0.12)]
-            ${brand.imageClass || ""}
+            group-hover/item:scale-105
+            group-hover/item:drop-shadow-[0_4px_16px_rgba(0,0,0,0.12)]
           `}
           unoptimized={brand.logo.endsWith(".svg")}
         />
@@ -81,7 +77,7 @@ export default function BrandTrustStrip() {
   };
 
   const linkClass =
-    "group/item flex items-center justify-center shrink-0 px-2 py-3 rounded-xl transition-all duration-500 hover:bg-[var(--surface-raised)]";
+    "group/item flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded-xl bg-white/90 border border-[#E7E0D4] shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all duration-500 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-[#D9CCC6]";
 
   return (
     <section
@@ -111,13 +107,13 @@ export default function BrandTrustStrip() {
         {/* ── LANE 1: Scrolling Left ─── */}
         <div className="flex w-max group/ticker hover:[animation-play-state:paused] select-none animate-ticker-left items-center">
           {/* Set 1 */}
-          <div className="flex items-center gap-10 md:gap-16 lg:gap-20 pr-10 md:pr-16 lg:pr-20 shrink-0">
-            {LANE_1_BRANDS.map((brand) => (
+          <div className="flex items-center gap-6 md:gap-8 lg:gap-12 pr-6 md:pr-8 lg:pr-12 shrink-0">
+            {lane1.map((brand, idx) => (
               <Link
-                key={`l1-a-${brand.id}`}
+                key={`l1-a-${brand.id || idx}`}
                 href={brand.href}
                 className={linkClass}
-                title={`${brand.name}${brand.tagline ? ` — ${brand.tagline}` : ""}`}
+                title={brand.name}
               >
                 {renderBrandVisual(brand)}
               </Link>
@@ -126,12 +122,12 @@ export default function BrandTrustStrip() {
 
           {/* Set 2 for seamless infinite loop */}
           <div
-            className="flex items-center gap-10 md:gap-16 lg:gap-20 pr-10 md:pr-16 lg:pr-20 shrink-0"
+            className="flex items-center gap-6 md:gap-8 lg:gap-12 pr-6 md:pr-8 lg:pr-12 shrink-0"
             aria-hidden="true"
           >
-            {LANE_1_BRANDS.map((brand) => (
+            {lane1.map((brand, idx) => (
               <Link
-                key={`l1-b-${brand.id}`}
+                key={`l1-b-${brand.id || idx}`}
                 href={brand.href}
                 className={linkClass}
                 tabIndex={-1}
@@ -145,13 +141,13 @@ export default function BrandTrustStrip() {
         {/* ── LANE 2: Scrolling Right ── */}
         <div className="flex w-max group/ticker hover:[animation-play-state:paused] select-none animate-ticker-right items-center">
           {/* Set 1 */}
-          <div className="flex items-center gap-10 md:gap-16 lg:gap-20 pr-10 md:pr-16 lg:pr-20 shrink-0">
-            {LANE_2_BRANDS.map((brand) => (
+          <div className="flex items-center gap-6 md:gap-8 lg:gap-12 pr-6 md:pr-8 lg:pr-12 shrink-0">
+            {lane2.map((brand, idx) => (
               <Link
-                key={`l2-a-${brand.id}`}
+                key={`l2-a-${brand.id || idx}`}
                 href={brand.href}
                 className={linkClass}
-                title={`${brand.name}${brand.tagline ? ` — ${brand.tagline}` : ""}`}
+                title={brand.name}
               >
                 {renderBrandVisual(brand)}
               </Link>
@@ -160,12 +156,12 @@ export default function BrandTrustStrip() {
 
           {/* Set 2 for seamless infinite loop */}
           <div
-            className="flex items-center gap-10 md:gap-16 lg:gap-20 pr-10 md:pr-16 lg:pr-20 shrink-0"
+            className="flex items-center gap-6 md:gap-8 lg:gap-12 pr-6 md:pr-8 lg:pr-12 shrink-0"
             aria-hidden="true"
           >
-            {LANE_2_BRANDS.map((brand) => (
+            {lane2.map((brand, idx) => (
               <Link
-                key={`l2-b-${brand.id}`}
+                key={`l2-b-${brand.id || idx}`}
                 href={brand.href}
                 className={linkClass}
                 tabIndex={-1}

@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { buildGeneralInquiryWhatsappLink } from "@/lib/integrations/whatsapp";
 
 export interface CollectionsHeroProps {
@@ -9,6 +10,9 @@ export interface CollectionsHeroProps {
   yearsClaimConfirmed?: boolean;
   whatsappNumber?: string;
 }
+
+// A real photograph of the showroom wall, not a render.
+const SHOWROOM_WALL = "/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg";
 
 export default function CollectionsHero({
   collectionCount,
@@ -26,8 +30,10 @@ export default function CollectionsHero({
 
   return (
     <section className="relative pt-16 pb-20 md:pt-28 md:pb-32 border-b border-[var(--border)]">
-      <div className="max-w-[1320px] mx-auto px-6">
-        <div className="max-w-4xl">
+      {/* lg+: copy left, real showroom photography right. Below lg the photo is
+          dropped so the mobile hero stays one screen of text and CTAs. */}
+      <div className="max-w-[1320px] mx-auto px-6 lg:grid lg:grid-cols-12 lg:gap-12 xl:gap-16 lg:items-center">
+        <div className="max-w-4xl lg:col-span-7">
           {/* Eyebrow */}
           <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-brass-ink mb-4 block">
             ARCHITECTURAL HARDWARE · SAKCHI · JAMSHEDPUR
@@ -80,6 +86,33 @@ export default function CollectionsHero({
             </div>
           )}
         </div>
+
+        <figure className="hidden lg:block lg:col-span-5">
+          <div className="relative aspect-[4/5] overflow-hidden rounded border border-[var(--border)] bg-[var(--surface-raised)] shadow-[0_24px_60px_rgba(26,16,23,0.10)]">
+            <Image
+              src={SHOWROOM_WALL}
+              alt="Cabinet handles and pulls in brass, matte black and ivory finishes on the Hardware Collection showroom wall in Sakchi"
+              fill
+              priority
+              sizes="(min-width: 1320px) 500px, 40vw"
+              className="object-cover"
+              style={{ filter: "contrast(1.05) saturate(1.03)" }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 via-35% to-transparent" aria-hidden="true" />
+            <figcaption className="absolute left-5 bottom-5 right-5 flex items-end justify-between gap-4 text-white">
+              <span>
+                <span className="hc-mono block text-[10px] uppercase tracking-[0.22em] text-white/75">On display</span>
+                <span className="hc-serif block text-2xl leading-tight">The Sakchi showroom</span>
+              </span>
+              <Link
+                href="/#showroom"
+                className="hc-focus shrink-0 rounded border border-white/40 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-white hover:text-[#1a1017] transition-colors"
+              >
+                Visit
+              </Link>
+            </figcaption>
+          </div>
+        </figure>
       </div>
     </section>
   );

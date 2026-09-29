@@ -6,7 +6,7 @@ export type FitMode = "width" | "page";
 
 export type CatalogueStatus = "loading" | "ready" | "error";
 
-export type AnnotationTool = "pen" | "highlight";
+export type AnnotationTool = "select" | "arrow" | "circle" | "box";
 
 /** Geometry is shared with the capture compositor, which owns the definitions. */
 export type { NormPoint, NormRect } from "@/lib/catalog/capture";

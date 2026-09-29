@@ -24,9 +24,8 @@ export default function CompactCollectionGrid({
       {categories.map((category) => {
         const slug = getSlugString(category.slug);
         const imageUrl =
-          category.heroImageUrl ||
           category.imageUrl ||
-          "/cinema/categories/HC-03-DOORS.png";
+          "";
 
         return (
           <Link
@@ -36,17 +35,23 @@ export default function CompactCollectionGrid({
           >
             {/* Image Container — pinned to aspect-[4/3] (CLS gate) */}
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[var(--surface-raised)] mb-5">
-              <Image
-                src={imageUrl}
-                alt={category.name}
-                fill
-                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                className={`object-cover ${
-                  shouldReduceMotion
-                    ? ""
-                    : "transition-transform duration-[180ms] ease-out group-hover:scale-105"
-                }`}
-              />
+              {imageUrl ? (
+                <Image
+                  src={imageUrl}
+                  alt={category.name}
+                  fill
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  className={`object-cover ${
+                    shouldReduceMotion
+                      ? ""
+                      : "transition-transform duration-[180ms] ease-out group-hover:scale-105"
+                  }`}
+                />
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] pointer-events-none">
+                  <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+                </div>
+              )}
             </div>
 
             {/* Content block */}

@@ -39,11 +39,14 @@ const jost = Jost({
   weight: ["400", "500", "600"],
 });
 
-import { getSiteSettings } from "@/content/sanity/queries";
+import { getSiteSettings, getNavigation } from "@/content/sanity/queries";
 import { CANONICAL_BRANDS } from "@/content/fallback/brands";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
 import Navbar from "@/components/layout/Navbar";
+import { draftMode } from "next/headers";
+import { VisualEditing } from "next-sanity/visual-editing";
+import DraftModeBanner from "@/components/preview/DraftModeBanner";
 
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
@@ -63,7 +66,8 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const settings = await getSiteSettings();
+  const [settings, nav] = await Promise.all([getSiteSettings(), getNavigation()]);
+  const { isEnabled: isDraftMode } = await draftMode();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -100,10 +104,18 @@ export default async function RootLayout({
       </head>
       <body className="min-h-full flex flex-col font-manrope hc-root antialiased">
         <MotionProvider>
-          <Navbar />
+          <Navbar
+            primaryPhone={settings?.primaryPhone}
+            whatsappNumber={settings?.whatsappNumber}
+            defaultWhatsappMessage={settings?.defaultWhatsappMessage}
+            announcementBar={nav?.announcementBar}
+            mainMenu={nav?.mainMenu}
+          />
           {children}
         </MotionProvider>
         <ConsultationDrawer />
+        {isDraftMode && <VisualEditing />}
+        {isDraftMode && <DraftModeBanner />}
       </body>
     </html>
   );

@@ -100,7 +100,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
             isDragging ? "snap-none cursor-grabbing" : "snap-x snap-mandatory cursor-grab"
           }`}
         >
-          {spaces.map((space) => {
+          {spaces.map((space, index) => {
             const slug =
               typeof space.slug === "string"
                 ? space.slug
@@ -113,29 +113,37 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                 ? space.heroImageUrl
                 : null) ||
               SPACE_FALLBACK_IMAGES[slug] ||
-              "/cinema/categories/HC-03-DOORS.png";
+              "";
 
             return (
               <Link
-                key={(" _id" in space && (space as { _id?: string })._id) || slug}
+                key={("_id" in space && (space as { _id?: string })._id) || slug}
                 role="listitem"
                 href={`/collections/${slug}`}
                 draggable={false}
                 className="snap-start shrink-0 w-[85vw] sm:w-[46vw] lg:w-[30vw] aspect-[3/4] relative rounded-2xl overflow-hidden group block threshold-card hc-focus border border-[var(--border)] shadow-sm"
               >
                 {/* Background Photography */}
-                <Image
-                  src={heroImg}
-                  alt={space.name}
-                  fill
-                  draggable={false}
-                  sizes="(max-width: 640px) 85vw, (max-width: 1024px) 46vw, 30vw"
-                  className={`object-cover pointer-events-none ${
-                    shouldReduceMotion
-                      ? ""
-                      : "transition-transform duration-[180ms] ease-out group-hover:scale-105"
-                  }`}
-                />
+                {heroImg ? (
+                  <Image
+                    src={heroImg}
+                    alt={space.name}
+                    fill
+                    draggable={false}
+                    // The first card is the page's largest paint.
+                    priority={index === 0}
+                    sizes="(max-width: 640px) 85vw, (max-width: 1024px) 46vw, 30vw"
+                    className={`object-cover pointer-events-none ${
+                      shouldReduceMotion
+                        ? ""
+                        : "transition-transform duration-[180ms] ease-out group-hover:scale-105"
+                    }`}
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)] pointer-events-none">
+                    <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+                  </div>
+                )}
 
                 {/* Mandated Scrim for Text Legibility */}
                 <div

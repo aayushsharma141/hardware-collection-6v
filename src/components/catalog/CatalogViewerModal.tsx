@@ -21,7 +21,7 @@ import {
   buildMarkedEnquiryMessage,
   buildPageEnquiryMessage,
 } from "@/lib/catalog/messages";
-import { Brand, BrandCatalog, getSlugString } from "@/types/catalog";
+import { Brand, CatalogueDocument, getSlugString } from "@/types/catalog";
 import CatalogHeader from "./viewer/CatalogHeader";
 import ViewerControls from "./viewer/ViewerControls";
 import MarkToolbar from "./viewer/MarkToolbar";
@@ -29,6 +29,7 @@ import CaptureToolbar from "./viewer/CaptureToolbar";
 import AnnotationLayer from "./viewer/AnnotationLayer";
 import CaptureSelector from "./viewer/CaptureSelector";
 import PageJump from "./viewer/PageJump";
+import PageArrows from "./viewer/PageArrows";
 import type {
   AnnotationTool,
   CatalogueStatus,
@@ -62,9 +63,9 @@ const DEFAULT_REGION: NormRect = { x: 0.14, y: 0.18, w: 0.72, h: 0.52 };
 const PdfCanvas = dynamic(() => import("./viewer/PdfCanvas"), {
   ssr: false,
   loading: () => (
-    <div className="flex h-full flex-col items-center justify-center text-white/55">
-      <div className="mb-4 h-8 w-8 animate-spin rounded-full border-2 border-white/15 border-t-[#C8A96E]" />
-      <span className="font-body text-xs uppercase tracking-[0.2em]">Loading catalogue…</span>
+    <div className="flex h-full flex-col items-center justify-center text-[var(--v-text-faint)]">
+      <div className="mb-4 h-8 w-8 animate-spin rounded-md border-2 border-[var(--v-line)] border-t-[var(--v-text)]" />
+      <span className="font-body text-xs tracking-[0.2em]">Loading catalogue…</span>
     </div>
   ),
 });
@@ -81,7 +82,7 @@ interface CatalogViewerModalProps {
   onClose: () => void;
 }
 
-function catalogLabel(entry: BrandCatalog, brandName: string, index: number): string {
+function catalogLabel(entry: CatalogueDocument, brandName: string, index: number): string {
   return entry.title || `${brandName} Catalog ${index + 1}`;
 }
 
@@ -97,7 +98,7 @@ function isTypingTarget(target: EventTarget | null): boolean {
 }
 
 export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModalProps) {
-  const catalogs = useMemo<BrandCatalog[]>(() => brand.officialCatalogs ?? [], [brand]);
+  const catalogs = useMemo<CatalogueDocument[]>(() => brand.catalogues ?? [], [brand]);
   const slug = getSlugString(brand.slug);
   const reduceMotion = useReducedMotion();
 
@@ -120,11 +121,14 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
   const [reloadToken, setReloadToken] = useState(0);
 
   const [strokes, setStrokes] = useState<Stroke[]>([]);
-  const [tool, setTool] = useState<AnnotationTool>("pen");
+  const [tool, setTool] = useState<AnnotationTool>("arrow");
   const [region, setRegion] = useState<NormRect>(DEFAULT_REGION);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [shareNote, setShareNote] = useState<string | null>(null);
+  // Seeded from the generated message when a capture is made, then the
+  // customer's to edit — what they type is what the showroom receives.
+  const [shareMessage, setShareMessage] = useState("");
 
   const [sheet, setSheet] = useState<Sheet>("none");
   const [menuOpen, setMenuOpen] = useState(false);
@@ -287,6 +291,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
     blobRef.current = blob;
     setPreviewUrl(URL.createObjectURL(blob));
     setShareNote(null);
+    setShareMessage(buildMarkedEnquiryMessage(context));
     setState("preview");
     trackCatalogue("catalogue_mark_complete", {
       brand: brand.name,
@@ -301,8 +306,8 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
   const share = useCallback(async () => {
     const blob = blobRef.current;
     if (!blob) return;
+    const message = shareMessage.trim() || buildMarkedEnquiryMessage(context);
     setBusy(true);
-    const message = buildMarkedEnquiryMessage(context);
     const result = await shareCapture({
       blob,
       message,
@@ -332,7 +337,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
         : "WhatsApp is open. Your browser blocked the clipboard, so take a screenshot of this image to attach it.";
     setShareNote(note);
     announce(note);
-  }, [announce, brand.name, context, page, title]);
+  }, [announce, brand.name, context, page, title, shareMessage]);
 
   // Release the previous preview when it is replaced, and the last on unmount.
   useEffect(
@@ -473,7 +478,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
       aria-modal="true"
       aria-labelledby="catalogue-title"
       aria-describedby="catalogue-hint"
-      className="fixed inset-0 z-[100] select-none bg-[#0E0C0C] text-white outline-none"
+      className="hc-viewer fixed inset-0 z-[100] select-none bg-[var(--v-surface)] text-[var(--v-text)] outline-none"
     >
       <h1 id="catalogue-title" className="sr-only">
         {brand.name} — {title}
@@ -517,7 +522,10 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
                     tool={tool}
                     drawable={state === "mark"}
                     renderToken={renderToken}
-                    onCommit={(stroke) => setStrokes((all) => [...all, stroke])}
+                    onCommit={(stroke) => {
+                      setStrokes((all) => [...all, stroke]);
+                      setTool("select");
+                    }}
                   />
                   {state === "capture" && (
                     <CaptureSelector region={region} onChange={setRegion} />
@@ -530,7 +538,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
           {status === "error" && (
             <div className="absolute inset-0 z-30 flex items-center justify-center px-6">
               <div className="max-w-sm text-center">
-                <p className="font-body text-sm text-white/75">
+                <p className="font-body text-sm text-[var(--v-text-dim)]">
                   Catalogue temporarily unavailable.
                 </p>
                 <div className="mt-5 flex flex-wrap items-center justify-center gap-2">
@@ -543,7 +551,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
                       setReloadToken((t) => t + 1);
                       announce("Retrying the catalogue.");
                     }}
-                    className="inline-flex min-h-11 items-center gap-2 rounded-xl border border-[#C8A96E]/60 px-5 font-body text-[11px] font-bold uppercase tracking-[0.14em] text-[#C8A96E] transition-colors hover:bg-[#C8A96E] hover:text-[#0E0C0C] hc-focus"
+                    className="v-press inline-flex min-h-11 items-center gap-2 rounded border border-[var(--v-line-strong)] bg-[var(--v-panel)] px-5 font-body text-[11px] font-bold text-[var(--v-text)] hover:border-[var(--v-text)] hc-focus"
                   >
                     <RotateCw className="h-4 w-4" />
                     Try again
@@ -551,7 +559,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
                   <button
                     type="button"
                     onClick={enquireAboutPage}
-                    className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#8B1A4A] px-5 font-body text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#a02456] hc-focus"
+                    className="v-press inline-flex min-h-11 items-center gap-2 rounded bg-[var(--v-send)] px-5 font-body text-[11px] font-bold text-[var(--v-surface)] hover:bg-[var(--v-send-hover)] hc-focus"
                   >
                     <MessageCircle className="h-4 w-4" />
                     Enquire on WhatsApp
@@ -569,11 +577,8 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
                 visible={chromeVisible}
                 menuOpen={menuOpen}
                 fullscreen={fullscreen}
-                searchable={Boolean(doc)}
                 onBack={onClose}
                 onToggleMenu={() => setMenuOpen((open) => !open)}
-                onOpenPages={() => openSheet("pages")}
-                onOpenSearch={() => openSheet("search")}
                 onToggleFullscreen={() => {
                   setMenuOpen(false);
                   toggleFullscreen();
@@ -590,11 +595,23 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
                 minZoom={MIN_ZOOM}
                 maxZoom={MAX_ZOOM}
                 onZoom={(delta) => zoomTo(zoom + delta)}
-                onToggleFit={() => setFit((f) => (f === "width" ? "page" : "width"))}
-                onResetZoom={() => zoomTo(1)}
+                onSetFit={(next) => {
+                  setFit(next);
+                  zoomTo(1);
+                }}
+                onSetZoom={zoomTo}
                 onOpenPageJump={() => openSheet("jump")}
-                onMark={startMarking}
-                onEnquire={enquireAboutPage}
+                onOpenPages={() => openSheet("pages")}
+                onOpenSearch={() => openSheet("search")}
+                searchable={Boolean(doc)}
+                onSelect={startMarking}
+                onActivity={wake}
+              />
+              <PageArrows
+                page={page}
+                pages={numPages}
+                visible={chromeVisible}
+                onStep={(delta) => goToPage(page + delta)}
               />
             </>
           )}
@@ -612,7 +629,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
           )}
 
           {state === "capture" && (
-            <CaptureToolbar busy={busy} onBack={() => setState("mark")} onConfirm={confirmCapture} />
+            <CaptureToolbar busy={busy} onCancel={() => setState("mark")} onConfirm={confirmCapture} />
           )}
 
           {state === "preview" && previewUrl && (
@@ -621,6 +638,8 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
               brand={brand.name}
               catalogue={title}
               page={page}
+              message={shareMessage}
+              onMessageChange={setShareMessage}
               busy={busy}
               note={shareNote}
               onEdit={leavePreview}
@@ -656,11 +675,9 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
 
           {sheet === "search" && (
             <CatalogSearch
-              doc={doc}
-              pages={numPages}
+              catalogId={`${slug}-${active}`}
               onSelect={(target) => {
                 goToPage(target);
-                setSheet("none");
               }}
               onClose={() => setSheet("none")}
               onSearched={(query, results) =>
@@ -682,19 +699,22 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
               pages={numPages}
               onSelect={selectCatalogue}
               onClose={() => setSheet("none")}
-              onEnquire={enquireAboutPage}
+              onEnquire={() => {
+                setSheet("none");
+                startMarking();
+              }}
               label={(entry, index) => catalogLabel(entry, brand.name, index)}
             />
           )}
         </>
       ) : (
         <div className="flex h-full items-center justify-center p-6">
-          <div className="w-full max-w-md rounded-2xl border border-white/10 bg-[#171414] p-8 text-center md:p-12">
-            <FileText className="mx-auto mb-6 h-12 w-12 text-[#C8A96E] opacity-70" />
-            <h2 className="mb-4 font-display text-2xl uppercase tracking-[0.16em] text-white md:text-3xl">
+          <div className="w-full max-w-md rounded-2xl border border-[var(--v-line)] bg-[var(--v-panel)] p-8 text-center md:p-12 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.1)]">
+            <FileText className="mx-auto mb-6 h-12 w-12 text-[var(--v-text-dim)]" />
+            <h2 className="mb-4 font-display text-2xl text-[var(--v-text)] md:text-3xl">
               Not yet available
             </h2>
-            <p className="mb-8 font-body text-sm leading-relaxed text-white/60">
+            <p className="mb-8 font-body text-sm leading-relaxed text-[var(--v-text-dim)]">
               {external
                 ? `${brand.name} publishes its catalogue on the manufacturer's own site.`
                 : `We have not received the current ${brand.name} catalogue yet. Message a specialist and we will help you with the range directly.`}
@@ -704,7 +724,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
                 href={external}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex min-h-11 items-center rounded-xl border border-white/15 px-6 font-body text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:border-[#C8A96E] hover:text-[#C8A96E] hc-focus"
+                className="v-press inline-flex min-h-11 items-center rounded border border-[var(--v-line-strong)] bg-[var(--v-panel)] px-6 font-body text-[11px] font-bold text-[var(--v-text)] hover:border-[var(--v-text)] hc-focus"
               >
                 Visit manufacturer site
               </a>
@@ -712,7 +732,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
               <button
                 type="button"
                 onClick={enquireAboutPage}
-                className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-[#8B1A4A] px-6 font-body text-[11px] font-bold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#a02456] hc-focus"
+                className="v-press inline-flex min-h-11 items-center gap-2 rounded bg-[var(--v-send)] px-6 font-body text-[11px] font-bold text-[var(--v-surface)] hover:bg-[var(--v-send-hover)] hc-focus"
               >
                 <MessageCircle className="h-4 w-4" />
                 Enquire on WhatsApp
@@ -721,7 +741,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
             <button
               type="button"
               onClick={onClose}
-              className="mt-4 block w-full font-body text-[11px] uppercase tracking-[0.14em] text-white/45 transition-colors hover:text-white hc-focus"
+              className="v-press mt-4 block w-full font-body text-[11px] text-[var(--v-text-faint)] hover:text-[var(--v-text)] hc-focus"
             >
               Back to catalogues
             </button>
@@ -731,3 +751,4 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
     </motion.div>
   );
 }
+

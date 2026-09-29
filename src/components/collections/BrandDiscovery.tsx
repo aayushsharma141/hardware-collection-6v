@@ -132,7 +132,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                               &rarr;
                             </span>
                           </button>
-                          {(brand.officialCatalogs?.length || brand.officialCatalogUrl) && (
+                          {(brand.catalogues?.length || brand.officialCatalogUrl) && (
                             <a
                               href="/catalogs"
                               tabIndex={isHovered ? 0 : -1}
@@ -167,7 +167,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
             </p>
           </div>
 
-          <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-6 gap-3 sm:gap-4">
+          <div className="flex flex-wrap gap-4 sm:gap-5">
             {alphabeticalBrands.map((brand) => (
               <button
                 key={brand._id || brand.id || brand.name}
@@ -175,7 +175,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                 onClick={() => askAboutBrand(brand)}
                 aria-label={`Ask about ${brand.name} in a consultation`}
                 title={`${brand.name} — Ask about availability`}
-                className="relative aspect-[3/2] flex items-center justify-center p-3 sm:p-4 rounded-lg bg-[var(--surface-raised)] border border-[#1a1017]/[0.08] hover:border-[var(--accent)] focus-visible:border-[var(--accent)] transition-colors duration-150 group/cell overflow-hidden cursor-pointer"
+                className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded bg-white/90 border border-[#E7E0D4] shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-all duration-300 group/cell overflow-hidden cursor-pointer"
               >
                 {brand.logoUrl ? (
                   <div className="relative w-full h-full flex items-center justify-center">
@@ -204,5 +204,6 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
     </section>
   );
 }
+
 
 

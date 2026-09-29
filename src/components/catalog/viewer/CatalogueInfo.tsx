@@ -2,7 +2,7 @@
 
 import React from "react";
 import { FileText, X } from "lucide-react";
-import type { BrandCatalog } from "@/types/catalog";
+import type { CatalogueDocument } from "@/types/catalog";
 
 /**
  * "Catalogue information" from the More menu.
@@ -13,13 +13,13 @@ import type { BrandCatalog } from "@/types/catalog";
 
 interface CatalogueInfoProps {
   brand: string;
-  catalogues: BrandCatalog[];
+  catalogues: CatalogueDocument[];
   active: number;
   pages: number;
   onSelect: (index: number) => void;
   onClose: () => void;
   onEnquire: () => void;
-  label: (entry: BrandCatalog, index: number) => string;
+  label: (entry: CatalogueDocument, index: number) => string;
 }
 
 function formatSize(bytes?: number | null): string | null {
@@ -30,9 +30,9 @@ function formatSize(bytes?: number | null): string | null {
 
 function Row({ term, value }: { term: string; value: string }) {
   return (
-    <div className="flex items-baseline justify-between gap-4 border-b border-white/8 py-2.5">
-      <dt className="font-body text-[10px] uppercase tracking-[0.14em] text-white/40">{term}</dt>
-      <dd className="text-right font-body text-xs text-white/80">{value}</dd>
+    <div className="flex items-baseline justify-between gap-4 border-b border-[var(--v-line)] py-2.5">
+      <dt className="font-body text-[10px] text-[var(--v-text-faint)]">{term}</dt>
+      <dd className="text-right font-body text-xs text-[var(--v-text-dim)]">{value}</dd>
     </div>
   );
 }
@@ -51,21 +51,21 @@ export default function CatalogueInfo({
   const size = formatSize(entry?.size);
 
   return (
-    <div className="absolute inset-0 z-50 flex flex-col justify-end bg-[#0E0C0C]/60 backdrop-blur-sm md:flex-row md:justify-end">
+    <div className="absolute inset-0 z-50 flex flex-col justify-end bg-[var(--v-chrome)] backdrop-blur-sm md:flex-row md:justify-end">
       <button type="button" aria-label="Close information" onClick={onClose} className="flex-1 cursor-default" />
       <aside
         aria-label="Catalogue information"
-        className="flex max-h-[80%] flex-col border-t border-white/10 bg-[#171414] md:max-h-none md:w-80 md:border-l md:border-t-0"
+        className="flex max-h-[80%] flex-col border-t border-[var(--v-line)] bg-[var(--v-panel)] md:max-h-none md:w-80 md:border-l md:border-t-0 shadow-xl"
       >
         <div className="flex shrink-0 items-center justify-between px-4 py-3">
-          <h2 className="font-body text-[11px] uppercase tracking-[0.18em] text-white/55">
+          <h2 className="font-body text-[11px] uppercase tracking-[0.18em] text-[var(--v-text-dim)]">
             Catalogue information
           </h2>
           <button
             type="button"
             onClick={onClose}
             aria-label="Close information"
-            className="flex h-11 w-11 items-center justify-center rounded-full text-white/60 transition-colors hover:text-white hc-focus"
+            className="v-press flex h-11 w-11 items-center justify-center rounded text-[var(--v-text-faint)] hover:text-[var(--v-text)] hc-focus"
           >
             <X className="h-5 w-5" />
           </button>
@@ -84,7 +84,7 @@ export default function CatalogueInfo({
 
           {catalogues.length > 1 && (
             <>
-              <h3 className="mt-6 font-body text-[10px] uppercase tracking-[0.14em] text-white/40">
+              <h3 className="mt-6 font-body text-[10px] text-[var(--v-text-dim)]">
                 Other catalogues from {brand}
               </h3>
               <ul className="mt-2 flex flex-col gap-1">
@@ -94,15 +94,15 @@ export default function CatalogueInfo({
                       type="button"
                       onClick={() => onSelect(i)}
                       aria-current={i === active ? "true" : undefined}
-                      className={`flex w-full min-h-11 items-center gap-3 rounded-lg px-3 py-2 text-left transition-colors hc-focus ${
+                      className={`v-press flex w-full min-h-11 items-center gap-3 rounded px-3 py-2 text-left hc-focus ${
                         i === active
-                          ? "bg-[#C8A96E]/15 text-white"
-                          : "text-white/70 hover:bg-white/8 hover:text-white"
+                          ? "bg-[var(--v-accent-bg)] text-[var(--v-accent-fg)] font-semibold"
+                          : "text-[var(--v-text-dim)] hover:bg-black/5 hover:text-[var(--v-text)]"
                       }`}
                     >
                       <FileText
                         className={`h-4 w-4 shrink-0 ${
-                          i === active ? "text-[#C8A96E]" : "text-white/35"
+                          i === active ? "text-[var(--v-accent-fg)]" : "text-[var(--v-text-faint)]"
                         }`}
                       />
                       <span className="font-body text-xs leading-snug">{label(item, i)}</span>
@@ -116,7 +116,7 @@ export default function CatalogueInfo({
           <button
             type="button"
             onClick={onEnquire}
-            className="mt-6 flex min-h-11 w-full items-center justify-center rounded-xl border border-[#8B1A4A] font-body text-[11px] font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#8B1A4A] hc-focus"
+            className="v-press mt-6 flex min-h-11 w-full items-center justify-center rounded border border-[var(--v-send)] font-body text-[11px] font-semibold text-[var(--v-send)] hover:bg-[var(--v-send)] hover:text-[var(--v-surface)] hc-focus"
           >
             Ask about this catalogue
           </button>
@@ -125,3 +125,4 @@ export default function CatalogueInfo({
     </div>
   );
 }
+

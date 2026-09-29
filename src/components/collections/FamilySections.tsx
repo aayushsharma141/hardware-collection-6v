@@ -85,7 +85,12 @@ export default function FamilySections({
           {sections.map(({ category, products }, i) => {
             const slug = getSlugString(category.slug);
             const name = category.name || "Collection";
-            const brandNames = (category.brandRefs ?? []).map((b) => b.name).filter(Boolean);
+            // Ranked by each brand's Display Order in Studio, so one field
+            // controls brand priority everywhere.
+            const brandNames = [...((category.brandRefs ?? []) as Array<{ name: string; displayOrder?: number }>)]
+              .sort((a, b) => (a.displayOrder ?? 999) - (b.displayOrder ?? 999))
+              .map((b) => b.name)
+              .filter(Boolean);
             const enquiryUrl = buildWhatsAppLink(
               buildCategoryConsultMessage(name, category.whatsappMessage),
               settings

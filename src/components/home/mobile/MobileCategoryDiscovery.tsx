@@ -17,19 +17,39 @@ import { CATEGORY_FAMILIES, type CategoryFamily } from "@/content/fallback/home"
  * resolve into a hairline index that fits in a glance. The visitor sees all
  * five and chooses one, instead of scrolling past them one at a time.
  */
-const focal: CategoryFamily =
-  CATEGORY_FAMILIES.find((family) => family.isFocal) ?? CATEGORY_FAMILIES[0];
-const index: CategoryFamily[] = CATEGORY_FAMILIES.filter(
-  (family) => family.id !== focal.id
-);
+interface MobileCategoryDiscoveryProps {
+  categories?: {
+    categoryName: string;
+    slug: string;
+    imageUrl?: string;
+    description?: string;
+  }[];
+}
 
-/** "01 / 05" is desktop's format; the index rows only need the position. */
-const position = (family: CategoryFamily) => family.index.split(" ")[0];
+export default function MobileCategoryDiscovery({ categories }: MobileCategoryDiscoveryProps) {
+  const activeFamilies = categories && categories.length > 0
+    ? categories.map((c, idx) => ({
+        id: c.slug,
+        index: `0${idx + 1}`,
+        name: c.categoryName,
+        nameBreak: undefined,
+        subtitle: c.description || "Premium architectural hardware",
+        detail: "Explore the collection",
+        image: c.imageUrl || "",
+        href: `/catalogs?category=${c.slug}`,
+        isFocal: idx === 0,
+      }))
+    : CATEGORY_FAMILIES;
 
-const fullName = (family: CategoryFamily) =>
-  family.nameBreak ? `${family.name} ${family.nameBreak}` : family.name;
+  const focal: CategoryFamily =
+    activeFamilies.find((family) => family.isFocal) ?? activeFamilies[0];
+  const index: CategoryFamily[] = activeFamilies.filter(
+    (family) => family.id !== focal.id
+  );
 
-export default function MobileCategoryDiscovery() {
+  const fullName = (family: CategoryFamily) =>
+    family.nameBreak ? `${family.name} ${family.nameBreak}` : family.name;
+
   return (
     <section className="w-full px-margin-mobile pt-[104px] pb-[72px] bg-[#fbf5ea] border-t border-[#1a1017]/[0.08] lg:hidden">
       <div className="flex flex-col">
@@ -50,13 +70,19 @@ export default function MobileCategoryDiscovery() {
         href={focal.href}
         className="hc-focus group relative -mx-margin-mobile mt-[52px] block aspect-[4/5] overflow-hidden border-y border-[#1a1017]/[0.10] bg-[#f7f0e2] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.99] motion-reduce:transition-none motion-reduce:active:scale-100"
       >
-        <Image
-          src={focal.image}
-          alt=""
-          fill
-          sizes="(max-width: 1024px) 100vw, 400px"
-          className="object-cover transition-transform duration-500 ease-out group-active:scale-[1.03]"
-        />
+        {focal.image ? (
+          <Image
+            src={focal.image}
+            alt=""
+            fill
+            sizes="(max-width: 1024px) 100vw, 400px"
+            className="object-cover transition-transform duration-500 ease-out group-active:scale-[1.03]"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)] border border-[var(--border)]">
+            <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+          </div>
+        )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#1a1017]/85 via-[#1a1017]/30 to-transparent" />
 
         {/* Sequential 01 for the focal lead item */}
@@ -94,13 +120,19 @@ export default function MobileCategoryDiscovery() {
                 </span>
 
                 <span className="relative shrink-0 w-14 h-[62px] overflow-hidden rounded bg-[#f7f0e2] border border-[#1a1017]/[0.08]">
-                  <Image
-                    src={family.image}
-                    alt=""
-                    fill
-                    sizes="56px"
-                    className="object-cover"
-                  />
+                  {family.image ? (
+                    <Image
+                      src={family.image}
+                      alt=""
+                      fill
+                      sizes="56px"
+                      className="object-cover"
+                    />
+                  ) : (
+                    <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)]">
+                      <span className="text-[8px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Wait</span>
+                    </div>
+                  )}
                 </span>
 
                 <span className="min-w-0 flex-1 font-headline-md text-lg text-[#1a1017] group-hover:text-[#8b1a42] transition-colors">

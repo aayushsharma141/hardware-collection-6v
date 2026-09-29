@@ -70,7 +70,7 @@ export function ConsultationDrawer() {
               </div>
               <button
                 onClick={closeDrawer}
-                className="w-8 h-8 rounded-full bg-[#1a1017]/[0.05] border border-[#1a1017]/[0.1] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[#8b1a42] hover:text-white transition-all focus:outline-none cursor-pointer"
+                className="w-8 h-8 rounded bg-[#1a1017]/[0.05] border border-[#1a1017]/[0.1] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[#8b1a42] hover:text-white transition-all focus:outline-none cursor-pointer"
                 aria-label="Close dialog"
               >
                 <X className="w-4 h-4" />

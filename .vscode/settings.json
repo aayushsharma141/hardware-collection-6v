@@ -3,5 +3,9 @@
   "workbench.colorCustomizations": {
     "titleBar.activeBackground": "#0f172a",
     "titleBar.activeForeground": "#f8fafc"
-  }
+  },
+  // Tailwind v4 uses @theme, @import "tailwindcss", and other non-standard
+  // at-rules that the built-in CSS validator doesn't recognise. Disable it
+  // here; PostCSS / the Tailwind compiler is the authority on valid CSS.
+  "css.validate": false
 }

@@ -17,7 +17,7 @@ describe("Canonical brand roster (D-05/D-07/D-26)", () => {
       (name) => !brandNames.has(name.toLowerCase())
     );
 
-    // EXPECTED RED today: "Hettich" and "Kich" are referenced by CATEGORIES/PRODUCTS
+    // EXPECTED RED today: "Hettich" is referenced by CATEGORIES/PRODUCTS
     // but absent from BRANDS. This goes green once 09-04 reconciles the roster.
     expect(missingNames).toEqual([]);
   });

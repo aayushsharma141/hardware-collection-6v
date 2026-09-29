@@ -537,7 +537,14 @@ html.lenis, html.lenis body { height: auto; }
 }
 .hc-serif { font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif; }
 .hc-mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
-.hc-root button, .hc-root a, .hc-root input { font: inherit; }
+/* Base layer, not unlayered: an unlayered rule outranks every @layer
+   utilities class regardless of specificity, and with .hc-root on <body> this
+   `font` shorthand was silently discarding the text-*, font-* and leading-*
+   classes on every link and button on the site. Here it only fills in for
+   controls that declare no type styles of their own. */
+@layer base {
+  .hc-root button, .hc-root a, .hc-root input { font: inherit; }
+}
 .hc-focus:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
 
 /* Underline sweep — wine on interactive elements */
@@ -619,9 +626,9 @@ html.lenis, html.lenis body { height: auto; }
 html {
   -webkit-text-size-adjust: 100%;
   text-size-adjust: 100%;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(139, 26, 66, 0.40) var(--pearl);
 }
+
+
 
 ::selection {
   background: var(--wine);
@@ -828,9 +835,12 @@ select {
    ───────────────────────────────────────────────────────────── */
 
 .navbar-brand {
-  /* Phone: only a hamburger sits opposite the mark, so the ceiling is the
-     wordmark's own run length rather than the bar's other content. */
-  --nav-brand-size: clamp(18px, 5.5vw, 26px);
+  /* Phone: only a hamburger sits opposite the mark. The inline lockup runs
+     ~15.1em wide, and the bar leaves (100vw - 108px) for it: 24px island
+     gutter, 32px pill padding, the 44px menu button and an 8px gap. Solving
+     for the font size gives 6.6vw - 7.2px. The old 18px floor pushed the
+     menu button out of the pill below ~390px. */
+  --nav-brand-size: clamp(14px, calc(6.6vw - 7.2px), 26px);
 }
 
 @media (min-width: 768px) {
@@ -853,4 +863,75 @@ select {
      text heights now match cleanly, the logo has a balanced profile and can
      comfortably scale up. */
   .navbar-brand { --nav-brand-size: clamp(19px, 1.4vw + 7px, 28px); }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   CATALOGUE VIEWER — chrome tokens and pressables
+
+   The viewer is a dark reading surface sitting under full-colour
+   catalogue artwork, so its chrome is deliberately colourless:
+   a neutral scale carries everything, one gold hairline marks
+   state, and exactly one crimson button sends the enquiry. Gold
+   is never a fill — a filled slab competes with the page, which
+   is the one thing the customer came to look at.
+   ───────────────────────────────────────────────────────────── */
+.hc-viewer {
+  /* A reader's ground is dark for a functional reason: catalogue pages are
+     mostly white, and a light ground erases the page edge and the shadow that
+     separates sheet from surface. Dark also keeps the chrome legible over
+     unpredictable artwork, which translucent near-white chrome cannot do. */
+  --v-surface:      #0E0C0C;   /* the reading ground */
+  --v-panel:        #171414;   /* sheets and menus */
+  --v-chrome:       rgba(14, 12, 12, 0.82);
+  --v-line:         rgba(255, 255, 255, 0.10);
+  --v-line-strong:  rgba(255, 255, 255, 0.22);
+
+  --v-text:         rgba(255, 255, 255, 0.92);
+  --v-text-dim:     rgba(255, 255, 255, 0.62);
+  --v-text-faint:   rgba(255, 255, 255, 0.38);
+
+  /* Colour is scarce. Gold marks state only — a hairline, a tick, a label —
+     and never fills a surface, where it would compete with the page. */
+  --v-state:        #C8A96E;
+  --v-accent-fg:    #C8A96E;
+  --v-accent-bg:    rgba(200, 169, 110, 0.12);
+
+  /* Exactly one coloured button in the whole viewer: the outbound send. */
+  --v-send:         #8B1A4A;
+  --v-send-hover:   #A02456;
+
+  --v-ease: cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Every pressable answers the press. 160ms is the window where
+   feedback reads as instant rather than as an animation. */
+.v-press {
+  transition:
+    transform 160ms var(--v-ease),
+    background-color 160ms var(--v-ease),
+    border-color 160ms var(--v-ease),
+    color 160ms var(--v-ease),
+    opacity 160ms var(--v-ease);
+}
+.v-press:active:not(:disabled) { transform: scale(0.97); }
+
+/* Hover is a pointer affordance; on touch it sticks after a tap. */
+@media (hover: hover) and (pointer: fine) {
+  .v-hover:hover { color: var(--v-text); border-color: var(--v-line-strong); }
+}
+
+/* The zoom menu grows from its trigger, which sits below it. */
+.v-menu {
+  transform-origin: bottom center;
+  animation: v-menu-in 150ms var(--v-ease) both;
+}
+@keyframes v-menu-in {
+  from { opacity: 0; transform: scale(0.97) translateY(2px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .v-press { transition-property: background-color, border-color, color, opacity; }
+  .v-press:active:not(:disabled) { transform: none; }
+  .v-menu { animation: none; }
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import { NormalizedLogo } from "@/components/brand/NormalizedLogo";
 import { ArrowUpRight, BookOpen } from "lucide-react";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { Brand, ResolvedBrand } from "@/types/catalog";
@@ -49,9 +49,9 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
           <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
             Authorized Reference Library
           </span>
-          <h2 className="hc-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.0] mb-5">
+          <h1 className="hc-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.0] mb-5">
             Official Brand Partners & Catalogs
-          </h2>
+          </h1>
           <p className="text-base sm:text-xl leading-relaxed text-[var(--text-secondary)] font-light max-w-3xl">
             Access the complete technical specifications and product lines of our authorized partners. 
             Click any brand card to view the official catalog or visit their manufacturer portal.
@@ -76,7 +76,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
             const country = brand.country ?? meta.country;
 
             const catalogCount =
-              brand.officialCatalogs?.length || (brand.officialCatalogUrl ? 1 : 0);
+              brand.catalogues?.length || (brand.officialCatalogUrl ? 1 : 0);
 
             const handleCardClick = () => {
               if (onSelectBrand) {
@@ -123,14 +123,13 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                 
                 {/* Middle: Brand Logo & Tagline */}
                 <div className="my-auto py-4">
-                  <div className="relative h-16 w-full max-w-[220px] flex items-center justify-start">
+                  <div className="h-16 w-full max-w-[220px] flex items-center justify-start">
                     {logoSrc ? (
-                      <Image
+                      <NormalizedLogo
                         src={logoSrc}
                         alt={`${displayName} Logo`}
-                        fill
-                        className={`object-contain object-left transition-transform duration-300 group-hover:scale-105 ${meta.imageClass || ""}`}
-                        unoptimized={typeof logoSrc === "string" && logoSrc.endsWith(".svg")}
+                        aspect={brand.logoUrl ? brand.logoAspect : null}
+                        className={`transition-transform duration-300 group-hover:scale-105 ${meta.imageClass || ""}`}
                       />
                     ) : (
                       <span className="font-display text-2xl text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">
@@ -144,7 +143,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                 </div>
                 
                 {/* Bottom Actions: View Catalog + Visit Brand Website */}
-                <div className="flex items-center justify-between pt-5 border-t border-[var(--border)] gap-4">
+                <div className="flex flex-wrap items-center justify-between pt-5 border-t border-[var(--border)] gap-x-3 gap-y-2">
                   {catalogCount > 0 && (
                     <button
                       type="button"
@@ -152,7 +151,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                         e.stopPropagation();
                         handleCardClick();
                       }}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] rounded-lg bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-sm"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] whitespace-nowrap rounded bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-sm"
                     >
                       <BookOpen className="w-4 h-4" />
                       <span>{catalogCount > 1 ? `View ${catalogCount} Catalogs` : "View Catalog"}</span>
@@ -165,7 +164,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 min-h-[44px] px-2 py-2 text-xs sm:text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors group/link"
+                      className="inline-flex items-center gap-1.5 min-h-[44px] whitespace-nowrap px-1 py-2 text-xs sm:text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors group/link"
                     >
                       <span>Visit Website</span>
                       <ArrowUpRight className="w-4 h-4 text-[#c8a96e] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
@@ -190,7 +189,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
             href={buildWhatsAppUrl("Hi Hardware Collection, I would like to request a physical catalog.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 bg-[var(--accent)] text-white px-9 py-4 rounded-lg font-bold uppercase tracking-widest text-xs sm:text-sm transition-colors hover:bg-[var(--accent-hover)] shadow-md"
+            className="inline-flex items-center gap-2.5 bg-[var(--accent)] text-white px-9 py-4 rounded font-bold uppercase tracking-widest text-xs sm:text-sm transition-colors hover:bg-[var(--accent-hover)] shadow-md"
           >
             Request via WhatsApp
           </a>
@@ -199,6 +198,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
     </section>
   );
 }
+
 
 
 

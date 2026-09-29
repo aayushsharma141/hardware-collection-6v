@@ -71,7 +71,7 @@ export function FloatingConsultationCapsule({ hasShortlist = false }: { hasShort
                 intent: "consultation",
               })
             }
-            className="group relative flex items-center gap-3 bg-[#f7f0e2]/95 hover:bg-[#f7f0e2] border border-[#1a1017]/[0.12] hover:border-[#8b1a42]/60 rounded-full px-6 py-3.5 shadow-[0_18px_40px_rgba(26,16,23,0.14)] backdrop-blur-2xl transition-all duration-300 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42]"
+            className="group relative flex items-center gap-3 bg-[#f7f0e2]/95 hover:bg-[#f7f0e2] border border-[#1a1017]/[0.12] hover:border-[#8b1a42]/60 rounded px-6 py-3.5 shadow-[0_18px_40px_rgba(26,16,23,0.14)] backdrop-blur-2xl transition-all duration-300 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42]"
           >
             <div className="w-2 h-2 rounded-full bg-[#8b1a42] animate-pulse" />
             <span className="text-xs uppercase tracking-[0.16em] font-medium text-[#3d2e38] group-hover:text-[#1a1017] transition-colors">

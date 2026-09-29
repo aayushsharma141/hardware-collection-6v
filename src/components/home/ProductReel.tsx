@@ -40,7 +40,31 @@ const itemVariants = {
   }
 };
 
-export default function ProductReel() {
+interface ProductReelProps {
+  products?: {
+    productName: string;
+    slug: string;
+    imageUrl?: string;
+    brandName?: string;
+  }[];
+}
+
+export default function ProductReel({ products }: ProductReelProps) {
+  const activeProducts = products && products.length > 0
+    ? products.map((p, idx) => ({
+        index: `0${idx + 1}`,
+        brand: p.brandName || "Premium",
+        name: p.productName,
+        category: "Hardware",
+        finish: "Custom Finish",
+        statement: "Discover this architectural detail.",
+        blurb: "A timeless piece of architectural hardware.",
+        img: p.imageUrl || "",
+        href: `/catalogs?product=${p.slug}`,
+        sweepDelay: "0s",
+      }))
+    : PRODUCTS;
+
   const containerRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
@@ -86,7 +110,7 @@ export default function ProductReel() {
       whileInView="visible"
       viewport={{ once: true, margin: "-50px" }}
     >
-      {PRODUCTS.map((p, i) => (
+      {activeProducts.map((p, i) => (
         <motion.a
           variants={itemVariants}
           key={i}
@@ -143,7 +167,7 @@ export default function ProductReel() {
               Selected architectural hardware from our authorized partners.
             </p>
             <p className="text-[var(--text-secondary)] text-xs mt-6">
-              01 — {PRODUCTS.length.toString().padStart(2, "0")}
+              01 — {activeProducts.length.toString().padStart(2, "0")}
             </p>
           </div>
 
@@ -155,7 +179,7 @@ export default function ProductReel() {
             whileInView="visible"
             viewport={{ once: true }}
           >
-            {PRODUCTS.map((p, i) => (
+            {activeProducts.map((p, i) => (
               <motion.a
                 variants={itemVariants}
               key={i}
@@ -169,7 +193,7 @@ export default function ProductReel() {
           </motion.div>
 
           {/* End: full collection CTA */}
-          <div className="shrink-0 w-80 flex flex-col justify-center h-full pl-8 border-l border-[var(--border)]">
+          <div className="shrink-0 w-96 flex flex-col justify-center h-full pl-10 border-l border-[var(--border)]">
             <CollectionCTA />
           </div>
         </div>
@@ -187,13 +211,19 @@ function ProductCard({
     <div className="flex flex-col gap-4">
       {/* Image with light sweep + hover zoom */}
       <div className="relative overflow-hidden bg-[var(--surface-raised)] aspect-[3/4] rounded-sm">
-        <Image
-          src={product.img}
-          alt={`${product.brand} ${product.name}`}
-          fill
-          sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
-          className="object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
-        />
+        {product.img ? (
+          <Image
+            src={product.img}
+            alt={`${product.brand} ${product.name}`}
+            fill
+            sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
+            className="object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] will-change-transform"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)]">
+            <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+          </div>
+        )}
         {/* Hover darkened overlay for editorial contrast */}
         <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
         {/* Reflective light sweep */}
@@ -249,7 +279,7 @@ function CollectionCTA() {
     <MagneticButton>
       <Link
         href="/collections"
-        className="inline-flex items-center gap-3 px-8 py-5 border border-[var(--border)] text-[var(--text-primary)] font-medium text-sm tracking-widest uppercase hover:bg-[var(--text-primary)] hover:text-[var(--surface)] transition-colors duration-300"
+        className="inline-flex items-center gap-3 px-8 py-5 whitespace-nowrap border border-[var(--border)] text-[var(--text-primary)] font-medium text-sm tracking-widest uppercase hover:bg-[var(--text-primary)] hover:text-[var(--surface)] transition-colors duration-300"
       >
         EXPLORE FULL COLLECTION
         <span aria-hidden="true" className="text-base">→</span>
@@ -272,13 +302,19 @@ function MobileProductCard({
     <div className="flex flex-col gap-3">
       {/* Portrait image &mdash; aspect 4:5 */}
       <div className="relative overflow-hidden bg-[var(--surface-raised)] aspect-[4/5] rounded-sm">
-        <Image
-          src={product.img}
-          alt={`${product.brand} ${product.name}`}
-          fill
-          sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
-          className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
-        />
+        {product.img ? (
+          <Image
+            src={product.img}
+            alt={`${product.brand} ${product.name}`}
+            fill
+            sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
+            className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)]">
+            <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+          </div>
+        )}
         <div
           className="light-sweep-overlay"
           aria-hidden="true"
