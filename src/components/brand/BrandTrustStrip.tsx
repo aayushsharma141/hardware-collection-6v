@@ -93,7 +93,7 @@ export default function BrandTrustStrip({ brands }: BrandTrustStripProps) {
           Authorized partners
         </p>
         <h2 className="hc-serif text-[40px] sm:text-5xl lg:text-[64px] font-light tracking-[-0.02em] text-[#1A1017] leading-tight mb-5">
-          Specified By
+          Authorized Brands
         </h2>
         <p className="text-base sm:text-lg leading-relaxed text-[#6B5E68] font-light max-w-2xl mx-auto">
           German engineering and trusted Indian architectural manufacturers,

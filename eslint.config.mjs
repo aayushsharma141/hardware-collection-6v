@@ -34,6 +34,19 @@ const eslintConfig = defineConfig([
     // repo turned 30 warnings into 1,713 problems and 49 errors, so the gate
     // failed whenever a background task happened to be running.
     ".claude/**",
+    // One-off dev/debug scripts at the repo root — not application source.
+    "check_drafts.ts",
+    "check_urls.ts",
+    "cleanup.ts",
+    "scratch.ts",
+    "scratch_settings.ts",
+    "compare.mjs",
+    "test-log.js",
+    "test-pdf-node.mjs",
+    "test-sanity.js",
+    "test-sanity2.js",
+    "screenshot.mjs",
+    "uploadLogos.js",
   ]),
 ]);
 

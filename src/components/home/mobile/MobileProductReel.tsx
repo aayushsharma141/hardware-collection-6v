@@ -42,7 +42,7 @@ interface MobileProductReelProps {
 }
 
 export default function MobileProductReel({ products }: MobileProductReelProps) {
-  const activeProducts = (products && products.length > 0
+  const activeProducts = products && products.length > 0
     ? products.map((p, idx) => {
         const fb = FEATURED[idx % FEATURED.length];
         return {
@@ -58,7 +58,7 @@ export default function MobileProductReel({ products }: MobileProductReelProps) 
           sweepDelay: fb.sweepDelay,
         };
       })
-    : FEATURED).slice(0, 3);
+    : FEATURED;
 
   const [openIndex, setOpenIndex] = useState(activeProducts[0]?.index || "01");
 
