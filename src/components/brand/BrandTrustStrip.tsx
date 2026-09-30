@@ -3,13 +3,15 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CANONICAL_BRANDS, BrandInfo } from "@/content/fallback/brands";
+import { CANONICAL_BRANDS } from "@/content/fallback/brands";
 
 export interface BrandItem {
   name: string;
   id?: string;
   logo?: string;
   href: string;
+  imageClass?: string;
+  imageStyle?: React.CSSProperties;
 }
 
 interface BrandTrustStripProps {
@@ -21,15 +23,21 @@ interface BrandTrustStripProps {
 }
 
 export default function BrandTrustStrip({ brands }: BrandTrustStripProps) {
-  // If we have sanity brands, map them to BrandItem. Otherwise use fallback.
-  const activeBrands: BrandItem[] = brands && brands.length > 0 
-    ? brands.map(b => {
+  // Deduplicate by slug to prevent React key warnings if CMS has duplicates
+  const uniqueBrands = brands && brands.length > 0
+    ? Array.from(new Map(brands.map(b => [b.slug, b])).values())
+    : [];
+
+  const activeBrands: BrandItem[] = uniqueBrands.length > 0 
+    ? uniqueBrands.map(b => {
         const canonical = CANONICAL_BRANDS.find(c => c.id === b.slug);
         return {
           name: b.brandName,
           id: b.slug,
-          logo: b.logoUrl || canonical?.logo,
-          href: `/catalogs?brand=${b.slug}`
+          logo: canonical?.logo || b.logoUrl,
+          href: `/catalogs?brand=${b.slug}`,
+          imageClass: canonical?.imageClass,
+          imageStyle: canonical?.imageStyle
         };
       })
     : CANONICAL_BRANDS.map(b => ({ ...b, href: `/catalogs?brand=${b.id}` }));
@@ -55,9 +63,10 @@ export default function BrandTrustStrip({ brands }: BrandTrustStripProps) {
             opacity-90
             transition-all duration-500 ease-out
             group-hover/item:opacity-100
-            group-hover/item:scale-105
             group-hover/item:drop-shadow-[0_4px_16px_rgba(0,0,0,0.12)]
+            ${brand.imageClass || ""}
           `}
+          style={brand.imageStyle}
           unoptimized={brand.logo.endsWith(".svg")}
         />
       );

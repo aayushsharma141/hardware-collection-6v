@@ -17,6 +17,7 @@ import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { selectFeaturedCategories } from "@/lib/collections/tiers";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildWhatsAppLink, buildGeneralInquiryWhatsappLink } from "@/lib/integrations/whatsapp";
+import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 
 import CollectionsHero from "@/components/collections/CollectionsHero";
 import CollectionSearch from "@/components/collections/CollectionSearch";
@@ -40,11 +41,20 @@ export interface CollectionsClientProps {
 export default function CollectionsClient({
   categories,
   products,
-  brands,
+  brands: rawBrands,
   spaces = [],
   liveCounts,
   settings,
 }: CollectionsClientProps) {
+  const brands = Array.from(new Map(rawBrands.map(b => {
+    const normalizedKey = normalizeBrandKey(b);
+    const enrichedBrand = { ...b };
+    if (!enrichedBrand.logoUrl && CANONICAL_BRANDS_BY_ID[normalizedKey]?.logo) {
+      enrichedBrand.logoUrl = CANONICAL_BRANDS_BY_ID[normalizedKey].logo;
+    }
+    return [normalizedKey, enrichedBrand];
+  })).values());
+
   const { openDrawer } = useConsultationStore();
 
   const {
@@ -127,7 +137,13 @@ export default function CollectionsClient({
 
         {/* 6. Authorized Brand Discovery & Static Wall */}
         <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
-          <BrandDiscovery brands={brands} />
+          <BrandDiscovery 
+            brands={
+              settings?.authorizedBrandRefs?.length 
+                ? brands.filter((b) => settings.authorizedBrandRefs!.some((ab: { slug?: string | { current?: string } }) => (typeof ab.slug === "object" ? ab.slug?.current : ab.slug) === getSlugString(b.slug)))
+                : brands
+            } 
+          />
         </div>
 
         {/* 7. Bottom Showroom Consultation CTA */}

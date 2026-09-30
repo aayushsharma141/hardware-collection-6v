@@ -20,7 +20,7 @@ import {
   Layers,
   ChevronRight,
 } from "lucide-react";
-import { AtmosphericLayer } from "@/components/visual/AtmosphericLayer";
+import { AtmosphericLayer } from "@/components/home/AtmosphericLayer";
 import {
   SHOWROOM_PHONE_DISPLAY,
   SHOWROOM_SECONDARY_PHONE_DISPLAY,
@@ -47,6 +47,7 @@ interface FooterProps {
     defaultWhatsappMessage?: string;
     googleMapsUrl?: string;
     email?: string;
+    authorizedBrandRefs?: { brandName: string; slug: string; logoUrl?: string }[];
   };
   brands?: BrandItem[];
 }
@@ -72,7 +73,6 @@ const FALLBACK_BRANDS = [
 
 export default function Footer({ settings, brands }: FooterProps) {
   const pathname = usePathname();
-  const { openDrawer } = useConsultationStore();
 
   // Suppress rendering inside Sanity Studio CMS
   if (pathname?.startsWith("/studio")) {
@@ -89,7 +89,6 @@ export default function Footer({ settings, brands }: FooterProps) {
   const mapsUrl =
     settings?.googleMapsUrl ||
     "https://www.google.com/maps/search/?api=1&query=Hardware+Collection+Jamshedpur";
-  const email = settings?.email || "info@hardwarecollection.in";
 
   const cleanPrimaryPhone = primaryPhone.replace(/\s+/g, "");
   const cleanSecondaryPhone = secondaryPhone.replace(/\s+/g, "");
@@ -200,17 +199,27 @@ export default function Footer({ settings, brands }: FooterProps) {
             </h4>
             <nav aria-label="Authorized Brand Partners">
               <ul className="space-y-1.5">
-                {FALLBACK_BRANDS.map((brand) => (
-                  <li key={brand.slug}>
+                {Array.from(new Map(
+                  (settings?.authorizedBrandRefs?.length ? settings.authorizedBrandRefs : (brands?.length ? brands : FALLBACK_BRANDS)).map((brand) => {
+                    const b = brand as { slug?: string | { current?: string }; id?: string; name?: string; brandName?: string };
+                    const slug = (typeof b.slug === 'string' ? b.slug : b.slug?.current) || b.id || b.name;
+                    return [slug, brand];
+                  })
+                ).values()).map((brand) => {
+                  const b = brand as { slug?: string | { current?: string }; id?: string; name?: string; brandName?: string };
+                  const name = b.name || b.brandName;
+                  const slug = (typeof b.slug === 'string' ? b.slug : b.slug?.current) || b.id || b.name;
+                  return (
+                  <li key={slug}>
                     <Link
-                      href={`/catalogs?brand=${brand.slug}`}
+                      href={`/catalogs?brand=${slug}`}
                       className="w-full text-[12.5px] uppercase tracking-[0.14em] font-medium text-[#2e232b] hover:text-[#8b1a42] hover:bg-[#fbf5ea] px-2.5 py-2 rounded-lg transition-colors flex items-center justify-between group text-left"
                     >
-                      <span>{brand.name}</span>
+                      <span>{name}</span>
                       <ChevronRight className="w-3.5 h-3.5 text-[#7a6872] group-hover:text-[#8b1a42] transition-transform group-hover:translate-x-0.5" />
                     </Link>
                   </li>
-                ))}
+                )})}
               </ul>
             </nav>
           </div>
@@ -221,15 +230,26 @@ export default function Footer({ settings, brands }: FooterProps) {
               SHOWROOM & CONTACT
             </h4>
 
-            {/* Address */}
-            <div className="flex items-start gap-3 p-3 rounded-xl bg-[#fbf5ea] border border-[#1a1017]/[0.06]">
-              <div className="w-8 h-8 rounded-lg bg-[#c8a96e]/15 flex items-center justify-center text-[#8b1a42] shrink-0">
+            {/* Address & Directions */}
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-start gap-3 p-3 rounded-xl bg-[#fbf5ea] border border-[#1a1017]/[0.06] hover:border-[#8b1a42]/30 hover:bg-[#f5ecdc] transition-all group"
+            >
+              <div className="w-8 h-8 rounded-lg bg-[#c8a96e]/15 group-hover:bg-[#8b1a42] group-hover:text-white transition-colors flex items-center justify-center text-[#8b1a42] shrink-0">
                 <MapPin className="w-4 h-4" />
               </div>
-              <address className="not-italic text-xs text-[#2e232b] leading-relaxed whitespace-pre-line">
-                {address}
-              </address>
-            </div>
+              <div className="flex-1">
+                <address className="not-italic text-xs text-[#2e232b] leading-relaxed whitespace-pre-line group-hover:text-[#8b1a42] transition-colors">
+                  {address}
+                </address>
+                <div className="mt-2 text-[10.5px] font-bold text-[#8b1a42] tracking-[0.16em] uppercase flex items-center gap-1">
+                  DRIVING DIRECTIONS
+                  <ArrowUpRight className="w-3 h-3 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                </div>
+              </div>
+            </a>
 
             {/* Hours Box */}
             <div className="flex items-start gap-3 p-3.5 rounded-xl bg-[#fbf5ea] border border-[#1a1017]/[0.06]">
@@ -256,33 +276,33 @@ export default function Footer({ settings, brands }: FooterProps) {
                 <ArrowUpRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
               </a>
 
-              <a
-                href={mapsUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="w-full py-3 px-4 rounded bg-[#f0dfbc] hover:bg-[#e6d0a4] text-[#1a1017] text-xs font-bold uppercase tracking-[0.16em] flex items-center justify-between transition-colors shadow-sm group"
-              >
-                <span className="flex items-center gap-2">
-                  <MapPin className="w-4 h-4 text-[#8b1a42]" />
-                  <span>DRIVING DIRECTIONS</span>
-                </span>
-                <ArrowUpRight className="w-4 h-4 text-[#8b1a42] transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-              </a>
-
-              <div className="pt-2 space-y-1.5">
+              <div className="pt-2 space-y-2">
                 <a
                   href={`tel:${cleanPrimaryPhone}`}
-                  className="flex items-center gap-2 text-xs text-[#5a4854] hover:text-[#8b1a42] transition-colors py-1"
+                  aria-label={`Call Mukesh Khandelwal at ${primaryPhone}`}
+                  className="flex items-center justify-between gap-2.5 p-2.5 rounded-xl bg-[#fbf5ea] border border-[#1a1017]/[0.08] hover:border-[#8b1a42]/30 hover:bg-[#f5ecdc] transition-all group"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#c8a96e]" />
-                  <span className="font-semibold uppercase tracking-wider">CALL {primaryPhone}</span>
+                  <span className="text-xs font-medium text-[#2e232b] group-hover:text-[#8b1a42] transition-colors">
+                    Call Mukesh Khandelwal
+                  </span>
+                  <span className="px-2.5 py-1.5 rounded-lg bg-[#8b1a42] text-white text-[11px] font-bold tracking-wider group-hover:bg-[#6b1432] transition-colors flex items-center gap-1.5 shrink-0 shadow-sm">
+                    <Phone className="w-3 h-3 text-[#c8a96e]" />
+                    <span>CALL {primaryPhone}</span>
+                  </span>
                 </a>
+
                 <a
                   href={`tel:${cleanSecondaryPhone}`}
-                  className="flex items-center gap-2 text-xs text-[#5a4854] hover:text-[#8b1a42] transition-colors py-1"
+                  aria-label={`Enquire Showroom at ${secondaryPhone}`}
+                  className="flex items-center justify-between gap-2.5 p-2.5 rounded-xl bg-[#fbf5ea] border border-[#1a1017]/[0.08] hover:border-[#8b1a42]/30 hover:bg-[#f5ecdc] transition-all group"
                 >
-                  <Phone className="w-3.5 h-3.5 text-[#c8a96e]" />
-                  <span className="font-semibold uppercase tracking-wider">CALL {secondaryPhone}</span>
+                  <span className="text-xs font-medium text-[#2e232b] group-hover:text-[#8b1a42] transition-colors">
+                    Enquire Showroom
+                  </span>
+                  <span className="px-2.5 py-1.5 rounded-lg bg-[#8b1a42] text-white text-[11px] font-bold tracking-wider group-hover:bg-[#6b1432] transition-colors flex items-center gap-1.5 shrink-0 shadow-sm">
+                    <Phone className="w-3 h-3 text-[#c8a96e]" />
+                    <span>CALL {secondaryPhone}</span>
+                  </span>
                 </a>
               </div>
             </div>

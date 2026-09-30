@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "motion/react";
+import * as Tabs from "@radix-ui/react-tabs";
 import { FadeIn } from "@/components/animations/FadeIn";
 import { MagneticButton } from "@/components/animations/MagneticButton";
 import { generateWhatsAppUrl, SHOWROOM_MAP_URL, SHOWROOM_HOURS_FALLBACK, SHOWROOM_YEARS_OF_TRUST, SHOWROOM_BRAND_COUNT } from "@/lib/config";
@@ -37,21 +38,32 @@ const TOP_BRANDS = "HÄFELE · BLUM · DORSET · LABACHA · TATTVA";
 // (and the stat pair on mobile), so the pillars only hold what those don't.
 const PILLARS = [
   {
-    id: "selection",
+    id: "trust",
     index: "01",
+    title: "10+ Years of Local Trust",
+    body: "Over a decade of hardware experience, built in Jamshedpur.",
+  },
+  {
+    id: "brands",
+    index: "02",
+    title: "20+ Authorized Brands",
+    body: "Genuine products, sourced through official partnerships.",
+  },
+  {
+    id: "selection",
+    index: "03",
     title: "Expert Selection",
     body: "Guidance for homeowners, architects, designers and contractors.",
   },
   {
     id: "showroom",
-    index: "02",
+    index: "04",
     title: "Premium Showroom",
     body: "See, compare and handle every finish before you decide.",
   },
 ];
 
-const WA_MESSAGE =
-  "Hi Hardware Collection, I would like to speak to an expert about hardware for my project.";
+
 
 /**
  * `id` is a prop because the home page renders two mutually exclusive trees
@@ -64,17 +76,14 @@ export default function AboutStory({
   legacyYearsOfTrust,
   legacyBrandsCount,
   legacyShowroomImageUrl,
-  legacyPillars,
 }: {
   id?: string;
-  /** Site Settings' showroomHours; one line per day range. */
   showroomHours?: string;
   legacyYearsOfTrust?: number;
   legacyBrandsCount?: number;
   legacyShowroomImageUrl?: string;
-  legacyPillars?: Array<{ _key: string, title: string, description: string }>;
 }) {
-  const displayPillars = legacyPillars?.length ? legacyPillars : PILLARS.map(p => ({ _key: p.id, title: p.title, description: p.body }));
+  const displayPillars = PILLARS.map(p => ({ _key: p.id, title: p.title, description: p.body }));
   const displayYears = legacyYearsOfTrust ? `${legacyYearsOfTrust}+` : `${SHOWROOM_YEARS_OF_TRUST}+`;
   const displayBrandsCount = legacyBrandsCount ? `${legacyBrandsCount}+` : `${SHOWROOM_BRAND_COUNT}+`;
   const displayImage = legacyShowroomImageUrl || SHOWROOM_IMAGE;
@@ -197,30 +206,64 @@ export default function AboutStory({
             </FadeIn>
 
             <FadeIn delay={0.1}>
-              <div className="space-y-6 text-lg xl:text-xl text-[var(--text-secondary)] font-light leading-relaxed max-w-2xl">
-                <p>
-                  Hardware Collection is a trusted destination for premium
-                  architectural hardware, modular kitchen solutions and home
-                  hardware in Sakchi, Jamshedpur. For more than a decade we
-                  have helped homeowners, architects, interior designers, builders
-                  and contractors find hardware that brings together function,
-                  durability and design.
-                </p>
-                <p>
-                  From door hardware and digital locks to modular kitchen fittings,
-                  wardrobe systems, furniture hardware, glass fittings, bathroom
-                  accessories, sinks and architectural fittings — our showroom
-                  brings together a carefully selected range for modern residential
-                  and commercial spaces.
-                </p>
-                <p>
-                  Our portfolio spans timeless, refined designs through to
-                  contemporary, minimal and statement-making finishes. With a wide
-                  choice of materials, finishes, sizes and applications, we help
-                  you find hardware that complements the character of a space
-                  rather than simply filling a functional requirement.
-                </p>
-              </div>
+              <Tabs.Root defaultValue="heritage" className="max-w-2xl mt-4">
+                <Tabs.List className="flex gap-8 mb-8 border-b border-[var(--border)] relative">
+                  <Tabs.Trigger
+                    value="heritage"
+                    className="pb-4 hc-mono text-[11px] tracking-[0.2em] uppercase font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] data-[state=active]:text-[var(--text-primary)] relative focus:outline-none transition-colors duration-300"
+                  >
+                    Heritage
+                    <div className="absolute bottom-[-1px] left-0 right-0 h-[2px] bg-brass-ink scale-x-0 data-[state=active]:scale-x-100 transition-transform duration-300 origin-left" />
+                  </Tabs.Trigger>
+                  <Tabs.Trigger
+                    value="collection"
+                    className="pb-4 hc-mono text-[11px] tracking-[0.2em] uppercase font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] data-[state=active]:text-[var(--text-primary)] relative focus:outline-none transition-colors duration-300"
+                  >
+                    Collection
+                    <div className="absolute bottom-[-1px] left-0 right-0 h-[2px] bg-brass-ink scale-x-0 data-[state=active]:scale-x-100 transition-transform duration-300 origin-left" />
+                  </Tabs.Trigger>
+                  <Tabs.Trigger
+                    value="philosophy"
+                    className="pb-4 hc-mono text-[11px] tracking-[0.2em] uppercase font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] data-[state=active]:text-[var(--text-primary)] relative focus:outline-none transition-colors duration-300"
+                  >
+                    Philosophy
+                    <div className="absolute bottom-[-1px] left-0 right-0 h-[2px] bg-brass-ink scale-x-0 data-[state=active]:scale-x-100 transition-transform duration-300 origin-left" />
+                  </Tabs.Trigger>
+                </Tabs.List>
+
+                <div className="text-lg xl:text-xl text-[var(--text-secondary)] font-light leading-relaxed min-h-[140px]">
+                  <Tabs.Content value="heritage" className="focus:outline-none animate-in fade-in slide-in-from-left-4 duration-700 ease-out fill-mode-forwards">
+                    <p>
+                      Hardware Collection is a trusted destination for premium
+                      architectural hardware, modular kitchen solutions and home
+                      hardware in Sakchi, Jamshedpur. For more than a decade we
+                      have helped homeowners, architects, interior designers, builders
+                      and contractors find hardware that brings together function,
+                      durability and design.
+                    </p>
+                  </Tabs.Content>
+                  
+                  <Tabs.Content value="collection" className="focus:outline-none animate-in fade-in slide-in-from-left-4 duration-700 ease-out fill-mode-forwards">
+                    <p>
+                      From door hardware and digital locks to modular kitchen fittings,
+                      wardrobe systems, furniture hardware, glass fittings, bathroom
+                      accessories, sinks and architectural fittings — our showroom
+                      brings together a carefully selected range for modern residential
+                      and commercial spaces.
+                    </p>
+                  </Tabs.Content>
+                  
+                  <Tabs.Content value="philosophy" className="focus:outline-none animate-in fade-in slide-in-from-left-4 duration-700 ease-out fill-mode-forwards">
+                    <p>
+                      Our portfolio spans timeless, refined designs through to
+                      contemporary, minimal and statement-making finishes. With a wide
+                      choice of materials, finishes, sizes and applications, we help
+                      you find hardware that complements the character of a space
+                      rather than simply filling a functional requirement.
+                    </p>
+                  </Tabs.Content>
+                </div>
+              </Tabs.Root>
             </FadeIn>
 
             <FadeIn delay={0.15}>
@@ -308,11 +351,11 @@ export default function AboutStory({
               transition={{ duration: 1.5, ease: [0.25, 1, 0.5, 1] }}
               className="absolute top-0 left-0 right-0 h-[1px] bg-[var(--border)] origin-left"
             />
-            <div className="grid grid-cols-2 gap-12 max-w-4xl">
+            <div className="grid grid-cols-4 gap-8 xl:gap-12 w-full">
               {displayPillars.map((pillar, idx) => (
                 <div
                   key={pillar._key}
-                  className="relative pl-8 pt-4"
+                  className="relative pl-6 lg:pl-8 pt-4"
                 >
                   {idx !== 0 && (
                     <motion.div
@@ -323,13 +366,13 @@ export default function AboutStory({
                       className="absolute left-0 top-0 bottom-0 w-[1px] bg-[var(--border)] origin-top hidden lg:block"
                     />
                   )}
-                  <p className="hc-mono text-xs font-semibold text-brass-ink tracking-[0.2em] mb-4">
+                  <p className="hc-mono text-[10px] xl:text-xs font-semibold text-brass-ink tracking-[0.2em] mb-5">
                     0{idx + 1}
                   </p>
-                  <p className="text-lg xl:text-xl text-[var(--text-primary)] font-medium leading-snug mb-2">
+                  <p className="text-base xl:text-lg text-[var(--text-primary)] font-medium leading-snug mb-3 pr-2">
                     {pillar.title}
                   </p>
-                  <p className="text-sm xl:text-base text-[var(--text-secondary)] font-light leading-relaxed">
+                  <p className="text-sm text-[var(--text-secondary)] font-light leading-relaxed pr-4">
                     {pillar.description}
                   </p>
                 </div>
@@ -387,7 +430,7 @@ export default function AboutStory({
                 href="/collections"
                 className="inline-flex items-center justify-center px-8 py-4 border border-[var(--border)] text-[var(--text-primary)] font-semibold text-xs lg:text-sm tracking-widest uppercase hover:bg-[var(--text-primary)] hover:text-[var(--surface-raised)] transition-colors duration-200 w-full rounded"
               >
-                EXPLORE COLLECTIONS &rarr;
+                EXPLORE COLLECTIONS
               </Link>
             </MagneticButton>
             <MagneticButton>
@@ -397,7 +440,7 @@ export default function AboutStory({
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center px-8 py-4 border border-[#C8A96E]/60 text-brass-ink font-semibold text-[13px] lg:text-sm tracking-widest uppercase hover:bg-[#8b1a42] hover:text-white hover:border-[#8b1a42] transition-colors duration-200 w-full sm:w-auto rounded"
               >
-                TALK TO AN EXPERT &rarr;
+                TALK TO AN EXPERT
               </a>
             </MagneticButton>
           </div>
