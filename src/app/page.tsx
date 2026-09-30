@@ -10,7 +10,7 @@ import { PointerLight } from "@/components/home/cinema/PointerLight";
 import { ScrollProgress } from "@/components/animations/ScrollProgress";
 
 // 7 Cinematic Chapters
-import StaticHero from "@/components/home/StaticHero";           // CH01 — HIGH tension
+import HeroStage from "@/components/home/HeroStage";           // CH01 — HIGH tension
 import HeroTrustBadges from "@/components/home/HeroTrustBadges";  // 6 Trust Pillars with Icons
 import BrandTrustStrip from "@/components/brand/BrandTrustStrip";        // CH02 — LOW tension
 import CategoryDiscovery from "@/components/home/CategoryDiscovery";       // CH03 — MEDIUM tension
@@ -20,15 +20,59 @@ import ShowroomCinematic from "@/components/home/ShowroomCinematic";       // CH
 import FloatingCTA from "@/components/home/FloatingCTA";                   // CH07 — QUIET ZONE
 
 // Mobile specific components
+import MobileHero from "@/components/home/mobile/MobileHero";
 import MobileCategoryDiscovery from "@/components/home/mobile/MobileCategoryDiscovery";
 import MobileProductReel from "@/components/home/mobile/MobileProductReel";
 import MobileReviews from "@/components/home/mobile/MobileReviews";
 import MobileConsultation from "@/components/home/mobile/MobileConsultation";
 import AboutStory from "@/components/home/AboutStory";
+import { HeroSlide } from "@/types/hero";
 
 export const revalidate = 60;
 
-
+const fallbackHeroSlides: HeroSlide[] = [
+  {
+    id: "ch01",
+    eyebrow: "ARCHITECTURAL HARDWARE EXPERTS · 10+ YEARS",
+    title: "The Art of\nthe Finish.",
+    description:
+      "Premium architectural hardware and modular solutions, curated for contemporary spaces. Official partner for Häfele, Dorset, Labacha, Godrej & Hettich in Sakchi.",
+    primaryCta: "Explore Collections",
+    ctaTarget: "/collections",
+    imageUrl: "/cinema/hero/HC-01-HERO-01.png",
+    productUrl: "/cinema/hero/HC-01-HERO-02.png",
+    macroUrl: "/cinema/hero/HC-01-HERO-03.png",
+    reflectionUrl: "/cinema/hero/HC-01-HERO-04.png",
+    specimenLabel: "Finish study",
+    specimenCaption: "Solid brass · Knurled satin gold",
+  },
+  {
+    id: "ch02",
+    eyebrow: "LIVE SHOWROOM EXPERIENCE",
+    title: "Touch Before\nYou Decide.",
+    description:
+      "Experience German soft-close drawers, live biometric lock demos, and full-scale luxury kitchen setups at our Sakchi flagship showroom.",
+    primaryCta: "Explore Collections",
+    ctaTarget: "/collections",
+    imageUrl: "/cinema/showroom/interior.png",
+    productUrl: "/cinema/hero/HC-01-HERO-03.png",
+    specimenLabel: "Live demonstration",
+    specimenCaption: "German engineering · Flagship display",
+  },
+  {
+    id: "ch03",
+    eyebrow: "CURATED SELECTION · SAKCHI",
+    title: "Curated For\nDiscriminating Spaces.",
+    description:
+      "Biometric security, German kitchen systems, precision door handles, and bathroom accessories engineered for tactile longevity.",
+    primaryCta: "Explore Collections",
+    ctaTarget: "/collections",
+    imageUrl: "/cinema/categories/HC-03-DOORS.png",
+    productUrl: "/cinema/materials/HC-04-PVD-BRASS.png",
+    specimenLabel: "Architectural security",
+    specimenCaption: "SS 304 · Biometric & mortise systems",
+  },
+];
 
 export async function generateMetadata(): Promise<Metadata> {
   const homeData = await getHomePage();
@@ -50,6 +94,24 @@ export default async function HomePage() {
     getTestimonials(),
   ]);
 
+  const heroSlides: HeroSlide[] = [
+    {
+      id: "ch01",
+      eyebrow: homeData?.heroEyebrow || fallbackHeroSlides[0].eyebrow,
+      title: homeData?.heroHeadline || fallbackHeroSlides[0].title,
+      description: homeData?.heroDescription || fallbackHeroSlides[0].description,
+      primaryCta: homeData?.primaryCta?.label || fallbackHeroSlides[0].primaryCta,
+      ctaTarget: homeData?.primaryCta?.url || fallbackHeroSlides[0].ctaTarget,
+      imageUrl: homeData?.heroImageDesktopUrl || fallbackHeroSlides[0].imageUrl,
+      productUrl: fallbackHeroSlides[0].productUrl,
+      macroUrl: fallbackHeroSlides[0].macroUrl,
+      reflectionUrl: fallbackHeroSlides[0].reflectionUrl,
+      specimenLabel: fallbackHeroSlides[0].specimenLabel,
+      specimenCaption: fallbackHeroSlides[0].specimenCaption,
+    },
+    ...fallbackHeroSlides.slice(1),
+  ];
+
 
   return (
     <div
@@ -69,15 +131,10 @@ export default async function HomePage() {
       {/* ── 7 Cinematic Chapters ─────────────────────────────────── */}
       <main className="relative z-10">
         {/* CH01 — The Art of the Finish (HIGH) */}
-        <StaticHero 
-          eyebrow={homeData?.heroEyebrow}
-          headline={homeData?.heroHeadline}
-          description={homeData?.heroDescription}
-          primaryCta={homeData?.primaryCta}
-          secondaryCta={homeData?.secondaryCta}
-          imageDesktopUrl={homeData?.heroImageDesktopUrl}
-          imageMobileUrl={homeData?.heroImageMobileUrl}
-        />
+        <div className="block lg:hidden">
+          <MobileHero slides={heroSlides} />
+        </div>
+        <HeroStage slides={heroSlides} />
 
         {/* CH02 — Specified By (LOW) */}
         <div className="theme-ivory">

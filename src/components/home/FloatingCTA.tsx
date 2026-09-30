@@ -36,13 +36,15 @@ const quietFade: Variants = {
 import { SanityCta } from "@/types/sanity";
 
 export default function FloatingCTA({ reviews = [], cta, heading, description }: { reviews?: Testimonial[], cta?: SanityCta, heading?: string, description?: string }) {
+  const validReviews = reviews.filter((r) => r.quote && r.quote.trim().length > 0);
+
   return (
     <section
       data-chapter="7"
       className="relative z-10"
     >
-      {/* â”€â”€ REVIEWS ZONE — theme-ivory â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€─ */}
-      {reviews.length > 0 && (
+      {/* ── REVIEWS ZONE — theme-ivory ─────────────────────────── */}
+      {validReviews.length > 0 && (
       <motion.div 
         data-zone="reviews" 
         className="theme-ivory border-t border-[var(--border)]"
@@ -103,14 +105,14 @@ export default function FloatingCTA({ reviews = [], cta, heading, description }:
           <div className="flex w-max animate-review-marquee group-hover/marquee:[animation-play-state:paused] py-2">
             {/* Set 1 */}
             <div className="flex items-stretch gap-5 sm:gap-6 pr-5 sm:pr-6 shrink-0">
-              {getRepeatedReviews(reviews).map((review, i) => (
+              {getRepeatedReviews(validReviews).map((review, i) => (
                 <ReviewCard key={`r1-${i}-${review._id || i}`} review={review} />
               ))}
             </div>
 
             {/* Set 2 (for seamless loop) */}
             <div className="flex items-stretch gap-5 sm:gap-6 pr-5 sm:pr-6 shrink-0" aria-hidden="true">
-              {getRepeatedReviews(reviews).map((review, i) => (
+              {getRepeatedReviews(validReviews).map((review, i) => (
                 <ReviewCard key={`r2-${i}-${review._id || i}`} review={review} />
               ))}
             </div>

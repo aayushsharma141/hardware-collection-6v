@@ -74,7 +74,7 @@ export const getTestimonialsQuery = groq`
   *[_type == "testimonial" && (!defined(approved) || approved == true) && (!defined(editorial) || editorial.needsReview != true)] | order(date desc) {
     _id,
     customerName,
-    "quote": testimonialText,
+    "quote": coalesce(testimonialText, quote, text, content),
     rating,
     source,
     date
@@ -221,6 +221,7 @@ export async function getHomePage() {
     "testimonialRefs": testimonials[]->{ 
       _id, 
       customerName, 
+      "quote": coalesce(testimonialText, quote, text, content),
       testimonialText, 
       rating, 
       customerType 

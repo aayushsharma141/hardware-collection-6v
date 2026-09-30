@@ -7,14 +7,15 @@ import { Star } from "lucide-react";
 
 export default function MobileReviews({ reviews = [] }: { reviews?: Testimonial[] }) {
   // Withheld entirely until an editor approves real testimonials in Sanity.
-  if (reviews.length === 0) return null;
+  const validReviews = reviews.filter((r) => r.quote && r.quote.trim().length > 0);
+  if (validReviews.length === 0) return null;
 
   const repeatedReviews =
-    reviews.length < 4
-      ? [...reviews, ...reviews, ...reviews, ...reviews]
-      : reviews.length < 6
-        ? [...reviews, ...reviews]
-        : reviews;
+    validReviews.length < 4
+      ? [...validReviews, ...validReviews, ...validReviews, ...validReviews]
+      : validReviews.length < 6
+        ? [...validReviews, ...validReviews]
+        : validReviews;
 
   return (
     <section className="w-full pt-[72px] pb-[96px] bg-[#fbf5ea] border-t border-[#1a1017]/[0.08] lg:hidden overflow-hidden">

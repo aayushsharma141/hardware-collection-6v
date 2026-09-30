@@ -80,19 +80,19 @@ export default function BrandTrustStrip({ brands }: BrandTrustStripProps) {
   };
 
   const linkClass =
-    "group/item flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded-xl bg-white/90 border border-[#E7E0D4] shadow-[0_2px_8px_rgba(0,0,0,0.02)] transition-all duration-500 hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-[#D9CCC6]";
+    "group/item flex items-center justify-center shrink-0 h-16 md:h-20 w-36 md:w-48 px-4 py-2 bg-transparent transition-all duration-300 hover:scale-105";
 
   return (
     <section
       id="brands"
-      className="py-24 lg:py-32 bg-[#FAF7F2] border-y border-[#EAE4D9] relative z-10 overflow-hidden scroll-mt-24"
+      className="py-16 lg:py-24 bg-transparent border-b border-[#1a1017]/[0.08] relative z-10 overflow-hidden scroll-mt-24"
     >
       {/* Header */}
-      <div className="max-w-4xl mx-auto px-6 text-center mb-20 md:mb-24">
-        <p className="hc-mono text-[11px] sm:text-sm uppercase tracking-[0.28em] font-semibold text-[#8B1A42] mb-5">
+      <div className="max-w-4xl mx-auto px-6 text-center mb-16 md:mb-20">
+        <p className="hc-mono text-[11px] sm:text-sm uppercase tracking-[0.28em] font-semibold text-[#8B1A42] mb-4">
           Authorized partners
         </p>
-        <h2 className="hc-serif text-[40px] sm:text-5xl lg:text-[64px] font-light tracking-[-0.02em] text-[#1A1017] leading-tight mb-5">
+        <h2 className="hc-serif text-[38px] sm:text-5xl lg:text-[56px] font-light tracking-[-0.02em] text-[#1A1017] leading-tight mb-4">
           Authorized Brands
         </h2>
         <p className="text-base sm:text-lg leading-relaxed text-[#6B5E68] font-light max-w-2xl mx-auto">
@@ -102,10 +102,10 @@ export default function BrandTrustStrip({ brands }: BrandTrustStripProps) {
       </div>
 
       {/* 2-Lane Double Ticker Container */}
-      <div className="relative w-full overflow-hidden flex flex-col gap-14 md:gap-18">
-        {/* Soft edge gradient fades — wider for more luxury feel */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-32 md:w-72 bg-gradient-to-r from-[#FAF7F2] via-[#FAF7F2]/90 to-transparent z-20" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-32 md:w-72 bg-gradient-to-l from-[#FAF7F2] via-[#FAF7F2]/90 to-transparent z-20" />
+      <div className="relative w-full overflow-hidden flex flex-col gap-10 md:gap-14">
+        {/* Soft edge gradient fades */}
+        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-56 bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/80 to-transparent z-20" />
+        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-56 bg-gradient-to-l from-[#fbf5ea] via-[#fbf5ea]/80 to-transparent z-20" />
 
         {/* ── LANE 1: Scrolling Left ─── */}
         <div className="flex w-max group/ticker hover:[animation-play-state:paused] select-none animate-ticker-left items-center">
