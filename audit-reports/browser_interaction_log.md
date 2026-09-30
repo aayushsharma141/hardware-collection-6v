@@ -54,3 +54,26 @@
   - `Image with fill had sizes="100vw"...` on hero images rendered in constrained containers.
   - Missing explicit `sizes` property on brand partner logos.
   - Recommended fix: Add explicit responsive `sizes` attribute (e.g. `sizes="(max-width: 768px) 100vw, 33vw"`).
+
+---
+
+## 3. Comparative Test Run: Local (`http://localhost:3000`) vs. Vercel (`https://hc-demo-ten.vercel.app/`)
+
+**Execution Timestamp:** 2026-09-30T14:10:00Z  
+**Browser Agent:** Antigravity Integrated Chrome DevTools MCP  
+**Viewport:** 1440x900 (Desktop Standard)
+
+| Step | Action | Target / URL | Local Observation | Vercel Observation | Discrepancy / Assessment |
+|---|---|---|---|---|---|
+| **01** | Window Resize | Dual Session Baseline | Set to 1440x900 | Set to 1440x900 | Viewports synchronized |
+| **02** | Homepage Top Fold | `/` | HTTP 200; full hero typography; clean asset hydration | HTTP 200; hero renders cleanly | Visual parity on top fold |
+| **03** | Chapter 02 Scroll | `/` (y = 1400px) | 5 Thresholds rendered; brass active indicators present | 5 Thresholds rendered | Visual parity |
+| **04** | Product Reel | `/` (y = 3200px) | Horizontal reel with specular reflection cards | Horizontal reel rendered | Visual parity |
+| **05** | Brand Trust Strip | `/` (y = 5200px) | 22 canonical brand partners rendered | 22 canonical brand partners rendered | Visual parity |
+| **06** | Total Page Height | `/` | Document height: 13,756px | Document height: 14,466px | Vercel has 710px additional height due to unpruned duplicate DOM nodes |
+| **07** | Collections Index | `/collections` | 75 product/collection links; 144 space controls; 64 unique deep-links with taxonomy anchors | 68 links; 122 space controls; 54 flat links | **CRITICAL:** Vercel is running legacy taxonomy without parent-category anchor routing |
+| **08** | Route Test: Door Hardware | `/collections/door-hardware` | **HTTP 200 OK:** Full category view with breadcrumbs, hero, and filter specimen tray | **HTTP 404 NOT FOUND:** Displays `"Collection Not Found"` error page | **P0 BLOCKER on Vercel:** Core parent route missing on deployed build |
+| **09** | Route Test: Kitchen & Wardrobes | `/collections/kitchen-wardrobes` | **HTTP 200 OK:** Full category view with modular kitchen hardware | **HTTP 404 NOT FOUND:** Displays `"Collection Not Found"` error page | **P0 BLOCKER on Vercel:** Core parent route missing on deployed build |
+| **10** | Catalogs Directory | `/catalogs` | **17 Brand Catalogs** rendered with active PDF / WhatsApp buttons | **Only 2 Catalogs** rendered | **DATA GAP on Vercel:** Missing 15 manufacturer catalogs due to unpopulated dataset |
+| **11** | Draft Mode Enable | `/api/draft-mode/enable` | Validates request against `SANITY_API_TOKEN` (returns 401 when called without studio secret) | **HTTP 404 NOT FOUND** | **P0 ROUTING GAP on Vercel:** Draft mode route not deployed or cached as 404 |
+

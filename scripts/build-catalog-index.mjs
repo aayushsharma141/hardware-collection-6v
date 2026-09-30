@@ -100,7 +100,8 @@ async function main() {
           pages.push({ page: n, text });
           page.cleanup();
         }
-        await pdf.destroy();
+        if (typeof pdf.destroy === "function") await pdf.destroy();
+        else if (typeof pdf.cleanup === "function") pdf.cleanup();
 
         await writeFile(
           file,

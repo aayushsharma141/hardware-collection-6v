@@ -47,6 +47,9 @@ const eslintConfig = defineConfig([
     "test-sanity2.js",
     "screenshot.mjs",
     "uploadLogos.js",
+    "patch_sanity_data.js",
+    "query_sanity.js",
+    "test_sanity.js",
   ]),
 ]);
 

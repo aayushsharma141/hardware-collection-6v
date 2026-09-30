@@ -89,7 +89,7 @@ export const getProductsByCategoryQuery = groq`
 
 export const getAllProductsQuery = groq`
   *[_type == "product"] | order(name asc) {
-    ${PRODUCT_LIST_FIELDS}
+    ${PRODUCT_LIST_FIELDS},
     specifications
   }
 `;

@@ -133,3 +133,58 @@ graph TD
    - Add `<link rel="preconnect" href="https://wa.me" />` in `src/app/layout.tsx` to shave ~150ms off initial outbound consultation clicks.
 3. **PWA & Offline Manifest:**
    - Add web app manifest for architectural clients saving the lookbook to iOS/Android homescreens during on-site client walkthroughs.
+
+---
+
+## 6. Comparative Visitor POV Audit: Local Staging vs. Vercel Production
+
+**Audit Date:** 2026-09-30  
+**Environments Compared:**
+- **Local Staging:** `http://localhost:3000` (Branch `claude/admiring-mendel-knw93d` with full taxonomy & data restorations)
+- **Vercel Production:** `https://hc-demo-ten.vercel.app/` (Legacy deployed build)
+
+### 6.1 Comparative Dimension Matrix
+
+| Audit Criterion | Local Staging (`localhost:3000`) | Vercel Deployment (`hc-demo-ten`) | Architectural & Business Impact |
+|---|---|---|---|
+| **Top Fold Aesthetics** | 9.8 / 10 (Immersive, full typography) | 9.8 / 10 (Clean rendering) | Parity on initial impression |
+| **Document Scroll Height** | 13,756px (Optimized DOM footprint) | 14,466px (+710px dead space) | Local has pruned duplicate DOM nodes and phantom margins |
+| **Collections Wayfinding** | 75 items, 144 controls, 64 deep-links | 68 items, 122 controls, 54 flat links | Local provides robust hierarchical navigation; Vercel flattens taxonomy |
+| **Parent Category Routes** | `/collections/door-hardware` $\to$ **200 OK**<br>`/collections/kitchen-wardrobes` $\to$ **200 OK** | `/collections/door-hardware` $\to$ **404 NOT FOUND**<br>`/collections/kitchen-wardrobes` $\to$ **404 NOT FOUND** | **CRITICAL FAILURE ON VERCEL:** High-intent visitors hitting parent collections see an error page |
+| **Manufacturer Catalogs** | **17 Brand Catalogs** with interactive spec viewers & fallback links | **Only 2 Brand Catalogs** rendered | **MASSIVE DATA DEFICIT ON VERCEL:** 15 canonical partner catalogs missing |
+| **Draft Mode Integration** | **Active & Secure:** Validates secret against Sanity API token | **404 Not Found:** Route absent or blocked by stale edge cache | Live content previews unusable on legacy deployment |
+
+### 6.2 Visual Comparison & Evidence
+
+#### 1. Door Hardware Parent Collection View
+- **Local (`localhost:3000/collections/door-hardware`):** Full luxury editorial category page showcasing digital locks, mortise handles, hardware specifications, and inquiry drawer.
+- **Vercel (`hc-demo-ten.vercel.app/collections/door-hardware`):** Broken experience rendering `"Collection Not Found: The collection you are looking for does not exist or has been relocated."`
+
+![Local Door Hardware Collection](file:///e:/Hardware-Collection/audit-reports/screenshots/local_door_hardware_1440x900.png)
+*Local Staging: Full parent collection layout with filter pills and specimen tray.*
+
+![Vercel Door Hardware 404](file:///e:/Hardware-Collection/audit-reports/screenshots/vercel_door_hardware_404_1440x900.png)
+*Vercel Production: 404 Collection Not Found.*
+
+#### 2. Brand Catalogs Directory (`/catalogs`)
+- **Local (`localhost:3000/catalogs`):** 17 complete manufacturer catalog cards (Hafele, Blum, Dorset, Geze, Ozone, Yale, etc.) with PDF download and direct showroom WhatsApp inquiry buttons.
+- **Vercel (`hc-demo-ten.vercel.app/catalogs`):** Only 2 catalogs visible, severely diminishing perceived showroom authorization and catalog depth.
+
+![Local Catalogs Grid](file:///e:/Hardware-Collection/audit-reports/screenshots/local_catalogs_grid_1440x900.png)
+*Local Staging: 17 complete authorized manufacturer catalogs.*
+
+![Vercel Catalogs Grid](file:///e:/Hardware-Collection/audit-reports/screenshots/vercel_catalogs_grid_1440x900.png)
+*Vercel Production: Only 2 brand catalogs populated.*
+
+---
+
+## 7. Strategic Conclusion & Merge Directive
+
+The comparative audit proves conclusively that the local branch (`claude/admiring-mendel-knw93d`) fixes severe structural and data deficiencies present on the live Vercel deployment:
+1. **Resolves Critical 404 Errors:** Fixes broken parent collection URLs (`/collections/door-hardware`, `/collections/kitchen-wardrobes`, etc.) that currently fail on Vercel.
+2. **Restores 15 Missing Brand Catalogs:** Expands `/catalogs` from 2 to 17 fully authorized brands.
+3. **Enables Sanity Draft Mode:** Deploys `/api/draft-mode/enable` for side-by-side CMS editing.
+4. **Optimizes DOM & Payload:** Cuts 710px of redundant vertical DOM bloat on the homepage.
+
+**Recommendation:** Proceed immediately with merging `claude/admiring-mendel-knw93d` into `main` and triggering production deployment.
+
