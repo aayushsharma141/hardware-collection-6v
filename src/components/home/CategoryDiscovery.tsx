@@ -40,7 +40,7 @@ interface CategoryDiscoveryProps {
 }
 
 export default function CategoryDiscovery({ categories }: CategoryDiscoveryProps) {
-  const activeFamilies = categories && categories.length > 0
+  const activeFamilies = (categories && categories.length > 0
     ? categories.map((c, idx) => {
         // Map each CMS category to a fallback cinema image by slug keyword
         const fallback = CATEGORY_FAMILIES.find(f =>
@@ -63,7 +63,7 @@ export default function CategoryDiscovery({ categories }: CategoryDiscoveryProps
           isFocal: idx === 1,
         };
       })
-    : CATEGORY_FAMILIES;
+    : CATEGORY_FAMILIES).slice(0, 5);
 
 
   return (

@@ -27,7 +27,7 @@ interface MobileCategoryDiscoveryProps {
 }
 
 export default function MobileCategoryDiscovery({ categories }: MobileCategoryDiscoveryProps) {
-  const activeFamilies = categories && categories.length > 0
+  const activeFamilies = (categories && categories.length > 0
     ? categories.map((c, idx) => {
         const fallback = CATEGORY_FAMILIES.find(f =>
           c.slug.includes(f.id) ||
@@ -49,7 +49,7 @@ export default function MobileCategoryDiscovery({ categories }: MobileCategoryDi
           isFocal: idx === 1,
         };
       })
-    : CATEGORY_FAMILIES;
+    : CATEGORY_FAMILIES).slice(0, 5);
 
   const focal: CategoryFamily =
     activeFamilies.find((family) => family.isFocal) ?? activeFamilies[0];
