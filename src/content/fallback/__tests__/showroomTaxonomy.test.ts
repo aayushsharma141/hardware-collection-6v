@@ -20,8 +20,6 @@ describe('Showroom Taxonomy completion', () => {
         let normalized = sub;
         // Apply historical renames (D2, D3 decisions)
         if (normalized === 'Kitchen Handles (Sale)') normalized = 'Kitchen Handles';
-        if (normalized === 'Bathroom Shelves') normalized = 'Bathroom Shelf';
-        if (normalized === 'Mail Boxes') normalized = 'Mail Box';
 
         const directSlug = normalized.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
 

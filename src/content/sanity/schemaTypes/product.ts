@@ -12,6 +12,7 @@ export const productType = defineType({
     { name: "conversion", title: "Conversion" },
     { name: "seo", title: "SEO" },
     { name: "editorial", title: "Editorial" },
+    { name: "legacy", title: "Legacy / Pre-Migration Data" },
   ],
   fields: [
     // Identity
@@ -189,6 +190,44 @@ export const productType = defineType({
       title: "Editorial Status",
       type: "editorial",
       group: "editorial",
+    }),
+
+    // Legacy Fields
+    defineField({
+      name: "subcategory",
+      title: "Subcategory (Legacy)",
+      type: "reference",
+      to: [{ type: "subcategory" }],
+      description: "Optional: The specific subcategory this product belongs to.",
+      group: "legacy",
+    }),
+    defineField({
+      name: "curatedCollections",
+      title: "Curated Collections (Legacy)",
+      type: "array",
+      of: [{ type: "reference", to: [{ type: "curatedCollection" }] }],
+      description: "Optional: Merchandising collections this product belongs to (e.g., 'Italian Collection').",
+      group: "legacy",
+    }),
+    defineField({
+      name: "images",
+      title: "Images (Legacy)",
+      type: "array",
+      of: [
+        {
+          type: "image",
+          options: { hotspot: true },
+        },
+      ],
+      group: "legacy",
+    }),
+    defineField({
+      name: "officialFiles",
+      title: "Official Files (CAD/BIM/PDF) (Legacy)",
+      description: "Verified official files provided by the manufacturer",
+      type: "array",
+      of: [{ type: "file", options: { storeOriginalFilename: true } }],
+      group: "legacy",
     }),
   ],
   preview: {
