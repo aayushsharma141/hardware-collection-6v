@@ -4,9 +4,9 @@ import Image from "next/image";
 interface NormalizedLogoProps {
   src: string;
   alt: string;
-  /** Width / height from Sanity's asset metadata; null for local fallback logos. */
   aspect?: number | null;
   className?: string;
+  style?: React.CSSProperties;
 }
 
 const BOX_HEIGHT = 64;
@@ -18,7 +18,7 @@ const MAX_WIDTH = 220;
  * aspect ratio (when the CMS supplies one) and clamped to the slot, keeping
  * wide wordmarks and square emblems the same visual weight.
  */
-export function NormalizedLogo({ src, alt, aspect, className = "" }: NormalizedLogoProps) {
+export function NormalizedLogo({ src, alt, aspect, className = "", style }: NormalizedLogoProps) {
   const ratio = aspect && Number.isFinite(aspect) && aspect > 0 ? aspect : 2.5;
   const width = Math.min(Math.round(BOX_HEIGHT * ratio), MAX_WIDTH);
 
@@ -29,7 +29,8 @@ export function NormalizedLogo({ src, alt, aspect, className = "" }: NormalizedL
       width={width * 2}
       height={Math.round((width * 2) / ratio)}
       sizes={`${width}px`}
-      className={`h-full w-auto max-w-full object-contain object-left ${className}`}
+      className={`h-full w-auto max-w-full object-contain object-left transition-all duration-[400ms] ease-out hover:brightness-110 ${className}`}
+      style={style}
       unoptimized={src.endsWith(".svg")}
     />
   );

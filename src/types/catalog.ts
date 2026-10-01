@@ -179,6 +179,7 @@ export interface SiteSettings {
   googleMapsUrl?: string;
   googleMapsEmbedUrl?: string;
   defaultCategoryImageUrl?: string;
+  authorizedBrandRefs?: { brandName: string; slug: string; logoUrl?: string }[];
 }
 
 export interface ShowroomFamilyNav {

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useId } from "react";
+import React, { useState, useId, useRef, useEffect } from "react";
 import { ConsultationSuccess } from "./ConsultationSuccess";
 import { useConsultationStore } from "./store";
 import { Loader2, AlertCircle, RefreshCw, ChevronDown } from "lucide-react";
@@ -50,11 +50,8 @@ const INITIAL_FORM_VALUES: FormValues = {
 // ── Shared style tokens ─────────────────────────────────────────────────────
 
 const CLS_FIELD =
-  "w-full bg-transparent border-b border-[#1a1017]/[0.15] hover:border-[#1a1017]/[0.35] focus:border-[#8b1a42] pb-2.5 text-[15px] text-[#1a1017] placeholder:text-[#7a6872]/45 focus:outline-none transition-colors duration-200";
-const CLS_SELECT = `${CLS_FIELD} appearance-none pr-8 cursor-pointer`;
-const CLS_LABEL = "text-[11.5px] uppercase tracking-[0.14em] text-[#6a5a64] font-medium";
-const CLS_SUBMIT =
-  "w-full mt-2 py-4 px-6 rounded-full bg-[#8b1a42] hover:bg-[#721536] active:scale-[0.99] active:translate-y-[0.5px] text-white font-medium text-[13px] uppercase tracking-[0.16em] transition-all duration-200 flex items-center justify-center disabled:opacity-60 cursor-pointer shadow-[0_4px_16px_rgba(139,26,66,0.18)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.26)]";
+  "w-full bg-transparent border-b border-[#181514]/15 hover:border-[#181514]/35 focus:border-[#6E152B] pb-3 text-[17px] xl:text-[18px] text-[#181514] placeholder:text-[#8C8681] focus:outline-none transition-colors duration-200 rounded-none";
+const CLS_LABEL = "text-[11px] uppercase tracking-[0.25em] text-[#7C7671] font-semibold mb-2 block";
 
 // ── Main Component ──────────────────────────────────────────────────────────
 
@@ -74,10 +71,23 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
   const [telegramStatus, setTelegramStatus] = useState<"sent" | "failed" | "pending">("pending");
   const [errorMsg, setErrorMsg] = useState("");
 
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
   const setField =
     <K extends keyof FormValues>(key: K) =>
-    (value: FormValues[K]) =>
-      setValues((prev) => ({ ...prev, [key]: value }));
+      (value: FormValues[K]) =>
+        setValues((prev) => ({ ...prev, [key]: value }));
 
   // Helper for tracking analytics
   const trackEnquirySubmitted = (leadId: string, formValues: FormValues) => {
@@ -106,15 +116,11 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
       return;
     }
     if (!values.phone.trim() || values.phone.replace(/\D/g, "").length < 10) {
-      setErrorMsg("Please provide a valid 10-digit phone number.");
-      return;
-    }
-    if (!values.location.trim()) {
-      setErrorMsg("Please enter your location.");
+      setErrorMsg("Please provide a valid 10-digit WhatsApp number.");
       return;
     }
     if (!values.projectType) {
-      setErrorMsg("Please select your project type.");
+      setErrorMsg("Please select what you are looking for.");
       return;
     }
 
@@ -132,7 +138,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
       intent: "enquiry",
       name: values.name.trim(),
       phone: values.phone.trim(),
-      location: values.location.trim(),
+      location: values.location?.trim() || "Sakchi, Jamshedpur",
       projectType: values.projectType,
       source: context?.source ?? (inline ? "home" : "consultation_drawer"),
       pageUrl: typeof window !== "undefined" ? window.location.href : undefined,
@@ -209,7 +215,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
       <div
         className={
           inline
-            ? "bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-8 lg:p-10 min-h-[420px] flex flex-col items-center justify-center"
+            ? "w-full min-h-[420px] flex flex-col items-center justify-center py-8"
             : "h-full flex flex-col items-center justify-center p-6"
         }
       >
@@ -240,127 +246,165 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
   // ── Form Screen ────────────────────────────────────────────────────────────
 
   return (
-    <div
-      className={`flex flex-col text-[var(--text-primary)] font-dmsans ${
-        inline
-          ? "w-full bg-[var(--surface)] border border-[var(--border)] rounded-2xl p-6 sm:p-8 lg:p-10"
-          : "p-6 lg:p-8"
-      }`}
-    >
-      {/* Inline, this form sits beside the section's own heading and intro, so it
-          carries no header of its own. The drawer has no surrounding copy, so
-          there it still gets a single line of context. */}
-      {!inline && (
-        <div className="mb-8">
-          <h2
-            className="font-cormorant text-2xl sm:text-3xl font-normal tracking-tight text-[var(--text-primary)]"
-            style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-          >
-            Let&apos;s discuss your project.
-          </h2>
-          <p className="t-body-sm text-[var(--text-secondary)] font-light mt-2">
-            Four details, and our Sakchi team will call you back.
-          </p>
+    <div className={`flex flex-col text-[#181514] font-dmsans ${inline ? "w-full" : "p-6 lg:p-8 h-full justify-between"}`}>
+      {/* Form Editorial Header */}
+      <div className="mb-8 lg:mb-10">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="w-6 h-[1px] bg-[#181514]/50 shrink-0" aria-hidden="true" />
+          <span className="text-[12px] uppercase tracking-[0.25em] text-[#181514] font-semibold font-dmsans">
+            Request a Consultation
+          </span>
         </div>
-      )}
+        <p className="text-[17px] lg:text-[18px] text-[#3D3834] font-normal leading-relaxed max-w-sm">
+          Share a few details and our showroom team will get in touch with you shortly.
+        </p>
+      </div>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-6">
+      <form onSubmit={handleSubmit} className="flex flex-col pt-2">
         {/* Honeypot for bot filtering */}
         <input type="text" name="_honey" style={{ display: "none" }} tabIndex={-1} autoComplete="off" />
 
-        <div className="flex flex-col gap-1.5">
-          <label className={CLS_LABEL} htmlFor={`${uid}-name`}>
-            Name
-          </label>
-          <input
-            id={`${uid}-name`}
-            name="name"
-            autoComplete="name"
-            required
-            type="text"
-            value={values.name}
-            onChange={(e) => setField("name")(e.target.value)}
-            placeholder="Rahul Sharma"
-            className={CLS_FIELD}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label className={CLS_LABEL} htmlFor={`${uid}-phone`}>
-            Phone
-          </label>
-          <input
-            id={`${uid}-phone`}
-            name="phone"
-            autoComplete="tel"
-            inputMode="tel"
-            required
-            type="tel"
-            value={values.phone}
-            onChange={(e) => setField("phone")(e.target.value)}
-            placeholder="9876543210"
-            className={CLS_FIELD}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label className={CLS_LABEL} htmlFor={`${uid}-location`}>
-            Location
-          </label>
-          <input
-            id={`${uid}-location`}
-            name="location"
-            autoComplete="address-level2"
-            required
-            type="text"
-            value={values.location}
-            onChange={(e) => setField("location")(e.target.value)}
-            placeholder="Sakchi, Jamshedpur"
-            className={CLS_FIELD}
-          />
-        </div>
-
-        <div className="flex flex-col gap-1.5">
-          <label className={CLS_LABEL} htmlFor={`${uid}-project-type`}>
-            Project
-          </label>
-          <div className="relative">
-            <select
-              id={`${uid}-project-type`}
-              name="projectType"
-              value={values.projectType}
-              onChange={(e) => setField("projectType")(e.target.value as ProjectType)}
-              className={CLS_SELECT}
-            >
-              {PROJECT_TYPES.map((pt) => (
-                <option key={pt} value={pt} className="bg-[var(--surface)] text-[var(--text-primary)]">
-                  {pt}
-                </option>
-              ))}
-            </select>
-            <ChevronDown
-              aria-hidden="true"
-              className="pointer-events-none absolute right-0 top-1/2 -translate-y-1/2 w-4 h-4 text-[var(--text-secondary)]"
+        {/* Form Fields Stack */}
+        <div className="space-y-6 lg:space-y-8">
+          {/* 1. Name */}
+          <div className="flex flex-col">
+            <label className={CLS_LABEL} htmlFor={`${uid}-name`}>
+              Name
+            </label>
+            <input
+              id={`${uid}-name`}
+              name="name"
+              autoComplete="name"
+              required
+              type="text"
+              value={values.name}
+              onChange={(e) => setField("name")(e.target.value)}
+              placeholder="Aayush Sharma"
+              className={CLS_FIELD}
             />
           </div>
+
+          {/* 2. WhatsApp Number */}
+          <div className="flex flex-col">
+            <label className={CLS_LABEL} htmlFor={`${uid}-phone`}>
+              WhatsApp Number
+            </label>
+            <input
+              id={`${uid}-phone`}
+              name="phone"
+              autoComplete="tel"
+              inputMode="tel"
+              required
+              type="tel"
+              value={values.phone}
+              onChange={(e) => setField("phone")(e.target.value)}
+              placeholder="+91 12345 67890"
+              className={CLS_FIELD}
+            />
+          </div>
+
+          {/* 3. Looking For (Project Type) */}
+          <div className="flex flex-col">
+            <label className={CLS_LABEL} htmlFor={`${uid}-project-type`}>
+              Looking For
+            </label>
+            <div className="relative" ref={dropdownRef}>
+              <button
+                type="button"
+                id={`${uid}-project-type`}
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className={`w-full bg-transparent border-b border-[#181514]/15 hover:border-[#181514]/35 focus:border-[#6E152B] pb-3 text-[17px] xl:text-[18px] text-[#181514] flex items-center justify-between focus:outline-none transition-colors duration-200 rounded-none ${!values.projectType ? "text-[#8C8681]" : ""}`}
+              >
+                <span className="truncate">
+                  {values.projectType || "Select Project Type"}
+                </span>
+                <ChevronDown
+                  aria-hidden="true"
+                  className={`shrink-0 ml-4 w-5 h-5 text-[#1a1017]/70 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`}
+                />
+              </button>
+              
+              {/* Dropdown Menu */}
+              <div
+                className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-[#FAF8F5] border border-[#181514]/10 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-300 origin-top ${
+                  isDropdownOpen ? "opacity-100 scale-y-100 visible" : "opacity-0 scale-y-95 invisible"
+                }`}
+              >
+                <div className="max-h-[280px] overflow-y-auto flex flex-col py-2">
+                  {PROJECT_TYPES.map((pt) => (
+                    <button
+                      key={pt}
+                      type="button"
+                      onClick={() => {
+                        setField("projectType")(pt);
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`text-left px-5 py-3.5 text-[16px] transition-colors ${
+                        values.projectType === pt 
+                          ? "bg-[#6E152B]/5 text-[#6E152B] font-medium" 
+                          : "text-[#3D3834] hover:bg-[#181514]/5 hover:text-[#181514]"
+                      }`}
+                    >
+                      {pt}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Error message */}
+          {errorMsg && (
+            <p
+              role="alert"
+              aria-live="assertive"
+              className="text-[12.5px] text-[#721536] bg-[#721536]/[0.06] border border-[#721536]/[0.18] px-3 py-2 rounded-lg flex items-center gap-2"
+            >
+              <AlertCircle className="w-4 h-4 shrink-0 text-[#721536]" />
+              <span>{errorMsg}</span>
+            </p>
+          )}
         </div>
 
-        {/* Error message (WCAG 4.1.3 & 3.3.1) */}
-        {errorMsg && (
-          <p
-            role="alert"
-            aria-live="assertive"
-            className="text-[13px] text-[#8b1a42] bg-[#8b1a42]/[0.06] border border-[#8b1a42]/[0.18] px-3.5 py-2.5 rounded-xl flex items-center gap-2.5"
+        {/* 4. Submit CTA — Editorial Send Enquiry with Circular Arrow Button */}
+        <div className="pt-12 lg:pt-16">
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="group flex items-center justify-between w-full cursor-pointer disabled:opacity-60 transition-all focus:outline-none"
           >
-            <AlertCircle className="w-4 h-4 shrink-0 text-[#8b1a42]" />
-            <span>{errorMsg}</span>
-          </p>
-        )}
-
-        {/* Submit CTA */}
-        <button type="submit" disabled={isSubmitting} className={CLS_SUBMIT}>
-          {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <span>Send enquiry</span>}
-        </button>
+            <span className="text-[13px] font-bold uppercase tracking-[0.24em] text-[#6E152B] transition-colors group-hover:text-[#520e20]">
+              Send Enquiry
+            </span>
+            <div className="flex-1 h-[1px] bg-[#6E152B]/20 mx-6 group-hover:bg-[#6E152B]/40 transition-colors" />
+            <div className="relative flex items-center justify-center shrink-0">
+              {/* Outer soft halo */}
+              <div className="w-12 h-12 rounded-full bg-[#6E152B]/[0.08] flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[#6E152B]/[0.14] group-active:scale-95">
+                {/* Inner circular button */}
+                <div className="w-10 h-10 rounded-full bg-[#6E152B] group-hover:bg-[#581123] flex items-center justify-center text-white transition-transform duration-300 group-hover:translate-x-0.5 shadow-sm">
+                  {isSubmitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin text-white" />
+                  ) : (
+                    <svg
+                      width="16"
+                      height="16"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M5 12h14" />
+                      <path d="m12 5 7 7-7 7" />
+                    </svg>
+                  )}
+                </div>
+              </div>
+            </div>
+          </button>
+        </div>
       </form>
     </div>
   );

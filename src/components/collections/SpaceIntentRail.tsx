@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useReducedMotion } from "motion/react";
+import { useGSAP, gsap, ScrollTrigger, DURATION, EASE, prefersReducedMotion } from "@/lib/animations";
 import { Space } from "@/types/catalog";
 import { SpaceInfo } from "@/content/fallback/spaces";
 
@@ -22,7 +23,30 @@ const SPACE_FALLBACK_IMAGES: Record<string, string> = {
 
 export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
   const shouldReduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (prefersReducedMotion()) return;
+
+    ScrollTrigger.batch(".rail-card-reveal", {
+      onEnter: (elements) => {
+        gsap.fromTo(
+          elements,
+          { opacity: 0, x: 30 },
+          { 
+            opacity: 1, 
+            x: 0, 
+            stagger: 0.1, 
+            duration: DURATION.SLOW, 
+            ease: EASE.LUXURY 
+          }
+        );
+      },
+      once: true,
+    });
+  }, { scope: sectionRef });
+
   const [isDragging, setIsDragging] = useState(false);
   
   const dragState = useRef({
@@ -72,7 +96,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
   };
 
   return (
-    <section aria-labelledby="space-rail-heading" className="py-16 md:py-24">
+    <section ref={sectionRef} aria-labelledby="space-rail-heading" className="py-16 md:py-24">
       <div className="max-w-[1320px] mx-auto px-6 mb-10">
         <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
           CURATED SPACES
@@ -121,7 +145,7 @@ export default function SpaceIntentRail({ spaces }: SpaceIntentRailProps) {
                 role="listitem"
                 href={`/collections/${slug}`}
                 draggable={false}
-                className="snap-start shrink-0 w-[85vw] sm:w-[46vw] lg:w-[30vw] aspect-[3/4] relative rounded-2xl overflow-hidden group block threshold-card hc-focus border border-[var(--border)] shadow-sm"
+                className="rail-card-reveal snap-start shrink-0 w-[85vw] sm:w-[46vw] lg:w-[30vw] aspect-[3/4] relative rounded-2xl overflow-hidden group block threshold-card hc-focus border border-[var(--border)] shadow-sm opacity-0"
               >
                 {/* Background Photography */}
                 {heroImg ? (

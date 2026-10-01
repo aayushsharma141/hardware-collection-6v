@@ -5,7 +5,7 @@ import { Testimonial, formatTestimonialDate, clampRating } from "@/types/testimo
 import { StarRating } from "@/components/reviews/StarRating";
 import { Star } from "lucide-react";
 
-export default function MobileReviews({ reviews = [] }: { reviews?: Testimonial[] }) {
+export default function ReviewsMobile({ reviews = [] }: { reviews?: Testimonial[] }) {
   // Withheld entirely until an editor approves real testimonials in Sanity.
   const validReviews = reviews.filter((r) => r.quote && r.quote.trim().length > 0);
   if (validReviews.length === 0) return null;

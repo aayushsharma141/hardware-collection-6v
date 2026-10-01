@@ -84,7 +84,7 @@ export function BrandLockup({
       >
         <Image
           src={EMBLEM_SRC}
-          alt=""
+          alt="Hardware Collection Emblem"
           fill
           sizes={emblemSizes}
           priority={priority}

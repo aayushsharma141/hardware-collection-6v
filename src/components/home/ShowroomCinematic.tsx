@@ -191,7 +191,7 @@ function CinematicScene({
         <div className="absolute" style={{ top: "-10%", left: "-5%", width: "110%", height: "120%" }}>
           <Image
             src={scene.img}
-            alt=""
+            alt={scene.title.replace('\n', ' ')}
             aria-hidden="true"
             fill
             unoptimized

@@ -11,12 +11,12 @@ import { SHOWROOM_MAP_URL, SHOWROOM_YEARS_OF_TRUST } from "@/lib/config";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
-interface MobileHeroProps {
+interface HeroMobileProps {
   slides: HeroSlide[];
 }
 
 /**
- * MobileHero &mdash; the first viewport for most of the audience.
+ * HeroMobile &mdash; the first viewport for most of the audience.
  *
  * The photograph carries the frame. An earlier version laid a 42%-wide panel
  * and a hard-edged product rectangle over it; both cut visible seams straight
@@ -24,7 +24,7 @@ interface MobileHeroProps {
  * single full-bleed image under a bottom-weighted scrim, with one horizontal
  * brass hairline as the only drawn geometry.
  */
-export default function MobileHero({ slides }: MobileHeroProps) {
+export default function HeroMobile({ slides }: HeroMobileProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
 

@@ -205,7 +205,7 @@ export default function Footer({ settings, brands }: FooterProps) {
                     const slug = (typeof b.slug === 'string' ? b.slug : b.slug?.current) || b.id || b.name;
                     return [slug, brand];
                   })
-                ).values()).map((brand) => {
+                ).values()).slice(0, 6).map((brand) => {
                   const b = brand as { slug?: string | { current?: string }; id?: string; name?: string; brandName?: string };
                   const name = b.name || b.brandName;
                   const slug = (typeof b.slug === 'string' ? b.slug : b.slug?.current) || b.id || b.name;

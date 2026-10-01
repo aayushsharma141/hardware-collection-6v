@@ -19,7 +19,10 @@ export const metadata: Metadata = {
     absolute: "Architectural Hardware Collections | Hardware Collection Jamshedpur",
   },
   description:
-    "Explore curated architectural hardware collections in Sakchi, Jamshedpur. Premium door handles, digital locks, modular kitchen systems, and luxury fittings.",
+    "Explore curated architectural hardware collections in Sakchi, Jamshedpur. Premium door handles, digital locks, modular kitchen systems, and luxury fittings from top brands.",
+  alternates: {
+    canonical: 'https://hardwarecollection.co/collections',
+  },
 };
 
 // Use Next.js revalidation strategy for Sanity content

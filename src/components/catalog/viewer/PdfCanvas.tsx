@@ -1,6 +1,5 @@
 "use client";
 
-import "@/lib/polyfills";
 import React, {
   useCallback,
   useEffect,

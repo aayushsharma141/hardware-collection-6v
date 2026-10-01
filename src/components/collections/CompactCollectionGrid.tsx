@@ -1,10 +1,12 @@
 "use client";
 
+import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useReducedMotion } from "motion/react";
 import { Category, getSlugString } from "@/types/catalog";
 import { categoryHref } from "@/lib/collections/routes";
+import { useGSAP, gsap, ScrollTrigger, DURATION, EASE, prefersReducedMotion } from "@/lib/animations";
 
 export interface CompactCollectionGridProps {
   categories: Category[];
@@ -16,9 +18,33 @@ export default function CompactCollectionGrid({
   className = "",
 }: CompactCollectionGridProps) {
   const shouldReduceMotion = useReducedMotion();
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useGSAP(() => {
+    if (prefersReducedMotion()) return;
+
+    // Use ScrollTrigger.batch to stagger cards as they enter the viewport
+    ScrollTrigger.batch(".grid-card-reveal", {
+      onEnter: (elements) => {
+        gsap.fromTo(
+          elements,
+          { opacity: 0, y: 30 },
+          { 
+            opacity: 1, 
+            y: 0, 
+            stagger: 0.1, 
+            duration: DURATION.SLOW, 
+            ease: EASE.LUXURY 
+          }
+        );
+      },
+      once: true,
+    });
+  }, { scope: gridRef });
 
   return (
     <div
+      ref={gridRef}
       className={`grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ${className}`}
     >
       {categories.map((category) => {
@@ -31,7 +57,7 @@ export default function CompactCollectionGrid({
           <Link
             key={category._id || category.id || slug}
             href={categoryHref(category)}
-            className="threshold-card hc-focus group block rounded-2xl bg-[var(--surface-raised)] border border-[var(--border)] p-5 md:p-6 transition-colors duration-150 hover:border-[var(--accent)] shadow-sm"
+            className="grid-card-reveal threshold-card hc-focus group block rounded-2xl bg-[var(--surface-raised)] border border-[var(--border)] p-5 md:p-6 transition-colors duration-150 hover:border-[var(--accent)] shadow-sm opacity-0"
           >
             {/* Image Container — pinned to aspect-[4/3] (CLS gate) */}
             <div className="relative aspect-[4/3] w-full overflow-hidden rounded-xl bg-[var(--surface-raised)] mb-5">

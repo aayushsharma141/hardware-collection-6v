@@ -1,8 +1,10 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { buildGeneralInquiryWhatsappLink } from "@/lib/integrations/whatsapp";
+import { useGSAP, gsap, DURATION, EASE, prefersReducedMotion } from "@/lib/animations";
 
 export interface CollectionsHeroProps {
   collectionCount: number;
@@ -16,11 +18,30 @@ const SHOWROOM_WALL = "/Hardware Collection/hardware_collection_sakchi_shop_inte
 
 export default function CollectionsHero({
   collectionCount,
-  brandCount: _brandCount,
   yearsClaimConfirmed = false,
   whatsappNumber,
 }: CollectionsHeroProps) {
   const whatsappUrl = buildGeneralInquiryWhatsappLink(whatsappNumber);
+  const containerRef = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    if (prefersReducedMotion()) return;
+    
+    const tl = gsap.timeline({ defaults: { ease: EASE.LUXURY, duration: DURATION.SLOW } });
+    
+    tl.fromTo(
+      ".hero-reveal",
+      { y: 30, opacity: 0 },
+      { y: 0, opacity: 1, stagger: 0.08, delay: 0.15 }
+    );
+    
+    tl.fromTo(
+      ".hero-image",
+      { scale: 0.95, opacity: 0, y: 20 },
+      { scale: 1, opacity: 1, y: 0, duration: DURATION.HERO },
+      "-=0.4"
+    );
+  }, { scope: containerRef });
 
   const stats = [
     collectionCount > 0 ? `${collectionCount} COLLECTIONS` : null,
@@ -29,30 +50,30 @@ export default function CollectionsHero({
   ].filter(Boolean) as string[];
 
   return (
-    <section className="relative pt-16 pb-20 md:pt-28 md:pb-32 border-b border-[var(--border)]">
+    <section ref={containerRef} className="relative pt-16 pb-20 md:pt-28 md:pb-32 border-b border-[var(--border)] overflow-hidden">
       {/* lg+: copy left, real showroom photography right. Below lg the photo is
           dropped so the mobile hero stays one screen of text and CTAs. */}
       <div className="max-w-[1320px] mx-auto px-6 lg:grid lg:grid-cols-12 lg:gap-12 xl:gap-16 lg:items-center">
         <div className="max-w-4xl lg:col-span-7">
           {/* Eyebrow */}
-          <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-brass-ink mb-4 block">
+          <span className="hero-reveal hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-brass-ink mb-4 block">
             ARCHITECTURAL HARDWARE · SAKCHI · JAMSHEDPUR
           </span>
 
           {/* Title */}
-          <h1 className="hc-serif text-5xl sm:text-7xl md:text-8xl lg:text-[92px] font-light tracking-[-0.01em] text-[var(--text-primary)] uppercase leading-[0.95] mb-6">
+          <h1 className="hero-reveal hc-serif text-5xl sm:text-7xl md:text-8xl lg:text-[92px] font-light tracking-[-0.01em] text-[var(--text-primary)] uppercase leading-[0.95] mb-6">
             THE COLLECTION
           </h1>
 
           {/* Supporting Copy */}
-          <p className="text-base sm:text-xl md:text-2xl text-[var(--text-secondary)] font-light leading-relaxed mb-10 max-w-3xl">
+          <p className="hero-reveal text-base sm:text-xl md:text-2xl text-[var(--text-secondary)] font-light leading-relaxed mb-10 max-w-3xl">
             Explore Jamshedpur&apos;s finest curated collection of architectural hardware,
             precision locking systems, and luxury modular fittings for prestigious residential
             and commercial spaces.
           </p>
 
           {/* Named CTAs — Exactly one filled brass button */}
-          <div className="flex flex-wrap items-center gap-4 sm:gap-5 mb-12">
+          <div className="hero-reveal flex flex-wrap items-center gap-4 sm:gap-5 mb-12">
             <Link
               href="#explore-collections"
               className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-4 text-xs sm:text-sm tracking-widest uppercase font-semibold text-white rounded transition-transform duration-150 active:scale-95 shadow-md"
@@ -72,7 +93,7 @@ export default function CollectionsHero({
 
           {/* Live Stat Row (Omit-on-zero) */}
           {stats.length > 0 && (
-            <div className="flex flex-wrap items-center gap-6 pt-6 border-t border-[var(--border)]">
+            <div className="hero-reveal flex flex-wrap items-center gap-6 pt-6 border-t border-[var(--border)]">
               {stats.map((stat, idx) => (
                 <div key={stat} className="flex items-center gap-6">
                   <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.2em] font-medium text-brass-ink">
@@ -87,7 +108,7 @@ export default function CollectionsHero({
           )}
         </div>
 
-        <figure className="hidden lg:block lg:col-span-5">
+        <figure className="hero-image hidden lg:block lg:col-span-5">
           <div className="relative aspect-[4/5] overflow-hidden rounded border border-[var(--border)] bg-[var(--surface-raised)] shadow-[0_24px_60px_rgba(26,16,23,0.10)]">
             <Image
               src={SHOWROOM_WALL}

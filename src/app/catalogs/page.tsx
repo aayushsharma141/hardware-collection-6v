@@ -11,7 +11,10 @@ export const metadata: Metadata = {
     absolute: "Hardware Catalogs | Hardware Collection Jamshedpur",
   },
   description:
-    "Browse architectural hardware catalogs and brand resources from Hardware Collection, Sakchi, Jamshedpur.",
+    "Download official architectural hardware catalogs from Hafele, Blum, Dorset and other premium brands available at Hardware Collection, Sakchi, Jamshedpur.",
+  alternates: {
+    canonical: 'https://hardwarecollection.co/catalogs',
+  },
 };
 
 export const revalidate = 60;

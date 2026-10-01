@@ -14,6 +14,7 @@ export interface BrandInfo {
   heroImage?: string;
   keyHighlights: string[];
   imageClass?: string;
+  imageStyle?: React.CSSProperties;
 }
 
 export const CANONICAL_BRANDS: BrandInfo[] = [
@@ -149,13 +150,14 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     country: "Italy / India",
     tier: "Luxury Quartz Sinks & Precision Faucets",
     authorized: true,
-    logo: "/brands/labacha_logo_transparent.png",
+    logo: "/brands/labacha_logo_transparent_clean.png",
     website: "https://labachaindia.com/",
     tagline: "Luxury Granite Sinks & Bath Mixers",
     description: "Labacha brings Italian-inspired quartz composite granite sinks, workstation kitchen sinks, and luxury bathroom mixers to modern living spaces.",
     establishedYear: "2010",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: ["Quartz Composite", "Heat & Scratch Resistant", "360° Faucets", "Nano-Coating"]
+    keyHighlights: ["Quartz Composite", "Heat & Scratch Resistant", "360° Faucets", "Nano-Coating"],
+    imageStyle: { transform: "scale(1.2)" }
   },
   {
     id: "rexton",
@@ -253,7 +255,8 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     description: "Godrej Security Solutions is synonymous with unyielding trust and enterprise security in India.",
     establishedYear: "1897",
     heroImage: "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png",
-    keyHighlights: ["Biometric Sensor", "Anti-Prise Locks", "Smart Mobile App", "Pan-India Service"]
+    keyHighlights: ["Biometric Sensor", "Anti-Prise Locks", "Smart Mobile App", "Pan-India Service"],
+    imageStyle: { transform: "scale(1.4)" }
   },
   {
     id: "decor-bath",
@@ -261,7 +264,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     country: "India",
     tier: "Bath & Sanitary Hardware",
     authorized: true,
-    logo: "/brands/decor-bath_cropped.png",
+    logo: "/brands/decor-bath_transparent.png",
     website: null,
     tagline: "Premium Bath Hardware",
     description: "Decor Bath provides high-quality bathroom hardware, fittings, and sanitary solutions.",

@@ -4,6 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import { motion, useReducedMotion } from "motion/react";
 import { Brand, getSlugString } from "@/types/catalog";
+import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 import { useConsultationStore } from "@/components/consultation/store";
 
 export interface BrandDiscoveryProps {
@@ -122,15 +123,9 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                             type="button"
                             onClick={() => askAboutBrand(brand)}
                             tabIndex={isHovered ? 0 : -1}
-                            className="inline-flex items-center gap-2 text-[var(--accent)] text-xs tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors duration-150 architecture-rule hc-focus w-fit group/btn"
+                            className="inline-flex items-center text-[var(--accent)] text-xs tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors duration-150 architecture-rule hc-focus w-fit group/btn"
                           >
                             Explore Collection
-                            <span
-                              aria-hidden="true"
-                              className="transition-transform duration-150 group-hover/btn:translate-x-1"
-                            >
-                              &rarr;
-                            </span>
                           </button>
                           {(brand.catalogues?.length || brand.officialCatalogUrl) && (
                             <a
@@ -175,19 +170,20 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                 onClick={() => askAboutBrand(brand)}
                 aria-label={`Ask about ${brand.name} in a consultation`}
                 title={`${brand.name} — Ask about availability`}
-                className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded bg-white/90 border border-[#E7E0D4] shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-all duration-300 group/cell overflow-hidden cursor-pointer"
+                className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded bg-white/90 border border-[#E7E0D4] shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-all duration-300 group/cell cursor-pointer"
               >
-                {brand.logoUrl ? (
-                  <div className="relative w-full h-full flex items-center justify-center">
+                {CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.logo || brand.logoUrl ? (
+                  <div className="relative w-full h-full flex items-center justify-center transition-transform duration-150 ease-out group-hover/cell:scale-105">
                     <Image
-                      src={brand.logoUrl}
+                      src={CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.logo || brand.logoUrl as string}
                       alt={brand.name}
                       fill
                       sizes="(max-width: 768px) 120px, 160px"
-                      className="object-contain transition-transform duration-150 ease-out group-hover/cell:scale-105"
+                      className={`object-contain ${CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.imageClass || ""}`}
+                      style={CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.imageStyle}
                       unoptimized={
-                        typeof brand.logoUrl === "string" &&
-                        brand.logoUrl.endsWith(".svg")
+                        (typeof CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.logo === "string" && CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.logo.endsWith(".svg")) ||
+                        (typeof brand.logoUrl === "string" && brand.logoUrl.endsWith(".svg"))
                       }
                     />
                   </div>

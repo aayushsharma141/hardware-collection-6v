@@ -547,13 +547,13 @@ html.lenis, html.lenis body { height: auto; }
 }
 .hc-focus:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
 
-/* Underline sweep — wine on interactive elements */
+/* Underline sweep — brass/gold on interactive elements */
 .architecture-rule { position: relative; }
-.architecture-rule::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--wine); transform: scaleX(0.18); transform-origin: left; transition: transform 220ms var(--standard); }
+.architecture-rule::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0.18); transform-origin: left; transition: transform 220ms var(--standard); }
 .architecture-rule:hover::after, .architecture-rule:focus-within::after { transform: scaleX(1); }
 
 .rail-button { position: relative; overflow: hidden; transition: color var(--dur-micro) var(--ease-out-expo); }
-.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--wine); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--cinematic); }
+.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--cinematic); }
 .rail-button:hover::after, .rail-button:focus-visible::after { transform: scaleX(1); }
 
 /* Primary CTA — wine plate */
@@ -623,10 +623,6 @@ html.lenis, html.lenis body { height: auto; }
    BROWSER SURFACES — selection, caret, scrollbar, focus ring
    ───────────────────────────────────────────────────────────── */
 
-html {
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
 
 
 

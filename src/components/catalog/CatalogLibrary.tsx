@@ -63,13 +63,13 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
             const key = normalizeBrandKey(brand);
             const meta = CANONICAL_BRANDS_BY_ID[key] ?? {
               name: brand.name ?? "Authorized Partner",
-              logo: brand.logoUrl ?? brand.logo ?? null,
+              logo: brand.logo ?? brand.logoUrl ?? null,
               website: brand.website ?? null,
               tagline: brand.tagline ?? brand.description ?? "Authorized Architectural Hardware Partner",
               country: brand.country ?? "India",
             };
 
-            const logoSrc = brand.logoUrl ?? brand.logo ?? meta.logo;
+            const logoSrc = meta.logo ?? brand.logoUrl ?? brand.logo;
             const websiteUrl = brand.website ?? meta.website;
             const displayName = meta.name ?? brand.name ?? "Authorized Brand";
             const tagline = brand.tagline ?? meta.tagline;
@@ -123,13 +123,14 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                 
                 {/* Middle: Brand Logo & Tagline */}
                 <div className="my-auto py-4">
-                  <div className="h-16 w-full max-w-[220px] flex items-center justify-start">
+                  <div className="h-16 w-full max-w-[220px] flex items-center justify-start transition-transform duration-300 group-hover:scale-105">
                     {logoSrc ? (
                       <NormalizedLogo
                         src={logoSrc}
                         alt={`${displayName} Logo`}
                         aspect={brand.logoUrl ? brand.logoAspect : null}
-                        className={`transition-transform duration-300 group-hover:scale-105 ${meta.imageClass || ""}`}
+                        className={`${meta.imageClass || ""}`}
+                        style={meta.imageStyle}
                       />
                     ) : (
                       <span className="font-display text-2xl text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">

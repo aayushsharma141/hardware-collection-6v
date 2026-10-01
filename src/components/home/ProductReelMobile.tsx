@@ -7,7 +7,7 @@ import { generateWhatsAppUrl } from "@/lib/config";
 import { SIGNATURE_PIECES } from "@/content/fallback/home";
 
 /**
- * MobileProductReel - flagship pieces, one open at a time.
+ * ProductReelMobile - flagship pieces, one open at a time.
  *
  * Three pieces used to render as three stacked blocks, each a full-bleed 4:5
  * photograph followed by brand, name, blurb and two actions: 2603px on an
@@ -32,7 +32,7 @@ import { SIGNATURE_PIECES } from "@/content/fallback/home";
  */
 const FEATURED = SIGNATURE_PIECES.slice(0, 3);
 
-interface MobileProductReelProps {
+interface ProductReelMobileProps {
   products?: {
     productName: string;
     slug: string;
@@ -41,7 +41,7 @@ interface MobileProductReelProps {
   }[];
 }
 
-export default function MobileProductReel({ products }: MobileProductReelProps) {
+export default function ProductReelMobile({ products }: ProductReelMobileProps) {
   const activeProducts = products && products.length > 0
     ? products.map((p, idx) => {
         const fb = FEATURED[idx % FEATURED.length];

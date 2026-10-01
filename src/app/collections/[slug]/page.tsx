@@ -47,27 +47,33 @@ export async function generateMetadata({
 
   if (resolution.kind === "category") {
     const seo = resolution.category.seo;
-    const title = seo?.metaTitle || `${resolution.category.name || "Curated Collection"} | Hardware Collection Jamshedpur`;
+    const title = seo?.metaTitle || `Premium ${resolution.category.name || "Hardware Collections"} in Jamshedpur | Hardware Collection`;
     const description =
       seo?.metaDescription ||
       resolution.category.description ||
-      `Explore genuine architectural hardware for ${resolution.category.name} in Sakchi, Jamshedpur.`;
+      `Discover premium ${resolution.category.name?.toLowerCase() || "architectural hardware"} in Sakchi, Jamshedpur. Browse our showroom for genuine brands like Hafele, Blum & Dorset.`;
     return { 
       title, 
       description,
+      alternates: {
+        canonical: `https://hardwarecollection.co/collections/${slug}`,
+      },
     };
   }
 
   if (resolution.kind === "space") {
     const seo = resolution.space.seo;
-    const title = seo?.metaTitle || `${resolution.space.name} Architectural Hardware | Hardware Collection`;
+    const title = seo?.metaTitle || `Architectural Hardware for ${resolution.space.name}s | Hardware Collection Jamshedpur`;
     const description =
       seo?.metaDescription ||
       resolution.space.description ||
-      `Curated hardware solutions for ${resolution.space.name} in Sakchi, Jamshedpur.`;
+      `Transform your ${resolution.space.name?.toLowerCase()} with premium architectural hardware. Explore curated fittings in our Sakchi, Jamshedpur showroom.`;
     return { 
       title, 
       description,
+      alternates: {
+        canonical: `https://hardwarecollection.co/collections/${slug}`,
+      },
     };
   }
 
@@ -101,7 +107,25 @@ export default async function CollectionSlugPage({
         redirect(`/collections/${catSlug}`);
       }
     }
-    return <SpaceLandingClient space={resolution.space} settings={settings} />;
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://hardwarecollection.co/" },
+        { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://hardwarecollection.co/collections" },
+        { "@type": "ListItem", "position": 3, "name": resolution.space.name, "item": `https://hardwarecollection.co/collections/${slug}` }
+      ]
+    };
+
+    return (
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+        <SpaceLandingClient space={resolution.space} settings={settings} />
+      </>
+    );
   }
 
   // Phase 12: a family page carries one section per member category. Each
@@ -134,13 +158,51 @@ export default async function CollectionSlugPage({
       (a, b) => (a.displayOrder ?? 999) - (b.displayOrder ?? 999)
     );
 
+    const breadcrumbSchema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [
+        { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://hardwarecollection.co/" },
+        { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://hardwarecollection.co/collections" },
+        { "@type": "ListItem", "position": 3, "name": resolution.category.name, "item": `https://hardwarecollection.co/collections/${slug}` }
+      ]
+    };
+
+    const itemListSchema = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      "name": resolution.category.name,
+      "itemListElement": sections.flatMap((section, sIdx) => 
+        (section.products || []).map((product, pIdx) => ({
+          "@type": "ListItem",
+          "position": sIdx * 100 + pIdx + 1,
+          "item": {
+            "@type": "Product",
+            "name": product.name,
+            "description": product.description || product.name,
+            "brand": { "@type": "Brand", "name": product.brand || "Hardware Collection" }
+          }
+        }))
+      ).slice(0, 30) // Limit to top 30 for SEO payload
+    };
+
     return (
-      <CategoryDetailClient
-        category={{ ...resolution.category, brandRefs }}
-        products={[]}
-        sections={sections}
-        settings={settings}
-      />
+      <>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+        />
+        <CategoryDetailClient
+          category={{ ...resolution.category, brandRefs }}
+          products={[]}
+          sections={sections}
+          settings={settings}
+        />
+      </>
     );
   }
 
@@ -153,11 +215,47 @@ export default async function CollectionSlugPage({
     ? sanityProducts
     : fallbackCategoryProducts;
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://hardwarecollection.co/" },
+      { "@type": "ListItem", "position": 2, "name": "Collections", "item": "https://hardwarecollection.co/collections" },
+      { "@type": "ListItem", "position": 3, "name": resolution.category.name, "item": `https://hardwarecollection.co/collections/${slug}` }
+    ]
+  };
+
+  const itemListSchema = {
+    "@context": "https://schema.org",
+    "@type": "ItemList",
+    "name": resolution.category.name,
+    "itemListElement": (products || []).slice(0, 30).map((product: { name: string, description?: string, brand?: string }, pIdx: number) => ({
+      "@type": "ListItem",
+      "position": pIdx + 1,
+      "item": {
+        "@type": "Product",
+        "name": product.name,
+        "description": product.description || product.name,
+        "brand": { "@type": "Brand", "name": product.brand || "Hardware Collection" }
+      }
+    }))
+  };
+
   return (
-    <CategoryDetailClient
-      category={resolution.category}
-      products={products || []}
-      settings={settings}
-    />
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(itemListSchema) }}
+      />
+      <CategoryDetailClient
+        category={resolution.category}
+        products={products || []}
+        settings={settings}
+      />
+    </>
   );
 }

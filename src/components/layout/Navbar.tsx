@@ -8,6 +8,7 @@ import { Phone, ArrowUpRight, Menu, X } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { useConsultationStore } from "@/components/consultation/store";
 import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
+import { useGSAP, gsap, DURATION, EASE, prefersReducedMotion } from "@/lib/animations";
 
 interface NavbarProps {
   primaryPhone?: string;
@@ -58,10 +59,21 @@ export default function Navbar({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
-  const [currentHash, setCurrentHash] = useState("");
+
   const pathname = usePathname();
   const { openDrawer } = useConsultationStore();
   const shouldReduceMotion = useReducedMotion();
+  const navbarRef = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    if (prefersReducedMotion()) return;
+    
+    gsap.fromTo(
+      navbarRef.current,
+      { y: -100, opacity: 0 },
+      { y: 0, opacity: 1, duration: DURATION.HERO, ease: EASE.LUXURY, delay: 0.1 }
+    );
+  }, { scope: navbarRef });
 
   // Suppress rendering inside Sanity Studio CMS
   const isStudio = pathname?.startsWith("/studio");
@@ -76,14 +88,6 @@ export default function Navbar({
         }))
       : NAV_LINKS_FALLBACK;
 
-  // Track active URL hash
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-    const updateHash = () => setCurrentHash(window.location.hash);
-    updateHash();
-    window.addEventListener("hashchange", updateHash);
-    return () => window.removeEventListener("hashchange", updateHash);
-  }, []);
 
   /**
    * One scroll listener drives both bar states.
@@ -285,6 +289,7 @@ export default function Navbar({
 
       {/* ── Floating Tactile Glass Header ─────────────────────── */}
       <header
+        ref={navbarRef}
         role="banner"
         className={`navbar-island fixed left-0 right-0 z-50 flex justify-center pointer-events-none transition-[top,padding] duration-300 ease-out ${
           isScrolled ? "top-2 md:top-3 px-3 md:px-8" : "top-3 md:top-5 px-3 md:px-8"

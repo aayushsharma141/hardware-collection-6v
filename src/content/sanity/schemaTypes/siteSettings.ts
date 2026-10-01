@@ -35,6 +35,14 @@ export const siteSettingsType = defineType({
       group: "business",
       description: "Used in legal pages (e.g. 'Mukesh Khandelwal')",
     }),
+    defineField({
+      name: "authorizedBrands",
+      title: "Authorized Brands",
+      type: "array",
+      group: "business",
+      of: [{ type: "reference", to: [{ type: "brand" }] }],
+      description: "Global list of authorized brands to display across the site (Footer, Consultation, About sections, etc.)",
+    }),
 
     // --- Contact ---
     defineField({

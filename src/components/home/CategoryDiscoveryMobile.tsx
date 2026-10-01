@@ -4,7 +4,7 @@ import Link from "next/link";
 import { CATEGORY_FAMILIES, type CategoryFamily } from "@/content/fallback/home";
 
 /**
- * MobileCategoryDiscovery - the showroom families, as one specimen and an index.
+ * CategoryDiscoveryMobile - the showroom families, as one specimen and an index.
  *
  * Every family used to render as its own full-bleed 4:5 card. Five equally
  * weighted blocks ran to 2425px on an 812px screen: three viewports to read a
@@ -17,7 +17,7 @@ import { CATEGORY_FAMILIES, type CategoryFamily } from "@/content/fallback/home"
  * resolve into a hairline index that fits in a glance. The visitor sees all
  * five and chooses one, instead of scrolling past them one at a time.
  */
-interface MobileCategoryDiscoveryProps {
+interface CategoryDiscoveryMobileProps {
   categories?: {
     categoryName: string;
     slug: string;
@@ -26,7 +26,7 @@ interface MobileCategoryDiscoveryProps {
   }[];
 }
 
-export default function MobileCategoryDiscovery({ categories }: MobileCategoryDiscoveryProps) {
+export default function CategoryDiscoveryMobile({ categories }: CategoryDiscoveryMobileProps) {
   const activeFamilies = categories && categories.length > 0
     ? categories.map((c, idx) => {
         const fallback = CATEGORY_FAMILIES.find(f =>
@@ -83,7 +83,7 @@ export default function MobileCategoryDiscovery({ categories }: MobileCategoryDi
         {focal.image ? (
           <Image
             src={focal.image}
-            alt=""
+            alt={`${fullName(focal)} premium architectural hardware`}
             fill
             sizes="(max-width: 1024px) 100vw, 400px"
             className="object-cover transition-transform duration-500 ease-out group-active:scale-[1.03]"
@@ -133,7 +133,7 @@ export default function MobileCategoryDiscovery({ categories }: MobileCategoryDi
                   {family.image ? (
                     <Image
                       src={family.image}
-                      alt=""
+                      alt={`${fullName(family)} hardware collection`}
                       fill
                       sizes="56px"
                       className="object-cover"

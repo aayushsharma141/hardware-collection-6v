@@ -250,6 +250,11 @@ export async function getSiteSettings() {
     googleMapsUrl,
     googleMapsEmbedUrl,
     "defaultCategoryImageUrl": defaultCategoryImage.asset->url,
+    "authorizedBrandRefs": authorizedBrands[]->{ 
+      "brandName": name, 
+      "slug": slug.current, 
+      "logoUrl": logo.asset->url 
+    },
     seo
   }`;
   try {

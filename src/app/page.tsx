@@ -5,8 +5,8 @@ import { getHomePage, getSiteSettings, getBrands, getTestimonials } from "@/cont
 import MobileConversionBar from "@/components/home/MobileConversionBar";
 
 // Global cinema system
-import { AtmosphericBackground } from "@/components/home/cinema/AtmosphericBackground";
-import { PointerLight } from "@/components/home/cinema/PointerLight";
+import { AtmosphericBackground } from "@/components/home/AtmosphericBackground";
+import { PointerLight } from "@/components/home/PointerLight";
 import { ScrollProgress } from "@/components/animations/ScrollProgress";
 
 // 7 Cinematic Chapters
@@ -20,11 +20,11 @@ import ShowroomCinematic from "@/components/home/ShowroomCinematic";       // CH
 import FloatingCTA from "@/components/home/FloatingCTA";                   // CH07 — QUIET ZONE
 
 // Mobile specific components
-import MobileHero from "@/components/home/mobile/MobileHero";
-import MobileCategoryDiscovery from "@/components/home/mobile/MobileCategoryDiscovery";
-import MobileProductReel from "@/components/home/mobile/MobileProductReel";
-import MobileReviews from "@/components/home/mobile/MobileReviews";
-import MobileConsultation from "@/components/home/mobile/MobileConsultation";
+import HeroMobile from "@/components/home/HeroMobile";
+import CategoryDiscoveryMobile from "@/components/home/CategoryDiscoveryMobile";
+import ProductReelMobile from "@/components/home/ProductReelMobile";
+import ReviewsMobile from "@/components/home/ReviewsMobile";
+import ConsultationMobile from "@/components/home/ConsultationMobile";
 import AboutStory from "@/components/home/AboutStory";
 import { HeroSlide } from "@/types/hero";
 
@@ -78,11 +78,12 @@ export async function generateMetadata(): Promise<Metadata> {
   const homeData = await getHomePage();
   const seo = homeData?.seo;
   
-  if (!seo) return {};
-
   return {
-    title: seo.metaTitle,
-    description: seo.metaDescription,
+    title: seo?.metaTitle || "Hardware Collection | Premium Architectural Hardware in Jamshedpur",
+    description: seo?.metaDescription || "Authorized dealer for Hafele, Blum, Dorset and more in Sakchi, Jamshedpur. Explore our showroom for premium digital locks, modular kitchens, and door hardware.",
+    alternates: {
+      canonical: 'https://hardwarecollection.co',
+    },
   };
 }
 
@@ -132,21 +133,21 @@ export default async function HomePage() {
       <main className="relative z-10">
         {/* CH01 — The Art of the Finish (HIGH) */}
         <div className="block lg:hidden">
-          <MobileHero slides={heroSlides} />
+          <HeroMobile slides={heroSlides} />
         </div>
         <HeroStage slides={heroSlides} />
 
         {/* CH02 — Specified By (LOW) */}
         <div className="theme-ivory">
-          <BrandTrustStrip brands={homeData?.trustedBrandRefs} />
+          <BrandTrustStrip brands={siteSettings?.authorizedBrandRefs || homeData?.trustedBrandRefs} />
           <HeroTrustBadges pillars={homeData?.valuePropositions} />
         </div>
 
         {/* Mobile Mid-Section Experience */}
         <div className="block lg:hidden">
-          <MobileCategoryDiscovery categories={homeData?.featuredCategoryRefs} />
-          <MobileProductReel products={homeData?.featuredProductRefs} />
-          <MobileReviews reviews={testimonials} />
+          <CategoryDiscoveryMobile categories={homeData?.featuredCategoryRefs} />
+          <ProductReelMobile products={homeData?.featuredProductRefs} />
+          <ReviewsMobile reviews={testimonials} />
         </div>
 
         {/* Desktop Mid-Section Experience */}
@@ -180,13 +181,12 @@ export default async function HomePage() {
             legacyYearsOfTrust={homeData?.legacyYearsOfTrust}
             legacyBrandsCount={homeData?.legacyBrandsCount}
             legacyShowroomImageUrl={homeData?.legacyShowroomImageUrl}
-            legacyPillars={homeData?.legacyPillars}
           />
         </div>
 
         {/* CH07 — Final Conversion & Consultation Zone */}
         <div className="block lg:hidden">
-          <MobileConsultation heading={homeData?.ctaHeading} description={homeData?.ctaDescription} cta={homeData?.cta} />
+          <ConsultationMobile heading={homeData?.ctaHeading} description={homeData?.ctaDescription} cta={homeData?.cta} />
         </div>
         <div className="hidden lg:block">
           <FloatingCTA reviews={testimonials} cta={homeData?.cta} heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />

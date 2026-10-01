@@ -1,8 +1,8 @@
 "use client";
 
-import { ConsultationForm } from "@/components/consultation/ConsultationForm";
-import { SHOWROOM_PHONE_HREF, SHOWROOM_PHONE_DISPLAY, SHOWROOM_MAP_URL, generateWhatsAppUrl, SHOWROOM_YEARS_OF_TRUST, SHOWROOM_BRAND_COUNT } from "@/lib/config";
-import { MessageCircle, PhoneCall, Navigation, Star } from "lucide-react";
+import { ConsultationSection } from "./ConsultationSection";
+import { SHOWROOM_MAP_URL } from "@/lib/config";
+import { Star } from "lucide-react";
 import { Testimonial, formatTestimonialDate, clampRating } from "@/types/testimonial";
 import { StarRating } from "@/components/reviews/StarRating";
 import { motion, Variants } from "motion/react";
@@ -83,7 +83,6 @@ export default function FloatingCTA({ reviews = [], cta, heading, description }:
                 className="text-[var(--accent,#C8A96E)] hover:text-[var(--accent,#9a7a42)] text-xs font-medium inline-flex items-center gap-1 transition-colors"
               >
                 <span>View on Maps</span>
-                <span aria-hidden="true">→</span>
               </a>
             </div>
           </div>
@@ -126,109 +125,15 @@ export default function FloatingCTA({ reviews = [], cta, heading, description }:
       </motion.div>
       )}
 
-      {/* —— CTA ZONE — theme-dark — quiet conversion zone ────── */}
+      {/* ── 50/50 LUXURY CONSULTATION SECTION — MATCHING REFERENCE ── */}
       <motion.div 
         data-zone="cta" 
-        className="theme-ivory"
         variants={quietFade}
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-100px" }}
       >
-        {/* Quiet conversion zone — 2-Column Luxury Consultation Studio */}
-        <div id="directions" className="container mx-auto px-6 lg:px-16 py-20 lg:py-28 scroll-mt-24">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-stretch">
-
-            {/* Left Column: Editorial & Heritage Authority */}
-            <div className="lg:col-span-5 flex flex-col space-y-10 lg:pt-10">
-              <div>
-                <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] font-semibold mb-3">
-                  Private consultation · Sakchi, Jamshedpur
-                </p>
-                <h2
-                  className="font-cormorant text-3xl sm:text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-[1.15] mb-6"
-                  style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
-                  dangerouslySetInnerHTML={{ __html: heading ? heading.replace('\n', '<br />') : "Let's discuss<br /><span class=\"text-[var(--text-secondary)]\">your project.</span>" }}
-                />
-                <p className="text-sm sm:text-base text-[var(--text-secondary)] font-light leading-relaxed mb-8 max-w-md">
-                  {description || "Tell us what you're working on. Our technical team will help you navigate brands, tactile finishes, and architectural hardware specifications with zero guesswork."}
-                </p>
-              </div>
-
-              {/* Architectural Trust Indicators & Heritage Badges */}
-              <div className="space-y-6 border-t border-[var(--border)] pt-8">
-                <div className="grid grid-cols-3 gap-4 text-left">
-                  <div>
-                    <p className="text-xl font-normal text-[var(--accent)] font-cormorant" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>{SHOWROOM_YEARS_OF_TRUST}+</p>
-                    <p className="text-[10px] uppercase tracking-wider text-[var(--text-secondary)] font-medium">Years in Sakchi</p>
-                  </div>
-                  <div>
-                    <p className="text-xl font-normal text-[var(--accent)] font-cormorant tabular-nums" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>{SHOWROOM_BRAND_COUNT}</p>
-                    <p className="text-[10px] uppercase tracking-wider text-[var(--text-secondary)] font-medium">Authorized Brands</p>
-                  </div>
-                  <div>
-                    <p className="text-xl font-normal text-[var(--accent)] font-cormorant" style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}>SAKCHI</p>
-                    <p className="text-[10px] uppercase tracking-wider text-[var(--text-secondary)] font-medium">Showroom Location</p>
-                  </div>
-                </div>
-
-                {/* Direct Click-to-Call & Map Links */}
-                <div className="flex flex-col gap-3">
-                  <a
-                    href={cta ? generateWhatsAppUrl(cta.type) : generateWhatsAppUrl()}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-full inline-flex items-center justify-center gap-2.5 px-4 py-3.5 rounded bg-[#25D366]/10 border border-[#25D366]/20 hover:border-[#25D366] hover:bg-[#25D366]/20 text-[#0b6b36] text-xs font-semibold uppercase tracking-wider transition-colors"
-                  >
-                    <MessageCircle className="w-4 h-4" />
-                    <span>{cta?.label || "WhatsApp Us"}</span>
-                  </a>
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <a
-                      href={SHOWROOM_PHONE_HREF}
-                      className="flex-1 inline-flex items-center justify-center gap-2.5 px-4 py-3 rounded bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--accent)] text-[var(--text-primary)] hover:text-[var(--accent)] text-xs font-semibold uppercase tracking-wider transition-colors"
-                    >
-                      <PhoneCall className="w-4 h-4 text-[var(--accent)]" />
-                      <span>Call {SHOWROOM_PHONE_DISPLAY}</span>
-                    </a>
-                    <a
-                      href={SHOWROOM_MAP_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--border-accent)] text-[var(--text-secondary)] hover:text-[var(--text-primary)] text-xs font-medium uppercase tracking-wider transition-colors"
-                    >
-                      <Navigation className="w-4 h-4 text-[var(--text-secondary)]" />
-                      <span>Open in Maps</span>
-                    </a>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Right Column: Refined Luxury Consultation Form */}
-            <div className="lg:col-span-7 relative flex">
-              <ConsultationForm inline={true} />
-            </div>
-
-          </div>
-
-          {/* The map sits beneath both columns rather than inside the left one. Kept
-              in-column it made that column ~160-210px taller than the form card, which
-              is what left the two sides visibly out of balance; full width it also
-              reads better than the narrow crop it had before. */}
-          <div className="mt-12 lg:mt-16 relative w-full rounded-2xl overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-2xl h-[320px] lg:h-[380px]">
-            <iframe
-              title="Hardware Collection Sakchi Showroom Map"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3677.674844391696!2d86.20150000000001!3d22.8028401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f5e3035e707e07%3A0x8f8ee13c908afec6!2sHardware%20Collection%20-%20Best%20Dorset%20Lock%20Dealer%20%7C%20Hafele%20Hardware%20%7C%20Modular%20Kitchen%20%7C%20Labacha%20Dealer%20in%20Jamshedpur!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"
-              className="w-full h-full border-0"
-              style={{ width: "100%", height: "100%", border: 0 }}
-              allowFullScreen={true}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
-            />
-          </div>
-        </div>
+        <ConsultationSection heading={heading} description={description} showMap={true} />
       </motion.div>
 
       <style jsx global>{`

@@ -82,7 +82,7 @@ export default function StaticHero({
     >
       <Image
         src={mobile}
-        alt=""
+        alt="Premium architectural hardware and modular solutions showroom in Jamshedpur"
         fill
         priority
         sizes="100vw"
@@ -90,7 +90,7 @@ export default function StaticHero({
       />
       <Image
         src={desktop}
-        alt=""
+        alt="Premium architectural hardware and modular solutions showroom in Jamshedpur"
         fill
         priority
         sizes="100vw"
