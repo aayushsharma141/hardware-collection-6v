@@ -15,23 +15,23 @@ export default async function PrivacyPage() {
   const [siteSettings, brands, pageData] = await Promise.all([getSiteSettings(), getBrands(), getLegalPageBySlug("privacy-policy")]);
 
   return (
-    <div className="min-h-screen bg-[#fbf5ea] text-[var(--text-primary)]">
+    <div className="min-h-screen bg-[var(--color-background)] text-[var(--text-primary)]">
       <main className="max-w-[880px] mx-auto px-6 pt-28 md:pt-36 pb-24">
         {/* Back navigation */}
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[var(--text-secondary)] hover:text-[#8b1a42] transition-colors duration-150 hc-focus py-2 mb-8"
+          className="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--color-primary)] transition-colors duration-150 hc-focus py-2 mb-8"
         >
           <ArrowLeft className="w-4 h-4" />
           Back to Home
         </Link>
 
         {/* Header */}
-        <div className="border-b border-[#1a1017]/[0.10] pb-8 mb-10">
-          <span className="hc-mono text-xs uppercase tracking-[0.22em] font-semibold text-[#8b1a42] mb-3 block">
+        <div className="border-b border-[var(--text-primary)]/[0.10] pb-8 mb-10">
+          <span className="hc-mono text-xs uppercase tracking-[0.22em] font-semibold text-[var(--color-primary)] mb-3 block">
             LEGAL INFORMATION · SAKCHI SHOWROOM
           </span>
-          <h1 className="hc-serif text-4xl sm:text-5xl lg:text-6xl font-light tracking-[-0.01em] text-[#1a1017] leading-[1.05] mb-4">
+          <h1 className="hc-serif text-4xl sm:text-5xl lg:text-6xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.05] mb-4">
             {pageData?.title || "Privacy Policy"}
           </h1>
           <p className="text-sm text-[var(--text-secondary)] font-light">
@@ -40,7 +40,7 @@ export default async function PrivacyPage() {
         </div>
 
         {/* Content sections */}
-        <div className="space-y-10 text-[15px] sm:text-base text-[#2e232b] font-light leading-relaxed prose prose-headings:hc-serif prose-headings:font-normal prose-headings:text-[#1a1017] prose-a:text-[#8b1a42] max-w-none">
+        <div className="space-y-10 text-[15px] sm:text-base text-[var(--color-charcoal)] font-light leading-relaxed prose prose-headings:hc-serif prose-headings:font-normal prose-headings:text-[var(--text-primary)] prose-a:text-[var(--color-primary)] max-w-none">
           {pageData?.content ? (
             <PortableText value={pageData.content} />
           ) : (
@@ -88,7 +88,7 @@ export default async function PrivacyPage() {
                 </p>
                 <ul className="list-disc pl-6 space-y-1 text-[#3d2e38]">
                   <li>Responding to your project inquiries and preparing product recommendations.</li>
-                  <li>Sharing technical cut-sheets, brand catalogs, and estimate schedules.</li>
+                  <li>Sharing technical cut-sheets, brand catalogues, and estimate schedules.</li>
                   <li>Coordinating in-person showroom visits and tactile product demonstrations in Sakchi.</li>
                   <li>Routing authorized brand technical support when requested by you.</li>
                 </ul>

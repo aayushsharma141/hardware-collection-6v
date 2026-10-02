@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
-import { getHomePage, getSiteSettings, getBrands, getTestimonials } from "@/content/sanity/queries";
+import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs } from "@/content/sanity/queries";
 import MobileConversionBar from "@/components/home/MobileConversionBar";
 
 // Global cinema system
@@ -17,7 +17,8 @@ import CategoryDiscovery from "@/components/home/CategoryDiscovery";       // CH
 import MaterialJourney from "@/components/home/MaterialJourney";           // CH04 — VERY HIGH tension
 import ProductReel from "@/components/home/ProductReel";                   // CH05 — MEDIUM tension
 import ShowroomCinematic from "@/components/home/ShowroomCinematic";       // CH06 — HIGH tension
-import FloatingCTA from "@/components/home/FloatingCTA";                   // CH07 — QUIET ZONE
+import FloatingCTA from "@/components/home/FloatingCTA";
+import FaqSection from "@/components/home/FaqSection";                   // CH07 — QUIET ZONE
 
 // Mobile specific components
 import HeroMobile from "@/components/home/HeroMobile";
@@ -28,7 +29,7 @@ import ConsultationMobile from "@/components/home/ConsultationMobile";
 import AboutStory from "@/components/home/AboutStory";
 import { HeroSlide } from "@/types/hero";
 
-export const revalidate = 60;
+
 
 const fallbackHeroSlides: HeroSlide[] = [
   {
@@ -80,7 +81,7 @@ export async function generateMetadata(): Promise<Metadata> {
   
   return {
     title: seo?.metaTitle || "Hardware Collection | Premium Architectural Hardware in Jamshedpur",
-    description: seo?.metaDescription || "Authorized dealer for Hafele, Blum, Dorset and more in Sakchi, Jamshedpur. Explore our showroom for premium digital locks, modular kitchens, and door hardware.",
+    description: seo?.metaDescription || "Explore premium architectural hardware, digital locks, door handles, kitchen and wardrobe fittings at Hardware Collection, Sakchi, Jamshedpur.",
     alternates: {
       canonical: 'https://hardwarecollection.co',
     },
@@ -88,11 +89,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [homeData, siteSettings, brands, testimonials] = await Promise.all([
+  const [homeData, siteSettings, brands, testimonials, faqs] = await Promise.all([
     getHomePage(),
     getSiteSettings(),
     getBrands(),
     getTestimonials(),
+    getFaqs(),
   ]);
 
   const heroSlides: HeroSlide[] = [
@@ -116,7 +118,7 @@ export default async function HomePage() {
 
   return (
     <div
-      className="min-h-[100dvh] text-[#1a1017] bg-[#fbf5ea] overflow-x-hidden relative selection:bg-[#8b1a42] selection:text-white"
+      className="min-h-[100dvh] text-[var(--text-primary)] bg-[var(--surface)] overflow-x-hidden relative selection:bg-[var(--color-wine)] selection:text-white"
       style={{}}
     >
       {/* ── Global Cinema System ─────────────────────────────────── */}
@@ -184,12 +186,17 @@ export default async function HomePage() {
           />
         </div>
 
+        {/* CH06.75 — FAQ */}
+        <div className="theme-ivory">
+          <FaqSection faqs={faqs} />
+        </div>
+
         {/* CH07 — Final Conversion & Consultation Zone */}
         <div className="block lg:hidden">
-          <ConsultationMobile heading={homeData?.ctaHeading} description={homeData?.ctaDescription} cta={homeData?.cta} />
+          <ConsultationMobile heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />
         </div>
         <div className="hidden lg:block">
-          <FloatingCTA reviews={testimonials} cta={homeData?.cta} heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />
+          <FloatingCTA reviews={testimonials} heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />
         </div>
       </main>
 

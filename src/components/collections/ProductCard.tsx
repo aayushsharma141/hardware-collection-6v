@@ -26,15 +26,12 @@ export default function ProductCard({
   displayImage
 }: ProductCardProps) {
   const shouldReduceMotion = useReducedMotion();
-  const isOnlyTwo = totalInCategory === 2;
-  const isFeatured = !isOnlyTwo && (product.featured === true || (index === 0 && totalInCategory > 2));
+  const isFeatured = index === 0;
 
-  // Grid spans: 2 items => 6 cols each; 3+ items => featured 8 cols, others 4 cols
-  const spanClass = isOnlyTwo
-    ? "md:col-span-6 lg:col-span-6"
-    : isFeatured
-    ? "md:col-span-12 lg:col-span-8"
-    : "md:col-span-6 lg:col-span-4";
+  // Grid spans for a 4-column grid
+  const spanClass = isFeatured
+    ? "md:col-span-2 lg:col-span-2"
+    : "md:col-span-1 lg:col-span-1";
 
   return (
     <motion.article
@@ -59,7 +56,7 @@ export default function ProductCard({
       <div>
         {/* Image Specimen Frame with Glow & Sweep */}
         <div className={`specimen-frame relative w-full mb-4 ${
-          isFeatured ? "aspect-[21/9]" : isOnlyTwo ? "aspect-[16/10]" : "aspect-[16/11]"
+          isFeatured ? "aspect-[4/3] md:aspect-[16/9]" : "aspect-[4/3]"
         }`}>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_88%,rgba(200,169,110,.18),transparent_45%)]" />
           <Image
@@ -105,50 +102,22 @@ export default function ProductCard({
             {product.name}
           </h3>
 
-          {/* Description */}
-          {(product.shortDescription || product.description) && (
-            <p className="m-0 mt-2 line-clamp-2 text-xs sm:text-[13px] leading-relaxed text-[var(--text-secondary)] font-light">
-              {product.shortDescription || product.description}
-            </p>
-          )}
-
-          {/* Finishes Badges if Available */}
-          {product.finishes && product.finishes.length > 0 && (
-            <div className="mt-3 flex flex-wrap items-center gap-1.5">
-              {product.finishes.slice(0, 3).map((f: string, fi: number) => (
-                <span key={fi} className="hc-mono text-[9px] uppercase tracking-wider text-[var(--text-secondary)] border border-[var(--border)] px-2 py-0.5 bg-white/[0.02]">
-                  {f}
-                </span>
-              ))}
-            </div>
-          )}
         </div>
       </div>
 
       {/* Interactive Action Bar */}
       <div className="mt-5 pt-3 px-1.5 border-t border-[var(--border)] flex items-center justify-between gap-3">
-        <button
-          type="button"
-          aria-pressed={isShortlisted}
-          onClick={(e) => onToggleShortlist(product, e)}
-          className={`shortlist-control hc-focus inline-flex min-h-[36px] items-center gap-2 border px-3.5 py-1.5 text-[10px] uppercase tracking-[0.14em] font-medium transition-all ${
-            isShortlisted 
-              ? "border-[var(--accent)] bg-[#c8a96e] text-[#090909] font-bold" 
-              : "border-white/[0.22] text-[var(--text-primary)] hover:border-[var(--accent)]"
-          }`}
-        >
-          {isShortlisted ? (
-            <Check className="w-3 h-3 text-[#090909] stroke-[3]" />
-          ) : (
-            <Plus className="w-3 h-3 text-[var(--accent)] shortlist-icon" />
-          )}
-          <span>{isShortlisted ? "Shortlisted" : "Shortlist"}</span>
-        </button>
-
         <span className="hc-focus architecture-rule inline-flex items-center gap-1.5 text-[10px] uppercase tracking-[0.14em] text-[var(--text-primary)] group-hover:text-[var(--text-primary)]">
-          <span>Specifications</span>
-          <ArrowRight className="w-3 h-3 text-[var(--accent)] transition-transform duration-180 group-hover:translate-x-1" />
+          <span>VIEW</span>
+          <ArrowRight className="w-3 h-3 text-[var(--text-secondary)] transition-transform duration-180 group-hover:translate-x-1 group-hover:text-[var(--accent)]" />
         </span>
+
+        {isShortlisted && (
+          <span className="hc-mono text-[9px] uppercase tracking-[0.15em] text-[var(--accent)] flex items-center gap-1">
+            <Check className="w-3 h-3 stroke-[3]" />
+            In Selection
+          </span>
+        )}
       </div>
     </motion.article>
   );

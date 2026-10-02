@@ -54,7 +54,7 @@ export default function ProductReelMobile({ products }: ProductReelMobileProps) 
           statement: fb.statement,
           blurb: fb.blurb,
           img: p.imageUrl || fb.img,
-          href: `/catalogs?product=${p.slug}`,
+          href: `/collections?product=${p.slug}`,
           sweepDelay: fb.sweepDelay,
         };
       })

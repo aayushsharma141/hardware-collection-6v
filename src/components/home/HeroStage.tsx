@@ -255,12 +255,13 @@ export default function HeroStage({ slides }: HeroStageProps) {
             </div>
 
             {currentSlide.productUrl ? (
-              <img
+              <Image
                 key={`aperture-${currentSlideIndex}`}
                 alt="Close detail of a brass hardware finish"
                 className="aperture-image absolute inset-[44px_20px_80px] xl:inset-[44px_24px_80px] h-[340px] xl:h-[430px] w-auto max-w-[340px] xl:max-w-[450px] object-contain mix-blend-multiply will-change-transform m-auto"
-                decoding="async"
                 src={currentSlide.productUrl}
+                width={450}
+                height={450}
               />
             ) : (
               <div className="absolute inset-[44px_20px_80px] xl:inset-[44px_24px_80px] flex items-center justify-center mix-blend-multiply m-auto">

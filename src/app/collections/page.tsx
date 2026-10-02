@@ -26,7 +26,7 @@ export const metadata: Metadata = {
 };
 
 // Use Next.js revalidation strategy for Sanity content
-export const revalidate = 60; // Revalidate every 60 seconds
+
 
 export default async function CollectionsPage() {
   const [
@@ -119,23 +119,48 @@ export default async function CollectionsPage() {
     (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)
   );
 
-  return (
-    <Suspense
-      fallback={
-        <div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">
-          Loading collections...
-        </div>
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://hardwarecollection.co/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Collections",
+        "item": "https://hardwarecollection.co/collections"
       }
-    >
-      <CollectionsClient
-        categories={categories}
-        subcategories={sanitySubcategories}
-        products={products}
-        brands={brands}
-        spaces={spaces}
-        liveCounts={counts}
-        settings={settings}
+    ]
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-    </Suspense>
+      <Suspense
+        fallback={
+          <div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">
+            Loading collections...
+          </div>
+        }
+      >
+        <CollectionsClient
+          categories={categories}
+          subcategories={sanitySubcategories}
+          products={products}
+          brands={brands}
+          spaces={spaces}
+          liveCounts={counts}
+          settings={settings}
+        />
+      </Suspense>
+    </>
   );
 }

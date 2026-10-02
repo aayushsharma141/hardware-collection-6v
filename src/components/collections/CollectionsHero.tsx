@@ -62,33 +62,24 @@ export default function CollectionsHero({
 
           {/* Title */}
           <h1 className="hero-reveal hc-serif text-5xl sm:text-7xl md:text-8xl lg:text-[92px] font-light tracking-[-0.01em] text-[var(--text-primary)] uppercase leading-[0.95] mb-6">
-            THE COLLECTION
+            COLLECTIONS
           </h1>
 
           {/* Supporting Copy */}
           <p className="hero-reveal text-base sm:text-xl md:text-2xl text-[var(--text-secondary)] font-light leading-relaxed mb-10 max-w-3xl">
-            Explore Jamshedpur&apos;s finest curated collection of architectural hardware,
-            precision locking systems, and luxury modular fittings for prestigious residential
-            and commercial spaces.
+            Hardware for considered spaces.
+            <br />
+            Explore the showroom.
           </p>
 
-          {/* Named CTAs — Exactly one filled brass button */}
-          <div className="hero-reveal flex flex-wrap items-center gap-4 sm:gap-5 mb-12">
+          {/* Quiet control instead of giant buttons */}
+          <div className="hero-reveal flex mb-12">
             <Link
-              href="#explore-collections"
-              className="brass-plate hc-focus inline-flex items-center justify-center px-8 py-4 text-xs sm:text-sm tracking-widest uppercase font-semibold text-white rounded transition-transform duration-150 active:scale-95 shadow-md"
+              href="#catalogue"
+              className="hc-mono text-[10px] sm:text-xs tracking-[0.2em] uppercase font-medium text-[var(--color-brass)] hover:text-[var(--text-primary)] transition-colors border-b border-[var(--color-brass)] pb-1"
             >
-              EXPLORE COLLECTIONS
+              EXPLORE &darr;
             </Link>
-
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rail-button hc-focus inline-flex items-center justify-center px-8 py-4 text-xs sm:text-sm tracking-widest uppercase font-semibold text-[var(--text-primary)] border border-[var(--border)] hover:border-[var(--accent)] rounded transition-colors duration-150"
-            >
-              ASK OUR HARDWARE EXPERT
-            </a>
           </div>
 
           {/* Live Stat Row (Omit-on-zero) */}

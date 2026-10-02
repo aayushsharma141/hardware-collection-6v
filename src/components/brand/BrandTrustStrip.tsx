@@ -35,12 +35,12 @@ export default function BrandTrustStrip({ brands }: BrandTrustStripProps) {
           name: b.brandName,
           id: b.slug,
           logo: canonical?.logo || b.logoUrl,
-          href: `/catalogs?brand=${b.slug}`,
+          href: `/catalogues?brand=${b.slug}`,
           imageClass: canonical?.imageClass,
           imageStyle: canonical?.imageStyle
         };
       })
-    : CANONICAL_BRANDS.map(b => ({ ...b, href: `/catalogs?brand=${b.id}` }));
+    : CANONICAL_BRANDS.map(b => ({ ...b, href: `/catalogues?brand=${b.id}` }));
 
   const half = Math.ceil(activeBrands.length / 2);
   const lane1 = activeBrands.slice(0, half);

@@ -334,7 +334,6 @@ export default function CategoryDetailClient({
                   type="button"
                   role="tab"
                   aria-selected={selectedBrand === "ALL"}
-                  aria-pressed={selectedBrand === "ALL"}
                   onClick={() => setSelectedBrand("ALL")}
                   className={`hc-focus px-4 py-2 min-h-[44px] rounded text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-200 cursor-pointer ${
                     selectedBrand === "ALL"
@@ -355,7 +354,6 @@ export default function CategoryDetailClient({
                       type="button"
                       role="tab"
                       aria-selected={isSelected}
-                      aria-pressed={isSelected}
                       onClick={() => setSelectedBrand(b)}
                       className={`hc-focus px-4 py-2 min-h-[44px] rounded text-xs uppercase tracking-[0.14em] font-semibold transition-all duration-200 cursor-pointer ${
                         isSelected

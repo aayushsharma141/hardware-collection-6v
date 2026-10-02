@@ -27,7 +27,6 @@ export interface UseCollectionsStateProps {
 export function useCollectionsState({
   categories,
   products,
-  brands,
   settings,
 }: UseCollectionsStateProps) {
   const searchParams = useSearchParams();
@@ -240,6 +239,10 @@ export function useCollectionsState({
     [uniqueCategories, settings]
   );
 
+  const activeCategorySlug = searchParams?.get("category") || "";
+  const activeIntentId = searchParams?.get("intent") || "";
+  const activeBrandSlug = searchParams?.get("brand") || "";
+
   return {
     searchQuery,
     setSearchQuery,
@@ -257,5 +260,8 @@ export function useCollectionsState({
     totalSpecimensCount,
     getProductDisplayImage,
     getWhatsAppShortlistLink,
+    activeCategorySlug,
+    activeIntentId,
+    activeBrandSlug,
   };
 }

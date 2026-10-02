@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "1.0",
+  "evidenceId": "EV-6f111f8-2026-09-26T1517-v1.0",
+  "generator": "hardware-collection-release-pipeline@2.0",
+  "timestamp": "2026-09-26T15:17:51.636Z",
+  "status": "PASSED",
+  "releaseDecision": "PROMOTE",
+  "policyReference": null,
+  "provenance": {
+    "gitSha": "6f111f86937be65493379ca807d13e39b2ee0269",
+    "gitBranch": "feat/brand-priority-and-copy",
+    "workingTreeDirty": true,
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpus": 32,
+    "hostname": "Digital-Epic"
+  },
+  "results": {
+    "durationMs": 26844,
+    "totalStages": 6,
+    "passedStages": 6,
+    "failedStages": 0,
+    "stageResults": {
+      "GATE-01": {
+        "status": "PASSED",
+        "durationMs": 4299,
+        "check": "npm run lint"
+      },
+      "GATE-02": {
+        "status": "PASSED",
+        "durationMs": 2157,
+        "check": "npx tsc --noEmit"
+      },
+      "GATE-03": {
+        "status": "PASSED",
+        "durationMs": 926,
+        "check": "npm test"
+      },
+      "GATE-04": {
+        "status": "PASSED",
+        "durationMs": 7850,
+        "check": "npm run build"
+      },
+      "GATE-05": {
+        "status": "PASSED",
+        "durationMs": 11610,
+        "check": "npm audit --audit-level=critical"
+      },
+      "GATE-06": {
+        "status": "PASSED",
+        "durationMs": 2,
+        "check": "in-process check"
+      }
+    }
+  }
+}

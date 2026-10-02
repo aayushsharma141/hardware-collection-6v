@@ -28,7 +28,7 @@ import {
   SHOWROOM_ADDRESS,
   SHOWROOM_YEARS_OF_TRUST,
 } from "@/lib/config";
-import { useConsultationStore } from "@/components/consultation/store";
+
 
 interface BrandItem {
   _id?: string;

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "1.0",
+  "evidenceId": "EV-f200965-2026-09-28T0611-v1.0",
+  "generator": "hardware-collection-release-pipeline@2.0",
+  "timestamp": "2026-09-28T06:11:33.270Z",
+  "status": "FAILED",
+  "releaseDecision": "HOLD",
+  "policyReference": null,
+  "provenance": {
+    "gitSha": "f200965d6cd9258767e60b62230a93f7f697c42e",
+    "gitBranch": "feat/brand-priority-and-copy",
+    "workingTreeDirty": true,
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpus": 32,
+    "hostname": "Digital-Epic"
+  },
+  "results": {
+    "durationMs": 4588,
+    "totalStages": 1,
+    "passedStages": 0,
+    "failedStages": 1,
+    "stageResults": {
+      "GATE-01": {
+        "status": "FAILED",
+        "durationMs": 4588,
+        "check": "npm run lint"
+      }
+    }
+  }
+}

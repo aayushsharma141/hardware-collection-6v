@@ -70,23 +70,50 @@ export default async function RootLayout({
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "HomeGoodsStore",
-    name: "Hardware Collection",
-    description:
-      settings?.seo?.description || "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
-    address: {
-      "@type": "PostalAddress",
-      streetAddress: settings?.showroomAddress || "1/18, Kashidih, Near Durga Puja Maidan, Sakchi",
-      addressLocality: "Jamshedpur",
-      addressRegion: "Jharkhand",
-      postalCode: "831001",
-      addressCountry: "IN",
-    },
-    telephone: settings?.primaryPhone || "+919835190738",
-    brand: CANONICAL_BRANDS.map((brand) => ({
-      "@type": "Brand",
-      name: brand.name,
-    })),
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://hardwarecollection.co/#website",
+        "url": "https://hardwarecollection.co/",
+        "name": "Hardware Collection",
+        "description": settings?.seo?.description || "Premium architectural hardware and digital locks in Jamshedpur.",
+        "publisher": {
+          "@id": "https://hardwarecollection.co/#organization"
+        }
+      },
+      {
+        "@type": "Organization",
+        "@id": "https://hardwarecollection.co/#organization",
+        "name": "Hardware Collection",
+        "url": "https://hardwarecollection.co/",
+        "logo": "https://hardwarecollection.co/logo.png",
+        "contactPoint": {
+          "@type": "ContactPoint",
+          "telephone": settings?.primaryPhone || "+919835190738",
+          "contactType": "customer service"
+        }
+      },
+      {
+        "@type": "LocalBusiness",
+        "@id": "https://hardwarecollection.co/#localbusiness",
+        "name": "Hardware Collection",
+        "url": "https://hardwarecollection.co/",
+        "telephone": settings?.primaryPhone || "+919835190738",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": settings?.showroomAddress || "1/18, Kashidih, Near Durga Puja Maidan, Sakchi",
+          "addressLocality": "Jamshedpur",
+          "addressRegion": "Jharkhand",
+          "postalCode": "831001",
+          "addressCountry": "IN"
+        },
+        "description": settings?.seo?.description || "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
+        "brand": CANONICAL_BRANDS.map((brand) => ({
+          "@type": "Brand",
+          "name": brand.name,
+        }))
+      }
+    ]
   };
 
   return (

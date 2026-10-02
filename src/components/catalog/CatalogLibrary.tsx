@@ -43,18 +43,18 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
   }, [selectedBrandSlug]);
 
   return (
-    <section id="official-catalogs" className="py-20 md:py-28 bg-[var(--surface)] text-[var(--text-primary)] border-t border-[var(--border)]">
+    <section id="official-catalogues" className="py-20 md:py-28 bg-[var(--surface)] text-[var(--text-primary)] border-t border-[var(--border)]">
       <div className="max-w-[1320px] mx-auto px-6">
         <div className="max-w-4xl mb-16 md:mb-20">
           <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
             Authorized Reference Library
           </span>
           <h1 className="hc-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.0] mb-5">
-            Official Brand Partners & Catalogs
+            Official Brand Partners & Catalogues
           </h1>
           <p className="text-base sm:text-xl leading-relaxed text-[var(--text-secondary)] font-light max-w-3xl">
             Access the complete technical specifications and product lines of our authorized partners. 
-            Click any brand card to view the official catalog or visit their manufacturer portal.
+            Click any brand card to view the official catalogue or visit their manufacturer portal.
           </p>
         </div>
 
@@ -155,7 +155,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                       className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] whitespace-nowrap rounded bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-sm"
                     >
                       <BookOpen className="w-4 h-4" />
-                      <span>{catalogCount > 1 ? `View ${catalogCount} Catalogs` : "View Catalog"}</span>
+                      <span>{catalogCount > 1 ? `View ${catalogCount} Catalogues` : "View Catalogue"}</span>
                     </button>
                   )}
 
@@ -184,10 +184,10 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
         <div className="mt-20 text-center border border-[var(--border)] p-10 md:p-16 rounded-3xl bg-[var(--surface-raised)] shadow-sm">
           <h3 className="font-display text-3xl sm:text-4xl text-[var(--text-primary)] mb-4 font-light">Need a Physical Copy?</h3>
           <p className="font-body text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 text-base sm:text-lg leading-relaxed font-light">
-            We maintain physical copies of all official catalogs in our Sakchi showroom for architects, designers, and contractors.
+            We maintain physical copies of all official catalogues in our Sakchi showroom for architects, designers, and contractors.
           </p>
           <a
-            href={buildWhatsAppUrl("Hi Hardware Collection, I would like to request a physical catalog.")}
+            href={buildWhatsAppUrl("Hi Hardware Collection, I would like to request a physical catalogue.")}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2.5 bg-[var(--accent)] text-white px-9 py-4 rounded font-bold uppercase tracking-widest text-xs sm:text-sm transition-colors hover:bg-[var(--accent-hover)] shadow-md"

@@ -114,7 +114,7 @@ export async function POST(request: Request) {
       announcementBar: "",
       mainMenu: [
         { _key: "m1", label: "Collections", path: "/collections" },
-        { _key: "m2", label: "Brands & Catalogs", path: "/catalogs" }
+        { _key: "m2", label: "Brands & Catalogues", path: "/catalogues" }
       ],
       footerLegalLinks: [
         { _key: "f1", label: "Privacy Policy", path: "/privacy" },

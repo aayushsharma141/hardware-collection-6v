@@ -50,8 +50,8 @@ export default function ShortlistPill({
             <div className="bg-[var(--surface-raised)]/95 border border-[var(--accent)]/40 rounded-full p-2 pl-4 pr-2 shadow-[0_20px_50px_rgba(0,0,0,0.85)] backdrop-blur-2xl flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-[#8b1a42] animate-pulse" />
-                <span className="font-dmsans text-xs text-[var(--text-primary)] font-medium whitespace-nowrap">
-                  <span className="text-[var(--accent)] font-bold">{shortlist.length}</span> {shortlist.length === 1 ? 'Item' : 'Items'} for Consultation
+                <span className="font-dmsans text-xs text-[var(--text-primary)] font-medium whitespace-nowrap uppercase tracking-wider">
+                  Your Selection · <span className="text-[var(--accent)] font-bold">{shortlist.length}</span>
                 </span>
               </div>
 
@@ -62,7 +62,7 @@ export default function ShortlistPill({
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-2 rounded bg-[#8b1a42] hover:bg-[#6b1432] text-white font-dmsans text-[11px] font-bold uppercase tracking-wider transition-all shadow-md shrink-0"
               >
-                <span>WhatsApp Expert</span>
+                <span>WhatsApp Enquiry</span>
                 <ArrowRight className="w-3.5 h-3.5 stroke-[2.5]" />
               </a>
 

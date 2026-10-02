@@ -119,7 +119,7 @@ export const getCuratedCollectionsQuery = groq`
 
 export async function getCategories() {
   try {
-    return await client.fetch(getCategoriesQuery);
+    return await client.fetch(getCategoriesQuery, {}, { next: { tags: ["category"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -128,7 +128,7 @@ export async function getCategories() {
 
 export async function getSubcategories() {
   try {
-    return await client.fetch(getSubcategoriesQuery);
+    return await client.fetch(getSubcategoriesQuery, {}, { next: { tags: ["subcategory"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -137,7 +137,7 @@ export async function getSubcategories() {
 
 export async function getCuratedCollections() {
   try {
-    return await client.fetch(getCuratedCollectionsQuery);
+    return await client.fetch(getCuratedCollectionsQuery, {}, { next: { tags: ["curatedCollection"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -146,7 +146,7 @@ export async function getCuratedCollections() {
 
 export async function getBrands() {
   try {
-    return await client.fetch(getBrandsQuery);
+    return await client.fetch(getBrandsQuery, {}, { next: { tags: ["brand"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -155,7 +155,7 @@ export async function getBrands() {
 
 export async function getAllProducts() {
   try {
-    return await client.fetch(getAllProductsQuery);
+    return await client.fetch(getAllProductsQuery, {}, { next: { tags: ["product"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -164,7 +164,7 @@ export async function getAllProducts() {
 
 export async function getFeaturedProducts() {
   try {
-    return await client.fetch(getFeaturedProductsQuery);
+    return await client.fetch(getFeaturedProductsQuery, {}, { next: { tags: ["product"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -173,7 +173,7 @@ export async function getFeaturedProducts() {
 
 export async function getTestimonials(): Promise<Testimonial[]> {
   try {
-    return await client.fetch<Testimonial[]>(getTestimonialsQuery);
+    return await client.fetch<Testimonial[]>(getTestimonialsQuery, {}, { next: { tags: ["testimonial"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -231,7 +231,7 @@ export async function getHomePage() {
     cta
   }`;
   try {
-    return await client.fetch(query);
+    return await client.fetch(query, {}, { next: { tags: ["homePage", "product", "category", "brand", "testimonial"] } });
   } catch (error) {
     console.error("Sanity fetch error (getHomePage):", error);
     return null;
@@ -258,7 +258,7 @@ export async function getSiteSettings() {
     seo
   }`;
   try {
-    return await client.fetch(query);
+    return await client.fetch(query, {}, { next: { tags: ["siteSettings", "brand"] } });
   } catch (error) {
     console.error("Sanity fetch error (getSiteSettings):", error);
     return null;
@@ -272,7 +272,7 @@ export async function getNavigation() {
     "footerLegalLinks": footerLegalLinks[] { label, path }
   }`;
   try {
-    return await client.fetch(query);
+    return await client.fetch(query, {}, { next: { tags: ["navigation"] } });
   } catch (error) {
     console.error("Sanity fetch error (getNavigation):", error);
     return null;
@@ -309,7 +309,7 @@ export const getFamilySectionsQuery = groq`
 `;
 export async function getFamilySections(family: string, exclude: readonly string[]) {
   try {
-    return await client.fetch(getFamilySectionsQuery, { family, exclude });
+    return await client.fetch(getFamilySectionsQuery, { family, exclude }, { next: { tags: ["category", "product", "brand"] } });
   } catch (error) {
     console.error("Sanity fetch error (getFamilySections):", error);
     return [];
@@ -317,7 +317,7 @@ export async function getFamilySections(family: string, exclude: readonly string
 }
 export async function getCategoryBySlug(slug: string) {
   try {
-    return await client.fetch(getCategoryBySlugQuery, { slug });
+    return await client.fetch(getCategoryBySlugQuery, { slug }, { next: { tags: ["category"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return null;
@@ -336,7 +336,7 @@ export const getSpaceBySlugQuery = groq`
 `;
 export async function getSpaceBySlug(slug: string) {
   try {
-    return await client.fetch(getSpaceBySlugQuery, { slug });
+    return await client.fetch(getSpaceBySlugQuery, { slug }, { next: { tags: ["space", "category"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return null;
@@ -352,7 +352,7 @@ export const getSpacesQuery = groq`
 `;
 export async function getSpaces() {
   try {
-    return await client.fetch(getSpacesQuery);
+    return await client.fetch(getSpacesQuery, {}, { next: { tags: ["space"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -362,7 +362,7 @@ export async function getSpaces() {
 export const getCategorySlugsQuery = groq`*[_type == "category" && defined(slug.current)]{ "slug": slug.current }`;
 export async function getCategorySlugs() {
   try {
-    return await client.fetch(getCategorySlugsQuery);
+    return await client.fetch(getCategorySlugsQuery, {}, { next: { tags: ["category"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -372,7 +372,7 @@ export async function getCategorySlugs() {
 export const getSpaceSlugsQuery = groq`*[_type == "space" && defined(slug.current)]{ "slug": slug.current }`;
 export async function getSpaceSlugs() {
   try {
-    return await client.fetch(getSpaceSlugsQuery);
+    return await client.fetch(getSpaceSlugsQuery, {}, { next: { tags: ["space"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -385,7 +385,7 @@ export const getCollectionCountsQuery = groq`{
 }`;
 export async function getCollectionCounts() {
   try {
-    return await client.fetch(getCollectionCountsQuery);
+    return await client.fetch(getCollectionCountsQuery, {}, { next: { tags: ["category", "brand"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return { categoryCount: 0, brandCount: 0 };
@@ -405,7 +405,7 @@ export const getLegalPageBySlugQuery = groq`
 
 export async function getLegalPageBySlug(slug: string) {
   try {
-    return await client.fetch(getLegalPageBySlugQuery, { slug });
+    return await client.fetch(getLegalPageBySlugQuery, { slug }, { next: { tags: ["legalPage"] } });
   } catch (error) {
     console.error(`Sanity fetch error (getLegalPageBySlug for ${slug}):`, error);
     return null;
@@ -424,7 +424,7 @@ export const getFaqsQuery = groq`
 
 export async function getFaqs() {
   try {
-    return await client.fetch(getFaqsQuery);
+    return await client.fetch(getFaqsQuery, {}, { next: { tags: ["faq"] } });
   } catch (error) {
     console.error("Sanity fetch error (getFaqs):", error);
     return [];

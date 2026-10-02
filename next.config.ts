@@ -46,6 +46,11 @@ const nextConfig: NextConfig = {
         destination: '/#showroom',
         permanent: true,
       },
+      {
+        source: '/catalogs',
+        destination: '/catalogues',
+        permanent: true,
+      },
       // Phase 12: legacy category → family page (B-3)
       ...LEGACY_CATEGORY_REDIRECTS,
     ];
@@ -59,6 +64,10 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "cdn.sanity.io",
+      },
+      {
+        protocol: "https",
+        hostname: "images.unsplash.com",
       },
     ],
   },

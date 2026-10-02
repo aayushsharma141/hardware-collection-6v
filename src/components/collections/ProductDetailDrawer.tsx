@@ -232,8 +232,8 @@ export default function ProductDetailDrawer({
                     }`}
                   >
                     {isShortlisted
-                      ? "In Shortlist ✓"
-                      : "Add to Shortlist"}
+                      ? "IN YOUR SELECTION ✓"
+                      : "ADD TO SELECTION"}
                   </button>
                 </div>
               </div>

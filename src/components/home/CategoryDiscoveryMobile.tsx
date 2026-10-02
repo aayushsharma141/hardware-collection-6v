@@ -45,7 +45,7 @@ export default function CategoryDiscoveryMobile({ categories }: CategoryDiscover
           subtitle: c.description || fallback.subtitle,
           detail: fallback.detail,
           image: c.imageUrl || fallback.image,
-          href: `/catalogs?category=${c.slug}`,
+          href: `/collections?category=${c.slug}`,
           isFocal: idx === 1,
         };
       })

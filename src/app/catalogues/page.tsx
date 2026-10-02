@@ -8,16 +8,16 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Hardware Catalogs | Hardware Collection Jamshedpur",
+    absolute: "Hardware Catalogues | Hardware Collection Jamshedpur",
   },
   description:
-    "Download official architectural hardware catalogs from Hafele, Blum, Dorset and other premium brands available at Hardware Collection, Sakchi, Jamshedpur.",
+    "Download official architectural hardware catalogues from Hafele, Blum, Dorset and other premium brands available at Hardware Collection, Sakchi, Jamshedpur.",
   alternates: {
-    canonical: 'https://hardwarecollection.co/catalogs',
+    canonical: 'https://hardwarecollection.co/catalogues',
   },
 };
 
-export const revalidate = 60;
+
 
 export default async function CatalogsPage() {
   const sanityBrands = await getBrands();
@@ -48,7 +48,7 @@ export default async function CatalogsPage() {
   })).values());
 
   return (
-    <Suspense fallback={<div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">Loading catalogs...</div>}>
+    <Suspense fallback={<div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">Loading catalogues...</div>}>
       <CatalogsClient 
         brands={brands} 
         settings={settings}

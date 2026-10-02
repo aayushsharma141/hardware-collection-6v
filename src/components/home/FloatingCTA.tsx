@@ -33,9 +33,8 @@ const quietFade: Variants = {
  * Absorbs ReviewsSlide.tsx — that component is deleted.
  */
 
-import { SanityCta } from "@/types/sanity";
 
-export default function FloatingCTA({ reviews = [], cta, heading, description }: { reviews?: Testimonial[], cta?: SanityCta, heading?: string, description?: string }) {
+export default function FloatingCTA({ reviews = [], heading, description }: { reviews?: Testimonial[], heading?: string, description?: string }) {
   const validReviews = reviews.filter((r) => r.quote && r.quote.trim().length > 0);
 
   return (

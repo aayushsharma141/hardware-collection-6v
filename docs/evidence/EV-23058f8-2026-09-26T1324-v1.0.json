@@ -1,0 +1,57 @@
+{
+  "schemaVersion": "1.0",
+  "evidenceId": "EV-23058f8-2026-09-26T1324-v1.0",
+  "generator": "hardware-collection-release-pipeline@2.0",
+  "timestamp": "2026-09-26T13:24:28.445Z",
+  "status": "PASSED",
+  "releaseDecision": "PROMOTE",
+  "policyReference": null,
+  "provenance": {
+    "gitSha": "23058f8f89bc28cf172de409e580cefdcfeaf394",
+    "gitBranch": "feat/phase-12-route-consolidation",
+    "workingTreeDirty": true,
+    "nodeVersion": "v24.18.0",
+    "platform": "win32",
+    "arch": "x64",
+    "cpus": 32,
+    "hostname": "Digital-Epic"
+  },
+  "results": {
+    "durationMs": 18269,
+    "totalStages": 6,
+    "passedStages": 6,
+    "failedStages": 0,
+    "stageResults": {
+      "GATE-01": {
+        "status": "PASSED",
+        "durationMs": 4341,
+        "check": "npm run lint"
+      },
+      "GATE-02": {
+        "status": "PASSED",
+        "durationMs": 2504,
+        "check": "npx tsc --noEmit"
+      },
+      "GATE-03": {
+        "status": "PASSED",
+        "durationMs": 889,
+        "check": "npm test"
+      },
+      "GATE-04": {
+        "status": "PASSED",
+        "durationMs": 7918,
+        "check": "npm run build"
+      },
+      "GATE-05": {
+        "status": "PASSED",
+        "durationMs": 2616,
+        "check": "npm audit --audit-level=critical"
+      },
+      "GATE-06": {
+        "status": "PASSED",
+        "durationMs": 1,
+        "check": "in-process check"
+      }
+    }
+  }
+}

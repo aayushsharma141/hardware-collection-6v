@@ -16,11 +16,11 @@ export function FloatingConsultationCapsule({ hasShortlist = false }: { hasShort
     const updateVisibility = () => {
       const scrollY = window.scrollY;
       
-      // Hide once the reference library, catalog section, or bottom consultation section enters view
+      // Hide once the reference library, catalogue section, or bottom consultation section enters view
       const refSection =
         document.getElementById("collections-bottom-cta") ||
         document.getElementById("reference-library-section") ||
-        document.getElementById("official-catalogs");
+        document.getElementById("official-catalogues");
       let isPastReferenceSection = false;
       
       if (refSection) {

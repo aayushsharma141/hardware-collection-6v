@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import { Check, ChevronDown, Crop, Minus, Plus, Rows3, Search } from "lucide-react";
+import { Check, ChevronDown, Minus, Plus, Rows3, Search } from "lucide-react";
 import WhatsAppGlyph from "./WhatsAppGlyph";
 import type { FitMode } from "./types";
 

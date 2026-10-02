@@ -3,53 +3,56 @@ import { CreateLeadSchema } from "@/lib/leads/schema";
 import { createLead, updateNotificationStatus } from "@/lib/leads/createLead";
 import { sendTelegramAlert } from "@/lib/leads/telegram";
 import { sendResendEmail } from "@/lib/leads/email";
+import { logger } from "@/lib/logger";
+import { ApiError, handleApiError } from "@/lib/api-error";
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
 
-// In-memory rate limiting for naive protection (edge/serverless compatible per region)
-const rateLimitMap = new Map<string, { count: number; timestamp: number }>();
-const RATE_LIMIT_WINDOW_MS = 60 * 1000; // 1 minute
-const MAX_REQUESTS_PER_WINDOW = 5;
+// Distributed rate limiting via Upstash Redis.
+// Falling back to a no-op limiter if Upstash is not configured.
+let ratelimit: Ratelimit | null = null;
+if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+  const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+  });
+  ratelimit = new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(5, "1 m"),
+    analytics: true,
+  });
+}
 
 export async function POST(request: Request) {
   try {
     const ip = request.headers.get("x-forwarded-for") || "unknown";
     
-    // Rate Limiting
-    const now = Date.now();
-    const windowStart = now - RATE_LIMIT_WINDOW_MS;
-    
-    const clientRecord = rateLimitMap.get(ip) || { count: 0, timestamp: now };
-    
-    if (clientRecord.timestamp < windowStart) {
-      clientRecord.count = 1;
-      clientRecord.timestamp = now;
-    } else {
-      clientRecord.count++;
-    }
-    
-    rateLimitMap.set(ip, clientRecord);
-
-    if (clientRecord.count > MAX_REQUESTS_PER_WINDOW) {
-      return NextResponse.json(
-        { success: false, error: "Too many requests" },
-        { status: 429 }
-      );
+    // 1. Rate Limiting (Redis-backed for serverless/edge environments)
+    if (ratelimit) {
+      const { success } = await ratelimit.limit(`ratelimit_leads_${ip}`);
+      if (!success) {
+        logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads" });
+        throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
+      }
     }
 
     const payload = (await request.json()) as Record<string, unknown>;
     
-    // Honeypot check
+    // 2. Honeypot check
     if (payload._honey) {
+      logger.info("api.honeypot_triggered", { ip, payload });
       // Act like it succeeded to fool bots
       return NextResponse.json({ success: true, lead_id: "HC-HONEYPOT", telegram_status: "sent" });
     }
 
-    // Validation
+    // 3. Validation
     const parseResult = CreateLeadSchema.safeParse(payload);
     
     if (!parseResult.success) {
-      return NextResponse.json(
-        { success: false, error: "Validation failed", details: parseResult.error.flatten() },
-        { status: 400 }
+      throw new ApiError(
+        400,
+        "Validation failed",
+        "VALIDATION_ERROR"
       );
     }
 
@@ -60,44 +63,51 @@ export async function POST(request: Request) {
     const randomHex = Math.random().toString(16).substring(2, 6).toUpperCase();
     const leadId = `HC-${year}-${randomHex}`;
 
-    // 1. Store in Postgres (Master Truth)
+    // 4. Store in Postgres (Master Truth)
     const leadRecord = await createLead(data, leadId);
+    
+    logger.info("lead.created", {
+      leadId: leadRecord.id,
+      source: data.source,
+      intent: data.intent,
+      ip
+    });
 
-    // 2. Trigger Email notification asynchronously without blocking
+    // 5. Trigger Email notification asynchronously without blocking
+    // Kept as a floating promise per project scale guidelines
     sendResendEmail(leadRecord)
       .then(() => updateNotificationStatus(leadRecord.id, "email", "sent"))
       .catch((err) => {
-        console.error("Async Email notification failed:", err);
+        logger.error("lead.notification_failed", { leadId: leadRecord.id, channel: "email", error: (err as Error).message });
         updateNotificationStatus(leadRecord.id, "email", "failed").catch(() => {});
       });
 
-    // 3. Attempt Telegram Alert
+    // 6. Attempt Telegram Alert
     try {
       await sendTelegramAlert(leadRecord);
       await updateNotificationStatus(leadRecord.id, "telegram", "sent");
 
       return NextResponse.json({
         success: true,
-        lead_id: leadRecord.id,
-        telegram_status: "sent",
+        data: {
+          lead_id: leadRecord.id,
+          telegram_status: "sent",
+        }
       });
     } catch (telegramError) {
-      console.error("Telegram notification error:", telegramError);
+      logger.error("lead.notification_failed", { leadId: leadRecord.id, channel: "telegram", error: (telegramError as Error).message });
       await updateNotificationStatus(leadRecord.id, "telegram", "failed");
 
       return NextResponse.json({
         success: true,
-        lead_id: leadRecord.id,
-        telegram_status: "failed",
-        notification_error: "We couldn't notify our Telegram desk yet.",
+        data: {
+          lead_id: leadRecord.id,
+          telegram_status: "failed",
+          notification_error: "We couldn't notify our Telegram desk yet.",
+        }
       });
     }
   } catch (error) {
-    console.error("Lead API Error:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return handleApiError(error, logger);
   }
 }
-

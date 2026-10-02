@@ -1,4 +1,4 @@
-import { revalidatePath } from 'next/cache';
+import { revalidateTag } from 'next/cache';
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from 'next-sanity/webhook';
 
@@ -43,10 +43,10 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Every route reads from Sanity through the shared layout, and the site is
-    // small enough that a whole-layout revalidation is cheaper to reason about
-    // than per-type tags. Revisit if the page count grows.
-    revalidatePath('/', 'layout');
+    // Use granular cache tagging based on the CMS document type that changed
+    // This allows instantaneous updates of specific content (e.g. products) without
+    // waiting for a time-based revalidation window.
+    revalidateTag(body._type, { expire: 0 });
 
     return NextResponse.json({
       revalidated: true,

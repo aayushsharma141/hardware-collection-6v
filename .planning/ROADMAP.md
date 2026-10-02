@@ -96,3 +96,7 @@
 
   Four owner decisions are open (D1 styles-as-categories, D2 drop "(Sale)",
   D3 pluralisation, D4 ship empty categories) — see §6 of 11-CONTEXT.md.
+
+- [x] **Phase 12 — UI & Visual Polish** 📋 COMPLETE
+  Elevate the visual aesthetic using GSAP + ScrollTrigger for subtle, luxurious micro-interactions and scroll animations across the site.
+  See `.planning/phases/12-ui-polish/12-CONTEXT.md`.

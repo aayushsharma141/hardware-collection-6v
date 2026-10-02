@@ -65,16 +65,6 @@ export default function FaqSection({ faqs }: { faqs: FaqItem[] }) {
     }
   ];
 
-  // Group by categorySlug
-  const categorizedFaqs = displayFaqs.reduce((acc: Record<string, FaqItem[]>, faq: FaqItem) => {
-    const cat = faq.categorySlug || "General";
-    if (!acc[cat]) {
-      acc[cat] = [];
-    }
-    acc[cat].push(faq);
-    return acc;
-  }, {});
-
   // Generate FAQ Schema for AEO
   const faqSchema = {
     "@context": "https://schema.org",
@@ -89,7 +79,7 @@ export default function FaqSection({ faqs }: { faqs: FaqItem[] }) {
     }))
   };
 
-  const [openId, setOpenId] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(displayFaqs[0]?._id || null);
 
   const toggleAccordion = (id: string) => {
     setOpenId(prev => (prev === id ? null : id));
@@ -114,24 +104,17 @@ export default function FaqSection({ faqs }: { faqs: FaqItem[] }) {
         </p>
       </div>
 
-      <div className="space-y-12">
-        {Object.entries(categorizedFaqs as Record<string, FaqItem[]>).map(([category, categoryFaqs]) => (
-          <div key={category} className="animate-fade-in-up">
-            <h3 className="hc-mono text-xs uppercase tracking-[0.15em] font-semibold text-[var(--color-wine)] mb-6 ml-4 md:ml-6">
-              {category}
-            </h3>
-            <div className="border-t border-[var(--border)] bg-white/40 backdrop-blur-md rounded-xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
-              {categoryFaqs.map((faq: FaqItem) => (
-                <AccordionItem 
-                  key={faq._id} 
-                  faq={faq} 
-                  isOpen={openId === faq._id} 
-                  onClick={() => toggleAccordion(faq._id)} 
-                />
-              ))}
-            </div>
-          </div>
-        ))}
+      <div className="animate-fade-in-up">
+        <div className="border-t border-[var(--border)] bg-white/40 backdrop-blur-md rounded-xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
+          {displayFaqs.map((faq: FaqItem) => (
+            <AccordionItem 
+              key={faq._id} 
+              faq={faq} 
+              isOpen={openId === faq._id} 
+              onClick={() => toggleAccordion(faq._id)} 
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

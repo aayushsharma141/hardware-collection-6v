@@ -83,7 +83,7 @@ interface CatalogViewerModalProps {
 }
 
 function catalogLabel(entry: CatalogueDocument, brandName: string, index: number): string {
-  return entry.title || `${brandName} Catalog ${index + 1}`;
+  return entry.title || `${brandName} Catalogue ${index + 1}`;
 }
 
 function isTypingTarget(target: EventTarget | null): boolean {
@@ -141,7 +141,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
   const ready = status === "ready";
   const title = hasCatalogs
     ? catalogLabel(catalogs[active], brand.name, active)
-    : `${brand.name} Official Catalog`;
+    : `${brand.name} Official Catalogue`;
   const context = useMemo(
     () => ({ brand: brand.name, catalogue: title, page }),
     [brand.name, title, page]
