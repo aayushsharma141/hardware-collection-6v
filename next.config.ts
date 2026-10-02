@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
 import { SHOWROOM_GROUPS, railGroupId, showroomHref } from "./src/lib/collections/showroom";
-import { CATEGORIES } from "./src/content/fallback/catalog";
+import { CATEGORIES, PRODUCTS } from "./src/content/fallback/catalog";
 
 /**
  * `/collections` is the only collections route. Category, family and space
@@ -22,10 +22,17 @@ const LEGACY_CATEGORY_REDIRECTS = [
     destination: showroomHref(railGroupId(category.primaryRail)),
   })),
   // The five family pages — one per showroom family, slug = the family's id.
-  ...SHOWROOM_GROUPS.map((group) => ({
-    source: `/collections/${group.id}`,
-    destination: showroomHref(group.id),
-  })),
+  // Only generate an anchor redirect for families that have products in the
+  // fallback catalogue; empty families fall through to the catch-all below
+  // (/collections) rather than landing on a hash that doesn't scroll anywhere.
+  ...(() => {
+    const catRail = new Map(CATEGORIES.map((c) => [c.slug, railGroupId(c.primaryRail)]));
+    const populatedFamilies = new Set(PRODUCTS.map((p) => catRail.get(p.categorySlug)).filter(Boolean));
+    return SHOWROOM_GROUPS.filter((g) => populatedFamilies.has(g.id)).map((group) => ({
+      source: `/collections/${group.id}`,
+      destination: showroomHref(group.id),
+    }));
+  })(),
 ];
 
 /** The pre-Phase-12 space pages, sent to the nearest showroom family. */
