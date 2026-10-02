@@ -122,13 +122,13 @@ export default function CollectionsClient({
             aria-label="Showroom sections"
             className="w-full border-y border-[var(--border)] bg-[var(--surface-raised)]/90 py-0.5 sticky top-[76px] z-40 backdrop-blur-md mb-12"
           >
-            <div className="max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8 flex flex-wrap gap-x-8 items-center justify-center md:justify-start">
-              <span className="hc-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] mr-2">EXPLORE</span>
+            <div className="max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8 flex flex-nowrap gap-x-8 items-center overflow-x-auto [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
+              <span className="hc-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] mr-2 shrink-0">EXPLORE</span>
               {sections.map(({ group }) => (
                 <a
                   key={group.id}
                   href={`#${group.id}`}
-                  className="hc-mono inline-flex min-h-11 items-center text-[10px] uppercase tracking-widest hover:text-[var(--color-brass)] transition-colors hc-focus"
+                  className="hc-mono inline-flex min-h-11 items-center text-[10px] uppercase tracking-widest hover:text-[var(--color-brass)] transition-colors hc-focus shrink-0 whitespace-nowrap"
                 >
                   {group.title}
                 </a>
