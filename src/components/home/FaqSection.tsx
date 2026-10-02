@@ -69,21 +69,41 @@ export default function FaqSection({ faqs }: { faqs: FaqItem[] }) {
         </h2>
       </div>
 
-      <div className="space-y-16">
+      <div className="space-y-20">
         {Object.entries(categorizedFaqs as Record<string, FaqItem[]>).map(([category, categoryFaqs]) => (
-          <div key={category}>
-            <h3 className="hc-mono text-sm uppercase tracking-[0.15em] font-semibold text-[#8b1a42] mb-8 border-b border-[#1a1017]/10 pb-4">
-              {category}
-            </h3>
-            <div className="space-y-8">
+          <div key={category} className="w-full">
+            <div className="flex items-center gap-4 mb-8">
+              <h3 className="hc-mono text-sm uppercase tracking-[0.15em] font-semibold text-[#8b1a42]">
+                {category}
+              </h3>
+              <div className="h-px flex-1 bg-gradient-to-r from-[var(--color-brass)]/20 to-transparent"></div>
+            </div>
+            
+            <div className="columns-1 md:columns-2 gap-6 space-y-6">
               {categoryFaqs.map((faq: FaqItem) => (
-                <div key={faq._id} className="group border border-[#1a1017]/10 bg-white/40 p-6 rounded-xl hover:bg-white/80 transition-colors duration-300">
-                  <h4 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3 flex items-start gap-3">
-                    <HelpCircle className="w-6 h-6 text-[#c8a96e] shrink-0 mt-0.5" />
-                    {faq.question}
-                  </h4>
-                  <div className="text-[15px] text-[#2e232b] font-light leading-relaxed pl-9">
-                    <p>{faq.answer}</p>
+                <div 
+                  key={faq._id} 
+                  className="break-inside-avoid relative overflow-hidden rounded-2xl bg-white/60 backdrop-blur-xl border border-white/60 p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-8px_rgba(200,169,110,0.15)] transition-all duration-500 ease-out group cursor-pointer"
+                >
+                  {/* Subtle Top Gradient Line */}
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--color-brass)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                  
+                  {/* Ambient Glow */}
+                  <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-[var(--color-brass)]/5 blur-3xl group-hover:bg-[var(--color-brass)]/15 transition-colors duration-700 pointer-events-none"></div>
+                  
+                  <div className="relative z-10 flex flex-col h-full">
+                    <div className="flex items-start gap-4 mb-4">
+                      <div className="w-8 h-8 rounded-full bg-[var(--color-brass)]/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-500 ease-out">
+                        <HelpCircle className="w-4 h-4 text-[var(--color-brass)]" strokeWidth={2.5} />
+                      </div>
+                      <h4 className="hc-serif text-2xl text-[var(--text-primary)] font-normal leading-[1.3] tracking-tight">
+                        {faq.question}
+                      </h4>
+                    </div>
+                    
+                    <div className="text-[15px] text-[#475569] font-light leading-relaxed pl-12">
+                      <p>{faq.answer}</p>
+                    </div>
                   </div>
                 </div>
               ))}
