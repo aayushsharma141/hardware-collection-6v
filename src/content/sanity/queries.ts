@@ -1,9 +1,10 @@
 import { groq } from "next-sanity";
 import { client } from "./client";
 import { Testimonial } from "@/types/testimonial";
-import { PRODUCTS } from "@/content/fallback/catalog";
-import { mergeProducts } from "@/lib/collections/catalogue";
-import { groupProducts } from "@/lib/collections/showroom";
+import { CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
+import { mergeCategories, mergeProducts } from "@/lib/collections/catalogue";
+import { categoryRails, groupProducts } from "@/lib/collections/showroom";
+import type { Category } from "@/types/catalog";
 
 
 /** Fields every product card and list needs, in both old and new image shapes. */
@@ -139,15 +140,17 @@ export async function getAllProducts() {
 }
 
 /**
- * The showroom groups that have at least one product, in showroom order — the
+ * The showroom families that have at least one product, in showroom order — the
  * groups the footer and homepage may link to. A group with nothing in it has no
  * section on /collections, so a link to it would land on the top of the page
  * with nothing at the anchor. Add a product in the Studio and its group appears
  * here, and in those links, on the next revalidation.
  */
 export async function getShowroomGroups(): Promise<{ id: string; title: string }[]> {
-  const products = mergeProducts(PRODUCTS, await getAllProducts());
-  return groupProducts(products).map(({ group }) => ({ id: group.id, title: group.title }));
+  const [sanityProducts, sanityCategories] = await Promise.all([getAllProducts(), getCategories()]);
+  const products = mergeProducts(PRODUCTS, sanityProducts);
+  const rails = categoryRails(mergeCategories(CATEGORIES as unknown as Category[], sanityCategories));
+  return groupProducts(products, rails).map(({ group }) => ({ id: group.id, title: group.title }));
 }
 
 export async function getFeaturedProducts() {
@@ -197,6 +200,7 @@ export async function getHomePage() {
     "featuredCategoryRefs": featuredCategories[]->{ 
       "categoryName": name, 
       "slug": slug.current, 
+      primaryRail,
       "imageUrl": categoryImage.asset->url 
     },
     "featuredProductRefs": featuredProducts[]->{ 

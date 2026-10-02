@@ -14,7 +14,8 @@ import {
   MessageCircle,
   DoorClosed,
   UtensilsCrossed,
-  Fingerprint,
+  Hand,
+  Armchair,
   Bath,
   ChevronRight,
 } from "lucide-react";
@@ -63,10 +64,11 @@ interface FooterProps {
  * one mapping in `@/lib/collections/showroom`; only the icons live here.
  */
 const SHOWROOM_ICONS: Record<string, typeof DoorClosed> = {
-  "door-entry": DoorClosed,
-  "kitchen-wardrobe": UtensilsCrossed,
-  "bathroom-glass": Bath,
-  "security-storage": Fingerprint,
+  "handles-knobs": Hand,
+  "door-hardware": DoorClosed,
+  bathroom: Bath,
+  "kitchen-wardrobes": UtensilsCrossed,
+  "furniture-hardware": Armchair,
 };
 
 function toShowroomLinks(groups: { id: string; title: string }[] | undefined) {

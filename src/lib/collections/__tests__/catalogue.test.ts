@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
-import { mergeProducts } from "../catalogue";
-import type { Product } from "@/types/catalog";
+import { mergeCategories, mergeProducts } from "../catalogue";
+import type { Category, Product } from "@/types/catalog";
 
 const p = (id: string, extra: Partial<Product> = {}): Product => ({ id, name: id, slug: id, ...extra });
 
@@ -30,5 +30,30 @@ describe("mergeProducts", () => {
     const merged = mergeProducts([p("a")], [{ _id: "x", name: "S", slug: { current: "a" } } as Product]);
     expect(merged).toHaveLength(1);
     expect(merged[0].name).toBe("S");
+  });
+});
+
+const c = (slug: string, extra: Partial<Category> = {}): Category => ({ name: slug, slug, ...extra });
+
+describe("mergeCategories", () => {
+  it("carries primaryRail from Sanity over the fallback's", () => {
+    const merged = mergeCategories([c("safes", { primaryRail: "door-hardware" })], [c("safes", { primaryRail: "kitchen-wardrobes" })]);
+    expect(merged).toHaveLength(1);
+    expect(merged[0].primaryRail).toBe("kitchen-wardrobes");
+  });
+
+  it("keeps the fallback's primaryRail when Sanity has none set (null must not blank it)", () => {
+    const sanity = [c("safes", { primaryRail: null as unknown as string })];
+    expect(mergeCategories([c("safes", { primaryRail: "door-hardware" })], sanity)[0].primaryRail).toBe("door-hardware");
+  });
+
+  it("adds Sanity-only categories and survives Sanity returning nothing", () => {
+    expect(mergeCategories([c("a")], [c("b", { primaryRail: "bathroom" })]).map((x) => x.name)).toEqual(["a", "b"]);
+    expect(mergeCategories([c("a")], null)).toHaveLength(1);
+  });
+
+  it("accepts a fallback category that has a title but no name", () => {
+    const merged = mergeCategories([{ slug: "x", title: "Titled" } as unknown as Category], []);
+    expect(merged[0].name).toBe("Titled");
   });
 });

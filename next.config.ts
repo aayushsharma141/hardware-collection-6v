@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
-import { SHOWROOM_GROUPS, showroomHref } from "./src/lib/collections/showroom";
+import { SHOWROOM_GROUPS, railGroupId, showroomHref } from "./src/lib/collections/showroom";
+import { CATEGORIES } from "./src/content/fallback/catalog";
 
 /**
  * `/collections` is the only collections route. Category, family and space
@@ -9,23 +10,30 @@ import { SHOWROOM_GROUPS, showroomHref } from "./src/lib/collections/showroom";
  * the place its products now are — an anchor on the catalogue — and never to
  * another retired URL. A redirect that lands on a 404 is worse than no redirect.
  *
- * The category and family anchors are generated from the same mapping the page
- * renders from, so the two cannot drift apart.
+ * The 13 canonical categories are the ones that had pages, and each carries the
+ * `primaryRail` the catalogue now groups by, so a retired URL lands on the
+ * family its products are shown under. Redirects are fixed at build time; this
+ * is a record of URLs that existed, not a second taxonomy, and new categories
+ * never had a URL to redirect.
  */
-const LEGACY_CATEGORY_REDIRECTS = SHOWROOM_GROUPS.flatMap((group) =>
-  group.categories.map((slug) => ({
-    source: `/collections/${slug}`,
+const LEGACY_CATEGORY_REDIRECTS = [
+  ...CATEGORIES.map((category) => ({
+    source: `/collections/${category.slug}`,
+    destination: showroomHref(railGroupId(category.primaryRail)),
+  })),
+  // The five family pages — one per showroom family, slug = the family's id.
+  ...SHOWROOM_GROUPS.map((group) => ({
+    source: `/collections/${group.id}`,
     destination: showroomHref(group.id),
-  }))
-);
+  })),
+];
 
-/** The pre-Phase-12 space pages, sent to the nearest showroom group. */
+/** The pre-Phase-12 space pages, sent to the nearest showroom family. */
 const LEGACY_SPACE_REDIRECTS = [
-  { source: '/collections/kitchen', destination: showroomHref('kitchen-wardrobe') },
-  { source: '/collections/wardrobe', destination: showroomHref('kitchen-wardrobe') },
-  { source: '/collections/entrance', destination: showroomHref('door-entry') },
-  { source: '/collections/bathroom', destination: showroomHref('bathroom-glass') },
-  // No single group matches these two, so they land on the catalogue itself.
+  { source: '/collections/kitchen', destination: showroomHref('kitchen-wardrobes') },
+  { source: '/collections/wardrobe', destination: showroomHref('kitchen-wardrobes') },
+  { source: '/collections/entrance', destination: showroomHref('door-hardware') },
+  // No single family matches these two, so they land on the catalogue itself.
   { source: '/collections/living-interior', destination: '/collections' },
   { source: '/collections/commercial', destination: '/collections' },
 ];

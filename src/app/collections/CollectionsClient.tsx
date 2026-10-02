@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useMemo } from "react";
 import Link from "next/link";
 import Footer from "@/components/layout/Footer";
 import { MessageSquare } from "lucide-react";
@@ -17,7 +17,13 @@ import CollectionSearch from "@/components/collections/CollectionSearch";
 import ShortlistPill from "@/components/collections/ShortlistPill";
 import ProductDetailDrawer from "@/components/collections/ProductDetailDrawer";
 import ProductCard from "@/components/collections/ProductCard";
-import { groupProducts, productCategorySlug } from "@/lib/collections/showroom";
+import {
+  categoryRails,
+  groupProducts,
+  productCategorySlug,
+  sectionCategories,
+  sectionDensity,
+} from "@/lib/collections/showroom";
 import { arrangeProducts } from "@/lib/collections/arrange";
 
 export interface CollectionsClientProps {
@@ -77,7 +83,14 @@ export default function CollectionsClient({
     if (activeCategorySlug && productCategorySlug(p) !== activeCategorySlug) return false;
     return true;
   });
-  const sections = groupProducts(visibleProducts);
+  // Product -> category -> `primaryRail` -> showroom family. The rail is the
+  // CMS owner's own grouping, so the page has no table of its own.
+  const rails = useMemo(() => categoryRails(categories), [categories]);
+  const categoryNames = useMemo(
+    () => new Map(categories.map((c) => [getSlugString(c.slug), c.name || c.title || ""] as const)),
+    [categories]
+  );
+  const sections = groupProducts(visibleProducts, rails);
 
   return (
     <div className="hc-root min-h-screen w-full bg-[var(--surface)] text-[var(--text-primary)] selection:bg-[var(--color-brass)]/30 selection:text-white">
@@ -190,37 +203,71 @@ export default function CollectionsClient({
               </div>
             ) : (
               <div className="space-y-24">
-                {sections.map(({ group, products: items }, sectionIndex) => (
-                  <section key={group.id} id={group.id} aria-labelledby={`${group.id}-title`} className="space-y-8 scroll-mt-40">
-                    <div className="border-b border-[var(--border)] pb-6 mb-8 flex flex-col">
-                      <h3
-                        id={`${group.id}-title`}
-                        className="hc-mono text-[10px] text-[var(--color-brass)] uppercase tracking-[0.25em] mb-3 font-normal"
+                {sections.map(({ group, products: items }, sectionIndex) => {
+                  // Layout follows content: one product is a single quiet specimen, a
+                  // handful a small composition, and a full stock a whole chapter.
+                  const density = sectionDensity(items.length);
+                  const vocabulary = sectionCategories(items, categoryNames, group.id);
+                  return (
+                    <section
+                      key={group.id}
+                      id={group.id}
+                      aria-labelledby={`${group.id}-title`}
+                      className={`scroll-mt-40 ${density === "specimen" ? "space-y-5" : "space-y-8"}`}
+                    >
+                      <div
+                        className={`border-b border-[var(--border)] flex flex-col ${
+                          density === "specimen" ? "pb-4" : "pb-6 mb-8"
+                        }`}
                       >
-                        {String(sectionIndex + 1).padStart(2, "0")} / {group.title}
-                      </h3>
-                      <p className="text-[var(--text-secondary)] font-light text-base md:text-lg">
-                        {group.description}
-                      </p>
-                    </div>
+                        <h3
+                          id={`${group.id}-title`}
+                          className="hc-mono text-[10px] text-[var(--color-brass)] uppercase tracking-[0.25em] mb-3 font-normal"
+                        >
+                          {String(sectionIndex + 1).padStart(2, "0")} / {group.title}
+                        </h3>
+                        <p className="text-[var(--text-secondary)] font-light text-base md:text-lg">
+                          {group.description}
+                        </p>
 
-                    {/* Rows are planned so each one adds up to 12 columns: no gap beside a
-                        featured card, whatever mix of products the section holds. */}
-                    <div className="grid grid-cols-12 gap-4 sm:gap-6">
-                      {arrangeProducts(items).map(({ product, lg, md }) => (
-                        <ProductCard
-                          key={product._id || product.id || product.name}
-                          product={product}
-                          lgSpan={lg}
-                          mdSpan={md}
-                          isShortlisted={shortlist.some((p) => (p._id || p.id) === (product._id || product.id))}
-                          onSelect={(p) => handleProductSelect(p)}
-                          displayImage={getProductDisplayImage(product)}
-                        />
-                      ))}
-                    </div>
-                  </section>
-                ))}
+                        {/* The detailed categories in this family, as vocabulary: choosing
+                            one narrows the same page, it does not go anywhere else. */}
+                        {vocabulary.length > 1 && (
+                          <ul className="mt-4 flex flex-wrap gap-x-5 gap-y-1" aria-label={`${group.title} collections`}>
+                            {vocabulary.map((category) => (
+                              <li key={category.slug}>
+                                <Link
+                                  href={`?category=${category.slug}#catalogue`}
+                                  scroll={false}
+                                  className="hc-mono hc-focus inline-flex min-h-11 items-center text-[10px] uppercase tracking-widest text-[var(--text-secondary)] hover:text-[var(--color-brass)] transition-colors"
+                                >
+                                  {category.name}
+                                </Link>
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+
+                      {/* Rows are planned so each one adds up to 12 columns: no gap beside a
+                          featured card, whatever mix of products the section holds. */}
+                      <div className="grid grid-cols-12 gap-4 sm:gap-6">
+                        {arrangeProducts(items).map(({ product, lg, md }) => (
+                          <ProductCard
+                            key={product._id || product.id || product.name}
+                            product={product}
+                            lgSpan={lg}
+                            mdSpan={md}
+                            compact={density === "specimen"}
+                            isShortlisted={shortlist.some((p) => (p._id || p.id) === (product._id || product.id))}
+                            onSelect={(p) => handleProductSelect(p)}
+                            displayImage={getProductDisplayImage(product)}
+                          />
+                        ))}
+                      </div>
+                    </section>
+                  );
+                })}
               </div>
             )}
           </div>
@@ -288,7 +335,7 @@ export default function CollectionsClient({
       <Footer
         settings={settings || undefined}
         brands={brands}
-        showroomGroups={groupProducts(products).map(({ group }) => ({ id: group.id, title: group.title }))}
+        showroomGroups={groupProducts(products, rails).map(({ group }) => ({ id: group.id, title: group.title }))}
       />
     </div>
   );

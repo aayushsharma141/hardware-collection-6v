@@ -15,6 +15,12 @@ export interface ProductCardProps {
   /** Columns at lg+ and at md, planned by `arrangeProducts` so rows add up to 12. */
   lgSpan: DesktopSpan;
   mdSpan: TabletSpan;
+  /**
+   * A single quiet specimen: image beside the text on one short row. Used when a
+   * showroom family has only one product, so it reads as intentional rather than
+   * as a chapter with the rest missing.
+   */
+  compact?: boolean;
 }
 
 // Full class names, not built strings, so Tailwind can see them.
@@ -44,6 +50,7 @@ export default function ProductCard({
   displayImage,
   lgSpan,
   mdSpan,
+  compact = false,
 }: ProductCardProps) {
   const shouldReduceMotion = useReducedMotion();
   const isFeatured = product.featured === true;
@@ -72,9 +79,13 @@ export default function ProductCard({
         }
       }}
     >
-      <div>
+      <div className={compact ? "md:flex md:items-center md:gap-8" : undefined}>
         {/* Image Specimen Frame with Glow & Sweep */}
-        <div className={`specimen-frame relative w-full mb-4 aspect-[4/3] ${LG_FRAME[lgSpan]}`}>
+        <div
+          className={`specimen-frame relative w-full mb-4 aspect-[4/3] ${
+            compact ? "md:mb-0 md:w-[22rem] md:shrink-0" : LG_FRAME[lgSpan]
+          }`}
+        >
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_88%,rgba(200,169,110,.18),transparent_45%)]" />
           <Image
             src={displayImage}
@@ -104,7 +115,7 @@ export default function ProductCard({
         </div>
 
         {/* Product Brand & Model Header */}
-        <div className="px-1.5">
+        <div className={compact ? "px-1.5 md:flex-1 md:min-w-0" : "px-1.5"}>
           <div className="flex items-center justify-between gap-3 mb-1.5">
             <span className="text-[10px] font-bold uppercase tracking-[0.18em] text-[var(--accent)]">
               {product.brandName || product.brand}

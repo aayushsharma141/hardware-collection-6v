@@ -2,91 +2,105 @@
  * How the /collections catalogue is grouped.
  *
  * The public site has two content routes — `/` and `/collections` — so a
- * category is never a URL. Sanity keeps its detailed category taxonomy; this
- * file is the one place that says which showroom group each category is shown
- * under, and the groups are in-page sections (`/collections#door-entry`).
+ * category is never a URL. The business already has a hierarchy for its
+ * merchandise: five showroom families, recorded on every Sanity category as
+ * `primaryRail`. This file does not invent a second one. A product's family is
  *
- * The mapping is explicit on purpose. An earlier version guessed a product's
- * group by looking for words like "handle" or "cabinet" in its category name;
- * that put "Cabinet & Wardrobe Handles" in two groups at once and would have
- * mis-filed every new category. A lookup table is the opposite: boring, easy to
- * read, and wrong in exactly one place when it is wrong.
+ *     product.categorySlug  ->  category.primaryRail  ->  showroom family
+ *
+ * and the families are in-page sections (`/collections#door-hardware`).
+ *
+ * Nothing here guesses. An earlier version looked for words like "handle" or
+ * "cabinet" in a category name, and a later one kept its own four-group table
+ * ("Door & Entry", "Bathroom & Glass"…) that the business never used. The only
+ * input now is the field the CMS owner sets, so regrouping a category is an
+ * edit in Studio, not in code.
  *
  * Deliberately free of imports so client components, server components and
  * next.config.ts can all use it.
  */
 
 export interface ShowroomGroup {
+  /** The `primaryRail` value, also the anchor id on /collections. */
   id: string;
   title: string;
   description: string;
-  /** Sanity category slugs shown under this group. */
-  categories: readonly string[];
 }
 
+/** The five showroom families, in the business's own order. */
 export const SHOWROOM_GROUPS: readonly ShowroomGroup[] = [
   {
-    id: "door-entry",
-    title: "Door & Entry",
-    description: "Digital locks, mortise handles, and entryway hardware.",
-    categories: [
-      "digital-locks",
-      "mortise-door-locks",
-      "main-door-handles",
-      "door-closers-stoppers",
-      "door-hardware",
-      "handles-knobs",
-    ],
+    id: "handles-knobs",
+    title: "Handles & Knobs",
+    description: "Handles and knobs, from contemporary profiles to classical detailing.",
   },
   {
-    id: "kitchen-wardrobe",
-    title: "Kitchen & Wardrobe",
-    description: "Premium mechanisms for cabinetry and sliding systems.",
-    categories: [
-      "modular-kitchen-hardware",
-      "kitchen-sinks-faucets",
-      "wardrobe-hardware-sliding",
-      "cabinet-wardrobe-handles",
-      "hinges-soft-close",
-      "drawer-channels",
-      "kitchen-wardrobes",
-      "furniture-hardware",
-    ],
+    id: "door-hardware",
+    title: "Door Hardware",
+    description: "Locks, handles and the fittings that make up a door.",
   },
   {
-    id: "bathroom-glass",
-    title: "Bathroom & Glass",
-    description: "Fittings and accessories for wet areas and glass architecture.",
-    categories: ["bathroom-accessories", "bathroom-hardware", "glass-hardware"],
+    id: "bathroom",
+    title: "Bathroom",
+    description: "Accessories, mirrors and fittings for the bathroom.",
   },
   {
-    id: "security-storage",
-    title: "Security & Storage",
-    description: "Safes and secure storage solutions.",
-    categories: ["safes"],
+    id: "kitchen-wardrobes",
+    title: "Kitchen & Wardrobes",
+    description: "Mechanisms and fittings for kitchens, wardrobes and sliding systems.",
+  },
+  {
+    id: "furniture-hardware",
+    title: "Furniture Hardware",
+    description: "Hinges, drawer runners and joinery fittings.",
   },
 ];
 
 /**
- * Where a product goes when its category is not in the table above — a new CMS
- * category nobody has mapped yet, or a product with no category at all. It is a
- * visible section rather than a silent drop: a product the owner published must
- * never vanish from the catalogue because of a missing mapping.
+ * Where a product goes when its category has no (or an unrecognised)
+ * `primaryRail` — a new CMS category nobody has placed yet, or a product with no
+ * category at all. It is a visible section rather than a silent drop: a product
+ * the owner published must never vanish from the catalogue.
  */
 export const OTHER_GROUP: ShowroomGroup = {
   id: "other",
   title: "More Hardware",
   description: "Further architectural hardware from the showroom.",
-  categories: [],
 };
 
-const GROUP_ID_BY_CATEGORY: ReadonlyMap<string, string> = new Map(
-  SHOWROOM_GROUPS.flatMap((group) => group.categories.map((slug) => [slug, group.id] as const))
-);
+const GROUP_IDS: ReadonlySet<string> = new Set(SHOWROOM_GROUPS.map((group) => group.id));
 
-/** The group a category slug belongs to, or `other` when it is unmapped. */
-export function showroomGroupId(categorySlug?: string | null): string {
-  return (categorySlug && GROUP_ID_BY_CATEGORY.get(categorySlug)) || OTHER_GROUP.id;
+/** A category slug mapped to the showroom family its `primaryRail` names. */
+export type CategoryRails = ReadonlyMap<string, string>;
+
+interface CategoryLike {
+  slug?: string | { current?: string } | null;
+  primaryRail?: string | null;
+}
+
+function slugOf(slug: CategoryLike["slug"]): string {
+  if (!slug) return "";
+  return typeof slug === "string" ? slug : (slug.current ?? "");
+}
+
+/** A raw `primaryRail` value as a showroom group id; anything unrecognised is `other`. */
+export function railGroupId(primaryRail?: string | null): string {
+  return primaryRail && GROUP_IDS.has(primaryRail) ? primaryRail : OTHER_GROUP.id;
+}
+
+/** Indexes categories by slug, ready for `showroomGroupId`. */
+export function categoryRails(categories: readonly CategoryLike[]): CategoryRails {
+  const rails = new Map<string, string>();
+  for (const category of categories) {
+    const slug = slugOf(category.slug);
+    if (slug) rails.set(slug, railGroupId(category.primaryRail));
+  }
+  return rails;
+}
+
+/** The group a category slug belongs to, or `other` when it is unknown. */
+export function showroomGroupId(categorySlug: string | null | undefined, rails: CategoryRails): string {
+  return (categorySlug && rails.get(categorySlug)) || OTHER_GROUP.id;
 }
 
 /** A group's display title, for anything named after the section it opens. */
@@ -100,8 +114,8 @@ export function showroomHref(groupId: string): string {
 }
 
 /** In-page link to the group a category is shown under. */
-export function showroomHrefForCategory(categorySlug?: string | null): string {
-  return showroomHref(showroomGroupId(categorySlug));
+export function showroomHrefForCategory(categorySlug: string | null | undefined, rails: CategoryRails): string {
+  return showroomHref(showroomGroupId(categorySlug, rails));
 }
 
 /** The fields read from a product — structural, so this module stays import-free. */
@@ -126,17 +140,23 @@ export interface ShowroomSection<T> {
 }
 
 /**
- * Sorts products into their showroom groups.
+ * Sorts products into their showroom families.
  *
  * Every product lands in exactly one section, so the sections always add up to
- * the input. Empty groups are omitted — a section with nothing in it would be a
- * heading over a blank — and the unmapped section, when present, comes last.
- * Within a section, products the CMS marks `featured` come first.
+ * the input. Empty families are omitted — a heading over nothing is worse than no
+ * heading — and the unplaced section, when present, comes last. Within a
+ * section, products the CMS marks `featured` come first.
+ *
+ * A family with a single product is still a family. It is not folded into a
+ * neighbour to look fuller; how much room it takes is the layout's business.
  */
-export function groupProducts<T extends ProductLike>(products: readonly T[]): ShowroomSection<T>[] {
+export function groupProducts<T extends ProductLike>(
+  products: readonly T[],
+  rails: CategoryRails
+): ShowroomSection<T>[] {
   const buckets = new Map<string, T[]>();
   for (const product of products) {
-    const id = showroomGroupId(productCategorySlug(product));
+    const id = showroomGroupId(productCategorySlug(product), rails);
     const bucket = buckets.get(id);
     if (bucket) bucket.push(product);
     else buckets.set(id, [product]);
@@ -155,4 +175,43 @@ export function groupProducts<T extends ProductLike>(products: readonly T[]): Sh
         .map(({ product }) => product),
     }))
     .filter((section) => section.products.length > 0);
+}
+
+/**
+ * How much room a section should take, from how many products it holds. Layout
+ * follows content: a family with one product is a single quiet specimen, not an
+ * empty chapter, and it grows into a full chapter as stock is entered.
+ */
+export type SectionDensity = "specimen" | "composition" | "chapter";
+
+export function sectionDensity(productCount: number): SectionDensity {
+  if (productCount <= 1) return "specimen";
+  if (productCount <= 4) return "composition";
+  return "chapter";
+}
+
+/**
+ * The detailed categories that have products inside one section, in the order
+ * their products appear — the section's discovery vocabulary ("Digital Locks",
+ * "Long Bar Handles"). `labels` maps a category slug to its display name.
+ *
+ * `groupId` is the section's own id. Each family also has a category of the same
+ * name ("Door Hardware" inside Door Hardware); it is the family itself, not a
+ * narrower collection, so it is not offered as one.
+ */
+export function sectionCategories<T extends ProductLike>(
+  products: readonly T[],
+  labels: ReadonlyMap<string, string>,
+  groupId?: string
+): { slug: string; name: string }[] {
+  const seen = new Set<string>();
+  const out: { slug: string; name: string }[] = [];
+  for (const product of products) {
+    const slug = productCategorySlug(product);
+    const name = labels.get(slug);
+    if (!slug || !name || slug === groupId || seen.has(slug)) continue;
+    seen.add(slug);
+    out.push({ slug, name });
+  }
+  return out;
 }

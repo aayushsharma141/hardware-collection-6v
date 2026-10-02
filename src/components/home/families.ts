@@ -1,5 +1,5 @@
 import { CATEGORY_FAMILIES, type CategoryFamily } from "@/content/fallback/home";
-import { showroomGroupId, showroomGroupTitle, showroomHref } from "@/lib/collections/showroom";
+import { railGroupId, showroomGroupTitle, showroomHref } from "@/lib/collections/showroom";
 
 /** A category the CMS has chosen to feature on the homepage. */
 export interface FeaturedCategory {
@@ -7,6 +7,8 @@ export interface FeaturedCategory {
   slug: string;
   imageUrl?: string;
   description?: string;
+  /** The category's showroom family, as set in the CMS. */
+  primaryRail?: string | null;
 }
 
 /**
@@ -28,7 +30,7 @@ export function resolveFamilies(
   const candidates: CategoryFamily[] =
     featured && featured.length > 0
       ? featured.map((category, position) => {
-          const groupId = showroomGroupId(category.slug);
+          const groupId = railGroupId(category.primaryRail);
           // The built-in family for the same group lends its photograph and copy
           // where the CMS entry has none. Explicit, not guessed from the slug.
           const base =

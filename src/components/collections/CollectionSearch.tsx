@@ -11,6 +11,7 @@ import {
 } from "@/lib/integrations/whatsapp";
 import { useConsultationStore } from "@/components/consultation/store";
 import {
+  categoryRails,
   productCategorySlug,
   showroomGroupId,
   showroomGroupTitle,
@@ -46,6 +47,8 @@ export default function CollectionSearch({
   const [isFocused, setIsFocused] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
   const { openDrawer } = useConsultationStore();
+
+  const rails = useMemo(() => categoryRails(categories), [categories]);
 
   // A category is only worth offering as a result if the catalogue has a product
   // in it; otherwise the link would point at a section that is not on the page.
@@ -206,7 +209,7 @@ export default function CollectionSearch({
                       return (
                         <Link
                           key={cat._id || cat.id || slug}
-                          href={showroomHrefForCategory(slug)}
+                          href={showroomHrefForCategory(slug, rails)}
                           onClick={() => {
                             setIsFocused(false);
                             onSelect?.({ kind: "category", slug });
@@ -218,7 +221,7 @@ export default function CollectionSearch({
                           </span>
                           {/* Says where the link goes: several categories open the same section. */}
                           <span className="text-xs text-[var(--accent)]">
-                            In {showroomGroupTitle(showroomGroupId(slug))} →
+                            In {showroomGroupTitle(showroomGroupId(slug, rails))} →
                           </span>
                         </Link>
                       );

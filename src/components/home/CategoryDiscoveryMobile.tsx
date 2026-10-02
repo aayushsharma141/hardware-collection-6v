@@ -28,11 +28,14 @@ export default function CategoryDiscoveryMobile({ categories, populatedGroupIds 
   const activeFamilies = resolveFamilies(categories, populatedGroupIds);
   if (activeFamilies.length === 0) return null;
 
-  const focal: CategoryFamily =
-    activeFamilies.find((family) => family.isFocal) ?? activeFamilies[0];
-  const index: CategoryFamily[] = activeFamilies.filter(
-    (family) => family.id !== focal.id
+  // The lead is shown first, so the numbers run in the order they are read
+  // rather than in desktop order, where the lead sits in the middle.
+  const lead = activeFamilies.find((family) => family.isFocal) ?? activeFamilies[0];
+  const ordered = [lead, ...activeFamilies.filter((family) => family.id !== lead.id)].map(
+    (family, position) => ({ ...family, index: String(position + 1).padStart(2, "0") })
   );
+  const focal: CategoryFamily = ordered[0];
+  const index: CategoryFamily[] = ordered.slice(1);
 
   const fullName = (family: CategoryFamily) =>
     family.nameBreak ? `${family.name} ${family.nameBreak}` : family.name;

@@ -25,17 +25,19 @@ describe("Homepage deep links stay inside the one catalogue route", () => {
     });
   });
 
-  it("sends the Door Hardware tile and the biometric lock to Door & Entry", () => {
+  it("sends the Door Hardware tile and the biometric lock to Door Hardware", () => {
     const door = CATEGORY_FAMILIES.find((f) => f.name === "Door");
-    expect(door?.href).toBe("/collections#door-entry");
+    expect(door?.href).toBe("/collections#door-hardware");
     const lock = SIGNATURE_PIECES.find((p) => p.name === "Biometric Lock");
-    expect(lock?.href).toBe("/collections#door-entry");
+    expect(lock?.href).toBe("/collections#door-hardware");
   });
 
-  it("sends the kitchen and wardrobe pieces to Kitchen & Wardrobe", () => {
+  it("sends each signature piece to the family its category's primaryRail names", () => {
+    // The knob is a cabinet handle, which the business files under Handles & Knobs;
+    // the channel is a kitchen runner. No guessing from the name.
     const channel = SIGNATURE_PIECES.find((p) => p.name === "Soft-Close Channel");
     const knob = SIGNATURE_PIECES.find((p) => p.name === "Cabinet Knob");
-    expect(channel?.href).toBe("/collections#kitchen-wardrobe");
-    expect(knob?.href).toBe("/collections#kitchen-wardrobe");
+    expect(channel?.href).toBe("/collections#kitchen-wardrobes");
+    expect(knob?.href).toBe("/collections#handles-knobs");
   });
 });
