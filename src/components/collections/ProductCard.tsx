@@ -2,36 +2,53 @@
 
 import React from "react";
 import Image from "next/image";
-import { Plus, Check, ArrowRight } from "lucide-react";
+import { Check, ArrowRight } from "lucide-react";
 import { motion, useReducedMotion } from "motion/react";
 import { Product } from "@/types/catalog";
+import type { DesktopSpan, TabletSpan } from "@/lib/collections/arrange";
 
 export interface ProductCardProps {
   product: Product;
-  index: number;
-  totalInCategory: number;
   isShortlisted: boolean;
   onSelect: (product: Product, event?: React.MouseEvent | HTMLElement) => void;
-  onToggleShortlist: (product: Product, event?: React.MouseEvent) => void;
   displayImage: string;
+  /** Columns at lg+ and at md, planned by `arrangeProducts` so rows add up to 12. */
+  lgSpan: DesktopSpan;
+  mdSpan: TabletSpan;
 }
+
+// Full class names, not built strings, so Tailwind can see them.
+const LG_SPAN: Record<DesktopSpan, string> = {
+  4: "lg:col-span-4",
+  6: "lg:col-span-6",
+  8: "lg:col-span-8",
+  12: "lg:col-span-12",
+};
+const MD_SPAN: Record<TabletSpan, string> = {
+  6: "md:col-span-6",
+  12: "md:col-span-12",
+};
+// A wider card gets a wider, shorter frame, so a full-width card reads as a
+// panorama rather than a tall block.
+const LG_FRAME: Record<DesktopSpan, string> = {
+  4: "lg:aspect-[4/3]",
+  6: "lg:aspect-[16/10]",
+  8: "lg:aspect-[21/9]",
+  12: "lg:aspect-[3/1]",
+};
 
 export default function ProductCard({
   product,
-  index,
-  totalInCategory,
   isShortlisted,
   onSelect,
-  onToggleShortlist,
-  displayImage
+  displayImage,
+  lgSpan,
+  mdSpan,
 }: ProductCardProps) {
   const shouldReduceMotion = useReducedMotion();
-  const isFeatured = index === 0;
+  const isFeatured = product.featured === true;
 
-  // Grid spans for a 4-column grid
-  const spanClass = isFeatured
-    ? "md:col-span-2 lg:col-span-2"
-    : "md:col-span-1 lg:col-span-1";
+  const spanClass = `col-span-12 ${MD_SPAN[mdSpan]} ${LG_SPAN[lgSpan]}`;
 
   return (
     <motion.article
@@ -45,7 +62,9 @@ export default function ProductCard({
       className={`specimen-tray hc-focus p-3.5 flex flex-col justify-between cursor-pointer ${spanClass}`}
       tabIndex={0}
       role="button"
-      aria-label={`View specifications for ${product.name} by ${product.brandName || product.brand}`}
+      aria-label={`View specifications for ${product.name}${
+        product.brandName || product.brand ? ` by ${product.brandName || product.brand}` : ""
+      }`}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
@@ -55,9 +74,7 @@ export default function ProductCard({
     >
       <div>
         {/* Image Specimen Frame with Glow & Sweep */}
-        <div className={`specimen-frame relative w-full mb-4 ${
-          isFeatured ? "aspect-[4/3] md:aspect-[16/9]" : "aspect-[4/3]"
-        }`}>
+        <div className={`specimen-frame relative w-full mb-4 aspect-[4/3] ${LG_FRAME[lgSpan]}`}>
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_50%_88%,rgba(200,169,110,.18),transparent_45%)]" />
           <Image
             src={displayImage}
@@ -101,6 +118,13 @@ export default function ProductCard({
           <h3 className="m-0 mt-1.5 text-base sm:text-[17px] font-medium leading-snug text-[var(--text-primary)] group-hover:text-[var(--text-primary)] transition-colors">
             {product.name}
           </h3>
+
+          {/* Optional One-Line Context */}
+          {(product.shortDescription || product.description) && (
+            <p className="m-0 mt-1.5 truncate text-[11px] sm:text-xs text-[var(--text-secondary)] font-light">
+              {product.shortDescription || product.description}
+            </p>
+          )}
 
         </div>
       </div>

@@ -1,6 +1,6 @@
 import React, { Suspense } from "react";
 import CatalogsClient from "./CatalogsClient";
-import { getBrands, getSiteSettings } from "@/content/sanity/queries";
+import { getBrands, getSiteSettings, getShowroomGroups } from "@/content/sanity/queries";
 import { BRANDS } from "@/content/fallback/catalog";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 import { Brand } from "@/types/catalog";
@@ -20,8 +20,11 @@ export const metadata: Metadata = {
 
 
 export default async function CatalogsPage() {
-  const sanityBrands = await getBrands();
-  const settings = await getSiteSettings();
+  const [sanityBrands, settings, showroomGroups] = await Promise.all([
+    getBrands(),
+    getSiteSettings(),
+    getShowroomGroups(),
+  ]);
 
   let brands: Brand[] =
     sanityBrands && sanityBrands.length > 0
@@ -50,8 +53,9 @@ export default async function CatalogsPage() {
   return (
     <Suspense fallback={<div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">Loading catalogues...</div>}>
       <CatalogsClient 
-        brands={brands} 
+        brands={brands}
         settings={settings}
+        showroomGroups={showroomGroups}
       />
     </Suspense>
   );

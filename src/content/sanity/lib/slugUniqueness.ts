@@ -1,13 +1,17 @@
 /**
- * D-27: Cross-type slug uniqueness is a blocking schema constraint. Because
- * D-24 puts `space` and `category` documents in one URL namespace
- * (`/collections/[slug]`), both Sanity schemas must validate that a slug is
- * unique across BOTH types — a collision would silently shadow one document
- * with the other.
+ * D-27: Cross-type slug uniqueness is a blocking schema constraint. `space`
+ * and `category` documents share one slug namespace, so both Sanity schemas
+ * must validate that a slug is unique across BOTH types — a collision would
+ * silently shadow one document with the other.
  *
- * Also encodes RESEARCH.md's Pitfall 5 reserved-slug guard: the literal slug
- * "spaces" would collide with the (rejected but structurally instructive)
- * `/collections/spaces/[slug]` path segment, so it is never allowed.
+ * The namespace was once the URL space (`/collections/[slug]`). There are no
+ * such routes now — the public site is `/` and `/collections` — but the
+ * constraint stays: legacy links, seed scripts and the redirects in
+ * next.config.ts still identify documents by slug.
+ *
+ * The reserved slug "spaces" was held back for a `/collections/spaces/[slug]`
+ * path segment. That route was never built; the guard is kept so an old slug
+ * cannot be reintroduced by accident.
  */
 
 export interface SlugDoc {

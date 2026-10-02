@@ -1,6 +1,9 @@
 import { groq } from "next-sanity";
 import { client } from "./client";
 import { Testimonial } from "@/types/testimonial";
+import { PRODUCTS } from "@/content/fallback/catalog";
+import { mergeProducts } from "@/lib/collections/catalogue";
+import { groupProducts } from "@/lib/collections/showroom";
 
 
 /** Fields every product card and list needs, in both old and new image shapes. */
@@ -81,28 +84,10 @@ export const getTestimonialsQuery = groq`
   }
 `;
 
-export const getProductsByCategoryQuery = groq`
-  *[_type == "product" && category->slug.current == $categorySlug] | order(name asc) {
-    ${PRODUCT_LIST_FIELDS}
-  }
-`;
-
 export const getAllProductsQuery = groq`
   *[_type == "product"] | order(name asc) {
     ${PRODUCT_LIST_FIELDS},
     specifications
-  }
-`;
-
-export const getSubcategoriesQuery = groq`
-  *[_type == "subcategory"] | order(displayOrder asc) {
-    _id,
-    name,
-    "slug": slug.current,
-    "parentCategorySlug": parentCategory->slug.current,
-    description,
-    "imageUrl": image.asset->url,
-    "imageLqip": image.asset->metadata.lqip
   }
 `;
 
@@ -120,15 +105,6 @@ export const getCuratedCollectionsQuery = groq`
 export async function getCategories() {
   try {
     return await client.fetch(getCategoriesQuery, {}, { next: { tags: ["category"] } });
-  } catch (error) {
-    console.error("Sanity fetch error:", error);
-    return [];
-  }
-}
-
-export async function getSubcategories() {
-  try {
-    return await client.fetch(getSubcategoriesQuery, {}, { next: { tags: ["subcategory"] } });
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -160,6 +136,18 @@ export async function getAllProducts() {
     console.error("Sanity fetch error:", error);
     return [];
   }
+}
+
+/**
+ * The showroom groups that have at least one product, in showroom order — the
+ * groups the footer and homepage may link to. A group with nothing in it has no
+ * section on /collections, so a link to it would land on the top of the page
+ * with nothing at the anchor. Add a product in the Studio and its group appears
+ * here, and in those links, on the next revalidation.
+ */
+export async function getShowroomGroups(): Promise<{ id: string; title: string }[]> {
+  const products = mergeProducts(PRODUCTS, await getAllProducts());
+  return groupProducts(products).map(({ group }) => ({ id: group.id, title: group.title }));
 }
 
 export async function getFeaturedProducts() {
@@ -276,119 +264,6 @@ export async function getNavigation() {
   } catch (error) {
     console.error("Sanity fetch error (getNavigation):", error);
     return null;
-  }
-}
-
-export const getCategoryBySlugQuery = groq`
-  *[_type == "category" && slug.current == $slug][0] {
-    _id, name, "slug": slug.current, eyebrow, description, overview,
-    suitableFor, keyFeatures, icon,
-    "imageUrl": coalesce(categoryImage, image, heroImage).asset->url,
-    "imageLqip": coalesce(categoryImage, image, heroImage).asset->metadata.lqip,
-    "galleryUrls": gallery[].asset->url,
-    primaryRail, "familySlugs": coalesce(families, []),
-    searchKeywords, whatsappMessage, featured, displayOrder, seo
-  }
-`;
-
-/**
- * Phase 12: a family page renders one section per member category, in board
- * order, each carrying its own products. The five family landing pages are
- * themselves category documents that list their own family, so they are
- * excluded through $exclude.
- */
-export const getFamilySectionsQuery = groq`
-  *[_type == "category" && primaryRail == $family && !(slug.current in $exclude)]
-    | order(displayOrder asc, name asc) {
-    _id, name, "slug": slug.current, eyebrow, description, keyFeatures, whatsappMessage,
-    "brandRefs": brands[]->{ name, "slug": slug.current, "logoUrl": logo.asset->url, displayOrder },
-    "products": *[_type == "product" && category._ref == ^._id] | order(name asc) {
-      ${PRODUCT_LIST_FIELDS}
-    }
-  }
-`;
-export async function getFamilySections(family: string, exclude: readonly string[]) {
-  try {
-    return await client.fetch(getFamilySectionsQuery, { family, exclude }, { next: { tags: ["category", "product", "brand"] } });
-  } catch (error) {
-    console.error("Sanity fetch error (getFamilySections):", error);
-    return [];
-  }
-}
-export async function getCategoryBySlug(slug: string) {
-  try {
-    return await client.fetch(getCategoryBySlugQuery, { slug }, { next: { tags: ["category"] } });
-  } catch (error) {
-    console.error("Sanity fetch error:", error);
-    return null;
-  }
-}
-
-export const getSpaceBySlugQuery = groq`
-  *[_type == "space" && slug.current == $slug][0] {
-    _id, name, "slug": slug.current, description,
-    "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip, displayOrder,
-    "linkedCategories": linkedCategories[]-> {
-      _id, name, "slug": slug.current, eyebrow, description,
-      "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip
-    }
-  }
-`;
-export async function getSpaceBySlug(slug: string) {
-  try {
-    return await client.fetch(getSpaceBySlugQuery, { slug }, { next: { tags: ["space", "category"] } });
-  } catch (error) {
-    console.error("Sanity fetch error:", error);
-    return null;
-  }
-}
-
-export const getSpacesQuery = groq`
-  *[_type == "space"] | order(displayOrder asc) {
-    _id, name, "slug": slug.current, description,
-    "imageUrl": image.asset->url, "imageLqip": image.asset->metadata.lqip, displayOrder,
-    "linkedCategorySlugs": linkedCategories[]->slug.current
-  }
-`;
-export async function getSpaces() {
-  try {
-    return await client.fetch(getSpacesQuery, {}, { next: { tags: ["space"] } });
-  } catch (error) {
-    console.error("Sanity fetch error:", error);
-    return [];
-  }
-}
-
-export const getCategorySlugsQuery = groq`*[_type == "category" && defined(slug.current)]{ "slug": slug.current }`;
-export async function getCategorySlugs() {
-  try {
-    return await client.fetch(getCategorySlugsQuery, {}, { next: { tags: ["category"] } });
-  } catch (error) {
-    console.error("Sanity fetch error:", error);
-    return [];
-  }
-}
-
-export const getSpaceSlugsQuery = groq`*[_type == "space" && defined(slug.current)]{ "slug": slug.current }`;
-export async function getSpaceSlugs() {
-  try {
-    return await client.fetch(getSpaceSlugsQuery, {}, { next: { tags: ["space"] } });
-  } catch (error) {
-    console.error("Sanity fetch error:", error);
-    return [];
-  }
-}
-
-export const getCollectionCountsQuery = groq`{
-  "categoryCount": count(*[_type == "category"]),
-  "brandCount": count(*[_type == "brand"])
-}`;
-export async function getCollectionCounts() {
-  try {
-    return await client.fetch(getCollectionCountsQuery, {}, { next: { tags: ["category", "brand"] } });
-  } catch (error) {
-    console.error("Sanity fetch error:", error);
-    return { categoryCount: 0, brandCount: 0 };
   }
 }
 

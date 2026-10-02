@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { pageScale } from "./PdfCanvas";
+import { pageScale } from "../PdfCanvas";
 
 // A4 at 72dpi, the shape almost every catalogue page has.
 const A4 = { w: 595, h: 842 };

@@ -1,7 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import Footer from "@/components/layout/Footer";
-import { getSiteSettings, getBrands, getLegalPageBySlug } from "@/content/sanity/queries";
+import { getSiteSettings, getBrands, getLegalPageBySlug, getShowroomGroups } from "@/content/sanity/queries";
 import { ArrowLeft, Phone, Mail, MapPin } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 
@@ -12,7 +12,7 @@ export const metadata = {
 };
 
 export default async function TermsPage() {
-  const [siteSettings, brands, pageData] = await Promise.all([getSiteSettings(), getBrands(), getLegalPageBySlug("terms")]);
+  const [siteSettings, brands, pageData, showroomGroups] = await Promise.all([getSiteSettings(), getBrands(), getLegalPageBySlug("terms"), getShowroomGroups()]);
 
   return (
     <div className="min-h-screen bg-[var(--color-background)] text-[var(--text-primary)]">
@@ -160,7 +160,7 @@ export default async function TermsPage() {
         </div>
       </main>
 
-      <Footer settings={siteSettings ?? undefined} brands={brands} />
+      <Footer settings={siteSettings ?? undefined} brands={brands} showroomGroups={showroomGroups} />
     </div>
   );
 }

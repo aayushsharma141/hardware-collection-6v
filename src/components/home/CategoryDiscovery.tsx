@@ -3,7 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { CATEGORY_FAMILIES } from "@/content/fallback/home";
+import { resolveFamilies, type FeaturedCategory } from "./families";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,40 +31,24 @@ const itemVariants = {
 };
 
 interface CategoryDiscoveryProps {
-  categories?: {
-    categoryName: string;
-    slug: string;
-    imageUrl?: string;
-    description?: string;
-  }[];
+  categories?: FeaturedCategory[];
+  /** Showroom groups that have products; families for any other group are left out. */
+  populatedGroupIds?: string[];
 }
 
-export default function CategoryDiscovery({ categories }: CategoryDiscoveryProps) {
-  const activeFamilies = categories && categories.length > 0
-    ? categories.map((c, idx) => {
-        // Map each CMS category to a fallback cinema image by slug keyword
-        const fallback = CATEGORY_FAMILIES.find(f =>
-          c.slug.includes(f.id) ||
-          f.id === "handles" && c.slug.includes("handle") ||
-          f.id === "door" && (c.slug.includes("door") || c.slug.includes("lock")) ||
-          f.id === "bathroom" && c.slug.includes("bath") ||
-          f.id === "kitchen" && (c.slug.includes("kitchen") || c.slug.includes("wardrobe")) ||
-          f.id === "furniture" && c.slug.includes("furniture")
-        ) || CATEGORY_FAMILIES[idx % CATEGORY_FAMILIES.length];
-        return {
-          id: c.slug,
-          index: `0${idx + 1}`,
-          name: c.categoryName,
-          nameBreak: undefined,
-          subtitle: c.description || fallback.subtitle,
-          detail: fallback.detail,
-          image: c.imageUrl || fallback.image,
-          href: `/collections?category=${c.slug}`,
-          isFocal: idx === 1,
-        };
-      })
-    : CATEGORY_FAMILIES;
+export default function CategoryDiscovery({ categories, populatedGroupIds }: CategoryDiscoveryProps) {
+  const activeFamilies = resolveFamilies(categories, populatedGroupIds);
+  if (activeFamilies.length === 0) return null;
 
+  // The portrait frame was drawn for five narrow columns. Across fewer, wider
+  // columns the same ratio would stand over a thousand pixels tall, so the frame
+  // widens as the set shrinks.
+  const frameRatio =
+    activeFamilies.length >= 4
+      ? "aspect-[5/7]"
+      : activeFamilies.length === 3
+        ? "aspect-[4/5]"
+        : "aspect-[4/3]";
 
   return (
     <section id="categories" className="bg-[var(--surface)] text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
@@ -73,10 +57,10 @@ export default function CategoryDiscovery({ categories }: CategoryDiscoveryProps
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">
           <div>
             <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink">
-              Showroom families / 05
+              Showroom families
             </p>
             <h2 className="hc-serif mt-3 text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)]">
-              Five thresholds
+              Where to begin
             </h2>
           </div>
           <p className="max-w-[420px] text-right text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] font-light">
@@ -85,7 +69,11 @@ export default function CategoryDiscovery({ categories }: CategoryDiscoveryProps
         </div>
 
         <motion.div 
-          className="mt-10 grid grid-cols-[0.92fr_1.28fr_0.88fr_1.08fr_0.92fr] gap-[1px] bg-[var(--border)] rounded-2xl overflow-hidden shadow-sm"
+          className="mt-10 grid gap-[1px] bg-[var(--border)] rounded-2xl overflow-hidden shadow-sm"
+          style={{
+            // One column per family, the focal one a little wider.
+            gridTemplateColumns: activeFamilies.map((f) => (f.isFocal ? "1.28fr" : "1fr")).join(" "),
+          }}
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
@@ -99,7 +87,7 @@ export default function CategoryDiscovery({ categories }: CategoryDiscoveryProps
                 cat.isFocal ? "relative z-10" : ""
               }`}
             >
-              <div className="threshold-image relative aspect-[5/7] overflow-hidden bg-[#181716]">
+              <div className={`threshold-image relative ${frameRatio} overflow-hidden bg-[#181716]`}>
                 {cat.image ? (
                   <Image
                     alt={`${cat.name} showroom family`}
@@ -179,12 +167,9 @@ export default function CategoryDiscovery({ categories }: CategoryDiscoveryProps
               Showroom families
             </p>
             <h3 className="hc-serif mt-2 text-4xl sm:text-5xl leading-none text-[var(--text-primary)]">
-              Five thresholds
+              Where to begin
             </h3>
           </div>
-          <span className="hc-mono text-xs tracking-[0.16em] text-[var(--text-secondary)]">
-            01 — 05
-          </span>
         </div>
 
         <motion.div 

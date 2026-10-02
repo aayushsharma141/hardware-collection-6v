@@ -3,25 +3,18 @@
 import { useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { buildGeneralInquiryWhatsappLink } from "@/lib/integrations/whatsapp";
 import { useGSAP, gsap, DURATION, EASE, prefersReducedMotion } from "@/lib/animations";
 
 export interface CollectionsHeroProps {
-  collectionCount: number;
-  brandCount?: number;
   yearsClaimConfirmed?: boolean;
-  whatsappNumber?: string;
 }
 
 // A real photograph of the showroom wall, not a render.
 const SHOWROOM_WALL = "/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg";
 
 export default function CollectionsHero({
-  collectionCount,
   yearsClaimConfirmed = false,
-  whatsappNumber,
 }: CollectionsHeroProps) {
-  const whatsappUrl = buildGeneralInquiryWhatsappLink(whatsappNumber);
   const containerRef = useRef<HTMLElement>(null);
 
   useGSAP(() => {
@@ -43,8 +36,11 @@ export default function CollectionsHero({
     );
   }, { scope: containerRef });
 
+  // No counts here. "53 collections" counted Sanity categories while the
+  // catalogue held eleven products, so the number described the CMS taxonomy,
+  // not anything a visitor can see. Add one back only when it is a count of
+  // something on the page.
   const stats = [
-    collectionCount > 0 ? `${collectionCount} COLLECTIONS` : null,
     "AUTHORIZED GLOBAL BRANDS",
     yearsClaimConfirmed ? "10+ YEARS OF EXPERTISE" : null,
   ].filter(Boolean) as string[];

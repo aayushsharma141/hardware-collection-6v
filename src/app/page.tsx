@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
-import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs } from "@/content/sanity/queries";
+import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups } from "@/content/sanity/queries";
 import MobileConversionBar from "@/components/home/MobileConversionBar";
 
 // Global cinema system
@@ -89,13 +89,15 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [homeData, siteSettings, brands, testimonials, faqs] = await Promise.all([
+  const [homeData, siteSettings, brands, testimonials, faqs, showroomGroups] = await Promise.all([
     getHomePage(),
     getSiteSettings(),
     getBrands(),
     getTestimonials(),
     getFaqs(),
+    getShowroomGroups(),
   ]);
+  const populatedGroupIds = showroomGroups.map((group) => group.id);
 
   const heroSlides: HeroSlide[] = [
     {
@@ -147,7 +149,7 @@ export default async function HomePage() {
 
         {/* Mobile Mid-Section Experience */}
         <div className="block lg:hidden">
-          <CategoryDiscoveryMobile categories={homeData?.featuredCategoryRefs} />
+          <CategoryDiscoveryMobile categories={homeData?.featuredCategoryRefs} populatedGroupIds={populatedGroupIds} />
           <ProductReelMobile products={homeData?.featuredProductRefs} />
           <ReviewsMobile reviews={testimonials} />
         </div>
@@ -156,7 +158,7 @@ export default async function HomePage() {
         <div className="hidden lg:block">
           {/* CH03 — Form & Function (MEDIUM) */}
           <div className="theme-ivory">
-            <CategoryDiscovery categories={homeData?.featuredCategoryRefs} />
+            <CategoryDiscovery categories={homeData?.featuredCategoryRefs} populatedGroupIds={populatedGroupIds} />
           </div>
 
           {/* CH04 — The Finish · Primary Material Showcase (VERY HIGH) */}
@@ -201,7 +203,7 @@ export default async function HomePage() {
       </main>
 
       {/* ── Footer ──────────────────────────────────────────────── */}
-      <Footer settings={siteSettings} brands={brands} />
+      <Footer settings={siteSettings} brands={brands} showroomGroups={showroomGroups} />
 
       {/* ── Mobile Conversion Bar ───────────────────────────────── */}
       {/* Fixed bottom bar: Call / WhatsApp / Visit — hidden on lg+ */}

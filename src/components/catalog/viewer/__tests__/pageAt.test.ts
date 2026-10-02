@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { pageAt } from "./PdfCanvas";
+import { pageAt } from "../PdfCanvas";
 
 // Page tops for four 1000px pages with a 12px gap, after 12px of padding.
 const tops = [12, 1024, 2036, 3048];

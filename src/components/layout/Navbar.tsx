@@ -178,8 +178,8 @@ export default function Navbar({
 
   const isLinkActive = (link: NavLinkItem) => {
     if (link.id === "collections") {
-      // Category detail pages (/collections/kitchen) belong to Collections too.
-      return pathname === "/collections" || Boolean(pathname?.startsWith("/collections/"));
+      // /collections is the only collections route; categories are in-page sections.
+      return pathname === "/collections";
     }
     if (link.id === "catalog") {
       return pathname === "/catalogs";

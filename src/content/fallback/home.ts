@@ -8,17 +8,21 @@
  * catalog. One source keeps the two viewports describing the same showroom.
  *
  * Every brand named here is on the authorized dealership roster, and every
- * `href` resolves to one of the 11 routable `/collections/[slug]` pages.
- *
- * The five showroom families link to their own family pages (Phase 12). Under
- * D-25 they pointed at spaces instead, because family pages did not exist yet
- * — which sent "Handles & Knobs" to Living / Interior and "Furniture Hardware"
- * to Wardrobe.
+ * `href` is an in-page anchor on the one catalogue route, `/collections`. There
+ * are no per-family or per-category pages, so a tile links to the showroom
+ * group its products are shown under (see `@/lib/collections/showroom`). There is
+ * one family per group — two tiles that lead to the same place would promise two
+ * different things and deliver one — and the homepage shows only the families
+ * whose group has products (see `resolveFamilies`).
  */
+
+import { showroomHref, showroomHrefForCategory } from "@/lib/collections/showroom";
 
 export interface CategoryFamily {
   id: string;
-  /** Position within the set, e.g. "01 / 05" — rendered on desktop only. */
+  /** The showroom group this family leads to — one family per group. */
+  groupId: string;
+  /** Position within the set, e.g. "01" — rendered on desktop only. */
   index: string;
   name: string;
   /** Second line of the display name, so the serif can break where intended. */
@@ -33,54 +37,37 @@ export interface CategoryFamily {
 
 export const CATEGORY_FAMILIES: CategoryFamily[] = [
   {
-    id: "handles",
-    index: "01 / 05",
-    name: "Handles",
-    nameBreak: "& Knobs",
-    subtitle: "Contemporary profiles to classical architectural detailing.",
-    detail: "Solid forged brass pull handle, PVD Rose Gold.",
-    image: "/cinema/categories/HC-03-DOORS.png",
-    href: "/collections/handles-knobs",
-  },
-  {
     id: "door",
-    index: "02 / 05",
+    groupId: "door-entry",
+    index: "01",
     name: "Door",
-    nameBreak: "Hardware",
-    subtitle: "High-security locking systems and precision entrance controls.",
+    nameBreak: "& Entry",
+    subtitle: "Digital locks, mortise sets and the handles that finish a threshold.",
     detail: "Dorset biometric deadbolt & SS 304 mortise lockset.",
     image: "/cinema/categories/HC-03-SECURITY.png",
     isFocal: true,
-    href: "/collections/door-hardware",
+    href: showroomHref("door-entry"),
+  },
+  {
+    id: "kitchen",
+    groupId: "kitchen-wardrobe",
+    index: "02",
+    name: "Kitchen",
+    nameBreak: "& Wardrobe",
+    subtitle: "German soft-close drawer fittings, sliding systems and quartz sinks.",
+    detail: "Hafele Matrix Box tandem drawer & Labacha quartz sink.",
+    image: "/cinema/categories/HC-03-KITCHEN.png",
+    href: showroomHref("kitchen-wardrobe"),
   },
   {
     id: "bathroom",
-    index: "03 / 05",
+    groupId: "bathroom-glass",
+    index: "03",
     name: "Bathroom",
     subtitle: "Bathroom accessories, mirrors and stainless steel mirror cabinets.",
     detail: "Coordinated stainless steel towel bars, hooks and shelving.",
     image: "/cinema/categories/HC-03-BATHROOM.png",
-    href: "/collections/bathroom-hardware",
-  },
-  {
-    id: "kitchen",
-    index: "04 / 05",
-    name: "Kitchen",
-    nameBreak: "& Wardrobes",
-    subtitle: "German soft-close drawer fittings, sliding systems and quartz sinks.",
-    detail: "Hafele Matrix Box tandem drawer & Labacha quartz sink.",
-    image: "/cinema/categories/HC-03-KITCHEN.png",
-    href: "/collections/kitchen-wardrobes",
-  },
-  {
-    id: "furniture",
-    index: "05 / 05",
-    name: "Furniture",
-    nameBreak: "Hardware",
-    subtitle: "Concealed hinges, precision drawer runners and joinery fittings.",
-    detail: "Hettich Sensys integrated soft-close hinge system.",
-    image: "/cinema/categories/HC-03-WARDROBE.png",
-    href: "/collections/furniture-hardware",
+    href: showroomHref("bathroom-glass"),
   },
 ];
 
@@ -112,7 +99,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Satin Stainless",
     category: "Door Hardware",
     img: "/cinema/categories/HC-03-DOORS.png",
-    href: "/collections/door-hardware#main-door-handles",
+    href: showroomHrefForCategory("door-hardware"),
     blurb:
       "Long-format entrance pulls in satin stainless — a low-reflectance surface that holds its finish under daily contact and reads quietly against timber, glass and stone.",
     statement:
@@ -126,7 +113,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Antique Brass",
     category: "Door Hardware",
     img: "/cinema/collection/HC-05-01.png",
-    href: "/collections/door-hardware#mortise-door-locks",
+    href: showroomHrefForCategory("door-hardware"),
     blurb:
       "Lever-on-rose mortice sets in antique brass, matched to the lock body and strike so the whole door schedule specifies as one line rather than three.",
     statement:
@@ -140,7 +127,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Graphite",
     category: "Digital Locks",
     img: "/cinema/categories/HC-03-SECURITY.png",
-    href: "/collections/door-hardware#digital-locks",
+    href: showroomHrefForCategory("digital-locks"),
     blurb:
       "Fingerprint, PIN and key access in one graphite body. Working units are on the wall in Sakchi — enrol a print and feel the throw before you specify it.",
     statement:
@@ -154,7 +141,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Galvanised Steel",
     category: "Cabinet Hardware",
     img: "/cinema/categories/HC-03-WARDROBE.png",
-    href: "/collections/kitchen-wardrobes#drawer-channels",
+    href: showroomHrefForCategory("kitchen-wardrobes"),
     blurb:
       "Full-extension runners with integrated soft-close damping. The difference between grades is in the last centimetre of travel, which is why we keep them loaded and open on display.",
     statement:
@@ -168,7 +155,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Matte Gold",
     category: "Cabinet Hardware",
     img: "/cinema/collection/HC-05-02.png",
-    href: "/collections/handles-knobs#cabinet-wardrobe-handles",
+    href: showroomHrefForCategory("cabinet-wardrobe-handles"),
     blurb:
       "Small-format knobs in matte gold — the detail a kitchen is read by, and the one most often chosen from a photograph rather than in the hand.",
     statement:

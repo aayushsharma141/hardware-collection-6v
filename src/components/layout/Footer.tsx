@@ -13,14 +13,13 @@ import {
   Award,
   MessageCircle,
   DoorClosed,
-  GripHorizontal,
   UtensilsCrossed,
   Fingerprint,
   Bath,
-  Layers,
   ChevronRight,
 } from "lucide-react";
 import { AtmosphericLayer } from "@/components/home/AtmosphericLayer";
+import { showroomHref } from "@/lib/collections/showroom";
 import {
   SHOWROOM_PHONE_DISPLAY,
   SHOWROOM_SECONDARY_PHONE_DISPLAY,
@@ -50,16 +49,36 @@ interface FooterProps {
     authorizedBrandRefs?: { brandName: string; slug: string; logoUrl?: string }[];
   };
   brands?: BrandItem[];
+  /**
+   * The showroom groups that have products (see `getShowroomGroups`). Only these
+   * are linked: a group with nothing in it has no section to land on. Without
+   * it the footer offers a single link to the catalogue.
+   */
+  showroomGroups?: { id: string; title: string }[];
 }
 
-const SPECIMEN_CATEGORIES = [
-  { name: "Door Hardware & Locks", slug: "door-hardware", icon: DoorClosed },
-  { name: "Handles & Knobs", slug: "handles-knobs", icon: GripHorizontal },
-  { name: "Modular Kitchen Systems", slug: "kitchen", icon: UtensilsCrossed },
-  { name: "Biometric & Digital Locks", slug: "door-hardware#digital-locks", icon: Fingerprint },
-  { name: "Bathroom Accessories", slug: "bathroom", icon: Bath },
-  { name: "Furniture Hardware", slug: "furniture-hardware", icon: Layers },
-];
+/**
+ * The catalogue's showroom groups, as in-page links. There are no per-category
+ * pages, so these go to anchors on /collections. Titles and ids come from the
+ * one mapping in `@/lib/collections/showroom`; only the icons live here.
+ */
+const SHOWROOM_ICONS: Record<string, typeof DoorClosed> = {
+  "door-entry": DoorClosed,
+  "kitchen-wardrobe": UtensilsCrossed,
+  "bathroom-glass": Bath,
+  "security-storage": Fingerprint,
+};
+
+function toShowroomLinks(groups: { id: string; title: string }[] | undefined) {
+  const links = (groups ?? []).map((group) => ({
+    name: group.title,
+    href: showroomHref(group.id),
+    icon: SHOWROOM_ICONS[group.id] ?? DoorClosed,
+  }));
+  return links.length > 0
+    ? links
+    : [{ name: "Browse the showroom", href: "/collections", icon: DoorClosed }];
+}
 
 const FALLBACK_BRANDS = [
   { name: "HAFELE", slug: "hafele" },
@@ -71,7 +90,7 @@ const FALLBACK_BRANDS = [
   { name: "GEZE", slug: "geze" },
 ];
 
-export default function Footer({ settings, brands }: FooterProps) {
+export default function Footer({ settings, brands, showroomGroups }: FooterProps) {
   const pathname = usePathname();
 
   // Suppress rendering inside Sanity Studio CMS
@@ -169,15 +188,15 @@ export default function Footer({ settings, brands }: FooterProps) {
             <h4 className="text-[11.5px] font-semibold text-[#8b1a42] tracking-[0.2em] uppercase">
               COLLECTIONS
             </h4>
-            <nav aria-label="Specimen Categories">
+            <nav aria-label="Showroom collections">
               <ul className="space-y-1.5">
-                {SPECIMEN_CATEGORIES.map((cat) => {
+                {toShowroomLinks(showroomGroups).map((cat) => {
                   const Icon = cat.icon;
                   return (
                     <li key={cat.name}>
                       <Link
-                        href={`/collections/${cat.slug}`}
-                        className="w-full text-[13px] text-[#2e232b] hover:text-[#8b1a42] hover:bg-[#fbf5ea] px-2.5 py-2 rounded-lg transition-colors flex items-center justify-between group"
+                        href={cat.href}
+                        className="w-full min-h-11 text-[13px] text-[#2e232b] hover:text-[#8b1a42] hover:bg-[#fbf5ea] px-2.5 py-2 rounded-lg transition-colors flex items-center justify-between group"
                       >
                         <span className="flex items-center gap-2.5">
                           <Icon className="w-4 h-4 text-[#c8a96e] group-hover:text-[#8b1a42] transition-colors" />

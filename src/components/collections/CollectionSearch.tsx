@@ -10,7 +10,12 @@ import {
   buildSearchZeroResultMessage,
 } from "@/lib/integrations/whatsapp";
 import { useConsultationStore } from "@/components/consultation/store";
-import { categoryFamily, categoryHref, collectionHref } from "@/lib/collections/routes";
+import {
+  productCategorySlug,
+  showroomGroupId,
+  showroomGroupTitle,
+  showroomHrefForCategory,
+} from "@/lib/collections/showroom";
 
 export interface CollectionSearchProps {
   categories: Category[];
@@ -42,11 +47,11 @@ export default function CollectionSearch({
   const containerRef = useRef<HTMLDivElement>(null);
   const { openDrawer } = useConsultationStore();
 
-  // Products only carry a category slug. Resolve its family here so a product
-  // result links to the family page that now holds its category (Phase 12).
-  const familyByCategorySlug = useMemo(
-    () => new Map(categories.map((c) => [getSlugString(c.slug), categoryFamily(c)])),
-    [categories]
+  // A category is only worth offering as a result if the catalogue has a product
+  // in it; otherwise the link would point at a section that is not on the page.
+  const populatedCategories = useMemo(
+    () => new Set(products.map((p) => productCategorySlug(p))),
+    [products]
   );
 
   // Debounce keystrokes (150ms)
@@ -87,6 +92,7 @@ export default function CollectionSearch({
 
     const matchedCategories = categories
       .filter((c) => {
+        if (!populatedCategories.has(getSlugString(c.slug))) return false;
         const name = (c.name || "").toLowerCase();
         const desc = (c.description || "").toLowerCase();
         const slug = getSlugString(c.slug).toLowerCase();
@@ -139,7 +145,7 @@ export default function CollectionSearch({
       brands: matchedBrands,
       total,
     };
-  }, [debouncedQuery, categories, products, brands]);
+  }, [debouncedQuery, categories, products, brands, populatedCategories]);
 
   const hasQuery = query.length > 0;
   const showResults = isFocused && hasQuery;
@@ -200,7 +206,7 @@ export default function CollectionSearch({
                       return (
                         <Link
                           key={cat._id || cat.id || slug}
-                          href={categoryHref(cat)}
+                          href={showroomHrefForCategory(slug)}
                           onClick={() => {
                             setIsFocused(false);
                             onSelect?.({ kind: "category", slug });
@@ -210,8 +216,9 @@ export default function CollectionSearch({
                           <span className="text-sm text-[var(--text-primary)] group-hover:text-[var(--text-primary)]">
                             {cat.name}
                           </span>
-                          <span className="text-xs text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">
-                            View Collection →
+                          {/* Says where the link goes: several categories open the same section. */}
+                          <span className="text-xs text-[var(--accent)]">
+                            In {showroomGroupTitle(showroomGroupId(slug))} →
                           </span>
                         </Link>
                       );
@@ -228,31 +235,31 @@ export default function CollectionSearch({
                   </span>
                   <div className="divide-y divide-white/[0.04]">
                     {results.products.map((prod) => {
-                      const catSlug = prod.categorySlug || prod.category || "";
+                      const productSlug = getSlugString(prod.slug) || prod._id || prod.id || "";
                       return (
-                        <Link
+                        <button
                           key={prod._id || prod.id || prod.name}
-                          href={collectionHref(catSlug, familyByCategorySlug.get(catSlug))}
+                          type="button"
                           onClick={() => {
                             setIsFocused(false);
-                            onSelect?.({ kind: "product", slug: catSlug });
+                            onSelect?.({ kind: "product", slug: productSlug });
                           }}
-                          className="flex items-center justify-between px-3 py-2.5 rounded hover:bg-white/[0.04] transition-colors duration-150 group hc-focus"
+                          className="w-full flex items-center justify-between px-3 py-2.5 rounded hover:bg-white/[0.04] transition-colors duration-150 group hc-focus text-left"
                         >
                           <div className="flex flex-col">
                             <span className="text-sm text-[var(--text-primary)] group-hover:text-[var(--text-primary)]">
                               {prod.name}
                             </span>
-                            {prod.brand && (
+                            {(prod.brandName || prod.brand) && (
                               <span className="text-xs text-[var(--text-secondary)]/70">
-                                {prod.brand}
+                                {prod.brandName || prod.brand}
                               </span>
                             )}
                           </div>
                           <span className="text-xs text-[var(--accent)] opacity-0 group-hover:opacity-100 transition-opacity">
-                            Explore →
+                            View →
                           </span>
-                        </Link>
+                        </button>
                       );
                     })}
                   </div>

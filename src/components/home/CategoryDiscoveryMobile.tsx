@@ -1,55 +1,32 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { CATEGORY_FAMILIES, type CategoryFamily } from "@/content/fallback/home";
+import type { CategoryFamily } from "@/content/fallback/home";
+import { resolveFamilies, type FeaturedCategory } from "./families";
 
 /**
  * CategoryDiscoveryMobile - the showroom families, as one specimen and an index.
  *
  * Every family used to render as its own full-bleed 4:5 card. Five equally
- * weighted blocks ran to 2425px on an 812px screen: three viewports to read a
- * set of five, and no moment at which the set was ever visible as a set.
+ * weighted blocks ran to 2425px on an 812px screen: three viewports to read the
+ * set, and no moment at which the set was ever visible as a set.
  * Breadth of physical display is the positioning here, and a vertical run of
  * identical cards is the one layout that hides it.
  *
  * The data already carried the hierarchy the layout ignored - `isFocal` marks
- * door hardware as the lead. That family takes the photograph; the other four
- * resolve into a hairline index that fits in a glance. The visitor sees all
- * five and chooses one, instead of scrolling past them one at a time.
+ * door hardware as the lead. That family takes the photograph; the others
+ * resolve into a hairline index that fits in a glance. The visitor sees the
+ * whole set and chooses one, instead of scrolling past them one at a time.
  */
 interface CategoryDiscoveryMobileProps {
-  categories?: {
-    categoryName: string;
-    slug: string;
-    imageUrl?: string;
-    description?: string;
-  }[];
+  categories?: FeaturedCategory[];
+  /** Showroom groups that have products; families for any other group are left out. */
+  populatedGroupIds?: string[];
 }
 
-export default function CategoryDiscoveryMobile({ categories }: CategoryDiscoveryMobileProps) {
-  const activeFamilies = categories && categories.length > 0
-    ? categories.map((c, idx) => {
-        const fallback = CATEGORY_FAMILIES.find(f =>
-          c.slug.includes(f.id) ||
-          f.id === "handles" && c.slug.includes("handle") ||
-          f.id === "door" && (c.slug.includes("door") || c.slug.includes("lock")) ||
-          f.id === "bathroom" && c.slug.includes("bath") ||
-          f.id === "kitchen" && (c.slug.includes("kitchen") || c.slug.includes("wardrobe")) ||
-          f.id === "furniture" && c.slug.includes("furniture")
-        ) || CATEGORY_FAMILIES[idx % CATEGORY_FAMILIES.length];
-        return {
-          id: c.slug,
-          index: `0${idx + 1}`,
-          name: c.categoryName,
-          nameBreak: undefined,
-          subtitle: c.description || fallback.subtitle,
-          detail: fallback.detail,
-          image: c.imageUrl || fallback.image,
-          href: `/collections?category=${c.slug}`,
-          isFocal: idx === 1,
-        };
-      })
-    : CATEGORY_FAMILIES;
+export default function CategoryDiscoveryMobile({ categories, populatedGroupIds }: CategoryDiscoveryMobileProps) {
+  const activeFamilies = resolveFamilies(categories, populatedGroupIds);
+  if (activeFamilies.length === 0) return null;
 
   const focal: CategoryFamily =
     activeFamilies.find((family) => family.isFocal) ?? activeFamilies[0];
@@ -67,7 +44,7 @@ export default function CategoryDiscoveryMobile({ categories }: CategoryDiscover
           Showroom families
         </p>
         <h2 className="font-headline-md t-h2 mt-3 text-[#1a1017] text-3xl sm:text-4xl font-light">
-          Five thresholds
+          Where to begin
         </h2>
         <p className="t-body mt-4 font-light text-[#5a4854] max-w-[34ch] text-sm sm:text-base leading-relaxed">
           From the entrance door to the last drawer runner.
@@ -95,9 +72,9 @@ export default function CategoryDiscoveryMobile({ categories }: CategoryDiscover
         )}
         <div className="absolute inset-0 bg-gradient-to-t from-[#1a1017]/85 via-[#1a1017]/30 to-transparent" />
 
-        {/* Sequential 01 for the focal lead item */}
+        {/* The lead's own position in the set */}
         <span className="absolute left-margin-mobile top-unit-lg hc-mono text-xs uppercase tracking-[0.2em] font-medium text-white bg-[#1a1017]/60 px-2.5 py-1 rounded backdrop-blur-sm">
-          01
+          {focal.index}
         </span>
 
         <div className="absolute inset-x-0 bottom-0 px-margin-mobile pb-unit-lg">
@@ -114,10 +91,11 @@ export default function CategoryDiscoveryMobile({ categories }: CategoryDiscover
         </div>
       </Link>
 
-      {/* The remaining four, numbered sequentially 02 to 05 */}
+      {/* The remaining families, numbered on from the lead. */}
+      {index.length > 0 && (
       <ul className="mt-[52px] border-t border-[#1a1017]/[0.10]">
         {index.map((family, i) => {
-          const rowPosition = String(i + 2).padStart(2, "0");
+          const rowPosition = family.index;
           return (
             <li key={family.id} className="border-b border-[#1a1017]/[0.10]">
               <Link
@@ -155,6 +133,7 @@ export default function CategoryDiscoveryMobile({ categories }: CategoryDiscover
           );
         })}
       </ul>
+      )}
     </section>
   );
 }

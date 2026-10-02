@@ -6,7 +6,10 @@ dotenv.config({ path: ".env.local" });
 
 export default defineConfig({
   test: {
-    include: ["src/**/__tests__/**/*.test.ts"],
+    // Every test file under src/, wherever it sits. This used to be
+    // `**/__tests__/**`, which silently skipped any test placed next to its
+    // source file: the suite stayed green while three files never ran.
+    include: ["src/**/*.test.{ts,tsx}"],
     environment: "node",
   },
   resolve: {

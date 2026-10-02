@@ -240,7 +240,6 @@ export function useCollectionsState({
   );
 
   const activeCategorySlug = searchParams?.get("category") || "";
-  const activeIntentId = searchParams?.get("intent") || "";
   const activeBrandSlug = searchParams?.get("brand") || "";
 
   return {
@@ -261,7 +260,6 @@ export function useCollectionsState({
     getProductDisplayImage,
     getWhatsAppShortlistLink,
     activeCategorySlug,
-    activeIntentId,
     activeBrandSlug,
   };
 }

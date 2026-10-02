@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { generateWhatsAppUrl } from "@/lib/config";
 import Footer from "@/components/layout/Footer";
+import { getShowroomGroups } from "@/content/sanity/queries";
 
 export const metadata: Metadata = {
   title: {
@@ -12,8 +13,9 @@ export const metadata: Metadata = {
   description: "The page you are looking for is not in the collection.",
 };
 
-export default function NotFound() {
+export default async function NotFound() {
   const whatsappUrl = generateWhatsAppUrl("general-enquiry");
+  const showroomGroups = await getShowroomGroups();
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-[#fbf5ea] text-[#1a1017]">
@@ -51,7 +53,7 @@ export default function NotFound() {
         </div>
       </main>
 
-      <Footer />
+      <Footer showroomGroups={showroomGroups} />
     </div>
   );
 }

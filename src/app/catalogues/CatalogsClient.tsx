@@ -14,6 +14,8 @@ import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/br
 export interface CatalogsClientProps {
   brands: Brand[];
   settings?: SiteSettings | null;
+  /** Showroom groups with products, for the footer's collection links. */
+  showroomGroups?: { id: string; title: string }[];
 }
 
 /**
@@ -41,7 +43,7 @@ function resolveBrandFromParam(
   };
 }
 
-export default function CatalogsClient({ brands, settings }: CatalogsClientProps) {
+export default function CatalogsClient({ brands, settings, showroomGroups }: CatalogsClientProps) {
   const searchParams = useSearchParams();
   const brandParam = searchParams.get("brand");
 
@@ -106,6 +108,7 @@ export default function CatalogsClient({ brands, settings }: CatalogsClientProps
       <Footer 
         settings={settings || undefined}
         brands={brands}
+        showroomGroups={showroomGroups}
       />
     </div>
   );

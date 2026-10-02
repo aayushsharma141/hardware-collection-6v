@@ -6,7 +6,7 @@ subfolders exist to keep that from happening again.
 
 | Folder | Holds |
 |---|---|
-| `collections/` | Collection routing and tier rules |
+| `collections/` | The catalogue's showroom model: category → group mapping, row layout, product merge |
 | `integrations/` | Third-party surfaces — WhatsApp deep links |
 | `browser/` | Browser-only helpers — scroll lock |
 | `motion/` | Shared motion tokens |

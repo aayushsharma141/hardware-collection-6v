@@ -1,60 +1,41 @@
 import { describe, it, expect } from "vitest";
 import { CATEGORY_FAMILIES, SIGNATURE_PIECES } from "@/content/fallback/home";
-import { CATEGORIES, SHOWROOM_FAMILIES } from "@/content/fallback/catalog";
-import { ROUTABLE_COLLECTION_SLUGS, familyRouteSlug } from "@/lib/collections/routes";
+import { SHOWROOM_GROUPS } from "@/lib/collections/showroom";
 
 const ALL_HOME_LINKS = [...CATEGORY_FAMILIES, ...SIGNATURE_PIECES];
 
-// A real /collections/[slug] route, optionally pointing at a section of that
-// page by anchor. Never a query string: `?category=` was the filter UI that
-// D-18/D-25 removed.
-const ROUTE_SHAPE = /^\/collections\/([a-z0-9-]+)(?:#([a-z0-9-]+))?$/;
+// The catalogue is the only collections route, so a homepage tile can only
+// point at an anchor on it: `/collections#<showroom-group-id>`.
+const GROUP_IDS = new Set([...SHOWROOM_GROUPS.map((g) => g.id), "other"]);
+const ANCHOR_SHAPE = /^\/collections#([a-z0-9-]+)$/;
 
-describe("Homepage deep links resolve to real routes (D-25/F-05)", () => {
-  it("uses a real single-segment /collections/[slug] route, not a query-string filter", () => {
+describe("Homepage deep links stay inside the one catalogue route", () => {
+  it("links to an in-page anchor on /collections, never a path under it or a query-string filter", () => {
     ALL_HOME_LINKS.forEach((link) => {
-      expect(link.href).toMatch(ROUTE_SHAPE);
+      expect(link.href).toMatch(ANCHOR_SHAPE);
       expect(link.href).not.toContain("?");
+      expect(link.href).not.toMatch(/^\/collections\/[^#]/);
     });
   });
 
-  it("targets one of the 11 routable slugs (Phase 12)", () => {
-    // /collections/[slug] sets `dynamicParams = false`: any slug outside
-    // ROUTABLE_COLLECTION_SLUGS is a hard 404, even if a category document by
-    // that name exists in the CMS.
+  it("anchors only to a showroom group the catalogue can render", () => {
     ALL_HOME_LINKS.forEach((link) => {
-      const slug = link.href.match(ROUTE_SHAPE)?.[1];
-      expect(ROUTABLE_COLLECTION_SLUGS, link.href).toContain(slug);
+      const id = link.href.match(ANCHOR_SHAPE)?.[1] ?? "";
+      expect(GROUP_IDS.has(id), link.href).toBe(true);
     });
   });
 
-  it("sends a link labelled with a family name to that family's page", () => {
-    // Guards two real bugs: under D-25 the "Handles & Knobs" card linked to the
-    // Living / Interior space, and a reel card labelled "Door Hardware" once
-    // opened the Handles & Knobs page.
-    const routeByFamilyName = new Map(
-      SHOWROOM_FAMILIES.map((f) => [f.name, familyRouteSlug(f.id)])
-    );
-    const labelled = [
-      ...CATEGORY_FAMILIES.map((c) => ({
-        label: [c.name, c.nameBreak].filter(Boolean).join(" "),
-        href: c.href,
-      })),
-      ...SIGNATURE_PIECES.map((p) => ({ label: p.category, href: p.href })),
-    ];
-
-    for (const { label, href } of labelled) {
-      const familyRoute = routeByFamilyName.get(label);
-      if (!familyRoute) continue;
-      expect(href.match(ROUTE_SHAPE)?.[1], `"${label}" -> ${href}`).toBe(familyRoute);
-    }
+  it("sends the Door Hardware tile and the biometric lock to Door & Entry", () => {
+    const door = CATEGORY_FAMILIES.find((f) => f.name === "Door");
+    expect(door?.href).toBe("/collections#door-entry");
+    const lock = SIGNATURE_PIECES.find((p) => p.name === "Biometric Lock");
+    expect(lock?.href).toBe("/collections#door-entry");
   });
 
-  it("anchors only to sections that name a real category", () => {
-    const categorySlugs = new Set(CATEGORIES.map((c) => c.slug));
-    ALL_HOME_LINKS.forEach((link) => {
-      const anchor = link.href.match(ROUTE_SHAPE)?.[2];
-      if (anchor) expect(categorySlugs.has(anchor), link.href).toBe(true);
-    });
+  it("sends the kitchen and wardrobe pieces to Kitchen & Wardrobe", () => {
+    const channel = SIGNATURE_PIECES.find((p) => p.name === "Soft-Close Channel");
+    const knob = SIGNATURE_PIECES.find((p) => p.name === "Cabinet Knob");
+    expect(channel?.href).toBe("/collections#kitchen-wardrobe");
+    expect(knob?.href).toBe("/collections#kitchen-wardrobe");
   });
 });

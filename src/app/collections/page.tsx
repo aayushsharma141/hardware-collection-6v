@@ -2,16 +2,13 @@ import React, { Suspense } from "react";
 import CollectionsClient from "./CollectionsClient";
 import {
   getCategories,
-  getSubcategories,
   getAllProducts,
   getBrands,
   getSiteSettings,
-  getSpaces,
-  getCollectionCounts,
 } from "@/content/sanity/queries";
 import { CATEGORIES, BRANDS, PRODUCTS } from "@/content/fallback/catalog";
-import { SPACES } from "@/content/fallback/spaces";
-import { Category, Product, Brand, Space } from "@/types/catalog";
+import { mergeProducts } from "@/lib/collections/catalogue";
+import { Category, Brand } from "@/types/catalog";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -25,26 +22,12 @@ export const metadata: Metadata = {
   },
 };
 
-// Use Next.js revalidation strategy for Sanity content
-
-
 export default async function CollectionsPage() {
-  const [
-    sanityCategories,
-    sanitySubcategories,
-    sanityProducts,
-    sanityBrands,
-    settings,
-    sanitySpaces,
-    counts,
-  ] = await Promise.all([
+  const [sanityCategories, sanityProducts, sanityBrands, settings] = await Promise.all([
     getCategories(),
-    getSubcategories(),
     getAllProducts(),
     getBrands(),
     getSiteSettings(),
-    getSpaces(),
-    getCollectionCounts(),
   ]);
 
   // Merge 13 canonical categories with any Sanity-fetched categories
@@ -66,58 +49,9 @@ export default async function CollectionsPage() {
   }
   const categories = Array.from(categoryMap.values());
 
-  // Merge canonical products with Sanity products
-  const productMap = new Map<string, Product>();
-  PRODUCTS.forEach((p) => productMap.set(p.id, p));
-  if (sanityProducts && Array.isArray(sanityProducts)) {
-    sanityProducts.forEach((p: Product) => {
-      const id = (typeof p.slug === "object" ? p.slug?.current : p.slug) || p._id || p.id;
-      if (id) {
-        productMap.set(id, { ...(productMap.get(id) || {}), ...p });
-      }
-    });
-  }
-  const products = Array.from(productMap.values());
+  const products = mergeProducts(PRODUCTS, sanityProducts);
 
   const brands: Brand[] = sanityBrands && sanityBrands.length > 0 ? sanityBrands : BRANDS;
-
-  // Merge spaces
-  const spaceMap = new Map<string, Space>();
-  SPACES.forEach((s) => {
-    const linkedCats = s.linkedCategorySlugs
-      .map((catSlug) => categoryMap.get(catSlug))
-      .filter((c): c is Category => Boolean(c));
-    spaceMap.set(s.slug, {
-      name: s.name,
-      slug: s.slug,
-      description: s.description,
-      displayOrder: s.displayOrder,
-      linkedCategories: linkedCats,
-      linkedCategorySlugs: s.linkedCategorySlugs,
-    });
-  });
-
-  if (sanitySpaces && Array.isArray(sanitySpaces) && sanitySpaces.length > 0) {
-    sanitySpaces.forEach((s: Space) => {
-      const slug = typeof s.slug === "string" ? s.slug : s.slug?.current;
-      if (slug) {
-        const existing = spaceMap.get(slug) || ({} as Space);
-        const linkedCats = (s.linkedCategorySlugs || existing.linkedCategorySlugs || [])
-          .map((catSlug) => categoryMap.get(catSlug))
-          .filter((c): c is Category => Boolean(c));
-
-        spaceMap.set(slug, {
-          ...existing,
-          ...s,
-          slug,
-          linkedCategories: linkedCats.length > 0 ? linkedCats : existing.linkedCategories,
-        });
-      }
-    });
-  }
-  const spaces = Array.from(spaceMap.values()).sort(
-    (a, b) => (a.displayOrder ?? 0) - (b.displayOrder ?? 0)
-  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -153,11 +87,8 @@ export default async function CollectionsPage() {
       >
         <CollectionsClient
           categories={categories}
-          subcategories={sanitySubcategories}
           products={products}
           brands={brands}
-          spaces={spaces}
-          liveCounts={counts}
           settings={settings}
         />
       </Suspense>
