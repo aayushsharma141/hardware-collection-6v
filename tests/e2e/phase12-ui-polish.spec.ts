@@ -25,7 +25,7 @@ test.describe("Phase 12 UAT: UI & Visual Polish", () => {
     await page.reload({ waitUntil: "domcontentloaded" });
     
     // Check if Navbar exists and eventually becomes fully visible with opacity 1 and y: 0
-    const nav = page.locator("nav").first();
+    const nav = page.locator("header").first();
     await expect(nav).toBeVisible();
   });
 
