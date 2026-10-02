@@ -1,11 +1,46 @@
-import React from "react";
-import { HelpCircle } from "lucide-react";
+"use client";
+
+import React, { useState } from "react";
+import { Plus } from "lucide-react";
 
 export interface FaqItem {
   _id: string;
   question: string;
   answer: string;
   categorySlug?: string;
+}
+
+function AccordionItem({ faq, isOpen, onClick }: { faq: FaqItem; isOpen: boolean; onClick: () => void }) {
+  return (
+    <div 
+      className={`group border-b border-[var(--border)] transition-colors duration-300 ${
+        isOpen ? "bg-[var(--color-brass)]/5" : "hover:bg-white/40"
+      }`}
+    >
+      <button
+        onClick={onClick}
+        className="w-full flex items-center justify-between py-6 px-4 md:px-6 text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brass)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--surface)]"
+        aria-expanded={isOpen}
+      >
+        <h4 className={`hc-serif text-xl md:text-2xl transition-colors duration-300 ${isOpen ? "text-[var(--color-wine)]" : "text-[var(--text-primary)] group-hover:text-[var(--color-brass)]"}`}>
+          {faq.question}
+        </h4>
+        <span className={`shrink-0 ml-4 flex items-center justify-center w-8 h-8 rounded-full border transition-all duration-300 ${isOpen ? 'border-[var(--color-wine)] bg-[var(--color-wine)] text-white' : 'border-[var(--border)] text-[var(--color-brass)] group-hover:border-[var(--color-brass)] group-hover:bg-[var(--color-brass)] group-hover:text-white'}`}>
+          <Plus className={`w-5 h-5 transition-transform duration-500 ease-[cubic-bezier(0.87,0,0.13,1)] ${isOpen ? "rotate-[135deg]" : "rotate-0"}`} />
+        </span>
+      </button>
+      <div
+        className="grid transition-all duration-500 ease-[cubic-bezier(0.87,0,0.13,1)]"
+        style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
+      >
+        <div className="overflow-hidden">
+          <div className="pb-6 px-4 md:px-6 pt-0 text-[15px] md:text-[16px] text-[#4a3e46] font-light leading-relaxed max-w-[85%]">
+            <p>{faq.answer}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default function FaqSection({ faqs }: { faqs: FaqItem[] }) {
@@ -54,58 +89,45 @@ export default function FaqSection({ faqs }: { faqs: FaqItem[] }) {
     }))
   };
 
+  const [openId, setOpenId] = useState<string | null>(null);
+
+  const toggleAccordion = (id: string) => {
+    setOpenId(prev => (prev === id ? null : id));
+  };
+
   return (
     <section className="max-w-[880px] mx-auto px-6 py-24 relative z-10" id="faq">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
       />
-      <div className="border-b border-[#1a1017]/[0.10] pb-8 mb-10">
-        <span className="hc-mono text-xs uppercase tracking-[0.22em] font-semibold text-[#8b1a42] mb-3 block">
-          CUSTOMER SUPPORT
+      
+      <div className="flex flex-col items-center text-center mb-16">
+        <span className="hc-mono text-xs uppercase tracking-[0.22em] font-semibold text-[var(--color-wine)] mb-3 block">
+          Support & Expertise
         </span>
-        <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[#1a1017] leading-[1.05] mb-4">
+        <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.05] mb-4">
           Frequently Asked Questions
         </h2>
+        <p className="text-[var(--text-primary)]/70 max-w-[500px] text-sm md:text-base font-light">
+          Everything you need to know about our products, showroom experience, and commercial partnerships.
+        </p>
       </div>
 
-      <div className="space-y-20">
+      <div className="space-y-12">
         {Object.entries(categorizedFaqs as Record<string, FaqItem[]>).map(([category, categoryFaqs]) => (
-          <div key={category} className="w-full">
-            <div className="flex items-center gap-4 mb-8">
-              <h3 className="hc-mono text-sm uppercase tracking-[0.15em] font-semibold text-[#8b1a42]">
-                {category}
-              </h3>
-              <div className="h-px flex-1 bg-gradient-to-r from-[var(--color-brass)]/20 to-transparent"></div>
-            </div>
-            
-            <div className="columns-1 md:columns-2 gap-6 space-y-6">
+          <div key={category} className="animate-fade-in-up">
+            <h3 className="hc-mono text-xs uppercase tracking-[0.15em] font-semibold text-[var(--color-wine)] mb-6 ml-4 md:ml-6">
+              {category}
+            </h3>
+            <div className="border-t border-[var(--border)] bg-white/40 backdrop-blur-md rounded-xl overflow-hidden shadow-[0_4px_24px_rgba(0,0,0,0.02)]">
               {categoryFaqs.map((faq: FaqItem) => (
-                <div 
+                <AccordionItem 
                   key={faq._id} 
-                  className="break-inside-avoid relative overflow-hidden rounded-2xl bg-white/60 backdrop-blur-xl border border-white/60 p-8 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.03)] hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-8px_rgba(200,169,110,0.15)] transition-all duration-500 ease-out group cursor-pointer"
-                >
-                  {/* Subtle Top Gradient Line */}
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-[var(--color-brass)]/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                  
-                  {/* Ambient Glow */}
-                  <div className="absolute -top-10 -right-10 w-40 h-40 rounded-full bg-[var(--color-brass)]/5 blur-3xl group-hover:bg-[var(--color-brass)]/15 transition-colors duration-700 pointer-events-none"></div>
-                  
-                  <div className="relative z-10 flex flex-col h-full">
-                    <div className="flex items-start gap-4 mb-4">
-                      <div className="w-8 h-8 rounded-full bg-[var(--color-brass)]/10 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform duration-500 ease-out">
-                        <HelpCircle className="w-4 h-4 text-[var(--color-brass)]" strokeWidth={2.5} />
-                      </div>
-                      <h4 className="hc-serif text-2xl text-[var(--text-primary)] font-normal leading-[1.3] tracking-tight">
-                        {faq.question}
-                      </h4>
-                    </div>
-                    
-                    <div className="text-[15px] text-[#475569] font-light leading-relaxed pl-12">
-                      <p>{faq.answer}</p>
-                    </div>
-                  </div>
-                </div>
+                  faq={faq} 
+                  isOpen={openId === faq._id} 
+                  onClick={() => toggleAccordion(faq._id)} 
+                />
               ))}
             </div>
           </div>
