@@ -58,6 +58,28 @@ const LEGACY_COLLECTION_REDIRECTS = [
   ...LEGACY_CATCH_ALL,
 ].map((r) => ({ ...r, permanent: true }));
 
+// Allowlist reflects what the site and the embedded Sanity Studio actually load:
+//  - Sanity Studio bridge (core.sanity-cdn.com) and its Inter UI fonts
+//    (design-system-static.sanity.io)
+//  - the Google Maps location embed on the homepage (frame-src www.google.com)
+//  - Sanity API over https and wss (live listeners / visual editing), and the
+//    Studio's blob web workers
+// 'unsafe-eval'/'unsafe-inline' are required by the current GSAP/Three/Studio
+// setup. Verified in-browser against / and /studio with zero CSP violations.
+const CONTENT_SECURITY_POLICY = [
+  "default-src 'self'",
+  "base-uri 'self'",
+  "object-src 'none'",
+  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://core.sanity-cdn.com",
+  "style-src 'self' 'unsafe-inline'",
+  "img-src 'self' data: blob: https:",
+  "font-src 'self' data: https://design-system-static.sanity.io",
+  "connect-src 'self' https: wss:",
+  "frame-src 'self' https://www.google.com",
+  "worker-src 'self' blob:",
+  "frame-ancestors 'self'",
+].join("; ");
+
 const nextConfig: NextConfig = {
   async headers() {
     return [
@@ -90,7 +112,7 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Content-Security-Policy",
-            value: "default-src 'self'; script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.google.com/recaptcha/ https://www.gstatic.com/recaptcha/; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob: https:; font-src 'self' data:; connect-src 'self' https:;",
+            value: CONTENT_SECURITY_POLICY,
           },
         ],
       },
