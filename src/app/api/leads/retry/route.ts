@@ -1,9 +1,36 @@
 import { NextResponse } from "next/server";
 import { prisma, updateNotificationStatus } from "@/lib/leads/createLead";
 import { sendTelegramAlert } from "@/lib/leads/telegram";
+import { logger } from "@/lib/logger";
+import { ApiError, handleApiError } from "@/lib/api-error";
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
+
+let ratelimit: Ratelimit | null = null;
+if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
+  const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN,
+  });
+  ratelimit = new Ratelimit({
+    redis,
+    limiter: Ratelimit.slidingWindow(5, "1 m"),
+    analytics: true,
+  });
+}
 
 export async function POST(request: Request) {
   try {
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
+    
+    if (ratelimit) {
+      const { success } = await ratelimit.limit(`ratelimit_leads_retry_${ip}`);
+      if (!success) {
+        logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads/retry" });
+        throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
+      }
+    }
+
     const { lead_id } = (await request.json()) as { lead_id?: string };
 
     if (!lead_id || typeof lead_id !== "string") {
@@ -77,10 +104,6 @@ export async function POST(request: Request) {
       });
     }
   } catch (error) {
-    console.error("Lead Retry API Error:", error);
-    return NextResponse.json(
-      { success: false, error: "Internal Server Error" },
-      { status: 500 }
-    );
+    return handleApiError(error, logger);
   }
 }
