@@ -3,6 +3,7 @@
 import React, { useState, useId, useRef, useEffect } from "react";
 import { ConsultationSuccess } from "./ConsultationSuccess";
 import { useConsultationStore } from "./store";
+import { parseLeadResponse } from "@/lib/leads/response";
 import { Loader2, AlertCircle, RefreshCw, ChevronDown } from "lucide-react";
 
 // ── Types ───────────────────────────────────────────────────────────────────
@@ -151,24 +152,18 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
         body: JSON.stringify(payload),
       });
 
-      const data = (await res.json()) as {
-        success?: boolean;
-        lead_id?: string;
-        telegram_status?: "sent" | "failed" | "pending";
-        notification_error?: string;
-        error?: string;
-      };
+      const body: unknown = await res.json().catch(() => null);
+      const result = parseLeadResponse(res.ok, body);
 
-      if (!res.ok || !data.success) {
-        throw new Error(data.error ?? "Failed to submit enquiry. Please try again.");
+      if (!result.ok) {
+        throw new Error(result.message);
       }
 
-      const generatedId = data.lead_id ?? "HC-OK";
-      setSuccessLeadId(generatedId);
-      setTelegramStatus(data.telegram_status ?? "sent");
+      setSuccessLeadId(result.leadId);
+      setTelegramStatus(result.telegramStatus);
 
       // Track analytics event only after confirmed PostgreSQL lead creation
-      trackEnquirySubmitted(generatedId, values);
+      trackEnquirySubmitted(result.leadId, values);
 
       if (onSuccess) onSuccess();
     } catch (err: unknown) {
