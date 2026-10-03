@@ -1,2 +1,8 @@
-npm run typecheck
-npx lint-staged
+#!/bin/sh
+# Type-check with the project's own TypeScript. Never `npx tsc`: without a local
+# install that downloads an unrelated package named "tsc".
+# lint-staged was dropped: it is not a dependency and has no config.
+if [ -x node_modules/.bin/tsc ]; then
+  exec node_modules/.bin/tsc --noEmit
+fi
+echo "pre-commit: node_modules not installed here; skipping type-check (run npm install)." >&2

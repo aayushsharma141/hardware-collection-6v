@@ -7,3 +7,7 @@
 # the whole synced tree.
 public/pdfjs/**            -text
 public/pdf.worker.min.mjs  -text
+
+# Git hooks run under sh, where a shebang line ending in a carriage return
+# fails to execute. Keep hook files LF on every checkout.
+.husky/*                   text eol=lf
