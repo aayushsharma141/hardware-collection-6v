@@ -4,6 +4,7 @@ import {
   ConsultationLeadSchema,
   EnquiryLeadSchema,
   CallbackLeadSchema,
+  LeadSourceSchema,
 } from "../schema";
 
 describe("Lead Validation Schemas", () => {
@@ -143,6 +144,32 @@ describe("Lead Validation Schemas", () => {
 
       const result = CallbackLeadSchema.safeParse(payload);
       expect(result.success).toBe(false);
+    });
+  });
+
+  describe("LeadSourceSchema", () => {
+    // Every value the consultation drawer can carry must be accepted here,
+    // including the "consultation_drawer" fallback the form sends when the
+    // drawer opens without a specific entry point. Keep this list in sync with
+    // ConsultationContext (which derives its source type from this schema).
+    const drawerSources = [
+      "home",
+      "collections",
+      "product_drawer",
+      "navbar",
+      "shortlist",
+      "category_page",
+      "space_landing",
+      "footer",
+      "consultation_drawer",
+    ];
+
+    it.each(drawerSources)("accepts the drawer source %s", (source) => {
+      expect(LeadSourceSchema.safeParse(source).success).toBe(true);
+    });
+
+    it("rejects an unknown source", () => {
+      expect(LeadSourceSchema.safeParse("telepathy").success).toBe(false);
     });
   });
 

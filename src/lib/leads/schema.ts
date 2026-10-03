@@ -1,12 +1,22 @@
 import { z } from "zod";
 
+// The single source of truth for where a lead originated. The consultation
+// drawer's context type (ConsultationContext) derives its `source` from this,
+// so the client can never send a value the API rejects. `consultation_drawer`
+// is the fallback used when the drawer opens without a specific entry point.
 export const LeadSourceSchema = z.enum([
   "home",
   "collections",
   "product_drawer",
   "navbar",
   "shortlist",
+  "category_page",
+  "space_landing",
+  "footer",
+  "consultation_drawer",
 ]);
+
+export type LeadSource = z.infer<typeof LeadSourceSchema>;
 
 export const LeadIntentSchema = z.enum([
   "consultation",

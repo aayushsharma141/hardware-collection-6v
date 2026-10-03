@@ -1,13 +1,9 @@
+import type { LeadSource } from "@/lib/leads/schema"
+
 export type ConsultationContext = {
-  source:
-    | "home"
-    | "collections"
-    | "product_drawer"
-    | "shortlist"
-    | "navbar"
-    | "category_page"
-    | "space_landing"
-    | "footer"
+  // Derived from LeadSourceSchema so the drawer can never carry a source the
+  // /api/leads validator rejects.
+  source: LeadSource
 
   intent?: "consultation" | "enquiry" | "callback"
 
