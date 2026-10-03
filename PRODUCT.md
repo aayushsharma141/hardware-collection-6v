@@ -41,13 +41,13 @@ Supporting truths that are separately verifiable and may be stated plainly: auth
 
 ## Capabilities and Constraints
 
-**Locked scope.** Public routes are `/` (home) and `/collections` (catalog) only, plus the Sanity Studio at `/studio`. No pricing, no e-commerce, no cart. Feature development is frozen; the project is in its production launch phase.
+**Locked scope.** Public routes are `/` (home), `/collections` (catalog), `/catalogues`, `/privacy`, and `/terms`, plus the Sanity Studio at `/studio`. No pricing, no e-commerce, no cart. Feature development is frozen; the project is in its production launch phase.
 
 **Content integrity rules.** No fake, mock, or placeholder products may ever ship. Public source PDFs may not be substituted for official brand catalogs — official catalogs are an owner dependency and remain outstanding.
 
-**Authorized brands.** All twenty-one brands presented in the brand strip are authorized dealerships: Häfele, Blum, Hettich, Dorset, GEZE, Godrej, Yale, Ozone, Labacha, Liftor, Shapes, Decor Bath, Furnipart, Pans, Becker, Tattva, Rexton, Madhuram, Maranello, Taco, Dorio, Kich. The count is derived dynamically from `CANONICAL_BRANDS` in `src/content/fallback/brands.ts` — `AUTHORIZED_BRAND_COUNT` is the single source of truth and hardcoded values in `FloatingCTA.tsx` and `ShowroomCinematic.tsx` should reference it.
+**Authorized brands.** All brands presented in the brand strip are authorized dealerships: Häfele, Blum, Hettich, Dorset, GEZE, Godrej, Yale, Ozone, Labacha, Liftor, Shapes, Decor Bath, Furnipart, Pans, Becker, Tattva, Rexton, Madhuram, Maranello, Taco, Dorio. (Kich was removed.) The count is derived dynamically from `CANONICAL_BRANDS` in `src/content/fallback/brands.ts` — `AUTHORIZED_BRAND_COUNT` is the single source of truth and hardcoded values in `FloatingCTA.tsx` and `ShowroomCinematic.tsx` should reference it.
 
-**Catalog structure.** Thirteen canonical categories, with six surfaced category families: door hardware and locks, modular kitchen systems, biometric and digital locks, luxury bathroom fittings, wardrobe and sliding systems, architectural glass hardware. Canonical catalog data merges with Sanity content by slug.
+**Catalog structure.** Thirteen canonical categories, with five business families from Sanity primaryRail. Canonical catalog data merges with Sanity content by slug.
 
 **Frozen motion architecture.** Next.js App Router with three motion engines held to one dominant motion idea per viewport: `motion/react` for UI, drawers, and transitions; GSAP `useGSAP()` / `matchMedia()` for the cinematic horizontal journey; Three.js / React Three Fiber for a single isolated product moment. WebGL, horizontal scroll, and the custom cursor are gated to viewports ≥1024px. Conversion controls must remain stable, predictable, and immediately clickable regardless of motion state.
 

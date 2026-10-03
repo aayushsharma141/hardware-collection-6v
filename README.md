@@ -53,7 +53,9 @@ docs/           — architecture notes, strategy, operations, evidence
 Each of `src/components/`, `src/content/` and `src/lib/` carries its own
 README describing what belongs inside it.
 
-See [WORKSPACE_MAP.md](WORKSPACE_MAP.md) for the wider workspace.
+Retired files live in `_quarantine/` (see its README) and are excluded from
+lint, type-checking and search. Raw brand catalogues and photo originals are
+kept outside the repo at `E:\Hardware-Collection-Archive`.
 
 ## Agent & Workflow Guidance
 

@@ -3,3 +3,5 @@
 !graft/
 graft/.cache/
 graft/.graph/
+# Retired files: keep them out of search so agents don't read stale context.
+_quarantine/
