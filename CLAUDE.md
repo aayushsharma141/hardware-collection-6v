@@ -100,6 +100,56 @@ describing what belongs inside.
 
 ---
 
+## Collections Architecture (locked — do not redesign)
+
+The catalogue has **two public content routes** only:
+
+```
+/           → homepage
+/collections → full showroom catalogue
+```
+
+The five showroom families (`handles-knobs`, `door-hardware`, `bathroom`,
+`kitchen-wardrobes`, `furniture-hardware`) are **in-page sections**, not pages:
+
+```
+/collections
+ ├── #handles-knobs
+ ├── #door-hardware
+ ├── #bathroom
+ ├── #kitchen-wardrobes
+ └── #furniture-hardware
+```
+
+**Never create `/collections/<slug>` as a route.** Any such URL is a legacy redirect
+(308 → the appropriate anchor or `/collections`). The five families are anchors on
+one page, not a route hierarchy.
+
+**Grouping is driven exclusively by `primaryRail`.** The chain is:
+
+```
+product.categorySlug  →  category.primaryRail  →  showroom family
+```
+
+`src/lib/collections/showroom.ts` owns this logic. Never add keyword matching,
+a hand-kept slug table, or any invented taxonomy. To move a category between
+families, edit its `primaryRail` in Sanity Studio — no code change required.
+
+**Decisions that are frozen:**
+
+| Frozen | Reason |
+|---|---|
+| Two-route architecture | Tested and verified |
+| `primaryRail` as sole input | Business taxonomy lives in CMS |
+| 13 CMS categories as discovery vocabulary | Sub-categories are filters, not routes |
+| Product Detail Drawer | Correct interaction model |
+| WhatsApp as selection endpoint | Owner decision |
+| `featured` field controls sort order only | No layout branching |
+| Empty families hidden | Prevents headings over nothing |
+| Density-responsive sections (1/2–4/5+) | Content maturity drives layout |
+
+---
+
 ## Evidence Platform (`scripts/`)
 
 - Release claims are validated against `scripts/evidence-engine.ts` and `scripts/release-verification.ts`.
