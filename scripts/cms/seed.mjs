@@ -1,11 +1,17 @@
 import { createClient } from "next-sanity";
 
+const token = process.env.SANITY_API_TOKEN;
+if (!token) {
+  console.error("Error: SANITY_API_TOKEN is not set in the environment.");
+  process.exit(1);
+}
+
 const client = createClient({
-  projectId: "gfwqxrd2",
-  dataset: "production",
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "gfwqxrd2",
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || "production",
   apiVersion: "2024-02-12",
   useCdn: false,
-  token: "skEApoy50LRGFZnEmBULuOQLcHwrj81FOyVXfcTA86e3Q0WWLig4dg22zQSdVitqxi5BOhYI3HOkQ3peyuuktmwfsjVbFabVI2SGyGzgHhHX9hCJIFwqDuQrcKMs3LXblW5KBWdPo3nXbQwOqHAntc4DzQUTc9KMSZ3pKFGjofTJrlE8OrDb",
+  token: token,
 });
 
 const BRANDS = [

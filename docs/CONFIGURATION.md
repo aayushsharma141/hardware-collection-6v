@@ -83,7 +83,7 @@ NEXT_PUBLIC_SHOWROOM_MAP_URL=
 - `RESEND_API_KEY` / `STAFF_EMAIL`: `sendResendEmail` throws `Missing Resend configuration (RESEND_API_KEY or STAFF_EMAIL)`. Email is sent in the background, so a failure only marks the lead's email notification status as `failed`.
 - `SANITY_REVALIDATE_SECRET`: without it, every revalidation webhook is rejected.
 - `EVIDENCE_PRIVATE_KEY`: when `CI` is set, `scripts/evidence-engine.ts` throws if no signing key is available.
-- Most CMS scripts in `scripts/cms/` and `scripts/seed-*.ts` call `process.exit(1)` when the Sanity project ID, dataset or token is missing. Exception: `scripts/cms/seed.mjs` reads no environment variables and has its Sanity settings hardcoded (a known issue to be moved to env vars).
+- Most CMS scripts in `scripts/cms/` and `scripts/seed-*.ts` (including `scripts/cms/seed.mjs`) call `process.exit(1)` when the Sanity project ID, dataset or token is missing.
 
 **Degrade gracefully:**
 
