@@ -10,7 +10,7 @@ For every environment variable, see [CONFIGURATION.md](CONFIGURATION.md). For ho
 | Target | Config file | Notes |
 |---|---|---|
 | Vercel (production) | `vercel.json`, `.github/workflows/deploy.yml` | `vercel.json` sets the project name `hc-demo` and `framework: "nextjs"`. The workflow deploys with `vercel --prod`. |
-| Vercel upload filter | `.vercelignore` | Leaves local-only folders out of the uploaded source: `.next`, `node_modules`, `tests`, `test-results`, `.planning`, `.agents`, `.claude`, `_archive`, `_quarantine`, `*.png` (unanchored: it matches PNGs in every folder, including the 29 tracked under `public/`. Because `deploy.yml` uploads source with `vercel --prod --archive=tgz` and Vercel builds remotely, those images may be missing from production deploys <!-- VERIFY: check a public/*.png URL on the production site -->), and other tooling directories. |
+| Vercel upload filter | `.vercelignore` | Leaves local-only folders out of the uploaded source: `.next`, `node_modules`, `tests`, `test-results`, `.planning`, `.agents`, `.claude`, `_archive`, `_quarantine`, and other tooling directories. |
 | Sanity Studio | `sanity.config.ts` | Embedded in the Next.js app at `/studio` and shipped with every deployment. No separate Studio deploy. |
 | PostgreSQL | `prisma/schema.prisma`, `prisma.config.ts` | External database used only for the `Lead` model. It is not provisioned from this repo. <!-- VERIFY: hosting provider and plan for the production PostgreSQL database --> |
 
