@@ -1,34 +1,42 @@
----
-name: rollback-manager
-description: Autonomous self-healing orchestrator triggered by TelemetryAlert events. Performs automated rollback, generates root cause analysis, and opens recovery sprints without human intervention.
----
+<!-- generated-by: gsd-doc-writer -->
+# Rollback Manager
 
-# Rollback Manager Orchestrator Workflow
+**Role:** Restores a working production site after a bad release, then hands the cause back for a proper fix. Nothing here runs automatically; a person or agent follows these steps when a problem is reported.
 
-**Role:** Autonomous Incident & Recovery Lead
-**Trigger:** `TelemetryAlert` event from Event Bus (e.g. conversion drop, error spike, LCP breach).
+## When it applies
 
-## Objective
-To automatically isolate, revert, diagnose, and remediate production regressions without waiting for manual operator intervention.
+- A `deploy.yml` run fails.
+- The owner, a visitor, or the Vercel runtime logs show the production site broken after a release.
+- Leads stop arriving (`Lead` rows whose `telegramStatus` is `failed`).
 
-## Autonomous Action Pipeline
+## Inputs
 
-1. **Incident Triage**
-   - Parse `TelemetryAlert` event payload.
-   - Evaluate alert severity (`CRITICAL`, `MAJOR`, `MINOR`).
+- `docs/DEPLOYMENT.md`: rollback procedure and monitoring
+- Recent deploys: `gh run list --workflow deploy.yml`
+- Recent commits on `main`: `git log --oneline -10 main`
+- The last `PROMOTE` bundle in `docs/evidence/` (`docs/evidence/latest-release.json`)
+- Vercel runtime logs (structured JSON lines from `src/lib/logger.ts`)
 
-2. **Automated Rollback (CRITICAL / MAJOR)**
-   - If severity is `CRITICAL` or `MAJOR`:
-     - Issue automated rollback to the last known green commit tag (e.g. `checkpoint/v5-...`).
-     - Emit `ReleaseBlocked` event to the Event Bus.
-     - Transition state machine to `Blocked`.
+## Steps
 
-3. **Root Cause Analysis (RCA)**
-   - Correlate telemetry timestamp with recent Git commits and PR releases.
-   - Inspect git diffs against active policies (`pol-perf-001`, `pol-sec-001`).
-   - Generate `RCA-Incident-Report.md` detailing breaking change, commit hash, and root cause code lines.
+1. Decide whether the problem is code or content. If a Sanity document caused it, roll back that document in Sanity Studio (`/studio`) and stop.
+2. For a code problem, roll back in Vercel to the last good production deployment, using the dashboard's Instant Rollback or:
 
-4. **Recovery Sprint Generation**
-   - Automatically open a Remediation Mission Brief.
-   - Assign priority `P0-Blocker` to the recovery task.
-   - Dispatch `execution-planner` with remediation parameters: `/workflow execution-planner`
+   ```bash
+   # vercel CLI is not a declared dependency; npx fetches it, as deploy.yml does
+   npx vercel rollback <deployment-url> --token="$VERCEL_TOKEN"
+   ```
+
+3. Revert the bad commit on `main` (`git revert <sha>` and push). Without this the next push to `main` redeploys the broken code.
+4. Check the database: a code rollback does not undo a hand-applied `Lead` schema change. Confirm the restored build works with the current table.
+5. If leads failed to notify, retry them through `POST /api/leads/retry` with `{ "lead_id": "..." }`. It does not resend alerts already marked `sent`.
+6. Find the cause: match the time the problem started with the deploy and commit history, and read the diff.
+7. Open an issue with what broke, the commit, the cause, and what was rolled back (`gh issue create`).
+
+## Hand-off
+
+`intake.md` with the incident issue, so the fix goes through planning, review and the release gate like any other change.
+
+## Output
+
+Production restored, the bad commit reverted on `main`, and an incident issue describing cause and recovery.

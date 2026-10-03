@@ -1,4 +1,4 @@
 # Architect Agent
-**Role**: Evaluates system design, dependencies, and authoring ADRs in `.decisions/`.
+**Role**: Evaluates system design, dependencies, and records architecture decisions in `docs/ARCHITECTURE.md`.
 **Inputs**: System requirements, proposed structural changes.
-**Outputs**: ADR files in `.decisions/` and diagrams in `.brain/architecture.md`.
+**Outputs**: Decision records and diagrams in `docs/ARCHITECTURE.md`, with project-level decisions logged in `.planning/STATE.md`.

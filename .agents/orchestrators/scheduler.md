@@ -1,33 +1,32 @@
----
-name: scheduler
-description: Orchestrator that determines task parallelization and sequential execution, delegating to specialist agents.
----
+<!-- generated-by: gsd-doc-writer -->
+# Scheduler
 
-# Scheduler Orchestrator Workflow
+**Role:** Runs the tasks wave by wave, on a branch, and stops when something fails.
 
-**Role:** Delivery Manager / Dispatcher
-**Trigger:** Handoff from Planner Orchestrator.
+## When it applies
 
-## Objective
-To coordinate the execution of the tasks defined in the Execution Plan, dispatching work to specialist agents and managing dependencies.
+The execution planner has produced waves of tasks.
+
+## Inputs
+
+- The waves from `execution-planner.md`
+- `.planning/STATE.md`
+- The working tree: `git status`
 
 ## Steps
 
-1. **Ingest Execution Plan**
-   - Read the Execution Plan produced by the Planner.
+1. Work on a branch, never directly on `main`. A push to `main` deploys to production through `.github/workflows/deploy.yml`.
+2. Run the tasks in the current wave. Each finished task gets its own atomic commit.
+3. After each wave run the quick checks: `npm run lint`, `npx tsc --noEmit`, `npm test`.
+4. If a check fails, fix it before starting the next wave. If the fix is outside the plan, stop and send it back to `planner.md`.
+5. Keep all files inside the project. Plans and scratch notes go in `.planning/`; agent material goes in `.agents/`. Do not run destructive commands outside the project.
+6. Update `.planning/STATE.md` when the last wave is done.
 
-2. **Task Dispatch**
-   - For each task in the current execution phase:
-     - If the task is ready (dependencies met), dispatch it to the designated specialist agent.
-     - Provide the specialist agent with the task definition and relevant context.
+## Hand-off
 
-3. **Monitor & Wait**
-   - Wait for specialist agents to complete their tasks.
-   - Collect the `ReviewResult` or completion artifacts from the agents.
+- All waves done and quick checks green: `reviewer.md`.
+- A task is blocked by a missing owner input (content, photos, credentials): stop and ask the owner.
 
-4. **Phase Advancement**
-   - Once all tasks in a phase are complete, move to the next phase.
-   - If any task fails, halt and request human intervention or trigger a remediation workflow.
+## Output
 
-5. **Handoff to Reviewer**
-   - When all execution phases are complete, aggregate the results and hand off to the `reviewer` orchestrator: `/workflow reviewer`
+A branch with one commit per task, quick checks passing, and `.planning/STATE.md` updated.

@@ -9,14 +9,6 @@ agents:
     role: "System Architecture & ADRs"
     spec: "agents/architect.md"
     tools: ["Read", "Write"]
-  - id: backend
-    role: "Backend & Logic Implementation (Sanity / Next.js API Routes)"
-    spec: "agents/backend.md"
-    tools: ["Read", "Write", "Bash"]
-  - id: frontend
-    role: "UI & Component Engineering (Next.js / Tailwind CSS / Lucide)"
-    spec: "agents/frontend.md"
-    tools: ["Read", "Write", "Browser"]
   - id: reviewer
     role: "Code Quality & Security Audit"
     spec: "agents/reviewer.md"
@@ -64,24 +56,30 @@ workflow_agents:
     spec: "workflows/testing_review.md"
 
 orchestrators:
-  - id: decision-engine
-    role: "Autonomous Decision Protocol Engine"
-    spec: "orchestrators/decision-engine.md"
-  - id: execution-planner
-    role: "Task Execution & Wave Planner"
-    spec: "orchestrators/execution-planner.md"
   - id: intake
-    role: "Task Triage & Requirement Breakdown"
+    role: "Request triage and classification"
     spec: "orchestrators/intake.md"
   - id: mission-planner
-    role: "High-Level Mission Strategic Planner"
+    role: "Splits larger goals into roadmap phases"
     spec: "orchestrators/mission-planner.md"
+  - id: decision-engine
+    role: "Go / defer / reject decisions on proposed work"
+    spec: "orchestrators/decision-engine.md"
+  - id: planner
+    role: "Breaks an approved phase into ordered tasks"
+    spec: "orchestrators/planner.md"
+  - id: execution-planner
+    role: "Assigns tasks to waves, roles, skills and review workflows"
+    spec: "orchestrators/execution-planner.md"
+  - id: scheduler
+    role: "Runs task waves on a branch with quick checks"
+    spec: "orchestrators/scheduler.md"
+  - id: reviewer
+    role: "Pre-merge review and pull request"
+    spec: "orchestrators/reviewer.md"
   - id: release-manager
-    role: "Release Verification & Deployment Coordinator"
+    role: "Release gate, evidence bundle, merge and deploy"
     spec: "orchestrators/release-manager.md"
   - id: rollback-manager
-    role: "Automated Fallback & Safety Operator"
+    role: "Production rollback and incident follow-up"
     spec: "orchestrators/rollback-manager.md"
-  - id: scheduler
-    role: "Background Task & Workflow Scheduler"
-    spec: "orchestrators/scheduler.md"

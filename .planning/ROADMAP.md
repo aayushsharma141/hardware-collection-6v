@@ -2,7 +2,7 @@
 
 ## Locked Architecture
 
-- **Public routes:** `/` (Home) + `/collections` (Catalog) + `/collections/[slug]` (Category/Space detail) — amended by Phase 9 D-16, 2026-08-30, see 09-CONTEXT.md
+- **Public routes:** `/` (Home) + `/collections` (Catalog; categories and families are sections on this one page) + `/catalogues`, `/privacy`, `/terms`. `/collections/[slug]` pages no longer exist — retired `/collections/<slug>` URLs permanently redirect via `next.config.ts` (architecture locked in commit ac1e889; originally amended by Phase 9 D-16, 2026-08-30, see 09-CONTEXT.md)
 - **No fake products, no pricing, no e-commerce**
 - **Sanity CMS is the single source of truth**
 - **WhatsApp is the primary conversion mechanism**
@@ -18,13 +18,13 @@
   ⚠️ Production credentials pending (P0 blocker).
 
 - [x] **Phase 2 — Homepage**
-  Navbar, Hero, BrandTrustStrip, ShowroomExperience, Testimonials, Footer, WhatsApp CTA. COMPLETE.
+  Navbar, Hero, BrandTrustStrip, ShowroomCinematic, ReviewsMobile (testimonials), Footer, WhatsApp CTA. COMPLETE.
 
 - [x] **Phase 2.5 — Content & QA Corrections**
   Stale navigation removed, Labacha + Kich brand completeness fixed, focus-visible a11y added, JSON-LD updated. COMPLETE.
 
 - [x] **Phase 3 — Catalog UX + Friction Layer**
-  /collections page, ProductCatalog, CatalogViewerModal, search, filter, WhatsApp specialist CTA. Architecture COMPLETE.
+  /collections page, product catalogue, CatalogViewerModal, search, filter (filter UI later deleted in Phase 9 plan 09-18), WhatsApp specialist CTA. Architecture COMPLETE.
   ⚠️ Official PDF catalogs pending (owner dependency — no substitution).
 
 - [x] **Phase 4 — Production Readiness**
@@ -42,10 +42,10 @@
 - [ ] **Phase 8 — Production Launch** 🔄 IN PROGRESS
   Vercel → hardwarecollection.co → Search Console → GBP → Analytics.
 
-- [ ] **Phase 9 — Collections Guided Discovery Redesign** ⏸ POST-LAUNCH
+- [x] **Phase 9 — Collections Guided Discovery Redesign** ✅ EXECUTED (all 19 plans have SUMMARY files; 09-19 is `complete_with_failures`)
   Replace filter-driven catalogue UX on `/collections` with progressive-disclosure showroom discovery:
   use-case entry, spaces, editorial chapters, brand paths, contextual WhatsApp CTAs.
-  Canonical refs: `.planning/NAV_AND_COLLECTIONS_PLAN.md` (§3B/§3C SUPERSEDED by this phase — see 09-CONTEXT.md)
+  Canonical refs: `NAV_AND_COLLECTIONS_PLAN.md` (now retired to `_quarantine/stale-docs/.planning/`; §3B/§3C SUPERSEDED by this phase — see 09-CONTEXT.md)
   Gated on: Phase 8 launch complete. Feature freeze lifts only for this phase.
   **Plans:** 19 across 8 waves. See `.planning/phases/09-collections-guided-discovery/09-PLAN-OUTLINE.md`.
 
@@ -69,7 +69,7 @@
   (WhatsApp number F-01, brand removals F-06, unverified claims F-04).
 
 - [ ] **Phase 10 — Brand Showcase & Light Roster Presentation** 📋 READY TO EXECUTE
-  Display all 22 authorized architectural hardware brands in authentic original conditions on luxury light ivory background.
+  Display all 21 authorized architectural hardware brands in authentic original conditions on luxury light ivory background.
   - Plan 10-01: Canonical brand list & aliases sync (`brands.ts`)
   - Plan 10-02: Homepage `BrandTrustStrip.tsx` visual upgrade with porcelain plinths
   - Plan 10-03: Visual & responsive audit on staging environment
@@ -88,8 +88,9 @@
   - Wave 5 — Kitchen & Wardrobes (3 missing)
   - Wave 6 — coverage regression gate + sitemap/internal-link pass
 
-  This phase is ~90% content production. The `/collections/[slug]` route, the card grid,
-  the D-13 empty state and the schema all already work — nothing needs building to make a
+  This phase is ~90% content production. The `/collections` catalogue sections, the card grid
+  and the schema all already work (the old D-13 empty state went with the `[slug]` route;
+  empty families are now omitted by `src/lib/collections/showroom.ts`) — nothing needs building to make a
   14th category render. The blocker is that Sanity holds exactly 6 image assets and not one
   photograph of a handle, knob, channel or mirror cabinet exists. Eleven *style* collections
   sharing one generic render would be worse than shipping none.

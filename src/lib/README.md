@@ -11,11 +11,15 @@ subfolders exist to keep that from happening again.
 | `browser/` | Browser-only helpers — scroll lock |
 | `motion/` | Shared motion tokens |
 | `leads/` | Lead capture service — schema, persistence, email, Telegram |
+| `catalog/` | Catalogue viewer funnel — analytics events, page capture, WhatsApp messages |
 | `config.ts` | Site-wide constants (root-level, used almost everywhere) |
+| `animations.ts` | GSAP motion duration constants and helpers (root-level) |
+| `api-error.ts` | `ApiError` class and `handleApiError` for API routes (root-level) |
+| `logger.ts` | Structured JSON logger (root-level) |
 
 ## Conventions
 
-Files are camelCase. Folder names carry the domain, so modules do not repeat
+Files are camelCase (`api-error.ts` is the one kebab-case exception). Folder names carry the domain, so modules do not repeat
 it — `collections/routing.ts`, not `collections/collectionRouting.ts`.
 
 Nothing here may import from `components/`. Dependencies point one way:

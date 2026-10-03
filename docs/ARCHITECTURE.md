@@ -11,7 +11,7 @@ Read this before adding files — the last section tells you where new code goes
 | `components/` | React components, grouped by domain | Every component sits in a named folder. No loose files at the root. |
 | `content/` | Everything that supplies page content | The only place content comes from. See below. |
 | `hooks/` | Reusable React state | Client-side only. |
-| `lib/` | Non-React logic, grouped by domain | `collections/`, `integrations/`, `browser/`, `motion/`, `leads/`. |
+| `lib/` | Non-React logic, grouped by domain | `collections/`, `catalog/`, `integrations/`, `browser/`, `motion/`, `leads/`, plus root files `animations.ts`, `api-error.ts`, `config.ts`, `logger.ts`. |
 | `types/` | Shared TypeScript types | Types used by more than one folder. |
 
 ## Content ownership — the rule that matters most
@@ -63,19 +63,23 @@ fully there yet.
 3. The route merges the Sanity result over the static fallback, then passes
    the merged data down to feature components as props.
 
-`app/collections/page.tsx` is the clearest example: it builds lookup maps from
-`content/fallback/catalog.ts`, then spreads Sanity documents over them so CMS
-values win field by field.
+`app/collections/page.tsx` is the clearest example: it passes the tables from
+`content/fallback/catalog.ts` and the Sanity documents to `mergeCategories` /
+`mergeProducts` in `lib/collections/catalogue.ts`, which build lookup maps and
+spread Sanity documents over them so CMS values win field by field.
 
 ### Known gaps
 
 Three things a new reader should know before trusting the diagram:
 
-- **The content adapter is not a module.** Merge logic is written inline in
-  each route file, and each route does it slightly differently. Extracting a
+- **The content adapter is only partly a module.** `lib/collections/catalogue.ts`
+  exports `mergeProducts` and `mergeCategories`, used by `app/collections/page.tsx`
+  and `getShowroomGroups` in `content/sanity/queries.ts`; other routes still merge
+  inline, each slightly differently. Extracting a
   shared adapter is the natural next refactor.
-- **Sanity failures are silent.** Every query catches its error and returns
-  `[]`. A broken CMS degrades to fallback content with no visible signal, which
+- **Sanity failures are silent.** Every list query catches its error and returns
+  `[]`; single-document queries (`getHomePage`, `getSiteSettings`, `getNavigation`,
+  `getLegalPageBySlug`) return `null`. A broken CMS degrades to fallback content with no visible signal, which
   is good for uptime and bad for noticing outages.
 - **One route still hardcodes content.** `app/page.tsx` defines
   `fallbackHeroSlides` inline at the top of the file — a third content location
@@ -87,7 +91,7 @@ Three things a new reader should know before trusting the diagram:
 ```text
 Browser request
   ↓
-src/app/layout.tsx          root shell — Navbar, Footer, providers
+src/app/layout.tsx          root shell — Navbar, providers (Footer is rendered per page)
   ↓
 src/app/<segment>/page.tsx  Server Component; fetches and merges content
   ↓
@@ -97,7 +101,7 @@ src/components/<domain>/    presentation
 ```
 
 Lead capture runs the other direction: a consultation form posts to
-`app/api/lead/`, which calls `lib/leads/` to validate, persist via Prisma, and
+`app/api/leads/`, which calls `lib/leads/` to validate, persist via Prisma, and
 notify.
 
 ## Tests

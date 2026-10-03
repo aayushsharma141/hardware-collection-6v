@@ -52,7 +52,7 @@ Hardware Collection
 
 Location:
 
-1/18, Kashidih, Near Baradwari Durga Puja Maidan,
+1/18, Kashidih, Near Durga Puja Maidan,
 Sakchi, Jamshedpur, Jharkhand 831001
 
 Business model:
@@ -90,7 +90,22 @@ Authorized brands currently approved:
 - Labacha
 - Godrej
 - Hettich
-- Kich
+- Blum
+- Tattva
+- Pans
+- Geze
+- Ozone
+- Becker
+- Yale
+- Rexton
+- Liftor
+- Taco
+- Madhuram
+- Shapes
+- Furnipart
+- Maranello
+- Decor Bath
+- Dorio
 
 Do not introduce additional brands as authorized partners unless independently verified.
 
@@ -98,10 +113,13 @@ Do not introduce additional brands as authorized partners unless independently v
 2. LOCKED WEBSITE ARCHITECTURE
 ==================================================
 
-The public website has ONLY TWO canonical routes:
+The public website has these canonical routes:
 
 /
  /collections
+ /catalogues
+ /privacy
+ /terms
 
 Do NOT recommend a large sitemap with:
 
@@ -560,7 +578,22 @@ Dorset
 Labacha
 Godrej
 Hettich
-Kich
+Blum
+Tattva
+Pans
+Geze
+Ozone
+Becker
+Yale
+Rexton
+Liftor
+Taco
+Madhuram
+Shapes
+Furnipart
+Maranello
+Decor Bath
+Dorio
 
 Each brand card may have:
 
@@ -650,7 +683,7 @@ Investigate whether the brand's existing crimson / burgundy identity should rema
 Existing brand direction:
 
 Crimson:
-#8B1A4A
+#8B1A42
 
 Gold:
 #C8A96E

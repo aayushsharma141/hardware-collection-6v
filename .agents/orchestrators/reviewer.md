@@ -1,34 +1,34 @@
----
-name: reviewer
-description: Orchestrator that aggregates outputs from specialist agents and validates them against all machine-readable policies.
----
+<!-- generated-by: gsd-doc-writer -->
+# Reviewer
 
-# Reviewer Orchestrator Workflow
+**Role:** Checks finished work before it is merged, runs the chosen review workflows, and opens or updates the pull request.
 
-**Role:** QA Lead / Compliance Officer
-**Trigger:** Handoff from Scheduler Orchestrator.
+## When it applies
 
-## Objective
-To validate all completed work against the machine-readable policies (design, accessibility, security, performance, architecture) using the standardized `ReviewResult` protocol.
+The scheduler has finished all waves on a branch.
+
+## Inputs
+
+- The branch diff: `git diff main...HEAD`
+- The review workflows chosen by `execution-planner.md`
+- The definition of done in `planner.md`
+- `docs/ARCHITECTURE.md`, `docs/TESTING.md`
+- CI results on the PR: `gh pr checks <number>`
 
 ## Steps
 
-1. **Aggregate Results**
-   - Collect all `ReviewResult.ts` structured outputs from the executed tasks.
+1. Read the diff. Check that new files sit where `docs/ARCHITECTURE.md` and the folder READMEs say they belong, and that no content was added to `src/content/fallback/`.
+2. Run the checks locally: `npm run lint`, `npx tsc --noEmit`, `npm test`, `npm run build`. Run `npm run test:e2e` if the change affects a browser flow.
+3. Run each chosen workflow in `.agents/workflows/`. `engineering_governance_review.md` and `testing_review.md` apply to every change.
+4. Sort findings into blockers and follow-ups. Blockers go back to `scheduler.md` with the file and the fix needed. Follow-ups become GitHub issues (`gh issue create`).
+5. Confirm the docs for the changed area were updated.
+6. Open or update the PR with `gh pr create` / `gh pr edit`. The description says what changed, why, and how it was checked. Wait for `ci.yml`, `secret-scan.yml` and `security.yml` to pass on the PR.
 
-2. **Policy Enforcement**
-   - Validate the aggregated results against the YAML policies in `.agents/policies/`.
-   - Ensure no critical violations (blockers) exist in:
-     - `design.yml`
-     - `accessibility.yml`
-     - `security.yml`
-     - `performance.yml`
-     - `architecture.yml`
+## Hand-off
 
-3. **Feedback Loop Routing**
-   - If warnings or non-critical issues are found, log them as future technical debt.
-   - If blockers are found, fail the review and route back to the `scheduler` for remediation, specifying exactly which agent needs to fix which file.
+- No blockers and CI green: `release-manager.md`.
+- Blockers: back to `scheduler.md`.
 
-4. **Approve for Release**
-   - If all policies pass, generate a "Ready for Release" certification.
-   - Hand off to the `release-manager` orchestrator: `/workflow release-manager`
+## Output
+
+A PR with passing CI, a review summary, and issues for any follow-ups.

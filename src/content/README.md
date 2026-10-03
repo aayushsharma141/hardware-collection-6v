@@ -23,7 +23,7 @@ in step with a schema change.
 ```text
 sanity/
   schemaTypes/   document schemas — the shape of editable content
-  queries.ts     GROQ queries; each catches its own error and returns []
+  queries.ts     GROQ queries; list queries return [] on error, singletons null
   client.ts      configured next-sanity client
   env.ts         projectId / dataset / apiVersion
   structure.ts   Studio desk layout
@@ -33,8 +33,12 @@ fallback/
 
 ## Two things to know
 
-Sanity query failures are **silent** — every query returns `[]` on error, so a
-CMS outage degrades to fallback content without a visible signal.
+Sanity query failures are **silent** — list queries return `[]` and singleton
+queries (`getHomePage`, `getSiteSettings`, `getNavigation`,
+`getLegalPageBySlug`) return `null` on error, so a CMS outage degrades to
+fallback content without a visible signal. `getShowroomGroups` has no catch of
+its own; it relies on the list queries it calls.
 
-The merge of Sanity over fallback currently happens **inline in each route
-file**, not in a shared adapter. See [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md).
+Catalogue data is merged by shared helpers (`mergeProducts`, `mergeCategories`
+in `src/lib/collections/catalogue.ts`); the homepage (`src/app/page.tsx`) still
+merges inline. See [docs/ARCHITECTURE.md](../../docs/ARCHITECTURE.md).

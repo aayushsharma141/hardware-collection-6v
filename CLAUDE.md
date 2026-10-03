@@ -18,8 +18,11 @@ npm run test:e2e                        # Playwright browser specs (tests/e2e)
 npm audit --audit-level=critical        # dependency CVE audit
 node scripts/audit-dependencies.cjs     # legacy design-token / button.tsx migration audit
 npx tsx scripts/evidence-engine.ts --validate   # evidence platform gate
-npx tsx scripts/release-verification.ts         # release quality gate (runs all of the above)
+npx tsx scripts/release-verification.ts         # release quality gate (6 gates: lint, tsc, unit tests, build, npm audit, evidence schema)
 ```
+
+> `tsx` is not a declared dependency; `npx` fetches it on demand, so the two `npx tsx`
+> commands need network access the first time they run.
 
 > `scripts/audit-dependencies.cjs` is **not** a CVE scanner despite its name — it scans
 > for `ui/primitives/button` imports and legacy `var(--site-*)` tokens, and currently
@@ -32,6 +35,7 @@ npx tsx scripts/release-verification.ts         # release quality gate (runs all
 
 Read [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) before adding files. It maps
 the request lifecycle and states which folder new code belongs in.
+See also [docs/GETTING-STARTED.md](docs/GETTING-STARTED.md), [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md), [docs/TESTING.md](docs/TESTING.md), [docs/CONFIGURATION.md](docs/CONFIGURATION.md), [docs/API.md](docs/API.md) and [docs/DEPLOYMENT.md](docs/DEPLOYMENT.md).
 
 **Content ownership:** Sanity (`src/content/sanity/`) is the canonical content
 source. `src/content/fallback/` is a resilience mechanism that keeps the site
@@ -62,8 +66,6 @@ describing what belongs inside.
 |---|---|
 | `planner.md` | Sprint and task roadmap |
 | `architect.md` | System architecture, schema design, ADR enforcement |
-| `frontend.md` | Next.js App Router, Tailwind CSS, component optimization |
-| `backend.md` | Sanity schema, API routes, data migrations |
 | `reviewer.md` | Quality audit, security, refactoring |
 
 ---
@@ -88,15 +90,9 @@ describing what belongs inside.
 
 ---
 
-## Quality Rules (`.agents/rules/`)
+## Conventions
 
-| File | Scope |
-|---|---|
-| `architecture.md` | Modular App Router and Sanity Studio layout |
-| `coding.md` | Strict TypeScript, non-null guarantees, clean hooks |
-| `git.md` | Atomic commits, structured PR descriptions |
-| `security.md` | No hardcoded secrets, environment variable validation |
-| `testing.md` | Verification before completion |
+Coding, branch and testing conventions are documented in [docs/DEVELOPMENT.md](docs/DEVELOPMENT.md) and [docs/TESTING.md](docs/TESTING.md).
 
 ---
 

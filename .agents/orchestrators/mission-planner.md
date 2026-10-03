@@ -1,32 +1,33 @@
----
-name: mission-planner
-description: Top-level strategic orchestrator that evaluates business goals, user intent, and high-level requirements ("What are we trying to achieve?") before handing off to the Execution Planner.
----
+<!-- generated-by: gsd-doc-writer -->
+# Mission Planner
 
-# Mission Planner Orchestrator Workflow
+**Role:** Turns a larger goal into one or more roadmap phases with acceptance criteria.
 
-**Role:** Chief Product Officer / Strategic Planner
-**Trigger:** `FeatureRequested` event from Event Bus or high-level user prompt.
+## When it applies
 
-## Objective
-To decompose high-level business goals into a structured **Mission Brief**, validating strategic alignment and product requirements before technical execution planning.
+Intake has classified a request as too large for a single phase, or the owner asks for a new milestone.
+
+## Inputs
+
+- The intake brief
+- `PRODUCT.md`: product purpose, principles, constraints
+- `.planning/ROADMAP.md`: existing phases and the locked architecture
+- `.planning/STATE.md`: what is in progress and what is blocked
+- `.planning/NEVER-BUILD.md`
+- `docs/ARCHITECTURE.md`
 
 ## Steps
 
-1. **Strategic Intent Analysis**
-   - Evaluate the goal: "What user problem or business value does this solve?"
-   - Assess impact on conversion, user retention, or technical health.
+1. State the user problem and the business reason in two or three sentences, in the terms used by `PRODUCT.md`.
+2. Split the goal into phases that can each ship on their own. Keep the locked architecture in `.planning/ROADMAP.md` unless the owner agrees to change it.
+3. Write acceptance criteria for each phase that someone can check on the running site or with a command.
+4. Note dependencies on the owner (photos, catalogues, Sanity content, credentials) separately from engineering work.
+5. Name the reviews each phase will need, by workflow filename in `.agents/workflows/`.
 
-2. **Requirement Decomposition**
-   - Translate high-level intent into functional requirements and non-functional bounds.
-   - Cross-reference with `ProductOS-v2.md` vision and architectural principles.
+## Hand-off
 
-3. **Risk & Governance Strategy**
-   - Identify critical policies likely to be engaged (e.g. `pol-design-001`, `pol-sec-001`).
+`decision-engine.md`, to decide whether and when the proposed phases go ahead.
 
-4. **Emit Mission Brief**
-   - Output `MissionBrief.md` specifying:
-     - **Goal & Rationale**
-     - **Acceptance Criteria**
-     - **Governance Strategy**
-   - Trigger the `execution-planner` orchestrator via event or command: `/workflow execution-planner`
+## Output
+
+Proposed phase entries for `.planning/ROADMAP.md` (goal, acceptance criteria, owner dependencies, reviews). Nothing is added to the roadmap until the decision engine records a go.

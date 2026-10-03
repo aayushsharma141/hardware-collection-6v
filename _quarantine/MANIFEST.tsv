@@ -151,3 +151,8 @@ local-only	graphify-out	_quarantine/local-only/graphify-out
 local-only	.planning/graphs	_quarantine/local-only/planning-graphs
 local-only	test-results	_quarantine/local-only/test-results
 local-only	ECC	_quarantine/local-only/broken-submodules/ECC
+stale-docs	.planning/NAV_AND_COLLECTIONS_PLAN.md	_quarantine/stale-docs/.planning/NAV_AND_COLLECTIONS_PLAN.md
+stale-docs	.planning/PHASES-REWRITTEN.md	_quarantine/stale-docs/.planning/PHASES-REWRITTEN.md
+stale-docs	.planning/1-REVIEW.md	_quarantine/stale-docs/.planning/1-REVIEW.md
+stale-docs	.planning/SHIP-CHECKLIST.md	_quarantine/stale-docs/.planning/SHIP-CHECKLIST.md
+stale-docs	.planning/QA_AND_ASSET_PROTOCOL.md	_quarantine/stale-docs/.planning/QA_AND_ASSET_PROTOCOL.md

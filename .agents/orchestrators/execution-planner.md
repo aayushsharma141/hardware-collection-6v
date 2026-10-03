@@ -1,30 +1,43 @@
----
-name: execution-planner
-description: Tactical orchestrator that queries the Capability Graph (agent-manifest.yml), calculates resource budgets, and dispatches agents to fulfill a Mission Brief.
----
+<!-- generated-by: gsd-doc-writer -->
+# Execution Planner
 
-# Execution Planner Orchestrator Workflow
+**Role:** Decides who does each task, which tasks can run in parallel, and which review workflows run against the result.
 
-**Role:** Principal Engineering Architect / Dispatcher
-**Trigger:** Handoff from Mission Planner or `PolicyFailed` event.
+## When it applies
 
-## Objective
-To resolve the required capabilities for a Mission Brief by dynamically querying `agent-manifest.yml`, checking resource budgets in `resource-manager.yml`, and constructing a capability-matched execution pipeline.
+The planner has produced an ordered task list.
+
+## Inputs
+
+- The plan from `planner.md`
+- Agent roles in `.agents/agents/` (`architect.md`, `planner.md`, `reviewer.md`)
+- Review workflows in `.agents/workflows/`
+- Project skills in `.agents/skills/`, for example `frontend-architecture`, `frontend-a11y`, `seo`, `prisma-client-api`
+- `docs/ARCHITECTURE.md`
 
 ## Steps
 
-1. **Capability Discovery**
-   - Ingest `MissionBrief.md`.
-   - Query `.agents/capabilities/agent-manifest.yml` to match required capabilities (e.g., matching `WCAG21AA` → `accessibility-auditor`).
+1. Group tasks into waves. Tasks in the same wave must not edit the same files.
+2. Assign tasks that change structure (new folders, new data flow, Sanity schema, Prisma model) to the architect role first, then implementation.
+3. List the skills each task should load from `.agents/skills/`.
+4. Pick the review workflows for the finished work by what it touches:
 
-2. **Resource & Budget Pre-Flight**
-   - Query `.agents/runtime/resource-manager.yml`.
-   - Calculate estimated tokens, context window usage, parallelism limits, and budget ceiling.
-   - Halt if estimated budget exceeds maximum threshold.
+   | Change touches | Workflow |
+   |:---|:---|
+   | UI or layout | `accessibility_review.md`, `browser_pov_audit.md`, `performance_review.md` |
+   | `src/app/api/`, environment variables, secrets | `security_review.md` |
+   | `package.json` or the lockfile | `dependency_review.md` |
+   | Folder structure or data flow | `architecture_review.md` |
+   | Tracking or conversion paths | `analytics_review.md` |
+   | Product scope or UX rules | `product_governance_review.md` |
+   | Tests | `testing_review.md` |
 
-3. **Pipeline Construction**
-   - Construct execution tracks (Parallel vs. Sequential).
-   - Generate `ExecutionPipeline.json` mapping tasks to discovered agent capabilities.
+5. Keep the plan small enough for one branch and one PR where possible.
 
-4. **Handoff to Scheduler**
-   - Hand off execution pipeline to `scheduler.md`: `/workflow scheduler`
+## Hand-off
+
+`scheduler.md`.
+
+## Output
+
+Waves of tasks with an owner role, skills to load, and the review workflows to run at the end.

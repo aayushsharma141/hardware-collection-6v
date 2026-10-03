@@ -9,14 +9,14 @@ again.
 | `layout/` | Site chrome present across pages — Navbar, Footer |
 | `brand/` | Logo, wordmark, brand trust marks |
 | `ui/` | Generic primitives reused across three or more domains |
-| `home/` | Homepage sections; `cinema/`, `hero/` and `mobile/` split by surface |
+| `home/` | Homepage sections in one flat folder; hero and mobile variants are sibling files (`HeroStage.tsx`, `HeroMobile.tsx`) |
 | `collections/` | Collection browsing, filtering, product cards and drawers |
 | `catalog/` | Catalog library and PDF viewer |
 | `consultation/` | Lead capture — drawer, form, success state |
 | `reviews/` | Testimonials and ratings |
 | `animations/` | Motion primitives — fades, parallax, tilt, cursor |
-| `visual/` | Decorative layers — atmosphere, watermark, particles |
 | `providers/` | React context providers |
+| `preview/` | Draft Mode banner shown while previewing Sanity drafts |
 
 ## Choosing a folder
 
@@ -24,5 +24,5 @@ Used by one domain → that domain's folder. Used by three or more → `ui/`.
 Site chrome → `layout/`. If none fit, create a new domain folder rather than
 dropping the file here.
 
-`animations/` vs `visual/`: `animations/` holds behaviour you wrap content in;
-`visual/` holds decoration that renders on its own.
+`animations/` holds behaviour you wrap content in. Decorative layers that render
+on their own (atmosphere, watermark, particles) currently live in `home/`.
