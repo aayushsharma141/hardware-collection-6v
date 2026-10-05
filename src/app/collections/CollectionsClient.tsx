@@ -2,7 +2,7 @@
 
 import React, { useCallback, useMemo } from "react";
 import Footer from "@/components/layout/Footer";
-import { Product, Category, Brand, Offer, SiteSettings, getSlugString } from "@/types/catalog";
+import { Product, Category, Brand, Offer, SiteSettings } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
@@ -10,12 +10,12 @@ import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/br
 import {
   allShowroomSections,
   categoryRails,
-  isFamilyNamedCategory,
+  categoriesByFamily,
   productCategorySlug,
   showroomGroupId,
 } from "@/lib/collections/showroom";
 
-import CollectionsHero from "@/components/collections/CollectionsHero";
+import CollectionsHero, { type HeroSlide } from "@/components/collections/CollectionsHero";
 import CollectionExplorer from "@/components/collections/CollectionExplorer";
 import ProductQuickView from "@/components/collections/ProductQuickView";
 import OffersSection from "@/components/collections/OffersSection";
@@ -87,25 +87,10 @@ export default function CollectionsClient({
 
   // Product -> category -> `primaryRail` -> showroom family (the CMS owner's grouping).
   const rails = useMemo(() => categoryRails(categories), [categories]);
-  const categoryNames = useMemo(
-    () => new Map(categories.map((c) => [getSlugString(c.slug), c.name || c.title || ""] as const)),
-    [categories]
-  );
   const sections = useMemo(() => allShowroomSections(products, rails), [products, rails]);
 
-  // For a family with no products yet: the categories filed under it, by name.
-  const familyCategoryNames = useMemo(() => {
-    const byFamily = new Map<string, string[]>();
-    for (const category of categories) {
-      const slug = getSlugString(category.slug);
-      const name = category.name || category.title;
-      if (!slug || !name || isFamilyNamedCategory(slug)) continue;
-      const family = rails.get(slug);
-      if (!family) continue;
-      byFamily.set(family, [...(byFamily.get(family) ?? []), name]);
-    }
-    return byFamily;
-  }, [categories, rails]);
+  // Every category under each collection, whether or not a product has been entered for it.
+  const familyCategories = useMemo(() => categoriesByFamily(categories, rails), [categories, rails]);
 
   const catalogueHrefFor = useCallback(
     (brandName: string) => {
@@ -147,23 +132,6 @@ export default function CollectionsClient({
     []
   );
 
-  const categoryBySlug = useMemo(
-    () => new Map(categories.map((c) => [getSlugString(c.slug), c] as const)),
-    [categories]
-  );
-  const categoryBlurb = useCallback(
-    (slug: string) => {
-      const c = categoryBySlug.get(slug);
-      return c?.shortDesc || c?.description;
-    },
-    [categoryBySlug]
-  );
-  const categoryImage = useCallback(
-    (slug: string, categoryProducts: Product[]) =>
-      categoryBySlug.get(slug)?.imageUrl || categoryProducts.find((p) => p.imageUrl)?.imageUrl,
-    [categoryBySlug]
-  );
-
   const brandLogo = useCallback(
     (brandName: string) => {
       const key = normalizeBrandKey({ name: brandName } as Brand);
@@ -174,19 +142,27 @@ export default function CollectionsClient({
   );
 
   const whatsappHref = buildGeneralInquiryWhatsappLink(settings?.whatsappNumber);
+
+  // One slide per family the site has a photograph for; the link opens that family below.
+  const heroSlides = useMemo<HeroSlide[]>(
+    () =>
+      sections.flatMap(({ group }) =>
+        FAMILY_TILE_IMAGE[group.id]
+          ? [{ id: group.id, title: group.title, tagline: group.tagline, image: FAMILY_TILE_IMAGE[group.id] }]
+          : []
+      ),
+    [sections]
+  );
   const phone = settings?.primaryPhone?.trim();
 
   return (
     <div className="hc-root min-h-screen w-full bg-[var(--surface)] text-[var(--text-primary)] selection:bg-[var(--color-brass)]/30 selection:text-white">
       <main className="w-full">
-        <CollectionsHero />
+        <CollectionsHero slides={heroSlides} whatsappHref={whatsappHref} />
 
         <CollectionExplorer
           sections={sections}
-          categoryNames={categoryNames}
-          categoryBlurb={categoryBlurb}
-          categoryImage={categoryImage}
-          familyCategoryNames={familyCategoryNames}
+          familyCategories={familyCategories}
           familyImage={familyImage}
           brandLogo={brandLogo}
           getImage={getProductDisplayImage}

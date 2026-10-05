@@ -309,3 +309,76 @@ export function allShowroomSections<T extends ProductLike>(
   return other ? [...sections, other] : sections;
 }
 
+
+/** The sub-category a product is filed under, trimmed; empty when it has none. */
+export function productSubcategory(product: { subcategory?: string | null }): string {
+  return (product.subcategory ?? "").trim();
+}
+
+/**
+ * The distinct sub-categories among a set of products, in the order they first
+ * appear. Spellings that differ only in case or spacing count once, and the first
+ * spelling seen is the one shown. A product with no sub-category contributes
+ * nothing, so a category nobody has sub-categorised returns an empty list.
+ */
+export function subcategoriesOf(products: readonly { subcategory?: string | null }[]): string[] {
+  const seen = new Map<string, string>();
+  for (const product of products) {
+    const label = productSubcategory(product).replace(/\s+/g, " ");
+    const key = label.toLowerCase();
+    if (label && !seen.has(key)) seen.set(key, label);
+  }
+  return [...seen.values()];
+}
+
+/** Whether a product belongs to the chosen sub-category (case- and space-insensitive). */
+export function inSubcategory(product: { subcategory?: string | null }, label: string): boolean {
+  const norm = (value: string) => value.replace(/\s+/g, " ").trim().toLowerCase();
+  return norm(productSubcategory(product)) === norm(label);
+}
+
+/** A category as the explorer offers it: a selectable item under one collection. */
+export interface FamilyCategory {
+  slug: string;
+  name: string;
+  blurb?: string;
+  image?: string;
+}
+
+interface CategoryDetail extends CategoryLike {
+  name?: string | null;
+  title?: string | null;
+  shortDesc?: string | null;
+  description?: string | null;
+  imageUrl?: string | null;
+}
+
+/**
+ * Every category filed under each showroom family, in the order given — the
+ * selectable items on /collections, whether or not a product has been entered
+ * for them yet (the printed showroom list is the same: items first, products as
+ * examples). A category named after a whole family is the family itself, not an
+ * item in it, so it is left out; so is a category with no name or slug.
+ */
+export function categoriesByFamily(
+  categories: readonly CategoryDetail[],
+  rails: CategoryRails
+): Map<string, FamilyCategory[]> {
+  const byFamily = new Map<string, FamilyCategory[]>();
+  const seen = new Set<string>();
+  for (const category of categories) {
+    const slug = slugOf(category.slug);
+    const name = (category.name || category.title || "").trim();
+    if (!slug || !name || seen.has(slug) || isFamilyNamedCategory(slug)) continue;
+    seen.add(slug);
+    const family = rails.get(slug) ?? OTHER_GROUP.id;
+    const item: FamilyCategory = {
+      slug,
+      name,
+      blurb: category.shortDesc || category.description || undefined,
+      image: category.imageUrl || undefined,
+    };
+    byFamily.set(family, [...(byFamily.get(family) ?? []), item]);
+  }
+  return byFamily;
+}

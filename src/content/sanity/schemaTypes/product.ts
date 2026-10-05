@@ -54,6 +54,14 @@ export const productType = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: "subcategoryTitle",
+      title: "Sub-category",
+      type: "string",
+      group: "identity",
+      description:
+        "Optional, plain text, e.g. \"Long bar handles\" or \"Biometric\". /collections shows a sub-category row under a category once two or more of its products use different sub-categories. Keep the spelling identical across products.",
+    }),
+    defineField({
       name: "featured",
       title: "Featured Product",
       type: "boolean",

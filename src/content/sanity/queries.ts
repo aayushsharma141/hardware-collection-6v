@@ -14,6 +14,8 @@ const PRODUCT_LIST_FIELDS = `
     "slug": slug.current,
     "brandName": brand->name,
     "categorySlug": category->slug.current,
+    // The plain-text field the owner fills in; the legacy reference is the fallback.
+    "subcategory": coalesce(subcategoryTitle, subcategory->name),
     shortDescription,
     catalogReference,
     showroomDisplay,

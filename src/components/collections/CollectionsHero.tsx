@@ -1,129 +1,220 @@
 "use client";
 
-import { useRef } from "react";
-import Link from "next/link";
+import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
-import { useGSAP, gsap, DURATION, EASE, prefersReducedMotion } from "@/lib/animations";
+import Autoplay from "embla-carousel-autoplay";
+import { ArrowRight, ChevronLeft, ChevronRight, MessageCircle, Pause, Play } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 
-export interface CollectionsHeroProps {
-  yearsClaimConfirmed?: boolean;
+export interface HeroSlide {
+  /** The showroom family this slide shows; the "Explore" link jumps to its tile. */
+  id: string;
+  title: string;
+  tagline: string;
+  image: string;
 }
 
-// A real photograph of the showroom wall, not a render.
-const SHOWROOM_WALL = "/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg";
+export interface CollectionsHeroProps {
+  slides: HeroSlide[];
+  whatsappHref: string;
+}
 
-export default function CollectionsHero({
-  yearsClaimConfirmed = false,
-}: CollectionsHeroProps) {
-  const containerRef = useRef<HTMLElement>(null);
+const AUTOPLAY_MS = 5500;
 
-  useGSAP(() => {
-    if (prefersReducedMotion()) return;
-    
-    const tl = gsap.timeline({ defaults: { ease: EASE.LUXURY, duration: DURATION.SLOW } });
-    
-    tl.fromTo(
-      ".hero-reveal",
-      { y: 30, opacity: 0 },
-      { y: 0, opacity: 1, stagger: 0.08, delay: 0.15 }
-    );
-    
-    tl.fromTo(
-      ".hero-image",
-      { scale: 0.95, opacity: 0, y: 20 },
-      { scale: 1, opacity: 1, y: 0, duration: DURATION.HERO },
-      "-=0.4"
-    );
-  }, { scope: containerRef });
+function subscribeToMotionPreference(onChange: () => void) {
+  const query = window.matchMedia("(prefers-reduced-motion: reduce)");
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
+const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  // No counts here. "53 collections" counted Sanity categories while the
-  // catalogue held eleven products, so the number described the CMS taxonomy,
-  // not anything a visitor can see. Add one back only when it is a count of
-  // something on the page.
-  const stats = [
-    "AUTHORIZED GLOBAL BRANDS",
-    yearsClaimConfirmed ? "10+ YEARS OF EXPERTISE" : null,
-  ].filter(Boolean) as string[];
+/**
+ * The /collections hero: a full-bleed carousel that slides through the showroom
+ * collections, under a fixed heading. Each slide's link opens that collection in
+ * the explorer below (`#<family id>` is the id of its tile).
+ *
+ * Autoplay is a courtesy, not a requirement: it is off for visitors who ask for
+ * reduced motion, pauses while the pointer is over the hero or focus is inside
+ * it, and can be stopped with the pause button.
+ */
+export default function CollectionsHero({ slides, whatsappHref }: CollectionsHeroProps) {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  // `null` = no choice made yet, so follow the visitor's motion preference.
+  const [autoplayChoice, setAutoplayChoice] = useState<boolean | null>(null);
+
+  const reducedMotion = useSyncExternalStore(subscribeToMotionPreference, prefersReducedMotion, () => false);
+  const playing = autoplayChoice ?? !reducedMotion;
+
+  // One plugin instance for the life of the hero; whether it runs is driven below.
+  const autoplay = useMemo(
+    () => Autoplay({ delay: AUTOPLAY_MS, playOnInit: false, stopOnInteraction: false, stopOnMouseEnter: true }),
+    []
+  );
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    api.on("select", onSelect).on("reInit", onSelect);
+    return () => {
+      api.off("select", onSelect).off("reInit", onSelect);
+    };
+  }, [api]);
+
+  useEffect(() => {
+    if (!api) return;
+    if (playing) autoplay.play();
+    else autoplay.stop();
+  }, [api, autoplay, playing]);
+
+  if (slides.length === 0) return null;
+  const active = slides[Math.min(current, slides.length - 1)];
 
   return (
-    <section ref={containerRef} className="relative pt-16 pb-20 md:pt-28 md:pb-32 border-b border-[var(--border)] overflow-hidden">
-      {/* lg+: copy left, real showroom photography right. Below lg the photo is
-          dropped so the mobile hero stays one screen of text and CTAs. */}
-      <div className="max-w-[1320px] mx-auto px-6 lg:grid lg:grid-cols-12 lg:gap-12 xl:gap-16 lg:items-center">
-        <div className="max-w-4xl lg:col-span-7">
-          {/* Eyebrow */}
-          <span className="hero-reveal hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-brass-ink mb-4 block">
-            ARCHITECTURAL HARDWARE · SAKCHI · JAMSHEDPUR
-          </span>
-
-          {/* Title */}
-          <h1 className="hero-reveal hc-serif text-5xl sm:text-7xl md:text-8xl lg:text-[92px] font-light tracking-[-0.01em] text-[var(--text-primary)] uppercase leading-[0.95] mb-6">
-            COLLECTIONS
-          </h1>
-
-          {/* Supporting Copy */}
-          <p className="hero-reveal text-base sm:text-xl md:text-2xl text-[var(--text-secondary)] font-light leading-relaxed mb-10 max-w-3xl">
-            Hardware for considered spaces.
-            <br />
-            Explore the showroom.
-          </p>
-
-          {/* Quiet control instead of giant buttons */}
-          <div className="hero-reveal flex mb-12">
-            <Link
-              href="#explorer"
-              className="hc-mono text-[10px] sm:text-xs tracking-[0.2em] uppercase font-medium text-[var(--color-brass)] hover:text-[var(--text-primary)] transition-colors border-b border-[var(--color-brass)] pb-1"
+    <section
+      aria-roledescription="carousel"
+      aria-label="Featured collections"
+      className="relative isolate overflow-hidden bg-[#1a1017] text-white"
+    >
+      <Carousel
+        setApi={setApi}
+        plugins={[autoplay]}
+        opts={{ loop: true, duration: 28 }}
+        className="absolute inset-0 -z-10 h-full [&_[data-slot=carousel-content]]:h-full"
+      >
+        <CarouselContent className="ml-0 h-full">
+          {slides.map((slide, index) => (
+            <CarouselItem
+              key={slide.id}
+              aria-label={`${index + 1} of ${slides.length}: ${slide.title}`}
+              className="relative h-full min-w-0 basis-full pl-0"
             >
-              EXPLORE &darr;
-            </Link>
-          </div>
+              <Image
+                src={slide.image}
+                alt=""
+                fill
+                priority={index === 0}
+                sizes="100vw"
+                className="object-cover object-center"
+              />
+            </CarouselItem>
+          ))}
+        </CarouselContent>
+      </Carousel>
 
-          {/* Live Stat Row (Omit-on-zero) */}
-          {stats.length > 0 && (
-            <div className="hero-reveal flex flex-wrap items-center gap-6 pt-6 border-t border-[var(--border)]">
-              {stats.map((stat, idx) => (
-                <div key={stat} className="flex items-center gap-6">
-                  <span className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.2em] font-medium text-brass-ink">
-                    {stat}
-                  </span>
-                  {idx < stats.length - 1 && (
-                    <span className="h-3.5 w-px bg-[var(--text-secondary)]/25" aria-hidden="true" />
-                  )}
-                </div>
-              ))}
-            </div>
-          )}
+      {/* Scrims: left for the text, bottom for the controls. */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10 bg-gradient-to-r from-[#1a1017]/90 via-[#1a1017]/55 to-[#1a1017]/10"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-[#1a1017]/80 to-transparent"
+      />
+
+      <div className="mx-auto flex min-h-[560px] w-full max-w-[1320px] flex-col justify-between gap-12 px-4 pb-8 pt-32 sm:px-6 md:min-h-[640px] md:px-8 md:pt-40">
+        <div className="max-w-2xl">
+          <p className="hc-mono mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--color-brass)]">
+            Architectural hardware · Sakchi · Jamshedpur
+          </p>
+          <h1 className="hc-serif text-5xl font-light leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl">
+            Explore Our Collections
+          </h1>
+          <p className="mt-5 max-w-xl text-base font-light leading-relaxed text-white/85 sm:text-lg">
+            Architectural hardware, kitchen fittings, wardrobe systems and more — available at our Sakchi showroom.
+          </p>
         </div>
 
-        <figure className="hero-image hidden lg:block lg:col-span-5">
-          <div className="relative aspect-[4/5] overflow-hidden rounded border border-[var(--border)] bg-[var(--surface-raised)] shadow-[0_24px_60px_rgba(26,16,23,0.10)]">
-            <Image
-              src={SHOWROOM_WALL}
-              alt="Cabinet handles and pulls in brass, matte black and ivory finishes on the Hardware Collection showroom wall in Sakchi"
-              fill
-              priority
-              sizes="(min-width: 1320px) 500px, 40vw"
-              className="object-cover"
-              style={{ filter: "contrast(1.05) saturate(1.03)" }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-black/10 via-35% to-transparent" aria-hidden="true" />
-            <figcaption className="absolute left-5 bottom-5 right-5 flex items-end justify-between gap-4 text-white">
-              <span>
-                <span className="hc-mono block text-[10px] uppercase tracking-[0.22em] text-white/75">On display</span>
-                <span className="hc-serif block text-2xl leading-tight">The Sakchi showroom</span>
-              </span>
-              <Link
-                href="/#showroom"
-                className="hc-focus shrink-0 rounded border border-white/40 px-3 py-2 text-[11px] font-semibold uppercase tracking-[0.18em] hover:bg-white hover:text-[#1a1017] transition-colors"
+        <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
+          <div aria-live={playing ? "off" : "polite"} className="max-w-md">
+            <p className="hc-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
+              {String(current + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")} · {active.tagline}
+            </p>
+            <p className="hc-serif mt-1 text-2xl font-light">{active.title}</p>
+            <div className="mt-4 flex flex-wrap gap-3">
+              <Button
+                asChild
+                className="brass-plate h-11 rounded px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
               >
-                Visit
-              </Link>
-            </figcaption>
+                <a href={`#${active.id}`}>
+                  Explore {active.title}
+                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
+              >
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                  Ask our team
+                </a>
+              </Button>
+            </div>
           </div>
-        </figure>
+
+          <div className="flex items-center gap-3">
+            <div role="group" aria-label="Choose a slide" className="flex items-center">
+              {slides.map((slide, index) => (
+                <button
+                  key={slide.id}
+                  type="button"
+                  aria-label={`Show ${slide.title}`}
+                  aria-current={index === current}
+                  onClick={() => api?.scrollTo(index)}
+                  className="hc-focus group flex h-11 w-7 items-center justify-center"
+                >
+                  <span
+                    className={`block h-[3px] rounded-full transition-all duration-300 motion-reduce:transition-none ${
+                      index === current ? "w-6 bg-[var(--color-brass)]" : "w-3 bg-white/40 group-hover:bg-white/70"
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+
+            <div className="flex items-center gap-1">
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                aria-label="Previous slide"
+                onClick={() => api?.scrollPrev()}
+                className="h-11 w-11 rounded-full text-white hover:bg-white/10 hover:text-white"
+              >
+                <ChevronLeft aria-hidden="true" className="h-5 w-5" />
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                aria-label="Next slide"
+                onClick={() => api?.scrollNext()}
+                className="h-11 w-11 rounded-full text-white hover:bg-white/10 hover:text-white"
+              >
+                <ChevronRight aria-hidden="true" className="h-5 w-5" />
+              </Button>
+              <Button
+                type="button"
+                variant="ghost"
+                size="icon"
+                aria-label={playing ? "Pause slideshow" : "Play slideshow"}
+                aria-pressed={!playing}
+                onClick={() => setAutoplayChoice(!playing)}
+                className="h-11 w-11 rounded-full text-white hover:bg-white/10 hover:text-white"
+              >
+                {playing ? (
+                  <Pause aria-hidden="true" className="h-4 w-4" />
+                ) : (
+                  <Play aria-hidden="true" className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );
 }
-
-

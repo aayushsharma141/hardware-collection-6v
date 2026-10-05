@@ -20,7 +20,7 @@ describe("Sanity schema / query parity", () => {
   const cases: [string, string, string[]][] = [
     ["category", getCategoriesQuery, ["eyebrow", "icon", "cardVariant", "featured", "displayOrder", "primaryRail", "families", "searchKeywords", "whatsappMessage", "categoryImage", "image", "seo"]],
     ["brand", getBrandsQuery, ["authorizedStatus", "featured", "displayOrder", "description", "brandPositioning", "website", "country", "logo", "officialCatalogue", "marketingAssets", "seo"]],
-    ["product", getAllProductsQuery, ["catalogReference", "showroomDisplay", "featured", "heroImage", "shortDescription", "specifications", "seo"]],
+    ["product", getAllProductsQuery, ["catalogReference", "subcategoryTitle", "showroomDisplay", "featured", "heroImage", "shortDescription", "specifications", "seo"]],
   ];
 
   it.each(cases)("%s: query fields exist in the schema", (type, query, fields) => {

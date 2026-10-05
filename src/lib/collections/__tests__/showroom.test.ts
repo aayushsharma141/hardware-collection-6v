@@ -6,9 +6,11 @@ import {
   OTHER_GROUP,
   SHOWROOM_GROUPS,
   allShowroomSections,
+  categoriesByFamily,
   categoryRails,
   familyForAnchor,
   groupProducts,
+  inSubcategory,
   isFamilyNamedCategory,
   productCategorySlug,
   railGroupId,
@@ -17,6 +19,7 @@ import {
   showroomGroupId,
   showroomHref,
   showroomHrefForCategory,
+  subcategoriesOf,
 } from "../showroom";
 
 /** Products as Sanity returns them: a `categorySlug`, no `category` label. */
@@ -364,5 +367,88 @@ describe("sectionCategories", () => {
 
   it("skips a category it has no display name for", () => {
     expect(sectionCategories([sanityShaped("a", "mystery")], labels)).toEqual([]);
+  });
+});
+
+describe("subcategoriesOf", () => {
+  const p = (subcategory?: string | null) => ({ subcategory });
+
+  it("lists each sub-category once, in the order products first use it", () => {
+    expect(subcategoriesOf([p("Biometric"), p("Fingerprint"), p("Biometric")])).toEqual(["Biometric", "Fingerprint"]);
+  });
+
+  it("treats spellings that differ only in case or spacing as one, keeping the first", () => {
+    expect(subcategoriesOf([p("Long Bar"), p("long  bar"), p(" LONG BAR ")])).toEqual(["Long Bar"]);
+  });
+
+  it("ignores products with no sub-category, so an unsorted category yields none", () => {
+    expect(subcategoriesOf([p(), p(null), p(""), p("   ")])).toEqual([]);
+    expect(subcategoriesOf([])).toEqual([]);
+  });
+});
+
+describe("inSubcategory", () => {
+  it("matches the chosen label regardless of case and spacing", () => {
+    expect(inSubcategory({ subcategory: "Long Bar" }, "long  bar")).toBe(true);
+    expect(inSubcategory({ subcategory: "Long Bar" }, "Knobs")).toBe(false);
+  });
+
+  it("never matches a product that has no sub-category", () => {
+    expect(inSubcategory({}, "Knobs")).toBe(false);
+    expect(inSubcategory({ subcategory: null }, "Knobs")).toBe(false);
+  });
+});
+
+describe("categoriesByFamily", () => {
+  const cat = (slug: string, name: string, primaryRail: string | null, extra: object = {}) => ({
+    slug,
+    name,
+    primaryRail,
+    ...extra,
+  });
+  const categories = [
+    cat("digital-locks", "Digital Locks", "door-hardware", { shortDesc: "Biometric locks", imageUrl: "/dl.png" }),
+    cat("hotel-locks", "Hotel Locks", "door-hardware"),
+    cat("door-hardware", "Door Hardware", "door-hardware"),
+    cat("kids-collection", "Kids Collection", "handles-knobs"),
+    cat("mail-box", "Mail Box", "bathroom"),
+  ];
+  const byFamily = categoriesByFamily(categories, categoryRails(categories));
+
+  it("files each category under the family the rails put it in", () => {
+    expect(byFamily.get("smart-security")?.map((c) => c.name)).toEqual(["Digital Locks"]);
+    expect(byFamily.get("door")?.map((c) => c.name)).toEqual(["Hotel Locks"]);
+    expect(byFamily.get("wardrobe-furniture")?.map((c) => c.name)).toEqual(["Kids Collection"]);
+    expect(byFamily.get("bathroom-hardware")?.map((c) => c.name)).toEqual(["Mail Box"]);
+  });
+
+  it("leaves out the category that is a whole family rather than an item in it", () => {
+    const all = [...byFamily.values()].flat().map((c) => c.slug);
+    expect(all).not.toContain("door-hardware");
+  });
+
+  it("carries the description and image for the item's own panel", () => {
+    expect(byFamily.get("smart-security")?.[0]).toEqual({
+      slug: "digital-locks",
+      name: "Digital Locks",
+      blurb: "Biometric locks",
+      image: "/dl.png",
+    });
+  });
+
+  it("keeps the order given, drops duplicates and nameless or slugless entries", () => {
+    const messy = [
+      cat("hotel-locks", "Hotel Locks", "door-hardware"),
+      cat("hotel-locks", "Hotel Locks again", "door-hardware"),
+      cat("door-sliding", "Door Sliding", "door-hardware"),
+      { slug: "no-name", name: "  ", primaryRail: "door-hardware" },
+      { name: "No slug", primaryRail: "door-hardware" },
+    ];
+    const result = categoriesByFamily(messy, categoryRails(messy));
+    expect(result.get("door")?.map((c) => c.name)).toEqual(["Hotel Locks", "Door Sliding"]);
+  });
+
+  it("returns nothing for no categories", () => {
+    expect(categoriesByFamily([], categoryRails([])).size).toBe(0);
   });
 });

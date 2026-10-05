@@ -22,8 +22,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Product } from "@/types/catalog";
 import {
   familyForAnchor,
+  inSubcategory,
   productCategorySlug,
-  sectionCategories,
+  subcategoriesOf,
+  type FamilyCategory,
   type ShowroomSection,
 } from "@/lib/collections/showroom";
 import ShowcaseCard from "./ShowcaseCard";
@@ -59,14 +61,8 @@ function Rule() {
 export interface CollectionExplorerProps {
   /** Every family, in page order; a family with no products still appears. */
   sections: ShowroomSection<Product>[];
-  /** Category slug -> display name. */
-  categoryNames: ReadonlyMap<string, string>;
-  /** Category slug -> one-line description. */
-  categoryBlurb: (slug: string) => string | undefined;
-  /** Category slug -> thumbnail (the category's own image, else one of its products'). */
-  categoryImage: (slug: string, products: Product[]) => string | undefined;
-  /** Family id -> names of the categories filed under it, for families with no products yet. */
-  familyCategoryNames: ReadonlyMap<string, string[]>;
+  /** Family id -> its categories (every item in the collection, with or without products). */
+  familyCategories: ReadonlyMap<string, FamilyCategory[]>;
   /** Family id -> tile photograph. */
   familyImage: (familyId: string, products: Product[]) => string | undefined;
   /** Brand name -> logo URL, when the brand has one. */
@@ -99,10 +95,7 @@ const readServerHash = () => "";
  */
 export default function CollectionExplorer({
   sections,
-  categoryNames,
-  categoryBlurb,
-  categoryImage,
-  familyCategoryNames,
+  familyCategories,
   familyImage,
   brandLogo,
   getImage,
@@ -194,10 +187,7 @@ export default function CollectionExplorer({
           <TabsContent key={section.group.id} value={section.group.id} className="mt-6">
             <FamilyPanel
               section={section}
-              categoryNames={categoryNames}
-              categoryBlurb={categoryBlurb}
-              categoryImage={categoryImage}
-              emptyCategoryNames={familyCategoryNames.get(section.group.id) ?? []}
+              categories={familyCategories.get(section.group.id) ?? []}
               brandLogo={brandLogo}
               getImage={getImage}
               onOpenProduct={onOpenProduct}
@@ -237,10 +227,7 @@ export default function CollectionExplorer({
 
 interface FamilyPanelProps {
   section: ShowroomSection<Product>;
-  categoryNames: ReadonlyMap<string, string>;
-  categoryBlurb: (slug: string) => string | undefined;
-  categoryImage: (slug: string, products: Product[]) => string | undefined;
-  emptyCategoryNames: string[];
+  categories: FamilyCategory[];
   brandLogo: (brandName: string) => string | undefined;
   getImage: (product: Product) => string;
   onOpenProduct: (product: Product, trigger: HTMLElement) => void;
@@ -249,12 +236,18 @@ interface FamilyPanelProps {
   onClose: () => void;
 }
 
+/** Category pills shown before "+N more": enough to scan, not a wall of chips on a phone. */
+const PILLS_COLLAPSED = 8;
+
+/**
+ * One collection open: its categories, then (where products are tagged) its
+ * sub-categories, then a few products. Three levels, three different controls:
+ * image tiles pick the collection, rounded pills pick the category, and plain
+ * text filters pick the sub-category.
+ */
 function FamilyPanel({
   section,
-  categoryNames,
-  categoryBlurb,
-  categoryImage,
-  emptyCategoryNames,
+  categories,
   brandLogo,
   getImage,
   onOpenProduct,
@@ -263,22 +256,35 @@ function FamilyPanel({
   onClose,
 }: FamilyPanelProps) {
   const { group, products } = section;
-  const vocabulary = sectionCategories(products, categoryNames, group.id);
-  // The first category is selected on open, as in the mockup; a family whose
-  // products carry no named category just shows them all.
-  const [selected, setSelected] = useState<string | null>(vocabulary[0]?.slug ?? null);
   const Icon = FAMILY_ICON[group.id] ?? DoorClosed;
-  // A category named exactly like its family ("Glass Hardware" in Glass Hardware) says nothing new.
-  const namedCategories = emptyCategoryNames.filter((name) => name.toLowerCase() !== group.title.toLowerCase());
 
-  const inView = selected ? products.filter((p) => productCategorySlug(p) === selected) : products;
+  // `null` = every category in the collection.
+  const [categorySlug, setCategorySlug] = useState<string | null>(null);
+  const [subcategory, setSubcategory] = useState<string | null>(null);
+  const [showAllPills, setShowAllPills] = useState(false);
+
+  const category = categories.find((c) => c.slug === categorySlug) ?? null;
+  const inCategory = category ? products.filter((p) => productCategorySlug(p) === category.slug) : products;
+  const subcategories = subcategoriesOf(inCategory);
+  const inView = subcategory ? inCategory.filter((p) => inSubcategory(p, subcategory)) : inCategory;
   const shown = inView.slice(0, PRODUCTS_PER_VIEW);
-  const activeCategory = vocabulary.find((c) => c.slug === selected);
-  const label = activeCategory?.name ?? group.title;
-  const blurb = (selected && categoryBlurb(selected)) || undefined;
+  const label = category?.name ?? group.title;
+
+  const countFor = (slug: string) => products.filter((p) => productCategorySlug(p) === slug).length;
+  // Keep the chosen category visible even when the list is collapsed.
+  const pills =
+    showAllPills || categories.length <= PILLS_COLLAPSED
+      ? categories
+      : categories.filter((c, i) => i < PILLS_COLLAPSED || c.slug === categorySlug);
+  const hiddenPills = categories.length - pills.length;
 
   const brandNames = [...new Set(inView.map((p) => p.brandName || p.brand).filter((b): b is string => Boolean(b)))];
   const catalogue = brandNames.map((name) => ({ name, href: catalogueHrefFor(name) })).find((c) => c.href);
+
+  const chooseCategory = (slug: string | null) => {
+    setCategorySlug(slug);
+    setSubcategory(null);
+  };
 
   return (
     <Card className="gap-0 rounded border-[var(--border)] bg-[var(--surface)] p-5 shadow-none sm:p-8">
@@ -305,144 +311,190 @@ function FamilyPanel({
         </Button>
       </div>
 
-      {products.length === 0 ? (
-        <div className="mt-6 flex flex-col items-start gap-5 border-t border-[var(--border)] pt-6">
-          <p className="max-w-2xl text-base font-light leading-relaxed text-[var(--text-secondary)]">
-            {namedCategories.length > 0 ? (
-              <>
-                We carry <span className="text-[var(--text-primary)]">{namedCategories.join(", ")}</span>. These
-                pieces are not photographed online yet — ask us and we&apos;ll share what&apos;s available, or see
-                them at the showroom.
-              </>
-            ) : (
-              <>
-                This range is not photographed online yet. Ask us and we&apos;ll share what&apos;s available, or see
-                it at the showroom.
-              </>
-            )}
-          </p>
-          <Button
-            asChild
-            className="brass-plate h-12 rounded px-6 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+      {/* Level 2 — category: every item in the collection, as pills. */}
+      {categories.length > 0 && (
+        <div className="mt-6 border-t border-[var(--border)] pt-5">
+          <p
+            id={`${group.id}-categories`}
+            className="hc-mono mb-3 text-[10px] uppercase tracking-[0.18em] text-[var(--text-secondary)]"
           >
-            <a href={enquiryHref(group.title)} target="_blank" rel="noopener noreferrer">
-              <MessageCircle aria-hidden="true" className="h-4 w-4" />
-              Ask us about {group.title}
-            </a>
-          </Button>
-        </div>
-      ) : (
-        <>
-          {/* Category tiles — only where a family has more than one to choose from. */}
-          {vocabulary.length > 1 && (
-            <div
-              role="group"
-              aria-label={`${group.title} categories`}
-              className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-5"
-            >
-              {vocabulary.map((category) => {
-                const isActive = selected === category.slug;
-                const thumb = categoryImage(
-                  category.slug,
-                  products.filter((p) => productCategorySlug(p) === category.slug)
-                );
-                return (
-                  <button
-                    key={category.slug}
-                    type="button"
-                    aria-pressed={isActive}
-                    onClick={() => setSelected(category.slug)}
-                    className={`hc-focus flex min-h-16 items-center gap-3 rounded border p-2 text-left transition-colors ${
-                      isActive
-                        ? "border-[var(--color-brass)] bg-[var(--color-brass-light)]/40"
-                        : "border-[var(--border)] bg-[var(--surface-raised)]/60 hover:border-[var(--color-brass)]"
-                    }`}
-                  >
-                    <span className="relative block h-12 w-12 shrink-0 overflow-hidden rounded-sm bg-[var(--surface)]">
-                      {thumb && <Image src={thumb} alt="" fill sizes="48px" className="object-cover" />}
+            Category
+          </p>
+          <div role="group" aria-labelledby={`${group.id}-categories`} className="flex flex-wrap gap-2">
+            {[{ slug: null, name: "All" } as const, ...pills].map((item) => {
+              const active = categorySlug === item.slug;
+              const count = item.slug ? countFor(item.slug) : 0;
+              return (
+                <button
+                  key={item.slug ?? "all"}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => chooseCategory(item.slug)}
+                  className={`hc-focus inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-[13px] transition-colors ${
+                    active
+                      ? "border-ink bg-ink text-white"
+                      : "border-[var(--border)] bg-[var(--surface-raised)]/60 text-ink hover:border-brass"
+                  }`}
+                >
+                  {item.name}
+                  {count > 0 && (
+                    <span className={`text-[11px] ${active ? "text-white/70" : "text-[var(--text-secondary)]"}`}>
+                      {count}
                     </span>
-                    <span className="text-[13px] leading-snug text-[var(--text-primary)]">{category.name}</span>
-                  </button>
-                );
-              })}
-            </div>
-          )}
-
-          <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-            <div className="min-w-0">
-              <h4 className="hc-serif flex items-center gap-4 text-2xl font-light leading-tight">
-                {label}
-                <Rule />
-              </h4>
-              {blurb && <p className="mt-1 text-sm font-light text-[var(--text-secondary)]">{blurb}</p>}
-            </div>
-            {brandNames.length > 0 && (
-              <div className="shrink-0 sm:text-right">
-                <p className="text-[11px] font-light text-[var(--text-secondary)]">Available from</p>
-                <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 sm:justify-end">
-                  {brandNames.map((name, i) => {
-                    const logo = brandLogo(name);
-                    return (
-                      <span key={name} className="flex items-center gap-3">
-                        {i > 0 && <span aria-hidden="true" className="h-3 w-px bg-[var(--border)]" />}
-                        {logo ? (
-                          <Image
-                            src={logo}
-                            alt={name}
-                            width={96}
-                            height={28}
-                            className="h-5 w-auto max-w-[88px] object-contain"
-                            unoptimized={logo.endsWith(".svg")}
-                          />
-                        ) : (
-                          <span className="hc-mono text-[11px] font-semibold uppercase tracking-[0.14em]">{name}</span>
-                        )}
-                      </span>
-                    );
-                  })}
-                </p>
-              </div>
+                  )}
+                </button>
+              );
+            })}
+            {hiddenPills > 0 && (
+              <button
+                type="button"
+                onClick={() => setShowAllPills(true)}
+                className="hc-focus inline-flex min-h-11 items-center rounded-full px-3 text-[13px] text-brass-ink underline underline-offset-4"
+              >
+                +{hiddenPills} more
+              </button>
             )}
           </div>
+        </div>
+      )}
 
-          <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
-            {shown.map((product) => (
-              <li key={product._id || product.id || product.name}>
-                <ShowcaseCard product={product} image={getImage(product)} onOpen={onOpenProduct} />
-              </li>
-            ))}
-            <li>
-              <Card className="h-full justify-center gap-4 rounded border-[var(--border)] bg-[var(--surface-raised)]/60 p-6 text-center shadow-none">
-                <p className="hc-serif text-xl font-light leading-snug">Looking for more options?</p>
-                <p className="text-sm font-light leading-relaxed text-[var(--text-secondary)]">
-                  {inView.length > shown.length
-                    ? `${inView.length - shown.length} more on display at the showroom. `
-                    : "More designs and finishes are on display at the showroom. "}
-                  View the brand catalogue or speak to our team.
-                </p>
-                <Button
-                  asChild
-                  variant="outline"
-                  className="h-11 w-full rounded border-[var(--color-brass)] bg-transparent px-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brass-ink hover:bg-[var(--color-brass)] hover:text-white"
+      {/* Level 3 — sub-category: only where products have been tagged with two or more. */}
+      {subcategories.length >= 2 && (
+        <div className="mt-4 flex flex-wrap items-center gap-x-1 gap-y-1">
+          <span
+            id={`${group.id}-subcategories`}
+            className="hc-mono mr-2 text-[10px] uppercase tracking-[0.18em] text-[var(--text-secondary)]"
+          >
+            Sub-category
+          </span>
+          <div role="group" aria-labelledby={`${group.id}-subcategories`} className="flex flex-wrap items-center">
+            {[null, ...subcategories].map((name) => {
+              const active = subcategory === name;
+              return (
+                <button
+                  key={name ?? "all"}
+                  type="button"
+                  aria-pressed={active}
+                  onClick={() => setSubcategory(name)}
+                  className={`hc-focus inline-flex min-h-11 items-center px-3 text-[13px] underline-offset-[6px] transition-colors ${
+                    active
+                      ? "text-ink underline decoration-[var(--color-brass)] decoration-2"
+                      : "text-[var(--text-secondary)] hover:text-ink"
+                  }`}
                 >
-                  <a href={enquiryHref(label)} target="_blank" rel="noopener noreferrer">
-                    <MessageCircle aria-hidden="true" className="h-4 w-4" />
-                    Ask on WhatsApp
-                  </a>
-                </Button>
-                {catalogue?.href && (
-                  <Link
-                    href={catalogue.href}
-                    className="hc-focus inline-flex min-h-11 items-center justify-center gap-2 text-xs text-brass-ink hover:text-[var(--text-primary)]"
-                  >
-                    View {catalogue.name} Catalogue
-                    <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
-                  </Link>
-                )}
-              </Card>
+                  {name ?? "All"}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* The selection's heading, its brands, and what's in it. */}
+      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+        <div className="min-w-0">
+          <h4 className="hc-serif flex items-center gap-4 text-2xl font-light leading-tight">
+            {category ? label : "Featured pieces"}
+            <Rule />
+          </h4>
+          {category?.blurb && <p className="mt-1 text-sm font-light text-[var(--text-secondary)]">{category.blurb}</p>}
+        </div>
+        {shown.length > 0 && brandNames.length > 0 && (
+          <div className="shrink-0 sm:text-right">
+            <p className="text-[11px] font-light text-[var(--text-secondary)]">Available from</p>
+            <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 sm:justify-end">
+              {brandNames.map((name, i) => {
+                const logo = brandLogo(name);
+                return (
+                  <span key={name} className="flex items-center gap-3">
+                    {i > 0 && <span aria-hidden="true" className="h-3 w-px bg-[var(--border)]" />}
+                    {logo ? (
+                      <Image
+                        src={logo}
+                        alt={name}
+                        width={96}
+                        height={28}
+                        className="h-5 w-auto max-w-[88px] object-contain"
+                        unoptimized={logo.endsWith(".svg")}
+                      />
+                    ) : (
+                      <span className="hc-mono text-[11px] font-semibold uppercase tracking-[0.14em]">{name}</span>
+                    )}
+                  </span>
+                );
+              })}
+            </p>
+          </div>
+        )}
+      </div>
+
+      {shown.length === 0 ? (
+        // Nothing entered for this selection yet: the showroom still carries it, so say so and hand over.
+        <div className="mt-5 grid items-center gap-6 rounded border border-[var(--border)] bg-[var(--surface-raised)]/60 p-5 sm:grid-cols-[minmax(0,220px)_1fr] sm:p-6">
+          {category?.image ? (
+            <div className="relative aspect-[4/3] overflow-hidden rounded bg-[var(--surface-raised)]">
+              <Image src={category.image} alt="" fill sizes="220px" className="object-cover" />
+            </div>
+          ) : null}
+          <div className={`flex flex-col items-start gap-4 ${category?.image ? "" : "sm:col-span-2"}`}>
+            <p className="hc-serif text-xl font-light leading-snug">
+              {category ? `You'll find ${category.name} at the showroom.` : "More of this range is at the showroom."}
+            </p>
+            <p className="max-w-xl text-sm font-light leading-relaxed text-[var(--text-secondary)]">
+              {category
+                ? "We haven't photographed this range for the website yet."
+                : "We haven't photographed all of it for the website yet."}{" "}
+              Ask us and we&apos;ll share what&apos;s available, or come and see it.
+            </p>
+            <Button
+              asChild
+              className="brass-plate h-12 rounded px-6 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+            >
+              <a href={enquiryHref(label)} target="_blank" rel="noopener noreferrer">
+                <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                Ask about {label}
+              </a>
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
+          {shown.map((product) => (
+            <li key={product._id || product.id || product.name}>
+              <ShowcaseCard product={product} image={getImage(product)} onOpen={onOpenProduct} />
             </li>
-          </ul>
-        </>
+          ))}
+          <li>
+            <Card className="h-full justify-center gap-4 rounded border-[var(--border)] bg-[var(--surface-raised)]/60 p-6 text-center shadow-none">
+              <p className="hc-serif text-xl font-light leading-snug">Looking for more options?</p>
+              <p className="text-sm font-light leading-relaxed text-[var(--text-secondary)]">
+                {inView.length > shown.length
+                  ? `${inView.length - shown.length} more on display at the showroom. `
+                  : "More designs and finishes are on display at the showroom. "}
+                View the brand catalogue or speak to our team.
+              </p>
+              <Button
+                asChild
+                variant="outline"
+                className="h-11 w-full rounded border-[var(--color-brass)] bg-transparent px-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brass-ink hover:bg-[var(--color-brass)] hover:text-white"
+              >
+                <a href={enquiryHref(label)} target="_blank" rel="noopener noreferrer">
+                  <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                  Ask on WhatsApp
+                </a>
+              </Button>
+              {catalogue?.href && (
+                <Link
+                  href={catalogue.href}
+                  className="hc-focus inline-flex min-h-11 items-center justify-center gap-2 text-xs text-brass-ink hover:text-[var(--text-primary)]"
+                >
+                  View {catalogue.name} Catalogue
+                  <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
+                </Link>
+              )}
+            </Card>
+          </li>
+        </ul>
       )}
     </Card>
   );
