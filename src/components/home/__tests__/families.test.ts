@@ -26,28 +26,36 @@ describe("resolveFamilies", () => {
     }
   });
 
-  it("are the five business families, one tile each", () => {
+  it("are five of the seven showroom families, one tile each", () => {
     expect(CATEGORY_FAMILIES.map((f) => f.groupId)).toEqual([
-      "handles-knobs",
-      "door-hardware",
-      "bathroom",
-      "kitchen-wardrobes",
-      "furniture-hardware",
+      "door",
+      "smart-security",
+      "kitchen",
+      "wardrobe-furniture",
+      "bathroom-hardware",
     ]);
   });
 
+  it("name each tile for the family it opens", () => {
+    for (const family of CATEGORY_FAMILIES) {
+      const title = SHOWROOM_GROUPS.find((g) => g.id === family.groupId)!.title;
+      const tileName = [family.name, family.nameBreak].filter(Boolean).join(" ");
+      expect(tileName, family.groupId).toBe(title);
+    }
+  });
+
   it("drops a family whose group has no products", () => {
-    const shown = resolveFamilies(undefined, ["handles-knobs", "door-hardware", "kitchen-wardrobes"]);
-    expect(shown.map((f) => f.groupId)).toEqual(["handles-knobs", "door-hardware", "kitchen-wardrobes"]);
+    const shown = resolveFamilies(undefined, ["wardrobe-furniture", "door", "kitchen"]);
+    expect(shown.map((f) => f.groupId)).toEqual(["door", "kitchen", "wardrobe-furniture"]);
   });
 
   it("brings a family back as soon as its group has a product", () => {
-    const shown = resolveFamilies(undefined, ["door-hardware", "bathroom"]);
-    expect(shown.map((f) => f.groupId)).toEqual(["door-hardware", "bathroom"]);
+    const shown = resolveFamilies(undefined, ["door", "bathroom-hardware"]);
+    expect(shown.map((f) => f.groupId)).toEqual(["door", "bathroom-hardware"]);
   });
 
   it("keeps a family that has a single product — it is not folded away", () => {
-    expect(resolveFamilies(undefined, ["handles-knobs"]).map((f) => f.groupId)).toEqual(["handles-knobs"]);
+    expect(resolveFamilies(undefined, ["wardrobe-furniture"]).map((f) => f.groupId)).toEqual(["wardrobe-furniture"]);
   });
 
   it("filters nothing when the populated groups are unknown", () => {
@@ -57,17 +65,19 @@ describe("resolveFamilies", () => {
   it("collapses CMS categories that share a showroom group into one tile", () => {
     const shown = resolveFamilies(
       [
-        featured("Digital Locks", "digital-locks", "door-hardware"),
+        // Sanity still carries the old five-family values on these; the slug and
+        // the mapping decide the family, so two door categories share one tile.
         featured("Mortise & Door Locks", "mortise-door-locks", "door-hardware"),
         featured("Door Hardware", "door-hardware", "door-hardware"),
+        featured("Digital Locks", "digital-locks", "door-hardware"),
         featured("Drawer Channels", "drawer-channels", "furniture-hardware"),
       ],
       ALL
     );
-    expect(shown.map((f) => f.groupId)).toEqual(["door-hardware", "furniture-hardware"]);
+    expect(shown.map((f) => f.groupId)).toEqual(["door", "smart-security", "furniture-fittings"]);
     // Named for the section it opens, not for the first category that mapped there.
-    expect(shown.map((f) => f.name)).toEqual(["Door Hardware", "Furniture Hardware"]);
-    expect(shown[0].href).toBe("/collections#door-hardware");
+    expect(shown.map((f) => f.name)).toEqual(["Door Hardware", "Smart & Security", "Furniture Fittings"]);
+    expect(shown[0].href).toBe("/collections#door");
   });
 
   it("never links to a path under /collections", () => {
@@ -79,7 +89,7 @@ describe("resolveFamilies", () => {
   });
 
   it("numbers the families it actually shows, from 01", () => {
-    const shown = resolveFamilies(undefined, ["kitchen-wardrobes", "bathroom"]);
+    const shown = resolveFamilies(undefined, ["kitchen", "bathroom-hardware"]);
     expect(shown.map((f) => f.index)).toEqual(["01", "02"]);
   });
 });

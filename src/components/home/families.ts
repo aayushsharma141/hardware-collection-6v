@@ -30,7 +30,7 @@ export function resolveFamilies(
   const candidates: CategoryFamily[] =
     featured && featured.length > 0
       ? featured.map((category, position) => {
-          const groupId = railGroupId(category.primaryRail);
+          const groupId = railGroupId(category.primaryRail, category.slug);
           // The built-in family for the same group lends its photograph and copy
           // where the CMS entry has none. Explicit, not guessed from the slug.
           const base =

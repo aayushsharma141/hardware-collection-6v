@@ -1,6 +1,6 @@
 import type { NextConfig } from "next";
-import { SHOWROOM_GROUPS, railGroupId, showroomHref } from "./src/lib/collections/showroom";
-import { CATEGORIES, PRODUCTS } from "./src/content/fallback/catalog";
+import { SHOWROOM_GROUPS, LEGACY_FAMILY, railGroupId, showroomHref } from "./src/lib/collections/showroom";
+import { CATEGORIES } from "./src/content/fallback/catalog";
 
 /**
  * `/collections` is the only collections route. Category, family and space
@@ -19,27 +19,27 @@ import { CATEGORIES, PRODUCTS } from "./src/content/fallback/catalog";
 const LEGACY_CATEGORY_REDIRECTS = [
   ...CATEGORIES.map((category) => ({
     source: `/collections/${category.slug}`,
-    destination: showroomHref(railGroupId(category.primaryRail)),
+    destination: showroomHref(railGroupId(category.primaryRail, category.slug)),
   })),
-  // The five family pages — one per showroom family, slug = the family's id.
-  // Only generate an anchor redirect for families that have products in the
-  // fallback catalogue; empty families fall through to the catch-all below
-  // (/collections) rather than landing on a hash that doesn't scroll anywhere.
-  ...(() => {
-    const catRail = new Map(CATEGORIES.map((c) => [c.slug, railGroupId(c.primaryRail)]));
-    const populatedFamilies = new Set(PRODUCTS.map((p) => catRail.get(p.categorySlug)).filter(Boolean));
-    return SHOWROOM_GROUPS.filter((g) => populatedFamilies.has(g.id)).map((group) => ({
-      source: `/collections/${group.id}`,
-      destination: showroomHref(group.id),
-    }));
-  })(),
+  // The five family pages that existed before the seven-family catalogue — slug =
+  // the old family's id — each to the family that replaced it.
+  ...Object.entries(LEGACY_FAMILY).map(([oldId, family]) => ({
+    source: `/collections/${oldId}`,
+    destination: showroomHref(family),
+  })),
+  // The seven current families never had a page of their own; a stray
+  // /collections/<family> goes to its section.
+  ...SHOWROOM_GROUPS.filter((group) => !(group.id in LEGACY_FAMILY)).map((group) => ({
+    source: `/collections/${group.id}`,
+    destination: showroomHref(group.id),
+  })),
 ];
 
 /** The pre-Phase-12 space pages, sent to the nearest showroom family. */
 const LEGACY_SPACE_REDIRECTS = [
-  { source: '/collections/kitchen', destination: showroomHref('kitchen-wardrobes') },
-  { source: '/collections/wardrobe', destination: showroomHref('kitchen-wardrobes') },
-  { source: '/collections/entrance', destination: showroomHref('door-hardware') },
+  { source: '/collections/kitchen', destination: showroomHref('kitchen') },
+  { source: '/collections/wardrobe', destination: showroomHref('kitchen') },
+  { source: '/collections/entrance', destination: showroomHref('door') },
   // No single family matches these two, so they land on the catalogue itself.
   { source: '/collections/living-interior', destination: '/collections' },
   { source: '/collections/commercial', destination: '/collections' },

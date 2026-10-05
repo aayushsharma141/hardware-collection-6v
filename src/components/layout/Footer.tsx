@@ -17,6 +17,8 @@ import {
   Hand,
   Armchair,
   Bath,
+  Lock,
+  PanelsTopLeft,
   ChevronRight,
 } from "lucide-react";
 import { AtmosphericLayer } from "@/components/home/AtmosphericLayer";
@@ -64,11 +66,13 @@ interface FooterProps {
  * one mapping in `@/lib/collections/showroom`; only the icons live here.
  */
 const SHOWROOM_ICONS: Record<string, typeof DoorClosed> = {
-  "handles-knobs": Hand,
-  "door-hardware": DoorClosed,
-  bathroom: Bath,
-  "kitchen-wardrobes": UtensilsCrossed,
-  "furniture-hardware": Armchair,
+  door: DoorClosed,
+  "smart-security": Lock,
+  kitchen: UtensilsCrossed,
+  "wardrobe-furniture": Hand,
+  "bathroom-hardware": Bath,
+  glass: PanelsTopLeft,
+  "furniture-fittings": Armchair,
 };
 
 function toShowroomLinks(groups: { id: string; title: string }[] | undefined) {

@@ -59,6 +59,28 @@
   --color-text-muted:           var(--color-muted-bone);
   --color-text-main:            var(--color-ink);
 
+  /* ── shadcn/ui bridge ───────────────────────────────────────
+     The components in components/ui read these names. Only the ones this theme
+     did not already define are added, each mapped onto the brand palette above:
+     --color-primary (wine) and --color-background (ivory) already existed and
+     are used as they are. --color-muted is the brand's muted *text* colour, so
+     shadcn's `bg-muted` is not used; style those parts with className. */
+  --color-foreground:           var(--color-ink);
+  --color-card:                 var(--color-ivory);
+  --color-card-foreground:      var(--color-ink);
+  --color-popover:              var(--color-ivory);
+  --color-popover-foreground:   var(--color-ink);
+  --color-primary-foreground:   #ffffff;
+  --color-secondary:            var(--color-pearl);
+  --color-secondary-foreground: var(--color-ink);
+  --color-muted-foreground:     var(--color-charcoal);
+  --color-accent:               var(--color-pearl);
+  --color-accent-foreground:    var(--color-ink);
+  --color-destructive:          var(--color-wine-deep);
+  --color-border:               rgba(26, 16, 23, 0.09);
+  --color-input:                rgba(26, 16, 23, 0.09);
+  --color-ring:                 var(--color-brass);
+
   /* Legacy gold aliases — still valid for decorative use */
   --color-gold-primary:   var(--color-brass);
   --color-gold-light:     var(--color-brass-light);

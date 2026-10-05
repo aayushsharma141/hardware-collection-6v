@@ -1,10 +1,15 @@
 import { describe, expect, it } from "vitest";
 import { CATEGORIES } from "@/content/fallback/catalog";
 import {
+  CANONICAL_CATEGORY_FAMILY,
+  LEGACY_FAMILY,
   OTHER_GROUP,
   SHOWROOM_GROUPS,
+  allShowroomSections,
   categoryRails,
+  familyForAnchor,
   groupProducts,
+  isFamilyNamedCategory,
   productCategorySlug,
   railGroupId,
   sectionCategories,
@@ -22,8 +27,9 @@ const sanityShaped = (name: string, categorySlug: string, featured = false) => (
 });
 
 /**
- * Categories as Sanity returns them, each with the `primaryRail` the owner set.
- * These are the real rails for the categories the eleven live products use.
+ * Categories as Sanity returns them. The `primaryRail` values are the real ones
+ * the owner set before the seven-family catalogue — the five old family ids —
+ * for the categories the eleven live products use.
  */
 const rails = categoryRails([
   { slug: "digital-locks", primaryRail: "door-hardware" },
@@ -40,13 +46,15 @@ const rails = categoryRails([
 ]);
 
 describe("SHOWROOM_GROUPS", () => {
-  it("are the business's five showroom families, in its own order", () => {
+  it("are the seven families a visitor shops by, in page order", () => {
     expect(SHOWROOM_GROUPS.map((g) => g.id)).toEqual([
-      "handles-knobs",
-      "door-hardware",
-      "bathroom",
-      "kitchen-wardrobes",
-      "furniture-hardware",
+      "door",
+      "smart-security",
+      "kitchen",
+      "wardrobe-furniture",
+      "bathroom-hardware",
+      "glass",
+      "furniture-fittings",
     ]);
   });
 
@@ -56,40 +64,106 @@ describe("SHOWROOM_GROUPS", () => {
     for (const id of ids) expect(id).toMatch(/^[a-z]+(-[a-z]+)*$/);
   });
 
-  it("do not include the four-group names the business never used", () => {
+  it("never reuse one of the five old ids for a different family", () => {
+    // `door-hardware` once named the whole door family; as a *current* id it would
+    // be indistinguishable from an old Sanity value that now means something else.
     const ids = SHOWROOM_GROUPS.map((g) => g.id);
-    for (const invented of ["door-entry", "kitchen-wardrobe", "bathroom-glass", "security-storage"]) {
-      expect(ids).not.toContain(invented);
+    for (const old of Object.keys(LEGACY_FAMILY)) expect(ids).not.toContain(old);
+  });
+
+  it("each carry a tagline and description for their tile and panel", () => {
+    for (const group of [...SHOWROOM_GROUPS, OTHER_GROUP]) {
+      expect(group.tagline.length, group.id).toBeGreaterThan(0);
+      expect(group.description.length, group.id).toBeGreaterThan(0);
     }
   });
 });
 
 describe("the fallback categories", () => {
-  it("each name one of the five families, so none falls through to 'other'", () => {
+  it("each land in one of the seven families, so none falls through to 'other'", () => {
     expect(CATEGORIES).toHaveLength(13);
     for (const category of CATEGORIES) {
-      expect(railGroupId(category.primaryRail), category.slug).not.toBe(OTHER_GROUP.id);
+      expect(railGroupId(category.primaryRail, category.slug), category.slug).not.toBe(OTHER_GROUP.id);
+    }
+  });
+
+  it("every canonical default names a real family", () => {
+    const ids = new Set(SHOWROOM_GROUPS.map((g) => g.id));
+    for (const [slug, family] of Object.entries(CANONICAL_CATEGORY_FAMILY)) {
+      expect(ids.has(family), slug).toBe(true);
+    }
+    for (const [old, family] of Object.entries(LEGACY_FAMILY)) {
+      expect(ids.has(family), old).toBe(true);
     }
   });
 });
 
 describe("railGroupId", () => {
-  it("accepts the five rails and nothing else", () => {
-    expect(railGroupId("handles-knobs")).toBe("handles-knobs");
-    expect(railGroupId("kitchen-wardrobes")).toBe("kitchen-wardrobes");
-    expect(railGroupId("kitchen")).toBe("other"); // a legacy value, not a family
+  it("uses a current family id set in the CMS, whatever the category", () => {
+    expect(railGroupId("glass")).toBe("glass");
+    expect(railGroupId("kitchen", "digital-locks")).toBe("kitchen");
+  });
+
+  it("falls back to the canonical default for the category", () => {
+    // Sanity still says `door-hardware` for Digital Locks; it belongs in Smart & Security now.
+    expect(railGroupId("door-hardware", "digital-locks")).toBe("smart-security");
+    expect(railGroupId(null, "glass-hardware")).toBe("glass");
+    expect(railGroupId(undefined, "cabinet-wardrobe-handles")).toBe("wardrobe-furniture");
+  });
+
+  it("maps an old five-family value, for a category that has no canonical default", () => {
+    expect(railGroupId("handles-knobs", "kids-collection")).toBe("wardrobe-furniture");
+    expect(railGroupId("bathroom", "mail-box")).toBe("bathroom-hardware");
+    expect(railGroupId("kitchen-wardrobes")).toBe("kitchen");
+    expect(railGroupId("furniture-hardware")).toBe("furniture-fittings");
+  });
+
+  it("sends anything else to 'other'", () => {
+    expect(railGroupId("nonsense")).toBe("other");
     expect(railGroupId("")).toBe("other");
     expect(railGroupId(null)).toBe("other");
     expect(railGroupId(undefined)).toBe("other");
+    expect(railGroupId(null, "never-heard-of-it")).toBe("other");
+  });
+});
+
+describe("familyForAnchor", () => {
+  it("opens a current family by its id", () => {
+    expect(familyForAnchor("kitchen")).toBe("kitchen");
+    expect(familyForAnchor("other")).toBe("other");
+  });
+
+  it("opens the replacement for an old anchor still in bookmarks or the homepage", () => {
+    expect(familyForAnchor("handles-knobs")).toBe("wardrobe-furniture");
+    expect(familyForAnchor("door-hardware")).toBe("door");
+    expect(familyForAnchor("kitchen-wardrobes")).toBe("kitchen");
+  });
+
+  it("ignores an anchor that is not a family", () => {
+    expect(familyForAnchor("")).toBeNull();
+    expect(familyForAnchor("explorer")).toBeNull();
+  });
+});
+
+describe("isFamilyNamedCategory", () => {
+  it("recognises the categories that are a whole family, current or old", () => {
+    expect(isFamilyNamedCategory("door-hardware")).toBe(true);
+    expect(isFamilyNamedCategory("kitchen-wardrobes")).toBe(true);
+    expect(isFamilyNamedCategory("kitchen")).toBe(true);
+  });
+
+  it("does not hide a real narrower category", () => {
+    expect(isFamilyNamedCategory("digital-locks")).toBe(false);
+    expect(isFamilyNamedCategory("mortise-door-locks")).toBe(false);
   });
 });
 
 describe("showroomGroupId", () => {
-  it("follows the category's primaryRail, never its name", () => {
-    expect(showroomGroupId("digital-locks", rails)).toBe("door-hardware");
-    // A "wardrobe handle" lives under Handles & Knobs because the CMS says so.
-    expect(showroomGroupId("cabinet-wardrobe-handles", rails)).toBe("handles-knobs");
-    expect(showroomGroupId("mail-box", rails)).toBe("bathroom");
+  it("follows the category's rail and slug, never its name", () => {
+    expect(showroomGroupId("digital-locks", rails)).toBe("smart-security");
+    // A "wardrobe handle" lives under Wardrobe & Furniture because the data says so.
+    expect(showroomGroupId("cabinet-wardrobe-handles", rails)).toBe("wardrobe-furniture");
+    expect(showroomGroupId("mail-box", rails)).toBe("bathroom-hardware");
     // Contains "door" and "handle"; keyword matching would have claimed it.
     expect(showroomGroupId("some-door-handle-collection", rails)).toBe(OTHER_GROUP.id);
   });
@@ -101,23 +175,23 @@ describe("showroomGroupId", () => {
     expect(showroomGroupId(null, rails)).toBe("other");
   });
 
-  it("moves a category when its primaryRail is edited, with no code change", () => {
-    const before = categoryRails([{ slug: "safes", primaryRail: "door-hardware" }]);
-    const after = categoryRails([{ slug: "safes", primaryRail: "kitchen-wardrobes" }]);
-    expect(showroomGroupId("safes", before)).toBe("door-hardware");
-    expect(showroomGroupId("safes", after)).toBe("kitchen-wardrobes");
+  it("moves a category when its family is edited, with no code change", () => {
+    const before = categoryRails([{ slug: "safes", primaryRail: "door" }]);
+    const after = categoryRails([{ slug: "safes", primaryRail: "kitchen" }]);
+    expect(showroomGroupId("safes", before)).toBe("door");
+    expect(showroomGroupId("safes", after)).toBe("kitchen");
   });
 });
 
 describe("categoryRails", () => {
   it("accepts Sanity's object-shaped slug as well as a plain string", () => {
     const index = categoryRails([
-      { slug: { current: "a" }, primaryRail: "bathroom" },
-      { slug: "b", primaryRail: "door-hardware" },
-      { slug: undefined, primaryRail: "bathroom" },
+      { slug: { current: "a" }, primaryRail: "bathroom-hardware" },
+      { slug: "b", primaryRail: "door" },
+      { slug: undefined, primaryRail: "glass" },
     ]);
-    expect(index.get("a")).toBe("bathroom");
-    expect(index.get("b")).toBe("door-hardware");
+    expect(index.get("a")).toBe("bathroom-hardware");
+    expect(index.get("b")).toBe("door");
     expect(index.size).toBe(2);
   });
 
@@ -128,8 +202,8 @@ describe("categoryRails", () => {
 
 describe("hrefs", () => {
   it("point at an in-page anchor on the one catalogue route", () => {
-    expect(showroomHref("door-hardware")).toBe("/collections#door-hardware");
-    expect(showroomHrefForCategory("drawer-channels", rails)).toBe("/collections#furniture-hardware");
+    expect(showroomHref("door")).toBe("/collections#door");
+    expect(showroomHrefForCategory("drawer-channels", rails)).toBe("/collections#furniture-fittings");
     expect(showroomHrefForCategory("unmapped", rails)).toBe("/collections#other");
   });
 });
@@ -161,17 +235,19 @@ describe("groupProducts", () => {
     expect(groupProducts(eleven, rails).flatMap((s) => s.products)).toHaveLength(11);
   });
 
-  it("splits the eleven into the families the CMS puts them in", () => {
+  it("splits the eleven into the seven-family layout, in page order", () => {
     expect(groupProducts(eleven, rails).map((s) => [s.group.id, s.products.length])).toEqual([
-      ["handles-knobs", 1],
-      ["door-hardware", 6],
-      ["kitchen-wardrobes", 4],
+      ["door", 3],
+      ["smart-security", 3],
+      ["kitchen", 3],
+      ["wardrobe-furniture", 2],
     ]);
   });
 
   it("keeps a family with one product as a family — it is not folded into another", () => {
-    const handles = groupProducts(eleven, rails).find((s) => s.group.id === "handles-knobs");
-    expect(handles?.products.map((p) => p.name)).toEqual(["Cabinet Knob"]);
+    const sections = groupProducts([sanityShaped("Cabinet Knob", "cabinet-wardrobe-handles")], rails);
+    expect(sections.map((s) => s.group.id)).toEqual(["wardrobe-furniture"]);
+    expect(sections[0].products.map((p) => p.name)).toEqual(["Cabinet Knob"]);
   });
 
   it("never files a product under two groups", () => {
@@ -179,23 +255,22 @@ describe("groupProducts", () => {
     expect(new Set(names).size).toBe(names.length);
   });
 
-  it("omits empty families rather than rendering a heading over nothing", () => {
+  it("omits empty families (allShowroomSections is the one that keeps them)", () => {
     const ids = groupProducts(eleven, rails).map((s) => s.group.id);
-    expect(ids).not.toContain("bathroom");
-    expect(ids).not.toContain("furniture-hardware");
+    expect(ids).not.toContain("bathroom-hardware");
+    expect(ids).not.toContain("glass");
     expect(ids).not.toContain("other");
   });
 
   it("puts featured products first within a family, preserving the rest of the order", () => {
-    const door = groupProducts(eleven, rails).find((s) => s.group.id === "door-hardware")!;
-    expect(door.products.map((p) => p.name)).toEqual([
+    const security = groupProducts(eleven, rails).find((s) => s.group.id === "smart-security")!;
+    expect(security.products.map((p) => p.name)).toEqual([
       "Dorset Biometric Smart Digital Lock X1",
       "Godrej Advantis Revolution Biometric Door Lock",
       "Biometric Lock",
-      "Hafele Mortise Lock",
-      "Mortice Handle",
-      "Pull Handle",
     ]);
+    const door = groupProducts(eleven, rails).find((s) => s.group.id === "door")!;
+    expect(door.products.map((p) => p.name)).toEqual(["Hafele Mortise Lock", "Mortice Handle", "Pull Handle"]);
   });
 
   it("shows unplaced and uncategorised products in a trailing 'other' section", () => {
@@ -204,12 +279,45 @@ describe("groupProducts", () => {
       [sanityShaped("Wooden Pull", "wooden-collection"), uncategorised, sanityShaped("Mail Box", "mail-box")],
       rails
     );
-    expect(sections.map((s) => s.group.id)).toEqual(["bathroom", "other"]);
+    expect(sections.map((s) => s.group.id)).toEqual(["bathroom-hardware", "other"]);
     expect(sections[1].products).toHaveLength(2);
   });
 
   it("returns nothing for an empty catalogue", () => {
     expect(groupProducts([], rails)).toEqual([]);
+  });
+});
+
+describe("allShowroomSections", () => {
+  const products = [sanityShaped("Mortice Handle", "door-hardware"), sanityShaped("Mail Box", "mail-box")];
+
+  it("lists all seven families in page order, including those with no products", () => {
+    const sections = allShowroomSections(products, rails);
+    expect(sections.map((s) => s.group.id)).toEqual(SHOWROOM_GROUPS.map((g) => g.id));
+    expect(sections.filter((s) => s.products.length === 0).map((s) => s.group.id)).toEqual([
+      "smart-security",
+      "kitchen",
+      "wardrobe-furniture",
+      "glass",
+      "furniture-fittings",
+    ]);
+  });
+
+  it("shows the same products groupProducts does", () => {
+    const filled = allShowroomSections(products, rails).filter((s) => s.products.length > 0);
+    expect(filled).toEqual(groupProducts(products, rails));
+  });
+
+  it("still shows all seven for an empty catalogue, and no 'other'", () => {
+    const sections = allShowroomSections([], rails);
+    expect(sections).toHaveLength(SHOWROOM_GROUPS.length);
+    expect(sections.every((s) => s.products.length === 0)).toBe(true);
+  });
+
+  it("adds a trailing 'other' only when a product is unplaced", () => {
+    const sections = allShowroomSections([sanityShaped("Mystery", "no-such-category")], rails);
+    expect(sections.at(-1)?.group.id).toBe("other");
+    expect(sections.at(-1)?.products).toHaveLength(1);
   });
 });
 
@@ -226,25 +334,31 @@ describe("sectionDensity", () => {
 describe("sectionCategories", () => {
   const labels = new Map([
     ["digital-locks", "Digital Locks"],
+    ["mortise-door-locks", "Mortise & Door Locks"],
     ["door-hardware", "Door Hardware"],
   ]);
 
   it("lists each detailed category in a family once, in product order", () => {
     const products = [
-      sanityShaped("a", "door-hardware"),
+      sanityShaped("a", "mortise-door-locks"),
       sanityShaped("b", "digital-locks"),
-      sanityShaped("c", "door-hardware"),
+      sanityShaped("c", "mortise-door-locks"),
     ];
     expect(sectionCategories(products, labels)).toEqual([
-      { slug: "door-hardware", name: "Door Hardware" },
+      { slug: "mortise-door-locks", name: "Mortise & Door Locks" },
       { slug: "digital-locks", name: "Digital Locks" },
     ]);
   });
 
-  it("leaves out the category that is the family itself", () => {
+  it("leaves out a category that is a whole family rather than a narrower collection", () => {
     const products = [sanityShaped("a", "door-hardware"), sanityShaped("b", "digital-locks")];
-    expect(sectionCategories(products, labels, "door-hardware")).toEqual([
-      { slug: "digital-locks", name: "Digital Locks" },
+    expect(sectionCategories(products, labels)).toEqual([{ slug: "digital-locks", name: "Digital Locks" }]);
+  });
+
+  it("leaves out the category named after the section it sits in", () => {
+    const products = [sanityShaped("a", "digital-locks"), sanityShaped("b", "mortise-door-locks")];
+    expect(sectionCategories(products, labels, "digital-locks")).toEqual([
+      { slug: "mortise-door-locks", name: "Mortise & Door Locks" },
     ]);
   });
 

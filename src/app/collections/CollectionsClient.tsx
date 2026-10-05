@@ -2,19 +2,25 @@
 
 import React, { useCallback, useMemo } from "react";
 import Footer from "@/components/layout/Footer";
-import { MessageSquare } from "lucide-react";
 import { Product, Category, Brand, Offer, SiteSettings, getSlugString } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
-import { categoryRails, groupProducts, productCategorySlug, showroomGroupId } from "@/lib/collections/showroom";
+import {
+  allShowroomSections,
+  categoryRails,
+  isFamilyNamedCategory,
+  productCategorySlug,
+  showroomGroupId,
+} from "@/lib/collections/showroom";
 
 import CollectionsHero from "@/components/collections/CollectionsHero";
 import CollectionExplorer from "@/components/collections/CollectionExplorer";
 import ProductQuickView from "@/components/collections/ProductQuickView";
 import OffersSection from "@/components/collections/OffersSection";
-import BrandDiscovery from "@/components/collections/BrandDiscovery";
+import BrandsSection from "@/components/collections/BrandsSection";
+import ShowroomCta from "@/components/collections/ShowroomCta";
 
 export interface CollectionsClientProps {
   categories: Category[];
@@ -34,6 +40,16 @@ export interface CollectionsClientProps {
  * showroom. No search, filters, shortlist or comparison: those answer questions
  * the showroom team answers better.
  */
+/** Tile photographs for the families the site has artwork for; others use a product or none. */
+const FAMILY_TILE_IMAGE: Record<string, string> = {
+  door: "/cinema/categories/HC-03-DOORS.png",
+  "smart-security": "/cinema/categories/HC-03-SECURITY.png",
+  kitchen: "/cinema/categories/HC-03-KITCHEN.png",
+  "wardrobe-furniture": "/cinema/categories/HC-03-WARDROBE.png",
+  "bathroom-hardware": "/cinema/categories/HC-03-BATHROOM.png",
+  glass: "/cinema/categories/HC-03-GLASS.png",
+};
+
 export default function CollectionsClient({
   categories,
   products,
@@ -75,7 +91,21 @@ export default function CollectionsClient({
     () => new Map(categories.map((c) => [getSlugString(c.slug), c.name || c.title || ""] as const)),
     [categories]
   );
-  const sections = useMemo(() => groupProducts(products, rails), [products, rails]);
+  const sections = useMemo(() => allShowroomSections(products, rails), [products, rails]);
+
+  // For a family with no products yet: the categories filed under it, by name.
+  const familyCategoryNames = useMemo(() => {
+    const byFamily = new Map<string, string[]>();
+    for (const category of categories) {
+      const slug = getSlugString(category.slug);
+      const name = category.name || category.title;
+      if (!slug || !name || isFamilyNamedCategory(slug)) continue;
+      const family = rails.get(slug);
+      if (!family) continue;
+      byFamily.set(family, [...(byFamily.get(family) ?? []), name]);
+    }
+    return byFamily;
+  }, [categories, rails]);
 
   const catalogueHrefFor = useCallback(
     (brandName: string) => {
@@ -111,6 +141,38 @@ export default function CollectionsClient({
     [settings]
   );
 
+  const familyImage = useCallback(
+    (familyId: string, familyProducts: Product[]) =>
+      FAMILY_TILE_IMAGE[familyId] || familyProducts.find((p) => p.imageUrl)?.imageUrl,
+    []
+  );
+
+  const categoryBySlug = useMemo(
+    () => new Map(categories.map((c) => [getSlugString(c.slug), c] as const)),
+    [categories]
+  );
+  const categoryBlurb = useCallback(
+    (slug: string) => {
+      const c = categoryBySlug.get(slug);
+      return c?.shortDesc || c?.description;
+    },
+    [categoryBySlug]
+  );
+  const categoryImage = useCallback(
+    (slug: string, categoryProducts: Product[]) =>
+      categoryBySlug.get(slug)?.imageUrl || categoryProducts.find((p) => p.imageUrl)?.imageUrl,
+    [categoryBySlug]
+  );
+
+  const brandLogo = useCallback(
+    (brandName: string) => {
+      const key = normalizeBrandKey({ name: brandName } as Brand);
+      const brand = brands.find((b) => normalizeBrandKey(b) === key);
+      return brand?.logoUrl || brand?.logo || undefined;
+    },
+    [brands]
+  );
+
   const whatsappHref = buildGeneralInquiryWhatsappLink(settings?.whatsappNumber);
   const phone = settings?.primaryPhone?.trim();
 
@@ -122,6 +184,11 @@ export default function CollectionsClient({
         <CollectionExplorer
           sections={sections}
           categoryNames={categoryNames}
+          categoryBlurb={categoryBlurb}
+          categoryImage={categoryImage}
+          familyCategoryNames={familyCategoryNames}
+          familyImage={familyImage}
+          brandLogo={brandLogo}
           getImage={getProductDisplayImage}
           onOpenProduct={(product, trigger) => handleProductSelect(product, trigger)}
           enquiryHref={enquiryHref}
@@ -132,46 +199,14 @@ export default function CollectionsClient({
 
         <OffersSection offers={offers} enquiryHref={offerEnquiryHref} />
 
-        <BrandDiscovery brands={brands} />
+        <BrandsSection brands={brands} />
 
-        {/* Hand-off: everything beyond recognising the product happens with the team. */}
-        <section id="collections-bottom-cta" className="border-t border-[var(--border)] bg-[var(--surface-raised)] py-16">
-          <div className="mx-auto max-w-[1320px] px-6 text-center">
-            <MessageSquare className="mx-auto mb-4 h-8 w-8 text-[var(--color-brass)] opacity-80" aria-hidden="true" />
-            <h2 className="hc-serif mb-3 text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)] sm:text-4xl">
-              Looking for something specific?
-            </h2>
-            <p className="mx-auto mb-8 max-w-xl text-sm font-light leading-relaxed text-[var(--text-secondary)] sm:text-base">
-              Message us a photo or a requirement, call the showroom, or visit us in Sakchi to see finishes and
-              mechanisms in person.
-            </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <a
-                href={whatsappHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="brass-plate hc-focus inline-flex items-center justify-center rounded px-8 py-4 text-xs font-medium uppercase tracking-widest text-white shadow-md transition-transform duration-150 active:scale-95"
-              >
-                WhatsApp us
-              </a>
-              {phone && (
-                <a
-                  href={`tel:${phone.replace(/[^\d+]/g, "")}`}
-                  className="rail-button hc-focus inline-flex items-center justify-center rounded border border-[var(--border)] px-8 py-4 text-xs font-medium uppercase tracking-widest text-[var(--text-primary)] transition-colors duration-150 hover:border-[var(--color-brass)]"
-                >
-                  Call the showroom
-                </a>
-              )}
-              <button
-                type="button"
-                onClick={() => openDrawer({ source: "collections", intent: "consultation" })}
-                className="rail-button hc-focus inline-flex items-center justify-center rounded border border-[var(--border)] px-8 py-4 text-xs font-medium uppercase tracking-widest text-[var(--text-primary)] transition-colors duration-150 hover:border-[var(--color-brass)]"
-              >
-                Plan a showroom visit
-              </button>
-            </div>
-          </div>
-        </section>
+        <ShowroomCta
+          whatsappHref={whatsappHref}
+          phone={phone}
+          address={settings?.showroomAddress}
+          onVisit={() => openDrawer({ source: "collections", intent: "consultation" })}
+        />
       </main>
 
       <ProductQuickView

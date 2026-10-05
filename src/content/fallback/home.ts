@@ -37,59 +37,60 @@ export interface CategoryFamily {
 
 export const CATEGORY_FAMILIES: CategoryFamily[] = [
   {
-    id: "handles",
-    groupId: "handles-knobs",
-    index: "01",
-    name: "Handles",
-    nameBreak: "& Knobs",
-    subtitle: "Contemporary profiles to classical architectural detailing.",
-    detail: "Solid forged brass pull handle, PVD Rose Gold.",
-    image: "/cinema/categories/HC-03-DOORS.png",
-    href: showroomHref("handles-knobs"),
-  },
-  {
     id: "door",
-    groupId: "door-hardware",
-    index: "02",
+    groupId: "door",
+    index: "01",
     name: "Door",
     nameBreak: "Hardware",
-    subtitle: "High-security locking systems and precision entrance controls.",
-    detail: "Dorset biometric deadbolt & SS 304 mortise lockset.",
-    image: "/cinema/categories/HC-03-SECURITY.png",
+    subtitle: "Handles, mortise locks and the controls that make up a door.",
+    detail: "Solid forged brass pull handle, PVD Rose Gold.",
+    image: "/cinema/categories/HC-03-DOORS.png",
     isFocal: true,
-    href: showroomHref("door-hardware"),
+    href: showroomHref("door"),
   },
   {
-    id: "bathroom",
-    groupId: "bathroom",
-    index: "03",
-    name: "Bathroom",
-    subtitle: "Bathroom accessories, mirrors and stainless steel mirror cabinets.",
-    detail: "Coordinated stainless steel towel bars, hooks and shelving.",
-    image: "/cinema/categories/HC-03-BATHROOM.png",
-    href: showroomHref("bathroom"),
+    id: "smart-security",
+    groupId: "smart-security",
+    index: "02",
+    name: "Smart &",
+    nameBreak: "Security",
+    subtitle: "Digital and biometric locks, smart access and safes.",
+    detail: "Dorset biometric deadbolt & Godrej fingerprint lock.",
+    image: "/cinema/categories/HC-03-SECURITY.png",
+    href: showroomHref("smart-security"),
   },
   {
     id: "kitchen",
-    groupId: "kitchen-wardrobes",
-    index: "04",
+    groupId: "kitchen",
+    index: "03",
     name: "Kitchen",
-    nameBreak: "& Wardrobes",
-    subtitle: "German soft-close drawer fittings, sliding systems and quartz sinks.",
+    nameBreak: "Hardware",
+    subtitle: "German soft-close drawer fittings, sinks and faucets.",
     detail: "Hafele Matrix Box tandem drawer & Labacha quartz sink.",
     image: "/cinema/categories/HC-03-KITCHEN.png",
-    href: showroomHref("kitchen-wardrobes"),
+    href: showroomHref("kitchen"),
   },
   {
-    id: "furniture",
-    groupId: "furniture-hardware",
-    index: "05",
-    name: "Furniture",
-    nameBreak: "Hardware",
-    subtitle: "Concealed hinges, precision drawer runners and joinery fittings.",
-    detail: "Hettich Sensys integrated soft-close hinge system.",
+    id: "wardrobe-furniture",
+    groupId: "wardrobe-furniture",
+    index: "04",
+    name: "Wardrobe",
+    nameBreak: "& Furniture",
+    subtitle: "Sliding systems, cabinet and wardrobe handles, and fittings.",
+    detail: "Hettich TopLine XL sliding system.",
     image: "/cinema/categories/HC-03-WARDROBE.png",
-    href: showroomHref("furniture-hardware"),
+    href: showroomHref("wardrobe-furniture"),
+  },
+  {
+    id: "bathroom-hardware",
+    groupId: "bathroom-hardware",
+    index: "05",
+    name: "Bathroom",
+    nameBreak: "Hardware",
+    subtitle: "Bathroom accessories, mirrors and stainless steel fittings.",
+    detail: "Coordinated stainless steel towel bars, hooks and shelving.",
+    image: "/cinema/categories/HC-03-BATHROOM.png",
+    href: showroomHref("bathroom-hardware"),
   },
 ];
 
@@ -121,7 +122,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Satin Stainless",
     category: "Door Hardware",
     img: "/cinema/categories/HC-03-DOORS.png",
-    href: showroomHref("door-hardware"),
+    href: showroomHref("door"),
     blurb:
       "Long-format entrance pulls in satin stainless — a low-reflectance surface that holds its finish under daily contact and reads quietly against timber, glass and stone.",
     statement:
@@ -135,7 +136,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Antique Brass",
     category: "Door Hardware",
     img: "/cinema/collection/HC-05-01.png",
-    href: showroomHref("door-hardware"),
+    href: showroomHref("door"),
     blurb:
       "Lever-on-rose mortice sets in antique brass, matched to the lock body and strike so the whole door schedule specifies as one line rather than three.",
     statement:
@@ -149,7 +150,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Graphite",
     category: "Digital Locks",
     img: "/cinema/categories/HC-03-SECURITY.png",
-    href: showroomHref("door-hardware"), // category: digital-locks
+    href: showroomHref("smart-security"), // category: digital-locks
     blurb:
       "Fingerprint, PIN and key access in one graphite body. Working units are on the wall in Sakchi — enrol a print and feel the throw before you specify it.",
     statement:
@@ -163,7 +164,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Galvanised Steel",
     category: "Cabinet Hardware",
     img: "/cinema/categories/HC-03-WARDROBE.png",
-    href: showroomHref("kitchen-wardrobes"),
+    href: showroomHref("kitchen"),
     blurb:
       "Full-extension runners with integrated soft-close damping. The difference between grades is in the last centimetre of travel, which is why we keep them loaded and open on display.",
     statement:
@@ -177,7 +178,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     finish: "Matte Gold",
     category: "Cabinet Hardware",
     img: "/cinema/collection/HC-05-02.png",
-    href: showroomHref("handles-knobs"), // category: cabinet-wardrobe-handles
+    href: showroomHref("wardrobe-furniture"), // category: cabinet-wardrobe-handles
     blurb:
       "Small-format knobs in matte gold — the detail a kitchen is read by, and the one most often chosen from a photograph rather than in the hand.",
     statement:

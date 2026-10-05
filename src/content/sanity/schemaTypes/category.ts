@@ -163,9 +163,22 @@ export const categoryType = defineType({
     }),
     defineField({
       name: "primaryRail",
-      title: "Primary Rail",
+      title: "Showroom family",
       type: "string",
       group: "identity",
+      description:
+        "Which family tile this category appears under on /collections. Older values (handles-knobs, kitchen-wardrobes…) still work and map to the nearest family.",
+      options: {
+        list: [
+          { title: "Door Hardware", value: "door" },
+          { title: "Smart & Security", value: "smart-security" },
+          { title: "Kitchen Hardware", value: "kitchen" },
+          { title: "Wardrobe & Furniture", value: "wardrobe-furniture" },
+          { title: "Bathroom Hardware", value: "bathroom-hardware" },
+          { title: "Glass Hardware", value: "glass" },
+          { title: "Furniture Fittings", value: "furniture-fittings" },
+        ],
+      },
     }),
     defineField({
       name: "displayOrder",

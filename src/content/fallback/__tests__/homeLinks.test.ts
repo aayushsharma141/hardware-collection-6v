@@ -25,19 +25,20 @@ describe("Homepage deep links stay inside the one catalogue route", () => {
     });
   });
 
-  it("sends the Door Hardware tile and the biometric lock to Door Hardware", () => {
+  it("sends the Door tile to Door Hardware and the biometric lock to Smart & Security", () => {
     const door = CATEGORY_FAMILIES.find((f) => f.name === "Door");
-    expect(door?.href).toBe("/collections#door-hardware");
+    expect(door?.href).toBe("/collections#door");
+    // A lock is a digital-locks category, which the catalogue files under Smart & Security.
     const lock = SIGNATURE_PIECES.find((p) => p.name === "Biometric Lock");
-    expect(lock?.href).toBe("/collections#door-hardware");
+    expect(lock?.href).toBe("/collections#smart-security");
   });
 
-  it("sends each signature piece to the family its category's primaryRail names", () => {
-    // The knob is a cabinet handle, which the business files under Handles & Knobs;
-    // the channel is a kitchen runner. No guessing from the name.
+  it("sends each signature piece to the family its category belongs to", () => {
+    // The knob is a cabinet handle, filed under Wardrobe & Furniture; the channel is
+    // a kitchen runner. No guessing from the name.
     const channel = SIGNATURE_PIECES.find((p) => p.name === "Soft-Close Channel");
     const knob = SIGNATURE_PIECES.find((p) => p.name === "Cabinet Knob");
-    expect(channel?.href).toBe("/collections#kitchen-wardrobes");
-    expect(knob?.href).toBe("/collections#handles-knobs");
+    expect(channel?.href).toBe("/collections#kitchen");
+    expect(knob?.href).toBe("/collections#wardrobe-furniture");
   });
 });

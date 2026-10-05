@@ -2,19 +2,25 @@
  * How the /collections catalogue is grouped.
  *
  * The public site has two content routes — `/` and `/collections` — so a
- * category is never a URL. The business already has a hierarchy for its
- * merchandise: five showroom families, recorded on every Sanity category as
- * `primaryRail`. This file does not invent a second one. A product's family is
+ * category is never a URL. Products are grouped into seven showroom families,
+ * the ones a visitor thinks in ("I need something for my kitchen"), and each
+ * family is an in-page section (`/collections#kitchen`):
  *
- *     product.categorySlug  ->  category.primaryRail  ->  showroom family
+ *     product.categorySlug  ->  category  ->  showroom family
  *
- * and the families are in-page sections (`/collections#door-hardware`).
+ * A category's family is decided, in order, by:
  *
- * Nothing here guesses. An earlier version looked for words like "handle" or
- * "cabinet" in a category name, and a later one kept its own four-group table
- * ("Door & Entry", "Bathroom & Glass"…) that the business never used. The only
- * input now is the field the CMS owner sets, so regrouping a category is an
- * edit in Studio, not in code.
+ *   1. its Sanity `primaryRail`, when the owner has set one of the seven ids
+ *      below — so regrouping a category is an edit in Studio, not in code;
+ *   2. the default for the 13 canonical categories (CANONICAL_CATEGORY_FAMILY);
+ *   3. the family that replaced its old `primaryRail` (LEGACY_FAMILY), for the
+ *      five-family values every category carried before 2026-10-06;
+ *   4. otherwise `other`, a visible section, so no product ever disappears.
+ *
+ * The seven ids deliberately differ from the five old ones ("door" not
+ * "door-hardware") so an old value and a deliberate new one are never confused:
+ * Digital Locks still says `door-hardware` in Sanity, but belongs in Smart &
+ * Security now.
  *
  * Deliberately free of imports so client components, server components and
  * next.config.ts can all use it.
@@ -24,53 +30,101 @@ export interface ShowroomGroup {
   /** The `primaryRail` value, also the anchor id on /collections. */
   id: string;
   title: string;
+  /** Two or three words under the tile title ("Handles • Locks • Closers"). */
+  tagline: string;
   description: string;
 }
 
-/** The five showroom families, in the business's own order. */
+/** The seven showroom families, in the order the page shows them. */
 export const SHOWROOM_GROUPS: readonly ShowroomGroup[] = [
   {
-    id: "handles-knobs",
-    title: "Handles & Knobs",
-    description: "Handles and knobs, from contemporary profiles to classical detailing.",
-  },
-  {
-    id: "door-hardware",
+    id: "door",
     title: "Door Hardware",
-    description: "Locks, handles and the fittings that make up a door.",
+    tagline: "Handles • Locks • Closers",
+    description: "Main door handles, mortise locks, door closers and stoppers.",
   },
   {
-    id: "bathroom",
-    title: "Bathroom",
-    description: "Accessories, mirrors and fittings for the bathroom.",
+    id: "smart-security",
+    title: "Smart & Security",
+    tagline: "Digital Locks • Safes",
+    description: "Digital and biometric locks, smart access and safes.",
   },
   {
-    id: "kitchen-wardrobes",
-    title: "Kitchen & Wardrobes",
-    description: "Mechanisms and fittings for kitchens, wardrobes and sliding systems.",
+    id: "kitchen",
+    title: "Kitchen Hardware",
+    tagline: "Fittings • Sinks • Faucets",
+    description: "Modular kitchen fittings, sinks and faucets.",
   },
   {
-    id: "furniture-hardware",
-    title: "Furniture Hardware",
-    description: "Hinges, drawer runners and joinery fittings.",
+    id: "wardrobe-furniture",
+    title: "Wardrobe & Furniture",
+    tagline: "Sliding • Handles • Fittings",
+    description: "Wardrobe sliding systems, cabinet and wardrobe handles, and fittings.",
+  },
+  {
+    id: "bathroom-hardware",
+    title: "Bathroom Hardware",
+    tagline: "Accessories • Fittings",
+    description: "Bathroom accessories, mirrors and fittings.",
+  },
+  {
+    id: "glass",
+    title: "Glass Hardware",
+    tagline: "Shower • Partitions",
+    description: "Fittings for glass doors, shower enclosures and partitions.",
+  },
+  {
+    id: "furniture-fittings",
+    title: "Furniture Fittings",
+    tagline: "Hinges • Drawers",
+    description: "Concealed hinges, drawer runners and joinery fittings.",
   },
 ];
 
 /**
- * Where a product goes when its category has no (or an unrecognised)
- * `primaryRail` — a new CMS category nobody has placed yet, or a product with no
- * category at all. It is a visible section rather than a silent drop: a product
- * the owner published must never vanish from the catalogue.
+ * Where a product goes when its category has no recognisable family — a new
+ * CMS category nobody has placed yet, or a product with no category at all. It
+ * is a visible section rather than a silent drop: a product the owner published
+ * must never vanish from the catalogue.
  */
 export const OTHER_GROUP: ShowroomGroup = {
   id: "other",
   title: "More Hardware",
+  tagline: "From the showroom",
   description: "Further architectural hardware from the showroom.",
 };
 
 const GROUP_IDS: ReadonlySet<string> = new Set(SHOWROOM_GROUPS.map((group) => group.id));
 
-/** A category slug mapped to the showroom family its `primaryRail` names. */
+/** Default family for the 13 canonical categories (and the two family-named ones). */
+export const CANONICAL_CATEGORY_FAMILY: Readonly<Record<string, string>> = {
+  "main-door-handles": "door",
+  "mortise-door-locks": "door",
+  "door-closers-stoppers": "door",
+  "door-hardware": "door",
+  "digital-locks": "smart-security",
+  safes: "smart-security",
+  "modular-kitchen-hardware": "kitchen",
+  "kitchen-sinks-faucets": "kitchen",
+  "kitchen-wardrobes": "kitchen",
+  "cabinet-wardrobe-handles": "wardrobe-furniture",
+  "wardrobe-hardware-sliding": "wardrobe-furniture",
+  "bathroom-accessories": "bathroom-hardware",
+  "glass-hardware": "glass",
+  "hinges-soft-close": "furniture-fittings",
+  "drawer-channels": "furniture-fittings",
+};
+
+/** The five families used until 2026-10-06, and the family each became. */
+export const LEGACY_FAMILY: Readonly<Record<string, string>> = {
+  "handles-knobs": "wardrobe-furniture",
+  "door-hardware": "door",
+  bathroom: "bathroom-hardware",
+  "kitchen-wardrobes": "kitchen",
+  "furniture-hardware": "furniture-fittings",
+};
+
+/** A category slug mapped to its showroom family. */
 export type CategoryRails = ReadonlyMap<string, string>;
 
 interface CategoryLike {
@@ -83,9 +137,32 @@ function slugOf(slug: CategoryLike["slug"]): string {
   return typeof slug === "string" ? slug : (slug.current ?? "");
 }
 
-/** A raw `primaryRail` value as a showroom group id; anything unrecognised is `other`. */
-export function railGroupId(primaryRail?: string | null): string {
-  return primaryRail && GROUP_IDS.has(primaryRail) ? primaryRail : OTHER_GROUP.id;
+/**
+ * A category's showroom family from its `primaryRail` and slug, by the order in
+ * the header comment. Anything unrecognised is `other`.
+ */
+export function railGroupId(primaryRail?: string | null, categorySlug?: string | null): string {
+  if (primaryRail && GROUP_IDS.has(primaryRail)) return primaryRail;
+  if (categorySlug && CANONICAL_CATEGORY_FAMILY[categorySlug]) return CANONICAL_CATEGORY_FAMILY[categorySlug];
+  if (primaryRail && LEGACY_FAMILY[primaryRail]) return LEGACY_FAMILY[primaryRail];
+  return OTHER_GROUP.id;
+}
+
+/**
+ * The family an in-page anchor names: a current id, or an old one still in
+ * bookmarks and the homepage (`#handles-knobs` opens Wardrobe & Furniture).
+ */
+export function familyForAnchor(anchor: string): string | null {
+  if (GROUP_IDS.has(anchor) || anchor === OTHER_GROUP.id) return anchor;
+  return LEGACY_FAMILY[anchor] ?? null;
+}
+
+/**
+ * A category named after a whole family ("Door Hardware", "Kitchen & Wardrobes")
+ * is the family itself, not a narrower collection, so it is never offered as one.
+ */
+export function isFamilyNamedCategory(slug: string): boolean {
+  return GROUP_IDS.has(slug) || slug in LEGACY_FAMILY;
 }
 
 /** Indexes categories by slug, ready for `showroomGroupId`. */
@@ -93,7 +170,7 @@ export function categoryRails(categories: readonly CategoryLike[]): CategoryRail
   const rails = new Map<string, string>();
   for (const category of categories) {
     const slug = slugOf(category.slug);
-    if (slug) rails.set(slug, railGroupId(category.primaryRail));
+    if (slug) rails.set(slug, railGroupId(category.primaryRail, slug));
   }
   return rails;
 }
@@ -209,9 +286,26 @@ export function sectionCategories<T extends ProductLike>(
   for (const product of products) {
     const slug = productCategorySlug(product);
     const name = labels.get(slug);
-    if (!slug || !name || slug === groupId || seen.has(slug)) continue;
+    if (!slug || !name || slug === groupId || isFamilyNamedCategory(slug) || seen.has(slug)) continue;
     seen.add(slug);
     out.push({ slug, name });
   }
   return out;
 }
+
+/**
+ * Every showroom family in page order, with its products — empty families
+ * included, so /collections can show the whole range and invite an enquiry
+ * where nothing is photographed yet. The `other` section is added only when it
+ * holds something. Products are sorted as in `groupProducts`.
+ */
+export function allShowroomSections<T extends ProductLike>(
+  products: readonly T[],
+  rails: CategoryRails
+): ShowroomSection<T>[] {
+  const filled = new Map(groupProducts(products, rails).map((section) => [section.group.id, section]));
+  const sections = SHOWROOM_GROUPS.map((group) => filled.get(group.id) ?? { group, products: [] as T[] });
+  const other = filled.get(OTHER_GROUP.id);
+  return other ? [...sections, other] : sections;
+}
+
