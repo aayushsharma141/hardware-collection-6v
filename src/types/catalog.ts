@@ -188,3 +188,14 @@ export interface ShowroomFamilyNav {
   shortLabel: string;
   filterSlugs: string[];
 }
+
+/** A showroom offer from the Sanity `offer` document (see schemaTypes/offer.ts). */
+export interface Offer {
+  _id: string;
+  title: string;
+  type: "store" | "brand" | "seasonal" | "occasional";
+  description?: string;
+  validUntil?: string;
+  imageUrl?: string;
+  brandName?: string;
+}

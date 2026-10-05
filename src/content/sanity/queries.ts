@@ -4,7 +4,7 @@ import { Testimonial } from "@/types/testimonial";
 import { CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
 import { mergeCategories, mergeProducts } from "@/lib/collections/catalogue";
 import { categoryRails, groupProducts } from "@/lib/collections/showroom";
-import type { Category } from "@/types/catalog";
+import type { Category, Offer } from "@/types/catalog";
 
 
 /** Fields every product card and list needs, in both old and new image shapes. */
@@ -313,3 +313,27 @@ export async function getFaqs() {
 
 
 
+/**
+ * Offers to show on /collections: switched on, and either ongoing or still
+ * within their last valid day (a `validUntil` date counts until 23:59 UTC).
+ * Tagged "offer" so publishing one in the Studio refreshes the page.
+ */
+export async function getActiveOffers(): Promise<Offer[]> {
+  const query = groq`*[_type == "offer" && active != false
+      && (!defined(validUntil) || dateTime(validUntil + "T23:59:59Z") >= now())]
+    | order(coalesce(validUntil, "9999-12-31") asc, _createdAt desc) {
+      _id,
+      title,
+      "type": offerType,
+      description,
+      validUntil,
+      "imageUrl": image.asset->url,
+      "brandName": brand->name
+    }`;
+  try {
+    return (await client.fetch(query, {}, { next: { tags: ["offer"] } })) ?? [];
+  } catch (error) {
+    console.error("Sanity fetch error:", error);
+    return [];
+  }
+}

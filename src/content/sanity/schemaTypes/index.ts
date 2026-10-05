@@ -14,6 +14,7 @@ import { galleryType } from "./gallery";
 import { faqType } from "./faq";
 import { catalogueType } from "./catalogue";
 import { legalPageType } from "./legalPage";
+import { offerType } from "./offer";
 
 // Objects
 import { seoType } from "./objects/seo";
@@ -22,7 +23,7 @@ import { editorialType } from "./objects/editorial";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
-    categoryType, spaceType, subcategoryType, curatedCollectionType, brandType, productType, testimonialType, homePageType, siteSettingsType, navigationType, galleryType, faqType, catalogueType, legalPageType,
+    categoryType, spaceType, subcategoryType, curatedCollectionType, brandType, productType, testimonialType, homePageType, siteSettingsType, navigationType, galleryType, faqType, catalogueType, legalPageType, offerType,
     seoType, ctaType, editorialType
   ],
 };

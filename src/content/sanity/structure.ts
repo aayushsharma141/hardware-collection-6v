@@ -16,6 +16,7 @@ import {
   LayersIcon,
   AlertCircleIcon,
   EditIcon,
+  BadgePercentIcon,
 } from 'lucide-react'
 import type { ComponentType } from 'react'
 import { apiVersion } from './env'
@@ -60,6 +61,9 @@ export const structure: StructureResolver = (S) =>
                     .documentId('navigation')
                     .title('Navigation')
                 ),
+              S.documentTypeListItem('offer')
+                .title('Offers & Deals')
+                .icon(BadgePercentIcon as ComponentType),
             ])
         ),
 

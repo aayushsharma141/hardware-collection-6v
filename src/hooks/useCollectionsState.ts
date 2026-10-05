@@ -33,7 +33,16 @@ export function useCollectionsState({
   const pathname = usePathname();
 
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  // Seeded from ?product= so a deep link (the homepage product reel) opens the
+  // product on arrival; the sync below only reacts to later URL changes.
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(() => {
+    const productSlug = searchParams.get("product");
+    if (!productSlug) return null;
+    return (
+      products.find((p) => getSlugString(p.slug) === productSlug || p.id === productSlug || p._id === productSlug) ??
+      null
+    );
+  });
   const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | Brand | null>(null);
   const [shortlist, setShortlist] = useState<Product[]>([]);
   const [shortlistToast, setShortlistToast] = useState<string | null>(null);

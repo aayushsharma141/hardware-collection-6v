@@ -71,7 +71,7 @@ export default function CollectionsHero({
           {/* Quiet control instead of giant buttons */}
           <div className="hero-reveal flex mb-12">
             <Link
-              href="#catalogue"
+              href="#explorer"
               className="hc-mono text-[10px] sm:text-xs tracking-[0.2em] uppercase font-medium text-[var(--color-brass)] hover:text-[var(--text-primary)] transition-colors border-b border-[var(--color-brass)] pb-1"
             >
               EXPLORE &darr;
