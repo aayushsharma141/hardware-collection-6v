@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
 import Image from "next/image";
 import Autoplay from "embla-carousel-autoplay";
-import { ArrowRight, ChevronLeft, ChevronRight, MessageCircle, Pause, Play } from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Carousel, CarouselContent, CarouselItem, type CarouselApi } from "@/components/ui/carousel";
 
@@ -19,10 +19,10 @@ export interface HeroSlide {
 
 export interface CollectionsHeroProps {
   slides: HeroSlide[];
-  whatsappHref: string;
+  whatsappHref?: string; // Kept as optional to satisfy existing parent passing it
 }
 
-const AUTOPLAY_MS = 5500;
+const AUTOPLAY_MS = 6500;
 
 function subscribeToMotionPreference(onChange: () => void) {
   const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -38,16 +38,14 @@ const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: r
  *
  * Autoplay is a courtesy, not a requirement: it is off for visitors who ask for
  * reduced motion, pauses while the pointer is over the hero or focus is inside
- * it, and can be stopped with the pause button.
+ * it.
  */
-export default function CollectionsHero({ slides, whatsappHref }: CollectionsHeroProps) {
+export default function CollectionsHero({ slides }: CollectionsHeroProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
-  // `null` = no choice made yet, so follow the visitor's motion preference.
-  const [autoplayChoice, setAutoplayChoice] = useState<boolean | null>(null);
 
   const reducedMotion = useSyncExternalStore(subscribeToMotionPreference, prefersReducedMotion, () => false);
-  const playing = autoplayChoice ?? !reducedMotion;
+  const playing = !reducedMotion;
 
   // One plugin instance for the life of the hero; whether it runs is driven below.
   const autoplay = useMemo(
@@ -66,9 +64,12 @@ export default function CollectionsHero({ slides, whatsappHref }: CollectionsHer
 
   useEffect(() => {
     if (!api) return;
-    if (playing) autoplay.play();
-    else autoplay.stop();
-  }, [api, autoplay, playing]);
+    const autoplayPlugin = api.plugins().autoplay;
+    if (!autoplayPlugin) return;
+
+    if (playing) autoplayPlugin.play();
+    else autoplayPlugin.stop();
+  }, [api, playing]);
 
   if (slides.length === 0) return null;
   const active = slides[Math.min(current, slides.length - 1)];
@@ -105,80 +106,67 @@ export default function CollectionsHero({ slides, whatsappHref }: CollectionsHer
         </CarouselContent>
       </Carousel>
 
-      {/* Scrims: left for the text, bottom for the controls. */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 bg-gradient-to-r from-[#1a1017]/90 via-[#1a1017]/55 to-[#1a1017]/10"
+        className="absolute inset-0 -z-10 bg-[var(--text-primary)]/80"
       />
       <div
         aria-hidden="true"
-        className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-[#1a1017]/80 to-transparent"
+        className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-[var(--text-primary)] to-transparent opacity-90"
       />
 
       <div className="mx-auto flex min-h-[560px] w-full max-w-[1320px] flex-col justify-between gap-12 px-4 pb-8 pt-32 sm:px-6 md:min-h-[640px] md:px-8 md:pt-40">
         <div className="max-w-2xl">
-          <p className="hc-mono mb-4 text-[11px] font-semibold uppercase tracking-[0.24em] text-[var(--color-brass)]">
-            Architectural hardware · Sakchi · Jamshedpur
-          </p>
           <h1 className="hc-serif text-5xl font-light leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl">
             Explore Our Collections
           </h1>
-          <p className="mt-5 max-w-xl text-base font-light leading-relaxed text-white/85 sm:text-lg">
-            Architectural hardware, kitchen fittings, wardrobe systems and more — available at our Sakchi showroom.
-          </p>
         </div>
 
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div aria-live={playing ? "off" : "polite"} className="max-w-md">
-            <p className="hc-mono text-[10px] uppercase tracking-[0.2em] text-white/70">
-              {String(current + 1).padStart(2, "0")} / {String(slides.length).padStart(2, "0")} · {active.tagline}
-            </p>
-            <p className="hc-serif mt-1 text-2xl font-light">{active.title}</p>
+            {active.offerHref ? (
+              <p className="hc-mono text-[9.5px] uppercase tracking-[0.25em] text-[var(--color-brass)] font-semibold mb-1">
+                SPECIAL OFFER
+              </p>
+            ) : active.tagline ? (
+              <p className="hc-mono text-[10px] uppercase tracking-[0.2em] text-white/70 mb-1">
+                {active.tagline}
+              </p>
+            ) : null}
+            <p className="hc-serif mt-1 text-3xl font-light">{active.title}</p>
             <div className="mt-4 flex flex-wrap gap-3">
               {active.offerHref ? (
                 <>
                   <Button
                     asChild
-                    className="brass-plate h-11 rounded px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+                    className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
                   >
                     <a href={active.offerHref} target="_blank" rel="noopener noreferrer">
-                      <MessageCircle aria-hidden="true" className="h-4 w-4" />
-                      Enquire about this offer
+                      <MessageCircle aria-hidden="true" className="h-4 w-4 mr-2" />
+                      Enquire Offer
                     </a>
                   </Button>
                   <Button
                     asChild
                     variant="outline"
-                    className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
+                    className="h-11 rounded-none border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-[0.16em] text-white hover:border-white hover:bg-white/10 hover:text-white active:scale-[0.98] transition-all"
                   >
                     <a href="#offers">
                       All offers
-                      <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                      <ArrowRight aria-hidden="true" className="h-4 w-4 ml-2" />
                     </a>
                   </Button>
                 </>
               ) : (
-                <>
-                  <Button
-                    asChild
-                    className="brass-plate h-11 rounded px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
-                  >
-                    <a href={`#${active.id}`}>
-                      Explore {active.title}
-                      <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                    </a>
-                  </Button>
-                  <Button
-                    asChild
-                    variant="outline"
-                    className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
-                  >
-                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                      <MessageCircle aria-hidden="true" className="h-4 w-4" />
-                      Ask our team
-                    </a>
-                  </Button>
-                </>
+                <Button
+                  asChild
+                  className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
+                >
+                  <a href={`#${active.id}`}>
+                    Explore
+                    <ArrowRight aria-hidden="true" className="h-4 w-4 ml-2" />
+                  </a>
+                </Button>
               )}
             </div>
           </div>
@@ -195,50 +183,12 @@ export default function CollectionsHero({ slides, whatsappHref }: CollectionsHer
                   className="hc-focus group flex h-11 w-7 items-center justify-center"
                 >
                   <span
-                    className={`block h-[3px] rounded-full transition-all duration-300 motion-reduce:transition-none ${
-                      index === current ? "w-6 bg-[var(--color-brass)]" : "w-3 bg-white/40 group-hover:bg-white/70"
+                    className={`block h-[2px] rounded-none transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                      index === current ? "w-6 bg-white" : "w-3 bg-white/30 group-hover:bg-white/60"
                     }`}
                   />
                 </button>
               ))}
-            </div>
-
-            <div className="flex items-center gap-1">
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                aria-label="Previous slide"
-                onClick={() => api?.scrollPrev()}
-                className="h-11 w-11 rounded-full text-white hover:bg-white/10 hover:text-white"
-              >
-                <ChevronLeft aria-hidden="true" className="h-5 w-5" />
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                aria-label="Next slide"
-                onClick={() => api?.scrollNext()}
-                className="h-11 w-11 rounded-full text-white hover:bg-white/10 hover:text-white"
-              >
-                <ChevronRight aria-hidden="true" className="h-5 w-5" />
-              </Button>
-              <Button
-                type="button"
-                variant="ghost"
-                size="icon"
-                aria-label={playing ? "Pause slideshow" : "Play slideshow"}
-                aria-pressed={!playing}
-                onClick={() => setAutoplayChoice(!playing)}
-                className="h-11 w-11 rounded-full text-white hover:bg-white/10 hover:text-white"
-              >
-                {playing ? (
-                  <Pause aria-hidden="true" className="h-4 w-4" />
-                ) : (
-                  <Play aria-hidden="true" className="h-4 w-4" />
-                )}
-              </Button>
             </div>
           </div>
         </div>

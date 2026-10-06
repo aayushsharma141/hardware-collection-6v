@@ -21,7 +21,7 @@ export function HeroControls({ totalSlides, activeIndex, onNext, onPrev }: HeroC
     <div className="absolute bottom-8 lg:bottom-12 left-6 lg:left-16 flex items-center gap-6 z-[20]">
       <button 
         onClick={onPrev}
-        className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A96E]"
+        className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brass)]"
         aria-label="Previous slide"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
@@ -36,7 +36,7 @@ export function HeroControls({ totalSlides, activeIndex, onNext, onPrev }: HeroC
           {/* Progress Indicator Line */}
           {!shouldReduceMotion && (
             <div 
-              className="absolute top-0 bottom-0 left-0 bg-[#C8A96E] transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
+              className="absolute top-0 bottom-0 left-0 bg-[var(--color-brass)] transition-all duration-[1200ms] ease-[cubic-bezier(0.16,1,0.3,1)]"
               style={{ width: `${((activeIndex + 1) / totalSlides) * 100}%` }}
             />
           )}
@@ -46,7 +46,7 @@ export function HeroControls({ totalSlides, activeIndex, onNext, onPrev }: HeroC
 
       <button 
         onClick={onNext}
-        className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C8A96E]"
+        className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brass)]"
         aria-label="Next slide"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">

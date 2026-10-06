@@ -193,7 +193,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
           {/* Desktop Arrows */}
           <button
             onClick={prevSlide}
-            className="hidden md:flex absolute left-4 z-30 p-2 rounded-full bg-black/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="hidden md:flex absolute left-4 z-30 p-2 rounded-none bg-black/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-8 h-8" />
@@ -201,7 +201,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
           
           <button
             onClick={nextSlide}
-            className="hidden md:flex absolute right-4 z-30 p-2 rounded-full bg-black/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="hidden md:flex absolute right-4 z-30 p-2 rounded-none bg-black/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
             aria-label="Next slide"
           >
             <ChevronRight className="w-8 h-8" />
@@ -211,7 +211,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
           <div className="absolute bottom-8 left-0 right-0 z-30 flex items-center justify-center gap-4">
             <button
               onClick={() => setIsManuallyPaused(!isManuallyPaused)}
-              className="p-1.5 text-[var(--text-primary)]/80 hover:text-[var(--text-primary)] transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded"
+              className="p-1.5 text-[var(--text-primary)]/80 hover:text-[var(--text-primary)] transition-colors focus:outline-none focus:ring-2 focus:ring-white rounded-none"
               aria-label={isManuallyPaused ? "Start autoplay" : "Pause autoplay"}
             >
               {isManuallyPaused ? <Play className="w-4 h-4" /> : <Pause className="w-4 h-4" />}
@@ -222,7 +222,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`h-2 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-white ${
+                  className={`h-2 rounded-none transition-all focus:outline-none focus:ring-2 focus:ring-white ${
                     index === currentIndex ? "bg-white w-6" : "bg-white/40 hover:bg-white/60 w-2"
                   }`}
                   role="tab"

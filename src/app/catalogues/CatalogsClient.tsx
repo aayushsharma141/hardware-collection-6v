@@ -8,7 +8,6 @@ import CatalogViewerModal from "@/components/catalog/CatalogViewerModal";
 import BrandDiscovery from "@/components/collections/BrandDiscovery";
 import { AnimatePresence } from "motion/react";
 import { Brand, ResolvedBrand, SiteSettings } from "@/types/catalog";
-import { FloatingConsultationCapsule } from "@/components/consultation/FloatingConsultationCapsule";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 
 export interface CatalogsClientProps {
@@ -101,8 +100,6 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
           />
         )}
       </AnimatePresence>
-
-      <FloatingConsultationCapsule />
 
       {/* Global Footer */}
       <Footer 

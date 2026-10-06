@@ -69,7 +69,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
         </div>
 
         <motion.div 
-          className="mt-10 grid gap-[1px] bg-[var(--border)] rounded-2xl overflow-hidden shadow-sm"
+          className="mt-10 grid gap-[1px] bg-[var(--border)] rounded-none overflow-hidden shadow-sm"
           style={{
             // One column per family, the focal one a little wider.
             gridTemplateColumns: activeFamilies.map((f) => (f.isFocal ? "1.28fr" : "1fr")).join(" "),
@@ -87,11 +87,11 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                 cat.isFocal ? "relative z-10" : ""
               }`}
             >
-              <div className={`threshold-image relative ${frameRatio} overflow-hidden bg-[#181716]`}>
+              <div className={`threshold-image relative ${frameRatio} overflow-hidden bg-neutral-900`}>
                 {cat.image ? (
                   <Image
                     alt={`${cat.name} showroom family`}
-                    className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover/card:scale-[1.03]"
+                    className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:scale-[1.03]"
                     fill
                     sizes="(max-width: 1024px) 50vw, 20vw"
                     src={cat.image}
@@ -107,11 +107,11 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                   aria-hidden="true"
                   className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/55 to-transparent pointer-events-none"
                 />
-                <span className="absolute left-4 top-4 hc-mono text-xs tracking-[0.18em] font-semibold text-[#c8a96e]">
+                <span className="absolute left-4 top-4 hc-mono text-xs tracking-[0.18em] font-semibold text-[var(--accent)]">
                   {cat.index}
                 </span>
                 {cat.isFocal && (
-                  <span className="absolute right-4 top-4 border border-[var(--accent)]/[0.5] px-2.5 py-1 hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-brass-ink bg-[var(--surface)]/80 backdrop-blur-sm rounded">
+                  <span className="absolute right-4 top-4 border border-[var(--accent)]/[0.5] px-2.5 py-1 hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--accent)] bg-[var(--surface)]/80 backdrop-blur-sm rounded-none">
                     Focal family
                   </span>
                 )}
@@ -124,7 +124,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
               >
                 <div>
                   <h3
-                    className={`hc-serif leading-[0.95] text-[var(--text-primary)] transition-transform duration-500 ease-out group-hover/card:translate-x-1 ${
+                    className={`hc-serif leading-[0.95] text-[var(--text-primary)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:translate-x-1 ${
                       cat.isFocal ? "text-[34px] xl:text-[38px]" : "text-[26px] xl:text-[30px]"
                     }`}
                   >
@@ -146,10 +146,10 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
 
                 <a
                   href={cat.href}
-                  className="threshold-action mt-6 flex items-center gap-2.5 text-xs uppercase tracking-widest font-semibold text-[var(--text-secondary)] no-underline hover:text-[var(--accent)] transition-transform duration-500 ease-out group-hover/card:translate-x-1"
+                  className="threshold-action mt-6 flex items-center gap-2.5 text-xs uppercase tracking-widest font-semibold text-[var(--text-secondary)] no-underline hover:text-[var(--accent)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:translate-x-1"
                 >
                   <span>View {cat.name}</span>
-                  <svg className="w-4 h-4 text-[#c8a96e]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-4 h-4 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                   </svg>
                 </a>
@@ -192,13 +192,13 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
               {cat.image ? (
                 <Image
                   alt={cat.name}
-                  className="h-[56px] w-[80px] object-cover rounded-lg border border-[var(--border)] shrink-0"
+                  className="h-[56px] w-[80px] object-cover rounded-none border border-[var(--border)] shrink-0"
                   width={80}
                   height={56}
                   src={cat.image}
                 />
               ) : (
-                <div className="h-[56px] w-[80px] shrink-0 rounded-lg border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center">
+                <div className="h-[56px] w-[80px] shrink-0 rounded-none border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center">
                   <span className="text-[8px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Wait</span>
                 </div>
               )}
@@ -210,7 +210,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                   {cat.subtitle}
                 </small>
               </div>
-              <svg className="w-5 h-5 text-[#c8a96e] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-[var(--accent)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </motion.a>

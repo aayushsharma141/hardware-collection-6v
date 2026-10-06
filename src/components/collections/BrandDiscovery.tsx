@@ -33,7 +33,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
   return (
     <section
       aria-labelledby="brand-discovery-heading"
-      className="py-16 md:py-24 bg-[#fbf5ea] text-[var(--text-primary)] border-t border-[var(--border)]"
+      className="py-16 md:py-24 bg-[var(--surface-raised)] text-[var(--text-primary)] border-t border-[var(--border)]"
     >
       <div className="max-w-[1320px] mx-auto px-6">
         {/* Header */}
@@ -170,7 +170,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                 onClick={() => askAboutBrand(brand)}
                 aria-label={`Ask about ${brand.name} in a consultation`}
                 title={`${brand.name} — Ask about availability`}
-                className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded bg-white/90 border border-[#E7E0D4] shadow-[0_2px_8px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_24px_rgba(0,0,0,0.08)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-all duration-300 group/cell cursor-pointer"
+                className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded-none bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-all duration-300 group/cell cursor-pointer"
               >
                 {CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.logo || brand.logoUrl ? (
                   <div className="relative w-full h-full flex items-center justify-center transition-transform duration-150 ease-out group-hover/cell:scale-105">

@@ -4,7 +4,7 @@ import Footer from "@/components/layout/Footer";
 import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getActiveOffers } from "@/content/sanity/queries";
 import { buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import { OFFER_HERO_FALLBACK_IMAGE, formatOfferDate, pickHeroOffers, weaveHeroSlides } from "@/lib/collections/offers";
-import MobileConversionBar from "@/components/home/MobileConversionBar";
+
 
 // Global cinema system
 import { AtmosphericBackground } from "@/components/home/AtmosphericBackground";
@@ -205,17 +205,17 @@ export default async function HomePage() {
           />
         </div>
 
-        {/* CH06.75 — FAQ */}
-        <div className="theme-ivory">
-          <FaqSection faqs={faqs} />
-        </div>
-
         {/* CH07 — Final Conversion & Consultation Zone */}
         <div className="block lg:hidden">
           <ConsultationMobile heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />
         </div>
         <div className="hidden lg:block">
           <FloatingCTA reviews={testimonials} heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />
+        </div>
+
+        {/* CH08 — FAQ */}
+        <div className="theme-ivory">
+          <FaqSection faqs={faqs} />
         </div>
       </main>
 
@@ -224,7 +224,7 @@ export default async function HomePage() {
 
       {/* ── Mobile Conversion Bar ───────────────────────────────── */}
       {/* Fixed bottom bar: Call / WhatsApp / Visit — hidden on lg+ */}
-      <MobileConversionBar cta={homeData?.cta} />
+
     </div>
   );
 }

@@ -148,7 +148,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
       ref={containerRef}
       data-chapter="1"
       data-nav-hero
-      className="hidden lg:block relative min-h-[860px] h-[100dvh] w-full border-b border-[#1a1017]/[0.10] overflow-hidden bg-[#fbf5ea]"
+      className="hidden lg:block relative min-h-[860px] h-[100dvh] w-full border-b border-[var(--border)] overflow-hidden bg-[var(--surface)]"
     >
       {/* Background Image — scroll-linked cinematic parallax */}
       {currentSlide.imageUrl ? (
@@ -162,11 +162,11 @@ export default function HeroStage({ slides }: HeroStageProps) {
           src={currentSlide.imageUrl}
         />
       ) : (
-        <div className="absolute inset-0 flex items-center justify-center bg-[#fbf5ea] opacity-50">
+        <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] opacity-50">
           <span className="text-[12px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending Background</span>
         </div>
       )}
-      <div className="absolute inset-y-0 left-0 w-[62%] bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/[0.94] to-transparent" />
+      <div className="absolute inset-y-0 left-0 w-[62%] bg-gradient-to-r from-[var(--surface)] via-[var(--surface)]/[0.94] to-transparent" />
 
 
       {/* Main Content Area */}
@@ -176,21 +176,21 @@ export default function HeroStage({ slides }: HeroStageProps) {
           <div className="hero-text-col pb-4">
             <div className="flex items-center gap-3 mb-6">
               <div className="relative flex items-center justify-center shrink-0">
-                <span className="absolute h-3.5 w-3.5 bg-[#8b1a42]/25 rounded-full animate-ping opacity-75" />
-                <span className="relative h-2 w-2 bg-[#8b1a42] rounded-full" />
+                <span className="absolute h-3.5 w-3.5 bg-[var(--color-wine)]/25 rounded-none animate-ping opacity-75" />
+                <span className="relative h-2 w-2 bg-[var(--color-wine)] rounded-none" />
               </div>
-              <p className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[#8b1a42]">
+              <p className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)]">
                 {currentSlide.eyebrow || `Architectural Hardware Experts · ${SHOWROOM_YEARS_OF_TRUST}+ Years`}
               </p>
             </div>
 
             <div className="overflow-hidden mb-6 pb-2">
-              <h1 className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[98px] 2xl:text-[112px] leading-[0.92] font-light tracking-[-0.01em] text-[#1a1017] whitespace-pre-line">
+              <h1 className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[98px] 2xl:text-[112px] leading-[0.92] font-light tracking-[-0.01em] text-[var(--text-primary)] whitespace-pre-line">
                 {currentSlide.title || "The Art of\nthe Finish."}
               </h1>
             </div>
 
-            <p className="hero-p mt-4 max-w-[500px] text-base lg:text-lg xl:text-xl leading-[1.65] font-light text-[#2e232b]">
+            <p className="hero-p mt-4 max-w-[500px] text-base lg:text-lg xl:text-xl leading-[1.65] font-light text-[var(--text-secondary)]">
               {currentSlide.description ||
                 "Premium architectural hardware and modular solutions, curated for contemporary spaces."}
             </p>
@@ -202,7 +202,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
                   href={ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="brass-plate hc-focus h-[50px] xl:h-[54px] px-6 xl:px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] active:scale-[0.975] active:duration-100 transition-all duration-200 btn-tactile transition-premium rounded shadow-lg shrink-0"
+                  className="brass-plate hc-focus h-[50px] xl:h-[54px] px-6 xl:px-8 bg-[var(--color-wine)] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:brightness-110 active:scale-[0.975] active:duration-100 transition-[background-color,transform,filter] duration-200 btn-tactile transition-premium rounded-none shadow-lg shrink-0"
                 >
                   <span>{ctaLabel}</span>
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -212,7 +212,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
               ) : (
                 <Link
                   href={ctaHref}
-                  className="brass-plate hc-focus h-[50px] xl:h-[54px] px-6 xl:px-8 bg-[#8b1a42] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:bg-[#6b1432] active:scale-[0.975] active:duration-100 transition-all duration-200 btn-tactile transition-premium rounded shadow-lg shrink-0"
+                  className="brass-plate hc-focus h-[50px] xl:h-[54px] px-6 xl:px-8 bg-[var(--color-wine)] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:brightness-110 active:scale-[0.975] active:duration-100 transition-[background-color,transform,filter] duration-200 btn-tactile transition-premium rounded-none shadow-lg shrink-0"
                 >
                   <span>{ctaLabel}</span>
                   <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
@@ -226,9 +226,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 href={generateWhatsAppUrl("general-enquiry")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group hc-focus h-[50px] xl:h-[54px] px-5 xl:px-7 bg-transparent border border-[#c8a96e]/70 hover:border-[#8b1a42] hover:bg-[#8b1a42] hover:text-white active:scale-[0.975] active:duration-100 text-[#1a1017] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] flex items-center gap-2.5 rounded transition-all duration-200 shadow-sm shrink-0"
+                className="group hc-focus h-[50px] xl:h-[54px] px-5 xl:px-7 bg-transparent border border-[var(--accent)]/70 hover:border-[var(--color-wine)] hover:bg-[var(--color-wine)] hover:text-white active:scale-[0.975] active:duration-100 text-[var(--text-primary)] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] flex items-center gap-2.5 rounded-none transition-[background-color,border-color,color,transform] duration-200 shadow-sm shrink-0"
               >
-                <MessageCircle className="w-4 h-4 text-[#c8a96e] group-hover:text-white" />
+                <MessageCircle className="w-4 h-4 text-[var(--accent)] group-hover:text-white transition-colors duration-200" />
                 <span>WhatsApp Us</span>
               </a>
             </div>
@@ -240,16 +240,16 @@ export default function HeroStage({ slides }: HeroStageProps) {
           <div
             ref={apertureRef}
             aria-label="Hero product aperture"
-            className="aperture relative justify-self-end h-[480px] w-[380px] xl:h-[580px] xl:w-[500px] border-x border-[#1a1017]/[0.10] bg-[#f7f0e2] overflow-hidden focus-within:border-[#8b1a42]/[0.60] shadow-xl rounded-sm shrink-0"
+            className="aperture relative justify-self-end h-[480px] w-[380px] xl:h-[580px] xl:w-[500px] border-x border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden focus-within:border-[var(--color-wine)]/[0.60] shadow-xl rounded-none shrink-0"
             tabIndex={0}
           >
-            <div className="absolute inset-x-0 top-0 h-px bg-[#8b1a42]/[0.50]" />
-            <div className="absolute inset-x-0 bottom-0 h-px bg-[#8b1a42]/[0.25]" />
-            <div className="absolute inset-y-0 left-0 w-px bg-[#8b1a42]/[0.15]" />
+            <div className="absolute inset-x-0 top-0 h-px bg-[var(--color-wine)]/[0.50]" />
+            <div className="absolute inset-x-0 bottom-0 h-px bg-[var(--color-wine)]/[0.25]" />
+            <div className="absolute inset-y-0 left-0 w-px bg-[var(--color-wine)]/[0.15]" />
 
-            <div className="absolute top-6 left-6 right-6 flex items-center justify-between hc-mono text-[9px] uppercase tracking-[0.2em] text-[#7a6872]">
+            <div className="absolute top-6 left-6 right-6 flex items-center justify-between hc-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
               <span>Selected specimen</span>
-              <span className="text-[#8b1a42] tabular-nums font-semibold">
+              <span className="text-[var(--color-wine)] tabular-nums font-semibold">
                 {pad2(currentSlideIndex + 1)} / {pad2(slides.length)}
               </span>
             </div>
@@ -265,18 +265,18 @@ export default function HeroStage({ slides }: HeroStageProps) {
               />
             ) : (
               <div className="absolute inset-[44px_20px_80px] xl:inset-[44px_24px_80px] flex items-center justify-center mix-blend-multiply m-auto">
-                <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[#7a6872]">Pending Product</span>
+                <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending Product</span>
               </div>
             )}
 
             <div className="aperture-sweep" />
 
-            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between border-t border-[#1a1017]/[0.10] pt-4">
+            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between border-t border-[var(--border)] pt-4">
               <div className="aperture-meta">
-                <p className="hc-mono text-[9px] uppercase tracking-[0.18em] text-[#7a6872]">
+                <p className="hc-mono text-[9px] uppercase tracking-[0.18em] text-[var(--text-secondary)]">
                   {specimenStudy.study}
                 </p>
-                <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[#1a1017] font-medium">
+                <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[var(--text-primary)] font-medium">
                   {specimenStudy.spec}
                 </p>
               </div>
@@ -286,7 +286,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
                   type="button"
                   onClick={handlePrevSlide}
                   aria-label="Previous specimen"
-                  className="hc-focus p-2 text-[#8b1a42] hover:text-[#6b1432] transition-colors"
+                  className="hc-focus p-2 text-[var(--color-wine)] hover:brightness-110 transition-colors"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -294,7 +294,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
                   type="button"
                   onClick={handleNextSlide}
                   aria-label="Next specimen"
-                  className="hc-focus p-2 text-[#8b1a42] hover:text-[#6b1432] transition-colors"
+                  className="hc-focus p-2 text-[var(--color-wine)] hover:brightness-110 transition-colors"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
@@ -319,16 +319,16 @@ export default function HeroStage({ slides }: HeroStageProps) {
               aria-label={`Go to slide ${idx + 1}`}
             >
               <div
-                className={`h-[3.5px] rounded-full transition-all duration-700 ease-out overflow-hidden relative ${
+                className={`h-[3.5px] rounded-none transition-all duration-300 ease-out overflow-hidden relative ${
                   isActive
-                    ? "w-14 sm:w-16 bg-[#1a1017]/15"
-                    : "w-4 bg-[#1a1017]/25 hover:bg-[#1a1017]/45 hover:w-6"
+                    ? "w-14 sm:w-16 bg-[var(--text-primary)]/15"
+                    : "w-4 bg-[var(--text-primary)]/25 hover:bg-[var(--text-primary)]/45 hover:w-6"
                 }`}
               >
                 {isActive && (
                   <span
                     key={`refill-${currentSlideIndex}`}
-                    className="absolute inset-0 bg-[#8b1a42] rounded-full origin-left animate-hero-refill"
+                    className="absolute inset-0 bg-[var(--color-wine)] rounded-none origin-left animate-hero-refill"
                   />
                 )}
               </div>

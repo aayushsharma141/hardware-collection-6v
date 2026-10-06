@@ -101,18 +101,18 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                 id={`brand-card-${key}`}
                 key={brand._id || brand.id || key || idx}
                 onClick={handleCardClick}
-                className={`bg-[var(--surface-raised)] border p-8 flex flex-col justify-between min-h-[340px] rounded-2xl group relative overflow-hidden cursor-pointer transition-all duration-300 hover:bg-[var(--surface-elevated)] ${
+                className={`bg-[var(--surface-raised)] border p-8 flex flex-col justify-between min-h-[340px] rounded-none group relative overflow-hidden cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--surface-elevated)] ${
                   isSelected
-                    ? "border-[#8b1a42] ring-2 ring-[#8b1a42]/30 shadow-[0_20px_45px_rgba(139,26,66,0.18)] bg-[var(--surface-elevated)]"
-                    : "border-[var(--border)] hover:border-[var(--accent)]/50 hover:shadow-[0_20px_45px_rgba(0,0,0,0.08)]"
+                    ? "border-[var(--color-wine)] ring-1 ring-[var(--color-wine)]/30 bg-[var(--surface-elevated)]"
+                    : "border-[var(--border)] hover:border-[var(--accent)]/50"
                 }`}
               >
                 {/* Top Badge */}
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className={`text-xs uppercase font-bold tracking-[0.2em] px-3 py-1 rounded-full border ${
+                  <span className={`text-xs uppercase font-bold tracking-[0.2em] px-3 py-1 rounded-none border ${
                     isSelected
-                      ? "text-white bg-[#8b1a42] border-[#8b1a42]"
-                      : "text-brass-ink bg-[#C8A96E]/10 border-[#C8A96E]/20"
+                      ? "text-[var(--surface)] bg-[var(--color-wine)] border-[var(--color-wine)]"
+                      : "text-brass-ink bg-[var(--color-brass)]/10 border-[var(--color-brass)]/20"
                   }`}>
                     {isSelected ? "Selected Brand Partner" : "Authorized Partner"}
                   </span>
@@ -152,7 +152,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                         e.stopPropagation();
                         handleCardClick();
                       }}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] whitespace-nowrap rounded bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-sm"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] whitespace-nowrap rounded-none bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300"
                     >
                       <BookOpen className="w-4 h-4" />
                       <span>{catalogCount > 1 ? `View ${catalogCount} Catalogues` : "View Catalogue"}</span>
@@ -168,7 +168,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                       className="inline-flex items-center gap-1.5 min-h-[44px] whitespace-nowrap px-1 py-2 text-xs sm:text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors group/link"
                     >
                       <span>Visit Website</span>
-                      <ArrowUpRight className="w-4 h-4 text-[#c8a96e] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform" />
+                      <ArrowUpRight className="w-4 h-4 text-[var(--color-brass)] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
                     </a>
                   ) : (
                     <span className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
@@ -181,7 +181,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
           })}
         </div>
 
-        <div className="mt-20 text-center border border-[var(--border)] p-10 md:p-16 rounded-3xl bg-[var(--surface-raised)] shadow-sm">
+        <div className="mt-20 text-center border border-[var(--border)] p-10 md:p-16 rounded-none bg-[var(--surface-raised)]">
           <h3 className="font-display text-3xl sm:text-4xl text-[var(--text-primary)] mb-4 font-light">Need a Physical Copy?</h3>
           <p className="font-body text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 text-base sm:text-lg leading-relaxed font-light">
             We maintain physical copies of all official catalogues in our Sakchi showroom for architects, designers, and contractors.
@@ -190,7 +190,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
             href={buildWhatsAppUrl("Hi Hardware Collection, I would like to request a physical catalogue.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 bg-[var(--accent)] text-white px-9 py-4 rounded font-bold uppercase tracking-widest text-xs sm:text-sm transition-colors hover:bg-[var(--accent-hover)] shadow-md"
+            className="inline-flex items-center gap-2.5 bg-[var(--accent)] text-[var(--surface)] px-9 py-4 rounded-none font-bold uppercase tracking-widest text-xs sm:text-sm transition-colors duration-300 hover:bg-[var(--accent-hover)]"
           >
             Request via WhatsApp
           </a>

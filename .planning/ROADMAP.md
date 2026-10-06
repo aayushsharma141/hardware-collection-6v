@@ -101,3 +101,7 @@
 - [x] **Phase 12 — UI & Visual Polish** 📋 COMPLETE
   Elevate the visual aesthetic using GSAP + ScrollTrigger for subtle, luxurious micro-interactions and scroll animations across the site.
   See `.planning/phases/12-ui-polish/12-CONTEXT.md`.
+
+- [x] **Phase 14 — UI/UX Refinement & Anti-UI-Slop Standardization** 📋 COMPLETE
+  Formalize and stabilize site-wide UI/UX audit findings: mobile floating action buttons, consultation section with corrected 10+ years & 20+ brands metrics, collections hero carousel with offers integration, and architectural softened-hybrid anti-ui-slop styling.
+  See `.planning/phases/14-ui-ux-refinement-anti-ui-slop/14-CONTEXT.md`.

@@ -115,10 +115,10 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
 
       {/* Content */}
       <div className="relative z-10 w-full">
-        <div className="mobile-hero-fade h-px w-full bg-gradient-to-r from-[#c8a96e]/70 to-transparent mb-5" />
+        <div className="mobile-hero-fade h-px w-full bg-gradient-to-r from-[var(--accent)]/70 to-transparent mb-5" />
 
         <div className="flex items-center justify-between mb-4">
-          <p className="mobile-hero-fade hc-mono t-eyebrow text-brass-ink">
+          <p className="mobile-hero-fade hc-mono t-eyebrow text-[var(--accent)]">
             {slide.eyebrow || `Architectural Hardware Experts · ${SHOWROOM_YEARS_OF_TRUST}+ Years`}
           </p>
           {slides.length > 1 && (
@@ -131,8 +131,8 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
                   key={idx}
                   type="button"
                   onClick={() => setCurrentSlideIndex(idx)}
-                  className={`hc-focus relative h-1.5 rounded-full transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] before:absolute before:-inset-x-1.5 before:-inset-y-5 before:content-[''] ${
-                    currentSlideIndex === idx ? "w-6 bg-[#8b1a42]" : "w-2 bg-[#1a1017]/20"
+                  className={`hc-focus relative h-1.5 rounded-none transition-[width,background-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] before:absolute before:-inset-x-1.5 before:-inset-y-5 before:content-[''] ${
+                    currentSlideIndex === idx ? "w-6 bg-[var(--color-wine)]" : "w-2 bg-[var(--text-primary)]/20"
                   }`}
                   aria-label={`Show slide ${idx + 1} of ${slides.length}`}
                   aria-current={currentSlideIndex === idx}
@@ -159,7 +159,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="brass-plate hc-focus h-[56px] w-full bg-[#8b1a42] text-white t-button uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline hover:bg-[#6b1432] rounded shadow-[0_10px_28px_-12px_rgba(139,26,66,0.55)] transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] motion-reduce:active:scale-100"
+              className="brass-plate hc-focus h-[56px] w-full bg-[var(--color-wine)] text-white t-button uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline hover:brightness-110 rounded-none shadow-[0_10px_28px_-12px_rgba(139,26,66,0.55)] transition-[background-color,transform,filter] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] motion-reduce:active:scale-100"
             >
               <span>{ctaLabel}</span>
               <ArrowRight />
@@ -167,7 +167,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
           ) : (
             <Link
               href={ctaHref}
-              className="brass-plate hc-focus h-[56px] w-full bg-[#8b1a42] text-white t-button uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline hover:bg-[#6b1432] rounded shadow-[0_10px_28px_-12px_rgba(139,26,66,0.55)] transition-[background-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] motion-reduce:active:scale-100"
+              className="brass-plate hc-focus h-[56px] w-full bg-[var(--color-wine)] text-white t-button uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline hover:brightness-110 rounded-none shadow-[0_10px_28px_-12px_rgba(139,26,66,0.55)] transition-[background-color,transform,filter] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] motion-reduce:active:scale-100"
             >
               <span>{ctaLabel}</span>
               <ArrowRight />
@@ -178,11 +178,11 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
             href={SHOWROOM_MAP_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className="rail-button hc-focus min-h-[44px] self-start text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--text-secondary)] flex items-center gap-2 no-underline transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.97] motion-reduce:active:scale-100"
+            className="rail-button hc-focus min-h-[44px] self-start text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--text-secondary)] flex items-center gap-2 no-underline hover:text-[var(--color-wine)] transition-[color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.97] motion-reduce:active:scale-100"
           >
             <span>Get showroom directions</span>
             <svg
-              className="w-4 h-4 text-[#8b1a42]"
+              className="w-4 h-4 text-[var(--color-wine)]"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"

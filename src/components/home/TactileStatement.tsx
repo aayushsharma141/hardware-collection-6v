@@ -27,7 +27,7 @@ export default function TactileStatement() {
   const textY = useTransform(scrollYProgress, [0.2, 0.8], [100, -100]);
 
   return (
-    <section ref={containerRef} className="py-40 bg-[var(--surface)] relative overflow-hidden min-h-screen flex items-center">
+    <section ref={containerRef} className="py-16 lg:py-24 bg-[var(--surface)] relative overflow-hidden flex items-center">
       <div className="container mx-auto px-6 lg:px-12 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
           
@@ -48,7 +48,7 @@ export default function TactileStatement() {
           </motion.div>
           
           {/* Macro Photography Reveal */}
-          <div className="order-1 lg:order-2 h-[60vh] lg:h-[80vh] w-full relative">
+          <div className="order-1 lg:order-2 h-[50vh] lg:h-[65vh] w-full relative">
             <motion.div 
               style={{ 
                 clipPath: shouldReduceMotion ? "none" : clipPath,

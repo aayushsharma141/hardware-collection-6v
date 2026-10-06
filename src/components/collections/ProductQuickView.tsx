@@ -37,7 +37,7 @@ export default function ProductQuickView({
 
   return (
     <Dialog open={product !== null} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-h-[90dvh] max-w-3xl gap-0 overflow-y-auto rounded border-[var(--border)] bg-[var(--surface)] p-0 text-[var(--text-primary)] sm:max-w-3xl">
+      <DialogContent className="max-h-[90dvh] max-w-3xl gap-0 overflow-y-auto rounded-none border-[var(--border)] bg-[var(--surface)] p-0 text-[var(--text-primary)] sm:max-w-3xl">
         {product && (
           <div className="grid md:grid-cols-2">
             <div className="relative aspect-square bg-[var(--surface-raised)] md:aspect-auto md:min-h-[420px]">
@@ -84,7 +84,7 @@ export default function ProductQuickView({
                 </p>
                 <Button
                   asChild
-                  className="brass-plate h-12 rounded text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+                  className="brass-plate h-12 rounded-none text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
                 >
                   <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                     Ask on WhatsApp
@@ -94,7 +94,7 @@ export default function ProductQuickView({
                   <Button
                     asChild
                     variant="outline"
-                    className="h-12 rounded border-[var(--border)] bg-transparent text-xs font-medium uppercase tracking-widest hover:border-[var(--color-brass)] hover:bg-transparent"
+                    className="h-12 rounded-none border-[var(--border)] bg-transparent text-xs font-medium uppercase tracking-widest hover:border-[var(--color-brass)] hover:bg-transparent"
                   >
                     <Link href={catalogueHref}>View {brand} catalogue</Link>
                   </Button>

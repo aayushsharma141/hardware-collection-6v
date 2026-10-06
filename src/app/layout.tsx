@@ -47,6 +47,8 @@ import { draftMode } from "next/headers";
 import { VisualEditing } from "next-sanity/visual-editing";
 import DraftModeBanner from "@/components/preview/DraftModeBanner";
 
+import { FloatingActionButtons } from "@/components/ui/FloatingActionButtons";
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   const seo = settings?.seo;
@@ -139,6 +141,7 @@ export default async function RootLayout({
           />
           {children}
         </MotionProvider>
+        <FloatingActionButtons />
         <ConsultationDrawer />
         {isDraftMode && <VisualEditing />}
         {isDraftMode && <DraftModeBanner />}

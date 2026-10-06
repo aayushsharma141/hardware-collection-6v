@@ -18,15 +18,15 @@ export default function ReviewsMobile({ reviews = [] }: { reviews?: Testimonial[
         : validReviews;
 
   return (
-    <section className="w-full pt-[72px] pb-[96px] bg-[#fbf5ea] border-t border-[#1a1017]/[0.08] lg:hidden overflow-hidden">
+    <section className="w-full pt-[72px] pb-[96px] bg-[var(--surface)] border-t border-[var(--border)] lg:hidden overflow-hidden">
       <div className="flex flex-col space-y-unit-md">
         {/* Header in margin-padded container */}
         <div className="px-margin-mobile flex flex-col space-y-unit-xs">
-          <p className="font-label-caps t-eyebrow text-[#8b1a42] font-semibold tracking-[0.22em] uppercase text-xs">
-            Verified Experiences
+          <p className="font-label-caps t-eyebrow text-[var(--color-wine)] font-semibold tracking-[0.2em] uppercase text-xs">
+            Client Experiences
           </p>
-          <h2 className="font-headline-md t-h2 mt-3 text-[#1a1017] text-3xl sm:text-4xl font-light">
-            What Our Clients Say
+          <h2 className="hc-serif t-h2 mt-3 text-[var(--text-primary)] text-3xl sm:text-4xl font-light">
+            Voices of Trust
           </h2>
         </div>
 
@@ -37,18 +37,18 @@ export default function ReviewsMobile({ reviews = [] }: { reviews?: Testimonial[
             target="_blank"
             rel="noopener noreferrer"
             aria-label="4.4 stars from 50+ Google reviews - view the listing on Maps"
-            className="hc-focus flex items-center gap-2 min-h-[48px] bg-[#f7f0e2] border border-[#1a1017]/[0.10] px-3.5 py-2.5 rounded transition-[border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:border-[#8b1a42] active:scale-[0.985] motion-reduce:active:scale-100"
+            className="hc-focus flex items-center gap-2 min-h-[48px] bg-[var(--surface-raised)] border border-[var(--border)] px-3.5 py-2.5 rounded-none transition-[border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:border-[var(--color-wine)] active:scale-[0.985] motion-reduce:active:scale-100"
           >
-            <span className="inline-flex items-center gap-1.5 text-[#8b1a42] font-bold text-[15px] whitespace-nowrap">
+            <span className="inline-flex items-center gap-1.5 text-[var(--color-wine)] font-bold text-[15px] whitespace-nowrap">
               <Star className="w-4 h-4 fill-current" strokeWidth={1.5} aria-hidden="true" />
               4.4
             </span>
-            <span className="text-[#5a4854] t-body-sm whitespace-nowrap">
+            <span className="text-[var(--text-secondary)] t-body-sm whitespace-nowrap">
               50+ Google Reviews
             </span>
             <span
               aria-hidden="true"
-              className="ml-auto shrink-0 text-[#8b1a42] text-[15px]"
+              className="ml-auto shrink-0 text-[var(--color-wine)] text-[15px]"
             >
               &rarr;
             </span>
@@ -59,11 +59,11 @@ export default function ReviewsMobile({ reviews = [] }: { reviews?: Testimonial[
         <div className="relative w-full overflow-hidden group/mobile-marquee pt-2">
           {/* Edge Fade Gradients */}
           <div
-            className="pointer-events-none absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-[#fbf5ea] to-transparent z-10"
+            className="pointer-events-none absolute left-0 top-0 bottom-0 w-10 bg-gradient-to-r from-[var(--surface)] to-transparent z-10"
             aria-hidden="true"
           />
           <div
-            className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[#fbf5ea] to-transparent z-10"
+            className="pointer-events-none absolute right-0 top-0 bottom-0 w-10 bg-gradient-to-l from-[var(--surface)] to-transparent z-10"
             aria-hidden="true"
           />
 
@@ -111,23 +111,23 @@ function MobileReviewCard({ review }: { review: Testimonial }) {
   const dateStr = formatTestimonialDate(review.date);
 
   return (
-    <div className="w-[300px] shrink-0 bg-[#f7f0e2] border border-[#1a1017]/[0.08] p-5 rounded-xl flex flex-col justify-between gap-4 select-none shadow-[0_4px_16px_rgba(26,16,23,0.03)]">
+    <div className="w-[300px] shrink-0 bg-[var(--surface-raised)] border border-[var(--border)] p-5 rounded-none flex flex-col justify-between gap-4 select-none cursor-pointer hover:border-[var(--color-wine)]/30 transition-colors duration-300">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <StarRating rating={rating} className="w-3.5 h-3.5" />
-          <span className="t-meta uppercase text-[#7a6872] bg-[#fbf5ea] px-2 py-0.5 rounded border border-[#1a1017]/[0.08] text-[10px] tracking-wider font-medium">
+          <span className="hc-mono uppercase text-[var(--text-secondary)] bg-[var(--surface)] px-2 py-0.5 border border-[var(--border)] text-[10px] tracking-[0.2em] font-medium">
             {review.source || "Google"}
           </span>
         </div>
-        <p className="text-[#2e232b] t-body-sm font-light italic line-clamp-4 leading-relaxed">
+        <p className="text-[var(--text-secondary)] t-body-sm font-light italic line-clamp-4 leading-relaxed">
           &ldquo;{review.quote}&rdquo;
         </p>
       </div>
 
-      <div className="border-t border-[#1a1017]/[0.08] pt-3 flex items-center justify-between gap-2">
-        <p className="text-[#1a1017] text-[14px] font-medium truncate">{review.customerName}</p>
+      <div className="border-t border-[var(--border)] pt-3 flex items-center justify-between gap-2">
+        <p className="text-[var(--text-primary)] text-[14px] font-medium truncate">{review.customerName}</p>
         {dateStr && (
-          <p className="text-[#7a6872] t-meta shrink-0 tracking-normal text-xs">{dateStr}</p>
+          <p className="text-[var(--text-secondary)] t-meta shrink-0 tracking-normal text-xs">{dateStr}</p>
         )}
       </div>
     </div>

@@ -40,7 +40,7 @@ export default function BrandsSection({ brands }: BrandsSectionProps) {
             const key = normalizeBrandKey(brand);
             const logo = brand.logoUrl || brand.logo;
             const inner = (
-              <span className="flex h-24 items-center justify-center rounded border border-[var(--border)] bg-[var(--surface)] px-6 transition-colors group-hover:border-[var(--color-brass)]">
+              <span className="flex h-24 items-center justify-center rounded-none border border-[var(--border)] bg-[var(--surface)] px-6 transition-colors group-hover:border-[var(--color-brass)]">
                 {logo ? (
                   <Image
                     src={logo}

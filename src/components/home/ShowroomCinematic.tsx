@@ -181,10 +181,10 @@ function CinematicScene({
         background: "transparent",
       }}
     >
-      {/* Z=1: Background photography with Cinematic CSS Grading */}
+      {/* Z=1: Background photography with Minimalist Grading */}
       <div className="absolute inset-0 overflow-hidden bg-[var(--surface-raised)]" style={{ zIndex: 1 }}>
         {/* unoptimized preserves the exact src path that GSAP ScrollTrigger
-            targets via the .scene-img selector â€” Next.js image transforms
+            targets via the .scene-img selector — Next.js image transforms
             would change the URL and break the animation binding. */}
         {/* The bleed box is oversized so the GSAP pan/scale never reveals an
             edge; `fill` forbids sizing the <Image> itself, so the wrapper owns it. */}
@@ -197,53 +197,36 @@ function CinematicScene({
             unoptimized
             className="scene-img object-cover will-change-transform"
             style={{
-              opacity: isLast ? 0.8 : 0.95,
-              filter: "contrast(1.06) saturate(1.04)",
+              opacity: isLast ? 0.8 : 0.9,
+              filter: "contrast(1.02) saturate(1.02)",
             }}
           />
         </div>
 
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "radial-gradient(circle at center, transparent 45%, rgba(247, 240, 226,0.32) 100%)",
-          }}
-        />
-
-        <div
-          className="absolute inset-0 mix-blend-overlay opacity-40 pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse at top right, rgba(200, 169, 110, 0.45) 0%, transparent 60%)",
-          }}
-        />
-
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "linear-gradient(to bottom, transparent 0%, rgba(247, 240, 226,0.80) 100%)",
-          }}
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface-raised)]/90 via-[var(--surface-raised)]/45 via-45% to-transparent to-80% pointer-events-none" />
+        {/* Minimalist overlays for text readability */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface-raised)]/90 via-transparent to-transparent pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[var(--surface-raised)]/80 via-[var(--surface-raised)]/20 to-transparent pointer-events-none" />
       </div>
 
       {/* Z=3: Typography */}
       <div
-        className="relative max-w-[1320px] mx-auto w-full px-8 lg:px-16 flex flex-col items-start justify-end pb-24 lg:pb-32 h-full"
+        className="relative max-w-[1320px] mx-auto w-full px-8 lg:px-16 flex flex-col items-start justify-end pb-12 lg:pb-20 h-full"
         style={{ zIndex: 3 }}
       >
-        <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full border border-black/10 dark:border-white/10 bg-[var(--surface-raised)]/20 backdrop-blur-md mb-8 shadow-[inset_0_1px_1px_rgba(255,255,255,0.05)]">
-          <span className="hc-mono text-brass-ink font-medium tracking-[0.2em] text-[10px] sm:text-xs uppercase">
+        <div className="mb-6 flex items-center gap-3">
+          <span className="w-6 h-[1px] bg-[var(--color-wine)]/30" />
+          <span className="hc-mono text-[var(--color-wine)] font-medium tracking-[0.2em] text-[10px] sm:text-xs uppercase">
             {scene.eyebrow}
           </span>
         </div>
-        <h2 className="hc-serif text-6xl sm:text-7xl lg:text-[7.5rem] xl:text-[9rem] font-light text-[var(--text-primary)] leading-[0.9] mb-8 whitespace-pre-line tracking-[-0.02em]">
+        <h2 className="hc-serif text-5xl sm:text-6xl lg:text-[5rem] xl:text-[6rem] font-light text-[var(--text-primary)] leading-[1.05] mb-6 whitespace-pre-line tracking-tight">
           {scene.title}
         </h2>
-        <p className="text-lg sm:text-xl lg:text-2xl text-[var(--text-secondary)] font-light max-w-2xl leading-relaxed mb-12">
+        <p className="text-base sm:text-lg lg:text-xl text-[var(--text-primary)] opacity-70 font-light max-w-xl leading-relaxed mb-12">
           {scene.sub}
         </p>
 
-        {/* CTAs only on last scene &mdash; quiet zone begins */}
+        {/* CTAs only on last scene — quiet zone begins */}
         {isLast && (
           <div className="flex flex-wrap gap-4" style={{ zIndex: 5 }}>
             <MagneticButton>
@@ -251,15 +234,13 @@ function CinematicScene({
                 href={SHOWROOM_MAP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-between pl-7 pr-2 py-2 bg-[var(--text-primary)] text-[var(--surface)] rounded transition-[transform,background-color,color] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:bg-black dark:hover:bg-white"
+                className="group inline-flex items-center justify-between px-6 py-3.5 bg-[var(--text-primary)] text-[var(--surface)] transition-[transform,background-color] duration-300 active:scale-[0.98] hover:bg-[var(--color-wine)]"
               >
-                <span className="font-medium text-xs tracking-[0.2em] uppercase mr-6">Get Directions</span>
-                <div className="w-10 h-10 rounded bg-[var(--surface)]/20 dark:bg-black/10 flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7 7 17 7 17 17"></polyline>
-                  </svg>
-                </div>
+                <span className="font-medium text-[10px] tracking-[0.2em] uppercase mr-3">Get Directions</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
               </a>
             </MagneticButton>
             <MagneticButton>
@@ -267,15 +248,13 @@ function CinematicScene({
                 href={generateWhatsAppUrl("showroom-visit")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group inline-flex items-center justify-between pl-7 pr-2 py-2 border border-black/10 dark:border-white/10 bg-black/5 dark:bg-white/5 backdrop-blur-sm text-[var(--text-primary)] rounded transition-[transform,background-color,border-color,opacity] duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] active:scale-[0.98] hover:bg-black/10 dark:hover:bg-white/10"
+                className="group inline-flex items-center justify-between px-6 py-3.5 border border-[var(--border)] bg-transparent text-[var(--text-primary)] transition-[transform,border-color,color] duration-300 active:scale-[0.98] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)]"
               >
-                <span className="font-medium text-xs tracking-[0.2em] uppercase mr-6">WhatsApp</span>
-                <div className="w-10 h-10 rounded border border-black/10 dark:border-white/10 flex items-center justify-center transition-transform duration-300 ease-[cubic-bezier(0.32,0.72,0,1)] group-hover:translate-x-1 group-hover:-translate-y-[1px] group-hover:scale-105">
-                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
-                    <line x1="7" y1="17" x2="17" y2="7"></line>
-                    <polyline points="7 7 17 7 17 17"></polyline>
-                  </svg>
-                </div>
+                <span className="font-medium text-[10px] tracking-[0.2em] uppercase mr-3">WhatsApp</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
+                  <line x1="7" y1="17" x2="17" y2="7"></line>
+                  <polyline points="7 7 17 7 17 17"></polyline>
+                </svg>
               </a>
             </MagneticButton>
           </div>

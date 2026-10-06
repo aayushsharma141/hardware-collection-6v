@@ -28,7 +28,7 @@ export function AtmosphericLayer({
 
       {/* Volumetric Lights */}
       <div 
-        className="absolute bottom-0 right-0 w-[80vw] h-[80vh] rounded-full"
+        className="absolute bottom-0 right-0 w-[80vw] h-[80vh] rounded-none"
         style={{
           background: isHero 
             ? "radial-gradient(ellipse at bottom right, rgba(200, 169, 110, 0.035) 0%, transparent 70%)"
@@ -39,7 +39,7 @@ export function AtmosphericLayer({
       
       {isHero && (
         <div 
-          className="absolute top-0 left-0 w-[60vw] h-[60vh] rounded-full"
+          className="absolute top-0 left-0 w-[60vw] h-[60vh] rounded-none"
           style={{
             background: "radial-gradient(ellipse at top left, rgba(255, 255, 255, 0.015) 0%, transparent 70%)",
             filter: "blur(80px)"

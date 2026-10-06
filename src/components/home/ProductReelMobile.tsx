@@ -106,12 +106,12 @@ export default function ProductReelMobile({ products }: ProductReelMobileProps) 
 
                   <span
                     aria-hidden="true"
-                    className={`shrink-0 pt-1 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                    className={`shrink-0 pt-1 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
                       isOpen ? "rotate-45" : ""
                     }`}
                   >
                     <svg
-                      className="w-4 h-4 text-brass-ink"
+                      className="w-4 h-4 text-[var(--accent)]"
                       fill="none"
                       viewBox="0 0 24 24"
                       stroke="currentColor"

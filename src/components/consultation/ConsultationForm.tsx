@@ -4,6 +4,7 @@ import React, { useState, useId, useRef, useEffect } from "react";
 import { ConsultationSuccess } from "./ConsultationSuccess";
 import { useConsultationStore } from "./store";
 import { parseLeadResponse } from "@/lib/leads/response";
+import { buildWhatsAppUrl } from "@/lib/config";
 import { Loader2, AlertCircle, RefreshCw, ChevronDown } from "lucide-react";
 
 // ── Types ───────────────────────────────────────────────────────────────────
@@ -51,8 +52,8 @@ const INITIAL_FORM_VALUES: FormValues = {
 // ── Shared style tokens ─────────────────────────────────────────────────────
 
 const CLS_FIELD =
-  "w-full bg-transparent border-b border-[#181514]/15 hover:border-[#181514]/35 focus:border-[#6E152B] pb-3 text-[17px] xl:text-[18px] text-[#181514] placeholder:text-[#8C8681] focus:outline-none transition-colors duration-200 rounded-none";
-const CLS_LABEL = "text-[11px] uppercase tracking-[0.25em] text-[#7C7671] font-semibold mb-2 block";
+  "w-full bg-transparent border-b border-[var(--text-primary)]/15 hover:border-[var(--text-primary)]/35 focus:border-[var(--color-wine)] pb-3 text-[17px] xl:text-[18px] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:outline-none transition-colors duration-200 rounded-none";
+const CLS_LABEL = "text-[11px] uppercase tracking-[0.25em] text-[var(--text-secondary)] font-semibold mb-2 block";
 
 // ── Main Component ──────────────────────────────────────────────────────────
 
@@ -165,6 +166,15 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
       // Track analytics event only after confirmed PostgreSQL lead creation
       trackEnquirySubmitted(result.leadId, values);
 
+      // Dual handoff: pre-fill WhatsApp message and launch in new tab
+      try {
+        const waText = `Hi Hardware Collection Sakchi, I would like to schedule a consultation.\n\nName: ${values.name.trim()}\nPhone: ${values.phone.trim()}\nLooking for: ${values.projectType}${values.location ? `\nLocation / Notes: ${values.location.trim()}` : ""}\nRef ID: ${result.leadId}`;
+        const waUrl = buildWhatsAppUrl(waText);
+        window.open(waUrl, "_blank");
+      } catch {
+        // Safe no-op if popup blocked by browser
+      }
+
       if (onSuccess) onSuccess();
     } catch (err: unknown) {
       const msg =
@@ -218,7 +228,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
 
         {/* Recoverable Retry Alert if Telegram notification failed on server */}
         {telegramStatus === "failed" && (
-          <div className="mt-4 p-3 bg-amber-950/40 border border-amber-500/30 rounded-xl flex items-center justify-between gap-3 text-[13px] text-amber-200/90 max-w-md w-full">
+          <div className="mt-4 p-3 bg-amber-950/40 border border-amber-500/30 rounded-none flex items-center justify-between gap-3 text-[13px] text-amber-200/90 max-w-md w-full">
             <div className="flex items-center gap-2">
               <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
               <span>We&apos;re having trouble alerting our team in real-time.</span>
@@ -241,16 +251,16 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
   // ── Form Screen ────────────────────────────────────────────────────────────
 
   return (
-    <div className={`flex flex-col text-[#181514] font-dmsans ${inline ? "w-full" : "p-6 lg:p-8 h-full justify-between"}`}>
+    <div className={`flex flex-col text-[var(--text-primary)] font-dmsans ${inline ? "w-full" : "p-6 lg:p-8 h-full justify-between"}`}>
       {/* Form Editorial Header */}
       <div className="mb-8 lg:mb-10">
         <div className="flex items-center gap-3 mb-4">
-          <span className="w-6 h-[1px] bg-[#181514]/50 shrink-0" aria-hidden="true" />
-          <span className="text-[12px] uppercase tracking-[0.25em] text-[#181514] font-semibold font-dmsans">
+          <span className="w-6 h-[1px] bg-[var(--text-primary)]/50 shrink-0" aria-hidden="true" />
+          <span className="text-[12px] uppercase tracking-[0.25em] text-[var(--text-primary)] font-semibold font-dmsans">
             Request a Consultation
           </span>
         </div>
-        <p className="text-[17px] lg:text-[18px] text-[#3D3834] font-normal leading-relaxed max-w-sm">
+        <p className="text-[17px] lg:text-[18px] text-[var(--text-secondary)] font-normal leading-relaxed max-w-sm">
           Share a few details and our showroom team will get in touch with you shortly.
         </p>
       </div>
@@ -308,20 +318,20 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
                 type="button"
                 id={`${uid}-project-type`}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`w-full bg-transparent border-b border-[#181514]/15 hover:border-[#181514]/35 focus:border-[#6E152B] pb-3 text-[17px] xl:text-[18px] text-[#181514] flex items-center justify-between focus:outline-none transition-colors duration-200 rounded-none ${!values.projectType ? "text-[#8C8681]" : ""}`}
+                className={`w-full bg-transparent border-b border-[var(--text-primary)]/15 hover:border-[var(--text-primary)]/35 focus:border-[var(--color-wine)] pb-3 text-[17px] xl:text-[18px] text-[var(--text-primary)] flex items-center justify-between focus:outline-none transition-colors duration-200 rounded-none ${!values.projectType ? "text-[var(--text-secondary)]" : ""}`}
               >
                 <span className="truncate">
                   {values.projectType || "Select Project Type"}
                 </span>
                 <ChevronDown
                   aria-hidden="true"
-                  className={`shrink-0 ml-4 w-5 h-5 text-[#1a1017]/70 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`}
+                  className={`shrink-0 ml-4 w-5 h-5 text-[var(--text-primary)]/70 transition-transform duration-300 ${isDropdownOpen ? "rotate-180" : ""}`}
                 />
               </button>
               
               {/* Dropdown Menu */}
               <div
-                className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-[#FAF8F5] border border-[#181514]/10 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-300 origin-top ${
+                className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-[var(--surface)] border border-[var(--text-primary)]/10 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-300 origin-top ${
                   isDropdownOpen ? "opacity-100 scale-y-100 visible" : "opacity-0 scale-y-95 invisible"
                 }`}
               >
@@ -336,8 +346,8 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
                       }}
                       className={`text-left px-5 py-3.5 text-[16px] transition-colors ${
                         values.projectType === pt 
-                          ? "bg-[#6E152B]/5 text-[#6E152B] font-medium" 
-                          : "text-[#3D3834] hover:bg-[#181514]/5 hover:text-[#181514]"
+                          ? "bg-[var(--color-wine)]/5 text-[var(--color-wine)] font-medium" 
+                          : "text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/5 hover:text-[var(--text-primary)]"
                       }`}
                     >
                       {pt}
@@ -353,9 +363,9 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
             <p
               role="alert"
               aria-live="assertive"
-              className="text-[12.5px] text-[#721536] bg-[#721536]/[0.06] border border-[#721536]/[0.18] px-3 py-2 rounded-lg flex items-center gap-2"
+              className="text-[12.5px] text-[var(--color-wine)] bg-[var(--color-wine)]/[0.06] border border-[var(--color-wine)]/[0.18] px-3 py-2 rounded-none flex items-center gap-2"
             >
-              <AlertCircle className="w-4 h-4 shrink-0 text-[#721536]" />
+              <AlertCircle className="w-4 h-4 shrink-0 text-[var(--color-wine)]" />
               <span>{errorMsg}</span>
             </p>
           )}
@@ -368,15 +378,15 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
             disabled={isSubmitting}
             className="group flex items-center justify-between w-full cursor-pointer disabled:opacity-60 transition-all focus:outline-none"
           >
-            <span className="text-[13px] font-bold uppercase tracking-[0.24em] text-[#6E152B] transition-colors group-hover:text-[#520e20]">
+            <span className="text-[13px] font-bold uppercase tracking-[0.24em] text-[var(--color-wine)] transition-colors group-hover:text-[#520e20]">
               Send Enquiry
             </span>
-            <div className="flex-1 h-[1px] bg-[#6E152B]/20 mx-6 group-hover:bg-[#6E152B]/40 transition-colors" />
+            <div className="flex-1 h-[1px] bg-[var(--color-wine)]/20 mx-6 group-hover:bg-[var(--color-wine)]/40 transition-colors" />
             <div className="relative flex items-center justify-center shrink-0">
               {/* Outer soft halo */}
-              <div className="w-12 h-12 rounded-full bg-[#6E152B]/[0.08] flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[#6E152B]/[0.14] group-active:scale-95">
+              <div className="w-12 h-12 rounded-none bg-[var(--color-wine)]/[0.08] flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--color-wine)]/[0.14] group-active:scale-95">
                 {/* Inner circular button */}
-                <div className="w-10 h-10 rounded-full bg-[#6E152B] group-hover:bg-[#581123] flex items-center justify-center text-white transition-transform duration-300 group-hover:translate-x-0.5 shadow-sm">
+                <div className="w-10 h-10 rounded-none bg-[var(--color-wine)] group-hover:bg-[#581123] flex items-center justify-center text-white transition-transform duration-300 group-hover:translate-x-0.5 shadow-sm">
                   {isSubmitting ? (
                     <Loader2 className="w-4 h-4 animate-spin text-white" />
                   ) : (

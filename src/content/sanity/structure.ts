@@ -17,6 +17,7 @@ import {
   AlertCircleIcon,
   EditIcon,
   BadgePercentIcon,
+  MonitorPlayIcon,
 } from 'lucide-react'
 import type { ComponentType } from 'react'
 import { apiVersion } from './env'
@@ -42,6 +43,15 @@ export const structure: StructureResolver = (S) =>
                     .schemaType('homePage')
                     .documentId('homePage')
                     .title('Homepage Content')
+                ),
+              S.listItem()
+                .title('Hero Manager')
+                .icon(MonitorPlayIcon as ComponentType)
+                .child(
+                  S.document()
+                    .schemaType('heroManager')
+                    .documentId('heroManager')
+                    .title('Hero Manager')
                 ),
               S.listItem()
                 .title('Business Settings')

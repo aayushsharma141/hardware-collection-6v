@@ -18,9 +18,9 @@ export default function SignatureCollection() {
   const rightPanelY = useTransform(scrollYProgress, [0, 1], [100, -200]);
 
   return (
-    <section ref={containerRef} className="py-32 lg:py-48 bg-[var(--surface)] overflow-hidden relative">
+    <section ref={containerRef} className="py-16 lg:py-24 bg-[var(--surface)] overflow-hidden relative">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="text-center mb-24 lg:mb-40">
+        <div className="text-center mb-12 lg:mb-20">
           <p className="text-brass-ink font-medium tracking-widest text-sm uppercase mb-4">
             CURATED
           </p>
@@ -52,7 +52,7 @@ export default function SignatureCollection() {
           {/* Right Panel */}
           <motion.div 
             style={{ y: shouldReduceMotion ? 0 : rightPanelY }}
-            className="w-full lg:w-[80%] ml-auto mt-24 lg:mt-0"
+            className="w-full lg:w-[80%] ml-auto mt-16 lg:mt-0"
           >
             <div className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-raised)] group">
               <motion.img 

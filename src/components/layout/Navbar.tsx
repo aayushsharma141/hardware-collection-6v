@@ -68,7 +68,7 @@ export default function Navbar({
 
   useGSAP(() => {
     if (prefersReducedMotion()) return;
-    
+
     gsap.fromTo(
       navbarRef.current,
       { y: -100, opacity: 0 },
@@ -83,10 +83,10 @@ export default function Navbar({
   const navLinks: NavLinkItem[] =
     mainMenu && mainMenu.length > 0
       ? mainMenu.map((item) => ({
-          name: item.label,
-          href: item.path,
-          id: item.path.replace(/^\//, "").replace(/\//g, "-") || "home",
-        }))
+        name: item.label,
+        href: item.path,
+        id: item.path.replace(/^\//, "").replace(/\//g, "-") || "home",
+      }))
       : NAV_LINKS_FALLBACK;
 
 
@@ -228,9 +228,8 @@ export default function Navbar({
       <header
         ref={navbarRef}
         role="banner"
-        className={`navbar-island fixed left-0 right-0 z-50 flex justify-center pointer-events-none transition-[top,padding] duration-300 ease-out ${
-          isScrolled ? "top-2 md:top-3 px-3 md:px-8" : "top-3 md:top-5 px-3 md:px-8"
-        }`}
+        className={`navbar-island fixed left-0 right-0 z-50 flex justify-center pointer-events-none transition-[top,padding] duration-300 ease-out ${isScrolled ? "top-2 md:top-3 px-3 md:px-8" : "top-3 md:top-5 px-3 md:px-8"
+          }`}
         style={{
           fontFamily: "var(--font-dmsans), 'DM Sans', -apple-system, sans-serif",
           WebkitFontSmoothing: "antialiased",
@@ -244,19 +243,17 @@ export default function Navbar({
             an edge for the eye to read as chrome. */}
         <div
           aria-hidden="true"
-          className={`absolute inset-x-0 -top-3 md:-top-5 h-[130px] md:h-[150px] bg-gradient-to-b from-[var(--surface)]/85 via-[var(--surface)]/45 to-transparent transition-opacity duration-300 ease-out ${
-            isOverHero ? "opacity-100" : "opacity-0"
-          }`}
+          className={`absolute inset-x-0 -top-3 md:-top-5 h-[130px] md:h-[150px] bg-gradient-to-b from-[var(--surface)]/85 via-[var(--surface)]/45 to-transparent transition-opacity duration-300 ease-out ${isOverHero ? "opacity-100" : "opacity-0"
+            }`}
         />
 
         <div
-          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded border transition-[height,background-color,box-shadow,border-color,backdrop-filter] duration-300 ease-out ${
-            isScrolled ? "h-[58px] md:h-[64px]" : "h-[64px] md:h-[76px]"
-          } ${barMaterial}`}
+          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded border transition-[height,background-color,box-shadow,border-color,backdrop-filter] duration-300 ease-out ${isScrolled ? "h-[58px] md:h-[64px]" : "h-[64px] md:h-[76px]"
+            } ${barMaterial}`}
         >
           {/* Strict Balanced 3-Zone Desktop Grid & 2-Zone Mobile Layout */}
           <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2 lg:gap-0 lg:grid-cols-[auto_1fr_auto] items-center h-full px-4 sm:px-6 md:px-8">
-            
+
             {/* ── Column 1: Brand Lockup (Left-Aligned) ─────────── */}
             <div className="flex items-center justify-start shrink-0">
               <Link
@@ -295,11 +292,10 @@ export default function Navbar({
                        (a global font reset was overriding these classes) and
                        what --nav-brand-size was balanced against. 14px between
                        lg and xl, where 16px pushed the CTA out of the bar. */
-                    className={`relative px-2.5 xl:px-4 py-1.5 text-sm xl:text-base leading-6 uppercase tracking-[0.12em] xl:tracking-[0.18em] rounded select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${
-                      isActive
+                    className={`relative px-2.5 xl:px-4 py-1.5 text-sm xl:text-base leading-6 uppercase tracking-[0.12em] xl:tracking-[0.18em] rounded select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${isActive
                         ? "text-[#8b1a42] font-medium"
                         : "text-[#8b1a42] font-normal hover:text-[#6b1432] hover:bg-[#8b1a42]/[0.06]"
-                    }`}
+                      }`}
                     style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                     aria-current={isActive ? "page" : undefined}
                   >
@@ -311,10 +307,10 @@ export default function Navbar({
                           shouldReduceMotion
                             ? { duration: 0 }
                             : {
-                                type: "spring",
-                                stiffness: 420,
-                                damping: 32,
-                              }
+                              type: "spring",
+                              stiffness: 420,
+                              damping: 32,
+                            }
                         }
                       />
                     )}
@@ -351,7 +347,7 @@ export default function Navbar({
               <button
                 ref={menuButtonRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded bg-[#f7f0e2]/80 border border-[#1a1017]/[0.08] text-[#1a1017] hover:text-[#8b1a42] hover:bg-[#ece4d6] active:scale-[0.96] transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42]"
+                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] bg-transparent text-[var(--text-primary)] hover:text-[var(--color-wine)] active:scale-[0.96] transition-all duration-200 focus-visible:outline-none"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-nav-modal"
@@ -369,7 +365,7 @@ export default function Navbar({
       </header>
 
 
-            <MobileMenu
+      <MobileMenu
         isOpen={mobileMenuOpen}
         onClose={() => setMobileMenuOpen(false)}
         menuButtonRef={menuButtonRef}

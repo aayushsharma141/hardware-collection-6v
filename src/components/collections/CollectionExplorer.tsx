@@ -157,7 +157,7 @@ export default function CollectionExplorer({
                 key={group.id}
                 id={group.id}
                 value={group.id}
-                className="group relative h-auto scroll-mt-28 flex-col items-stretch justify-start gap-0 self-stretch overflow-hidden rounded border border-[var(--border)] bg-ivory p-0 text-left whitespace-normal text-ink shadow-none transition-colors duration-200 hover:border-brass hover:text-ink data-[state=active]:border-brass data-[state=active]:bg-ink data-[state=active]:text-white data-[state=active]:shadow-none after:hidden"
+                className="group relative h-auto scroll-mt-28 flex-col items-stretch justify-start gap-0 self-stretch overflow-hidden rounded-none border border-[var(--border)] bg-ivory p-0 text-left whitespace-normal text-ink shadow-none transition-colors duration-300 hover:border-brass hover:text-ink data-[state=active]:border-brass data-[state=active]:bg-ink data-[state=active]:text-white data-[state=active]:shadow-none after:hidden"
               >
                 <span className="relative block aspect-[4/3] w-full bg-[var(--surface-raised)]">
                   {image ? (
@@ -166,7 +166,7 @@ export default function CollectionExplorer({
                       alt=""
                       fill
                       sizes="(min-width: 1024px) 14vw, (min-width: 640px) 25vw, 50vw"
-                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
+                      className="object-cover transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
                     />
                   ) : (
                     <TileIcon familyId={group.id} />
@@ -287,9 +287,9 @@ function FamilyPanel({
   };
 
   return (
-    <Card className="gap-0 rounded border-[var(--border)] bg-[var(--surface)] p-5 shadow-none sm:p-8">
+    <Card className="gap-0 rounded-none border-[var(--border)] bg-[var(--surface)] p-5 shadow-none sm:p-8">
       <div className="flex items-start gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded border border-[var(--border)] bg-[var(--surface-raised)]">
+        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-none border border-[var(--border)] bg-[var(--surface-raised)]">
           <Icon aria-hidden={true} className="h-5 w-5 text-[var(--text-secondary)]" />
         </span>
         <div className="min-w-0 flex-1">
@@ -305,7 +305,7 @@ function FamilyPanel({
           size="icon"
           onClick={onClose}
           aria-label={`Close ${group.title}`}
-          className="-mr-2 -mt-1 h-11 w-11 shrink-0 rounded-full text-[var(--text-secondary)] hover:bg-[var(--surface-raised)]"
+          className="-mr-2 -mt-1 h-11 w-11 shrink-0 rounded-none text-[var(--text-secondary)] hover:bg-[var(--surface-raised)] transition-colors duration-300"
         >
           <X aria-hidden="true" className="h-5 w-5" />
         </Button>
@@ -330,7 +330,7 @@ function FamilyPanel({
                   type="button"
                   aria-pressed={active}
                   onClick={() => chooseCategory(item.slug)}
-                  className={`hc-focus inline-flex min-h-11 items-center gap-2 rounded-full border px-4 text-[13px] transition-colors ${
+                  className={`hc-focus inline-flex min-h-11 items-center gap-2 rounded-none border px-4 text-[13px] transition-colors duration-300 ${
                     active
                       ? "border-ink bg-ink text-white"
                       : "border-[var(--border)] bg-[var(--surface-raised)]/60 text-ink hover:border-brass"
@@ -349,7 +349,7 @@ function FamilyPanel({
               <button
                 type="button"
                 onClick={() => setShowAllPills(true)}
-                className="hc-focus inline-flex min-h-11 items-center rounded-full px-3 text-[13px] text-brass-ink underline underline-offset-4"
+                className="hc-focus inline-flex min-h-11 items-center rounded-none px-3 text-[13px] text-brass-ink underline underline-offset-4 transition-colors duration-300"
               >
                 +{hiddenPills} more
               </button>
@@ -430,9 +430,9 @@ function FamilyPanel({
 
       {shown.length === 0 ? (
         // Nothing entered for this selection yet: the showroom still carries it, so say so and hand over.
-        <div className="mt-5 grid items-center gap-6 rounded border border-[var(--border)] bg-[var(--surface-raised)]/60 p-5 sm:grid-cols-[minmax(0,220px)_1fr] sm:p-6">
+        <div className="mt-5 grid items-center gap-6 rounded-none border border-[var(--border)] bg-[var(--surface-raised)]/60 p-5 sm:grid-cols-[minmax(0,220px)_1fr] sm:p-6">
           {category?.image ? (
-            <div className="relative aspect-[4/3] overflow-hidden rounded bg-[var(--surface-raised)]">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-none bg-[var(--surface-raised)]">
               <Image src={category.image} alt="" fill sizes="220px" className="object-cover" />
             </div>
           ) : null}
@@ -448,7 +448,7 @@ function FamilyPanel({
             </p>
             <Button
               asChild
-              className="brass-plate h-12 rounded px-6 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+              className="brass-plate h-12 rounded-none px-6 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95 transition-opacity duration-300"
             >
               <a href={enquiryHref(label)} target="_blank" rel="noopener noreferrer">
                 <MessageCircle aria-hidden="true" className="h-4 w-4" />
@@ -465,7 +465,7 @@ function FamilyPanel({
             </li>
           ))}
           <li>
-            <Card className="h-full justify-center gap-4 rounded border-[var(--border)] bg-[var(--surface-raised)]/60 p-6 text-center shadow-none">
+            <Card className="h-full justify-center gap-4 rounded-none border-[var(--border)] bg-[var(--surface-raised)]/60 p-6 text-center shadow-none">
               <p className="hc-serif text-xl font-light leading-snug">Looking for more options?</p>
               <p className="text-sm font-light leading-relaxed text-[var(--text-secondary)]">
                 {inView.length > shown.length
@@ -476,7 +476,7 @@ function FamilyPanel({
               <Button
                 asChild
                 variant="outline"
-                className="h-11 w-full rounded border-[var(--color-brass)] bg-transparent px-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brass-ink hover:bg-[var(--color-brass)] hover:text-white"
+                className="h-11 w-full rounded-none border-[var(--color-brass)] bg-transparent px-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brass-ink hover:bg-[var(--color-brass)] hover:text-white transition-colors duration-300"
               >
                 <a href={enquiryHref(label)} target="_blank" rel="noopener noreferrer">
                   <MessageCircle aria-hidden="true" className="h-4 w-4" />

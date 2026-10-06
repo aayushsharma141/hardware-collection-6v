@@ -38,7 +38,7 @@ export default function OffersSection({ offers, enquiryHref }: OffersSectionProp
         <ul className="grid grid-cols-1 gap-5 lg:grid-cols-3">
           {offers.map((offer) => (
             <li key={offer._id}>
-              <Card className="h-full flex-row gap-0 overflow-hidden rounded border-[var(--border)] bg-[var(--surface-raised)]/70 p-0 shadow-none">
+              <Card className="h-full flex-row gap-0 overflow-hidden rounded-none border-[var(--border)] bg-[var(--surface-raised)]/70 p-0 shadow-none">
                 <div className="flex min-w-0 flex-1 flex-col gap-3 p-6">
                   <p className="hc-mono text-[10px] font-semibold uppercase tracking-[0.18em] text-brass-ink">
                     {offer.type === "brand" && offer.brandName ? offer.brandName : TYPE_LABEL[offer.type] ?? "Offer"}
@@ -55,7 +55,7 @@ export default function OffersSection({ offers, enquiryHref }: OffersSectionProp
                   <Button
                     asChild
                     variant="outline"
-                    className="mt-auto h-10 w-fit rounded border-[var(--color-brass)] bg-transparent px-4 text-xs font-medium text-brass-ink hover:bg-[var(--color-brass)] hover:text-white"
+                    className="mt-auto h-10 w-fit rounded-none border-[var(--color-brass)] bg-transparent px-4 text-xs font-medium text-brass-ink hover:bg-[var(--color-brass)] hover:text-white"
                   >
                     <a href={enquiryHref(offer.title)} target="_blank" rel="noopener noreferrer">
                       Enquire now

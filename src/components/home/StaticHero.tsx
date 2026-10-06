@@ -78,7 +78,7 @@ export default function StaticHero({
   return (
     <section
       aria-labelledby="home-hero-heading"
-      className="relative isolate flex min-h-[100dvh] items-end overflow-hidden bg-[#1a1017] text-white lg:items-center"
+      className="relative isolate flex min-h-[100dvh] items-end overflow-hidden bg-[var(--surface-raised)] text-white lg:items-center"
     >
       <Image
         src={mobile}
@@ -103,7 +103,7 @@ export default function StaticHero({
 
       <div className="mx-auto w-full max-w-[1360px] px-6 pb-16 pt-32 lg:px-12 lg:pb-0">
         <div className="max-w-2xl">
-          <p className="hc-mono mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-[#c8a96e]">
+          <p className="hc-mono mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-brass)]">
             {eyebrow || FALLBACK.eyebrow}
           </p>
           <h1
@@ -118,14 +118,14 @@ export default function StaticHero({
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <CtaLink
               href={primaryHref}
-              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#8b1a42] px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-[#a3204e] hc-focus"
+              className="inline-flex min-h-12 items-center justify-center rounded-none bg-[var(--color-wine)] px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:brightness-110 hc-focus"
             >
               {primaryLabel}
             </CtaLink>
             {secondaryLabel && (
               <CtaLink
                 href={secondaryHref}
-                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/50 px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/10 hc-focus"
+                className="inline-flex min-h-12 items-center justify-center rounded-none border border-white/50 px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/10 hc-focus"
               >
                 {secondaryLabel}
               </CtaLink>

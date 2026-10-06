@@ -41,15 +41,15 @@ export default function CategoryDiscoveryMobile({ categories, populatedGroupIds 
     family.nameBreak ? `${family.name} ${family.nameBreak}` : family.name;
 
   return (
-    <section className="w-full px-margin-mobile pt-[104px] pb-[72px] bg-[#fbf5ea] border-t border-[#1a1017]/[0.08] lg:hidden">
+    <section className="w-full px-margin-mobile pt-[104px] pb-[72px] bg-[var(--surface-raised)] border-t border-[var(--border)] lg:hidden">
       <div className="flex flex-col">
-        <p className="font-label-caps t-eyebrow text-[#8b1a42] font-semibold tracking-[0.22em] uppercase text-xs">
+        <p className="font-label-caps t-eyebrow text-brass-ink font-semibold tracking-[0.22em] uppercase text-xs">
           Showroom families
         </p>
-        <h2 className="font-headline-md t-h2 mt-3 text-[#1a1017] text-3xl sm:text-4xl font-light">
+        <h2 className="font-headline-md t-h2 mt-3 text-[var(--text-primary)] text-3xl sm:text-4xl font-light">
           Where to begin
         </h2>
-        <p className="t-body mt-4 font-light text-[#5a4854] max-w-[34ch] text-sm sm:text-base leading-relaxed">
+        <p className="t-body mt-4 font-light text-[var(--text-secondary)] max-w-[34ch] text-sm sm:text-base leading-relaxed">
           From the entrance door to the last drawer runner.
         </p>
       </div>
@@ -58,7 +58,7 @@ export default function CategoryDiscoveryMobile({ categories, populatedGroupIds 
           edge to edge while the type stays inset. */}
       <Link
         href={focal.href}
-        className="hc-focus group relative -mx-margin-mobile mt-[52px] block aspect-[4/5] overflow-hidden border-y border-[#1a1017]/[0.10] bg-[#f7f0e2] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.99] motion-reduce:transition-none motion-reduce:active:scale-100"
+        className="hc-focus group relative -mx-margin-mobile mt-[52px] block aspect-[4/5] overflow-hidden border-y border-[var(--border)] bg-[var(--surface-elevated)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.99] motion-reduce:transition-none motion-reduce:active:scale-100"
       >
         {focal.image ? (
           <Image
@@ -66,17 +66,17 @@ export default function CategoryDiscoveryMobile({ categories, populatedGroupIds 
             alt={`${fullName(focal)} premium architectural hardware`}
             fill
             sizes="(max-width: 1024px) 100vw, 400px"
-            className="object-cover transition-transform duration-500 ease-out group-active:scale-[1.03]"
+            className="object-cover transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-active:scale-[1.03]"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)] border border-[var(--border)]">
             <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
           </div>
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#1a1017]/85 via-[#1a1017]/30 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/30 to-transparent pointer-events-none" />
 
         {/* The lead's own position in the set */}
-        <span className="absolute left-margin-mobile top-unit-lg hc-mono text-xs uppercase tracking-[0.2em] font-medium text-white bg-[#1a1017]/60 px-2.5 py-1 rounded backdrop-blur-sm">
+        <span className="absolute left-margin-mobile top-unit-lg hc-mono text-xs uppercase tracking-[0.2em] font-medium text-white bg-black/60 px-2.5 py-1 rounded-none backdrop-blur-sm">
           {focal.index}
         </span>
 
@@ -89,28 +89,28 @@ export default function CategoryDiscoveryMobile({ categories, populatedGroupIds 
           </p>
           <span className="mt-4 inline-flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.14em] text-white">
             View {fullName(focal)}
-            <Arrow className="w-3.5 h-3.5 text-[#c8a96e] transition-transform duration-200 group-active:translate-x-1" />
+            <Arrow className="w-3.5 h-3.5 text-[var(--accent)] transition-transform duration-200 group-active:translate-x-1" />
           </span>
         </div>
       </Link>
 
       {/* The remaining families, numbered on from the lead. */}
       {index.length > 0 && (
-      <ul className="mt-[52px] border-t border-[#1a1017]/[0.10]">
+      <ul className="mt-[52px] border-t border-[var(--border)]">
         {index.map((family, i) => {
           const rowPosition = family.index;
           return (
-            <li key={family.id} className="border-b border-[#1a1017]/[0.10]">
+            <li key={family.id} className="border-b border-[var(--border)]">
               <Link
                 href={family.href}
                 style={{ animationDelay: `${i * 80}ms` }}
                 className="hc-focus group flex items-center gap-unit-md py-4 min-h-[72px] [animation:catRise_.5s_cubic-bezier(0.16,1,0.3,1)_both] motion-reduce:animate-none transition-transform duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.985] motion-reduce:transition-none motion-reduce:active:scale-100"
               >
-                <span className="hc-mono t-meta shrink-0 text-[#8b1a42] font-semibold text-xs tracking-wider">
+                <span className="hc-mono t-meta shrink-0 text-brass-ink font-semibold text-xs tracking-wider">
                   {rowPosition}
                 </span>
 
-                <span className="relative shrink-0 w-14 h-[62px] overflow-hidden rounded bg-[#f7f0e2] border border-[#1a1017]/[0.08]">
+                <span className="relative shrink-0 w-14 h-[62px] overflow-hidden rounded-none bg-[var(--surface-elevated)] border border-[var(--border)]">
                   {family.image ? (
                     <Image
                       src={family.image}
@@ -126,11 +126,11 @@ export default function CategoryDiscoveryMobile({ categories, populatedGroupIds 
                   )}
                 </span>
 
-                <span className="min-w-0 flex-1 font-headline-md text-lg text-[#1a1017] group-hover:text-[#8b1a42] transition-colors">
+                <span className="min-w-0 flex-1 font-headline-md text-lg text-[var(--text-primary)] group-hover:text-[var(--color-wine)] transition-colors">
                   {fullName(family)}
                 </span>
 
-                <Arrow className="w-4 h-4 shrink-0 text-[#8b1a42] transition-transform duration-200 group-active:translate-x-1" />
+                <Arrow className="w-4 h-4 shrink-0 text-[var(--accent)] transition-transform duration-200 group-active:translate-x-1" />
               </Link>
             </li>
           );
