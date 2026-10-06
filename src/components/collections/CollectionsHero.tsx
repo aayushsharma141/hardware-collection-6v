@@ -13,6 +13,8 @@ export interface HeroSlide {
   title: string;
   tagline: string;
   image: string;
+  /** Set on an offer slide: the WhatsApp enquiry for that offer. Its button replaces "Explore". */
+  offerHref?: string;
 }
 
 export interface CollectionsHeroProps {
@@ -74,7 +76,7 @@ export default function CollectionsHero({ slides, whatsappHref }: CollectionsHer
   return (
     <section
       aria-roledescription="carousel"
-      aria-label="Featured collections"
+      aria-label="Featured collections and offers"
       className="relative isolate overflow-hidden bg-[#1a1017] text-white"
     >
       <Carousel
@@ -133,25 +135,51 @@ export default function CollectionsHero({ slides, whatsappHref }: CollectionsHer
             </p>
             <p className="hc-serif mt-1 text-2xl font-light">{active.title}</p>
             <div className="mt-4 flex flex-wrap gap-3">
-              <Button
-                asChild
-                className="brass-plate h-11 rounded px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
-              >
-                <a href={`#${active.id}`}>
-                  Explore {active.title}
-                  <ArrowRight aria-hidden="true" className="h-4 w-4" />
-                </a>
-              </Button>
-              <Button
-                asChild
-                variant="outline"
-                className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
-              >
-                <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle aria-hidden="true" className="h-4 w-4" />
-                  Ask our team
-                </a>
-              </Button>
+              {active.offerHref ? (
+                <>
+                  <Button
+                    asChild
+                    className="brass-plate h-11 rounded px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+                  >
+                    <a href={active.offerHref} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                      Enquire about this offer
+                    </a>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
+                  >
+                    <a href="#offers">
+                      All offers
+                      <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                    </a>
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    asChild
+                    className="brass-plate h-11 rounded px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+                  >
+                    <a href={`#${active.id}`}>
+                      Explore {active.title}
+                      <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                    </a>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
+                  >
+                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                      Ask our team
+                    </a>
+                  </Button>
+                </>
+              )}
             </div>
           </div>
 

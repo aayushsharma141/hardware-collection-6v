@@ -328,6 +328,8 @@ export const ACTIVE_OFFERS_QUERY = groq`*[_type == "offer" && active != false
       "type": offerType,
       description,
       validUntil,
+      heroPlacement,
+      heroOrder,
       "imageUrl": image.asset->url,
       "brandName": brand->name
     }`;

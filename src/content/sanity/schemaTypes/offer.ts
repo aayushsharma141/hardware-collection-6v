@@ -3,7 +3,8 @@ import { BadgePercent } from "lucide-react";
 import type { ComponentType } from "react";
 
 /**
- * A showroom offer, shown under "Current Offers" on /collections.
+ * A showroom offer, shown under "Current Offers" on /collections and, when
+ * ticked in `heroPlacement`, in the hero carousel of the home and/or collections page.
  *
  * Deliberately not a promotions engine: no prices, coupon codes or discount
  * maths — price and availability are confirmed by the showroom on WhatsApp.
@@ -68,6 +69,30 @@ export const offerType = defineType({
       description: "Leave empty for an ongoing offer. The offer hides itself after this date.",
     }),
     defineField({
+      name: "heroPlacement",
+      title: "Also show in the hero carousel of",
+      type: "array",
+      of: [{ type: "string" }],
+      options: {
+        list: [
+          { title: "Home page", value: "home" },
+          { title: "Collections page", value: "collections" },
+        ],
+      },
+      description:
+        "Tick a page to put this offer in its top carousel as well as in Current Offers. Each hero shows at most 3 offers.",
+      validation: (rule) => rule.unique(),
+    }),
+    defineField({
+      name: "heroOrder",
+      title: "Hero order",
+      type: "number",
+      description:
+        "Only matters when more than 3 offers are ticked for the same page: the lowest numbers (1, 2, 3) are the ones shown. Offers with no number come last, soonest-ending first.",
+      validation: (rule) => rule.integer().min(1),
+      hidden: ({ document }) => !(document?.heroPlacement as string[] | undefined)?.length,
+    }),
+    defineField({
       name: "active",
       title: "Show on website",
       type: "boolean",
@@ -75,9 +100,17 @@ export const offerType = defineType({
     }),
   ],
   preview: {
-    select: { title: "title", type: "offerType", until: "validUntil", active: "active", media: "image" },
-    prepare({ title, type, until, active, media }) {
-      const parts = [type, until ? `until ${until}` : "ongoing", active === false ? "hidden" : null];
+    select: {
+      title: "title",
+      type: "offerType",
+      until: "validUntil",
+      active: "active",
+      media: "image",
+      hero: "heroPlacement",
+    },
+    prepare({ title, type, until, active, media, hero }) {
+      const heroOn = Array.isArray(hero) && hero.length ? `hero: ${hero.join(" + ")}` : null;
+      const parts = [type, until ? `until ${until}` : "ongoing", heroOn, active === false ? "hidden" : null];
       return { title, subtitle: parts.filter(Boolean).join(" · "), media };
     },
   },

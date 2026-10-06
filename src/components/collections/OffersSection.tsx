@@ -3,6 +3,7 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Offer } from "@/types/catalog";
+import { formatOfferDate } from "@/lib/collections/offers";
 
 export interface OffersSectionProps {
   offers: Offer[];
@@ -16,17 +17,6 @@ const TYPE_LABEL: Record<Offer["type"], string> = {
   seasonal: "Seasonal offer",
   occasional: "Limited deal",
 };
-
-function formatDate(isoDate: string): string {
-  // `validUntil` is a plain date ("2026-11-15"); format it without a timezone shift.
-  const [y, m, d] = isoDate.split("-").map(Number);
-  return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString("en-IN", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    timeZone: "UTC",
-  });
-}
 
 /**
  * Current offers from the Sanity `offer` documents. Renders nothing when none
@@ -60,7 +50,7 @@ export default function OffersSection({ offers, enquiryHref }: OffersSectionProp
                     </p>
                   )}
                   <p className="text-xs font-light text-[var(--text-secondary)]">
-                    {offer.validUntil ? `Until ${formatDate(offer.validUntil)}` : "Ongoing"}
+                    {offer.validUntil ? `Until ${formatOfferDate(offer.validUntil)}` : "Ongoing"}
                   </p>
                   <Button
                     asChild

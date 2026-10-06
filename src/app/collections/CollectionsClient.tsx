@@ -6,6 +6,12 @@ import { Product, Category, Brand, Offer, SiteSettings } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
+import {
+  OFFER_HERO_FALLBACK_IMAGE,
+  formatOfferDate,
+  pickHeroOffers,
+  weaveHeroSlides,
+} from "@/lib/collections/offers";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 import {
   allShowroomSections,
@@ -144,16 +150,23 @@ export default function CollectionsClient({
 
   const whatsappHref = buildGeneralInquiryWhatsappLink(settings?.whatsappNumber);
 
-  // One slide per family the site has a photograph for; the link opens that family below.
-  const heroSlides = useMemo<HeroSlide[]>(
-    () =>
-      sections.flatMap(({ group }) =>
-        FAMILY_TILE_IMAGE[group.id]
-          ? [{ id: group.id, title: group.title, tagline: group.tagline, image: FAMILY_TILE_IMAGE[group.id] }]
-          : []
-      ),
-    [sections]
-  );
+  // One slide per family the site has a photograph for (the link opens that family below),
+  // with the offers ticked for this page's hero in the Studio woven in.
+  const heroSlides = useMemo<HeroSlide[]>(() => {
+    const familySlides = sections.flatMap(({ group }) =>
+      FAMILY_TILE_IMAGE[group.id]
+        ? [{ id: group.id, title: group.title, tagline: group.tagline, image: FAMILY_TILE_IMAGE[group.id] }]
+        : []
+    );
+    const offerSlides = pickHeroOffers(offers, "collections").map<HeroSlide>((offer) => ({
+      id: `offer-${offer._id}`,
+      title: offer.title,
+      tagline: offer.validUntil ? `Current offer · until ${formatOfferDate(offer.validUntil)}` : "Current offer",
+      image: offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
+      offerHref: offerEnquiryHref(offer.title),
+    }));
+    return weaveHeroSlides(familySlides, offerSlides);
+  }, [sections, offers, offerEnquiryHref]);
   const phone = settings?.primaryPhone?.trim();
 
   return (
