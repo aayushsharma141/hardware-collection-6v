@@ -48,6 +48,7 @@ const FAMILY_TILE_IMAGE: Record<string, string> = {
   "wardrobe-furniture": "/cinema/categories/HC-03-WARDROBE.png",
   "bathroom-hardware": "/cinema/categories/HC-03-BATHROOM.png",
   glass: "/cinema/categories/HC-03-GLASS.png",
+  "furniture-fittings": "/cinema/categories/HC-03-FURNITURE.png",
 };
 
 export default function CollectionsClient({
