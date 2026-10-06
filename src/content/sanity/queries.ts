@@ -316,13 +316,12 @@ export async function getFaqs() {
 
 
 /**
- * Offers to show on /collections: switched on, and either ongoing or still
- * within their last valid day (a `validUntil` date counts until 23:59 UTC).
- * Tagged "offer" so publishing one in the Studio refreshes the page.
+ * GROQ for the offers band. `validUntil` is a plain date, so it is stretched to
+ * the end of that day before comparing; `now()` must be wrapped in `dateTime()`
+ * or the comparison is null and every offer is filtered out.
  */
-export async function getActiveOffers(): Promise<Offer[]> {
-  const query = groq`*[_type == "offer" && active != false
-      && (!defined(validUntil) || dateTime(validUntil + "T23:59:59Z") >= now())]
+export const ACTIVE_OFFERS_QUERY = groq`*[_type == "offer" && active != false
+      && (!defined(validUntil) || dateTime(validUntil + "T23:59:59Z") >= dateTime(now()))]
     | order(coalesce(validUntil, "9999-12-31") asc, _createdAt desc) {
       _id,
       title,
@@ -332,6 +331,14 @@ export async function getActiveOffers(): Promise<Offer[]> {
       "imageUrl": image.asset->url,
       "brandName": brand->name
     }`;
+
+/**
+ * Offers to show on /collections: switched on, and either ongoing or still
+ * within their last valid day (a `validUntil` date counts until 23:59 UTC).
+ * Tagged "offer" so publishing one in the Studio refreshes the page.
+ */
+export async function getActiveOffers(): Promise<Offer[]> {
+  const query = ACTIVE_OFFERS_QUERY;
   try {
     return (await client.fetch(query, {}, { next: { tags: ["offer"] } })) ?? [];
   } catch (error) {
