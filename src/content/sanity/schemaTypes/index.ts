@@ -15,15 +15,17 @@ import { faqType } from "./faq";
 import { catalogueType } from "./catalogue";
 import { legalPageType } from "./legalPage";
 import { offerType } from "./offer";
+import { heroManagerType } from "./heroManager";
 
 // Objects
 import { seoType } from "./objects/seo";
 import { ctaType } from "./objects/cta";
 import { editorialType } from "./objects/editorial";
+import { heroSlideType } from "./objects/heroSlide";
 
 export const schema: { types: SchemaTypeDefinition[] } = {
   types: [
-    categoryType, spaceType, subcategoryType, curatedCollectionType, brandType, productType, testimonialType, homePageType, siteSettingsType, navigationType, galleryType, faqType, catalogueType, legalPageType, offerType,
-    seoType, ctaType, editorialType
+    categoryType, spaceType, subcategoryType, curatedCollectionType, brandType, productType, testimonialType, homePageType, siteSettingsType, navigationType, galleryType, faqType, catalogueType, legalPageType, offerType, heroManagerType,
+    seoType, ctaType, editorialType, heroSlideType
   ],
 };

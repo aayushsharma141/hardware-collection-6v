@@ -198,8 +198,4 @@ export interface Offer {
   validUntil?: string;
   imageUrl?: string;
   brandName?: string;
-  /** Pages whose hero carousel this offer is ticked for in the Studio. */
-  heroPlacement?: ("home" | "collections")[];
-  /** Lower shows first when more offers are ticked than the hero has room for. */
-  heroOrder?: number;
 }

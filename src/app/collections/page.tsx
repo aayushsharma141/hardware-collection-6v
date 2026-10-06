@@ -6,6 +6,7 @@ import {
   getBrands,
   getSiteSettings,
   getActiveOffers,
+  getHeroManager,
 } from "@/content/sanity/queries";
 import { CATEGORIES, BRANDS, PRODUCTS } from "@/content/fallback/catalog";
 import { mergeCategories, mergeProducts } from "@/lib/collections/catalogue";
@@ -24,12 +25,13 @@ export const metadata: Metadata = {
 };
 
 export default async function CollectionsPage() {
-  const [sanityCategories, sanityProducts, sanityBrands, settings, offers] = await Promise.all([
+  const [sanityCategories, sanityProducts, sanityBrands, settings, offers, heroManager] = await Promise.all([
     getCategories(),
     getAllProducts(),
     getBrands(),
     getSiteSettings(),
     getActiveOffers(),
+    getHeroManager(),
   ]);
 
   const categories = mergeCategories(CATEGORIES as unknown as Category[], sanityCategories);
@@ -75,6 +77,7 @@ export default async function CollectionsPage() {
           products={products}
           brands={brands}
           offers={offers}
+          heroManager={heroManager}
           settings={settings}
         />
       </Suspense>

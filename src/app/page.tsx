@@ -1,9 +1,9 @@
 import React from "react";
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
-import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getActiveOffers } from "@/content/sanity/queries";
+import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getHeroManager } from "@/content/sanity/queries";
 import { buildWhatsAppLink } from "@/lib/integrations/whatsapp";
-import { OFFER_HERO_FALLBACK_IMAGE, formatOfferDate, pickHeroOffers, weaveHeroSlides } from "@/lib/collections/offers";
+import { placeHeroSlides, toHomeHeroSlide, usableManagerSlides } from "@/lib/collections/heroSlides";
 import MobileConversionBar from "@/components/home/MobileConversionBar";
 
 // Global cinema system
@@ -91,14 +91,14 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [homeData, siteSettings, brands, testimonials, faqs, showroomGroups, offers] = await Promise.all([
+  const [homeData, siteSettings, brands, testimonials, faqs, showroomGroups, heroManager] = await Promise.all([
     getHomePage(),
     getSiteSettings(),
     getBrands(),
     getTestimonials(),
     getFaqs(),
     getShowroomGroups(),
-    getActiveOffers(),
+    getHeroManager(),
   ]);
   const populatedGroupIds = showroomGroups.map((group) => group.id);
 
@@ -120,19 +120,13 @@ export default async function HomePage() {
     ...fallbackHeroSlides.slice(1),
   ];
 
-  // Offers ticked for the home hero in the Studio join the carousel, up to three.
-  const offerHeroSlides = pickHeroOffers(offers, "home").map<HeroSlide>((offer) => ({
-    id: `offer-${offer._id}`,
-    eyebrow: offer.validUntil ? `CURRENT OFFER · UNTIL ${formatOfferDate(offer.validUntil).toUpperCase()}` : "CURRENT OFFER",
-    title: offer.title,
-    description: offer.description || "Ask our Sakchi showroom team for details and availability.",
-    primaryCta: "Enquire about this offer",
-    ctaTarget: buildWhatsAppLink(`Hardware Collection — I'd like to know more about your offer: ${offer.title}.`, siteSettings),
-    imageUrl: offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
-    specimenLabel: "Current offer",
-    specimenCaption: offer.brandName || "Hardware Collection · Sakchi",
-  }));
-  const heroSlides = weaveHeroSlides(builtInHeroSlides, offerHeroSlides);
+  // Slides an editor arranged in Studio > Hero Manager are placed among the built-in ones.
+  const offerEnquiryHref = (title: string) =>
+    buildWhatsAppLink(`Hardware Collection — I'd like to know more about your offer: ${title}.`, siteSettings);
+  const managedSlides = usableManagerSlides(heroManager?.home, (slide, index) =>
+    toHomeHeroSlide(slide, index, offerEnquiryHref)
+  );
+  const heroSlides = placeHeroSlides<HeroSlide, HeroSlide>(builtInHeroSlides, managedSlides);
 
 
   return (

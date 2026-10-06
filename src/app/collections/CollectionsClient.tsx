@@ -6,12 +6,8 @@ import { Product, Category, Brand, Offer, SiteSettings } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
-import {
-  OFFER_HERO_FALLBACK_IMAGE,
-  formatOfferDate,
-  pickHeroOffers,
-  weaveHeroSlides,
-} from "@/lib/collections/offers";
+import { placeHeroSlides, toCollectionsHeroSlide, usableManagerSlides } from "@/lib/collections/heroSlides";
+import type { HeroManagerData } from "@/types/hero";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 import {
   allShowroomSections,
@@ -33,6 +29,8 @@ export interface CollectionsClientProps {
   products: Product[];
   brands: Brand[];
   offers: Offer[];
+  /** The slides an editor arranged in Studio > Hero Manager, if any. */
+  heroManager?: HeroManagerData | null;
   settings?: SiteSettings | null;
 }
 
@@ -62,6 +60,7 @@ export default function CollectionsClient({
   products,
   brands: rawBrands,
   offers,
+  heroManager,
   settings,
 }: CollectionsClientProps) {
   const brands = useMemo(
@@ -151,22 +150,18 @@ export default function CollectionsClient({
   const whatsappHref = buildGeneralInquiryWhatsappLink(settings?.whatsappNumber);
 
   // One slide per family the site has a photograph for (the link opens that family below),
-  // with the offers ticked for this page's hero in the Studio woven in.
+  // with the slides an editor arranged in Studio > Hero Manager placed among them.
   const heroSlides = useMemo<HeroSlide[]>(() => {
     const familySlides = sections.flatMap(({ group }) =>
       FAMILY_TILE_IMAGE[group.id]
         ? [{ id: group.id, title: group.title, tagline: group.tagline, image: FAMILY_TILE_IMAGE[group.id] }]
         : []
     );
-    const offerSlides = pickHeroOffers(offers, "collections").map<HeroSlide>((offer) => ({
-      id: `offer-${offer._id}`,
-      title: offer.title,
-      tagline: offer.validUntil ? `Current offer · until ${formatOfferDate(offer.validUntil)}` : "Current offer",
-      image: offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
-      offerHref: offerEnquiryHref(offer.title),
-    }));
-    return weaveHeroSlides(familySlides, offerSlides);
-  }, [sections, offers, offerEnquiryHref]);
+    const managed = usableManagerSlides(heroManager?.collections, (slide, index) =>
+      toCollectionsHeroSlide(slide, index, offerEnquiryHref)
+    );
+    return placeHeroSlides<HeroSlide, HeroSlide>(familySlides, managed);
+  }, [sections, heroManager, offerEnquiryHref]);
   const phone = settings?.primaryPhone?.trim();
 
   return (

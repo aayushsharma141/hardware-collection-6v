@@ -5,6 +5,7 @@ import { CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
 import { mergeCategories, mergeProducts } from "@/lib/collections/catalogue";
 import { categoryRails, groupProducts } from "@/lib/collections/showroom";
 import type { Category, Offer } from "@/types/catalog";
+import type { HeroManagerData } from "@/types/hero";
 
 
 /** Fields every product card and list needs, in both old and new image shapes. */
@@ -328,8 +329,6 @@ export const ACTIVE_OFFERS_QUERY = groq`*[_type == "offer" && active != false
       "type": offerType,
       description,
       validUntil,
-      heroPlacement,
-      heroOrder,
       "imageUrl": image.asset->url,
       "brandName": brand->name
     }`;
@@ -346,5 +345,49 @@ export async function getActiveOffers(): Promise<Offer[]> {
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
+  }
+}
+
+/**
+ * An "offer" slide is kept only while its offer is switched on and not past
+ * `validUntil`, by the same rule as ACTIVE_OFFERS_QUERY, so an expired offer
+ * drops out of the hero by itself.
+ */
+const HERO_SLIDE_FILTER = groq`slideType != "offer" || (
+  defined(offer->_id) && offer->active != false
+  && (!defined(offer->validUntil) || dateTime(offer->validUntil + "T23:59:59Z") >= dateTime(now()))
+)`;
+
+/** One Hero Manager entry with its references resolved. */
+const HERO_SLIDE_FIELDS = groq`{
+  slideType,
+  position,
+  title,
+  subtitle,
+  link,
+  "imageDesktop": imageDesktop.asset->url,
+  "offer": offer->{
+    _id, title, "type": offerType, description, validUntil,
+    "imageUrl": image.asset->url, "brandName": brand->name
+  },
+  "collection": collection->{
+    "name": name, "slug": slug.current, primaryRail, description,
+    "imageUrl": coalesce(categoryImage, image, heroImage).asset->url
+  },
+  "brand": brand->{ "name": name, "slug": slug.current }
+}`;
+
+export const HERO_MANAGER_QUERY = groq`*[_type == "heroManager"][0]{
+  "home": homeHero[${HERO_SLIDE_FILTER}]${HERO_SLIDE_FIELDS},
+  "collections": collectionHero[${HERO_SLIDE_FILTER}]${HERO_SLIDE_FIELDS}
+}`;
+
+/** The slides an editor arranged in Studio > Hero Manager; null while none exist. */
+export async function getHeroManager(): Promise<HeroManagerData | null> {
+  try {
+    return (await client.fetch(HERO_MANAGER_QUERY, {}, { next: { tags: ["heroManager", "offer"] } })) ?? null;
+  } catch (error) {
+    console.error("Sanity fetch error (getHeroManager):", error);
+    return null;
   }
 }
