@@ -127,7 +127,8 @@ export default function CollectionExplorer({
   }
 
   if (sections.length === 0) return null;
-  const others = sections.filter((s) => s.group.id !== openId);
+  // With nothing open the tiles above already list every family; repeating them as rows is noise.
+  const others = openId ? sections.filter((s) => s.group.id !== openId) : [];
 
   return (
     <section
