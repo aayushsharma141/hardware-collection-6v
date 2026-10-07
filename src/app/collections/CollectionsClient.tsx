@@ -6,6 +6,7 @@ import { Product, Category, Brand, Offer, SiteSettings } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
+import {
   OFFER_HERO_FALLBACK_IMAGE,
   formatOfferDate,
 } from "@/lib/collections/offers";
