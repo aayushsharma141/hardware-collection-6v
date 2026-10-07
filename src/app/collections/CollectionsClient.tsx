@@ -6,11 +6,8 @@ import { Product, Category, Brand, Offer, SiteSettings } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
-import {
   OFFER_HERO_FALLBACK_IMAGE,
   formatOfferDate,
-  pickHeroOffers,
-  weaveHeroSlides,
 } from "@/lib/collections/offers";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 import {
@@ -34,6 +31,7 @@ export interface CollectionsClientProps {
   brands: Brand[];
   offers: Offer[];
   settings?: SiteSettings | null;
+  heroManager?: import("@/types/catalog").HeroManager | null;
 }
 
 /**
@@ -63,6 +61,7 @@ export default function CollectionsClient({
   brands: rawBrands,
   offers,
   settings,
+  heroManager,
 }: CollectionsClientProps) {
   const brands = useMemo(
     () =>
@@ -150,23 +149,65 @@ export default function CollectionsClient({
 
   const whatsappHref = buildGeneralInquiryWhatsappLink(settings?.whatsappNumber);
 
-  // One slide per family the site has a photograph for (the link opens that family below),
-  // with the offers ticked for this page's hero in the Studio woven in.
+  // Generate slides from HeroManager's collectionHero array
   const heroSlides = useMemo<HeroSlide[]>(() => {
-    const familySlides = sections.flatMap(({ group }) =>
-      FAMILY_TILE_IMAGE[group.id]
-        ? [{ id: group.id, title: group.title, tagline: group.tagline, image: FAMILY_TILE_IMAGE[group.id] }]
-        : []
-    );
-    const offerSlides = pickHeroOffers(offers, "collections").map<HeroSlide>((offer) => ({
-      id: `offer-${offer._id}`,
-      title: offer.title,
-      tagline: offer.validUntil ? `Current offer · until ${formatOfferDate(offer.validUntil)}` : "Current offer",
-      image: offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
-      offerHref: offerEnquiryHref(offer.title),
-    }));
-    return weaveHeroSlides(familySlides, offerSlides);
-  }, [sections, offers, offerEnquiryHref]);
+    if (!heroManager?.collectionHero?.length) {
+      // Fallback if heroManager isn't set up yet
+      return sections.flatMap(({ group }) =>
+        FAMILY_TILE_IMAGE[group.id]
+          ? [{ id: group.id, title: group.title, tagline: group.tagline, image: FAMILY_TILE_IMAGE[group.id] }]
+          : []
+      );
+    }
+
+    // Convert HeroSlideData[] into HeroSlide[]
+    return heroManager.collectionHero.map((slide, index) => {
+      const type = slide.slideType;
+      
+      if (type === "offer" && slide.offer) {
+        return {
+          id: `hero-offer-${slide.offer._id || index}`,
+          title: slide.offer.title,
+          tagline: slide.offer.validUntil ? `Current offer · until ${formatOfferDate(slide.offer.validUntil)}` : "Current offer",
+          image: slide.offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
+          offerHref: offerEnquiryHref(slide.offer.title),
+        };
+      }
+      
+      if (type === "collection" && slide.collection) {
+        const slug = slide.collection.slug && typeof slide.collection.slug === 'object' ? slide.collection.slug.current : slide.collection.slug;
+        // rails maps category slug to its family (e.g. 'smart-security', 'door')
+        const groupId = slug ? (rails.get(slug) || slug) : `hero-coll-${index}`;
+        return {
+          id: groupId,
+          title: slide.collection.name,
+          tagline: slide.collection.description || "Explore collection",
+          image: slide.collection.imageUrl || slide.collection.heroImageUrl || slide.collection.imageLqip || "",
+        };
+      }
+
+      if (type === "brand" && slide.brand) {
+        // Find local enriched brand for better data if needed, or just use what we have
+        const brandKey = normalizeBrandKey({ name: slide.brand.name } as Brand);
+        const localBrand = brands.find((b) => normalizeBrandKey(b) === brandKey) || slide.brand;
+        
+        return {
+          id: `hero-brand-${brandKey || index}`,
+          title: localBrand.name,
+          tagline: localBrand.tagline || "Authorized Partner",
+          image: slide.imageDesktopUrl || localBrand.heroImage || localBrand.logoUrl || "",
+        };
+      }
+      
+      // Promotional or Custom
+      return {
+        id: `hero-custom-${index}`,
+        title: slide.title || "Hardware Collection",
+        tagline: slide.subtitle || "",
+        image: slide.imageDesktopUrl || "",
+      };
+    }).filter(s => s.image); // Ensure we don't render slides without images
+  }, [sections, offers, offerEnquiryHref, heroManager, brands]);
   const phone = settings?.primaryPhone?.trim();
 
   return (

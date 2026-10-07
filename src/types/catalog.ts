@@ -198,8 +198,21 @@ export interface Offer {
   validUntil?: string;
   imageUrl?: string;
   brandName?: string;
-  /** Pages whose hero carousel this offer is ticked for in the Studio. */
-  heroPlacement?: ("home" | "collections")[];
-  /** Lower shows first when more offers are ticked than the hero has room for. */
-  heroOrder?: number;
+}
+
+export interface HeroSlideData {
+  slideType: "promotional" | "collection" | "brand" | "offer" | "custom";
+  offer?: Offer;
+  collection?: Category;
+  brand?: Brand;
+  imageDesktopUrl?: string;
+  imageMobileUrl?: string;
+  title?: string;
+  subtitle?: string;
+  link?: string;
+}
+
+export interface HeroManager {
+  homeHero?: HeroSlideData[];
+  collectionHero?: HeroSlideData[];
 }

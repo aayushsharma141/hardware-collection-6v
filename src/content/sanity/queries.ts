@@ -328,8 +328,6 @@ export const ACTIVE_OFFERS_QUERY = groq`*[_type == "offer" && active != false
       "type": offerType,
       description,
       validUntil,
-      heroPlacement,
-      heroOrder,
       "imageUrl": image.asset->url,
       "brandName": brand->name
     }`;
@@ -348,3 +346,52 @@ export async function getActiveOffers(): Promise<Offer[]> {
     return [];
   }
 }
+
+export const getHeroManagerQuery = groq`
+  *[_type == "heroManager"][0] {
+    "homeHero": homeHero[] {
+      slideType,
+      "offer": offer-> {
+        _id, title, "type": offerType, description, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
+      },
+      "collection": collection-> {
+        _id, name, "slug": slug.current, "imageUrl": coalesce(categoryImage, image, heroImage).asset->url, searchKeywords, description
+      },
+      "brand": brand-> {
+        _id, name, "slug": slug.current, "logoUrl": logo.asset->url
+      },
+      "imageDesktopUrl": imageDesktop.asset->url,
+      "imageMobileUrl": imageMobile.asset->url,
+      title,
+      subtitle,
+      link
+    },
+    "collectionHero": collectionHero[] {
+      slideType,
+      "offer": offer-> {
+        _id, title, "type": offerType, description, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
+      },
+      "collection": collection-> {
+        _id, name, "slug": slug.current, "imageUrl": coalesce(categoryImage, image, heroImage).asset->url, searchKeywords, description
+      },
+      "brand": brand-> {
+        _id, name, "slug": slug.current, "logoUrl": logo.asset->url
+      },
+      "imageDesktopUrl": imageDesktop.asset->url,
+      "imageMobileUrl": imageMobile.asset->url,
+      title,
+      subtitle,
+      link
+    }
+  }
+`;
+
+export async function getHeroManager() {
+  try {
+    return await client.fetch(getHeroManagerQuery, {}, { next: { tags: ["heroManager", "offer", "category", "brand"] } });
+  } catch (error) {
+    console.error("Sanity fetch error (getHeroManager):", error);
+    return null;
+  }
+}
+

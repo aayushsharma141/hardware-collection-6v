@@ -1,9 +1,9 @@
 import React from "react";
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
-import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getActiveOffers } from "@/content/sanity/queries";
+import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getActiveOffers, getHeroManager } from "@/content/sanity/queries";
 import { buildWhatsAppLink } from "@/lib/integrations/whatsapp";
-import { OFFER_HERO_FALLBACK_IMAGE, formatOfferDate, pickHeroOffers, weaveHeroSlides } from "@/lib/collections/offers";
+import { OFFER_HERO_FALLBACK_IMAGE, formatOfferDate } from "@/lib/collections/offers";
 
 
 // Global cinema system
@@ -91,7 +91,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [homeData, siteSettings, brands, testimonials, faqs, showroomGroups, offers] = await Promise.all([
+  const [homeData, siteSettings, brands, testimonials, faqs, showroomGroups, offers, heroManager] = await Promise.all([
     getHomePage(),
     getSiteSettings(),
     getBrands(),
@@ -99,40 +99,87 @@ export default async function HomePage() {
     getFaqs(),
     getShowroomGroups(),
     getActiveOffers(),
+    getHeroManager(),
   ]);
   const populatedGroupIds = showroomGroups.map((group) => group.id);
 
-  const builtInHeroSlides: HeroSlide[] = [
-    {
-      id: "ch01",
-      eyebrow: homeData?.heroEyebrow || fallbackHeroSlides[0].eyebrow,
-      title: homeData?.heroHeadline || fallbackHeroSlides[0].title,
-      description: homeData?.heroDescription || fallbackHeroSlides[0].description,
-      primaryCta: homeData?.primaryCta?.label || fallbackHeroSlides[0].primaryCta,
-      ctaTarget: homeData?.primaryCta?.url || fallbackHeroSlides[0].ctaTarget,
-      imageUrl: homeData?.heroImageDesktopUrl || fallbackHeroSlides[0].imageUrl,
-      productUrl: fallbackHeroSlides[0].productUrl,
-      macroUrl: fallbackHeroSlides[0].macroUrl,
-      reflectionUrl: fallbackHeroSlides[0].reflectionUrl,
-      specimenLabel: fallbackHeroSlides[0].specimenLabel,
-      specimenCaption: fallbackHeroSlides[0].specimenCaption,
-    },
-    ...fallbackHeroSlides.slice(1),
-  ];
+  const hasHomeHero = heroManager?.homeHero && heroManager.homeHero.length > 0;
 
-  // Offers ticked for the home hero in the Studio join the carousel, up to three.
-  const offerHeroSlides = pickHeroOffers(offers, "home").map<HeroSlide>((offer) => ({
-    id: `offer-${offer._id}`,
-    eyebrow: offer.validUntil ? `CURRENT OFFER · UNTIL ${formatOfferDate(offer.validUntil).toUpperCase()}` : "CURRENT OFFER",
-    title: offer.title,
-    description: offer.description || "Ask our Sakchi showroom team for details and availability.",
-    primaryCta: "Enquire about this offer",
-    ctaTarget: buildWhatsAppLink(`Hardware Collection — I'd like to know more about your offer: ${offer.title}.`, siteSettings),
-    imageUrl: offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
-    specimenLabel: "Current offer",
-    specimenCaption: offer.brandName || "Hardware Collection · Sakchi",
-  }));
-  const heroSlides = weaveHeroSlides(builtInHeroSlides, offerHeroSlides);
+  const heroSlides: HeroSlide[] = hasHomeHero 
+    ? heroManager.homeHero.map((slide, index) => {
+        const type = slide.slideType;
+        
+        if (type === "offer" && slide.offer) {
+          return {
+            id: `hero-offer-${slide.offer._id || index}`,
+            eyebrow: slide.offer.validUntil ? `CURRENT OFFER · UNTIL ${formatOfferDate(slide.offer.validUntil).toUpperCase()}` : "CURRENT OFFER",
+            title: slide.offer.title,
+            description: slide.offer.description || "Ask our Sakchi showroom team for details and availability.",
+            primaryCta: "Enquire about this offer",
+            ctaTarget: buildWhatsAppLink(`Hardware Collection — I'd like to know more about your offer: ${slide.offer.title}.`, siteSettings),
+            imageUrl: slide.offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
+            specimenLabel: "Current offer",
+            specimenCaption: slide.offer.brandName || "Hardware Collection · Sakchi",
+          };
+        }
+        
+        if (type === "collection" && slide.collection) {
+          const slug = slide.collection.slug && typeof slide.collection.slug === 'object' ? slide.collection.slug.current : slide.collection.slug;
+          return {
+            id: `hero-coll-${index}`,
+            eyebrow: "FEATURED COLLECTION",
+            title: slide.collection.name,
+            description: slide.collection.description || "Explore this collection in our Sakchi showroom.",
+            primaryCta: "Explore Collection",
+            ctaTarget: `/collections#${slug}`,
+            imageUrl: slide.collection.imageUrl || slide.collection.heroImageUrl || slide.collection.imageLqip || fallbackHeroSlides[0].imageUrl,
+          };
+        }
+
+        if (type === "brand" && slide.brand) {
+          const brandKey = slide.brand.slug && typeof slide.brand.slug === 'object' ? slide.brand.slug.current : slide.brand.slug;
+          return {
+            id: `hero-brand-${index}`,
+            eyebrow: "AUTHORIZED PARTNER",
+            title: slide.brand.name,
+            description: slide.subtitle || `Explore ${slide.brand.name} collections and catalogues.`,
+            primaryCta: "View Catalogues",
+            ctaTarget: brandKey ? `/catalogues?brand=${brandKey}` : "/collections",
+            imageUrl: slide.imageDesktopUrl || slide.brand.logoUrl || fallbackHeroSlides[0].imageUrl,
+          };
+        }
+
+        // Promotional or Custom or fallback for missing ref
+        return {
+          id: `hero-custom-${index}`,
+          eyebrow: slide.subtitle || "SHOWROOM FEATURE",
+          title: slide.title || "Premium Hardware",
+          description: slide.subtitle || "Curated architectural hardware collections.",
+          primaryCta: "Explore",
+          ctaTarget: slide.link || "/collections",
+          imageUrl: slide.imageDesktopUrl || fallbackHeroSlides[0].imageUrl,
+        };
+      })
+    : (() => {
+        // Fallback to legacy behaviour if no slides are defined
+        return [
+          {
+            id: "ch01",
+            eyebrow: homeData?.heroEyebrow || fallbackHeroSlides[0].eyebrow,
+            title: homeData?.heroHeadline || fallbackHeroSlides[0].title,
+            description: homeData?.heroDescription || fallbackHeroSlides[0].description,
+            primaryCta: homeData?.primaryCta?.label || fallbackHeroSlides[0].primaryCta,
+            ctaTarget: homeData?.primaryCta?.url || fallbackHeroSlides[0].ctaTarget,
+            imageUrl: homeData?.heroImageDesktopUrl || fallbackHeroSlides[0].imageUrl,
+            productUrl: fallbackHeroSlides[0].productUrl,
+            macroUrl: fallbackHeroSlides[0].macroUrl,
+            reflectionUrl: fallbackHeroSlides[0].reflectionUrl,
+            specimenLabel: fallbackHeroSlides[0].specimenLabel,
+            specimenCaption: fallbackHeroSlides[0].specimenCaption,
+          },
+          ...fallbackHeroSlides.slice(1),
+        ];
+      })();
 
 
   return (
