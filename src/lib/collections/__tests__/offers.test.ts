@@ -5,7 +5,18 @@ import type { Offer } from "@/types/catalog";
 const offer = (id: string, extra: Partial<Offer> = {}): Offer => ({ _id: id, title: id, type: "store", ...extra });
 
 describe("pickHeroOffers", () => {
-  it("only returns offers ticked for that page", () => {
+  it("returns offers toggled via visibleOnHome and visibleOnCollection", () => {
+    const offers = [
+      offer("a", { visibleOnHome: true }),
+      offer("b", { visibleOnCollection: true }),
+      offer("c", { visibleOnHome: true, visibleOnCollection: true }),
+      offer("d"),
+    ];
+    expect(pickHeroOffers(offers, "home").map((o) => o._id)).toEqual(["a", "c"]);
+    expect(pickHeroOffers(offers, "collections").map((o) => o._id)).toEqual(["b", "c"]);
+  });
+
+  it("supports legacy heroPlacement array as fallback", () => {
     const offers = [
       offer("a", { heroPlacement: ["home"] }),
       offer("b", { heroPlacement: ["collections"] }),
@@ -16,25 +27,28 @@ describe("pickHeroOffers", () => {
     expect(pickHeroOffers(offers, "collections").map((o) => o._id)).toEqual(["b", "c"]);
   });
 
-  it("keeps three when more are ticked, lowest hero order first", () => {
+  it("keeps max when more are toggled, lowest hero order first", () => {
     const offers = ["a", "b", "c", "d", "e"].map((id, i) =>
-      offer(id, { heroPlacement: ["collections"], heroOrder: 5 - i })
+      offer(id, { visibleOnCollection: true, heroOrder: 5 - i })
     );
     expect(pickHeroOffers(offers, "collections").map((o) => o._id)).toEqual(["e", "d", "c"]);
   });
 
   it("ranks offers with no order after numbered ones, then by soonest end date", () => {
     const offers = [
-      offer("later", { heroPlacement: ["home"], validUntil: "2026-12-31" }),
-      offer("sooner", { heroPlacement: ["home"], validUntil: "2026-10-31" }),
-      offer("ongoing", { heroPlacement: ["home"] }),
-      offer("ranked", { heroPlacement: ["home"], heroOrder: 9 }),
+      offer("later", { visibleOnHome: true, validUntil: "2026-12-31" }),
+      offer("sooner", { visibleOnHome: true, validUntil: "2026-10-31" }),
+      offer("ongoing", { visibleOnHome: true }),
+      offer("ranked", { visibleOnHome: true, heroOrder: 9 }),
     ];
     expect(pickHeroOffers(offers, "home", 4).map((o) => o._id)).toEqual(["ranked", "sooner", "later", "ongoing"]);
   });
 
   it("does not reorder the array it is given", () => {
-    const offers = [offer("b", { heroPlacement: ["home"], heroOrder: 2 }), offer("a", { heroPlacement: ["home"], heroOrder: 1 })];
+    const offers = [
+      offer("b", { visibleOnHome: true, heroOrder: 2 }),
+      offer("a", { visibleOnHome: true, heroOrder: 1 }),
+    ];
     pickHeroOffers(offers, "home");
     expect(offers.map((o) => o._id)).toEqual(["b", "a"]);
   });
@@ -49,19 +63,19 @@ describe("weaveHeroSlides", () => {
   });
 
   it("replaces three of six with offers and alternates them", () => {
-    expect(weaveHeroSlides(own, ["O1", "O2", "O3"])).toEqual(["F1", "O1", "F2", "O2", "F3", "O3"]);
+    expect(weaveHeroSlides(own, ["O1", "O2", "O3"], 6)).toEqual(["F1", "O1", "F2", "O2", "F3", "O3"]);
   });
 
-  it("with one offer, the offer takes one slot and the rest stay collections", () => {
-    expect(weaveHeroSlides(own, ["O1"])).toEqual(["F1", "O1", "F2", "F3", "F4", "F5"]);
+  it("with one offer on collections, the offer takes one slot and rest stay collections (total 7)", () => {
+    expect(weaveHeroSlides(own, ["O1"], 7)).toEqual(["F1", "O1", "F2", "F3", "F4", "F5", "F6"]);
   });
 
-  it("appends offers after a short list of the page's own slides", () => {
-    expect(weaveHeroSlides(["H1", "H2", "H3"], ["O1", "O2", "O3"])).toEqual(["H1", "O1", "H2", "O2", "H3", "O3"]);
+  it("with one offer on home, the offer takes one slot and 3 stay home (total 4)", () => {
+    expect(weaveHeroSlides(["H1", "H2", "H3", "H4"], ["O1"], 4)).toEqual(["H1", "O1", "H2", "H3"]);
   });
 
   it("never exceeds the cap, even with many offers", () => {
-    expect(weaveHeroSlides(own, ["O1", "O2", "O3", "O4", "O5", "O6", "O7"], 6)).toHaveLength(6);
+    expect(weaveHeroSlides(own, ["O1", "O2", "O3", "O4", "O5", "O6", "O7"], 7)).toHaveLength(7);
   });
 });
 

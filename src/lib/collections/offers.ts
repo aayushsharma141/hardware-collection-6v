@@ -1,6 +1,12 @@
 import type { Offer } from "@/types/catalog";
 
+/** A page whose hero can carry offers; the values are what the Studio stores. */
+export type HeroPlacement = "home" | "collections";
 
+/** Offers per hero, and slides per hero in all. Offers fill the rest with the page's own slides. */
+export const HERO_MAX_OFFERS = 3;
+export const HERO_MAX_SLIDES_HOME = 4;
+export const HERO_MAX_SLIDES_COLLECTIONS = 7;
 
 /** Used when an offer has no image of its own, so a hero slide is never blank. */
 export const OFFER_HERO_FALLBACK_IMAGE = "/cinema/showroom/interior.png";
@@ -14,4 +20,55 @@ export function formatOfferDate(isoDate: string): string {
     year: "numeric",
     timeZone: "UTC",
   });
+}
+
+const last = (n: number | undefined | null) => (typeof n === "number" ? n : Number.POSITIVE_INFINITY);
+
+/**
+ * The offers an editor toggled for this page's hero. When more than `max` are
+ * toggled, the lowest "hero order" wins; ties go to the offer ending soonest,
+ * then to the title, so the choice never flickers between renders.
+ */
+export function pickHeroOffers(offers: readonly Offer[], placement: HeroPlacement, max = HERO_MAX_OFFERS): Offer[] {
+  return offers
+    .filter((o) => {
+      if (placement === "home") {
+        return Boolean(o.visibleOnHome || o.heroPlacement?.includes("home"));
+      }
+      if (placement === "collections") {
+        return Boolean(
+          o.visibleOnCollection ||
+          o.heroPlacement?.includes("collections") ||
+          o.heroPlacement?.includes("collection")
+        );
+      }
+      return false;
+    })
+    .sort(
+      (a, b) =>
+        last(a.heroOrder) - last(b.heroOrder) ||
+        (a.validUntil ?? "9999-12-31").localeCompare(b.validUntil ?? "9999-12-31") ||
+        a.title.localeCompare(b.title)
+    )
+    .slice(0, max);
+}
+
+/**
+ * The page's own slides with offers woven in (own, offer, own, offer, ...),
+ * capped at `maxSlides`. Offers take slots from the end of the page's own
+ * slides. With no offers the hero is returned untouched, so a page that has no
+ * offers ticked looks exactly as it did before.
+ */
+export function weaveHeroSlides<T, U>(own: readonly T[], offers: readonly U[], maxSlides = HERO_MAX_SLIDES_COLLECTIONS): (T | U)[] {
+  if (offers.length === 0) return own.slice(0, maxSlides);
+  const offerCount = Math.min(offers.length, maxSlides);
+  const ownKept = own.slice(0, Math.max(maxSlides - offerCount, 0));
+  const out: (T | U)[] = [];
+  let o = 0;
+  let w = 0;
+  while (o < ownKept.length || w < offerCount) {
+    const takeOwn = o < ownKept.length && (w >= offerCount || out.length % 2 === 0);
+    out.push(takeOwn ? ownKept[o++] : offers[w++]);
+  }
+  return out;
 }

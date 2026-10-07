@@ -40,7 +40,7 @@ export default function ProductQuickView({
       <DialogContent className="max-h-[90dvh] max-w-3xl gap-0 overflow-y-auto rounded-none border-[var(--border)] bg-[var(--surface)] p-0 text-[var(--text-primary)] sm:max-w-3xl">
         {product && (
           <div className="grid md:grid-cols-2">
-            <div className="relative aspect-square bg-[var(--surface-raised)] md:aspect-auto md:min-h-[420px]">
+            <div className="relative aspect-[4/3] bg-[var(--surface-raised)] sm:aspect-square md:aspect-auto md:min-h-[420px]">
               {image ? (
                 <Image
                   src={image}
@@ -54,15 +54,15 @@ export default function ProductQuickView({
               ) : null}
             </div>
 
-            <div className="flex flex-col gap-6 p-6 sm:p-8">
+            <div className="flex flex-col gap-6 p-5 sm:p-6 md:p-8">
               <div>
                 {brand && (
-                  <p className="hc-mono mb-3 text-[11px] font-semibold uppercase tracking-[0.2em] text-brass-ink">
+                  <p className="hc-mono mb-3 text-[12px] font-semibold uppercase tracking-[0.2em] text-brass-ink sm:text-[11px]">
                     {brand}
                   </p>
                 )}
-                <DialogTitle className="hc-serif text-3xl font-light leading-tight">{product.name}</DialogTitle>
-                <DialogDescription className="mt-3 text-sm font-light leading-relaxed text-[var(--text-secondary)]">
+                <DialogTitle className="hc-serif text-2xl font-light leading-tight sm:text-3xl">{product.name}</DialogTitle>
+                <DialogDescription className="mt-3 text-[15px] font-light leading-relaxed text-[var(--text-secondary)] sm:text-sm">
                   {blurb || "Available to see at our Sakchi showroom."}
                 </DialogDescription>
               </div>
@@ -70,7 +70,7 @@ export default function ProductQuickView({
               {features.length > 0 && (
                 <ul className="space-y-2 border-t border-[var(--border)] pt-5">
                   {features.map((feature, i) => (
-                    <li key={`${i}-${feature}`} className="flex gap-3 text-sm font-light text-[var(--text-secondary)]">
+                    <li key={`${i}-${feature}`} className="flex gap-3 text-[15px] font-light text-[var(--text-secondary)] sm:text-sm">
                       <span aria-hidden="true" className="mt-2 h-1 w-1 shrink-0 rounded-full bg-[var(--color-brass)]" />
                       {feature}
                     </li>
@@ -79,12 +79,12 @@ export default function ProductQuickView({
               )}
 
               <div className="mt-auto flex flex-col gap-3 border-t border-[var(--border)] pt-5">
-                <p className="text-xs font-light text-[var(--text-secondary)]">
+                <p className="text-[13px] font-light text-[var(--text-secondary)] sm:text-xs">
                   Price, finishes and availability are confirmed by our team at the Sakchi showroom.
                 </p>
                 <Button
                   asChild
-                  className="brass-plate h-12 rounded-none text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+                  className="brass-plate h-12 rounded-none text-[13px] font-semibold uppercase tracking-widest text-white hover:opacity-95 sm:text-xs"
                 >
                   <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                     Ask on WhatsApp
@@ -94,7 +94,7 @@ export default function ProductQuickView({
                   <Button
                     asChild
                     variant="outline"
-                    className="h-12 rounded-none border-[var(--border)] bg-transparent text-xs font-medium uppercase tracking-widest hover:border-[var(--color-brass)] hover:bg-transparent"
+                    className="h-12 rounded-none border-[var(--border)] bg-transparent text-[13px] font-medium uppercase tracking-widest hover:border-[var(--color-brass)] hover:bg-transparent sm:text-xs"
                   >
                     <Link href={catalogueHref}>View {brand} catalogue</Link>
                   </Button>

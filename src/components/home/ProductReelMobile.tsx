@@ -32,11 +32,14 @@ import { SIGNATURE_PIECES } from "@/content/fallback/home";
  */
 const FEATURED = SIGNATURE_PIECES.slice(0, 3);
 
+import { urlForImage } from "@/content/sanity/lib/image";
+
 interface ProductReelMobileProps {
   products?: {
     productName: string;
     slug: string;
     imageUrl?: string;
+    image?: any;
     brandName?: string;
   }[];
 }
@@ -45,6 +48,7 @@ export default function ProductReelMobile({ products }: ProductReelMobileProps) 
   const activeProducts = products && products.length > 0
     ? products.map((p, idx) => {
         const fb = FEATURED[idx % FEATURED.length];
+        const productImageUrl = p.image ? urlForImage(p.image).url() : p.imageUrl;
         return {
           index: `0${idx + 1}`,
           brand: p.brandName || fb.brand,
@@ -53,7 +57,7 @@ export default function ProductReelMobile({ products }: ProductReelMobileProps) 
           finish: fb.finish,
           statement: fb.statement,
           blurb: fb.blurb,
-          img: p.imageUrl || fb.img,
+          img: productImageUrl || fb.img,
           href: `/collections?product=${p.slug}`,
           sweepDelay: fb.sweepDelay,
         };

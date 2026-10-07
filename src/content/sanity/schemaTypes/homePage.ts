@@ -124,6 +124,28 @@ export const homePageType = defineType({
       group: "showroom",
       of: [{ type: "image", options: { hotspot: true } }],
     }),
+    defineField({
+      name: "showroomExteriorImage",
+      title: "Showroom Exterior Image",
+      type: "image",
+      group: "showroom",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "showroomInteriorImage",
+      title: "Showroom Interior Image",
+      type: "image",
+      group: "showroom",
+      options: { hotspot: true },
+    }),
+    defineField({
+      name: "consultationImage",
+      title: "Consultation Image",
+      type: "image",
+      group: "showroom",
+      options: { hotspot: true },
+      description: "Used in the luxury Consultation editorial section",
+    }),
 
     // --- Customer Voice ---
     defineField({

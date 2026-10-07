@@ -79,6 +79,8 @@ const DEFAULT_MATERIALS = [
   },
 ];
 
+import { urlForImage } from "@/content/sanity/lib/image";
+
 interface MaterialItem {
   _key?: string;
   name?: string;
@@ -86,6 +88,7 @@ interface MaterialItem {
   description?: string;
   specification?: string;
   imageUrl?: string;
+  image?: any;
   sweepDelay?: string;
 }
 
@@ -97,13 +100,14 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
   // Merge Sanity data with local fallbacks (especially for sweepDelay and images if missing)
   const displayMaterials = (materials?.length ? materials : DEFAULT_MATERIALS).map((m: MaterialItem, i: number) => {
     const fallback = DEFAULT_MATERIALS[i] || DEFAULT_MATERIALS[0];
+    const mImageUrl = m.image ? urlForImage(m.image).url() : m.imageUrl;
     return {
       _key: m._key || fallback._key,
       name: m.name || fallback.name,
       subName: m.subName || fallback.subName,
       desc: m.description || fallback.desc,
       spec: m.specification || fallback.spec,
-      img: m.imageUrl || fallback.img,
+      img: mImageUrl || fallback.img,
       sweepDelay: fallback.sweepDelay, // keep visual sweep delays
     };
   });

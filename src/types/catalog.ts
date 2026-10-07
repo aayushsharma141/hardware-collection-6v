@@ -39,6 +39,7 @@ export interface Product {
   application?: string;
   applications?: string[];
   imageUrl?: string;
+  image?: any;
   imageLqip?: string;
   images?: Array<ProductImage | string>;
   featured?: boolean;
@@ -68,6 +69,7 @@ export interface Category {
   icon?: string;
   iconName?: string;
   imageUrl?: string;
+  image?: any;
   imageLqip?: string;
   featured?: boolean;
   itemCount?: number;
@@ -83,7 +85,7 @@ export interface Category {
   heroImageLqip?: string;
   galleryUrls?: string[];
   searchKeywords?: string[];
-  brandRefs?: Array<{ name: string; slug: string; logoUrl: string | null }>;
+  brandRefs?: Array<{ name: string; slug: string; logo?: any; logoUrl: string | null }>;
   displayOrder?: number;
   seo?: SanitySeo;
   cta?: SanityCta;
@@ -170,6 +172,7 @@ export function getSlugString(slug?: string | { current?: string }): string {
 }
 
 export interface SiteSettings {
+  mainLogo?: any;
   whatsappNumber?: string;
   defaultWhatsappMessage?: string;
   primaryPhone?: string;
@@ -195,9 +198,14 @@ export interface Offer {
   title: string;
   type: "store" | "brand" | "seasonal" | "occasional";
   description?: string;
+  validFrom?: string;
   validUntil?: string;
   imageUrl?: string;
   brandName?: string;
+  visibleOnHome?: boolean;
+  visibleOnCollection?: boolean;
+  heroPlacement?: string[];
+  heroOrder?: number;
 }
 
 export interface HeroSlideData {

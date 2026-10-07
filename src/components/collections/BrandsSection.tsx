@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Brand } from "@/types/catalog";
-import { normalizeBrandKey } from "@/content/fallback/brands";
+import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 
 export interface BrandsSectionProps {
   brands: Brand[];
@@ -38,21 +38,26 @@ export default function BrandsSection({ brands }: BrandsSectionProps) {
         <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
           {shown.map((brand) => {
             const key = normalizeBrandKey(brand);
-            const logo = brand.logoUrl || brand.logo;
+            const canonical = CANONICAL_BRANDS_BY_ID[key];
+            const logo = brand.logoUrl || brand.logo || canonical?.logo;
+            const imageStyle = canonical?.imageStyle;
             const inner = (
-              <span className="flex h-24 items-center justify-center rounded-none border border-[var(--border)] bg-[var(--surface)] px-6 transition-colors group-hover:border-[var(--color-brass)]">
+              <span className="flex h-24 items-center justify-center rounded-none border border-[var(--border)] bg-[var(--surface)] p-4 transition-all duration-300 group-hover:border-[var(--color-brass)] group-hover:shadow-sm">
                 {logo ? (
-                  <Image
-                    src={logo}
-                    alt={brand.name}
-                    width={240}
-                    height={96}
-                    sizes="(min-width: 1024px) 160px, 40vw"
-                    className="max-h-12 w-auto max-w-full object-contain"
-                    unoptimized={logo.endsWith(".svg")}
-                  />
+                  <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
+                    <Image
+                      src={logo}
+                      alt={brand.name}
+                      width={240}
+                      height={96}
+                      sizes="(min-width: 1024px) 160px, 40vw"
+                      style={imageStyle}
+                      className="max-h-12 w-auto max-w-[85%] object-contain transition-transform duration-300 group-hover:scale-105"
+                      unoptimized={typeof logo === "string" && logo.endsWith(".svg")}
+                    />
+                  </div>
                 ) : (
-                  <span className="hc-mono text-sm font-semibold uppercase tracking-[0.18em] text-[var(--text-primary)]">
+                  <span className="hc-mono text-center text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] text-[var(--text-primary)]">
                     {brand.name}
                   </span>
                 )}

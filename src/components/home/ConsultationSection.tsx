@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { ConsultationForm } from "@/components/consultation/ConsultationForm";
+import { urlForImage } from "@/content/sanity/lib/image";
 import {
   SHOWROOM_PHONE_HREF,
   SHOWROOM_MAP_URL,
@@ -14,12 +15,16 @@ interface ConsultationSectionProps {
   heading?: string;
   description?: string;
   showMap?: boolean;
+  image?: any;
 }
 
 export function ConsultationSection({
   id = "consultation",
   showMap = true,
+  image,
 }: ConsultationSectionProps) {
+  const imageUrl = image ? urlForImage(image).url() : "/cinema/consultation/consultation-editorial-v2.jpg";
+
   return (
     <section
       id={id}
@@ -30,7 +35,7 @@ export function ConsultationSection({
         {/* Left 50%: Editorial Luxury Panel with Full-Height Image */}
         <div className="relative w-full h-full overflow-hidden flex flex-col justify-center p-10 lg:p-12 xl:p-16 select-none">
           <Image
-            src="/cinema/consultation/consultation-editorial-v2.jpg"
+            src={imageUrl}
             alt="Luxury Architectural Interior with Bronze Door Handle"
             fill
             sizes="50vw"
@@ -128,7 +133,7 @@ export function ConsultationSection({
         {/* 1. Image / Editorial photograph */}
         <div className="relative w-full h-[180px] sm:h-[220px] overflow-hidden">
           <Image
-            src="/cinema/consultation/consultation-editorial-v2.jpg"
+            src={imageUrl}
             alt="Luxury Architectural Interior with Bronze Door Handle"
             fill
             sizes="100vw"

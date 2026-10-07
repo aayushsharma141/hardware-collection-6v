@@ -24,6 +24,8 @@ gsap.registerPlugin(ScrollTrigger, useGSAP);
  * gsap.matchMedia &mdash; mobile gets static vertical photography sequence, no pinning.
  */
 
+import { urlForImage } from "@/content/sanity/lib/image";
+
 const SCENES = [
   {
     id: "entrance",
@@ -45,15 +47,21 @@ const SCENES = [
 
 interface ShowroomCinematicProps {
   images?: string[];
+  exteriorImage?: any;
+  interiorImage?: any;
 }
 
-export default function ShowroomCinematic({ images }: ShowroomCinematicProps) {
-  const activeScenes = SCENES.map((scene, i) => {
-    if (images && images[i]) {
-      return { ...scene, img: images[i] };
+export default function ShowroomCinematic({ images, exteriorImage, interiorImage }: ShowroomCinematicProps) {
+  const activeScenes = [
+    {
+      ...SCENES[0],
+      img: exteriorImage ? urlForImage(exteriorImage).url() : images?.[0] || SCENES[0].img,
+    },
+    {
+      ...SCENES[1],
+      img: interiorImage ? urlForImage(interiorImage).url() : images?.[1] || SCENES[1].img,
     }
-    return scene;
-  });
+  ];
 
   const containerRef = useRef<HTMLDivElement>(null);
   const scene1Ref = useRef<HTMLDivElement>(null);

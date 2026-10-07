@@ -82,7 +82,8 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     website: null,
     tagline: "Excellence in Hardware",
     description: "Tattva offers a range of high-quality hardware products.",
-    keyHighlights: ["Premium Quality", "Modern Design"]
+    keyHighlights: ["Premium Quality", "Modern Design"],
+    imageStyle: { transform: "scale(1.25)" }
   },
   {
     id: "pans",
@@ -142,7 +143,8 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     website: "https://www.yalehome.com/in/en",
     tagline: "The world's favorite lock",
     description: "Yale protects millions of homes and businesses worldwide and is the brand behind locks of every design and function.",
-    keyHighlights: ["Smart Locks", "Safes", "Padlocks", "Alarms"]
+    keyHighlights: ["Smart Locks", "Safes", "Padlocks", "Alarms"],
+    imageStyle: { transform: "scale(1.2)" }
   },
   {
     id: "labacha",

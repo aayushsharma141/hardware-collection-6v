@@ -129,8 +129,8 @@ export default function Footer({ settings, brands, showroomGroups }: FooterProps
         {/* Top 4-Column Architectural Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10 lg:gap-10 xl:gap-14 pb-12 border-b border-[#1a1017]/[0.08]">
           
-          {/* Col 1: Brand Identity & Trust Pills (4 Cols) */}
-          <div className="lg:col-span-4 space-y-6">
+          {/* Col 1: Brand Identity & Trust Pills */}
+          <div className="lg:col-span-6 space-y-6">
             <Link
               href="/"
               aria-label="Hardware Collection, home"
@@ -181,68 +181,8 @@ export default function Footer({ settings, brands, showroomGroups }: FooterProps
             */}
           </div>
 
-          {/* Col 2: Collections with Category Icons (3 Cols) */}
-          <div className="lg:col-span-3 space-y-4">
-            <h4 className="text-[11.5px] font-semibold text-[#8b1a42] tracking-[0.2em] uppercase">
-              COLLECTIONS
-            </h4>
-            <nav aria-label="Showroom collections">
-              <ul className="space-y-1.5">
-                {toShowroomLinks(showroomGroups).map((cat) => {
-                  const Icon = cat.icon;
-                  return (
-                    <li key={cat.name}>
-                      <Link
-                        href={cat.href}
-                        className="w-full min-h-11 text-[13px] text-[#2e232b] hover:text-[#8b1a42] hover:bg-[#fbf5ea] px-2.5 py-2 rounded-none transition-colors flex items-center justify-between group"
-                      >
-                        <span className="flex items-center gap-2.5">
-                          <Icon className="w-4 h-4 text-[#c8a96e] group-hover:text-[#8b1a42] transition-colors" />
-                          <span className="font-normal">{cat.name}</span>
-                        </span>
-                        <ChevronRight className="w-3.5 h-3.5 text-[#7a6872] group-hover:text-[#8b1a42] transition-transform group-hover:translate-x-0.5" />
-                      </Link>
-                    </li>
-                  );
-                })}
-              </ul>
-            </nav>
-          </div>
-
-          {/* Col 3: Brands (2 Cols) */}
-          <div className="lg:col-span-2 space-y-4">
-            <h4 className="text-[11.5px] font-semibold text-[#8b1a42] tracking-[0.2em] uppercase">
-              BRANDS
-            </h4>
-            <nav aria-label="Authorized Brand Partners">
-              <ul className="space-y-1.5">
-                {Array.from(new Map(
-                  (settings?.authorizedBrandRefs?.length ? settings.authorizedBrandRefs : (brands?.length ? brands : FALLBACK_BRANDS)).map((brand) => {
-                    const b = brand as { slug?: string | { current?: string }; id?: string; name?: string; brandName?: string };
-                    const slug = (typeof b.slug === 'string' ? b.slug : b.slug?.current) || b.id || b.name;
-                    return [slug, brand];
-                  })
-                ).values()).slice(0, 6).map((brand) => {
-                  const b = brand as { slug?: string | { current?: string }; id?: string; name?: string; brandName?: string };
-                  const name = b.name || b.brandName;
-                  const slug = (typeof b.slug === 'string' ? b.slug : b.slug?.current) || b.id || b.name;
-                  return (
-                  <li key={slug}>
-                    <Link
-                      href={`/catalogs?brand=${slug}`}
-                      className="w-full text-[12.5px] uppercase tracking-[0.14em] font-medium text-[#2e232b] hover:text-[#8b1a42] hover:bg-[#fbf5ea] px-2.5 py-2 rounded-lg transition-colors flex items-center justify-between group text-left"
-                    >
-                      <span>{name}</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-[#7a6872] group-hover:text-[#8b1a42] transition-transform group-hover:translate-x-0.5" />
-                    </Link>
-                  </li>
-                )})}
-              </ul>
-            </nav>
-          </div>
-
-          {/* Col 4: Showroom & Contact (3 Cols) */}
-          <div className="lg:col-span-3 space-y-4">
+          {/* Col 2: Showroom & Contact */}
+          <div className="lg:col-span-6 space-y-4">
             <h4 className="text-[11.5px] font-semibold text-[#8b1a42] tracking-[0.2em] uppercase">
               SHOWROOM & CONTACT
             </h4>

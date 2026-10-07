@@ -63,16 +63,51 @@ export const offerType = defineType({
       options: { hotspot: true },
     }),
     defineField({
+      name: "validFrom",
+      title: "Valid from",
+      type: "date",
+      description: "Leave empty to start immediately. The offer will only appear on or after this date.",
+    }),
+    defineField({
       name: "validUntil",
       title: "Valid until",
       type: "date",
       description: "Leave empty for an ongoing offer. The offer hides itself after this date.",
     }),
     defineField({
+      name: "visibleOnHome",
+      title: "Visible on Home",
+      type: "boolean",
+      initialValue: false,
+      description: "Toggle on to feature this offer in the Home page hero carousel (up to 4 slides total).",
+    }),
+    defineField({
+      name: "visibleOnCollection",
+      title: "Visible on Collection",
+      type: "boolean",
+      initialValue: false,
+      description: "Toggle on to feature this offer in the Collections page hero carousel (up to 7 slides total).",
+    }),
+    defineField({
+      name: "heroOrder",
+      title: "Hero order",
+      type: "number",
+      description: "Display priority in hero carousel (1 = highest priority).",
+      initialValue: 1,
+    }),
+    defineField({
+      name: "heroPlacement",
+      title: "Hero Placement (Legacy)",
+      type: "array",
+      of: [{ type: "string" }],
+      hidden: true,
+    }),
+    defineField({
       name: "active",
       title: "Show on website",
       type: "boolean",
       initialValue: true,
+      description: "If turned off, the offer is hidden regardless of dates.",
     }),
   ],
   preview: {
@@ -82,9 +117,17 @@ export const offerType = defineType({
       until: "validUntil",
       active: "active",
       media: "image",
+      home: "visibleOnHome",
+      col: "visibleOnCollection",
+      legacyHero: "heroPlacement",
     },
-    prepare({ title, type, until, active, media }) {
-      const parts = [type, until ? `until ${until}` : "ongoing", active === false ? "hidden" : null];
+    prepare({ title, type, until, active, media, home, col, legacyHero }) {
+      const places = [
+        home || legacyHero?.includes("home") ? "Home" : null,
+        col || legacyHero?.includes("collections") || legacyHero?.includes("collection") ? "Collection" : null,
+      ].filter(Boolean);
+      const heroOn = places.length ? `hero: ${places.join(" + ")}` : null;
+      const parts = [type, until ? `until ${until}` : "ongoing", heroOn, active === false ? "hidden" : null];
       return { title, subtitle: parts.filter(Boolean).join(" · "), media };
     },
   },

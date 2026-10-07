@@ -20,6 +20,7 @@ const PRODUCT_LIST_FIELDS = `
     catalogReference,
     showroomDisplay,
     featured,
+    "image": coalesce(heroImage, images[0]),
     "imageUrl": coalesce(heroImage, images[0]).asset->url,
     "imageLqip": coalesce(heroImage, images[0]).asset->metadata.lqip,
     seo
@@ -43,6 +44,7 @@ export const getCategoriesQuery = groq`
     whatsappMessage,
     // \`image\` / \`heroImage\` are the pre-migration field names; documents
     // that have not been re-saved still carry the photograph there.
+    "image": coalesce(categoryImage, image, heroImage),
     "imageUrl": coalesce(categoryImage, image, heroImage).asset->url,
     "imageLqip": coalesce(categoryImage, image, heroImage).asset->metadata.lqip,
     seo
@@ -57,6 +59,7 @@ export const getBrandsQuery = groq`
     authorizedStatus,
     featured,
     displayOrder,
+    "logo": logo,
     "logoUrl": logo.asset->url,
     "logoLqip": logo.asset->metadata.lqip,
     "logoAspect": logo.asset->metadata.dimensions.aspectRatio,
@@ -189,10 +192,15 @@ export async function getHomePage() {
     materialFinishes,
     legacyYearsOfTrust,
     legacyBrandsCount,
+    "legacyShowroomImage": legacyShowroomImage,
     "legacyShowroomImageUrl": legacyShowroomImage.asset->url,
     "legacyShowroomImageLqip": legacyShowroomImage.asset->metadata.lqip,
     legacyPillars,
     
+    "showroomExteriorImage": showroomExteriorImage,
+    "showroomInteriorImage": showroomInteriorImage,
+    "consultationImage": consultationImage,
+
     seo,
     "trustedBrandRefs": trustedBrands[]->{ 
       "brandName": name, 
@@ -208,6 +216,7 @@ export async function getHomePage() {
     "featuredProductRefs": featuredProducts[]->{ 
       "productName": name, 
       "slug": slug.current, 
+      "image": heroImage,
       "imageUrl": heroImage.asset->url, 
       "brandName": brand->name 
     },
@@ -243,6 +252,9 @@ export async function getSiteSettings() {
     "showroomHours": openingHours,
     googleMapsUrl,
     googleMapsEmbedUrl,
+    mainLogo,
+    mainLogoInverse,
+    "defaultCategoryImage": defaultCategoryImage,
     "defaultCategoryImageUrl": defaultCategoryImage.asset->url,
     "authorizedBrandRefs": authorizedBrands[]->{ 
       "brandName": name, 
@@ -321,13 +333,19 @@ export async function getFaqs() {
  * or the comparison is null and every offer is filtered out.
  */
 export const ACTIVE_OFFERS_QUERY = groq`*[_type == "offer" && active != false
-      && (!defined(validUntil) || dateTime(validUntil + "T23:59:59Z") >= dateTime(now()))]
+      && (!defined(validUntil) || dateTime(validUntil + "T23:59:59Z") >= dateTime(now()))
+      && (!defined(validFrom) || dateTime(validFrom + "T00:00:00Z") <= dateTime(now()))]
     | order(coalesce(validUntil, "9999-12-31") asc, _createdAt desc) {
       _id,
       title,
       "type": offerType,
       description,
+      validFrom,
       validUntil,
+      visibleOnHome,
+      visibleOnCollection,
+      heroPlacement,
+      heroOrder,
       "imageUrl": image.asset->url,
       "brandName": brand->name
     }`;
@@ -351,9 +369,14 @@ export const getHeroManagerQuery = groq`
   *[_type == "heroManager"][0] {
     "homeHero": homeHero[] {
       slideType,
-      "offer": offer-> {
-        _id, title, "type": offerType, description, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
-      },
+      "offer": select(
+        offer->active != false &&
+        (!defined(offer->validUntil) || dateTime(offer->validUntil + "T23:59:59Z") >= dateTime(now())) &&
+        (!defined(offer->validFrom) || dateTime(offer->validFrom + "T00:00:00Z") <= dateTime(now())) => offer-> {
+          _id, title, "type": offerType, description, validFrom, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
+        },
+        null
+      ),
       "collection": collection-> {
         _id, name, "slug": slug.current, "imageUrl": coalesce(categoryImage, image, heroImage).asset->url, searchKeywords, description
       },
@@ -368,9 +391,14 @@ export const getHeroManagerQuery = groq`
     },
     "collectionHero": collectionHero[] {
       slideType,
-      "offer": offer-> {
-        _id, title, "type": offerType, description, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
-      },
+      "offer": select(
+        offer->active != false &&
+        (!defined(offer->validUntil) || dateTime(offer->validUntil + "T23:59:59Z") >= dateTime(now())) &&
+        (!defined(offer->validFrom) || dateTime(offer->validFrom + "T00:00:00Z") <= dateTime(now())) => offer-> {
+          _id, title, "type": offerType, description, validFrom, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
+        },
+        null
+      ),
       "collection": collection-> {
         _id, name, "slug": slug.current, "imageUrl": coalesce(categoryImage, image, heroImage).asset->url, searchKeywords, description
       },

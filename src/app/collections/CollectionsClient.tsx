@@ -9,6 +9,9 @@ import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integr
 import {
   OFFER_HERO_FALLBACK_IMAGE,
   formatOfferDate,
+  pickHeroOffers,
+  weaveHeroSlides,
+  HERO_MAX_SLIDES_COLLECTIONS,
 } from "@/lib/collections/offers";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
 import {
@@ -23,7 +26,6 @@ import CollectionsHero, { type HeroSlide } from "@/components/collections/Collec
 import CollectionExplorer from "@/components/collections/CollectionExplorer";
 import ProductQuickView from "@/components/collections/ProductQuickView";
 import OffersSection from "@/components/collections/OffersSection";
-import BrandsSection from "@/components/collections/BrandsSection";
 import ShowroomCta from "@/components/collections/ShowroomCta";
 
 export interface CollectionsClientProps {
@@ -71,7 +73,7 @@ export default function CollectionsClient({
           rawBrands.map((b) => {
             const key = normalizeBrandKey(b);
             const enriched = { ...b };
-            if (!enriched.logoUrl && CANONICAL_BRANDS_BY_ID[key]?.logo) {
+            if (CANONICAL_BRANDS_BY_ID[key]?.logo) {
               enriched.logoUrl = CANONICAL_BRANDS_BY_ID[key].logo;
             }
             return [key, enriched];
@@ -150,70 +152,27 @@ export default function CollectionsClient({
 
   const whatsappHref = buildGeneralInquiryWhatsappLink(settings?.whatsappNumber);
 
-  // Generate slides from HeroManager's collectionHero array
+  // Up to 7 collection slides: 7 showroom categories with active offers woven in, capped at 7.
   const heroSlides = useMemo<HeroSlide[]>(() => {
-    if (!heroManager?.collectionHero?.length) {
-      // Fallback if heroManager isn't set up yet
-      return sections.flatMap(({ group }) =>
-        FAMILY_TILE_IMAGE[group.id]
-          ? [{ id: group.id, title: group.title, tagline: group.tagline, image: FAMILY_TILE_IMAGE[group.id] }]
-          : []
-      );
-    }
-
-    // Convert HeroSlideData[] into HeroSlide[]
-    return heroManager.collectionHero.map((slide, index) => {
-      const type = slide.slideType;
-      
-      if (type === "offer" && slide.offer) {
-        return {
-          id: `hero-offer-${slide.offer._id || index}`,
-          title: slide.offer.title,
-          tagline: slide.offer.validUntil ? `Current offer · until ${formatOfferDate(slide.offer.validUntil)}` : "Current offer",
-          image: slide.offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
-          offerHref: offerEnquiryHref(slide.offer.title),
-        };
-      }
-      
-      if (type === "collection" && slide.collection) {
-        const slug = slide.collection.slug && typeof slide.collection.slug === 'object' ? slide.collection.slug.current : slide.collection.slug;
-        // rails maps category slug to its family (e.g. 'smart-security', 'door')
-        const groupId = slug ? (rails.get(slug) || slug) : `hero-coll-${index}`;
-        return {
-          id: groupId,
-          title: slide.collection.name,
-          tagline: slide.collection.description || "Explore collection",
-          image: slide.collection.imageUrl || slide.collection.heroImageUrl || slide.collection.imageLqip || "",
-        };
-      }
-
-      if (type === "brand" && slide.brand) {
-        // Find local enriched brand for better data if needed, or just use what we have
-        const brandKey = normalizeBrandKey({ name: slide.brand.name } as Brand);
-        const localBrand = brands.find((b) => normalizeBrandKey(b) === brandKey) || slide.brand;
-        
-        return {
-          id: `hero-brand-${brandKey || index}`,
-          title: localBrand.name,
-          tagline: localBrand.tagline || "Authorized Partner",
-          image: slide.imageDesktopUrl || localBrand.heroImage || localBrand.logoUrl || "",
-        };
-      }
-      
-      // Promotional or Custom
-      return {
-        id: `hero-custom-${index}`,
-        title: slide.title || "Hardware Collection",
-        tagline: slide.subtitle || "",
-        image: slide.imageDesktopUrl || "",
-      };
-    }).filter(s => s.image); // Ensure we don't render slides without images
-  }, [sections, offers, offerEnquiryHref, heroManager, brands]);
+    const familySlides = sections.flatMap(({ group }) =>
+      FAMILY_TILE_IMAGE[group.id]
+        ? [{ id: group.id, title: group.title, tagline: group.tagline, image: FAMILY_TILE_IMAGE[group.id] }]
+        : []
+    );
+    const offerSlides = pickHeroOffers(offers, "collections", 3).map<HeroSlide>((offer) => ({
+      id: `offer-${offer._id}`,
+      title: offer.title,
+      tagline: offer.validUntil ? `Current offer · until ${formatOfferDate(offer.validUntil)}` : "Current offer",
+      image: offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
+      offerHref: offerEnquiryHref(offer.title),
+    }));
+    return weaveHeroSlides(familySlides, offerSlides, HERO_MAX_SLIDES_COLLECTIONS);
+  }, [sections, offers, offerEnquiryHref]);
   const phone = settings?.primaryPhone?.trim();
 
   return (
     <div className="hc-root min-h-screen w-full bg-[var(--surface)] text-[var(--text-primary)] selection:bg-[var(--color-brass)]/30 selection:text-white">
-      <main className="w-full">
+      <main className="w-full pb-16 sm:pb-0">
         <CollectionsHero slides={heroSlides} whatsappHref={whatsappHref} />
 
         <CollectionExplorer
@@ -230,8 +189,6 @@ export default function CollectionsClient({
         />
 
         <OffersSection offers={offers} enquiryHref={offerEnquiryHref} />
-
-        <BrandsSection brands={brands} />
 
         <ShowroomCta
           whatsappHref={whatsappHref}

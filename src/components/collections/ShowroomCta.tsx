@@ -85,6 +85,14 @@ export default function ShowroomCta({ whatsappHref, phone, onVisit, address }: S
                 </span>
               ))}
             </address>
+            <a
+              href="https://maps.google.com/?q=Hardware+Collection+Sakchi+Jamshedpur"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-3 inline-flex items-center gap-1.5 text-xs text-brass-ink hover:underline font-medium"
+            >
+              Get directions on Google Maps &rarr;
+            </a>
           </div>
         </div>
       </div>

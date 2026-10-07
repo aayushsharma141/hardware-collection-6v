@@ -34,21 +34,27 @@ const PILLARS = [
   },
 ];
 
+import { urlForImage } from "@/content/sanity/lib/image";
+
 export default function AboutStory({
   id = "about",
   showroomHours,
   legacyYearsOfTrust,
   legacyBrandsCount,
+  legacyShowroomImageUrl,
+  legacyShowroomImage,
 }: {
   id?: string;
   showroomHours?: string;
   legacyYearsOfTrust?: number;
   legacyBrandsCount?: number;
   legacyShowroomImageUrl?: string;
+  legacyShowroomImage?: any;
 }) {
   const displayPillars = PILLARS.map((p) => ({ _key: p.id, title: p.title, description: p.body }));
   const displayYears = legacyYearsOfTrust ? `${legacyYearsOfTrust}+` : `${SHOWROOM_YEARS_OF_TRUST}+`;
   const displayBrandsCount = legacyBrandsCount ? `${legacyBrandsCount}+` : `${SHOWROOM_BRAND_COUNT}+`;
+  const finalImageUrl = legacyShowroomImage ? urlForImage(legacyShowroomImage).url() : legacyShowroomImageUrl || "/cinema/showroom/exterior.png";
 
   return (
     <section

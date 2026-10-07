@@ -22,7 +22,7 @@ export interface CollectionsHeroProps {
   whatsappHref?: string; // Kept as optional to satisfy existing parent passing it
 }
 
-const AUTOPLAY_MS = 6500;
+const AUTOPLAY_MS = 5000;
 
 function subscribeToMotionPreference(onChange: () => void) {
   const query = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -47,6 +47,9 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
   const reducedMotion = useSyncExternalStore(subscribeToMotionPreference, prefersReducedMotion, () => false);
   const playing = !reducedMotion;
 
+  // Disable loop and autoplay if only 1 slide to prevent Embla crash
+  const isMultiple = slides.length > 1;
+
   // One plugin instance for the life of the hero; whether it runs is driven below.
   const autoplay = useMemo(
     () => Autoplay({ delay: AUTOPLAY_MS, playOnInit: false, stopOnInteraction: false, stopOnMouseEnter: true }),
@@ -63,13 +66,13 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
   }, [api]);
 
   useEffect(() => {
-    if (!api) return;
+    if (!api || !isMultiple) return;
     const autoplayPlugin = api.plugins().autoplay;
     if (!autoplayPlugin) return;
 
     if (playing) autoplayPlugin.play();
     else autoplayPlugin.stop();
-  }, [api, playing]);
+  }, [api, playing, isMultiple]);
 
   if (slides.length === 0) return null;
   const active = slides[Math.min(current, slides.length - 1)];
@@ -82,8 +85,8 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
     >
       <Carousel
         setApi={setApi}
-        plugins={[autoplay]}
-        opts={{ loop: true, duration: 28 }}
+        plugins={isMultiple ? [autoplay] : []}
+        opts={{ loop: isMultiple, duration: 28 }}
         className="absolute inset-0 -z-10 h-full [&_[data-slot=carousel-content]]:h-full"
       >
         <CarouselContent className="ml-0 h-full">
@@ -115,12 +118,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
         className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-[var(--text-primary)] to-transparent opacity-90"
       />
 
-      <div className="mx-auto flex min-h-[560px] w-full max-w-[1320px] flex-col justify-between gap-12 px-4 pb-8 pt-32 sm:px-6 md:min-h-[640px] md:px-8 md:pt-40">
-        <div className="max-w-2xl">
-          <h1 className="hc-serif text-5xl font-light leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl">
-            Explore Our Collections
-          </h1>
-        </div>
+      <div className="mx-auto flex min-h-[560px] w-full max-w-[1320px] flex-col justify-end gap-12 px-4 pb-8 pt-32 sm:px-6 md:min-h-[640px] md:px-8 md:pt-40">
 
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div aria-live={playing ? "off" : "polite"} className="max-w-md">

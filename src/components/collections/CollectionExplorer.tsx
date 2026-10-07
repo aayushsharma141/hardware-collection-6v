@@ -1,83 +1,30 @@
 "use client";
 
-import { useState, useSyncExternalStore, type ComponentType } from "react";
+import { useState, useSyncExternalStore } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import {
-  Armchair,
-  ArrowRight,
-  Bath,
-  ChevronDown,
-  DoorClosed,
-  Lock,
-  MessageCircle,
-  PanelsTopLeft,
-  Shirt,
-  UtensilsCrossed,
-  X,
-} from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import { Product } from "@/types/catalog";
 import {
   familyForAnchor,
-  inSubcategory,
-  productCategorySlug,
-  subcategoriesOf,
   type FamilyCategory,
   type ShowroomSection,
 } from "@/lib/collections/showroom";
-import ShowcaseCard from "./ShowcaseCard";
-
-/** Products shown per selection: proof the showroom carries it, not a catalogue. */
-const PRODUCTS_PER_VIEW = 4;
-
-const FAMILY_ICON: Record<string, ComponentType<{ className?: string; "aria-hidden"?: boolean }>> = {
-  door: DoorClosed,
-  "smart-security": Lock,
-  kitchen: UtensilsCrossed,
-  "wardrobe-furniture": Shirt,
-  "bathroom-hardware": Bath,
-  glass: PanelsTopLeft,
-  "furniture-fittings": Armchair,
-};
-
-/** The family's icon, centred, for a tile that has no photograph yet. */
-function TileIcon({ familyId }: { familyId: string }) {
-  const Icon = FAMILY_ICON[familyId] ?? DoorClosed;
-  return (
-    <span className="absolute inset-0 flex items-center justify-center">
-      <Icon aria-hidden={true} className="h-8 w-8 text-[var(--text-secondary)] opacity-60" />
-    </span>
-  );
-}
-
-/** The small brass rule that follows each section heading. */
-function Rule() {
-  return <span aria-hidden="true" className="hidden h-px w-8 bg-[var(--color-brass)] sm:inline-block" />;
-}
+import { Button } from "@/components/ui/button";
 
 export interface CollectionExplorerProps {
-  /** Every family, in page order; a family with no products still appears. */
   sections: ShowroomSection<Product>[];
-  /** Family id -> its categories (every item in the collection, with or without products). */
   familyCategories: ReadonlyMap<string, FamilyCategory[]>;
-  /** Family id -> tile photograph. */
   familyImage: (familyId: string, products: Product[]) => string | undefined;
-  /** Brand name -> logo URL, when the brand has one. */
   brandLogo: (brandName: string) => string | undefined;
   getImage: (product: Product) => string;
   onOpenProduct: (product: Product, trigger: HTMLElement) => void;
-  /** Prefilled WhatsApp link asking about a family or category by name. */
   enquiryHref: (label: string) => string;
-  /** `/catalogues?brand=…` for a brand name, when that brand has a catalogue. */
   catalogueHrefFor: (brandName: string) => string | undefined;
-  /** The product open in the quick view, so a deep link also opens its family. */
   activeProduct: Product | null;
   groupIdOf: (product: Product) => string;
 }
 
+/* ── hash-based deep linking ─────────────────────────────────────────── */
 function subscribeToHash(onChange: () => void) {
   window.addEventListener("hashchange", onChange);
   return () => window.removeEventListener("hashchange", onChange);
@@ -85,453 +32,222 @@ function subscribeToHash(onChange: () => void) {
 const readHash = () => window.location.hash.slice(1);
 const readServerHash = () => "";
 
-/**
- * Browse by collection: choose a family tile, see a few pieces from it, then
- * enquire. One family is open at a time, so the page stays short on a phone.
- *
- * The tiles are a shadcn `Tabs` list (arrow-key navigation and roles come with
- * it). Tiles carry the family ids as anchors, so `/collections#kitchen` — and the
- * five older ids still in bookmarks — opens that family.
- */
 export default function CollectionExplorer({
   sections,
   familyCategories,
   familyImage,
-  brandLogo,
-  getImage,
-  onOpenProduct,
   enquiryHref,
-  catalogueHrefFor,
-  activeProduct,
-  groupIdOf,
 }: CollectionExplorerProps) {
-  // The first family with products opens by default; with none, the first tile.
-  const [openId, setOpenId] = useState<string>(
-    () => (sections.find((s) => s.products.length > 0) ?? sections[0])?.group.id ?? ""
-  );
+  const [openId, setOpenId] = useState<string | null>(null);
 
-  // Follow in-page links, adjusting state during render rather than in an effect.
   const hash = useSyncExternalStore(subscribeToHash, readHash, readServerHash);
   const [seenHash, setSeenHash] = useState(readServerHash);
   if (hash !== seenHash) {
     setSeenHash(hash);
     const family = familyForAnchor(hash);
-    if (family && sections.some((s) => s.group.id === family)) setOpenId(family);
-  }
-
-  // Independent accordion state for the bottom collections dropdown list
-  const [accordionOpenId, setAccordionOpenId] = useState<string | null>(null);
-
-  // A ?product= deep link opens the quick view; open that product's family behind it.
-  const [seenProduct, setSeenProduct] = useState<Product | null>(null);
-  if (activeProduct !== seenProduct) {
-    setSeenProduct(activeProduct);
-    if (activeProduct) setOpenId(groupIdOf(activeProduct));
+    if (family && sections.some((s) => s.group.id === family)) {
+      setOpenId(family);
+    } else {
+      setOpenId(null);
+    }
   }
 
   if (sections.length === 0) return null;
-  const others = sections.filter((s) => s.group.id !== openId);
+
+  const activeSection = sections.find((s) => s.group.id === openId);
+  const activeCategories = activeSection
+    ? familyCategories.get(activeSection.group.id) ?? []
+    : [];
 
   return (
-    <section
-      id="explorer"
-      aria-labelledby="explorer-heading"
-      className="mx-auto w-full max-w-[1320px] scroll-mt-24 px-4 py-14 sm:px-6 md:px-8 md:py-20"
-    >
-      <header className="mb-8 flex flex-col gap-2 md:mb-10 md:flex-row md:items-end md:justify-between">
-        <h2 id="explorer-heading" className="hc-serif flex items-center gap-4 text-3xl font-light leading-tight sm:text-4xl lg:text-5xl">
-          Browse by Collection
-          <Rule />
-        </h2>
-        <p className="text-sm font-light text-[var(--text-secondary)]">
-          Choose a category to explore our featured products
-        </p>
-      </header>
+    <section className="w-full bg-[#fbf5ea]">
+      <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 py-16 md:py-24">
+        {!activeSection ? (
+          /* ═══════ LEVEL 1: HEADING + FULL-WIDTH ROWS ═══════ */
+          <div className="flex flex-col w-full">
+            {/* Section Header */}
+            <div className="mb-10 md:mb-14">
+              <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#8B1A42] block mb-5">
+                Collections
+              </span>
+              <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[#1a1017] leading-[1.1] font-normal tracking-tight max-w-2xl">
+                Find the hardware
+                <br />
+                for your space.
+              </h2>
+              <p className="mt-4 text-[15px] sm:text-base text-[#1a1017]/60 font-light max-w-lg">
+                Choose what you&apos;re working on or looking for.
+              </p>
+            </div>
 
-      <Tabs
-        value={openId}
-        onValueChange={(val) => {
-          setOpenId(val);
-          if (accordionOpenId === val) setAccordionOpenId(null);
-        }}
-        className="gap-0"
-      >
-        <TabsList
-          aria-label="Collections"
-          className="grid h-auto w-full grid-cols-2 gap-3 rounded-none bg-transparent p-0 group-data-[orientation=horizontal]/tabs:h-auto sm:grid-cols-4 lg:grid-cols-7"
-        >
-          {sections.map(({ group, products }) => {
-            const image = familyImage(group.id, products);
-            return (
-              <TabsTrigger
-                key={group.id}
-                id={group.id}
-                value={group.id}
-                className="group relative h-auto scroll-mt-28 flex-col items-stretch justify-start gap-0 self-stretch overflow-hidden rounded-none border border-[var(--border)] bg-ivory p-0 text-left whitespace-normal text-ink shadow-none transition-colors duration-300 hover:border-brass hover:text-ink data-[state=active]:border-brass data-[state=active]:bg-ink data-[state=active]:text-white data-[state=active]:shadow-none after:hidden"
-              >
-                <span className="relative block aspect-[4/3] w-full bg-[var(--surface-raised)]">
-                  {image ? (
-                    <Image
-                      src={image}
-                      alt=""
-                      fill
-                      sizes="(min-width: 1024px) 14vw, (min-width: 640px) 25vw, 50vw"
-                      className="object-cover transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] motion-reduce:transition-none motion-reduce:group-hover:scale-100"
-                    />
-                  ) : (
-                    <TileIcon familyId={group.id} />
-                  )}
-                </span>
-                <span className="flex flex-1 flex-col gap-1 p-3">
-                  <span className="hc-serif text-[15px] font-normal leading-snug">{group.title}</span>
-                  <span className="hc-mono text-[9px] uppercase leading-relaxed tracking-[0.12em] opacity-70">
-                    {group.tagline}
-                  </span>
-                </span>
-              </TabsTrigger>
-            );
-          })}
-        </TabsList>
-
-        {sections.map((section) => (
-          <TabsContent key={section.group.id} value={section.group.id} className="mt-6">
-            <FamilyPanel
-              section={section}
-              categories={familyCategories.get(section.group.id) ?? []}
-              brandLogo={brandLogo}
-              getImage={getImage}
-              onOpenProduct={onOpenProduct}
-              enquiryHref={enquiryHref}
-              catalogueHrefFor={catalogueHrefFor}
-              onClose={() => setOpenId("")}
-            />
-          </TabsContent>
-        ))}
-      </Tabs>
-
-      {/* The other families, as an independent accordion dropdown */}
-      <ul className="mt-8 border-t border-[var(--border)]">
-        {others.map((section) => {
-          const { group } = section;
-          const Icon = FAMILY_ICON[group.id] ?? DoorClosed;
-          const isOpen = accordionOpenId === group.id;
-
-          return (
-            <li key={group.id} className="border-b border-[var(--border)]">
-              <button
-                type="button"
-                aria-expanded={isOpen}
-                onClick={() => {
-                  setAccordionOpenId((prev) => (prev === group.id ? null : group.id));
-                }}
-                className="hc-focus flex min-h-14 w-full items-center gap-4 px-1 py-4 text-left transition-colors duration-200 hover:text-brass"
-              >
-                <Icon aria-hidden={true} className="h-5 w-5 shrink-0 text-[var(--text-secondary)]" />
-                <span className="hc-serif flex-1 text-lg font-light">{group.title}</span>
-                <span className="text-xs uppercase tracking-wider text-[var(--text-secondary)] mr-2 hidden sm:inline">
-                  {isOpen ? "Collapse" : "Explore"}
-                </span>
-                <ChevronDown
-                  aria-hidden={true}
-                  className={`h-4 w-4 shrink-0 text-[var(--text-secondary)] transition-transform duration-300 ${
-                    isOpen ? "rotate-180 text-brass" : ""
-                  }`}
-                />
-              </button>
-
-              {isOpen && (
-                <div className="pb-6 pt-1 transition-all duration-300">
-                  <FamilyPanel
-                    section={section}
-                    categories={familyCategories.get(group.id) ?? []}
-                    brandLogo={brandLogo}
-                    getImage={getImage}
-                    onOpenProduct={onOpenProduct}
-                    enquiryHref={enquiryHref}
-                    catalogueHrefFor={catalogueHrefFor}
-                    onClose={() => setAccordionOpenId(null)}
-                  />
-                </div>
-              )}
-            </li>
-          );
-        })}
-      </ul>
-    </section>
-  );
-}
-
-interface FamilyPanelProps {
-  section: ShowroomSection<Product>;
-  categories: FamilyCategory[];
-  brandLogo: (brandName: string) => string | undefined;
-  getImage: (product: Product) => string;
-  onOpenProduct: (product: Product, trigger: HTMLElement) => void;
-  enquiryHref: (label: string) => string;
-  catalogueHrefFor: (brandName: string) => string | undefined;
-  onClose: () => void;
-}
-
-/** Category pills shown before "+N more": enough to scan, not a wall of chips on a phone. */
-const PILLS_COLLAPSED = 8;
-
-/**
- * One collection open: its categories, then (where products are tagged) its
- * sub-categories, then a few products. Three levels, three different controls:
- * image tiles pick the collection, rounded pills pick the category, and plain
- * text filters pick the sub-category.
- */
-function FamilyPanel({
-  section,
-  categories,
-  brandLogo,
-  getImage,
-  onOpenProduct,
-  enquiryHref,
-  catalogueHrefFor,
-  onClose,
-}: FamilyPanelProps) {
-  const { group, products } = section;
-  const Icon = FAMILY_ICON[group.id] ?? DoorClosed;
-
-  // `null` = every category in the collection.
-  const [categorySlug, setCategorySlug] = useState<string | null>(null);
-  const [subcategory, setSubcategory] = useState<string | null>(null);
-  const [showAllPills, setShowAllPills] = useState(false);
-
-  const category = categories.find((c) => c.slug === categorySlug) ?? null;
-  const inCategory = category ? products.filter((p) => productCategorySlug(p) === category.slug) : products;
-  const subcategories = subcategoriesOf(inCategory);
-  const inView = subcategory ? inCategory.filter((p) => inSubcategory(p, subcategory)) : inCategory;
-  const shown = inView.slice(0, PRODUCTS_PER_VIEW);
-  const label = category?.name ?? group.title;
-
-  const countFor = (slug: string) => products.filter((p) => productCategorySlug(p) === slug).length;
-  // Keep the chosen category visible even when the list is collapsed.
-  const pills =
-    showAllPills || categories.length <= PILLS_COLLAPSED
-      ? categories
-      : categories.filter((c, i) => i < PILLS_COLLAPSED || c.slug === categorySlug);
-  const hiddenPills = categories.length - pills.length;
-
-  const brandNames = [...new Set(inView.map((p) => p.brandName || p.brand).filter((b): b is string => Boolean(b)))];
-  const catalogue = brandNames.map((name) => ({ name, href: catalogueHrefFor(name) })).find((c) => c.href);
-
-  const chooseCategory = (slug: string | null) => {
-    setCategorySlug(slug);
-    setSubcategory(null);
-  };
-
-  return (
-    <Card className="gap-0 rounded-none border-[var(--border)] bg-[var(--surface)] p-5 shadow-none sm:p-8">
-      <div className="flex items-start gap-4">
-        <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-none border border-[var(--border)] bg-[var(--surface-raised)]">
-          <Icon aria-hidden={true} className="h-5 w-5 text-[var(--text-secondary)]" />
-        </span>
-        <div className="min-w-0 flex-1">
-          <h3 className="hc-serif flex items-center gap-4 text-2xl font-light leading-tight">
-            {group.title}
-            <Rule />
-          </h3>
-          <p className="mt-1 text-sm font-light text-[var(--text-secondary)]">{group.description}</p>
-        </div>
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          onClick={onClose}
-          aria-label={`Close ${group.title}`}
-          className="-mr-2 -mt-1 h-11 w-11 shrink-0 rounded-none text-[var(--text-secondary)] hover:bg-[var(--surface-raised)] transition-colors duration-300"
-        >
-          <X aria-hidden="true" className="h-5 w-5" />
-        </Button>
-      </div>
-
-      {/* Level 2 — category: every item in the collection, as pills. */}
-      {categories.length > 0 && (
-        <div className="mt-6 border-t border-[var(--border)] pt-5">
-          <p
-            id={`${group.id}-categories`}
-            className="hc-mono mb-3 text-[10px] uppercase tracking-[0.18em] text-[var(--text-secondary)]"
-          >
-            Category
-          </p>
-          <div role="group" aria-labelledby={`${group.id}-categories`} className="flex flex-wrap gap-2">
-            {[{ slug: null, name: "All" } as const, ...pills].map((item) => {
-              const active = categorySlug === item.slug;
-              const count = item.slug ? countFor(item.slug) : 0;
-              return (
-                <button
-                  key={item.slug ?? "all"}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => chooseCategory(item.slug)}
-                  className={`hc-focus inline-flex min-h-11 items-center gap-2 rounded-none border px-4 text-[13px] transition-colors duration-300 ${
-                    active
-                      ? "border-ink bg-ink text-white"
-                      : "border-[var(--border)] bg-[var(--surface-raised)]/60 text-ink hover:border-brass"
-                  }`}
-                >
-                  {item.name}
-                  {count > 0 && (
-                    <span className={`text-[11px] ${active ? "text-white/70" : "text-[var(--text-secondary)]"}`}>
-                      {count}
-                    </span>
-                  )}
-                </button>
-              );
-            })}
-            {hiddenPills > 0 && (
-              <button
-                type="button"
-                onClick={() => setShowAllPills(true)}
-                className="hc-focus inline-flex min-h-11 items-center rounded-none px-3 text-[13px] text-brass-ink underline underline-offset-4 transition-colors duration-300"
-              >
-                +{hiddenPills} more
-              </button>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* Level 3 — sub-category: only where products have been tagged with two or more. */}
-      {subcategories.length >= 2 && (
-        <div className="mt-4 flex flex-wrap items-center gap-x-1 gap-y-1">
-          <span
-            id={`${group.id}-subcategories`}
-            className="hc-mono mr-2 text-[10px] uppercase tracking-[0.18em] text-[var(--text-secondary)]"
-          >
-            Sub-category
-          </span>
-          <div role="group" aria-labelledby={`${group.id}-subcategories`} className="flex flex-wrap items-center">
-            {[null, ...subcategories].map((name) => {
-              const active = subcategory === name;
-              return (
-                <button
-                  key={name ?? "all"}
-                  type="button"
-                  aria-pressed={active}
-                  onClick={() => setSubcategory(name)}
-                  className={`hc-focus inline-flex min-h-11 items-center px-3 text-[13px] underline-offset-[6px] transition-colors ${
-                    active
-                      ? "text-ink underline decoration-[var(--color-brass)] decoration-2"
-                      : "text-[var(--text-secondary)] hover:text-ink"
-                  }`}
-                >
-                  {name ?? "All"}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      )}
-
-      {/* The selection's heading, its brands, and what's in it. */}
-      <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-        <div className="min-w-0">
-          <h4 className="hc-serif flex items-center gap-4 text-2xl font-light leading-tight">
-            {category ? label : "Featured pieces"}
-            <Rule />
-          </h4>
-          {category?.blurb && <p className="mt-1 text-sm font-light text-[var(--text-secondary)]">{category.blurb}</p>}
-        </div>
-        {shown.length > 0 && brandNames.length > 0 && (
-          <div className="shrink-0 sm:text-right">
-            <p className="text-[11px] font-light text-[var(--text-secondary)]">Available from</p>
-            <p className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-1 sm:justify-end">
-              {brandNames.map((name, i) => {
-                const logo = brandLogo(name);
+            {/* Full-Width Collection Rows */}
+            <div className="w-full border-t border-[#1a1017]/10">
+              {sections.map((section, index) => {
+                const image = familyImage(
+                  section.group.id,
+                  section.products
+                );
+                const numStr = String(index + 1).padStart(2, "0");
                 return (
-                  <span key={name} className="flex items-center gap-3">
-                    {i > 0 && <span aria-hidden="true" className="h-3 w-px bg-[var(--border)]" />}
-                    {logo ? (
-                      <Image
-                        src={logo}
-                        alt={name}
-                        width={96}
-                        height={28}
-                        className="h-5 w-auto max-w-[88px] object-contain"
-                        unoptimized={logo.endsWith(".svg")}
-                      />
-                    ) : (
-                      <span className="hc-mono text-[11px] font-semibold uppercase tracking-[0.14em]">{name}</span>
-                    )}
-                  </span>
+                  <button
+                    key={section.group.id}
+                    onClick={() => {
+                      setOpenId(section.group.id);
+                      window.history.pushState(
+                        null,
+                        "",
+                        `#${section.group.id}`
+                      );
+                    }}
+                    className="group flex flex-row items-stretch w-full border-b border-[#1a1017]/10 min-h-[88px] md:min-h-[110px] text-left bg-transparent hover:bg-black/[0.015] transition-colors duration-300 overflow-hidden"
+                  >
+                    {/* Text Content */}
+                    <div className="flex-1 flex flex-row items-center gap-4 sm:gap-6 pl-1 pr-4 sm:pr-8 py-4">
+                      <span className="hc-mono text-[11px] text-[#C8A96E] font-medium shrink-0 w-6 text-right tabular-nums">
+                        {numStr}
+                      </span>
+                      <div className="flex flex-col gap-1 min-w-0">
+                        <span className="hc-serif text-xl sm:text-2xl md:text-[28px] text-[#1a1017] group-hover:text-[#8B1A42] transition-colors truncate">
+                          {section.group.title}
+                        </span>
+                        <span className="text-[12px] sm:text-[13px] text-[#1a1017]/50 font-light tracking-wide truncate">
+                          {section.group.tagline}
+                        </span>
+                      </div>
+                      <ArrowRight className="w-5 h-5 text-[#1a1017]/25 group-hover:text-[#8B1A42] group-hover:translate-x-1 transition-all ml-auto shrink-0" />
+                    </div>
+
+                    {/* Image — right side */}
+                    <div className="w-[32%] sm:w-[30%] md:w-[28%] lg:w-[24%] shrink-0 relative bg-[#1a1017]/[0.04] overflow-hidden">
+                      {image && (
+                        <Image
+                          src={image}
+                          alt={section.group.title}
+                          fill
+                          sizes="(min-width: 1024px) 24vw, (min-width: 768px) 28vw, 32vw"
+                          className="object-cover group-hover:scale-[1.04] transition-transform duration-700 ease-out"
+                        />
+                      )}
+                    </div>
+                  </button>
                 );
               })}
+            </div>
+          </div>
+        ) : (
+          /* ═══════ LEVEL 2: SELECTED COLLECTION → USE CASES ═══════ */
+          <div className="w-full flex flex-col animate-in fade-in duration-500 fill-mode-forwards">
+            {/* Breadcrumb */}
+            <nav className="mb-6 flex items-center gap-2 text-[10px] font-bold uppercase tracking-[0.2em] text-[#1a1017]/60">
+              <button
+                onClick={() => {
+                  setOpenId(null);
+                  window.history.pushState(
+                    null,
+                    "",
+                    window.location.pathname
+                  );
+                }}
+                className="hover:text-[#8B1A42] transition-colors"
+              >
+                Collections
+              </button>
+              <span>/</span>
+              <span className="text-[#8B1A42]">
+                {activeSection.group.title}
+              </span>
+            </nav>
+
+            {/* Title */}
+            <h2 className="hc-serif text-4xl sm:text-5xl text-[#1a1017] leading-tight flex items-center gap-5">
+              {activeSection.group.title}
+              <span
+                className="hidden sm:inline-block h-px w-12 bg-[#C8A96E]"
+                aria-hidden="true"
+              />
+            </h2>
+            <p className="mt-4 mb-10 text-[15px] sm:text-base text-[#1a1017]/60 font-light max-w-2xl leading-relaxed">
+              {activeSection.group.description}
             </p>
+
+            {/* Use-Case Cards — full width grid */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 mb-12">
+              {activeCategories.slice(0, 8).map((category, index) => {
+                const numStr = String(index + 1).padStart(2, "0");
+                return (
+                  <a
+                    key={category.slug}
+                    href={enquiryHref(category.name)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group flex flex-col text-left border border-[#1a1017]/10 bg-[#fbf5ea] hover:border-[#8B1A42]/30 transition-colors overflow-hidden"
+                  >
+                    {/* Category Image */}
+                    <div className="w-full aspect-[4/3] bg-[#1a1017]/[0.04] relative overflow-hidden border-b border-[#1a1017]/10">
+                      {category.image ? (
+                        <Image
+                          src={category.image}
+                          alt=""
+                          fill
+                          sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
+                          className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 bg-[#f5efe3]" />
+                      )}
+                    </div>
+
+                    {/* Card Body */}
+                    <div className="p-4 sm:p-5 flex flex-col gap-2">
+                      <span className="hc-mono text-[10px] text-[#C8A96E] font-medium">
+                        {numStr}
+                      </span>
+                      <span className="hc-serif text-base sm:text-lg text-[#1a1017] group-hover:text-[#8B1A42] transition-colors leading-snug">
+                        {category.name}
+                      </span>
+                      {category.blurb && (
+                        <span className="text-[12px] text-[#1a1017]/50 font-light line-clamp-1">
+                          {category.blurb}
+                        </span>
+                      )}
+                      <span className="mt-1 text-[11px] font-bold uppercase tracking-[0.15em] text-[#8B1A42] flex items-center gap-1.5 group-hover:gap-2.5 transition-all">
+                        Explore
+                        <ArrowRight className="w-3.5 h-3.5" />
+                      </span>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+
+            {/* WhatsApp CTA */}
+            <div className="w-full border border-[#1a1017]/10 bg-[#fbf5ea] p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div className="flex flex-col gap-2">
+                <h3 className="hc-serif text-2xl sm:text-3xl text-[#1a1017]">
+                  Not sure what you need?
+                </h3>
+                <p className="text-[14px] text-[#1a1017]/60 font-light max-w-md">
+                  Share your requirement with our team on WhatsApp and get
+                  expert guidance.
+                </p>
+              </div>
+              <Button
+                asChild
+                className="bg-[#8B1A42] hover:bg-[#6A1231] text-white h-12 rounded-none px-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors shrink-0"
+              >
+                <a
+                  href={enquiryHref(activeSection.group.title)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  Ask an expert on WhatsApp
+                </a>
+              </Button>
+            </div>
           </div>
         )}
       </div>
-
-      {shown.length === 0 ? (
-        // Nothing entered for this selection yet: the showroom still carries it, so say so and hand over.
-        <div className="mt-5 grid items-center gap-6 rounded-none border border-[var(--border)] bg-[var(--surface-raised)]/60 p-5 sm:grid-cols-[minmax(0,220px)_1fr] sm:p-6">
-          {category?.image ? (
-            <div className="relative aspect-[4/3] overflow-hidden rounded-none bg-[var(--surface-raised)]">
-              <Image src={category.image} alt="" fill sizes="220px" className="object-cover" />
-            </div>
-          ) : null}
-          <div className={`flex flex-col items-start gap-4 ${category?.image ? "" : "sm:col-span-2"}`}>
-            <p className="hc-serif text-xl font-light leading-snug">
-              {category ? `You'll find ${category.name} at the showroom.` : "More of this range is at the showroom."}
-            </p>
-            <p className="max-w-xl text-sm font-light leading-relaxed text-[var(--text-secondary)]">
-              {category
-                ? "We haven't photographed this range for the website yet."
-                : "We haven't photographed all of it for the website yet."}{" "}
-              Ask us and we&apos;ll share what&apos;s available, or come and see it.
-            </p>
-            <Button
-              asChild
-              className="brass-plate h-12 rounded-none px-6 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95 transition-opacity duration-300"
-            >
-              <a href={enquiryHref(label)} target="_blank" rel="noopener noreferrer">
-                <MessageCircle aria-hidden="true" className="h-4 w-4" />
-                Ask about {label}
-              </a>
-            </Button>
-          </div>
-        </div>
-      ) : (
-        <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-[repeat(auto-fill,minmax(220px,1fr))]">
-          {shown.map((product) => (
-            <li key={product._id || product.id || product.name}>
-              <ShowcaseCard product={product} image={getImage(product)} onOpen={onOpenProduct} />
-            </li>
-          ))}
-          <li>
-            <Card className="h-full justify-center gap-4 rounded-none border-[var(--border)] bg-[var(--surface-raised)]/60 p-6 text-center shadow-none">
-              <p className="hc-serif text-xl font-light leading-snug">Looking for more options?</p>
-              <p className="text-sm font-light leading-relaxed text-[var(--text-secondary)]">
-                {inView.length > shown.length
-                  ? `${inView.length - shown.length} more on display at the showroom. `
-                  : "More designs and finishes are on display at the showroom. "}
-                View the brand catalogue or speak to our team.
-              </p>
-              <Button
-                asChild
-                variant="outline"
-                className="h-11 w-full rounded-none border-[var(--color-brass)] bg-transparent px-3 text-[11px] font-medium uppercase tracking-[0.08em] text-brass-ink hover:bg-[var(--color-brass)] hover:text-white transition-colors duration-300"
-              >
-                <a href={enquiryHref(label)} target="_blank" rel="noopener noreferrer">
-                  <MessageCircle aria-hidden="true" className="h-4 w-4" />
-                  Ask on WhatsApp
-                </a>
-              </Button>
-              {catalogue?.href && (
-                <Link
-                  href={catalogue.href}
-                  className="hc-focus inline-flex min-h-11 items-center justify-center gap-2 text-xs text-brass-ink hover:text-[var(--text-primary)]"
-                >
-                  View {catalogue.name} Catalogue
-                  <ArrowRight aria-hidden="true" className="h-3.5 w-3.5" />
-                </Link>
-              )}
-            </Card>
-          </li>
-        </ul>
-      )}
-    </Card>
+    </section>
   );
 }

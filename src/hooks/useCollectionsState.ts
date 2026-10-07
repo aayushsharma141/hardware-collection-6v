@@ -231,7 +231,15 @@ export function useCollectionsState({
   // D-12: Three-step image fallback chain: product image -> category image -> siteSettings default
   const getProductDisplayImage = useCallback(
     (prod: Product) => {
-      if (prod.imageUrl) return prod.imageUrl;
+      // Guard against placeholder images (e.g. stock eucalyptus photo attached in CMS to lock products)
+      const isPlaceholder = prod.imageUrl?.includes("42e0899cf4fd0e454721a832b9e34e214dcc71d9");
+      if (prod.imageUrl && !isPlaceholder) return prod.imageUrl;
+
+      const nameLower = (prod.name || "").toLowerCase();
+      if (nameLower.includes("mortise") || nameLower.includes("door lock") || nameLower.includes("mortice")) {
+        return "/cinema/collection/HC-05-01.png";
+      }
+
       const catKey = String(prod.categorySlug || prod.category || "").toLowerCase();
       const matchedCategory = uniqueCategories.find((c) => {
         const cSlug = getSlugString(c.slug).toLowerCase();
@@ -243,7 +251,7 @@ export function useCollectionsState({
       });
       if (matchedCategory?.imageUrl) return matchedCategory.imageUrl;
       if (settings?.defaultCategoryImageUrl) return settings.defaultCategoryImageUrl;
-      return "";
+      return "/cinema/categories/HC-03-DOORS.png";
     },
     [uniqueCategories, settings]
   );
