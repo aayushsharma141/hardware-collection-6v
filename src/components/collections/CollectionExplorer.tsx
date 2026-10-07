@@ -119,6 +119,9 @@ export default function CollectionExplorer({
     if (family && sections.some((s) => s.group.id === family)) setOpenId(family);
   }
 
+  // Independent accordion state for the bottom collections dropdown list
+  const [accordionOpenId, setAccordionOpenId] = useState<string | null>(null);
+
   // A ?product= deep link opens the quick view; open that product's family behind it.
   const [seenProduct, setSeenProduct] = useState<Product | null>(null);
   if (activeProduct !== seenProduct) {
@@ -145,7 +148,14 @@ export default function CollectionExplorer({
         </p>
       </header>
 
-      <Tabs value={openId} onValueChange={setOpenId} className="gap-0">
+      <Tabs
+        value={openId}
+        onValueChange={(val) => {
+          setOpenId(val);
+          if (accordionOpenId === val) setAccordionOpenId(null);
+        }}
+        className="gap-0"
+      >
         <TabsList
           aria-label="Collections"
           className="grid h-auto w-full grid-cols-2 gap-3 rounded-none bg-transparent p-0 group-data-[orientation=horizontal]/tabs:h-auto sm:grid-cols-4 lg:grid-cols-7"
@@ -199,24 +209,50 @@ export default function CollectionExplorer({
         ))}
       </Tabs>
 
-      {/* The other families, as quiet rows */}
-      <ul className="mt-6 border-t border-[var(--border)]">
-        {others.map(({ group }) => {
+      {/* The other families, as an independent accordion dropdown */}
+      <ul className="mt-8 border-t border-[var(--border)]">
+        {others.map((section) => {
+          const { group } = section;
           const Icon = FAMILY_ICON[group.id] ?? DoorClosed;
+          const isOpen = accordionOpenId === group.id;
+
           return (
             <li key={group.id} className="border-b border-[var(--border)]">
               <button
                 type="button"
+                aria-expanded={isOpen}
                 onClick={() => {
-                  setOpenId(group.id);
-                  document.getElementById("explorer")?.scrollIntoView({ block: "start" });
+                  setAccordionOpenId((prev) => (prev === group.id ? null : group.id));
                 }}
-                className="hc-focus flex min-h-14 w-full items-center gap-4 px-1 py-3 text-left"
+                className="hc-focus flex min-h-14 w-full items-center gap-4 px-1 py-4 text-left transition-colors duration-200 hover:text-brass"
               >
                 <Icon aria-hidden={true} className="h-5 w-5 shrink-0 text-[var(--text-secondary)]" />
                 <span className="hc-serif flex-1 text-lg font-light">{group.title}</span>
-                <ChevronDown aria-hidden="true" className="h-4 w-4 shrink-0 text-[var(--text-secondary)]" />
+                <span className="text-xs uppercase tracking-wider text-[var(--text-secondary)] mr-2 hidden sm:inline">
+                  {isOpen ? "Collapse" : "Explore"}
+                </span>
+                <ChevronDown
+                  aria-hidden={true}
+                  className={`h-4 w-4 shrink-0 text-[var(--text-secondary)] transition-transform duration-300 ${
+                    isOpen ? "rotate-180 text-brass" : ""
+                  }`}
+                />
               </button>
+
+              {isOpen && (
+                <div className="pb-6 pt-1 transition-all duration-300">
+                  <FamilyPanel
+                    section={section}
+                    categories={familyCategories.get(group.id) ?? []}
+                    brandLogo={brandLogo}
+                    getImage={getImage}
+                    onOpenProduct={onOpenProduct}
+                    enquiryHref={enquiryHref}
+                    catalogueHrefFor={catalogueHrefFor}
+                    onClose={() => setAccordionOpenId(null)}
+                  />
+                </div>
+              )}
             </li>
           );
         })}

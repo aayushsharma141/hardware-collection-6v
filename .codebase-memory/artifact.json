@@ -1,11 +1,11 @@
 {
     "schema_version": 2,
-    "commit": "2326a26105e9530ee96a2733cbca56bc2065d57a",
-    "indexed_at": "2026-10-06T21:33:45Z",
+    "commit": "3f1d1d57934d9ddc7f58c565877f7bdb4461b312",
+    "indexed_at": "2026-10-06T22:36:49Z",
     "project": "E-Hardware-Collection",
-    "nodes": 11740,
-    "edges": 35680,
-    "original_size": 33357824,
-    "compressed_size": 6893868,
+    "nodes": 11855,
+    "edges": 35944,
+    "original_size": 33947648,
+    "compressed_size": 6957034,
     "compression_level": 3
 }

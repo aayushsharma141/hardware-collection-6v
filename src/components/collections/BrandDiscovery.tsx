@@ -163,14 +163,15 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
           </div>
 
           <div className="flex flex-wrap gap-4 sm:gap-5">
-            {alphabeticalBrands.map((brand) => (
+            {alphabeticalBrands.map((brand, i) => (
               <button
                 key={brand._id || brand.id || brand.name}
                 type="button"
                 onClick={() => askAboutBrand(brand)}
                 aria-label={`Ask about ${brand.name} in a consultation`}
                 title={`${brand.name} — Ask about availability`}
-                className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded-none bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-all duration-300 group/cell cursor-pointer"
+                style={{ "--i": Math.min(i, 12) } as React.CSSProperties}
+                className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded-none bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-[border-color,transform] duration-150 ease-out active:scale-[0.97] group/cell cursor-pointer animate-brand-enter"
               >
                 {CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.logo || brand.logoUrl ? (
                   <div className="relative w-full h-full flex items-center justify-center transition-transform duration-150 ease-out group-hover/cell:scale-105">

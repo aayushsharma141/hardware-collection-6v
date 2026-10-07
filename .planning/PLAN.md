@@ -1,39 +1,59 @@
-# PLAN.md: Ponytail Audit Execution
+# PLAN.md: Phase 15 — Animation Polish & GPU Acceleration
 
 ## Overview
-This phase executes the findings from the Ponytail audit to reduce over-engineering and deduplicate codebase artifacts. 
+This phase executes the animation opportunities and fixes identified in the previous review (based on Emil Kowalski's design engineering philosophy). The goal is to eliminate silent performance bugs caused by `transition-all`, enforce strict UI duration bands, and ensure snappy, hardware-accelerated interactions.
 
-## Checklist
+Every chunk includes specific execution skills and a mandated review gate using designated critique skills, as per the user's instructions.
 
-### 1. Consolidate Mobile Components
-- [ ] Edit `src/app/page.tsx` to conditionally render the mobile UI components directly within the main desktop components using Tailwind responsive classes (`hidden lg:flex`, `lg:hidden`, etc.) where possible, or keep the existing logical separation in `page.tsx` but move the files out of the nested `mobile/` directory and rename them (e.g. `MobileHero.tsx` -> `HeroMobile.tsx`) to sit alongside their desktop counterparts.
-- [ ] If combining into single responsive components is too complex due to entirely different GSAP DOM structures, simply rename and move the components out of `src/components/home/mobile/` to `src/components/home/`.
-  - Move `MobileHero.tsx` to `src/components/home/HeroMobile.tsx`
-  - Move `MobileCategoryDiscovery.tsx` to `src/components/home/CategoryDiscoveryMobile.tsx`
-  - Move `MobileProductReel.tsx` to `src/components/home/ProductReelMobile.tsx`
-  - Move `MobileReviews.tsx` to `src/components/home/ReviewsMobile.tsx`
-  - Move `MobileConsultation.tsx` to `src/components/home/ConsultationMobile.tsx`
-- [ ] Update imports in `src/app/page.tsx`.
-- [ ] Delete the `src/components/home/mobile` folder.
+## Wave 1: Core Primitives & Global Easing
 
-### 2. Clean Custom Hooks
-- [ ] Delete `src/hooks/useScrollVelocity.ts` (it is entirely unused).
-- [ ] Review `src/hooks/useFocusTrap.ts`. If it can be replaced by the native HTML `inert` attribute in `CatalogViewerModal.tsx`, replace its usage and delete `useFocusTrap.ts`. Otherwise, leave it but simplify if possible.
+### Chunk 1: Global Easing Variables
+- **Target**: `src/app/globals.css`
+- **Execution Skills**: `/impeccable polish`, `/emil-design-eng`
+- **Task**: 
+  - Add the custom curve: `--ease-out: cubic-bezier(0.23, 1, 0.32, 1);` inside `@theme inline`.
+  - Rewrite `.transition-premium` to explicitly list: `transform`, `opacity`, `background-color`, `border-color`, `color`—all running at `200ms var(--ease-out)`.
+- **Review Gate**: 
+  - **Skills**: `/ui-review`, `/review-animations`
+  - **Verification**: Ensure no `all` keyword exists in `.transition-premium` and check that duration strictly stays in the 180-250ms band for state changes.
 
-### 3. Remove Legacy Polyfills
-- [ ] Remove the import for `polyfills.ts` from `src/app/layout.tsx`.
-- [ ] Remove the import for `polyfills.ts` from `src/components/catalog/viewer/PdfCanvas.tsx`.
-- [ ] Delete `src/lib/polyfills.ts`.
+### Chunk 2: Base Button Component
+- **Target**: `src/components/ui/button.tsx`
+- **Execution Skills**: `/impeccable polish`, `/emil-design-eng`
+- **Task**: 
+  - Replace `transition-all` with explicit property lists: `transition-[color,background-color,border-color,text-decoration-color,fill,stroke,transform]`.
+  - Set interaction timing: `duration-150`.
+  - Add press state: `active:scale-[0.97]`.
+- **Review Gate**: 
+  - **Skills**: `/ui-review`, `/impeccable critique`, `/gsd-code-review`
+  - **Verification**: Confirm absence of `transition-all` and verify `active:scale-[0.97]` is present.
 
-### 4. Flatten Hero Components
-- [ ] In `src/components/home/`, identify the components split across `cinema/`, `visual/`, and `hero/`.
-- [ ] Consolidate visual and interactive layers (`AtmosphericBackground.tsx`, `PointerLight.tsx`, `ParticleWave.tsx`, `HeroCarousel.tsx`, etc.) back into `HeroStage.tsx` or a unified `HeroVisuals.tsx` component if they only exist to pass props down or add single `div` wrappers.
-- [ ] Delete the unused subfolders if they become empty (`src/components/home/cinema`, `src/components/home/hero`, `src/components/visual`).
+## Wave 2: Component-Level Interaction Refinement
 
-### 5. Flatten Test Directories
-- [ ] Move any `*.test.ts` or `*.test.tsx` files out of `__tests__` subdirectories and place them directly next to their target files.
-- [ ] Run a `find` command to delete all empty `__tests__` directories in `src/components/`.
+### Chunk 3: Floating Action Buttons (FABs)
+- **Target**: `src/components/ui/FloatingActionButtons.tsx`
+- **Execution Skills**: `/impeccable polish`, `/emil-design-eng`
+- **Task**: 
+  - Replace `transition-all duration-200 active:scale-[0.98]` with `transition-[color,background-color,border-color,transform,box-shadow] duration-150 ease-out active:scale-[0.97]` on both the consultation and showroom FABs.
+- **Review Gate**: 
+  - **Skills**: `/gsd-ui-review`, `/review-animations`
+  - **Verification**: Confirm hover/press timings are restricted to the 100-150ms band and scale is set to `0.97`.
 
-## Validation
-- Ensure `npm run build` succeeds after these refactors.
-- Verify no functionality is lost on mobile or desktop on the home page.
+### Chunk 4: Brand Discovery Cards
+- **Target**: `src/components/collections/BrandDiscovery.tsx`
+- **Execution Skills**: `/impeccable polish`, `/emil-design-eng`
+- **Task**: 
+  - On the alphabetical brand button (line ~173), replace `transition-all duration-300` with `transition-[border-color,transform] duration-150 ease-out active:scale-[0.97]`.
+  - Add entry stagger sequence to the grid: `opacity: 0; transform: translateY(10px)` transitioning to settled over 400ms.
+  - Implement stagger using inline `style={{ transitionDelay: 'calc(var(--i) * 40ms)' }}`. 
+  - Wrap entry animation in a `prefers-reduced-motion: no-preference` check, falling back to pure opacity fade.
+- **Review Gate**: 
+  - **Skills**: `/ui-a11y`, `/review-animations`, `/impeccable critique`
+  - **Verification**: Ensure reduced motion fallback is properly implemented, stagger delay is capped, and hover duration does not exceed 150ms.
+
+## Final Verification & Sign-off
+
+- **Skills**: `/gsd-verify-work`, `/ui-review`
+- **Actions**:
+  - Run mechanical build: `npm run build`.
+  - Run DevTools performance trace (playback at 10%) on `FloatingActionButtons.tsx` and `BrandDiscovery.tsx` to verify layout properties are excluded from transitions.

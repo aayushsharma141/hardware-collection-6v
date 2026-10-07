@@ -9,7 +9,7 @@ export function FloatingActionButtons() {
       {/* Call Button */}
       <a
         href={SHOWROOM_PHONE_HREF}
-        className="w-12 h-12 rounded-none flex items-center justify-center bg-[var(--surface)] border border-[var(--border)] text-[var(--text-primary)] shadow-sm hover:shadow-md active:scale-[0.98] transition-all duration-200"
+        className="w-12 h-12 rounded-none flex items-center justify-center bg-[var(--surface)] border border-[var(--border)] text-[var(--text-primary)] shadow-sm hover:shadow-md active:scale-[0.97] transition-[color,background-color,border-color,transform,box-shadow] duration-150 ease-out"
         aria-label="Call Us"
       >
         <Phone className="w-5 h-5" />
@@ -20,7 +20,7 @@ export function FloatingActionButtons() {
         href={generateWhatsAppUrl()}
         target="_blank"
         rel="noopener noreferrer"
-        className="w-12 h-12 rounded-none flex items-center justify-center bg-[#25D366] text-white shadow-sm hover:shadow-md active:scale-[0.98] transition-all duration-200"
+        className="w-12 h-12 rounded-none flex items-center justify-center bg-[#25D366] text-white shadow-sm hover:shadow-md active:scale-[0.97] transition-[color,background-color,border-color,transform,box-shadow] duration-150 ease-out"
         aria-label="Chat on WhatsApp"
       >
         <svg viewBox="0 0 24 24" className="w-6 h-6 fill-current">

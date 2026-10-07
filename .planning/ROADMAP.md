@@ -75,33 +75,39 @@
   - Plan 10-03: Visual & responsive audit on staging environment
 
 
-- [ ] **Phase 11 — Showroom Taxonomy Completion** 📋 DRAFT — BLOCKED ON PHOTOGRAPHY
+- [ ] **Phase 11 — Showroom Taxonomy Completion** 🔄 IN PROGRESS (STAGING UNBLOCKED)
   Make the site's browsable taxonomy match the physical showroom board. The board lists
-  5 families and ~50 sub-items; only 15 are browsable today. 35 categories are missing.
+  5 families and ~50 sub-items; only 15 were browsable today. 35 categories are seeded in Sanity.
   See `.planning/phases/11-showroom-taxonomy-completion/11-CONTEXT.md`.
 
-  - Wave 0 — photography + copy + brand attribution (owner; blocking, no code)
-  - Wave 1 — Handles & Knobs (11 missing — the headline family has zero style pages)
-  - Wave 2 — Furniture Hardware (9 missing)
-  - Wave 3 — Bathroom (8 missing)
-  - Wave 4 — Door Hardware (4 missing)
-  - Wave 5 — Kitchen & Wardrobes (3 missing)
-  - Wave 6 — coverage regression gate + sitemap/internal-link pass
+  - [ ] Wave 0 — photography + copy + brand attribution (owner Mukesh; blocking for production)
+  - [x] Wave 0.5 — Plan 11-01: DOM web extraction & staging reference imagery ✅ EXECUTED (Playwright DOM extraction + Sharp 1376x768 WebP normalizer + Sanity staging seeder tagged `STAGING-TEMP:` + atomic purge rollback tool)
+  - [x] Wave 1 — Handles & Knobs (all 11 styles populated with unique 1376x768 staging imagery) ✅ STAGED
+  - [x] Wave 2 — Furniture Hardware (all 11 categories populated with unique 1376x768 staging imagery) ✅ STAGED
+  - [x] Wave 3 — Bathroom (all 9 categories populated with unique 1376x768 staging imagery) ✅ STAGED
+  - [x] Wave 4 — Door Hardware (all 10 categories populated with unique 1376x768 staging imagery) ✅ STAGED
+  - [x] Wave 5 — Kitchen & Wardrobes (all 10 categories populated with unique 1376x768 staging imagery) ✅ STAGED
+  - [x] Wave 6 — coverage regression gate + sitemap/internal-link pass ✅ PASSED (53/53 categories verified in Sanity)
 
   This phase is ~90% content production. The `/collections` catalogue sections, the card grid
-  and the schema all already work (the old D-13 empty state went with the `[slug]` route;
-  empty families are now omitted by `src/lib/collections/showroom.ts`) — nothing needs building to make a
-  14th category render. The blocker is that Sanity holds exactly 6 image assets and not one
-  photograph of a handle, knob, channel or mirror cabinet exists. Eleven *style* collections
-  sharing one generic render would be worse than shipping none.
+  and the schema all work. The initial blocker—Sanity holding only 6 generic renders—is unblocked
+  for staging and visual development via the Wave 0.5 pipeline. Production cutover remains gated on
+  Wave 0 authentic showroom photography.
 
-  Four owner decisions are open (D1 styles-as-categories, D2 drop "(Sale)",
+  Four owner decisions are resolved (D1 styles-as-categories, D2 drop "(Sale)",
   D3 pluralisation, D4 ship empty categories) — see §6 of 11-CONTEXT.md.
 
 - [x] **Phase 12 — UI & Visual Polish** 📋 COMPLETE
   Elevate the visual aesthetic using GSAP + ScrollTrigger for subtle, luxurious micro-interactions and scroll animations across the site.
   See `.planning/phases/12-ui-polish/12-CONTEXT.md`.
 
+- [ ] **Phase 13 — CMS Photography & Scheduled Offers** 📋 PLANNED
+  Add `@sanity/image-url` builder for responsive WebP/AVIF generation and hotspot/crop support, migrate 23 hardcoded images from `/public` to CMS singletons, and implement scheduled offers with GROQ time-based visibility.
+  See `.planning/phases/13-cms-photography-offers/13-CONTEXT.md`.
+
 - [x] **Phase 14 — UI/UX Refinement & Anti-UI-Slop Standardization** 📋 COMPLETE
   Formalize and stabilize site-wide UI/UX audit findings: mobile floating action buttons, consultation section with corrected 10+ years & 20+ brands metrics, collections hero carousel with offers integration, and architectural softened-hybrid anti-ui-slop styling.
   See `.planning/phases/14-ui-ux-refinement-anti-ui-slop/14-CONTEXT.md`.
+
+- [x] **Phase 15 — Animation Polish & GPU Acceleration** ✅ COMPLETE
+  Replace layout-triggering `transition-all` utility classes with precise hardware-accelerated transitions across core UI primitives (Buttons, global CSS, Floating Action Buttons, Brand Cards). Enforce strict UI duration bands (100-150ms hover, 180-250ms state, 300ms+ entrance). Apply Emil Kowalski design engineering principles.
