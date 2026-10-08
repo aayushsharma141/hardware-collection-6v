@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
-import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getActiveOffers, getHeroManager } from "@/content/sanity/queries";
+import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getActiveOffers } from "@/content/sanity/queries";
 import { buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import {
   OFFER_HERO_FALLBACK_IMAGE,
@@ -19,12 +19,9 @@ import { ScrollProgress } from "@/components/animations/ScrollProgress";
 
 // 7 Cinematic Chapters
 import HeroStage from "@/components/home/HeroStage";           // CH01 — HIGH tension
-import HeroTrustBadges from "@/components/home/HeroTrustBadges";  // 6 Trust Pillars with Icons
 import BrandTrustStrip from "@/components/brand/BrandTrustStrip";        // CH02 — LOW tension
 import CategoryDiscovery from "@/components/home/CategoryDiscovery";       // CH03 — MEDIUM tension
-import MaterialJourney from "@/components/home/MaterialJourney";           // CH04 — VERY HIGH tension
 import ProductReel from "@/components/home/ProductReel";                   // CH05 — MEDIUM tension
-import ShowroomCinematic from "@/components/home/ShowroomCinematic";       // CH06 — HIGH tension
 import FloatingCTA from "@/components/home/FloatingCTA";
 import FaqSection from "@/components/home/FaqSection";                   // CH07 — QUIET ZONE
 
@@ -32,8 +29,6 @@ import FaqSection from "@/components/home/FaqSection";                   // CH07
 import HeroMobile from "@/components/home/HeroMobile";
 import CategoryDiscoveryMobile from "@/components/home/CategoryDiscoveryMobile";
 import ProductReelMobile from "@/components/home/ProductReelMobile";
-import ReviewsMobile from "@/components/home/ReviewsMobile";
-import ConsultationMobile from "@/components/home/ConsultationMobile";
 import AboutStory from "@/components/home/AboutStory";
 import { HeroSlide } from "@/types/hero";
 
@@ -42,10 +37,10 @@ import { HeroSlide } from "@/types/hero";
 const fallbackHeroSlides: HeroSlide[] = [
   {
     id: "ch01",
-    eyebrow: "ARCHITECTURAL HARDWARE EXPERTS · 10+ YEARS",
+    eyebrow: "ARCHITECTURAL HARDWARE",
     title: "The Art of\nthe Finish.",
     description:
-      "Premium architectural hardware and modular solutions, curated for contemporary spaces. Official partner for Häfele, Dorset, Labacha, Godrej & Hettich in Sakchi.",
+      "Curated hardware for modern spaces. Explore global brands, unmatched quality and expert guidance — at our Sakchi showroom.",
     primaryCta: "Explore Collections",
     ctaTarget: "/collections",
     imageUrl: "/cinema/hero/HC-01-HERO-01.png",
@@ -173,53 +168,36 @@ export default async function HomePage() {
 
       {/* ── 7 Cinematic Chapters ─────────────────────────────────── */}
       <main className="relative z-10">
-        {/* CH01 — The Art of the Finish (HIGH) */}
+        {/* 01 HERO — The Art of the Finish */}
         <div className="block lg:hidden">
           <HeroMobile slides={heroSlides} />
         </div>
-        <HeroStage slides={heroSlides} />
-
-        {/* CH02 — Specified By (LOW) */}
-        <div className="theme-ivory">
-          <BrandTrustStrip brands={siteSettings?.authorizedBrandRefs || homeData?.trustedBrandRefs} />
-          <HeroTrustBadges pillars={homeData?.valuePropositions} />
+        <div className="hidden lg:block">
+          <HeroStage slides={heroSlides} />
         </div>
 
-        {/* Mobile Mid-Section Experience */}
+        {/* 02 WHERE TO BEGIN — What are you working on? */}
         <div className="block lg:hidden">
           <CategoryDiscoveryMobile categories={homeData?.featuredCategoryRefs} populatedGroupIds={populatedGroupIds} />
+        </div>
+        <div className="hidden lg:block theme-ivory">
+          <CategoryDiscovery categories={homeData?.featuredCategoryRefs} populatedGroupIds={populatedGroupIds} />
+        </div>
+
+        {/* 03 BRAND AUTHORITY — Authorized Brands. Genuine Products. */}
+        <div className="theme-ivory">
+          <BrandTrustStrip brands={siteSettings?.authorizedBrandRefs || homeData?.trustedBrandRefs} />
+        </div>
+
+        {/* 04 FLAGSHIP PIECES — Selected hardware */}
+        <div className="block lg:hidden">
           <ProductReelMobile products={homeData?.featuredProductRefs} />
-          <ReviewsMobile reviews={testimonials} />
+        </div>
+        <div className="hidden lg:block theme-ivory">
+          <ProductReel products={homeData?.featuredProductRefs} />
         </div>
 
-        {/* Desktop Mid-Section Experience */}
-        <div className="hidden lg:block">
-          {/* CH03 — Form & Function (MEDIUM) */}
-          <div className="theme-ivory">
-            <CategoryDiscovery categories={homeData?.featuredCategoryRefs} populatedGroupIds={populatedGroupIds} />
-          </div>
-
-          {/* CH04 — The Finish · Primary Material Showcase (VERY HIGH) */}
-          <div className="theme-ivory">
-            <MaterialJourney materials={homeData?.materialFinishes} />
-          </div>
-
-          {/* CH05 — The Collection · Emotion→Consideration Bridge (MEDIUM) */}
-          <div className="theme-ivory">
-            <ProductReel products={homeData?.featuredProductRefs} />
-          </div>
-
-          {/* CH06 — Inside the Showroom (HIGH) */}
-          <div className="theme-ivory">
-            <ShowroomCinematic 
-              images={homeData?.showroomGalleryUrls} 
-              exteriorImage={homeData?.showroomExteriorImage}
-              interiorImage={homeData?.showroomInteriorImage}
-            />
-          </div>
-        </div>
-
-        {/* CH06.5 — Our Legacy (Single responsive semantic instance) */}
+        {/* 05 WHY HARDWARE COLLECTION — Hardware that completes the space */}
         <div className="theme-ivory">
           <AboutStory 
             id="about" 
@@ -230,15 +208,13 @@ export default async function HomePage() {
           />
         </div>
 
-        {/* CH07 — Final Conversion & Consultation Zone */}
-        <div className="block lg:hidden">
-          <ConsultationMobile heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />
-        </div>
-        <div className="hidden lg:block">
+        {/* 06 & 07 VOICES OF TRUST & VISIT SAKCHI */}
+        {/* FloatingCTA contains both the reviews (06) and the Consultation Section (07) */}
+        <div className="w-full">
           <FloatingCTA reviews={testimonials} heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />
         </div>
 
-        {/* CH08 — FAQ */}
+        {/* 08 FAQ — Only essential questions */}
         <div className="theme-ivory">
           <FaqSection faqs={faqs} />
         </div>

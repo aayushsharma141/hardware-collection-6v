@@ -48,7 +48,7 @@ const useIsomorphicLayoutEffect =
 /** Default nav links — only used when Sanity navigation doc has no mainMenu */
 const NAV_LINKS_FALLBACK: NavLinkItem[] = [
   { name: "Collections", href: "/collections", id: "collections" },
-  { name: "Brands & Catalogs", href: "/catalogs", id: "catalog" },
+  { name: "Brands & Catalogues", href: "/catalogues", id: "catalogues" },
 ];
 
 export default function Navbar({
@@ -181,18 +181,31 @@ export default function Navbar({
       // /collections is the only collections route; categories are in-page sections.
       return pathname === "/collections";
     }
-    if (link.id === "catalog") {
-      return pathname === "/catalogs";
+    if (link.id === "brands") {
+      return pathname === "/catalogues" || pathname === "/catalogs";
+    }
+    if (link.id === "catalogues" || link.id === "catalog") {
+      return pathname === "/catalogues" || pathname === "/catalogs";
     }
     return false;
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: NavLinkItem) => {
     setMobileMenuOpen(false);
-    if (link.id === "catalog" && pathname === "/catalogs") {
+    if ((link.id === "catalog" || link.id === "catalogues" || link.id === "brands") && (pathname === "/catalogues" || pathname === "/catalogs")) {
+      if (link.href.includes("#")) {
+        const hash = link.href.split("#")[1];
+        const el = document.getElementById(hash);
+        if (el) {
+          e.preventDefault();
+          el.scrollIntoView({ behavior: "smooth" });
+          window.history.pushState(null, "", `#${hash}`);
+          return;
+        }
+      }
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
-      window.history.pushState(null, "", "/catalogs");
+      window.history.pushState(null, "", "/catalogues");
     } else if (link.id === "collections" && pathname === "/collections") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });

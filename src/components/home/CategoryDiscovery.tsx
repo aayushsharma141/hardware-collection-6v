@@ -63,9 +63,17 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
               Where to begin
             </h2>
           </div>
-          <p className="max-w-[420px] text-right text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] font-light">
-            A considered route through architectural hardware, security, bath, kitchen systems and the joinery details that finish a room.
-          </p>
+          <div className="flex flex-col items-end gap-6 max-w-[420px]">
+            <p className="text-right text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] font-light">
+              A considered route through architectural hardware, security, bath, kitchen systems and the joinery details that finish a room.
+            </p>
+            <a
+              href="/collections"
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-[var(--accent)] text-white text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-[var(--accent-light)] min-w-[200px]"
+            >
+              Explore All Collections
+            </a>
+          </div>
         </div>
 
         <motion.div 

@@ -1,83 +1,30 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
 import { HeroSlide } from "@/types/hero";
-import { SHOWROOM_MAP_URL, SHOWROOM_YEARS_OF_TRUST } from "@/lib/config";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 interface HeroMobileProps {
   slides: HeroSlide[];
 }
 
-/**
- * HeroMobile &mdash; the first viewport for most of the audience.
- *
- * The photograph carries the frame. An earlier version laid a 42%-wide panel
- * and a hard-edged product rectangle over it; both cut visible seams straight
- * through the headline and the primary button, so the composition is now a
- * single full-bleed image under a bottom-weighted scrim, with one horizontal
- * brass hairline as the only drawn geometry.
- */
 export default function HeroMobile({ slides }: HeroMobileProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
 
-  useGSAP(
-    () => {
-      if (!containerRef.current) return;
+  const totalSlides = slides?.length || 0;
 
-      const heroImage = containerRef.current.querySelector(".mobile-hero-bg");
-      const heroH1 = containerRef.current.querySelector(".mobile-hero-h1");
-      const heroContent = containerRef.current.querySelectorAll(".mobile-hero-fade");
+  const nextSlide = useCallback(() => {
+    if (totalSlides === 0) return;
+    setCurrentSlideIndex((prev) => (prev + 1) % totalSlides);
+  }, [totalSlides]);
 
-      // Scroll-linked parallax
-      if (heroImage) {
-        gsap.fromTo(
-          heroImage,
-          { scale: 1.03, y: 0 },
-          {
-            scale: 1.0,
-            y: "5%",
-            ease: "none",
-            scrollTrigger: {
-              trigger: containerRef.current,
-              start: "top top",
-              end: "bottom top",
-              scrub: true,
-            },
-          }
-        );
-      }
-
-      // Entrance animation
-      const tl = gsap.timeline();
-
-      if (heroH1) {
-        tl.fromTo(
-          heroH1,
-          { y: "100%" },
-          { y: "0%", duration: 1.2, ease: "power4.out" },
-          0.1
-        );
-      }
-
-      if (heroContent.length > 0) {
-        tl.fromTo(
-          heroContent,
-          { autoAlpha: 0, y: 15 },
-          { autoAlpha: 1, y: 0, duration: 0.8, stagger: 0.1, ease: "power2.out" },
-          0.3
-        );
-      }
-    },
-    { scope: containerRef, dependencies: [currentSlideIndex] }
-  );
+  const prevSlide = useCallback(() => {
+    if (totalSlides === 0) return;
+    setCurrentSlideIndex((prev) => (prev - 1 + totalSlides) % totalSlides);
+  }, [totalSlides]);
 
   if (!slides || slides.length === 0) return null;
   const slide = slides[currentSlideIndex] || slides[0];
@@ -87,128 +34,167 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
   const ctaHref = slide.ctaTarget || "/collections";
   const isExternalCta = /^https?:\/\//.test(ctaHref);
 
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) {
+      if (diff > 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    touchStartX.current = null;
+  };
+
   return (
-    <section ref={containerRef} data-nav-hero className="relative w-full min-h-[92svh] flex flex-col justify-end pt-16 pb-10 px-6 lg:hidden overflow-hidden bg-[var(--surface)]">
-      {/* Photography */}
-      <div className="absolute inset-0 z-0">
-        {slide.imageUrl ? (
-          <Image
-            key={`mob-bg-${currentSlideIndex}`}
-            src={slide.imageUrl}
-            alt="Brass lever handle on a dark door in the Hardware Collection showroom"
-            fill
-            priority
-            sizes="(max-width: 1023px) 100vw, 1px"
-            className="mobile-hero-bg object-cover will-change-transform transition-opacity duration-500
-              sepia-[0.22] saturate-[1.25] contrast-[1.04] brightness-[1.02]"
-          />
-        ) : (
-          <div className="mobile-hero-bg absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)]">
-            <span className="text-[12px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending Mobile BG</span>
-          </div>
-        )}
-        {/* The photograph is a cold blue-grey macro; the sepia grade above pulls it
-            into the ivory palette and this scrim seats it, rather than leaving the top
-            of the screen reading as fog behind the navbar. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-[var(--surface)]/85 via-45% to-[var(--surface)]/28" />
-      </div>
-
-      {/* Content */}
-      <div className="relative z-10 w-full">
-        <div className="mobile-hero-fade h-px w-full bg-gradient-to-r from-[var(--accent)]/70 to-transparent mb-5" />
-
-        <div className="flex items-center justify-between mb-4">
-          <p className="mobile-hero-fade hc-mono t-eyebrow text-[var(--accent)]">
-            {slide.eyebrow || `Architectural Hardware Experts · ${SHOWROOM_YEARS_OF_TRUST}+ Years`}
-          </p>
-          {slides.length > 1 && (
-            <div className="flex items-center gap-1.5">
-              {slides.map((_, idx) => (
-                /* The visible bar is 6px tall. The pseudo-element carries the
-                   touch target out to a comfortable size without changing the
-                   layout or the mark itself. */
-                <button
-                  key={idx}
-                  type="button"
-                  onClick={() => setCurrentSlideIndex(idx)}
-                  className={`hc-focus relative h-1.5 rounded-none transition-[width,background-color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] before:absolute before:-inset-x-1.5 before:-inset-y-5 before:content-[''] ${
-                    currentSlideIndex === idx ? "w-6 bg-[var(--color-wine)]" : "w-2 bg-[var(--text-primary)]/20"
-                  }`}
-                  aria-label={`Show slide ${idx + 1} of ${slides.length}`}
-                  aria-current={currentSlideIndex === idx}
-                />
-              ))}
-            </div>
-          )}
-        </div>
-
-        <div className="overflow-hidden mb-6 pb-1">
-          <h1 className="mobile-hero-h1 hc-serif t-display font-light text-[var(--text-primary)] whitespace-pre-line">
-            {heading}
-          </h1>
-        </div>
-
-        <p className="mobile-hero-fade t-body max-w-[45ch] font-light text-[var(--text-secondary)] mb-9">
-          {slide.description ||
-            "Architectural hardware chosen for spaces that deserve better details."}
+    <section
+      ref={containerRef}
+      data-nav-hero
+      className="relative w-full pt-20 pb-8 px-5 lg:hidden bg-[var(--surface)] border-b border-[var(--border)] overflow-hidden"
+    >
+      {/* ── Top Editorial Block ─────────────────────────────────── */}
+      <div className="w-full flex flex-col mb-6">
+        {/* Eyebrow */}
+        <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-2.5">
+          Architectural Hardware
         </p>
 
-        <div className="mobile-hero-fade flex flex-col gap-4">
+        {/* Headline */}
+        <h1 className="hc-serif text-[40px] sm:text-[46px] leading-[1.02] font-light text-[var(--text-primary)] whitespace-pre-line mb-3 tracking-tight">
+          {heading}
+        </h1>
+
+        {/* Subtitle / Description */}
+        <p className="text-[13px] sm:text-[14px] leading-relaxed font-light text-[var(--text-secondary)] mb-6 max-w-[38ch]">
+          {slide.description ||
+            "Curated hardware for modern spaces. Explore global brands, unmatched quality and expert guidance — at our Sakchi showroom."}
+        </p>
+
+        {/* Dual CTAs matching Reference Mockup */}
+        <div className="flex items-center gap-3">
           {isExternalCta ? (
             <a
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="brass-plate hc-focus h-[56px] w-full bg-[var(--color-wine)] text-white t-button uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline hover:brightness-110 rounded-none shadow-[0_10px_28px_-12px_rgba(139,26,66,0.55)] transition-[background-color,transform,filter] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] motion-reduce:active:scale-100"
+              className="px-5 py-3.5 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 hover:bg-[var(--color-wine-deep)] active:scale-[0.98] transition-all shadow-sm rounded-none"
             >
               <span>{ctaLabel}</span>
-              <ArrowRight />
+              <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
             </a>
           ) : (
             <Link
               href={ctaHref}
-              className="brass-plate hc-focus h-[56px] w-full bg-[var(--color-wine)] text-white t-button uppercase tracking-[0.16em] flex items-center justify-center gap-3 no-underline hover:brightness-110 rounded-none shadow-[0_10px_28px_-12px_rgba(139,26,66,0.55)] transition-[background-color,transform,filter] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.98] motion-reduce:active:scale-100"
+              className="px-5 py-3.5 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 hover:bg-[var(--color-wine-deep)] active:scale-[0.98] transition-all shadow-sm rounded-none"
             >
               <span>{ctaLabel}</span>
-              <ArrowRight />
+              <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
             </Link>
           )}
 
           <a
-            href={SHOWROOM_MAP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="rail-button hc-focus min-h-[44px] self-start text-[13px] font-medium uppercase tracking-[0.14em] text-[var(--text-secondary)] flex items-center gap-2 no-underline hover:text-[var(--color-wine)] transition-[color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:scale-[0.97] motion-reduce:active:scale-100"
+            href="#showroom"
+            className="px-3 py-3.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--text-primary)] hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
           >
-            <span>Get showroom directions</span>
-            <svg
-              className="w-4 h-4 text-[var(--color-wine)]"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+            <span>Visit Showroom</span>
+            <svg className="w-3.5 h-3.5 text-[var(--color-wine)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </a>
+        </div>
+      </div>
+
+      {/* ── Visual Showcase Card matching Reference Mockup ─────── */}
+      <div
+        className="relative aspect-[16/10] w-full overflow-hidden border border-[var(--border)] bg-neutral-900 mb-6 select-none touch-pan-y"
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+      >
+        <Image
+          key={`hero-mob-${currentSlideIndex}`}
+          src={slide.imageUrl || "/cinema/hero/HC-01-HERO-01.png"}
+          alt="Architectural hardware finish detail at Hardware Collection"
+          fill
+          priority
+          sizes="(max-width: 1024px) 100vw, 600px"
+          className="object-cover transition-opacity duration-500"
+        />
+
+        {/* Bottom Bar: Label, Counter & Nav Controls */}
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-3.5 flex items-end justify-between gap-2">
+          <div>
+            <p className="hc-mono text-[9.5px] uppercase tracking-[0.2em] font-semibold text-[var(--color-brass)] leading-tight">
+              {slide.specimenLabel || "Premium Hardware for Timeless Spaces"}
+            </p>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            <span className="hc-mono text-[10px] text-white/80 tracking-[0.15em]">
+              0{currentSlideIndex + 1} / 0{slides.length}
+            </span>
+
+            <div className="flex items-center gap-1">
+              <button
+                type="button"
+                onClick={prevSlide}
+                aria-label="Previous hero slide"
+                className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 active:scale-95 transition-all"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                </svg>
+              </button>
+              <button
+                type="button"
+                onClick={nextSlide}
+                aria-label="Next hero slide"
+                className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 active:scale-95 transition-all"
+              >
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* ── 3 Stats Row matching Reference Mockup ──────────────── */}
+      <div className="grid grid-cols-3 gap-2 pt-4 border-t border-[var(--border)]">
+        <div>
+          <p className="hc-serif text-2xl sm:text-3xl font-light text-[var(--text-primary)] leading-none">
+            20+
+          </p>
+          <p className="hc-mono text-[8.5px] sm:text-[9px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
+            Years in Sakchi
+          </p>
+        </div>
+        <div>
+          <p className="hc-serif text-2xl sm:text-3xl font-light text-[var(--text-primary)] leading-none">
+            20+
+          </p>
+          <p className="hc-mono text-[8.5px] sm:text-[9px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
+            Authorized Brands
+          </p>
+        </div>
+        <div>
+          <p className="hc-serif text-2xl sm:text-3xl font-light text-[var(--text-primary)] leading-none">
+            1000+
+          </p>
+          <p className="hc-mono text-[8.5px] sm:text-[9px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
+            Homes & Projects
+          </p>
         </div>
       </div>
     </section>
   );
 }
-
-function ArrowRight() {
-  return (
-    <svg
-      className="w-4 h-4 text-white"
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-      aria-hidden="true"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-    </svg>
-  );
-}
-
-

@@ -8,10 +8,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Hardware Catalogues | Hardware Collection Jamshedpur",
+    absolute: "Our Brands & Catalogues | Hardware Collection Jamshedpur",
   },
   description:
-    "Download official architectural hardware catalogues from Hafele, Blum, Dorset and other premium brands available at Hardware Collection, Sakchi, Jamshedpur.",
+    "Official architectural hardware catalogues and authorised brand directory for Häfele, Blum, Dorset, Hettich and global partners at Hardware Collection, Sakchi, Jamshedpur.",
   alternates: {
     canonical: 'https://hardwarecollection.co/catalogues',
   },

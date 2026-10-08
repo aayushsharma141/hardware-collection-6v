@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Plus } from "lucide-react";
+import { generateWhatsAppUrl } from "@/lib/config";
 
 export interface FaqItem {
   _id: string;
@@ -10,110 +11,103 @@ export interface FaqItem {
   categorySlug?: string;
 }
 
-function AccordionItem({ faq, isOpen, onClick }: { faq: FaqItem; isOpen: boolean; onClick: () => void }) {
-  return (
-    <div 
-      className={`group border-b border-[var(--border)] transition-colors duration-300`}
-    >
-      <button
-        onClick={onClick}
-        className="w-full flex items-center justify-between py-6 text-left outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brass)] focus-visible:ring-offset-2"
-        aria-expanded={isOpen}
-        aria-controls={`faq-answer-${faq._id}`}
-      >
-        <h4 className={`hc-serif text-xl md:text-2xl transition-colors duration-300 pr-8 ${isOpen ? "text-[var(--color-wine)]" : "text-[var(--text-primary)] group-hover:text-[var(--color-brass)]"}`}>
-          {faq.question}
-        </h4>
-        <span className={`shrink-0 flex items-center justify-center w-8 h-8 transition-colors duration-300 ${isOpen ? 'text-[var(--color-wine)]' : 'text-[var(--text-primary)]/40 group-hover:text-[var(--color-brass)]'}`}>
-          <Plus className={`w-5 h-5 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] ${isOpen ? "rotate-[135deg]" : "rotate-0"}`} />
-        </span>
-      </button>
-      <div
-        id={`faq-answer-${faq._id}`}
-        className="grid transition-[grid-template-rows] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]"
-        style={{ gridTemplateRows: isOpen ? "1fr" : "0fr" }}
-      >
-        <div className="overflow-hidden">
-          <div className={`pb-6 pt-0 text-sm md:text-base text-[var(--text-primary)] font-light leading-relaxed max-w-[90%] md:max-w-[80%] transition-[transform,opacity] duration-300 ${isOpen ? 'translate-y-0 opacity-70' : '-translate-y-2 opacity-0'}`}>
-            <p>{faq.answer}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+const DEFAULT_FAQS: FaqItem[] = [
+  {
+    _id: "faq-1",
+    question: "Do you have genuine products from authorized brands?",
+    answer:
+      "Yes. We are authorized direct partners for Häfele, Dorset, Tattva, Ozone, Blum, Hettich and other premier architectural hardware manufacturers. All products carry full manufacturer warranties and authentication.",
+  },
+  {
+    _id: "faq-2",
+    question: "Can I visit the showroom to see the products?",
+    answer:
+      "Yes, absolutely. Our physical showroom in Sakchi, Jamshedpur features functional demonstration displays where you can touch, operate, and compare finishes across doors, modular kitchens, and digital locks.",
+  },
+  {
+    _id: "faq-3",
+    question: "Do you provide guidance for home or modular kitchen projects?",
+    answer:
+      "Yes. Our hardware specialists provide one-on-one consultation for homeowners, architects, and interior designers, assisting with technical hardware scheduling, load calculations, and finish coordination.",
+  },
+  {
+    _id: "faq-4",
+    question: "How can I get a catalogue or price information?",
+    answer:
+      "You can browse all digital brand catalogues directly on our website, or contact our Sakchi team via WhatsApp with your project requirements for personalized catalogs and pricing.",
+  },
+];
 
-export default function FaqSection({ faqs }: { faqs: FaqItem[] }) {
-  const displayFaqs = faqs && faqs.length > 0 ? faqs : [
-    {
-      _id: "faq-fallback-1",
-      question: "Do you supply architectural hardware for commercial projects?",
-      answer: "Yes, we specialize in bulk and customized architectural hardware supply for commercial projects including hotels, offices, and residential complexes. Our team provides dedicated support from specification to delivery.",
-      categorySlug: "General"
-    },
-    {
-      _id: "faq-fallback-2",
-      question: "Can I book an appointment to visit the showroom?",
-      answer: "Absolutely. We encourage scheduling a consultation so our hardware specialists can give you undivided attention and guide you through our collections based on your project requirements.",
-      categorySlug: "Showroom"
-    },
-    {
-      _id: "faq-fallback-3",
-      question: "What brands are available in your collection?",
-      answer: "We carry premium architectural hardware from leading global and national brands. Our selection is carefully curated for design, durability, and warranty support.",
-      categorySlug: "Products"
-    }
-  ];
-
-  // Generate FAQ Schema for AEO
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": displayFaqs.map((faq: FaqItem) => ({
-      "@type": "Question",
-      "name": faq.question,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.answer
-      }
-    }))
-  };
-
-  const [openId, setOpenId] = useState<string | null>(displayFaqs[0]?._id || null);
+export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
+  const displayFaqs = faqs && faqs.length >= 4 ? faqs : DEFAULT_FAQS;
+  const [openId, setOpenId] = useState<string | null>(null);
 
   const toggleAccordion = (id: string) => {
-    setOpenId(prev => (prev === id ? null : id));
+    setOpenId((prev) => (prev === id ? null : id));
   };
 
   return (
-    <section className="max-w-[800px] mx-auto px-6 py-12 md:py-16 relative z-10" id="faq">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }}
-      />
-      
-      <div className="flex flex-col items-center text-center mb-12 md:mb-16">
-        <span className="hc-mono text-xs uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-4 block">
-          Support & Expertise
-        </span>
-        <h2 className="hc-serif text-3xl md:text-5xl font-light tracking-tight text-[var(--text-primary)] mb-4">
-          Common Enquiries
-        </h2>
-        <p className="text-[var(--text-primary)] opacity-60 max-w-[500px] text-sm md:text-base font-light leading-relaxed">
-          Everything you need to know about our products, showroom experience, and commercial partnerships.
-        </p>
-      </div>
+    <section className="py-12 lg:py-20 bg-[var(--surface)] border-b border-[var(--border)] relative z-10" id="faq">
+      <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
+        {/* Header matching Reference Mockup */}
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
+          <div>
+            <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
+              FAQ
+            </p>
+            <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight">
+              Common questions.
+            </h2>
+          </div>
 
-      <div className="animate-fade-in-up">
-        <div className="border-t border-[var(--border)]">
-          {displayFaqs.map((faq: FaqItem) => (
-            <AccordionItem 
-              key={faq._id} 
-              faq={faq} 
-              isOpen={openId === faq._id} 
-              onClick={() => toggleAccordion(faq._id)} 
-            />
-          ))}
+          <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)]">
+            <span>Still have questions?</span>
+            <a
+              href={generateWhatsAppUrl("faq-enquiry")}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--color-wine)] inline-flex items-center gap-1 hover:underline"
+            >
+              <span>WhatsApp an Expert</span>
+              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        {/* Clean Accordion List */}
+        <div className="border-t border-[var(--border)] divide-y divide-[var(--border)]">
+          {displayFaqs.map((faq) => {
+            const isOpen = openId === faq._id;
+            return (
+              <div key={faq._id} className="transition-colors">
+                <button
+                  type="button"
+                  onClick={() => toggleAccordion(faq._id)}
+                  className="w-full py-5 flex items-center justify-between text-left outline-none group"
+                  aria-expanded={isOpen}
+                >
+                  <span className="hc-serif text-lg sm:text-xl font-normal text-[var(--text-primary)] group-hover:text-[var(--color-wine)] transition-colors pr-6">
+                    {faq.question}
+                  </span>
+                  <span className="shrink-0 w-6 h-6 flex items-center justify-center text-[var(--text-secondary)] group-hover:text-[var(--color-wine)] transition-colors">
+                    <Plus
+                      className={`w-4 h-4 transition-transform duration-300 ${
+                        isOpen ? "rotate-45 text-[var(--color-wine)]" : "rotate-0"
+                      }`}
+                    />
+                  </span>
+                </button>
+
+                {isOpen && (
+                  <div className="pb-5 pt-0 text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed max-w-3xl">
+                    <p>{faq.answer}</p>
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

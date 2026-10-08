@@ -123,7 +123,7 @@ const nextConfig: NextConfig = {
       // UI convenience aliases
       {
         source: '/brands',
-        destination: '/#brands',
+        destination: '/catalogues',
         permanent: true,
       },
       {

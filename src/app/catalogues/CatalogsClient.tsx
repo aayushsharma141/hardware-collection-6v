@@ -3,9 +3,8 @@
 import React, { useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Footer from "@/components/layout/Footer";
-import CatalogLibrary from "@/components/catalog/CatalogLibrary";
 import CatalogViewerModal from "@/components/catalog/CatalogViewerModal";
-import BrandDiscovery from "@/components/collections/BrandDiscovery";
+import BrandsDirectoryView from "@/components/catalog/BrandsDirectoryView";
 import { AnimatePresence } from "motion/react";
 import { Brand, ResolvedBrand, SiteSettings } from "@/types/catalog";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
@@ -68,24 +67,12 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
   return (
     <div className="min-h-screen bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30 pt-[104px]">
       <main className="w-full">
-        {/* Authorized Brand Discovery & Static Wall (Moved from Collections) */}
-        <div className="w-full max-w-[1320px] mx-auto px-4 sm:px-6 md:px-8">
-          <BrandDiscovery 
-            brands={
-              settings?.authorizedBrandRefs?.length 
-                ? brands.filter((b) => settings.authorizedBrandRefs!.some((ab: { slug?: string | { current?: string } }) => (typeof ab.slug === "object" ? ab.slug?.current : ab.slug) === (typeof b.slug === "object" ? b.slug?.current : b.slug)))
-                : brands
-            } 
-          />
-        </div>
-
-        <div id="reference-library-section" className="w-full max-w-[1920px] mx-auto pb-6">
-          <CatalogLibrary 
-            brands={brands || []} 
-            onSelectBrand={setSelectedCatalogBrand} 
-            selectedBrandSlug={brandParam}
-          />
-        </div>
+        <BrandsDirectoryView 
+          brands={brands || []} 
+          settings={settings}
+          onSelectBrand={setSelectedCatalogBrand} 
+          selectedBrandSlug={brandParam}
+        />
       </main>
 
       {/* Official Catalog Viewer Modal */}

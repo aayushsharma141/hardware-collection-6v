@@ -15,190 +15,309 @@ export interface BrandItem {
 }
 
 interface BrandTrustStripProps {
-  brands?: {
-    brandName: string;
-    slug: string;
-    logoUrl?: string;
-  }[];
+  brands?: any[]; // Accepts both Sanity brand shape and standard Brand[] shape
+  hideHeader?: boolean;
 }
 
-export default function BrandTrustStrip({ brands }: BrandTrustStripProps) {
-  // Deduplicate by slug to prevent React key warnings if CMS has duplicates
-  const uniqueBrands = brands && brands.length > 0
-    ? Array.from(new Map(brands.map(b => [b.slug, b])).values())
-    : [];
+const FEATURED_BRANDS: BrandItem[] = [
+  {
+    name: "Hafele",
+    id: "hafele",
+    logo: "/brands/Hafele.png",
+    href: "/catalogues?brand=hafele",
+  },
+  {
+    name: "Dorset",
+    id: "dorset",
+    logo: "/brands/dorset-seeklogo.svg",
+    href: "/catalogues?brand=dorset",
+  },
+  {
+    name: "Tattva",
+    id: "tattva",
+    logo: "/brands/TATTVA_cropped.png",
+    href: "/catalogues?brand=tattva",
+  },
+  {
+    name: "Ozone",
+    id: "ozone",
+    logo: "/brands/ozone.webp",
+    href: "/catalogues?brand=ozone",
+  },
+  {
+    name: "Blum",
+    id: "blum",
+    logo: "/brands/Blum_logo.svg",
+    href: "/catalogues?brand=blum",
+  },
+  {
+    name: "Hettich",
+    id: "hettich",
+    logo: "/brands/Hettich.svg",
+    href: "/catalogues?brand=hettich",
+  },
+  {
+    name: "Godrej",
+    id: "godrej",
+    logo: "/brands/Godrej.svg",
+    href: "/catalogues?brand=godrej",
+  },
+  {
+    name: "Yale",
+    id: "yale",
+    logo: "/brands/Yale_logo.svg",
+    href: "/catalogues?brand=yale",
+  },
+  {
+    name: "GEZE",
+    id: "geze",
+    logo: "/brands/GEZE_Logo_RGB.png",
+    href: "/catalogues?brand=geze",
+  },
+];
 
-  const activeBrands: BrandItem[] = uniqueBrands.length > 0 
-    ? uniqueBrands.map(b => {
-        const canonical = CANONICAL_BRANDS.find(c => c.id === b.slug);
-        return {
-          name: b.brandName,
-          id: b.slug,
-          logo: canonical?.logo || b.logoUrl,
-          href: `/catalogues?brand=${b.slug}`,
-          imageClass: canonical?.imageClass,
-          imageStyle: canonical?.imageStyle
-        };
-      })
-    : CANONICAL_BRANDS.map(b => ({ ...b, href: `/catalogues?brand=${b.id}` }));
+export default function BrandTrustStrip({ brands, hideHeader }: BrandTrustStripProps) {
+  const activeBrands =
+    brands && brands.length > 0
+      ? brands.map((b) => {
+          const slugStr = typeof b.slug === "object" ? b.slug?.current : b.slug;
+          const key = slugStr || b.id || b.name?.toLowerCase().replace(/[^a-z0-9]/g, "");
+          const canonical = CANONICAL_BRANDS.find((c) => c.id === key);
+          return {
+            name: b.brandName || b.name,
+            id: key,
+            logo: canonical?.logo || b.logoUrl || b.logo,
+            href: `/catalogues?brand=${key}`,
+          };
+        })
+      : FEATURED_BRANDS;
 
+  // Split activeBrands into two rows for the dual-marquee effect
   const half = Math.ceil(activeBrands.length / 2);
-  const lane1 = activeBrands.slice(0, half);
-  const lane2 = activeBrands.slice(half);
+  const row1Items = activeBrands.slice(0, half);
+  const row2Items = activeBrands.slice(half);
 
-  const renderBrandVisual = (brand: BrandItem) => {
-    if (brand.logo) {
-      return (
-        <Image
-          src={brand.logo}
-          alt={brand.name}
-          width={400}
-          height={160}
-          sizes="(max-width: 640px) 120px, (max-width: 1024px) 160px, 200px"
-          className={`
-            object-contain
-            h-10 sm:h-12 md:h-14 lg:h-16
-            w-auto
-            max-w-[128px] sm:max-w-[152px] md:max-w-[176px] lg:max-w-[200px]
-            opacity-90
-            transition-all duration-500 ease-out
-            group-hover/item:opacity-100
-            group-hover/item:drop-shadow-[0_4px_16px_rgba(0,0,0,0.12)]
-            ${brand.imageClass || ""}
-          `}
-          style={brand.imageStyle}
-          unoptimized={brand.logo.endsWith(".svg")}
-        />
-      );
-    }
-
-    return (
-      <span className="
-        font-sans font-semibold uppercase tracking-[0.22em]
-        text-base sm:text-lg md:text-xl lg:text-2xl
-        whitespace-nowrap
-        text-[#1A1017] opacity-60
-        transition-all duration-500 ease-out
-        group-hover/item:opacity-100
-        group-hover/item:text-[#8b1a42]
-        group-hover/item:scale-110
-      ">
-        {brand.name}
-      </span>
-    );
-  };
-
-  const linkClass =
-    "group/item flex items-center justify-center shrink-0 h-16 md:h-20 w-36 md:w-48 px-4 py-2 bg-transparent transition-all duration-300 hover:scale-105";
+  // Repeat brands to ensure smooth infinite loop on all screen widths
+  const row1 = row1Items.length < 8 ? [...row1Items, ...row1Items, ...row1Items] : row1Items;
+  const row2 = row2Items.length < 8 ? [...row2Items, ...row2Items, ...row2Items] : row2Items;
 
   return (
     <section
       id="brands"
-      className="py-16 lg:py-24 bg-transparent border-b border-[#1a1017]/[0.08] relative z-10 overflow-hidden scroll-mt-24"
+      className={`py-10 lg:py-16 bg-[var(--surface)] ${hideHeader ? 'pt-4' : 'border-b'} border-[var(--border)] relative z-10 scroll-mt-20 overflow-hidden`}
     >
-      {/* Header */}
-      <div className="max-w-4xl mx-auto px-6 text-center mb-16 md:mb-20">
-        <p className="hc-mono text-[11px] sm:text-sm uppercase tracking-[0.28em] font-semibold text-[#8B1A42] mb-4">
-          Authorized partners
-        </p>
-        <h2 className="hc-serif text-[38px] sm:text-5xl lg:text-[56px] font-light tracking-[-0.02em] text-[#1A1017] leading-tight mb-4">
-          Authorized Brands
-        </h2>
-        <p className="text-base sm:text-lg leading-relaxed text-[#6B5E68] font-light max-w-2xl mx-auto">
-          German engineering and trusted Indian architectural manufacturers,
-          curated under one roof in Sakchi.
-        </p>
-      </div>
-
-      {/* 2-Lane Double Ticker Container */}
-      <div className="relative w-full overflow-hidden flex flex-col gap-10 md:gap-14">
-        {/* Soft edge gradient fades */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-56 bg-gradient-to-r from-[#fbf5ea] via-[#fbf5ea]/80 to-transparent z-20" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-56 bg-gradient-to-l from-[#fbf5ea] via-[#fbf5ea]/80 to-transparent z-20" />
-
-        {/* ── LANE 1: Scrolling Left ─── */}
-        <div className="flex w-max group/ticker hover:[animation-play-state:paused] select-none animate-ticker-left items-center">
-          {/* Set 1 */}
-          <div className="flex items-center gap-6 md:gap-8 lg:gap-12 pr-6 md:pr-8 lg:pr-12 shrink-0">
-            {lane1.map((brand, idx) => (
+      {!hideHeader && (
+        <div className="max-w-[1440px] mx-auto px-5 lg:px-16 mb-6 sm:mb-8">
+          {/* Header matching Reference Mockup */}
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+            <div>
+              <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
+                Trusted Brands
+              </p>
+              <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--text-primary)] leading-tight">
+                Authorized Brands.
+                <br />
+                Genuine Products.
+              </h2>
+            </div>
+            <div className="flex flex-col items-start md:items-end gap-2 max-w-md">
+              <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed md:text-right">
+                Experience a curated range of architectural hardware from leading global brands, all under one roof.
+              </p>
               <Link
-                key={`l1-a-${brand.id || idx}`}
+                href="/catalogues"
+                className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-wine)] inline-flex items-center gap-1.5 hover:underline"
+              >
+                <span>View All Brands</span>
+                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Seamless Infinite Right-to-Left Marquee with Smooth Feathering ── */}
+      <div className="brand-marquee-wrapper relative w-full overflow-hidden group/brand-marquee py-2">
+        {/* Edge gradient overlays for additional smooth fade */}
+        <div
+          className="pointer-events-none absolute left-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-r from-[var(--surface)] to-transparent z-10"
+          aria-hidden="true"
+        />
+        <div
+          className="pointer-events-none absolute right-0 top-0 bottom-0 w-16 sm:w-28 bg-gradient-to-l from-[var(--surface)] to-transparent z-10"
+          aria-hidden="true"
+        />
+
+        {/* Row 1: Right to Left */}
+        <div className="brand-marquee-track flex w-max hover:[animation-play-state:paused] active:[animation-play-state:paused] mb-4 sm:mb-8">
+          <div className="brand-marquee-set flex items-center gap-10 sm:gap-16 pr-10 sm:pr-16 shrink-0">
+            {row1.map((brand, idx) => (
+              <Link
+                key={`brand-1-${brand.id || idx}-${idx}`}
                 href={brand.href}
-                className={linkClass}
+                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
                 title={brand.name}
               >
-                {renderBrandVisual(brand)}
+                {brand.logo ? (
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={140}
+                    height={50}
+                    unoptimized={brand.logo.endsWith(".svg")}
+                    className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                  />
+                ) : (
+                  <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
+                    {brand.name}
+                  </span>
+                )}
               </Link>
             ))}
           </div>
-
-          {/* Set 2 for seamless infinite loop */}
-          <div
-            className="flex items-center gap-6 md:gap-8 lg:gap-12 pr-6 md:pr-8 lg:pr-12 shrink-0"
-            aria-hidden="true"
-          >
-            {lane1.map((brand, idx) => (
+          <div className="brand-marquee-set flex items-center gap-10 sm:gap-16 pr-10 sm:pr-16 shrink-0" aria-hidden="true">
+            {row1.map((brand, idx) => (
               <Link
-                key={`l1-b-${brand.id || idx}`}
+                key={`brand-1-dup-${brand.id || idx}-${idx}`}
                 href={brand.href}
-                className={linkClass}
+                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
+                title={brand.name}
                 tabIndex={-1}
               >
-                {renderBrandVisual(brand)}
+                {brand.logo ? (
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={140}
+                    height={50}
+                    unoptimized={brand.logo.endsWith(".svg")}
+                    className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                  />
+                ) : (
+                  <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
+                    {brand.name}
+                  </span>
+                )}
               </Link>
             ))}
           </div>
         </div>
 
-        {/* ── LANE 2: Scrolling Right ── */}
-        <div className="flex w-max group/ticker hover:[animation-play-state:paused] select-none animate-ticker-right items-center">
-          {/* Set 1 */}
-          <div className="flex items-center gap-6 md:gap-8 lg:gap-12 pr-6 md:pr-8 lg:pr-12 shrink-0">
-            {lane2.map((brand, idx) => (
+        {/* Row 2: Left to Right */}
+        <div className="brand-marquee-track-reverse flex w-max hover:[animation-play-state:paused] active:[animation-play-state:paused]">
+          <div className="brand-marquee-set flex items-center gap-10 sm:gap-16 pr-10 sm:pr-16 shrink-0">
+            {row2.map((brand, idx) => (
               <Link
-                key={`l2-a-${brand.id || idx}`}
+                key={`brand-2-${brand.id || idx}-${idx}`}
                 href={brand.href}
-                className={linkClass}
+                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
                 title={brand.name}
               >
-                {renderBrandVisual(brand)}
+                {brand.logo ? (
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={140}
+                    height={50}
+                    unoptimized={brand.logo.endsWith(".svg")}
+                    className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                  />
+                ) : (
+                  <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
+                    {brand.name}
+                  </span>
+                )}
               </Link>
             ))}
           </div>
-
-          {/* Set 2 for seamless infinite loop */}
-          <div
-            className="flex items-center gap-6 md:gap-8 lg:gap-12 pr-6 md:pr-8 lg:pr-12 shrink-0"
-            aria-hidden="true"
-          >
-            {lane2.map((brand, idx) => (
+          <div className="brand-marquee-set flex items-center gap-10 sm:gap-16 pr-10 sm:pr-16 shrink-0" aria-hidden="true">
+            {row2.map((brand, idx) => (
               <Link
-                key={`l2-b-${brand.id || idx}`}
+                key={`brand-2-dup-${brand.id || idx}-${idx}`}
                 href={brand.href}
-                className={linkClass}
+                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
+                title={brand.name}
                 tabIndex={-1}
               >
-                {renderBrandVisual(brand)}
+                {brand.logo ? (
+                  <Image
+                    src={brand.logo}
+                    alt={brand.name}
+                    width={140}
+                    height={50}
+                    unoptimized={brand.logo.endsWith(".svg")}
+                    className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                  />
+                ) : (
+                  <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
+                    {brand.name}
+                  </span>
+                )}
               </Link>
             ))}
           </div>
         </div>
       </div>
 
-      <style jsx global>{`
-        @keyframes ticker-left {
-          0%   { transform: translate3d(0, 0, 0); }
-          100% { transform: translate3d(-50%, 0, 0); }
+      <style jsx>{`
+        .brand-marquee-wrapper {
+          mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            black 6%,
+            black 94%,
+            transparent 100%
+          );
+          -webkit-mask-image: linear-gradient(
+            to right,
+            transparent 0%,
+            black 6%,
+            black 94%,
+            transparent 100%
+          );
         }
-        @keyframes ticker-right {
-          0%   { transform: translate3d(-50%, 0, 0); }
-          100% { transform: translate3d(0, 0, 0); }
+
+        .brand-marquee-track {
+          will-change: transform;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          animation: brand-marquee-glide 42s linear infinite;
         }
-        .animate-ticker-left {
-          animation: ticker-left 50s linear infinite;
+
+        .brand-marquee-track-reverse {
+          will-change: transform;
+          backface-visibility: hidden;
+          -webkit-backface-visibility: hidden;
+          transform: translate3d(0, 0, 0);
+          animation: brand-marquee-glide-reverse 45s linear infinite;
         }
-        .animate-ticker-right {
-          animation: ticker-right 50s linear infinite;
+
+        @keyframes brand-marquee-glide {
+          0% {
+            transform: translate3d(0, 0, 0);
+          }
+          100% {
+            transform: translate3d(-50%, 0, 0);
+          }
+        }
+
+        @keyframes brand-marquee-glide-reverse {
+          0% {
+            transform: translate3d(-50%, 0, 0);
+          }
+          100% {
+            transform: translate3d(0, 0, 0);
+          }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .brand-marquee-track, .brand-marquee-track-reverse {
+            animation: none;
+            overflow-x: auto;
+          }
         }
       `}</style>
     </section>
