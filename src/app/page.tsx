@@ -1,10 +1,10 @@
 import React from "react";
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
-import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getHeroManager } from "@/content/sanity/queries";
+import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getHeroManager, getActiveOffers } from "@/content/sanity/queries";
 import { buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import {
-  OFFER_HERO_FALLBACK_IMAGE,
+  HERO_FALLBACK_IMAGE,
   formatOfferDate,
   pickHeroOffers,
   weaveHeroSlides,
@@ -105,7 +105,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [homeData, siteSettings, brands, testimonials, faqs, showroomGroups, heroManager] = await Promise.all([
+  const [homeData, siteSettings, brands, testimonials, faqs, showroomGroups, heroManager, offers] = await Promise.all([
     getHomePage(),
     getSiteSettings(),
     getBrands(),
@@ -113,6 +113,7 @@ export default async function HomePage() {
     getFaqs(),
     getShowroomGroups(),
     getHeroManager(),
+    getActiveOffers(),
   ]);
   const populatedGroupIds = showroomGroups.map((group) => group.id);
 
@@ -142,7 +143,7 @@ export default async function HomePage() {
     description: offer.description || "Ask our Sakchi showroom team for details and availability.",
     primaryCta: "Enquire about this offer",
     ctaTarget: buildWhatsAppLink(`Hardware Collection — I'd like to know more about your offer: ${offer.title}.`, siteSettings),
-    imageUrl: offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
+    imageUrl: offer.imageUrl || HERO_FALLBACK_IMAGE,
     specimenLabel: "Current offer",
     specimenCaption: offer.brandName || "Hardware Collection · Sakchi",
   }));

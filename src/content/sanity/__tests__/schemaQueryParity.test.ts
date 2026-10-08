@@ -5,7 +5,7 @@ import {
   getBrandsQuery,
   getAllProductsQuery,
   ACTIVE_OFFERS_QUERY,
-  HERO_MANAGER_QUERY,
+  getHeroManagerQuery,
 } from "../queries";
 
 function fieldNames(type: string): Set<string> {
@@ -38,12 +38,12 @@ describe("Sanity schema / query parity", () => {
     const manager = fieldNames("heroManager");
     for (const f of ["homeHero", "collectionHero"]) {
       expect(manager.has(f), `heroManager.${f} missing from schema`).toBe(true);
-      expect(HERO_MANAGER_QUERY, `${f} not read by query`).toContain(f);
+      expect(getHeroManagerQuery, `${f} not read by query`).toContain(f);
     }
     const slide = fieldNames("heroSlide");
     for (const f of ["slideType", "position", "title", "subtitle", "link", "imageDesktop", "offer", "collection", "brand"]) {
       expect(slide.has(f), `heroSlide.${f} missing from schema`).toBe(true);
-      expect(HERO_MANAGER_QUERY, `${f} not read by query`).toContain(f);
+      expect(getHeroManagerQuery, `${f} not read by query`).toContain(f);
     }
   });
 

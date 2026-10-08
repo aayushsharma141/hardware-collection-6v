@@ -7,7 +7,7 @@ import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import {
-  OFFER_HERO_FALLBACK_IMAGE,
+  HERO_FALLBACK_IMAGE,
   formatOfferDate,
   pickHeroOffers,
   weaveHeroSlides,
@@ -33,9 +33,7 @@ export interface CollectionsClientProps {
   products: Product[];
   brands: Brand[];
   offers: Offer[];
-  /** The slides an editor arranged in Studio > Hero Manager, if any. */
-  heroManager?: HeroManagerData | null;
-  settings?: SiteSettings | null;
+  settings?: import("@/types/catalog").SiteSettings | null;
   heroManager?: import("@/types/catalog").HeroManager | null;
 }
 
@@ -65,7 +63,6 @@ export default function CollectionsClient({
   products,
   brands: rawBrands,
   offers,
-  heroManager,
   settings,
   heroManager,
 }: CollectionsClientProps) {
@@ -166,7 +163,7 @@ export default function CollectionsClient({
       id: `offer-${offer._id}`,
       title: offer.title,
       tagline: offer.validUntil ? `Current offer · until ${formatOfferDate(offer.validUntil)}` : "Current offer",
-      image: offer.imageUrl || OFFER_HERO_FALLBACK_IMAGE,
+      image: offer.imageUrl || HERO_FALLBACK_IMAGE,
       offerHref: offerEnquiryHref(offer.title),
     }));
     return weaveHeroSlides(familySlides, offerSlides, HERO_MAX_SLIDES_COLLECTIONS);

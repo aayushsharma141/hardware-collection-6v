@@ -8,7 +8,7 @@ import {
   type PlacedSlide,
 } from "../heroSlides";
 import { HERO_FALLBACK_IMAGE } from "../offers";
-import { HERO_MANAGER_QUERY } from "@/content/sanity/queries";
+import { getHeroManagerQuery } from "@/content/sanity/queries";
 import type { HeroManagerData, HeroManagerSlide } from "@/types/hero";
 
 const enquire = (title: string) => `wa://${title}`;
@@ -169,7 +169,7 @@ describe("toHomeHeroSlide", () => {
 });
 
 /** The real query, run over a small dataset with references, as the Studio would store it. */
-describe("HERO_MANAGER_QUERY", () => {
+describe("getHeroManagerQuery", () => {
   const NOW = new Date("2026-10-06T10:00:00Z");
   const ref = (id: string) => ({ _type: "reference", _ref: id });
   const dataset = [
@@ -199,7 +199,7 @@ describe("HERO_MANAGER_QUERY", () => {
   ];
 
   async function run(): Promise<HeroManagerData> {
-    const result = await evaluate(parse(HERO_MANAGER_QUERY), { dataset, timestamp: NOW });
+    const result = await evaluate(parse(getHeroManagerQuery), { dataset, timestamp: NOW });
     return (await result.get()) as HeroManagerData;
   }
 
@@ -233,7 +233,7 @@ describe("HERO_MANAGER_QUERY", () => {
   });
 
   it("is null when no Hero Manager document exists", async () => {
-    const result = await evaluate(parse(HERO_MANAGER_QUERY), { dataset: [], timestamp: NOW });
+    const result = await evaluate(parse(getHeroManagerQuery), { dataset: [], timestamp: NOW });
     expect(await result.get()).toBeNull();
   });
 });

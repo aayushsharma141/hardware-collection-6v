@@ -77,7 +77,6 @@ export default async function CollectionsPage() {
           products={products}
           brands={brands}
           offers={offers}
-          heroManager={heroManager}
           settings={settings}
           heroManager={heroManager}
         />

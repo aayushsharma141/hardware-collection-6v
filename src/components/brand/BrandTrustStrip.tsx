@@ -71,7 +71,7 @@ const FEATURED_BRANDS: BrandItem[] = [
   {
     name: "Godrej",
     id: "godrej",
-    logo: "/brands/Godrej.svg",
+    logo: "/brands/Godrej.png",
     href: "/catalogues?brand=godrej",
   },
   {

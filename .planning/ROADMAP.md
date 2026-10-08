@@ -111,3 +111,8 @@
 
 - [x] **Phase 15 — Animation Polish & GPU Acceleration** ✅ COMPLETE
   Replace layout-triggering `transition-all` utility classes with precise hardware-accelerated transitions across core UI primitives (Buttons, global CSS, Floating Action Buttons, Brand Cards). Enforce strict UI duration bands (100-150ms hover, 180-250ms state, 300ms+ entrance). Apply Emil Kowalski design engineering principles.
+
+- [ ] **Phase 16 — Local Search Entity & SEO Foundation** 📋 CONTEXT GATHERED
+  Establish the definitive technical SEO foundation, local search entity authority, and crawlability architecture across the codebase: single H1 enforcement, intent metadata, server-rendered taxonomy on `/collections`, `/catalogues` sitemap entry, bidirectional cross-linking bridges, and Schema.org LocalBusiness graph.
+  See `.planning/phases/16-local-search-seo/16-CONTEXT.md`.
+

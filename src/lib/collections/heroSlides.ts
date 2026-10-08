@@ -1,5 +1,5 @@
 import { categoryRails, showroomGroupId, showroomHref } from "./showroom";
-import { HERO_FALLBACK_IMAGE, HERO_MAX_OFFERS, HERO_MAX_SLIDES, formatOfferDate } from "./offers";
+import { HERO_FALLBACK_IMAGE, HERO_MAX_OFFERS, HERO_MAX_SLIDES_HOME, formatOfferDate } from "./offers";
 import type { HeroManagerSlide, HeroSlideKind } from "@/types/hero";
 
 /** A slide an editor chose in Hero Manager, resolved for one page, with where it asked to sit. */
@@ -38,7 +38,7 @@ export function usableManagerSlides<S>(
 export function placeHeroSlides<T, U>(
   own: readonly T[],
   placed: readonly PlacedSlide<U>[],
-  maxSlides = HERO_MAX_SLIDES
+  maxSlides = HERO_MAX_SLIDES_HOME
 ): (T | U)[] {
   if (placed.length === 0) return [...own];
   const kept = placed.slice(0, maxSlides);

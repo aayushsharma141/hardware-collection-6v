@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { pickHeroOffers, weaveHeroSlides, formatOfferDate } from "../offers";
+import { pickHeroOffers, weaveHeroSlides, formatOfferDate, HERO_MAX_OFFERS, HERO_MAX_SLIDES_HOME, HERO_MAX_SLIDES_COLLECTIONS } from "../offers";
 import type { Offer } from "@/types/catalog";
 
 const offer = (id: string, extra: Partial<Offer> = {}): Offer => ({ _id: id, title: id, type: "store", ...extra });
@@ -86,8 +86,9 @@ describe("formatOfferDate", () => {
 });
 
 describe("hero limits", () => {
-  it("allows three offers in a hero of six slides", () => {
+  it("allows correct limits in heroes", () => {
     expect(HERO_MAX_OFFERS).toBe(3);
-    expect(HERO_MAX_SLIDES).toBe(6);
+    expect(HERO_MAX_SLIDES_HOME).toBe(4);
+    expect(HERO_MAX_SLIDES_COLLECTIONS).toBe(7);
   });
 });

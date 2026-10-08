@@ -1,3 +1,7 @@
+import type { Offer } from "@/types/catalog";
+
+export type HeroPlacement = "home" | "collections";
+
 /** Offers per hero, and slides per hero in all. Hero Manager slides take slots from the page's own. */
 export const HERO_MAX_OFFERS = 3;
 export const HERO_MAX_SLIDES_HOME = 4;

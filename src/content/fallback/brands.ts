@@ -251,7 +251,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     country: "India",
     tier: "Enterprise & High-Trust Security Hardware",
     authorized: true,
-    logo: "/brands/Godrej.svg",
+    logo: "/brands/Godrej.png",
     website: "https://www.godrejlocks.com/",
     tagline: "India's Trusted Smart Biometric Security",
     description: "Godrej Security Solutions is synonymous with unyielding trust and enterprise security in India.",

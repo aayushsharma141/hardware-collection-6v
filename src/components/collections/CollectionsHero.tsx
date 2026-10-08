@@ -178,7 +178,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                     variant="outline"
                     className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
                   >
-                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                    <a href="#" target="_blank" rel="noopener noreferrer">
                       <MessageCircle aria-hidden="true" className="h-4 w-4" />
                       Ask our team
                     </a>
