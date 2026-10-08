@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useMemo } from "react";
-import Link from "next/link";
 import { Brand, ResolvedBrand, SiteSettings } from "@/types/catalog";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { normalizeBrandKey } from "@/content/fallback/brands";
@@ -269,56 +268,17 @@ export default function BrandsDirectoryView({
 
   return (
     <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
-      {/* ── 01. Hero & Header Section (Split Design) ─────────────────────────────────── */}
-      <section className="pt-12 sm:pt-16 pb-12 sm:pb-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <span className="hc-mono text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-3">
-            MANUFACTURER REFERENCE LIBRARY
-          </span>
-          <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4">
-            Brands & Catalogues
-          </h1>
-          <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] font-light max-w-2xl mx-auto">
-            Official manufacturer catalogues, technical references and product specifications from our authorized partners.
-          </p>
-        </div>
-
-        {/* The Two Entry Points */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-10 max-w-5xl mx-auto mb-16">
-          {/* Left: I know the brand */}
-          <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-8 sm:p-10 shadow-[0_2px_12px_rgba(26,16,23,0.02)] relative overflow-hidden">
-            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-2 relative z-10">I know the brand</h2>
-            <p className="text-sm text-[var(--text-secondary)] mb-8 relative z-10">Jump directly to a manufacturer to view their official catalogues.</p>
-            <div className="relative z-10 flex flex-wrap gap-2">
-              {ALPHABET_NAV.map((letter) => (
-                <button
-                  key={letter}
-                  onClick={() => scrollToLetter(letter)}
-                  className="w-10 h-10 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] text-[var(--text-primary)] transition-colors hc-serif text-lg"
-                >
-                  {letter}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Right: I'm looking for something */}
-          <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-8 sm:p-10 relative overflow-hidden shadow-[0_2px_12px_rgba(26,16,23,0.02)]">
-            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-2 relative z-10">I&apos;m looking for something</h2>
-            <p className="text-sm text-[var(--text-secondary)] mb-8 relative z-10">Find hardware by application or category across all our brands.</p>
-            
-            <div className="flex flex-wrap gap-2.5 relative z-10">
-              <Link href="/collections#doors" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Doors</Link>
-              <Link href="/collections#kitchen" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Kitchen</Link>
-              <Link href="/collections#wardrobe" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Wardrobe</Link>
-              <Link href="/collections#security" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Security</Link>
-              <Link href="/collections#bathroom" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Bathroom</Link>
-              <Link href="/collections" className="text-[13px] font-medium border border-transparent bg-[var(--text-primary)]/[0.04] px-4 py-2 hover:bg-[var(--text-primary)]/[0.08] transition-colors flex items-center gap-1">
-                Explore all <span>→</span>
-              </Link>
-            </div>
-          </div>
-        </div>
+      {/* ── 01. Hero & Header Section ─────────────────────────────────── */}
+      <section className="pt-12 sm:pt-16 pb-10 sm:pb-14 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
+        <span className="hc-mono text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-3">
+          MANUFACTURER REFERENCE LIBRARY
+        </span>
+        <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4">
+          Brands & Catalogues
+        </h1>
+        <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] font-light max-w-2xl mx-auto">
+          Official manufacturer catalogues, technical references and product specifications from our authorized partners.
+        </p>
       </section>
 
       {/* ── 01b. Brand Marquee Strip ────────────────────────────────────────── */}
