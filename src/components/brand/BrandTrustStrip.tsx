@@ -28,6 +28,7 @@ export interface BrandInputItem {
 interface BrandTrustStripProps {
   brands?: (Brand | BrandInputItem)[];
   hideHeader?: boolean;
+  singleRow?: boolean;
 }
 
 const FEATURED_BRANDS: BrandItem[] = [
@@ -87,7 +88,7 @@ const FEATURED_BRANDS: BrandItem[] = [
   },
 ];
 
-export default function BrandTrustStrip({ brands, hideHeader }: BrandTrustStripProps) {
+export default function BrandTrustStrip({ brands, hideHeader, singleRow }: BrandTrustStripProps) {
   const activeBrands: BrandItem[] =
     brands && brands.length > 0
       ? brands.map((b) => {
@@ -107,8 +108,8 @@ export default function BrandTrustStrip({ brands, hideHeader }: BrandTrustStripP
 
   // Split activeBrands into two rows for the dual-marquee effect
   const half = Math.ceil(activeBrands.length / 2);
-  const row1Items = activeBrands.slice(0, half);
-  const row2Items = activeBrands.slice(half);
+  const row1Items = singleRow ? activeBrands : activeBrands.slice(0, half);
+  const row2Items = singleRow ? [] : activeBrands.slice(half);
 
   // Repeat brands to ensure smooth infinite loop on all screen widths
   const row1 = row1Items.length < 8 ? [...row1Items, ...row1Items, ...row1Items] : row1Items;
@@ -164,7 +165,7 @@ export default function BrandTrustStrip({ brands, hideHeader }: BrandTrustStripP
         />
 
         {/* Row 1: Right to Left */}
-        <div className="brand-marquee-track flex w-max hover:[animation-play-state:paused] active:[animation-play-state:paused] mb-4 sm:mb-8">
+        <div className={`brand-marquee-track flex w-max hover:[animation-play-state:paused] active:[animation-play-state:paused] ${!singleRow ? 'mb-4 sm:mb-8' : ''}`}>
           <div className="brand-marquee-set flex items-center gap-10 sm:gap-16 pr-10 sm:pr-16 shrink-0">
             {row1.map((brand, idx) => (
               <Link
@@ -219,59 +220,61 @@ export default function BrandTrustStrip({ brands, hideHeader }: BrandTrustStripP
         </div>
 
         {/* Row 2: Left to Right */}
-        <div className="brand-marquee-track-reverse flex w-max hover:[animation-play-state:paused] active:[animation-play-state:paused]">
-          <div className="brand-marquee-set flex items-center gap-10 sm:gap-16 pr-10 sm:pr-16 shrink-0">
-            {row2.map((brand, idx) => (
-              <Link
-                key={`brand-2-${brand.id || idx}-${idx}`}
-                href={brand.href}
-                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
-                title={brand.name}
-              >
-                {brand.logo ? (
-                  <Image
-                    src={brand.logo}
-                    alt={brand.name}
-                    width={140}
-                    height={50}
-                    unoptimized={brand.logo.endsWith(".svg")}
-                    className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
-                  />
-                ) : (
-                  <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
-                    {brand.name}
-                  </span>
-                )}
-              </Link>
-            ))}
+        {!singleRow && (
+          <div className="brand-marquee-track-reverse flex w-max hover:[animation-play-state:paused] active:[animation-play-state:paused]">
+            <div className="brand-marquee-set flex items-center gap-10 sm:gap-16 pr-10 sm:pr-16 shrink-0">
+              {row2.map((brand, idx) => (
+                <Link
+                  key={`brand-2-${brand.id || idx}-${idx}`}
+                  href={brand.href}
+                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
+                  title={brand.name}
+                >
+                  {brand.logo ? (
+                    <Image
+                      src={brand.logo}
+                      alt={brand.name}
+                      width={140}
+                      height={50}
+                      unoptimized={brand.logo.endsWith(".svg")}
+                      className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                    />
+                  ) : (
+                    <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
+                      {brand.name}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
+            <div className="brand-marquee-set flex items-center gap-10 sm:gap-16 pr-10 sm:pr-16 shrink-0" aria-hidden="true">
+              {row2.map((brand, idx) => (
+                <Link
+                  key={`brand-2-dup-${brand.id || idx}-${idx}`}
+                  href={brand.href}
+                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
+                  title={brand.name}
+                  tabIndex={-1}
+                >
+                  {brand.logo ? (
+                    <Image
+                      src={brand.logo}
+                      alt={brand.name}
+                      width={140}
+                      height={50}
+                      unoptimized={brand.logo.endsWith(".svg")}
+                      className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                    />
+                  ) : (
+                    <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
+                      {brand.name}
+                    </span>
+                  )}
+                </Link>
+              ))}
+            </div>
           </div>
-          <div className="brand-marquee-set flex items-center gap-10 sm:gap-16 pr-10 sm:pr-16 shrink-0" aria-hidden="true">
-            {row2.map((brand, idx) => (
-              <Link
-                key={`brand-2-dup-${brand.id || idx}-${idx}`}
-                href={brand.href}
-                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
-                title={brand.name}
-                tabIndex={-1}
-              >
-                {brand.logo ? (
-                  <Image
-                    src={brand.logo}
-                    alt={brand.name}
-                    width={140}
-                    height={50}
-                    unoptimized={brand.logo.endsWith(".svg")}
-                    className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
-                  />
-                ) : (
-                  <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
-                    {brand.name}
-                  </span>
-                )}
-              </Link>
-            ))}
-          </div>
-        </div>
+        )}
       </div>
 
       <style jsx>{`

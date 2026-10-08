@@ -142,9 +142,13 @@ export default async function PrivacyPage() {
                 <span>{siteSettings?.showroomAddress || "1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001"}</span>
               </div>
             </div>
-            <div className="flex items-center gap-3">
-              <Phone className="w-4 h-4 text-[#8b1a42] shrink-0" />
-              <span>{siteSettings?.primaryPhone || "+91 98351 90738"} {siteSettings?.secondaryPhone && ` / ${siteSettings.secondaryPhone}`}</span>
+            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+              <div className="flex items-center gap-3">
+                <Phone className="w-4 h-4 text-[#8b1a42] shrink-0" />
+                <span>+91 70336 50739 - showroom contact</span>
+              </div>
+              <span className="hidden sm:inline text-[var(--border)]">/</span>
+              <span className="pl-7 sm:pl-0">mukesh khandelwal no. +91 98351 90738</span>
             </div>
             <div className="flex items-center gap-3">
               <Mail className="w-4 h-4 text-[#8b1a42] shrink-0" />

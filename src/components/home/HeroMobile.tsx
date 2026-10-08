@@ -172,7 +172,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
       <div className="grid grid-cols-3 gap-2 pt-4 border-t border-[var(--border)]">
         <div>
           <p className="hc-serif text-2xl sm:text-3xl font-light text-[var(--text-primary)] leading-none">
-            20+
+            10+
           </p>
           <p className="hc-mono text-[8.5px] sm:text-[9px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
             Years in Sakchi

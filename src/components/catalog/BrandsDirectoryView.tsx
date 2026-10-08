@@ -237,7 +237,7 @@ export default function BrandsDirectoryView({
 
   const groupedDirectory = useMemo(() => {
     const groups: { letter: string; items: BrandDirectoryMeta[] }[] = [];
-    
+
     ALPHABET_NAV.forEach((letter) => {
       const items = DIRECTORY_ROSTER.filter((b) => b.letter === letter);
       if (items.length > 0) {
@@ -286,58 +286,74 @@ export default function BrandsDirectoryView({
 
       {/* ── 02. Featured Partners (Key Manufacturers) ──────────────────────────── */}
       <section id="featured" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
-            <div>
-              <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
-                Featured
-              </span>
-              <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
-                Key manufacturers
-              </h2>
-            </div>
-            <button 
-              onClick={() => {
-                const el = document.getElementById("all-brands");
-                if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
-              }}
-              className="text-[13px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] inline-flex items-center gap-1 transition-colors"
-            >
-              <span>View all brands</span>
-              <span>→</span>
-            </button>
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
+          <div>
+            <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
+              All Authrosied Brands
+            </span>
+            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
+              Featured Brands
+            </h2>
           </div>
+          <button
+            onClick={() => {
+              const el = document.getElementById("all-brands");
+              if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+            }}
+            className="text-[13px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] inline-flex items-center gap-1 transition-colors"
+          >
+            <span>View all brands</span>
+            <span>→</span>
+          </button>
+        </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {featuredBrands.map((brand) => (
-              <button
-                key={brand.id}
-                onClick={() => {
-                  const el = document.getElementById(`brand-${brand.id}`);
-                  if (el) {
-                    el.scrollIntoView({ behavior: "smooth", block: "center" });
-                    el.classList.add("ring-1", "ring-[var(--color-wine)]", "ring-offset-4");
-                    setTimeout(() => el.classList.remove("ring-1", "ring-[var(--color-wine)]", "ring-offset-4"), 1500);
-                  } else {
-                    scrollToLetter(brand.letter);
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          {featuredBrands.map((brand) => (
+            <button
+              key={brand.id}
+              onClick={() => {
+                const el = document.getElementById(`brand-${brand.id}`);
+                if (el) {
+                  el.scrollIntoView({ behavior: "smooth", block: "center" });
+                  el.classList.add("ring-1", "ring-[var(--color-wine)]", "ring-offset-4");
+                  setTimeout(() => el.classList.remove("ring-1", "ring-[var(--color-wine)]", "ring-offset-4"), 1500);
+                } else {
+                  scrollToLetter(brand.letter);
+                }
+              }}
+              className="text-left bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] shadow-[0_1px_4px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.06)] hover:border-[var(--color-wine)]/30 transition-all group"
+            >
+              <div>
+                {(() => {
+                  const logoSrc = brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo;
+                  if (logoSrc) {
+                    return (
+                      <div className="h-8 mb-4 flex items-center justify-start">
+                        <img
+                          src={logoSrc as string}
+                          alt={`${brand.name} logo`}
+                          className="max-h-full max-w-[120px] object-contain object-left"
+                        />
+                      </div>
+                    );
                   }
-                }}
-                className="text-left bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] shadow-[0_1px_4px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.06)] hover:border-[var(--color-wine)]/30 transition-all group"
-              >
-                <div>
-                  <h3 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-2 group-hover:text-[var(--color-wine)] transition-colors">
-                    {brand.name}
-                  </h3>
-                  <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed font-light">
-                    {brand.featuredDescription}
-                  </p>
-                </div>
-                <div className="mt-4 flex justify-end">
-                  <span className="text-[var(--text-primary)]/40 group-hover:text-[var(--color-wine)] transition-colors">→</span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </section>
+                  return (
+                    <h3 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-2 group-hover:text-[var(--color-wine)] transition-colors">
+                      {brand.name}
+                    </h3>
+                  );
+                })()}
+                <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed font-light">
+                  {brand.featuredDescription}
+                </p>
+              </div>
+              <div className="mt-4 flex justify-end">
+                <span className="text-[var(--text-primary)]/40 group-hover:text-[var(--color-wine)] transition-colors">→</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </section>
 
       {/* ── 03. Official Catalogue Library ─────────────────── */}
       <section id="all-brands" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 border-t border-[var(--border)]">
@@ -421,14 +437,6 @@ export default function BrandsDirectoryView({
 
                     {/* Right: Actions */}
                     <div className="flex flex-col sm:flex-row items-center gap-3 md:w-[25%] md:justify-end shrink-0">
-                      <button
-                        type="button"
-                        onClick={() => handleOpenCatalogue(brand)}
-                        className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm"
-                      >
-                        VIEW CATALOGUE
-                      </button>
-
                       {brand.website && (
                         <a
                           href={brand.website}
@@ -439,6 +447,14 @@ export default function BrandsDirectoryView({
                           VISIT WEBSITE
                         </a>
                       )}
+
+                      <button
+                        type="button"
+                        onClick={() => handleOpenCatalogue(brand)}
+                        className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm"
+                      >
+                        VIEW CATALOGUE
+                      </button>
                     </div>
                   </div>
                 ))}
@@ -473,7 +489,7 @@ export default function BrandsDirectoryView({
                 Open the official manufacturer catalogue.
               </p>
             </div>
-            
+
             <div className="text-center relative z-10">
               <div className="w-14 h-14 mx-auto bg-[var(--color-obsidian)] border border-white/20 flex items-center justify-center rounded-full mb-5">
                 <span className="hc-mono text-sm text-[var(--color-bone)]">02</span>

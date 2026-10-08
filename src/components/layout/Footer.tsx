@@ -42,7 +42,7 @@ export default function Footer(_props?: FooterProps) {
               Architectural hardware, digital security and kitchen systems showroom in Sakchi, Jamshedpur.
             </p>
             <p className="hc-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[var(--color-brass-ink)] pt-0.5">
-              20+ Years · Authorized Brands
+              10+ Years · 20+ Authorised Brands Partner
             </p>
           </div>
 
@@ -105,27 +105,19 @@ export default function Footer(_props?: FooterProps) {
             <h4 className="hc-mono text-[10.5px] uppercase tracking-[0.22em] font-semibold text-[var(--text-secondary)]">
               Contact
             </h4>
-            <a
-              href={SHOWROOM_PHONE_HREF}
-              className="text-xs sm:text-sm font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] block transition-colors"
-            >
-              {SHOWROOM_PHONE_DISPLAY}
-            </a>
-
-            <div className="flex items-center gap-2.5 pt-1">
+            
+            <div className="space-y-2 pt-1">
               <a
-                href={generateWhatsAppUrl("footer-contact")}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="px-4 py-2 bg-[var(--color-wine)] text-white text-[10.5px] font-semibold uppercase tracking-[0.14em] hover:bg-[var(--color-wine-deep)] transition-colors"
+                href="tel:+917033650739"
+                className="text-[11.5px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] block transition-colors"
               >
-                WhatsApp
+                +91 70336 50739 - showroom contact
               </a>
               <a
-                href={SHOWROOM_PHONE_HREF}
-                className="px-4 py-2 border border-[var(--border)] text-[var(--text-primary)] text-[10.5px] font-semibold uppercase tracking-[0.14em] hover:border-[var(--text-primary)] transition-colors"
+                href="tel:+919835190738"
+                className="text-[11.5px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] block transition-colors"
               >
-                Call
+                mukesh khandelwal no. +91 98351 90738
               </a>
             </div>
           </div>
@@ -139,7 +131,7 @@ export default function Footer(_props?: FooterProps) {
             <span className="text-[10.5px] uppercase tracking-wider text-[var(--text-secondary)]">Follow us</span>
             <div className="flex items-center gap-3">
               <a
-                href="https://instagram.com"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -152,7 +144,7 @@ export default function Footer(_props?: FooterProps) {
                 </svg>
               </a>
               <a
-                href="https://facebook.com"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Facebook"
@@ -163,7 +155,7 @@ export default function Footer(_props?: FooterProps) {
                 </svg>
               </a>
               <a
-                href="https://linkedin.com"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"
@@ -175,7 +167,7 @@ export default function Footer(_props?: FooterProps) {
                 </svg>
               </a>
               <a
-                href="https://youtube.com"
+                href="#"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="YouTube"

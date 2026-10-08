@@ -186,7 +186,7 @@ export default async function HomePage() {
 
         {/* 03 BRAND AUTHORITY — Authorized Brands. Genuine Products. */}
         <div className="theme-ivory">
-          <BrandTrustStrip brands={siteSettings?.authorizedBrandRefs || homeData?.trustedBrandRefs} />
+          <BrandTrustStrip brands={siteSettings?.authorizedBrandRefs || homeData?.trustedBrandRefs} singleRow={true} />
         </div>
 
         {/* 04 FLAGSHIP PIECES — Selected hardware */}

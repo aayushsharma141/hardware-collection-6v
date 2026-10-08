@@ -83,7 +83,7 @@ export default function Navbar({
   const navLinks: NavLinkItem[] =
     mainMenu && mainMenu.length > 0
       ? mainMenu.map((item) => ({
-        name: item.label,
+        name: item.label.replace(/catalogs/i, "Catalogues").replace(/catalogues/i, "Catalogues"),
         href: item.path,
         id: item.path.replace(/^\//, "").replace(/\//g, "-") || "home",
       }))
