@@ -3,8 +3,8 @@ import { BadgePercent } from "lucide-react";
 import type { ComponentType } from "react";
 
 /**
- * A showroom offer, shown under "Current Offers" on /collections and, when
- * ticked in `heroPlacement`, in the hero carousel of the home and/or collections page.
+ * A showroom offer, shown under "Current Offers" on /collections. To also feature
+ * it in the home or collections hero, add it as an "Offer" slide in Hero Manager.
  *
  * Deliberately not a promotions engine: no prices, coupon codes or discount
  * maths — price and availability are confirmed by the showroom on WhatsApp.

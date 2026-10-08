@@ -1,15 +1,10 @@
-import type { Offer } from "@/types/catalog";
-
-/** A page whose hero can carry offers; the values are what the Studio stores. */
-export type HeroPlacement = "home" | "collections";
-
-/** Offers per hero, and slides per hero in all. Offers fill the rest with the page's own slides. */
+/** Offers per hero, and slides per hero in all. Hero Manager slides take slots from the page's own. */
 export const HERO_MAX_OFFERS = 3;
 export const HERO_MAX_SLIDES_HOME = 4;
 export const HERO_MAX_SLIDES_COLLECTIONS = 7;
 
-/** Used when an offer has no image of its own, so a hero slide is never blank. */
-export const OFFER_HERO_FALLBACK_IMAGE = "/cinema/showroom/interior.png";
+/** Used when a hero slide has no image of its own, so it is never blank. */
+export const HERO_FALLBACK_IMAGE = "/cinema/showroom/interior.png";
 
 /** "2026-11-15" -> "15 Nov 2026", read as a calendar date so no timezone can shift it. */
 export function formatOfferDate(isoDate: string): string {

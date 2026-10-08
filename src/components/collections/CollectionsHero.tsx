@@ -15,6 +15,10 @@ export interface HeroSlide {
   image: string;
   /** Set on an offer slide: the WhatsApp enquiry for that offer. Its button replaces "Explore". */
   offerHref?: string;
+  /** Any other slide that links somewhere: its button label and target. */
+  href?: string;
+  ctaLabel?: string;
+  external?: boolean;
 }
 
 export interface CollectionsHeroProps {
@@ -152,6 +156,31 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                     <a href="#offers">
                       All offers
                       <ArrowRight aria-hidden="true" className="h-4 w-4 ml-2" />
+                    </a>
+                  </Button>
+                </>
+              ) : active.href ? (
+                <>
+                  <Button
+                    asChild
+                    className="brass-plate h-11 rounded px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+                  >
+                    <a
+                      href={active.href}
+                      {...(active.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    >
+                      {active.ctaLabel ?? "Learn more"}
+                      <ArrowRight aria-hidden="true" className="h-4 w-4" />
+                    </a>
+                  </Button>
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
+                  >
+                    <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
+                      <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                      Ask our team
                     </a>
                   </Button>
                 </>

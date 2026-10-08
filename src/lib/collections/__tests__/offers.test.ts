@@ -84,3 +84,10 @@ describe("formatOfferDate", () => {
     expect(formatOfferDate("2026-11-15")).toBe("15 Nov 2026");
   });
 });
+
+describe("hero limits", () => {
+  it("allows three offers in a hero of six slides", () => {
+    expect(HERO_MAX_OFFERS).toBe(3);
+    expect(HERO_MAX_SLIDES).toBe(6);
+  });
+});

@@ -5,6 +5,7 @@ import {
   getBrandsQuery,
   getAllProductsQuery,
   ACTIVE_OFFERS_QUERY,
+  HERO_MANAGER_QUERY,
 } from "../queries";
 
 function fieldNames(type: string): Set<string> {
@@ -21,7 +22,7 @@ describe("Sanity schema / query parity", () => {
   const cases: [string, string, string[]][] = [
     ["category", getCategoriesQuery, ["eyebrow", "icon", "cardVariant", "featured", "displayOrder", "primaryRail", "families", "searchKeywords", "whatsappMessage", "categoryImage", "image", "seo"]],
     ["brand", getBrandsQuery, ["authorizedStatus", "featured", "displayOrder", "description", "brandPositioning", "website", "country", "logo", "officialCatalogue", "marketingAssets", "seo"]],
-    ["offer", ACTIVE_OFFERS_QUERY, ["heroPlacement", "heroOrder", "validUntil", "offerType", "image", "brand"]],
+    ["offer", ACTIVE_OFFERS_QUERY, ["validUntil", "offerType", "image", "brand"]],
     ["product", getAllProductsQuery, ["catalogReference", "subcategoryTitle", "showroomDisplay", "featured", "heroImage", "shortDescription", "specifications", "seo"]],
   ];
 
@@ -30,6 +31,19 @@ describe("Sanity schema / query parity", () => {
     for (const f of fields) {
       expect(known.has(f), `${type}.${f} missing from schema`).toBe(true);
       if (f !== "image") expect(query, `${f} not read by query`).toContain(f);
+    }
+  });
+
+  it("heroManager and its slides: every field the query reads exists in the schema", () => {
+    const manager = fieldNames("heroManager");
+    for (const f of ["homeHero", "collectionHero"]) {
+      expect(manager.has(f), `heroManager.${f} missing from schema`).toBe(true);
+      expect(HERO_MANAGER_QUERY, `${f} not read by query`).toContain(f);
+    }
+    const slide = fieldNames("heroSlide");
+    for (const f of ["slideType", "position", "title", "subtitle", "link", "imageDesktop", "offer", "collection", "brand"]) {
+      expect(slide.has(f), `heroSlide.${f} missing from schema`).toBe(true);
+      expect(HERO_MANAGER_QUERY, `${f} not read by query`).toContain(f);
     }
   });
 

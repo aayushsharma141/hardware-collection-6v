@@ -5,6 +5,7 @@ import { CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
 import { mergeCategories, mergeProducts } from "@/lib/collections/catalogue";
 import { categoryRails, groupProducts } from "@/lib/collections/showroom";
 import type { Category, Offer } from "@/types/catalog";
+import type { HeroManagerData } from "@/types/hero";
 
 
 /** Fields every product card and list needs, in both old and new image shapes. */

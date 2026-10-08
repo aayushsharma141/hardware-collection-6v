@@ -33,6 +33,8 @@ export interface CollectionsClientProps {
   products: Product[];
   brands: Brand[];
   offers: Offer[];
+  /** The slides an editor arranged in Studio > Hero Manager, if any. */
+  heroManager?: HeroManagerData | null;
   settings?: SiteSettings | null;
   heroManager?: import("@/types/catalog").HeroManager | null;
 }
@@ -63,6 +65,7 @@ export default function CollectionsClient({
   products,
   brands: rawBrands,
   offers,
+  heroManager,
   settings,
   heroManager,
 }: CollectionsClientProps) {
