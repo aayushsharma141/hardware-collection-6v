@@ -368,16 +368,11 @@ export async function getActiveOffers(): Promise<Offer[]> {
 
 export const getHeroManagerQuery = groq`
   *[_type == "heroManager"][0] {
-    "homeHero": homeHero[] {
+    "home": homeHero[slideType != "offer" || (defined(offer->) && offer->active != false && (!defined(offer->validUntil) || dateTime(offer->validUntil + "T23:59:59Z") >= dateTime(now())) && (!defined(offer->validFrom) || dateTime(offer->validFrom + "T00:00:00Z") <= dateTime(now())))] {
       slideType,
-      "offer": select(
-        offer->active != false &&
-        (!defined(offer->validUntil) || dateTime(offer->validUntil + "T23:59:59Z") >= dateTime(now())) &&
-        (!defined(offer->validFrom) || dateTime(offer->validFrom + "T00:00:00Z") <= dateTime(now())) => offer-> {
-          _id, title, "type": offerType, description, validFrom, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
-        },
-        null
-      ),
+      "offer": offer-> {
+        _id, title, "type": offerType, description, validFrom, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
+      },
       "collection": collection-> {
         _id, name, "slug": slug.current, "imageUrl": coalesce(categoryImage, image, heroImage).asset->url, searchKeywords, description
       },
@@ -388,20 +383,16 @@ export const getHeroManagerQuery = groq`
       "imageMobileUrl": imageMobile.asset->url,
       title,
       subtitle,
-      link
+      link,
+      position
     },
-    "collectionHero": collectionHero[] {
+    "collections": collectionHero[slideType != "offer" || (defined(offer->) && offer->active != false && (!defined(offer->validUntil) || dateTime(offer->validUntil + "T23:59:59Z") >= dateTime(now())) && (!defined(offer->validFrom) || dateTime(offer->validFrom + "T00:00:00Z") <= dateTime(now())))] {
       slideType,
-      "offer": select(
-        offer->active != false &&
-        (!defined(offer->validUntil) || dateTime(offer->validUntil + "T23:59:59Z") >= dateTime(now())) &&
-        (!defined(offer->validFrom) || dateTime(offer->validFrom + "T00:00:00Z") <= dateTime(now())) => offer-> {
-          _id, title, "type": offerType, description, validFrom, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
-        },
-        null
-      ),
+      "offer": offer-> {
+        _id, title, "type": offerType, description, validFrom, validUntil, "imageUrl": image.asset->url, "brandName": brand->name
+      },
       "collection": collection-> {
-        _id, name, "slug": slug.current, "imageUrl": coalesce(categoryImage, image, heroImage).asset->url, searchKeywords, description
+        _id, name, "slug": slug.current, "primaryRail": primaryRail, "imageUrl": coalesce(categoryImage, image, heroImage).asset->url, searchKeywords, description
       },
       "brand": brand-> {
         _id, name, "slug": slug.current, "logoUrl": logo.asset->url
@@ -410,7 +401,8 @@ export const getHeroManagerQuery = groq`
       "imageMobileUrl": imageMobile.asset->url,
       title,
       subtitle,
-      link
+      link,
+      position
     }
   }
 `;

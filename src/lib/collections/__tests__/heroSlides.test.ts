@@ -22,37 +22,37 @@ describe("placeHeroSlides", () => {
   });
 
   it("replaces three of six and alternates them with the page's own", () => {
-    expect(placeHeroSlides(own, [placed("O1"), placed("O2"), placed("O3")])).toEqual([
+    expect(placeHeroSlides(own, [placed("O1"), placed("O2"), placed("O3")], 6)).toEqual([
       "F1", "O1", "F2", "O2", "F3", "O3",
     ]);
   });
 
   it("with one offer, takes one slot from the end of the page's own", () => {
-    expect(placeHeroSlides(own, [placed("O1")])).toEqual(["F1", "O1", "F2", "F3", "F4", "F5"]);
+    expect(placeHeroSlides(own, [placed("O1")], 6)).toEqual(["F1", "O1", "F2", "F3", "F4", "F5"]);
   });
 
   it("puts a pinned slide on the slot it asked for", () => {
-    expect(placeHeroSlides(own, [placed("O1", 1)])).toEqual(["O1", "F1", "F2", "F3", "F4", "F5"]);
-    expect(placeHeroSlides(own, [placed("O1", 4)])).toEqual(["F1", "F2", "F3", "O1", "F4", "F5"]);
+    expect(placeHeroSlides(own, [placed("O1", 1)], 6)).toEqual(["O1", "F1", "F2", "F3", "F4", "F5"]);
+    expect(placeHeroSlides(own, [placed("O1", 4)], 6)).toEqual(["F1", "F2", "F3", "O1", "F4", "F5"]);
   });
 
   it("places several pinned slides each on its own slot", () => {
-    expect(placeHeroSlides(own, [placed("B", 5), placed("A", 2)])).toEqual(["F1", "A", "F2", "F3", "B", "F4"]);
+    expect(placeHeroSlides(own, [placed("B", 5), placed("A", 2)], 6)).toEqual(["F1", "A", "F2", "F3", "B", "F4"]);
   });
 
   it("clamps a slot past the end to the last place", () => {
-    expect(placeHeroSlides(["F1", "F2"], [placed("O1", 6)])).toEqual(["F1", "F2", "O1"]);
+    expect(placeHeroSlides(["F1", "F2"], [placed("O1", 6)], 6)).toEqual(["F1", "F2", "O1"]);
   });
 
   it("mixes pinned and floating slides, floating ones between the page's own", () => {
-    expect(placeHeroSlides(own, [placed("P", 1), placed("O1"), placed("O2")])).toEqual([
+    expect(placeHeroSlides(own, [placed("P", 1), placed("O1"), placed("O2")], 6)).toEqual([
       "P", "F1", "O1", "F2", "O2", "F3",
     ]);
   });
 
   it("never exceeds the cap", () => {
     const many = ["a", "b", "c", "d", "e", "f", "g", "h"].map((s) => placed(s));
-    expect(placeHeroSlides(own, many)).toHaveLength(6);
+    expect(placeHeroSlides(own, many, 6)).toHaveLength(6);
   });
 });
 

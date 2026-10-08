@@ -47,8 +47,8 @@ const SCENES = [
 
 interface ShowroomCinematicProps {
   images?: string[];
-  exteriorImage?: any;
-  interiorImage?: any;
+  exteriorImage?: unknown;
+  interiorImage?: unknown;
 }
 
 export default function ShowroomCinematic({ images, exteriorImage, interiorImage }: ShowroomCinematicProps) {

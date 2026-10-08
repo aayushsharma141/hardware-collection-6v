@@ -86,6 +86,12 @@ export const heroSlideType = defineType({
       type: "url",
       hidden: ({ parent }) => !["promotional", "custom"].includes(parent?.slideType),
     }),
+    defineField({
+      name: "position",
+      title: "Position",
+      type: "number",
+      description: "Optional. Pin this slide to a specific position (1-based index). If left blank, it will float.",
+    }),
   ],
   preview: {
     select: {

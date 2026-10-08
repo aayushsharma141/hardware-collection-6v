@@ -9,7 +9,7 @@ import { urlForImage } from "@/content/sanity/lib/image";
 
 export interface ShowcaseCardProps {
   product: Product;
-  image: string | any;
+  image: string | unknown;
   onOpen: (product: Product, trigger: HTMLElement) => void;
 }
 

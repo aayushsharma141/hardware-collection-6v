@@ -39,7 +39,7 @@ export interface Product {
   application?: string;
   applications?: string[];
   imageUrl?: string;
-  image?: any;
+  image?: unknown;
   imageLqip?: string;
   images?: Array<ProductImage | string>;
   featured?: boolean;
@@ -69,7 +69,7 @@ export interface Category {
   icon?: string;
   iconName?: string;
   imageUrl?: string;
-  image?: any;
+  image?: unknown;
   imageLqip?: string;
   featured?: boolean;
   itemCount?: number;
@@ -85,7 +85,7 @@ export interface Category {
   heroImageLqip?: string;
   galleryUrls?: string[];
   searchKeywords?: string[];
-  brandRefs?: Array<{ name: string; slug: string; logo?: any; logoUrl: string | null }>;
+  brandRefs?: Array<{ name: string; slug: string; logo?: unknown; logoUrl: string | null }>;
   displayOrder?: number;
   seo?: SanitySeo;
   cta?: SanityCta;
@@ -172,7 +172,7 @@ export function getSlugString(slug?: string | { current?: string }): string {
 }
 
 export interface SiteSettings {
-  mainLogo?: any;
+  mainLogo?: unknown;
   whatsappNumber?: string;
   defaultWhatsappMessage?: string;
   primaryPhone?: string;

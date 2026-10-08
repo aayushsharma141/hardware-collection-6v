@@ -88,7 +88,7 @@ interface MaterialItem {
   description?: string;
   specification?: string;
   imageUrl?: string;
-  image?: any;
+  image?: unknown;
   sweepDelay?: string;
 }
 

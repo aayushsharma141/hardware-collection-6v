@@ -15,7 +15,7 @@ interface ConsultationSectionProps {
   heading?: string;
   description?: string;
   showMap?: boolean;
-  image?: any;
+  image?: unknown;
 }
 
 export function ConsultationSection({
