@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef, MouseEvent } from "react";
 import Image from "next/image";
 import { ArrowRight } from "lucide-react";
 import { Card } from "@/components/ui/card";
@@ -19,18 +20,33 @@ export interface ShowcaseCardProps {
  * and the quick view hands the visitor to WhatsApp or the showroom.
  */
 export default function ShowcaseCard({ product, image, onOpen }: ShowcaseCardProps) {
+  const cardRef = useRef<HTMLButtonElement>(null);
+  
+  const handleMouseMove = (e: MouseEvent<HTMLButtonElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    cardRef.current.style.setProperty("--pointer-x", `${x}px`);
+    cardRef.current.style.setProperty("--pointer-y", `${y}px`);
+  };
+
   const brand = product.brandName || product.brand;
   const blurb = product.shortDescription || product.description;
   const imageUrl = typeof image === "string" ? image : image ? urlForImage(image).url() : "";
 
   return (
-    <Card className="group h-full gap-0 overflow-hidden rounded-none border-[var(--border)] bg-[var(--surface)] p-0 shadow-none transition-colors duration-300 hover:border-[var(--color-brass)]">
+    <Card className="group h-full gap-0 overflow-hidden rounded-none border-[var(--border)] bg-[var(--surface)] p-0 shadow-none transition-colors duration-300 hover:border-[var(--color-brass)] relative">
       <button
+        ref={cardRef}
         type="button"
         aria-haspopup="dialog"
+        onMouseMove={handleMouseMove}
         onClick={(e) => onOpen(product, e.currentTarget)}
-        className="hc-focus flex h-full w-full flex-col text-left"
+        className="hc-focus flex h-full w-full flex-col text-left active:scale-[0.98] transition-transform duration-200"
       >
+        <div className="pointer-light absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" />
+        
         <span className="relative block aspect-[4/3] w-full bg-[var(--surface-raised)]">
           {imageUrl ? (
             <Image

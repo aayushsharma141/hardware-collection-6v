@@ -7,7 +7,6 @@ import { usePathname } from "next/navigation";
 import {
   SHOWROOM_PHONE_DISPLAY,
   SHOWROOM_PHONE_HREF,
-  generateWhatsAppUrl,
 } from "@/lib/config";
 // Social icons as inline SVGs for reliability
 

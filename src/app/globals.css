@@ -125,6 +125,20 @@
   /* ── Motion ──────────────────────────────────────────────── */
   --animate-gradient-x: gradient-x 15s ease infinite;
 
+  @supports (animation-timeline: scroll()) {
+    .atmospheric-bg {
+      animation: atmospheric-shift linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+
+  @keyframes atmospheric-shift {
+    0% { background-color: rgb(252, 250, 248); }
+    35% { background-color: rgb(246, 244, 242); }
+    70% { background-color: rgb(250, 248, 246); }
+    100% { background-color: rgb(252, 250, 248); }
+  }
+
   @keyframes gradient-x {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }

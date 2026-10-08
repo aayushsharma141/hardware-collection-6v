@@ -85,8 +85,8 @@ export default function HeroStage({ slides }: HeroStageProps) {
       if (heroH1) {
         tl.fromTo(
           heroH1,
-          { y: "60%", opacity: 0 },
-          { y: "0%", opacity: 1, duration: 0.9, ease: "power3.out" },
+          { y: "100%", opacity: 0 },
+          { y: "0%", opacity: 1, duration: 1.2, ease: "power4.out" },
           0
         );
       }
@@ -155,7 +155,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
         <Image
           key={`bg-${currentSlideIndex}`}
           alt="Architectural brass hardware in the Hardware Collection showroom"
-          className="hero-bg-image absolute inset-0 h-full w-full object-cover opacity-[0.45] transition-opacity duration-700 will-change-transform"
+          className="hero-bg-image absolute inset-0 h-full w-full object-cover opacity-[0.80] transition-opacity duration-700 will-change-transform"
           fill
           priority
           sizes="(min-width: 1024px) 100vw, 1px"
@@ -166,7 +166,8 @@ export default function HeroStage({ slides }: HeroStageProps) {
           <span className="text-[12px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending Background</span>
         </div>
       )}
-      <div className="absolute inset-y-0 left-0 w-[62%] bg-gradient-to-r from-[var(--surface)] via-[var(--surface)]/[0.94] to-transparent" />
+      <div className="absolute inset-0 bg-[var(--surface)]/30" />
+      <div className="absolute inset-y-0 left-0 w-[70%] bg-gradient-to-r from-[var(--surface)] via-[var(--surface)]/[0.85] to-transparent" />
 
 
       {/* Main Content Area */}
@@ -315,7 +316,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
               key={s.id || idx}
               type="button"
               onClick={() => setCurrentSlideIndex(idx)}
-              className="group py-2.5 px-0.5 cursor-pointer focus:outline-none flex items-center"
+              className="group py-2.5 px-0.5 cursor-pointer hc-focus flex items-center"
               aria-label={`Go to slide ${idx + 1}`}
             >
               <div
