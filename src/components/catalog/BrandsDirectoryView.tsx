@@ -268,17 +268,17 @@ export default function BrandsDirectoryView({
   };
 
   return (
-    <div className="w-full bg-[#fbfaf8] text-[#1a1017]">
-      {/* ── 01. Hero & Header Section (Mockup 3 Split Design) ─────────────────────────────────── */}
+    <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
+      {/* ── 01. Hero & Header Section (Split Design) ─────────────────────────────────── */}
       <section className="pt-12 sm:pt-16 pb-12 sm:pb-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <span className="hc-mono text-[11px] font-medium tracking-[0.22em] text-[#8b1a42] uppercase block mb-3">
+          <span className="hc-mono text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-3">
             MANUFACTURER REFERENCE LIBRARY
           </span>
-          <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[#1a1017] tracking-tight mb-4">
+          <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4">
             Brands & Catalogues
           </h1>
-          <p className="text-[16px] sm:text-[18px] text-[#635860] font-light max-w-2xl mx-auto">
+          <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] font-light max-w-2xl mx-auto">
             Official manufacturer catalogues, technical references and product specifications from our authorized partners.
           </p>
         </div>
@@ -286,15 +286,15 @@ export default function BrandsDirectoryView({
         {/* The Two Entry Points */}
         <div className="grid md:grid-cols-2 gap-6 lg:gap-10 max-w-5xl mx-auto mb-16">
           {/* Left: I know the brand */}
-          <div className="bg-white border border-[#1a1017]/[0.08] p-8 sm:p-10 shadow-[0_2px_12px_rgba(26,16,23,0.02)] relative overflow-hidden">
-            <h2 className="hc-serif text-2xl font-normal text-[#1a1017] mb-2 relative z-10">I know the brand</h2>
-            <p className="text-sm text-[#786e75] mb-8 relative z-10">Jump directly to a manufacturer to view their official catalogues.</p>
+          <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-8 sm:p-10 shadow-[0_2px_12px_rgba(26,16,23,0.02)] relative overflow-hidden">
+            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-2 relative z-10">I know the brand</h2>
+            <p className="text-sm text-[var(--text-secondary)] mb-8 relative z-10">Jump directly to a manufacturer to view their official catalogues.</p>
             <div className="relative z-10 flex flex-wrap gap-2">
               {ALPHABET_NAV.map((letter) => (
                 <button
                   key={letter}
                   onClick={() => scrollToLetter(letter)}
-                  className="w-10 h-10 flex items-center justify-center bg-[#fbfaf8] border border-[#1a1017]/[0.08] hover:border-[#8b1a42] hover:text-[#8b1a42] text-[#1a1017] transition-colors hc-serif text-lg"
+                  className="w-10 h-10 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] text-[var(--text-primary)] transition-colors hc-serif text-lg"
                 >
                   {letter}
                 </button>
@@ -303,17 +303,17 @@ export default function BrandsDirectoryView({
           </div>
 
           {/* Right: I'm looking for something */}
-          <div className="bg-[#f8f6f3] border border-[#1a1017]/[0.05] p-8 sm:p-10 relative overflow-hidden">
-            <h2 className="hc-serif text-2xl font-normal text-[#1a1017] mb-2 relative z-10">I&apos;m looking for something</h2>
-            <p className="text-sm text-[#786e75] mb-8 relative z-10">Find hardware by application or category across all our brands.</p>
+          <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-8 sm:p-10 relative overflow-hidden shadow-[0_2px_12px_rgba(26,16,23,0.02)]">
+            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-2 relative z-10">I&apos;m looking for something</h2>
+            <p className="text-sm text-[var(--text-secondary)] mb-8 relative z-10">Find hardware by application or category across all our brands.</p>
             
             <div className="flex flex-wrap gap-2.5 relative z-10">
-              <Link href="/collections#doors" className="text-[13px] font-medium border border-[#1a1017]/10 bg-white px-4 py-2 hover:border-[#8b1a42] hover:text-[#8b1a42] transition-colors">Doors</Link>
-              <Link href="/collections#kitchen" className="text-[13px] font-medium border border-[#1a1017]/10 bg-white px-4 py-2 hover:border-[#8b1a42] hover:text-[#8b1a42] transition-colors">Kitchen</Link>
-              <Link href="/collections#wardrobe" className="text-[13px] font-medium border border-[#1a1017]/10 bg-white px-4 py-2 hover:border-[#8b1a42] hover:text-[#8b1a42] transition-colors">Wardrobe</Link>
-              <Link href="/collections#security" className="text-[13px] font-medium border border-[#1a1017]/10 bg-white px-4 py-2 hover:border-[#8b1a42] hover:text-[#8b1a42] transition-colors">Security</Link>
-              <Link href="/collections#bathroom" className="text-[13px] font-medium border border-[#1a1017]/10 bg-white px-4 py-2 hover:border-[#8b1a42] hover:text-[#8b1a42] transition-colors">Bathroom</Link>
-              <Link href="/collections" className="text-[13px] font-medium border border-transparent bg-[#1a1017]/[0.04] px-4 py-2 hover:bg-[#1a1017]/[0.08] transition-colors flex items-center gap-1">
+              <Link href="/collections#doors" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Doors</Link>
+              <Link href="/collections#kitchen" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Kitchen</Link>
+              <Link href="/collections#wardrobe" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Wardrobe</Link>
+              <Link href="/collections#security" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Security</Link>
+              <Link href="/collections#bathroom" className="text-[13px] font-medium border border-[var(--border)] bg-[var(--surface)] px-4 py-2 hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors">Bathroom</Link>
+              <Link href="/collections" className="text-[13px] font-medium border border-transparent bg-[var(--text-primary)]/[0.04] px-4 py-2 hover:bg-[var(--text-primary)]/[0.08] transition-colors flex items-center gap-1">
                 Explore all <span>→</span>
               </Link>
             </div>
@@ -324,14 +324,14 @@ export default function BrandsDirectoryView({
       {/* ── 01b. Brand Marquee Strip ────────────────────────────────────────── */}
       <BrandTrustStrip brands={brands} hideHeader={true} />
 
-      {/* ── 02. Featured Partners (Trimmed to 4) ──────────────────────────── */}
-      <section id="featured" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 border-t border-[#1a1017]/[0.08]">
+      {/* ── 02. Featured Partners (Key Manufacturers) ──────────────────────────── */}
+      <section id="featured" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
             <div>
-              <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[#8b1a42] uppercase block mb-2">
+              <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
                 Featured
               </span>
-              <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[#1a1017] tracking-tight">
+              <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
                 Key manufacturers
               </h2>
             </div>
@@ -340,7 +340,7 @@ export default function BrandsDirectoryView({
                 const el = document.getElementById("all-brands");
                 if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
               }}
-              className="text-[13px] font-medium text-[#1a1017] hover:text-[#8b1a42] inline-flex items-center gap-1 transition-colors"
+              className="text-[13px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] inline-flex items-center gap-1 transition-colors"
             >
               <span>View all brands</span>
               <span>→</span>
@@ -355,50 +355,50 @@ export default function BrandsDirectoryView({
                   const el = document.getElementById(`brand-${brand.id}`);
                   if (el) {
                     el.scrollIntoView({ behavior: "smooth", block: "center" });
-                    el.classList.add("ring-1", "ring-[#8b1a42]", "ring-offset-4");
-                    setTimeout(() => el.classList.remove("ring-1", "ring-[#8b1a42]", "ring-offset-4"), 1500);
+                    el.classList.add("ring-1", "ring-[var(--color-wine)]", "ring-offset-4");
+                    setTimeout(() => el.classList.remove("ring-1", "ring-[var(--color-wine)]", "ring-offset-4"), 1500);
                   } else {
                     scrollToLetter(brand.letter);
                   }
                 }}
-                className="text-left bg-white border border-[#1a1017]/[0.09] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] shadow-[0_1px_4px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_12px_rgba(26,16,23,0.06)] hover:border-[#1a1017]/20 transition-all group"
+                className="text-left bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] shadow-[0_1px_4px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.06)] hover:border-[var(--color-wine)]/30 transition-all group"
               >
                 <div>
-                  <h3 className="hc-serif text-2xl font-normal text-[#1a1017] mb-2 group-hover:text-[#8b1a42] transition-colors">
+                  <h3 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-2 group-hover:text-[var(--color-wine)] transition-colors">
                     {brand.name}
                   </h3>
-                  <p className="text-[13px] text-[#635860] leading-relaxed font-light">
+                  <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed font-light">
                     {brand.featuredDescription}
                   </p>
                 </div>
                 <div className="mt-4 flex justify-end">
-                  <span className="text-[#1a1017]/40 group-hover:text-[#8b1a42] transition-colors">→</span>
+                  <span className="text-[var(--text-primary)]/40 group-hover:text-[var(--color-wine)] transition-colors">→</span>
                 </div>
               </button>
             ))}
           </div>
         </section>
 
-      {/* ── 03. Official Catalogue Library (Mockup 1 List Rows) ─────────────────── */}
-      <section id="all-brands" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 border-t border-[#1a1017]/[0.08]">
+      {/* ── 03. Official Catalogue Library ─────────────────── */}
+      <section id="all-brands" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 border-t border-[var(--border)]">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
-            <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[#8b1a42] uppercase block mb-2">
+            <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
               All Partners
             </span>
-            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[#1a1017] tracking-tight">
+            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
               Official Catalogue Library
             </h2>
           </div>
 
           {/* Alphabet Jump Bar */}
-          <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-[13px] font-medium tracking-widest text-[#786e75]">
+          <div className="flex flex-wrap items-center gap-3 sm:gap-5 text-[13px] font-medium tracking-widest text-[var(--text-secondary)]">
             {ALPHABET_NAV.map((letter) => (
               <button
                 key={letter}
                 type="button"
                 onClick={() => scrollToLetter(letter)}
-                className="hover:text-[#8b1a42] transition-colors duration-150 focus:outline-none"
+                className="hover:text-[var(--color-wine)] transition-colors duration-150 focus:outline-none"
                 aria-label={`Jump to letter ${letter}`}
               >
                 {letter}
@@ -410,8 +410,8 @@ export default function BrandsDirectoryView({
         <div className="space-y-8">
           {groupedDirectory.map(({ letter, items }) => (
             <div key={letter} id={`letter-${letter}`} className="scroll-mt-28">
-              <div className="pb-3 mb-4 border-b border-[#1a1017]/[0.08]">
-                <h3 className="hc-serif text-2xl font-normal text-[#1a1017]/50 leading-none">
+              <div className="pb-3 mb-4 border-b border-[var(--border)]">
+                <h3 className="hc-serif text-2xl font-normal text-[var(--text-primary)]/50 leading-none">
                   {letter}
                 </h3>
               </div>
@@ -421,11 +421,11 @@ export default function BrandsDirectoryView({
                   <div
                     key={brand.id}
                     id={`brand-${brand.id}`}
-                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-white border border-[#1a1017]/[0.08] hover:border-[#1a1017]/20 transition-all shadow-[0_1px_3px_rgba(26,16,23,0.02)]"
+                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition-all shadow-[0_1px_3px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.04)]"
                   >
                     {/* Left: Brand Identity */}
                     <div className="flex items-center gap-5 md:w-[35%] shrink-0 mb-4 md:mb-0">
-                      <div className="w-20 h-14 bg-white flex items-center justify-center shrink-0">
+                      <div className="w-20 h-14 bg-white border border-[var(--border)] flex items-center justify-center shrink-0 p-2">
                         {brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo ? (
                           <img
                             src={(brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo) as string}
@@ -433,19 +433,19 @@ export default function BrandsDirectoryView({
                             className="max-w-full max-h-full object-contain"
                           />
                         ) : (
-                          <div className="w-14 h-14 bg-[#f4eee6]/80 flex items-center justify-center border border-[#1a1017]/[0.04]">
-                            <span className="hc-serif text-2xl font-normal text-[#8c827a]">
+                          <div className="w-14 h-14 bg-[var(--surface-elevated)] flex items-center justify-center border border-[var(--border)]">
+                            <span className="hc-serif text-2xl font-normal text-[var(--text-secondary)]">
                               {brand.initial}
                             </span>
                           </div>
                         )}
                       </div>
                       <div>
-                        <h4 className="text-xl hc-serif text-[#1a1017] mb-0.5">
+                        <h4 className="text-xl hc-serif text-[var(--text-primary)] mb-0.5">
                           {brand.name}
                         </h4>
                         {brand.country && (
-                          <span className="text-[11px] text-[#786e75] uppercase tracking-wider">
+                          <span className="text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
                             {brand.country}
                           </span>
                         )}
@@ -454,7 +454,7 @@ export default function BrandsDirectoryView({
 
                     {/* Middle: Specialization */}
                     <div className="md:w-[40%] mb-5 md:mb-0 md:pr-8">
-                      <p className="text-[13.5px] text-[#635860] leading-relaxed font-light">
+                      <p className="text-[13.5px] text-[var(--text-secondary)] leading-relaxed font-light">
                         {brand.directoryDescription}
                       </p>
                     </div>
@@ -464,7 +464,7 @@ export default function BrandsDirectoryView({
                       <button
                         type="button"
                         onClick={() => handleOpenCatalogue(brand)}
-                        className="w-full sm:w-auto px-5 py-2.5 bg-[#8b1a42] text-white text-[12px] font-medium hover:bg-[#6b1432] transition-colors whitespace-nowrap"
+                        className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm"
                       >
                         VIEW CATALOGUE
                       </button>
@@ -474,7 +474,7 @@ export default function BrandsDirectoryView({
                           href={brand.website}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="w-full sm:w-auto px-5 py-2.5 border border-[#1a1017]/20 text-[#1a1017] text-[12px] font-medium hover:border-[#1a1017] transition-colors text-center whitespace-nowrap"
+                          className="w-full sm:w-auto px-5 py-2.5 border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] text-[12px] font-medium hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors text-center whitespace-nowrap"
                         >
                           VISIT WEBSITE
                         </a>
@@ -488,11 +488,11 @@ export default function BrandsDirectoryView({
         </div>
       </section>
 
-      {/* ── 04. How It Works Strip (Mockup 2 Workflow) ────────────────── */}
-      <section className="py-16 sm:py-20 bg-[#1a1017] text-white">
+      {/* ── 04. How It Works Strip ────────────────── */}
+      <section className="py-16 sm:py-20 bg-[var(--color-obsidian)] text-white">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="hc-mono text-[11px] font-medium tracking-[0.25em] text-[#e3ded9]/60 uppercase block mb-3">
+            <span className="hc-mono text-[11px] font-medium tracking-[0.25em] text-[var(--color-bone)]/60 uppercase block mb-3">
               How to use the catalogue
             </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-white tracking-tight">
@@ -505,41 +505,41 @@ export default function BrandsDirectoryView({
             <div className="hidden md:block absolute top-[28px] left-[15%] right-[15%] h-[1px] bg-white/10" />
 
             <div className="text-center relative z-10">
-              <div className="w-14 h-14 mx-auto bg-[#1a1017] border border-white/20 flex items-center justify-center rounded-full mb-5">
-                <span className="hc-mono text-sm text-[#e3ded9]">01</span>
+              <div className="w-14 h-14 mx-auto bg-[var(--color-obsidian)] border border-white/20 flex items-center justify-center rounded-full mb-5">
+                <span className="hc-mono text-sm text-[var(--color-bone)]">01</span>
               </div>
               <h4 className="text-[13px] font-medium mb-2 tracking-wide uppercase">Browse</h4>
-              <p className="text-[13px] text-[#e3ded9]/70 font-light leading-relaxed max-w-[180px] mx-auto">
+              <p className="text-[13px] text-[var(--color-bone)]/70 font-light leading-relaxed max-w-[180px] mx-auto">
                 Open the official manufacturer catalogue.
               </p>
             </div>
             
             <div className="text-center relative z-10">
-              <div className="w-14 h-14 mx-auto bg-[#1a1017] border border-white/20 flex items-center justify-center rounded-full mb-5">
-                <span className="hc-mono text-sm text-[#e3ded9]">02</span>
+              <div className="w-14 h-14 mx-auto bg-[var(--color-obsidian)] border border-white/20 flex items-center justify-center rounded-full mb-5">
+                <span className="hc-mono text-sm text-[var(--color-bone)]">02</span>
               </div>
               <h4 className="text-[13px] font-medium mb-2 tracking-wide uppercase">Find</h4>
-              <p className="text-[13px] text-[#e3ded9]/70 font-light leading-relaxed max-w-[180px] mx-auto">
+              <p className="text-[13px] text-[var(--color-bone)]/70 font-light leading-relaxed max-w-[180px] mx-auto">
                 Search or jump to a specific reference page.
               </p>
             </div>
 
             <div className="text-center relative z-10">
-              <div className="w-14 h-14 mx-auto bg-[#1a1017] border border-white/20 flex items-center justify-center rounded-full mb-5">
-                <span className="hc-mono text-sm text-[#e3ded9]">03</span>
+              <div className="w-14 h-14 mx-auto bg-[var(--color-obsidian)] border border-white/20 flex items-center justify-center rounded-full mb-5">
+                <span className="hc-mono text-sm text-[var(--color-bone)]">03</span>
               </div>
               <h4 className="text-[13px] font-medium mb-2 tracking-wide uppercase">Mark</h4>
-              <p className="text-[13px] text-[#e3ded9]/70 font-light leading-relaxed max-w-[180px] mx-auto">
+              <p className="text-[13px] text-[var(--color-bone)]/70 font-light leading-relaxed max-w-[180px] mx-auto">
                 Circle the exact hardware you need.
               </p>
             </div>
 
             <div className="text-center relative z-10">
-              <div className="w-14 h-14 mx-auto bg-[#1a1017] border border-[#8b1a42] bg-[#8b1a42]/10 flex items-center justify-center rounded-full mb-5">
-                <span className="hc-mono text-sm text-[#8b1a42]">04</span>
+              <div className="w-14 h-14 mx-auto bg-[var(--color-obsidian)] border border-[var(--color-wine)] bg-[var(--color-wine)]/10 flex items-center justify-center rounded-full mb-5">
+                <span className="hc-mono text-sm text-[var(--color-wine)]">04</span>
               </div>
               <h4 className="text-[13px] font-medium mb-2 tracking-wide uppercase">Send</h4>
-              <p className="text-[13px] text-[#e3ded9]/70 font-light leading-relaxed max-w-[180px] mx-auto">
+              <p className="text-[13px] text-[var(--color-bone)]/70 font-light leading-relaxed max-w-[180px] mx-auto">
                 Send the reference to our team on WhatsApp.
               </p>
             </div>
@@ -551,18 +551,18 @@ export default function BrandsDirectoryView({
       <section className="py-16 sm:py-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {/* Ask an expert */}
-          <div className="bg-white border border-[#1a1017]/[0.08] p-8 sm:p-12 text-center">
-            <h2 className="hc-serif text-2xl font-normal text-[#1a1017] mb-3">
+          <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-8 sm:p-12 text-center shadow-[0_2px_12px_rgba(26,16,23,0.02)]">
+            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-3">
               Need help identifying something?
             </h2>
-            <p className="text-sm text-[#786e75] font-light mb-8 max-w-[280px] mx-auto">
+            <p className="text-sm text-[var(--text-secondary)] font-light mb-8 max-w-[280px] mx-auto">
               Our showroom experts can help you specify the right hardware.
             </p>
             <a
               href={buildWhatsAppUrl("Hi Hardware Collection, I need some help identifying and specifying hardware.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 text-[13px] font-medium tracking-wide text-[#1a1017] border border-[#1a1017]/[0.15] hover:border-[#1a1017] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 text-[13px] font-medium tracking-wide text-[var(--text-primary)] border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors"
             >
               <span>Ask an expert</span>
               <span>→</span>
@@ -570,7 +570,7 @@ export default function BrandsDirectoryView({
           </div>
 
           {/* Physical copy */}
-          <div className="bg-[#1a1017] p-8 sm:p-12 text-center border border-[#1a1017]">
+          <div className="bg-[var(--color-obsidian)] p-8 sm:p-12 text-center border border-[var(--color-obsidian)]">
             <h2 className="hc-serif text-2xl font-normal text-white mb-3">
               Need a physical copy?
             </h2>
@@ -581,7 +581,7 @@ export default function BrandsDirectoryView({
               href={buildWhatsAppUrl("Hi Hardware Collection, I would like to request a physical manufacturer catalogue.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 text-[13px] font-medium tracking-wide text-white bg-[#8b1a42] hover:bg-[#6b1432] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 text-[13px] font-medium tracking-wide text-white bg-[var(--color-wine)] hover:bg-[var(--color-wine-deep)] transition-colors"
             >
               <span>Request via WhatsApp</span>
               <span>→</span>

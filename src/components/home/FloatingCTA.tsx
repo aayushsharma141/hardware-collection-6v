@@ -99,7 +99,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
             {displayReviews.map((rev, idx) => (
               <div
                 key={idx}
-                className="bg-[#fcf9f2] border border-[var(--border)] p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
+                className="bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
               >
                 <div>
                   <span className="hc-serif text-3xl sm:text-4xl text-[var(--color-brass)] leading-none block mb-3 select-none">
@@ -124,7 +124,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
 
           {/* Mobile View: Clean Active Card */}
           <div className="block sm:hidden">
-            <div className="bg-[#fcf9f2] border border-[var(--border)] p-6 flex flex-col justify-between rounded-none">
+            <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-6 flex flex-col justify-between rounded-none">
               <div>
                 <span className="hc-serif text-3xl text-[var(--color-brass)] leading-none block mb-2 select-none">
                   &ldquo;
@@ -200,7 +200,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
             </div>
 
             {/* Right 4 Cols: Location & Hours Card with CTAs */}
-            <div className="lg:col-span-4 bg-[#fcf9f2] border border-[var(--border)] p-6 sm:p-7 flex flex-col justify-between">
+            <div className="lg:col-span-4 bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-7 flex flex-col justify-between">
               <div className="space-y-4">
                 {/* Location */}
                 <div className="flex items-start gap-3">

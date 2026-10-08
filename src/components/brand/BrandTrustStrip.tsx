@@ -14,8 +14,19 @@ export interface BrandItem {
   imageStyle?: React.CSSProperties;
 }
 
+import { Brand } from "@/types/catalog";
+
+export interface BrandInputItem {
+  slug?: string | { current?: string } | null;
+  id?: string | null;
+  name?: string | null;
+  brandName?: string | null;
+  logo?: string | null;
+  logoUrl?: string | null;
+}
+
 interface BrandTrustStripProps {
-  brands?: any[]; // Accepts both Sanity brand shape and standard Brand[] shape
+  brands?: (Brand | BrandInputItem)[];
   hideHeader?: boolean;
 }
 
@@ -77,16 +88,18 @@ const FEATURED_BRANDS: BrandItem[] = [
 ];
 
 export default function BrandTrustStrip({ brands, hideHeader }: BrandTrustStripProps) {
-  const activeBrands =
+  const activeBrands: BrandItem[] =
     brands && brands.length > 0
       ? brands.map((b) => {
           const slugStr = typeof b.slug === "object" ? b.slug?.current : b.slug;
-          const key = slugStr || b.id || b.name?.toLowerCase().replace(/[^a-z0-9]/g, "");
+          const key = slugStr || b.id || (typeof b.name === "string" ? b.name.toLowerCase().replace(/[^a-z0-9]/g, "") : "");
           const canonical = CANONICAL_BRANDS.find((c) => c.id === key);
+          const brandName = ("brandName" in b && b.brandName ? b.brandName : b.name) || "Brand";
+          const brandLogo = canonical?.logo || (typeof b.logoUrl === "string" ? b.logoUrl : undefined) || (typeof b.logo === "string" ? b.logo : undefined);
           return {
-            name: b.brandName || b.name,
+            name: brandName,
             id: key,
-            logo: canonical?.logo || b.logoUrl || b.logo,
+            logo: brandLogo,
             href: `/catalogues?brand=${key}`,
           };
         })
@@ -104,7 +117,7 @@ export default function BrandTrustStrip({ brands, hideHeader }: BrandTrustStripP
   return (
     <section
       id="brands"
-      className={`py-10 lg:py-16 bg-[var(--surface)] ${hideHeader ? 'pt-4' : 'border-b'} border-[var(--border)] relative z-10 scroll-mt-20 overflow-hidden`}
+      className={`py-8 sm:py-12 bg-[var(--surface)] ${hideHeader ? "border-y" : "border-b"} border-[var(--border)] relative z-10 scroll-mt-20 overflow-hidden`}
     >
       {!hideHeader && (
         <div className="max-w-[1440px] mx-auto px-5 lg:px-16 mb-6 sm:mb-8">

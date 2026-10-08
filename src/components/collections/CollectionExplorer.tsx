@@ -60,7 +60,7 @@ export default function CollectionExplorer({
     : [];
 
   return (
-    <section className="w-full bg-[#fbf5ea]">
+    <section className="w-full bg-[var(--surface)]">
       <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 py-16 md:py-24">
         {!activeSection ? (
           /* ═══════ LEVEL 1: HEADING + FULL-WIDTH ROWS ═══════ */
@@ -180,7 +180,7 @@ export default function CollectionExplorer({
                     href={enquiryHref(category.name)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex flex-col text-left border border-[#1a1017]/10 bg-[#fbf5ea] hover:border-[#8B1A42]/30 transition-colors overflow-hidden"
+                    className="group flex flex-col text-left border border-[var(--border)] bg-[var(--surface-raised)] hover:border-[var(--color-wine)]/30 transition-colors overflow-hidden"
                   >
                     {/* Category Image */}
                     <div className="w-full aspect-[4/3] bg-[#1a1017]/[0.04] relative overflow-hidden border-b border-[#1a1017]/10">
@@ -193,7 +193,7 @@ export default function CollectionExplorer({
                           className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
                         />
                       ) : (
-                        <div className="absolute inset-0 bg-[#f5efe3]" />
+                        <div className="absolute inset-0 bg-[var(--surface-elevated)]" />
                       )}
                     </div>
 
@@ -221,7 +221,7 @@ export default function CollectionExplorer({
             </div>
 
             {/* WhatsApp CTA */}
-            <div className="w-full border border-[#1a1017]/10 bg-[#fbf5ea] p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div className="w-full border border-[var(--border)] bg-[var(--surface-raised)] p-6 sm:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
               <div className="flex flex-col gap-2">
                 <h3 className="hc-serif text-2xl sm:text-3xl text-[#1a1017]">
                   Not sure what you need?
@@ -233,7 +233,7 @@ export default function CollectionExplorer({
               </div>
               <Button
                 asChild
-                className="bg-[#8B1A42] hover:bg-[#6A1231] text-white h-12 rounded-none px-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors shrink-0"
+                className="bg-[var(--color-wine)] hover:bg-[var(--color-wine-deep)] text-white h-12 rounded-none px-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors shrink-0"
               >
                 <a
                   href={enquiryHref(activeSection.group.title)}
