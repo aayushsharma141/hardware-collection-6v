@@ -436,7 +436,7 @@ export default function BrandsDirectoryView({
                     </div>
 
                     {/* Right: Actions */}
-                    <div className="flex flex-col sm:flex-row items-center gap-3 md:w-[25%] md:justify-end shrink-0">
+                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 w-full md:w-[25%] shrink-0 mt-4 md:mt-0">
                       {brand.website && (
                         <a
                           href={brand.website}
