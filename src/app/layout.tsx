@@ -55,14 +55,49 @@ const CANONICAL_HOST = "https://www.hardwarecollection.co";
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   const seo = settings?.seo;
+  const title = seo?.metaTitle || "Hardware Showroom Sakchi, Jamshedpur | Hardware Collection";
+  const description =
+    seo?.metaDescription ||
+    "Authorized Hafele & Dorset Dealer in Sakchi, Jamshedpur. Premium architectural hardware, modular kitchens, and digital locks.";
 
   return {
     metadataBase: new URL(CANONICAL_HOST),
     title: {
-      default: seo?.metaTitle || "Hardware Showroom Sakchi, Jamshedpur | Hardware Collection",
+      default: title,
       template: "%s | Hardware Collection",
     },
-    description: seo?.metaDescription || "Authorized Hafele & Dorset Dealer in Sakchi, Jamshedpur. Premium architectural hardware and digital locks.",
+    description,
+    manifest: "/manifest.webmanifest",
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+      ],
+      apple: [
+        { url: "/apple-icon", sizes: "180x180", type: "image/png" },
+      ],
+    },
+    openGraph: {
+      type: "website",
+      locale: "en_IN",
+      url: CANONICAL_HOST,
+      siteName: "Hardware Collection",
+      title,
+      description,
+      images: [
+        {
+          url: "/opengraph-image",
+          width: 1200,
+          height: 630,
+          alt: "Hardware Collection — Flagship Architectural Hardware Showroom in Sakchi, Jamshedpur",
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: ["/opengraph-image"],
+    },
   };
 }
 
