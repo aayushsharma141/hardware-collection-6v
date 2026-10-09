@@ -40,9 +40,15 @@ export async function POST(request: Request) {
     
     // 2. Honeypot check
     if (payload._honey) {
-      logger.info("api.honeypot_triggered", { ip, payload });
-      // Act like it succeeded to fool bots
-      return NextResponse.json({ success: true, lead_id: "HC-HONEYPOT", telegram_status: "sent" });
+      logger.info("api.honeypot_triggered", { ip, honeypotField: "_honey" });
+      // Act like it succeeded to fool bots while maintaining standard response contract
+      return NextResponse.json({
+        success: true,
+        data: {
+          lead_id: "HC-HONEYPOT",
+          telegram_status: "sent",
+        },
+      });
     }
 
     // 3. Validation
