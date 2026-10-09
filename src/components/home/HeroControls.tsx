@@ -21,7 +21,7 @@ export function HeroControls({ totalSlides, activeIndex, onNext, onPrev }: HeroC
     <div className="absolute bottom-8 lg:bottom-12 left-6 lg:left-16 flex items-center gap-6 z-[20]">
       <button 
         onClick={onPrev}
-        className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brass)]"
+        className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white motion-safe:active:scale-[0.97] transition-[color,transform] duration-150 ease-[var(--ease-out)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brass)]"
         aria-label="Previous slide"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
@@ -46,7 +46,7 @@ export function HeroControls({ totalSlides, activeIndex, onNext, onPrev }: HeroC
 
       <button 
         onClick={onNext}
-        className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brass)]"
+        className="w-10 h-10 flex items-center justify-center text-zinc-400 hover:text-white motion-safe:active:scale-[0.97] transition-[color,transform] duration-150 ease-[var(--ease-out)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-brass)]"
         aria-label="Next slide"
       >
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
