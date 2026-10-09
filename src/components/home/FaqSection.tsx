@@ -104,8 +104,8 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
                   id={`faq-answer-${faq._id}`}
                   className={`grid transition-[grid-template-rows,opacity] duration-350 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none ${
                     isOpen
-                      ? "grid-template-rows-[1fr] opacity-100"
-                      : "grid-template-rows-[0fr] opacity-0"
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
                   }`}
                   aria-hidden={!isOpen}
                 >
