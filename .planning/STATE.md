@@ -16,7 +16,7 @@ progress:
 
 **Active Project:** Hardware Collection
 **Last Updated:** 2026-10-09
-**Active Phase:** Phase 16 — Local Search Entity & SEO Foundation (Complete)
+**Active Phase:** Phase 17 — Animation Opportunities & Motion System Integration (Planned)
 **Feature Development:** FROZEN
 
 ## Status Summary
@@ -40,6 +40,7 @@ Phase 13 📋  Planned (CMS Photography & Scheduled Offers)
 Phase 14 ✅  Complete (UI/UX Refinement & Anti-UI-Slop Standardization)
 Phase 15 ✅  Complete (Animation Polish & GPU Acceleration / Content Updates)
 Phase 16 ✅  Complete (Local Search Entity & Technical SEO Foundation)
+Phase 17 📋  Planned (Animation Opportunities & Motion System Integration)
 ```
 
 ## Known P0 Blocker
@@ -63,7 +64,7 @@ Production console audit (npm run build)
         ↓
 Mukesh business-truth acceptance
         ↓
-Vercel deployment → hardwarecollection.co
+Vercel deployment → hardwarecollection.co (set SITE_INDEXABLE=true)
         ↓
 Search Console + GBP + Analytics
 ```
@@ -153,7 +154,7 @@ number resolved above in Phase 9 Business-Truth Confirmations.
 
 ## Phase 16 Business-Truth Confirmations
 
-Owner-confirmed 2026-10-09:
+Owner-decided 2026-10-09:
 - **Title Strategy (Option 3):** Confirmed titles keeping local search keywords under 60 characters to prevent SERP truncation:
   - Homepage: `Hardware Showroom Sakchi, Jamshedpur | Hardware Collection` (58 chars)
   - Collections: `Hardware Collections | Door, Kitchen, Wardrobe | Jamshedpur` (58 chars)
