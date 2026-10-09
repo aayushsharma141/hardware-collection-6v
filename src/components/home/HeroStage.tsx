@@ -287,7 +287,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
                   type="button"
                   onClick={handlePrevSlide}
                   aria-label="Previous specimen"
-                  className="hc-focus p-2 text-[var(--color-wine)] hover:brightness-110 transition-colors"
+                  className="hc-focus p-2 text-[var(--color-wine)] hover:brightness-110 motion-safe:active:scale-[0.97] transition-[color,scale] duration-150 ease-[var(--ease-out)]"
                 >
                   <ChevronLeft className="w-4 h-4" />
                 </button>
@@ -295,7 +295,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
                   type="button"
                   onClick={handleNextSlide}
                   aria-label="Next specimen"
-                  className="hc-focus p-2 text-[var(--color-wine)] hover:brightness-110 transition-colors"
+                  className="hc-focus p-2 text-[var(--color-wine)] hover:brightness-110 motion-safe:active:scale-[0.97] transition-[color,scale] duration-150 ease-[var(--ease-out)]"
                 >
                   <ChevronRight className="w-4 h-4" />
                 </button>
