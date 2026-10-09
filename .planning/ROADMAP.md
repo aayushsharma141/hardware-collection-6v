@@ -121,10 +121,10 @@
   - Coordinates & Hours: Repo defaults `22.8028401, 86.2015` and Studio hours fallback (Owner-decided 2026-10-09)
   See `.planning/phases/16-local-search-seo/16-CONTEXT.md`.
 
-- [ ] **Phase 17 — Animation Opportunities & Motion System Integration** 📋 PLANNED
+- [x] **Phase 17 — Animation Opportunities & Motion System Integration** ✅ COMPLETE
   Implement targeted, utility-driven animations and motion system refinements across the showroom, catalogue viewer, and consultation funnel with mandatory reduced-motion guards:
-  - Plan 17-01: Hero carousel controls tactile press feedback & FAQ CSS Grid accordion expansion
-  - Plan 17-02: Lead consultation form submission `<AnimatePresence mode="wait">` state cross-fade
-  - Plan 17-03: Catalogue viewer modal sheets slide transitions, `useIsDesktop` breakpoint hook, and wrapper motion architecture
+  - Plan 17-01: Hero carousel controls tactile press feedback & FAQ CSS Grid accordion expansion ✅
+  - Plan 17-02: Lead consultation form submission `<AnimatePresence mode="wait">` state cross-fade ✅
+  - Plan 17-03: Catalogue viewer modal sheets slide transitions, `useIsDesktop` breakpoint hook, and wrapper motion architecture ✅
   See `.planning/phases/17-animation-motion-system/17-CONTEXT.md`.
 
