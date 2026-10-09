@@ -65,7 +65,7 @@ jobs:
         with:
           fetch-depth: 0
       - name: TruffleHog OSS
-        uses: trufflesecurity/trufflehog@main
+        uses: trufflesecurity/trufflehog@v3.99.2
         with:
           path: ./
           # Scan only what this event introduces. Comparing the default branch
