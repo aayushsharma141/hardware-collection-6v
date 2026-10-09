@@ -21,6 +21,6 @@ export default function robots(): MetadataRoute.Robots {
         allow: '/',
       },
     ],
-    sitemap: 'https://hardwarecollection.co/sitemap.xml',
+    sitemap: 'https://www.hardwarecollection.co/sitemap.xml',
   };
 }

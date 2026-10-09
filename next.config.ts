@@ -82,7 +82,7 @@ const CONTENT_SECURITY_POLICY = [
 
 const nextConfig: NextConfig = {
   async headers() {
-    return [
+    const defaultHeaders = [
       {
         source: "/(.*)",
         headers: [
@@ -117,9 +117,50 @@ const nextConfig: NextConfig = {
         ],
       },
     ];
+
+    const indexingHeaders = [];
+
+    // Unless explicitly declared indexable in production, block search engine indexing.
+    if (process.env.SITE_INDEXABLE !== "true") {
+      indexingHeaders.push({
+        source: "/(.*)",
+        headers: [
+          {
+            key: "X-Robots-Tag",
+            value: "noindex, nofollow",
+          },
+        ],
+      });
+    }
+
+    // Always unconditionally noindex preview deployments (*.vercel.app)
+    indexingHeaders.push({
+      source: "/(.*)",
+      has: [
+        {
+          type: "host" as const,
+          value: "(?<subdomain>.*)\\.vercel\\.app",
+        },
+      ],
+      headers: [
+        {
+          key: "X-Robots-Tag",
+          value: "noindex, nofollow",
+        },
+      ],
+    });
+
+    return [...defaultHeaders, ...indexingHeaders];
   },
   async redirects() {
     return [
+      // Canonical host redirect (bare domain -> www.hardwarecollection.co)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'hardwarecollection.co' }],
+        destination: 'https://www.hardwarecollection.co/:path*',
+        permanent: true,
+      },
       // UI convenience aliases
       {
         source: '/brands',
