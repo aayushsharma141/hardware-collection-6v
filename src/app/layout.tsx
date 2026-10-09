@@ -40,6 +40,7 @@ const jost = Jost({
 
 import { getSiteSettings, getNavigation } from "@/content/sanity/queries";
 import { CANONICAL_BRANDS } from "@/content/fallback/brands";
+import { SHOWROOM_MAP_URL } from "@/lib/config";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
 import Navbar from "@/components/layout/Navbar";
@@ -49,13 +50,16 @@ import DraftModeBanner from "@/components/preview/DraftModeBanner";
 
 import { FloatingActionButtons } from "@/components/ui/FloatingActionButtons";
 
+const CANONICAL_HOST = "https://www.hardwarecollection.co";
+
 export async function generateMetadata(): Promise<Metadata> {
   const settings = await getSiteSettings();
   const seo = settings?.seo;
 
   return {
+    metadataBase: new URL(CANONICAL_HOST),
     title: {
-      default: seo?.metaTitle || "Hardware Collection | Premium Architectural Hardware in Jamshedpur",
+      default: seo?.metaTitle || "Hardware Showroom Sakchi, Jamshedpur | Hardware Collection",
       template: "%s | Hardware Collection",
     },
     description: seo?.metaDescription || "Authorized Hafele & Dorset Dealer in Sakchi, Jamshedpur. Premium architectural hardware and digital locks.",
@@ -75,20 +79,20 @@ export default async function RootLayout({
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://hardwarecollection.co/#website",
-        "url": "https://hardwarecollection.co/",
+        "@id": `${CANONICAL_HOST}/#website`,
+        "url": `${CANONICAL_HOST}/`,
         "name": "Hardware Collection",
         "description": settings?.seo?.description || "Premium architectural hardware and digital locks in Jamshedpur.",
         "publisher": {
-          "@id": "https://hardwarecollection.co/#organization"
+          "@id": `${CANONICAL_HOST}/#organization`
         }
       },
       {
         "@type": "Organization",
-        "@id": "https://hardwarecollection.co/#organization",
+        "@id": `${CANONICAL_HOST}/#organization`,
         "name": "Hardware Collection",
-        "url": "https://hardwarecollection.co/",
-        "logo": "https://hardwarecollection.co/logo.png",
+        "url": `${CANONICAL_HOST}/`,
+        "logo": `${CANONICAL_HOST}/cinema/hero/HC-01-HERO-01.png`,
         "contactPoint": {
           "@type": "ContactPoint",
           "telephone": settings?.primaryPhone || "+919835190738",
@@ -96,19 +100,44 @@ export default async function RootLayout({
         }
       },
       {
-        "@type": "LocalBusiness",
-        "@id": "https://hardwarecollection.co/#localbusiness",
+        "@type": "HardwareStore",
+        "@id": `${CANONICAL_HOST}/#hardwarestore`,
         "name": "Hardware Collection",
-        "url": "https://hardwarecollection.co/",
+        "url": `${CANONICAL_HOST}/`,
         "telephone": settings?.primaryPhone || "+919835190738",
-        "address": {
-          "@type": "PostalAddress",
-          "streetAddress": settings?.showroomAddress || "1/18, Kashidih, Near Durga Puja Maidan, Sakchi",
-          "addressLocality": "Jamshedpur",
-          "addressRegion": "Jharkhand",
-          "postalCode": "831001",
-          "addressCountry": "IN"
+        "image": `${CANONICAL_HOST}/cinema/hero/HC-01-HERO-01.png`,
+        ...(settings?.showroomAddress
+          ? {
+              "address": {
+                "@type": "PostalAddress",
+                "streetAddress": settings.showroomAddress,
+                "addressLocality": "Jamshedpur",
+                "addressRegion": "Jharkhand",
+                "postalCode": "831001",
+                "addressCountry": "IN"
+              }
+            }
+          : {}),
+        "geo": {
+          "@type": "GeoCoordinates",
+          "latitude": 22.8028401,
+          "longitude": 86.2015
         },
+        "openingHoursSpecification": [
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"],
+            "opens": "10:00",
+            "closes": "20:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Tuesday"],
+            "opens": "10:00",
+            "closes": "14:00"
+          }
+        ],
+        "hasMap": SHOWROOM_MAP_URL,
         "description": settings?.seo?.description || "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
         "brand": CANONICAL_BRANDS.map((brand) => ({
           "@type": "Brand",

@@ -125,13 +125,6 @@
   /* ── Motion ──────────────────────────────────────────────── */
   --animate-gradient-x: gradient-x 15s ease infinite;
 
-  @supports (animation-timeline: scroll()) {
-    .atmospheric-bg {
-      animation: atmospheric-shift linear both;
-      animation-timeline: scroll(root);
-    }
-  }
-
   @keyframes atmospheric-shift {
     0% { background-color: rgb(252, 250, 248); }
     35% { background-color: rgb(246, 244, 242); }
@@ -193,6 +186,13 @@
   --distance-medium: 12px;
 
   --breakpoint-xs: 390px;
+}
+
+@supports (animation-timeline: scroll()) {
+  .atmospheric-bg {
+    animation: atmospheric-shift linear both;
+    animation-timeline: scroll(root);
+  }
 }
 
 /* ── Default body — bright base ────────────────────────────── */

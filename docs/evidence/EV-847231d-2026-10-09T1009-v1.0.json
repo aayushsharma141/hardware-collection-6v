@@ -1,8 +1,8 @@
 {
   "schemaVersion": "1.0",
-  "evidenceId": "EV-847231d-2026-10-09T1011-v1.0",
+  "evidenceId": "EV-847231d-2026-10-09T1009-v1.0",
   "generator": "hardware-collection-release-pipeline@2.0",
-  "timestamp": "2026-10-09T10:11:49.392Z",
+  "timestamp": "2026-10-09T10:09:23.191Z",
   "status": "PASSED",
   "releaseDecision": "PROMOTE",
   "policyReference": null,
@@ -17,39 +17,39 @@
     "hostname": "Digital-Epic"
   },
   "results": {
-    "durationMs": 21553,
+    "durationMs": 76157,
     "totalStages": 6,
     "passedStages": 6,
     "failedStages": 0,
     "stageResults": {
       "GATE-01": {
         "status": "PASSED",
-        "durationMs": 4977,
+        "durationMs": 5805,
         "check": "npm run lint"
       },
       "GATE-02": {
         "status": "PASSED",
-        "durationMs": 3045,
+        "durationMs": 6067,
         "check": "npx tsc --noEmit"
       },
       "GATE-03": {
         "status": "PASSED",
-        "durationMs": 2553,
+        "durationMs": 2530,
         "check": "npm test"
       },
       "GATE-04": {
         "status": "PASSED",
-        "durationMs": 8131,
+        "durationMs": 7885,
         "check": "npm run build"
       },
       "GATE-05": {
         "status": "PASSED",
-        "durationMs": 2840,
+        "durationMs": 53861,
         "check": "npm audit --audit-level=critical"
       },
       "GATE-06": {
         "status": "PASSED",
-        "durationMs": 5,
+        "durationMs": 8,
         "check": "in-process check"
       }
     }

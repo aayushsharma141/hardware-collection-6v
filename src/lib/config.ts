@@ -6,9 +6,14 @@
 
 export const SHOWROOM_PHONE_HREF = "tel:+919835190738";
 export const SHOWROOM_PHONE_DISPLAY = "+91 98351 90738";
+
+/** Secondary calling phone — pending client/GBP verification before production schema inclusion. */
 export const SHOWROOM_SECONDARY_PHONE_HREF = "tel:+917033650739";
 export const SHOWROOM_SECONDARY_PHONE_DISPLAY = "+91 70336 50739";
+
 export const SHOWROOM_WHATSAPP_NUMBER = "919835190738";
+
+/** Canonical showroom address — verified spelling 'Kashidih' confirmed by owner 2026-10-09. */
 export const SHOWROOM_ADDRESS = "1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001";
 
 /** Used only when Site Settings is unreachable; Studio's showroomHours is the source of truth. */

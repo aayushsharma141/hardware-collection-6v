@@ -4,7 +4,7 @@ import React, { useCallback, useMemo } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Footer from "@/components/layout/Footer";
-import { Product, Category, Brand, Offer, SiteSettings } from "@/types/catalog";
+import { Product, Category, Brand, Offer } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
@@ -66,7 +66,7 @@ export default function CollectionsClient({
   brands: rawBrands,
   offers,
   settings,
-  heroManager,
+  heroManager: _heroManager,
 }: CollectionsClientProps) {
   const brands = useMemo(
     () =>
