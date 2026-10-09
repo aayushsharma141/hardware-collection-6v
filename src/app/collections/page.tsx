@@ -15,12 +15,12 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Architectural Hardware Collections | Hardware Collection Jamshedpur",
+    absolute: "Hardware Collections | Door, Kitchen, Wardrobe | Jamshedpur",
   },
   description:
     "Explore curated architectural hardware collections in Sakchi, Jamshedpur. Premium door handles, digital locks, modular kitchen systems, and luxury fittings from top brands.",
   alternates: {
-    canonical: 'https://hardwarecollection.co/collections',
+    canonical: 'https://www.hardwarecollection.co/collections',
   },
 };
 
@@ -48,13 +48,13 @@ export default async function CollectionsPage() {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://hardwarecollection.co/"
+        "item": "https://www.hardwarecollection.co/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Collections",
-        "item": "https://hardwarecollection.co/collections"
+        "item": "https://www.hardwarecollection.co/collections"
       }
     ]
   };

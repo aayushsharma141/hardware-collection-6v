@@ -480,9 +480,9 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
       aria-describedby="catalogue-hint"
       className="hc-viewer fixed inset-0 z-[100] select-none bg-[var(--v-surface)] text-[var(--v-text)] outline-none"
     >
-      <h1 id="catalogue-title" className="sr-only">
+      <h2 id="catalogue-title" className="sr-only">
         {brand.name} — {title}
-      </h1>
+      </h2>
       <p id="catalogue-hint" className="sr-only">
         View-only catalogue. Arrow keys turn pages. Use Mark &amp; Share to send a product to
         Hardware Collection on WhatsApp, or Enquire to ask about this page.

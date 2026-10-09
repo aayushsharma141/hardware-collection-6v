@@ -65,9 +65,9 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
         </p>
 
         {/* Headline */}
-        <h1 className="hc-serif text-[40px] sm:text-[46px] leading-[1.02] font-light text-[var(--text-primary)] whitespace-pre-line mb-3 tracking-tight">
+        <p aria-hidden="true" className="hc-serif text-[40px] sm:text-[46px] leading-[1.02] font-light text-[var(--text-primary)] whitespace-pre-line mb-3 tracking-tight">
           {heading}
-        </h1>
+        </p>
 
         {/* Subtitle / Description */}
         <p className="text-[13px] sm:text-[14px] leading-relaxed font-light text-[var(--text-secondary)] mb-6 max-w-[38ch]">

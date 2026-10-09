@@ -8,16 +8,14 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    absolute: "Our Brands & Catalogues | Hardware Collection Jamshedpur",
+    absolute: "Brands & Catalogues | Authorized Hardware in Jamshedpur",
   },
   description:
     "Official architectural hardware catalogues and authorised brand directory for Häfele, Blum, Dorset, Hettich and global partners at Hardware Collection, Sakchi, Jamshedpur.",
   alternates: {
-    canonical: 'https://hardwarecollection.co/catalogues',
+    canonical: 'https://www.hardwarecollection.co/catalogues',
   },
 };
-
-
 
 export default async function CatalogsPage() {
   const [sanityBrands, settings, showroomGroups] = await Promise.all([
@@ -50,13 +48,38 @@ export default async function CatalogsPage() {
     return [normalizedKey, enrichedBrand];
   })).values());
 
+  const breadcrumbLd = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.hardwarecollection.co/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Brands & Catalogues",
+        "item": "https://www.hardwarecollection.co/catalogues"
+      }
+    ]
+  };
+
   return (
-    <Suspense fallback={<div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">Loading catalogues...</div>}>
-      <CatalogsClient 
-        brands={brands}
-        settings={settings}
-        showroomGroups={showroomGroups}
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-    </Suspense>
+      <Suspense fallback={<div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">Loading catalogues...</div>}>
+        <CatalogsClient 
+          brands={brands}
+          settings={settings}
+          showroomGroups={showroomGroups}
+        />
+      </Suspense>
+    </>
   );
 }

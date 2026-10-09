@@ -96,10 +96,10 @@ export async function generateMetadata(): Promise<Metadata> {
   const seo = homeData?.seo;
   
   return {
-    title: seo?.metaTitle || "Hardware Collection | Premium Architectural Hardware in Jamshedpur",
-    description: seo?.metaDescription || "Explore premium architectural hardware, digital locks, door handles, kitchen and wardrobe fittings at Hardware Collection, Sakchi, Jamshedpur.",
+    title: seo?.metaTitle || "Hardware Showroom Sakchi, Jamshedpur | Hardware Collection",
+    description: seo?.metaDescription || "Hardware Collection is a premium architectural hardware showroom in Sakchi, Jamshedpur, offering door hardware, digital locks, kitchen and wardrobe systems, bathroom and glass hardware from authorized brands.",
     alternates: {
-      canonical: 'https://hardwarecollection.co',
+      canonical: 'https://www.hardwarecollection.co',
     },
   };
 }
@@ -169,6 +169,7 @@ export default async function HomePage() {
 
       {/* ── 7 Cinematic Chapters ─────────────────────────────────── */}
       <main className="relative z-10">
+        <h1 className="sr-only">Architectural Hardware Showroom in Sakchi, Jamshedpur</h1>
         {/* 01 HERO — The Art of the Finish */}
         <div className="block lg:hidden">
           <HeroMobile slides={heroSlides} />

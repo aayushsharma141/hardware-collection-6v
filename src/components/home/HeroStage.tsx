@@ -186,9 +186,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
             </div>
 
             <div className="overflow-hidden mb-6 pb-2">
-              <h1 className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[98px] 2xl:text-[112px] leading-[0.92] font-light tracking-[-0.01em] text-[var(--text-primary)] whitespace-pre-line">
+              <p aria-hidden="true" className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[98px] 2xl:text-[112px] leading-[0.92] font-light tracking-[-0.01em] text-[var(--text-primary)] whitespace-pre-line">
                 {currentSlide.title || "The Art of\nthe Finish."}
-              </h1>
+              </p>
             </div>
 
             <p className="hero-p mt-4 max-w-[500px] text-base lg:text-lg xl:text-xl leading-[1.65] font-light text-[var(--text-secondary)]">

@@ -175,6 +175,15 @@ export default function CollectionsClient({
       <main className="w-full pb-16 sm:pb-0">
         <CollectionsHero slides={heroSlides} whatsappHref={whatsappHref} />
 
+        <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 pt-10 sm:pt-14 pb-2">
+          <h1 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight">
+            Architectural Hardware Collections
+          </h1>
+          <p className="mt-4 text-[15px] sm:text-base text-[var(--text-secondary)] font-light max-w-lg">
+            Explore hardware by application—from doors and digital security to kitchens, wardrobes, bathrooms and glass systems.
+          </p>
+        </div>
+
         <CollectionExplorer
           sections={sections}
           familyCategories={familyCategories}
