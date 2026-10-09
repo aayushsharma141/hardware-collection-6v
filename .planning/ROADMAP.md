@@ -117,7 +117,7 @@
   Establish the definitive technical SEO foundation, local search entity authority, and crawlability architecture across the codebase: single H1 enforcement, intent metadata, server-rendered taxonomy on `/collections`, `/catalogues` sitemap entry, bidirectional cross-linking bridges, and Schema.org HardwareStore graph.
   - Canonical Host: `https://www.hardwarecollection.co` (Confirmed 2026-10-09)
   - Titles (Option 3): Confirmed <60 chars with local search keywords (Confirmed 2026-10-09)
-  - Address Spelling: `Kashidih` (Confirmed 2026-10-09)
+  - Address Spelling: `Kashidih` (owner-chosen, GBP check pending)
   - Coordinates & Hours: Repo defaults `22.8028401, 86.2015` and Studio hours fallback (Confirmed 2026-10-09)
   See `.planning/phases/16-local-search-seo/16-CONTEXT.md`.
 

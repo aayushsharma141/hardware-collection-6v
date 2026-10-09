@@ -159,5 +159,13 @@ Owner-confirmed 2026-10-09:
   - Collections: `Hardware Collections | Door, Kitchen, Wardrobe | Jamshedpur` (58 chars)
   - Catalogues: `Brands & Catalogues | Authorized Hardware in Jamshedpur` (54 chars)
 - **Canonical Host:** Confirmed `https://www.hardwarecollection.co` as the authoritative canonical origin. Bare domain redirects to `www`.
-- **Showroom Address Spelling:** Confirmed `Kashidih` (with 'h') as canonical: `1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001`.
+- **Showroom Address Spelling:** Owner-chosen 'Kashidih' (with 'h'): `1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001`. (Google Business Profile check pending).
 - **Geographic Coordinates & Hours:** Confirmed repository defaults (`22.8028401, 86.2015` from Google Maps embed; hours from Sanity Studio `showroomHours` with config fallback).
+
+## Phase 16 Post-Execution Audit & Verification (2026-10-09)
+
+Audit-Fix executed (`/gsd-audit-fix`):
+- **Release Gate Evidence:** Archived release bundle `EV-70e2c93-2026-10-09T1111-v1.0.json` bound to clean commit `70e2c93` with `workingTreeDirty: false` (passed all 6 quality gates with `PROMOTE` decision).
+- **Static HTML Pre-rendering (SSG Bailout Fix):** Replaced top-level `useSearchParams()` with client-side query synchronization in `useCollectionsState` and `CatalogsClient`. Removed outer `<Suspense>` bailouts, ensuring complete pre-rendering of all 7 showroom families in `<details>/<summary>`, single `<h1>`, and crawlable cross-link bridges directly into static server HTML.
+- **Verification Suite:** Added automated suite `src/lib/collections/__tests__/phase16Verification.test.ts` (10 tests) and runner `scripts/verify-phase16-e2e.ts` passing all 24/24 synthetic and static checks.
+- **Catalog Explorer Backlog Item:** Logged that `CollectionExplorer` renders taxonomy and categories without product cards (behavior inherited from pre-Phase-16 code where `ShowcaseCard` was unreferenced). Product card integration remains queued for upcoming catalogue refinement.
