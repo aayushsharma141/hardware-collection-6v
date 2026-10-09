@@ -50,7 +50,7 @@ Establish the definitive technical SEO foundation, local search entity authority
   `Official manufacturer catalogues and technical references from Hardware Collection's authorized brand partners in Jamshedpur.`
 
 ### Metadata & Discovery Titles
-- **D-06:** **Intent-Driven, Front-Loaded Page Metadata.** (Owner-confirmed 2026-10-09: Option 3 titles under 60 chars preserving local keywords).
+- **D-06:** **Intent-Driven, Front-Loaded Page Metadata.** (Owner-decided 2026-10-09: Option 3 titles under 60 chars preserving local keywords).
   - **Homepage (`/`):**
     - Title: `Hardware Showroom Sakchi, Jamshedpur | Hardware Collection`
     - Description: `Hardware Collection is a premium architectural hardware showroom in Sakchi, Jamshedpur, offering door hardware, digital locks, kitchen and wardrobe systems, bathroom and glass hardware from authorized brands.`
@@ -70,9 +70,9 @@ Establish the definitive technical SEO foundation, local search entity authority
 - **D-09:** **Sitemap Ingestion Fix.** Update `src/app/sitemap.ts` to include `https://www.hardwarecollection.co/catalogues` with `priority: 0.8` and `changeFrequency: 'weekly'`, alongside `/` (`1.0`) and `/collections` (`0.9`). Exclude `/privacy` and `/terms`.
 
 ### NAP Consistency & Schema.org
-- **D-10:** **NAP Verification & Content Ownership (Owner-confirmed 2026-10-09).**
-  - **Address:** Canonical spelling confirmed as `Kashidih` (with 'h'): `1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001`.
-  - **Coordinates & Hours:** Confirmed using repo defaults (`22.8028401, 86.2015` from Google Maps embed; hours from Sanity Studio `showroomHours` with `SHOWROOM_HOURS_FALLBACK`).
+- **D-10:** **NAP Verification & Content Ownership (Owner-decided 2026-10-09).**
+  - **Address:** Canonical spelling decided as `Kashidih` (with 'h'): `1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001`. (GBP check pending)
+  - **Coordinates & Hours:** Decided using repo defaults (`22.8028401, 86.2015` from Google Maps embed; hours from Sanity Studio `showroomHours` with `SHOWROOM_HOURS_FALLBACK`).
   - **Content Ownership:** Sanity `siteSettings` is the canonical content owner for NAP details and feeds the site layout and JSON-LD schema; `src/lib/config.ts` serves strictly as resilience fallback when Sanity is unreachable.
   - **Phone Numbers:** Primary WhatsApp/Phone `+91 98351 90738` is confirmed. Secondary phone `+91 70336 50739` is omitted from production schema until client/GBP verification.
 - **D-11:** **Structured Data Entity Graph (`HardwareStore`).** In `src/app/layout.tsx` (and page-specific schema where appropriate), provide an expanded Schema.org graph using `@type: "HardwareStore"` (the most specific schema.org LocalBusiness subtype, matching the Google Business Profile category):
@@ -82,7 +82,7 @@ Establish the definitive technical SEO foundation, local search entity authority
 ### Domain, Host Resolution & Launch Discipline
 - **D-12:** **Domain Redirection Hygiene (Single-Hop & Path Forwarding).** Configure redirect rules so `jamshedpurhardware.com` redirects in a single hop directly to the chosen final canonical host (avoiding two-hop chains like `jamshedpurhardware.com` -> `hardwarecollection.co` -> `www.hardwarecollection.co`). Preserve request paths rather than dropping them to 404. Strictly exclude any references or redirects for `hardwarecollection.in`.
 - **D-13:** **Private Production Gate.** Maintain private/draft gating until client approval is granted. All SEO improvements are baked directly into the build so the site launches fully optimized upon public DNS cutover.
-- **D-14:** **Canonical Host Selection (Owner-confirmed 2026-10-09).** `https://www.hardwarecollection.co` is confirmed as canonical origin. Bare domain `hardwarecollection.co` redirects to `www`.
+- **D-14:** **Canonical Host Selection (Owner-decided 2026-10-09).** `https://www.hardwarecollection.co` is decided as canonical origin. Bare domain `hardwarecollection.co` redirects to `www`.
 - **D-15:** **Noindex Outside Production.** Prevent search engine indexation of non-production environments (e.g. `hc-demo-ten.vercel.app`, `*.vercel.app`) by issuing `X-Robots-Tag: noindex, nofollow` headers dynamically when `SITE_INDEXABLE !== 'true'` or when served from a Vercel preview domain (`(?<subdomain>.*)\.vercel\.app`).
 
 ### Documentation Synchronization
