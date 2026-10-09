@@ -16,7 +16,7 @@ progress:
 
 **Active Project:** Hardware Collection
 **Last Updated:** 2026-10-09
-**Active Phase:** Phase 16 — Local Search Entity & SEO Foundation (Context Gathered)
+**Active Phase:** Phase 16 — Local Search Entity & SEO Foundation (Planned - Awaiting execution)
 **Feature Development:** FROZEN
 
 ## Status Summary
@@ -39,7 +39,7 @@ Phase 12 ✅  Complete (UI Polish & Visual Animations)
 Phase 13 📋  Planned (CMS Photography & Scheduled Offers)
 Phase 14 ✅  Complete (UI/UX Refinement & Anti-UI-Slop Standardization)
 Phase 15 ✅  Complete (Animation Polish & GPU Acceleration / Content Updates)
-Phase 16 📋  Context Gathered (Local Search Entity & SEO Foundation)
+Phase 16 📋  Planned (Local Search Entity & SEO Foundation) - Executable plans drafted (01-04), gated on pending commits in main.
 ```
 
 ## Known P0 Blocker
@@ -150,3 +150,14 @@ for full decision/flag text.
 
 None remaining — brand count and public routes resolved above in Locked Rules; WhatsApp
 number resolved above in Phase 9 Business-Truth Confirmations.
+
+## Phase 16 Business-Truth Confirmations
+
+Owner-confirmed 2026-10-09:
+- **Title Strategy (Option 3):** Confirmed titles keeping local search keywords under 60 characters to prevent SERP truncation:
+  - Homepage: `Hardware Showroom Sakchi, Jamshedpur | Hardware Collection` (58 chars)
+  - Collections: `Hardware Collections | Door, Kitchen, Wardrobe | Jamshedpur` (58 chars)
+  - Catalogues: `Brands & Catalogues | Authorized Hardware in Jamshedpur` (54 chars)
+- **Canonical Host:** Confirmed `https://www.hardwarecollection.co` as the authoritative canonical origin. Bare domain redirects to `www`.
+- **Showroom Address Spelling:** Confirmed `Kashidih` (with 'h') as canonical: `1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001`.
+- **Geographic Coordinates & Hours:** Confirmed repository defaults (`22.8028401, 86.2015` from Google Maps embed; hours from Sanity Studio `showroomHours` with config fallback).

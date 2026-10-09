@@ -50,15 +50,15 @@ Establish the definitive technical SEO foundation, local search entity authority
   `Official manufacturer catalogues and technical references from Hardware Collection's authorized brand partners in Jamshedpur.`
 
 ### Metadata & Discovery Titles
-- **D-06:** **Intent-Driven, Front-Loaded Page Metadata.**
+- **D-06:** **Intent-Driven, Front-Loaded Page Metadata.** (Owner-confirmed 2026-10-09: Option 3 titles under 60 chars preserving local keywords).
   - **Homepage (`/`):**
-    - Title: `Architectural Hardware Showroom in Sakchi, Jamshedpur | Hardware Collection` (Front-loaded to prevent snippet truncation).
+    - Title: `Hardware Showroom Sakchi, Jamshedpur | Hardware Collection`
     - Description: `Hardware Collection is a premium architectural hardware showroom in Sakchi, Jamshedpur, offering door hardware, digital locks, kitchen and wardrobe systems, bathroom and glass hardware from authorized brands.`
   - **Collections (`/collections`):**
-    - Title: `Architectural Hardware Collections | Door, Kitchen & Wardrobe Hardware`
+    - Title: `Hardware Collections | Door, Kitchen, Wardrobe | Jamshedpur`
     - Description: `Explore curated architectural hardware collections in Sakchi, Jamshedpur. Premium door handles, digital locks, modular kitchen systems, and luxury fittings from top brands.`
   - **Catalogues (`/catalogues`):**
-    - Title: `Brands & Catalogues | Authorized Hardware Brands in Jamshedpur`
+    - Title: `Brands & Catalogues | Authorized Hardware in Jamshedpur`
     - Description: `Official architectural hardware catalogues and authorised brand directory for Häfele, Blum, Dorset, Hettich and global partners at Hardware Collection, Sakchi, Jamshedpur.`
 
 ### Crawlability & Taxonomy Pre-rendering
@@ -67,22 +67,23 @@ Establish the definitive technical SEO foundation, local search entity authority
   - In `/collections`: Add contextual banner/link: *"Looking for a specific manufacturer? Explore Brands & Catalogues →"* linking to `/catalogues`.
   - In `/catalogues`: Add contextual banner/link: *"Not sure which brand you need? Start with Collections →"* linking to `/collections`.
   - Category listings link directly to relevant brand references, and brand entries cross-link to relevant category anchors.
-- **D-09:** **Sitemap Ingestion Fix.** Update `src/app/sitemap.ts` to include `https://hardwarecollection.co/catalogues` (or final canonical host URL) with `priority: 0.8` and `changeFrequency: 'weekly'`, alongside `/` (`1.0`) and `/collections` (`0.9`).
+- **D-09:** **Sitemap Ingestion Fix.** Update `src/app/sitemap.ts` to include `https://www.hardwarecollection.co/catalogues` with `priority: 0.8` and `changeFrequency: 'weekly'`, alongside `/` (`1.0`) and `/collections` (`0.9`). Exclude `/privacy` and `/terms`.
 
 ### NAP Consistency & Schema.org
-- **D-10:** **NAP Verification & Content Ownership (Pending Confirmation).**
-  - **Address:** Mark as **pending GBP confirmation**. Canonical address source is the client's verified Google Business Profile card (`Kasidih, near Baradwari Durga Puja Maidan` vs `Kashidih, Near Durga Puja Maidan`).
+- **D-10:** **NAP Verification & Content Ownership (Owner-confirmed 2026-10-09).**
+  - **Address:** Canonical spelling confirmed as `Kashidih` (with 'h'): `1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001`.
+  - **Coordinates & Hours:** Confirmed using repo defaults (`22.8028401, 86.2015` from Google Maps embed; hours from Sanity Studio `showroomHours` with `SHOWROOM_HOURS_FALLBACK`).
   - **Content Ownership:** Sanity `siteSettings` is the canonical content owner for NAP details and feeds the site layout and JSON-LD schema; `src/lib/config.ts` serves strictly as resilience fallback when Sanity is unreachable.
-  - **Phone Numbers:** Primary WhatsApp/Phone `+91 98351 90738` is confirmed. Secondary phone `+91 70336 50739` is **pending client confirmation** due to conflicting references across past project documents before inclusion in production structured data.
+  - **Phone Numbers:** Primary WhatsApp/Phone `+91 98351 90738` is confirmed. Secondary phone `+91 70336 50739` is omitted from production schema until client/GBP verification.
 - **D-11:** **Structured Data Entity Graph (`HardwareStore`).** In `src/app/layout.tsx` (and page-specific schema where appropriate), provide an expanded Schema.org graph using `@type: "HardwareStore"` (the most specific schema.org LocalBusiness subtype, matching the Google Business Profile category):
-  - Include postal address, geo coordinates, telephone, opening hours specification, priceRange, logo, and `sameAs` links.
+  - Include postal address, geo coordinates, telephone, opening hours specification, logo, and `sameAs` links. Omit unverified address/phone fallback from production schema graph.
   - `BreadcrumbList` on `/collections` and `/catalogues`.
 
 ### Domain, Host Resolution & Launch Discipline
 - **D-12:** **Domain Redirection Hygiene (Single-Hop & Path Forwarding).** Configure redirect rules so `jamshedpurhardware.com` redirects in a single hop directly to the chosen final canonical host (avoiding two-hop chains like `jamshedpurhardware.com` -> `hardwarecollection.co` -> `www.hardwarecollection.co`). Preserve request paths rather than dropping them to 404. Strictly exclude any references or redirects for `hardwarecollection.in`.
 - **D-13:** **Private Production Gate.** Maintain private/draft gating until client approval is granted. All SEO improvements are baked directly into the build so the site launches fully optimized upon public DNS cutover.
-- **D-14:** **Canonical Host Selection.** Determine and unify the canonical domain (`www.hardwarecollection.co` vs bare `hardwarecollection.co`). Align Vercel primary domain settings, canonical `<link rel="canonical">` tags, `sitemap.ts`, and JSON-LD `@id` / `url` fields so they are 100% consistent.
-- **D-15:** **Noindex Outside Production.** Prevent search engine indexation of non-production environments (e.g. `hc-demo-ten.vercel.app`, `*.vercel.app`) by issuing `X-Robots-Tag: noindex, nofollow` headers or dynamic `robots.txt` disallows when `NODE_ENV !== 'production'` or when served from a Vercel preview domain.
+- **D-14:** **Canonical Host Selection (Owner-confirmed 2026-10-09).** `https://www.hardwarecollection.co` is confirmed as canonical origin. Bare domain `hardwarecollection.co` redirects to `www`.
+- **D-15:** **Noindex Outside Production.** Prevent search engine indexation of non-production environments (e.g. `hc-demo-ten.vercel.app`, `*.vercel.app`) by issuing `X-Robots-Tag: noindex, nofollow` headers dynamically when `SITE_INDEXABLE !== 'true'` or when served from a Vercel preview domain (`(?<subdomain>.*)\.vercel\.app`).
 
 ### Documentation Synchronization
 - **D-16:** **CLAUDE.md & AGENTS.md Rule Alignment.** Update repository documentation (`CLAUDE.md`, `AGENTS.md`) to reflect the three public showroom content routes (`/`, `/collections`, `/catalogues`) and the 7 active showroom families (`door`, `smart-security`, `kitchen`, `wardrobe-furniture`, `bathroom-hardware`, `glass`, `furniture-fittings`).
