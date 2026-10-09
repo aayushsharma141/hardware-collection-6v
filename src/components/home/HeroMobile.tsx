@@ -147,7 +147,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
                 type="button"
                 onClick={prevSlide}
                 aria-label="Previous hero slide"
-                className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 active:scale-95 transition-all"
+                className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 motion-safe:active:scale-[0.97] transition-[background-color,scale] duration-150 ease-[var(--ease-out)]"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -157,7 +157,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
                 type="button"
                 onClick={nextSlide}
                 aria-label="Next hero slide"
-                className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 active:scale-95 transition-all"
+                className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 motion-safe:active:scale-[0.97] transition-[background-color,scale] duration-150 ease-[var(--ease-out)]"
               >
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
