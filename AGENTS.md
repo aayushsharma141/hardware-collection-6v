@@ -17,20 +17,23 @@ Canonical instructions for AI agents working on this repository.
 
 ## Architecture Constraints (Locked — Do Not Redesign)
 
-**Two-route architecture only:**
+**Three public content routes:**
 ```
-/           → homepage
-/collections → full showroom catalogue (single page)
+/           → homepage (local showroom authority)
+/collections → full showroom catalogue (taxonomy & needs discovery)
+/catalogues  → brands & official catalogues (manufacturer reference)
 ```
 
-**Five showroom families are in-page sections, not routes:**
+**Seven showroom families are in-page sections, not routes:**
 ```
 /collections
-  ├── #handles-knobs
-  ├── #door-hardware
-  ├── #bathroom
-  ├── #kitchen-wardrobes
-  └── #furniture-hardware
+  ├── #door
+  ├── #smart-security
+  ├── #kitchen
+  ├── #wardrobe-furniture
+  ├── #bathroom-hardware
+  ├── #glass
+  └── #furniture-fittings
 ```
 
 **Never create `/collections/<slug>` as a route.** Any such URL is a legacy redirect (308 → anchor or `/collections`).

@@ -96,29 +96,31 @@ Coding, branch and testing conventions are documented in [docs/DEVELOPMENT.md](d
 
 ---
 
-## Collections Architecture (locked — do not redesign)
+## Showroom & Collections Architecture (locked — do not redesign)
 
-The catalogue has **two public content routes** only:
+The catalogue has **three public content routes**:
 
 ```
-/           → homepage
-/collections → full showroom catalogue
+/           → homepage (local showroom authority)
+/collections → full showroom catalogue (taxonomy & needs discovery)
+/catalogues  → brands & official catalogues (manufacturer reference)
 ```
 
-The five showroom families (`handles-knobs`, `door-hardware`, `bathroom`,
-`kitchen-wardrobes`, `furniture-hardware`) are **in-page sections**, not pages:
+The seven showroom families (`door`, `smart-security`, `kitchen`, `wardrobe-furniture`, `bathroom-hardware`, `glass`, `furniture-fittings`) are **in-page sections**, not pages:
 
 ```
 /collections
- ├── #handles-knobs
- ├── #door-hardware
- ├── #bathroom
- ├── #kitchen-wardrobes
- └── #furniture-hardware
+ ├── #door
+ ├── #smart-security
+ ├── #kitchen
+ ├── #wardrobe-furniture
+ ├── #bathroom-hardware
+ ├── #glass
+ └── #furniture-fittings
 ```
 
 **Never create `/collections/<slug>` as a route.** Any such URL is a legacy redirect
-(308 → the appropriate anchor or `/collections`). The five families are anchors on
+(308 → the appropriate anchor or `/collections`). The seven families are anchors on
 one page, not a route hierarchy.
 
 **Grouping is driven exclusively by `primaryRail`.** The chain is:
