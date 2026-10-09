@@ -1,6 +1,5 @@
 import { ImageResponse } from "next/og";
 
-export const runtime = "edge";
 export const alt = "Hardware Collection — Flagship Architectural Hardware Showroom in Sakchi, Jamshedpur";
 export const size = {
   width: 1200,
