@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect, useRef, useCallback } from "react";
-import { useSearchParams, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
 import {
   Product,
@@ -29,20 +29,11 @@ export function useCollectionsState({
   products,
   settings,
 }: UseCollectionsStateProps) {
-  const searchParams = useSearchParams();
   const pathname = usePathname();
 
   const [searchQuery, setSearchQuery] = useState("");
-  // Seeded from ?product= so a deep link (the homepage product reel) opens the
-  // product on arrival; the sync below only reacts to later URL changes.
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(() => {
-    const productSlug = searchParams.get("product");
-    if (!productSlug) return null;
-    return (
-      products.find((p) => getSlugString(p.slug) === productSlug || p.id === productSlug || p._id === productSlug) ??
-      null
-    );
-  });
+  // Seeded on mount from ?product= so a deep link opens the product on arrival.
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | Brand | null>(null);
   const [shortlist, setShortlist] = useState<Product[]>([]);
   const [shortlistToast, setShortlistToast] = useState<string | null>(null);
@@ -50,27 +41,26 @@ export function useCollectionsState({
   const triggerElementRef = useRef<HTMLElement | null>(null);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Synchronize selected product with URL searchParams (?product=...)
-  const [prevSearchParams, setPrevSearchParams] = useState(searchParams);
-  if (prevSearchParams !== searchParams) {
-    setPrevSearchParams(searchParams);
-
-    const productSlug = searchParams.get("product");
-    if (productSlug) {
-      const prod = products.find(
-        (p) => p.slug === productSlug || p.id === productSlug || p._id === productSlug
-      );
-      if (
-        prod &&
-        (!selectedProduct ||
-          (selectedProduct.slug !== productSlug && selectedProduct.id !== productSlug))
-      ) {
-        setSelectedProduct(prod);
+  // Synchronize selected product with URL search params (?product=...) without bailing out SSR
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const syncFromUrl = () => {
+      const params = new URLSearchParams(window.location.search);
+      const productSlug = params.get("product");
+      if (productSlug) {
+        const prod = products.find(
+          (p) => getSlugString(p.slug) === productSlug || p.id === productSlug || p._id === productSlug
+        );
+        setSelectedProduct(prod ?? null);
+      } else {
+        setSelectedProduct(null);
       }
-    } else if (selectedProduct) {
-      setSelectedProduct(null);
-    }
-  }
+    };
+
+    syncFromUrl();
+    window.addEventListener("popstate", syncFromUrl);
+    return () => window.removeEventListener("popstate", syncFromUrl);
+  }, [products]);
 
   // Handle product selection & deep-link update without full page refresh (S3E)
   const handleProductSelect = useCallback(
@@ -256,8 +246,20 @@ export function useCollectionsState({
     [uniqueCategories, settings]
   );
 
-  const activeCategorySlug = searchParams?.get("category") || "";
-  const activeBrandSlug = searchParams?.get("brand") || "";
+  const [activeCategorySlug, setActiveCategorySlug] = useState("");
+  const [activeBrandSlug, setActiveBrandSlug] = useState("");
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const syncFilters = () => {
+      const params = new URLSearchParams(window.location.search);
+      setActiveCategorySlug(params.get("category") || "");
+      setActiveBrandSlug(params.get("brand") || "");
+    };
+    syncFilters();
+    window.addEventListener("popstate", syncFilters);
+    return () => window.removeEventListener("popstate", syncFilters);
+  }, []);
 
   return {
     searchQuery,

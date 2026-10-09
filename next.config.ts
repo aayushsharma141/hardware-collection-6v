@@ -161,6 +161,19 @@ const nextConfig: NextConfig = {
         destination: 'https://www.hardwarecollection.co/:path*',
         permanent: true,
       },
+      // In-app defense-in-depth for legacy domain (jamshedpurhardware.com -> www.hardwarecollection.co)
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'jamshedpurhardware.com' }],
+        destination: 'https://www.hardwarecollection.co/:path*',
+        permanent: true,
+      },
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'www.jamshedpurhardware.com' }],
+        destination: 'https://www.hardwarecollection.co/:path*',
+        permanent: true,
+      },
       // UI convenience aliases
       {
         source: '/brands',

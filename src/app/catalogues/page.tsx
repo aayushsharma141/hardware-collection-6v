@@ -73,13 +73,11 @@ export default async function CatalogsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <Suspense fallback={<div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">Loading catalogues...</div>}>
-        <CatalogsClient 
-          brands={brands}
-          settings={settings}
-          showroomGroups={showroomGroups}
-        />
-      </Suspense>
+      <CatalogsClient 
+        brands={brands}
+        settings={settings}
+        showroomGroups={showroomGroups}
+      />
     </>
   );
 }

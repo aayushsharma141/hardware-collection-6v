@@ -110,7 +110,7 @@ export default async function RootLayout({
           ? {
               "address": {
                 "@type": "PostalAddress",
-                "streetAddress": settings.showroomAddress,
+                "streetAddress": settings.showroomAddress.replace(/\r?\n/g, ", ").trim(),
                 "addressLocality": "Jamshedpur",
                 "addressRegion": "Jharkhand",
                 "postalCode": "831001",

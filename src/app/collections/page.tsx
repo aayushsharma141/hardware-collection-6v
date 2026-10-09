@@ -65,22 +65,14 @@ export default async function CollectionsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Suspense
-        fallback={
-          <div className="w-full min-h-screen bg-[var(--surface)] flex items-center justify-center font-dmsans text-xs uppercase tracking-widest text-[var(--text-secondary)]">
-            Loading collections...
-          </div>
-        }
-      >
-        <CollectionsClient
-          categories={categories}
-          products={products}
-          brands={brands}
-          offers={offers}
-          settings={settings}
-          heroManager={heroManager}
-        />
-      </Suspense>
+      <CollectionsClient
+        categories={categories}
+        products={products}
+        brands={brands}
+        offers={offers}
+        settings={settings}
+        heroManager={heroManager}
+      />
     </>
   );
 }
