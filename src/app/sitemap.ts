@@ -2,24 +2,25 @@ import { MetadataRoute } from 'next';
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = 'https://www.hardwarecollection.co';
-  const now = new Date();
+  // Stable content revision date matching last catalogue & architecture update
+  const lastModified = new Date('2026-10-09');
 
   return [
     {
       url: baseUrl,
-      lastModified: now,
+      lastModified,
       changeFrequency: 'weekly',
       priority: 1.0,
     },
     {
       url: `${baseUrl}/collections`,
-      lastModified: now,
+      lastModified,
       changeFrequency: 'weekly',
       priority: 0.9,
     },
     {
       url: `${baseUrl}/catalogues`,
-      lastModified: now,
+      lastModified,
       changeFrequency: 'weekly',
       priority: 0.8,
     },
