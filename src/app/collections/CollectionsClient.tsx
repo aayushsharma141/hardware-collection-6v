@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useCallback, useMemo } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import Footer from "@/components/layout/Footer";
 import { Product, Category, Brand, Offer, SiteSettings } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
@@ -205,6 +207,21 @@ export default function CollectionsClient({
           address={settings?.showroomAddress}
           onVisit={() => openDrawer({ source: "collections", intent: "consultation" })}
         />
+
+        {/* Contextual Cross-Link Bridge to Brands & Catalogues */}
+        <div className="border-t border-[var(--border)] py-10 px-5 sm:px-8 lg:px-12 max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-[var(--accent)] font-semibold">Brand Directory</p>
+            <p className="text-lg sm:text-xl font-light text-[var(--text-primary)] mt-1">Looking for a specific manufacturer or official reference?</p>
+          </div>
+          <Link
+            href="/catalogues"
+            className="text-sm font-semibold uppercase tracking-wider text-[var(--accent)] hover:underline inline-flex items-center gap-2 shrink-0"
+          >
+            <span>Explore Brands & Catalogues</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </main>
 
       <ProductQuickView

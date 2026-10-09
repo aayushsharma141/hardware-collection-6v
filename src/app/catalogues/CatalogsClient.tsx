@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import { useSearchParams } from "next/navigation";
 import Footer from "@/components/layout/Footer";
 import CatalogViewerModal from "@/components/catalog/CatalogViewerModal";
@@ -73,6 +75,21 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
           onSelectBrand={setSelectedCatalogBrand} 
           selectedBrandSlug={brandParam}
         />
+
+        {/* Contextual Cross-Link Bridge to Collections */}
+        <div className="border-t border-[var(--border)] py-10 px-5 sm:px-8 lg:px-12 max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div>
+            <p className="text-xs uppercase tracking-widest text-[var(--accent)] font-semibold">Showroom Collections</p>
+            <p className="text-lg sm:text-xl font-light text-[var(--text-primary)] mt-1">Not sure which brand you need? Start with our curated spaces.</p>
+          </div>
+          <Link
+            href="/collections"
+            className="text-sm font-semibold uppercase tracking-wider text-[var(--accent)] hover:underline inline-flex items-center gap-2 shrink-0"
+          >
+            <span>Explore Architectural Collections</span>
+            <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
       </main>
 
       {/* Official Catalog Viewer Modal */}
