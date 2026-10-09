@@ -93,18 +93,28 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
                   </span>
                   <span className="shrink-0 w-6 h-6 flex items-center justify-center text-[var(--text-secondary)] group-hover:text-[var(--color-wine)] transition-colors">
                     <Plus
-                      className={`w-4 h-4 transition-transform duration-300 ${
+                      className={`w-4 h-4 transition-transform duration-300 motion-reduce:transition-none ${
                         isOpen ? "rotate-45 text-[var(--color-wine)]" : "rotate-0"
                       }`}
                     />
                   </span>
                 </button>
 
-                {isOpen && (
-                  <div className="pb-5 pt-0 text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed max-w-3xl">
-                    <p>{faq.answer}</p>
+                <div
+                  id={`faq-answer-${faq._id}`}
+                  className={`grid transition-[grid-template-rows,opacity] duration-350 ease-[cubic-bezier(0.23,1,0.32,1)] motion-reduce:transition-none ${
+                    isOpen
+                      ? "grid-rows-[1fr] opacity-100"
+                      : "grid-rows-[0fr] opacity-0"
+                  }`}
+                  aria-hidden={!isOpen}
+                >
+                  <div className="min-h-0 overflow-hidden">
+                    <div className="pb-5 pt-0 text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed max-w-3xl">
+                      <p>{faq.answer}</p>
+                    </div>
                   </div>
-                )}
+                </div>
               </div>
             );
           })}

@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import { motion, useReducedMotion } from "motion/react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import type { PDFDocumentProxy } from "pdfjs-dist";
 import { FileText, MessageCircle, RotateCw } from "lucide-react";
 import { buildWhatsAppUrl } from "@/lib/config";
@@ -30,6 +30,7 @@ import AnnotationLayer from "./viewer/AnnotationLayer";
 import CaptureSelector from "./viewer/CaptureSelector";
 import PageJump from "./viewer/PageJump";
 import PageArrows from "./viewer/PageArrows";
+import { useIsDesktop } from "./viewer/useIsDesktop";
 import type {
   AnnotationTool,
   CatalogueStatus,
@@ -97,10 +98,87 @@ function isTypingTarget(target: EventTarget | null): boolean {
   );
 }
 
+interface SheetDrawerWrapperProps {
+  children: React.ReactNode;
+  isDesktop: boolean;
+  reduceMotion: boolean | null;
+  hasBackdrop?: boolean;
+}
+
+function SheetDrawerWrapper({
+  children,
+  isDesktop,
+  reduceMotion,
+  hasBackdrop = false,
+}: SheetDrawerWrapperProps) {
+  // Lock entrance direction at mount time so dynamic window resize while open does not replay entrance animation
+  const [initialIsDesktop] = useState(isDesktop);
+
+  if (reduceMotion) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0 }}
+        className={`absolute inset-0 z-50 ${hasBackdrop ? "pointer-events-auto" : "pointer-events-none"}`}
+      >
+        {children}
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={initialIsDesktop ? { x: "100%", opacity: 0 } : { y: "100%", opacity: 0 }}
+      animate={{ x: 0, y: 0, opacity: 1 }}
+      exit={initialIsDesktop ? { x: "100%", opacity: 0 } : { y: "100%", opacity: 0 }}
+      transition={{ duration: 0.35, ease: [0.23, 1, 0.32, 1] }}
+      className={`absolute inset-0 z-50 ${hasBackdrop ? "pointer-events-auto" : "pointer-events-none"}`}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+interface SheetDialogWrapperProps {
+  children: React.ReactNode;
+  reduceMotion: boolean | null;
+}
+
+function SheetDialogWrapper({ children, reduceMotion }: SheetDialogWrapperProps) {
+  if (reduceMotion) {
+    return (
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0 }}
+        className="absolute inset-0 z-50 pointer-events-auto"
+      >
+        {children}
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div
+      initial={{ scale: 0.95, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      exit={{ scale: 0.95, opacity: 0 }}
+      transition={{ duration: 0.25, ease: [0.23, 1, 0.32, 1] }}
+      className="absolute inset-0 z-50 pointer-events-auto"
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModalProps) {
   const catalogs = useMemo<CatalogueDocument[]>(() => brand.catalogues ?? [], [brand]);
   const slug = getSlugString(brand.slug);
   const reduceMotion = useReducedMotion();
+  const isDesktop = useIsDesktop();
 
   const rootRef = useRef<HTMLDivElement | null>(null);
   const pageCanvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -648,64 +726,87 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
             />
           )}
 
-          {sheet === "jump" && (
-            <PageJump
-              page={page}
-              pages={numPages}
-              onGo={(target) => {
-                goToPage(target);
-                setSheet("none");
-              }}
-              onCancel={() => setSheet("none")}
-            />
-          )}
+          <AnimatePresence>
+            {sheet === "jump" && (
+              <SheetDialogWrapper key="sheet-jump" reduceMotion={reduceMotion}>
+                <PageJump
+                  page={page}
+                  pages={numPages}
+                  onGo={(target) => {
+                    goToPage(target);
+                    setSheet("none");
+                  }}
+                  onCancel={() => setSheet("none")}
+                />
+              </SheetDialogWrapper>
+            )}
 
-          {sheet === "pages" && (
-            <ThumbnailDrawer
-              doc={doc}
-              pages={numPages}
-              current={page}
-              onSelect={(target) => {
-                goToPage(target);
-                setSheet("none");
-              }}
-              onClose={() => setSheet("none")}
-            />
-          )}
+            {sheet === "pages" && (
+              <SheetDrawerWrapper
+                key="sheet-pages"
+                isDesktop={isDesktop}
+                reduceMotion={reduceMotion}
+              >
+                <ThumbnailDrawer
+                  doc={doc}
+                  pages={numPages}
+                  current={page}
+                  onSelect={(target) => {
+                    goToPage(target);
+                    setSheet("none");
+                  }}
+                  onClose={() => setSheet("none")}
+                />
+              </SheetDrawerWrapper>
+            )}
 
-          {sheet === "search" && (
-            <CatalogSearch
-              catalogId={`${slug}-${active}`}
-              onSelect={(target) => {
-                goToPage(target);
-              }}
-              onClose={() => setSheet("none")}
-              onSearched={(query, results) =>
-                trackCatalogue("catalogue_search", {
-                  brand: brand.name,
-                  catalogue: title,
-                  query,
-                  results,
-                })
-              }
-            />
-          )}
+            {sheet === "search" && (
+              <SheetDrawerWrapper
+                key="sheet-search"
+                isDesktop={isDesktop}
+                reduceMotion={reduceMotion}
+              >
+                <CatalogSearch
+                  catalogId={`${slug}-${active}`}
+                  onSelect={(target) => {
+                    goToPage(target);
+                  }}
+                  onClose={() => setSheet("none")}
+                  onSearched={(query, results) =>
+                    trackCatalogue("catalogue_search", {
+                      brand: brand.name,
+                      catalogue: title,
+                      query,
+                      results,
+                    })
+                  }
+                />
+              </SheetDrawerWrapper>
+            )}
 
-          {sheet === "info" && (
-            <CatalogueInfo
-              brand={brand.name}
-              catalogues={catalogs}
-              active={active}
-              pages={numPages}
-              onSelect={selectCatalogue}
-              onClose={() => setSheet("none")}
-              onEnquire={() => {
-                setSheet("none");
-                startMarking();
-              }}
-              label={(entry, index) => catalogLabel(entry, brand.name, index)}
-            />
-          )}
+            {sheet === "info" && (
+              <SheetDrawerWrapper
+                key="sheet-info"
+                isDesktop={isDesktop}
+                reduceMotion={reduceMotion}
+                hasBackdrop
+              >
+                <CatalogueInfo
+                  brand={brand.name}
+                  catalogues={catalogs}
+                  active={active}
+                  pages={numPages}
+                  onSelect={selectCatalogue}
+                  onClose={() => setSheet("none")}
+                  onEnquire={() => {
+                    setSheet("none");
+                    startMarking();
+                  }}
+                  label={(entry, index) => catalogLabel(entry, brand.name, index)}
+                />
+              </SheetDrawerWrapper>
+            )}
+          </AnimatePresence>
         </>
       ) : (
         <div className="flex h-full items-center justify-center p-6">

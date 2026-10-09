@@ -6,6 +6,7 @@ import { useConsultationStore } from "./store";
 import { parseLeadResponse } from "@/lib/leads/response";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { Loader2, AlertCircle, RefreshCw, ChevronDown } from "lucide-react";
+import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 
 // ── Types ───────────────────────────────────────────────────────────────────
 
@@ -59,6 +60,7 @@ const CLS_LABEL = "text-[11px] uppercase tracking-[0.25em] text-[var(--text-seco
 
 export function ConsultationForm({ onSuccess, inline = false }: ConsultationFormProps) {
   const { context } = useConsultationStore();
+  const shouldReduceMotion = useReducedMotion();
 
   // The form mounts more than once per document — the inline section form and
   // the navbar drawer coexist, and the mobile and desktop trees are both in the
@@ -213,45 +215,60 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
     }
   }
 
-  // ── Success Screen ─────────────────────────────────────────────────────────
-
-  if (successLeadId) {
-    return (
-      <div
-        className={
-          inline
-            ? "w-full min-h-[420px] flex flex-col items-center justify-center py-8"
-            : "h-full flex flex-col items-center justify-center p-6"
-        }
-      >
-        <ConsultationSuccess leadId={successLeadId} />
-
-        {/* Recoverable Retry Alert if Telegram notification failed on server */}
-        {telegramStatus === "failed" && (
-          <div className="mt-4 p-3 bg-amber-950/40 border border-amber-500/30 rounded-none flex items-center justify-between gap-3 text-[13px] text-amber-200/90 max-w-md w-full">
-            <div className="flex items-center gap-2">
-              <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
-              <span>We&apos;re having trouble alerting our team in real-time.</span>
-            </div>
-            <button
-              type="button"
-              onClick={handleRetryNotification}
-              disabled={isRetrying}
-              className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-medium transition-colors disabled:opacity-50"
-            >
-              <RefreshCw className={`w-3 h-3 ${isRetrying ? "animate-spin" : ""}`} />
-              <span>Retry</span>
-            </button>
-          </div>
-        )}
-      </div>
-    );
-  }
-
-  // ── Form Screen ────────────────────────────────────────────────────────────
+  // ── Render Screens with Mode="Wait" Transition ─────────────────────────────
 
   return (
-    <div className={`flex flex-col text-[var(--text-primary)] font-dmsans ${inline ? "w-full" : "p-6 lg:p-8 h-full justify-between"}`}>
+    <AnimatePresence mode="wait">
+      {successLeadId ? (
+        <motion.div
+          key="success"
+          initial={shouldReduceMotion ? { opacity: 1 } : { opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+          transition={
+            shouldReduceMotion
+              ? { duration: 0 }
+              : { duration: 0.35, ease: [0.23, 1, 0.32, 1] }
+          }
+          className={
+            inline
+              ? "w-full min-h-[420px] flex flex-col items-center justify-center py-8"
+              : "h-full flex flex-col items-center justify-center p-6"
+          }
+        >
+          <ConsultationSuccess leadId={successLeadId} />
+
+          {/* Recoverable Retry Alert if Telegram notification failed on server */}
+          {telegramStatus === "failed" && (
+            <div className="mt-4 p-3 bg-amber-950/40 border border-amber-500/30 rounded-none flex items-center justify-between gap-3 text-[13px] text-amber-200/90 max-w-md w-full">
+              <div className="flex items-center gap-2">
+                <AlertCircle className="w-4 h-4 text-amber-400 shrink-0" />
+                <span>We&apos;re having trouble alerting our team in real-time.</span>
+              </div>
+              <button
+                type="button"
+                onClick={handleRetryNotification}
+                disabled={isRetrying}
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-medium transition-colors disabled:opacity-50"
+              >
+                <RefreshCw className={`w-3 h-3 ${isRetrying ? "animate-spin" : ""}`} />
+                <span>Retry</span>
+              </button>
+            </div>
+          )}
+        </motion.div>
+      ) : (
+        <motion.div
+          key="form"
+          initial={false}
+          exit={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, scale: 0.98 }}
+          transition={
+            shouldReduceMotion
+              ? { duration: 0 }
+              : { duration: 0.25, ease: [0.23, 1, 0.32, 1] }
+          }
+          className={`flex flex-col text-[var(--text-primary)] font-dmsans ${inline ? "w-full" : "p-6 lg:p-8 h-full justify-between"}`}
+        >
       {/* Form Editorial Header */}
       <div className="mb-8 lg:mb-10">
         <div className="flex items-center gap-3 mb-4">
@@ -411,6 +428,8 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           </button>
         </div>
       </form>
-    </div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 }

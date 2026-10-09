@@ -41,7 +41,7 @@
   Business truth validation: brands, products, descriptions, showroom, address, phone, testimonials, claims. COMPLETE.
 
 - [ ] **Phase 8 — Production Launch** 🔄 IN PROGRESS
-  Vercel → hardwarecollection.co → Search Console → GBP → Analytics.
+  Vercel → hardwarecollection.co (Set SITE_INDEXABLE=true) → Search Console → GBP → Analytics.
 
 - [x] **Phase 9 — Collections Guided Discovery Redesign** ✅ EXECUTED (all 19 plans have SUMMARY files; 09-19 is `complete_with_failures`)
   Replace filter-driven catalogue UX on `/collections` with progressive-disclosure showroom discovery:
@@ -115,9 +115,16 @@
 
 - [x] **Phase 16 — Local Search Entity & SEO Foundation** ✅ COMPLETE
   Establish the definitive technical SEO foundation, local search entity authority, and crawlability architecture across the codebase: single H1 enforcement, intent metadata, server-rendered taxonomy on `/collections`, `/catalogues` sitemap entry, bidirectional cross-linking bridges, and Schema.org HardwareStore graph.
-  - Canonical Host: `https://www.hardwarecollection.co` (Confirmed 2026-10-09)
-  - Titles (Option 3): Confirmed <60 chars with local search keywords (Confirmed 2026-10-09)
+  - Canonical Host: `https://www.hardwarecollection.co` (Owner-decided 2026-10-09)
+  - Titles (Option 3): Confirmed <60 chars with local search keywords (Owner-decided 2026-10-09)
   - Address Spelling: `Kashidih` (owner-chosen, GBP check pending)
-  - Coordinates & Hours: Repo defaults `22.8028401, 86.2015` and Studio hours fallback (Confirmed 2026-10-09)
+  - Coordinates & Hours: Repo defaults `22.8028401, 86.2015` and Studio hours fallback (Owner-decided 2026-10-09)
   See `.planning/phases/16-local-search-seo/16-CONTEXT.md`.
+
+- [x] **Phase 17 — Animation Opportunities & Motion System Integration** ✅ COMPLETE
+  Implement targeted, utility-driven animations and motion system refinements across the showroom, catalogue viewer, and consultation funnel with mandatory reduced-motion guards:
+  - Plan 17-01: Hero carousel controls tactile press feedback & FAQ CSS Grid accordion expansion ✅
+  - Plan 17-02: Lead consultation form submission `<AnimatePresence mode="wait">` state cross-fade ✅
+  - Plan 17-03: Catalogue viewer modal sheets slide transitions, `useIsDesktop` breakpoint hook, and wrapper motion architecture ✅
+  See `.planning/phases/17-animation-motion-system/17-CONTEXT.md`.
 

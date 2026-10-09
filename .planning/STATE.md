@@ -15,8 +15,8 @@ progress:
 # Current Operational State
 
 **Active Project:** Hardware Collection
-**Last Updated:** 2026-10-09
-**Active Phase:** Phase 16 — Local Search Entity & SEO Foundation (Complete)
+**Last Updated:** 2026-10-10
+**Active Phase:** Phase 17 — Animation Opportunities & Motion System Integration (Complete)
 **Feature Development:** FROZEN
 
 ## Status Summary
@@ -40,6 +40,7 @@ Phase 13 📋  Planned (CMS Photography & Scheduled Offers)
 Phase 14 ✅  Complete (UI/UX Refinement & Anti-UI-Slop Standardization)
 Phase 15 ✅  Complete (Animation Polish & GPU Acceleration / Content Updates)
 Phase 16 ✅  Complete (Local Search Entity & Technical SEO Foundation)
+Phase 17 ✅  Complete (Animation Opportunities & Motion System Integration)
 ```
 
 ## Known P0 Blocker
@@ -63,7 +64,7 @@ Production console audit (npm run build)
         ↓
 Mukesh business-truth acceptance
         ↓
-Vercel deployment → hardwarecollection.co
+Vercel deployment → hardwarecollection.co (set SITE_INDEXABLE=true)
         ↓
 Search Console + GBP + Analytics
 ```
@@ -153,7 +154,7 @@ number resolved above in Phase 9 Business-Truth Confirmations.
 
 ## Phase 16 Business-Truth Confirmations
 
-Owner-confirmed 2026-10-09:
+Owner-decided 2026-10-09:
 - **Title Strategy (Option 3):** Confirmed titles keeping local search keywords under 60 characters to prevent SERP truncation:
   - Homepage: `Hardware Showroom Sakchi, Jamshedpur | Hardware Collection` (58 chars)
   - Collections: `Hardware Collections | Door, Kitchen, Wardrobe | Jamshedpur` (58 chars)
@@ -169,3 +170,11 @@ Audit-Fix executed (`/gsd-audit-fix`):
 - **Static HTML Pre-rendering (SSG Bailout Fix):** Replaced top-level `useSearchParams()` with client-side query synchronization in `useCollectionsState` and `CatalogsClient`. Removed outer `<Suspense>` bailouts, ensuring complete pre-rendering of all 7 showroom families in `<details>/<summary>`, single `<h1>`, and crawlable cross-link bridges directly into static server HTML.
 - **Verification Suite:** Added automated suite `src/lib/collections/__tests__/phase16Verification.test.ts` (10 tests) and runner `scripts/verify-phase16-e2e.ts` passing all 24/24 synthetic and static checks.
 - **Catalog Explorer Backlog Item:** Logged that `CollectionExplorer` renders taxonomy and categories without product cards (behavior inherited from pre-Phase-16 code where `ShowcaseCard` was unreferenced). Product card integration remains queued for upcoming catalogue refinement.
+
+## Phase 17 Execution (2026-10-10)
+
+Executed on branch `docs/animation-plan`:
+- **Plan 17-01 (`c118572`):** Hero carousel controls tactile press feedback (`active:scale-[0.97]`) & FAQ accordion CSS Grid smooth expansion (`grid-template-rows-[1fr]` with `min-h-0 overflow-hidden`), zero `transition: all`.
+- **Plan 17-02 (`556fb82`):** Lead consultation form submission `<AnimatePresence mode="wait">` state cross-fade (`duration: 0.35 / 0.25`, `--ease-out`) with `useReducedMotion()` instantaneous fallback.
+- **Plan 17-03 (`b59c0de`):** SSR-safe `useIsDesktop()` hook (`useSyncExternalStore` at 768px), `SheetDrawerWrapper` outer motion boundary (isolates touch drag `<aside>` inline height and locks mount-time entrance vector), `SheetDialogWrapper` for `PageJump`, and `<AnimatePresence>` integration in `CatalogViewerModal.tsx`.
+- **Quality Verification:** 24/24 test suites passed (237/237 tests green), `npx tsc --noEmit` clean, ESLint clean (0 errors), browser subagent verified.
