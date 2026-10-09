@@ -95,7 +95,7 @@ export async function POST(request: Request) {
       ownerName: "Mukesh Khandelwal",
       phone: "+91 98351 90738",
       whatsapp: "919835190738",
-      email: "info@hardwarecollection.in",
+      email: "info@hardwarecollection.co",
       address: "1/18, Kashidih, Near Durga Puja Maidan,\nSakchi, Jamshedpur, Jharkhand 831001",
       openingHours: SHOWROOM_HOURS_FALLBACK,
       defaultWhatsappMessage: "Hi Hardware Collection, I would like to connect with your consultation desk regarding architectural hardware.",

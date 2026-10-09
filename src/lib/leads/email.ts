@@ -133,7 +133,7 @@ ${products.map((p: { brand?: string; name: string }) => `- ${p.brand || 'Hardwar
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Hardware Collection <leads@hardwarecollection.in>", // Fallback or verified domain
+      from: process.env.RESEND_FROM_EMAIL || "Hardware Collection <leads@hardwarecollection.co>",
       to: [toEmail],
       subject: `New Website Consultation — ${leadId}`,
       html: html,

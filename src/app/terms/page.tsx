@@ -6,7 +6,7 @@ import { ArrowLeft, Phone, Mail, MapPin } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 
 export const metadata = {
-  title: "Terms & Conditions | Hardware Collection Jamshedpur",
+  title: "Terms & Conditions",
   description:
     "Terms and conditions for Hardware Collection showroom, Sakchi, Jamshedpur. Product information, specifications, and showroom consultation terms.",
 };
@@ -52,7 +52,7 @@ export default async function TermsPage() {
                 </h2>
                 <p>
                   By accessing and using this website (
-                  <span className="font-normal text-[#1a1017]">hardwarecollection.in</span>), viewing our digital catalogues,
+                  <span className="font-normal text-[#1a1017]">hardwarecollection.co</span>), viewing our digital catalogues,
                   or submitting project inquiries to Hardware Collection, Sakchi, Jamshedpur, you agree to comply with
                   and be bound by these terms. If you disagree with any part of these terms, please consult our showroom
                   team directly before specifying products.
@@ -158,7 +158,7 @@ export default async function TermsPage() {
             </div>
             <div className="flex items-center gap-3">
               <Mail className="w-4 h-4 text-[#8b1a42] shrink-0" />
-              <span>info@hardwarecollection.in</span>
+              <span>info@hardwarecollection.co</span>
             </div>
           </div>
         </div>
