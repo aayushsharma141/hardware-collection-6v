@@ -68,8 +68,13 @@ jobs:
         uses: trufflesecurity/trufflehog@main
         with:
           path: ./
-          base: ${{ github.event.repository.default_branch }}
-          head: HEAD
+          # Scan only what this event introduces. Comparing the default branch
+          # with HEAD is empty on a push to main (both are the same commit), and
+          # TruffleHog then refuses to run. Pull requests scan base..head; pushes
+          # scan the previous tip..new tip; the weekly schedule has no range and
+          # scans with an empty base.
+          base: ${{ github.event_name == 'pull_request' && github.event.pull_request.base.sha || github.event_name == 'push' && github.event.before || '' }}
+          head: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.sha || github.sha }}
 
   sbom-generation:
     name: Generate SBOM
