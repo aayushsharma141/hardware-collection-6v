@@ -3,8 +3,7 @@ import { compile } from "tailwindcss";
 import { readFileSync } from "node:fs";
 import { createRequire } from "node:module";
 
-// The hero Prev/Next buttons that are actually rendered: HeroStage on desktop,
-// HeroMobile on phones. (HeroControls.tsx is not imported anywhere.)
+// The hero Prev/Next buttons: HeroStage on desktop, HeroMobile on phones.
 const BUTTONS = [
   { file: "../HeroStage.tsx", labels: ["Previous specimen", "Next specimen"] },
   { file: "../HeroMobile.tsx", labels: ["Previous hero slide", "Next hero slide"] },
