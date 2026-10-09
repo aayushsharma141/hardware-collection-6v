@@ -31,6 +31,6 @@
 
 ### Corrections (2026-10-10, browser verification)
 
-1. **Hero press feedback did not ship.** `HeroControls.tsx` is not imported anywhere (unused since `12f66b8`), so change 1 above had no effect on the site. The rendered Prev/Next buttons live in `HeroStage.tsx` ("Previous/Next specimen", desktop) and `HeroMobile.tsx` ("Previous/Next hero slide", mobile). Branch `fix/hero-press-feedback` applies the press there.
+1. **Hero press feedback did not ship.** `HeroControls.tsx` is not imported anywhere (unused since `12f66b8`), so change 1 above had no effect on the site. The rendered Prev/Next buttons live in `HeroStage.tsx` ("Previous/Next specimen", desktop) and `HeroMobile.tsx` ("Previous/Next hero slide", mobile). PR #35 (`48f422c`) applies the press there, and the unused `HeroControls.tsx` was then deleted.
 2. **`transition-[color,transform]` would not animate the press.** Tailwind 4 `scale-*` utilities set the CSS `scale` property, not `transform`. The fix uses `transition-[color,scale]` (desktop) and `transition-[background-color,scale]` (mobile, replacing `transition-all`). Guarded by `src/components/home/__tests__/heroPressClasses.test.ts`.
 3. **FAQ classes.** `grid-template-rows-[…]` in change 2 generates no CSS in Tailwind 4; it was replaced with `grid-rows-[…]` in `d7585d2`.
