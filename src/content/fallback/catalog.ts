@@ -204,7 +204,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Emergency Mechanical Key & USB Backup"
     ],
     verificationStatus: "catalog_verified",
-    whatsappMessage: "Hardware Collection — I would like to consult on Digital Locks & Biometric Security for my project.",
+    whatsappMessage: "Hardware Collection: I would like to consult on Digital Locks & Biometric Security for my project.",
     featured: true,
     itemCount: 4
   },
@@ -229,7 +229,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Corrosion-Resistant PVD Finished Faceplates"
     ],
     verificationStatus: "brand_verified",
-    whatsappMessage: "Hardware Collection — Inquiring about Mortise & Architectural Door Locks.",
+    whatsappMessage: "Hardware Collection: Inquiring about Mortise & Architectural Door Locks.",
     featured: false,
     itemCount: 2
   },
@@ -253,7 +253,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Back-to-Back Glass & Wooden Door Mountings"
     ],
     verificationStatus: "brand_verified",
-    whatsappMessage: "Hardware Collection — Inquiring about Main Entrance Pull Handles & Finishes.",
+    whatsappMessage: "Hardware Collection: Inquiring about Main Entrance Pull Handles & Finishes.",
     featured: false,
     itemCount: 2
   },
@@ -277,7 +277,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Anti-Fingerprint Anodized Finishes"
     ],
     verificationStatus: "brand_verified",
-    whatsappMessage: "Hardware Collection — Inquiring about Cabinet & Wardrobe Handles.",
+    whatsappMessage: "Hardware Collection: Inquiring about Cabinet & Wardrobe Handles.",
     featured: false,
     itemCount: 1
   },
@@ -287,7 +287,7 @@ export const CATEGORIES: CategoryInfo[] = [
     title: "Modular Kitchen Hardware",
     eyebrow: "German Precision Soft-Close Fittings",
     shortDesc: "Hafele & Hettich soft-close tandem drawers, tall pantry pull-outs, and corner carousel magic units.",
-    overview: "Complete German-engineered kitchen fitting systems — hinges, drawer channels, organizers — for durable, soft-close daily use.",
+    overview: "Complete German-engineered kitchen fitting systems (hinges, drawer channels, organizers) for durable, soft-close daily use.",
     iconName: "ChefHat",
     primaryRail: "kitchen-wardrobes",
     familySlugs: ["kitchen-wardrobes"],
@@ -302,7 +302,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Integrated 3D Tool-less Front Alignment"
     ],
     verificationStatus: "catalog_verified",
-    whatsappMessage: "Hardware Collection — Inquiring about German Modular Kitchen Hardware Systems.",
+    whatsappMessage: "Hardware Collection: Inquiring about German Modular Kitchen Hardware Systems.",
     featured: true,
     itemCount: 4
   },
@@ -327,7 +327,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Sound-Dampening Heavy Composite Basin"
     ],
     verificationStatus: "brand_verified",
-    whatsappMessage: "Hardware Collection — Inquiring about Labacha Quartz Sinks & Kitchen Faucets.",
+    whatsappMessage: "Hardware Collection: Inquiring about Labacha Quartz Sinks & Kitchen Faucets.",
     featured: false,
     itemCount: 2
   },
@@ -351,7 +351,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Ergonomic Hydraulic Wardrobe Pull-Down Lifts"
     ],
     verificationStatus: "brand_verified",
-    whatsappMessage: "Hardware Collection — Inquiring about Wardrobe Sliding Systems & Internal Fittings.",
+    whatsappMessage: "Hardware Collection: Inquiring about Wardrobe Sliding Systems & Internal Fittings.",
     featured: false,
     itemCount: 2
   },
@@ -375,7 +375,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Certified 200,000 Cycle Fatigue Endurance"
     ],
     verificationStatus: "brand_verified",
-    whatsappMessage: "Hardware Collection — Inquiring about 3D Concealed Hinges & Soft-Close Systems.",
+    whatsappMessage: "Hardware Collection: Inquiring about 3D Concealed Hinges & Soft-Close Systems.",
     featured: false,
     itemCount: 2
   },
@@ -399,7 +399,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Galvanized Steel Heavy-Duty Load Ratings"
     ],
     verificationStatus: "brand_verified",
-    whatsappMessage: "Hardware Collection — Inquiring about Concealed Drawer Runners & Slides.",
+    whatsappMessage: "Hardware Collection: Inquiring about Concealed Drawer Runners & Slides.",
     featured: false,
     itemCount: 1
   },
@@ -424,7 +424,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "PVD Brushed Gold & Matte Black Finish Durability"
     ],
     verificationStatus: "unverified",
-    whatsappMessage: "Hardware Collection — Inquiring about Bathroom Accessories.",
+    whatsappMessage: "Hardware Collection: Inquiring about Bathroom Accessories.",
     featured: false,
     itemCount: 0
   },
@@ -449,7 +449,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Heavy Commercial Glass Facade Spider Fittings"
     ],
     verificationStatus: "unverified",
-    whatsappMessage: "Hardware Collection — Inquiring about Architectural Glass Fittings.",
+    whatsappMessage: "Hardware Collection: Inquiring about Architectural Glass Fittings.",
     featured: false,
     itemCount: 0
   },
@@ -474,7 +474,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "EN 1154 Fire-Rated Compliance Standards"
     ],
     verificationStatus: "unverified",
-    whatsappMessage: "Hardware Collection — Inquiring about Hydraulic Door Closers & Stoppers.",
+    whatsappMessage: "Hardware Collection: Inquiring about Hydraulic Door Closers & Stoppers.",
     featured: false,
     itemCount: 0
   },
@@ -499,7 +499,7 @@ export const CATEGORIES: CategoryInfo[] = [
       "Tamper Alarm Auto-Freeze Security Protocol"
     ],
     verificationStatus: "unverified",
-    whatsappMessage: "Hardware Collection — Inquiring about Biometric Home & Office Safes.",
+    whatsappMessage: "Hardware Collection: Inquiring about Biometric Home & Office Safes.",
     featured: false,
     itemCount: 0
   }

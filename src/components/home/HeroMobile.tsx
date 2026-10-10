@@ -72,7 +72,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
         {/* Subtitle / Description */}
         <p className="text-[13px] sm:text-[14px] leading-relaxed font-light text-[var(--text-secondary)] mb-6 max-w-[38ch]">
           {slide.description ||
-            "Curated hardware for modern spaces. Explore global brands, unmatched quality and expert guidance — at our Sakchi showroom."}
+            "Curated hardware for modern spaces. Explore global brands, unmatched quality and expert guidance at our Sakchi showroom."}
         </p>
 
         {/* Dual CTAs matching Reference Mockup */}

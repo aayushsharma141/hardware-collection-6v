@@ -43,7 +43,7 @@ export default function TactileStatement() {
               HARDWARE<br />YOU CAN<br />EXPERIENCE.
             </h2>
             <p className="text-xl text-[var(--text-secondary)] font-light max-w-md">
-              Weight. Texture. Resistance. True quality isn&apos;t just seen—it communicates through touch.
+              Weight. Texture. Resistance. True quality isn&apos;t just seen. It communicates through touch.
             </p>
           </motion.div>
           

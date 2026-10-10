@@ -411,7 +411,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
     }
     const note =
       result.transport === "clipboard"
-        ? "WhatsApp is open and the image is on your clipboard — paste it into the chat to send it."
+        ? "WhatsApp is open and the image is on your clipboard. Paste it into the chat to send it."
         : "WhatsApp is open. Your browser blocked the clipboard, so take a screenshot of this image to attach it.";
     setShareNote(note);
     announce(note);
@@ -559,7 +559,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
       className="hc-viewer fixed inset-0 z-[100] select-none bg-[var(--v-surface)] text-[var(--v-text)] outline-none"
     >
       <h2 id="catalogue-title" className="sr-only">
-        {brand.name} — {title}
+        {brand.name}: {title}
       </h2>
       <p id="catalogue-hint" className="sr-only">
         View-only catalogue. Arrow keys turn pages. Use Mark &amp; Share to send a product to

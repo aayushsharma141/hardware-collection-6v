@@ -14,11 +14,11 @@ export function buildWhatsAppLink(
 }
 
 export function buildHeroExpertMessage(): string {
-  return "Hardware Collection — I'd like to speak with a hardware expert about my project.";
+  return "Hardware Collection: I'd like to speak with a hardware expert about my project.";
 }
 
 export function buildProjectRequirementMessage(): string {
-  return "Hardware Collection — I'd like to send my project requirement for a consultation.";
+  return "Hardware Collection: I'd like to send my project requirement for a consultation.";
 }
 
 export function buildCategoryConsultMessage(
@@ -28,19 +28,19 @@ export function buildCategoryConsultMessage(
   if (whatsappMessage && whatsappMessage.trim().length > 0) {
     return whatsappMessage;
   }
-  return `Hardware Collection — Discuss your ${categoryName}.`;
+  return `Hardware Collection: Discuss your ${categoryName}.`;
 }
 
 export function buildEmptyCategoryMessage(categoryName: string): string {
-  return `Hardware Collection — Ask about ${categoryName} availability.`;
+  return `Hardware Collection: Ask about ${categoryName} availability.`;
 }
 
 export function buildSearchZeroResultMessage(query: string): string {
-  return `Hardware Collection — I'm looking for ${query}.`;
+  return `Hardware Collection: I'm looking for ${query}.`;
 }
 
 export function buildBrandConsultMessage(brandName: string): string {
-  return `Hardware Collection — I'd like to ask about ${brandName} availability.`;
+  return `Hardware Collection: I'd like to ask about ${brandName} availability.`;
 }
 
 export function buildGeneralInquiryWhatsappLink(
