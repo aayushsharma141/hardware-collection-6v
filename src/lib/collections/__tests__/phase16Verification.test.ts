@@ -56,6 +56,16 @@ describe("Phase 16: Local Search & SEO Verification Suite", () => {
       const noindexHeader = previewHeaderRule?.headers?.find((h) => h.key === "X-Robots-Tag");
       expect(noindexHeader?.value).toBe("noindex, nofollow");
     });
+
+    it("enforces Strict-Transport-Security (HSTS) in default security headers", async () => {
+      const headersList = typeof nextConfig.headers === "function" ? await nextConfig.headers() : [];
+      const globalRule = headersList.find((entry) => entry.source === "/(.*)" && !entry.has);
+
+      expect(globalRule).toBeDefined();
+      const hstsHeader = globalRule?.headers?.find((h) => h.key === "Strict-Transport-Security");
+      expect(hstsHeader).toBeDefined();
+      expect(hstsHeader?.value).toBe("max-age=31536000");
+    });
   });
 
   describe("3. Heading Hierarchy (Strict Single <h1> per Route)", () => {

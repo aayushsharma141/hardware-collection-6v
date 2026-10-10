@@ -6,7 +6,7 @@ import { ArrowLeft, Mail, Phone, MapPin } from "lucide-react";
 import { PortableText } from "@portabletext/react";
 
 export const metadata = {
-  title: "Privacy Policy | Hardware Collection Jamshedpur",
+  title: "Privacy Policy",
   description:
     "Privacy Policy for Hardware Collection showroom, Sakchi, Jamshedpur. Learn how we handle project inquiries and contact information.",
 };
@@ -54,7 +54,7 @@ export default async function PrivacyPage() {
                   Hardware Collection operates an architectural hardware, modular kitchen, and security locks
                   showroom based in Sakchi, Jamshedpur, Jharkhand. This Privacy Policy explains how we collect
                   and handle your information when you browse our website (
-                  <span className="font-normal text-[#1a1017]">hardwarecollection.in</span>), submit a project inquiry,
+                  <span className="font-normal text-[#1a1017]">hardwarecollection.co</span>), submit a project inquiry,
                   or reach out via WhatsApp or phone.
                 </p>
               </section>
@@ -152,7 +152,7 @@ export default async function PrivacyPage() {
             </div>
             <div className="flex items-center gap-3">
               <Mail className="w-4 h-4 text-[#8b1a42] shrink-0" />
-              <span>info@hardwarecollection.in</span>
+              <span>info@hardwarecollection.co</span>
             </div>
           </div>
         </div>
