@@ -40,7 +40,7 @@ const fallbackHeroSlides: HeroSlide[] = [
     eyebrow: "ARCHITECTURAL HARDWARE",
     title: "The Art of\nthe Finish.",
     description:
-      "Curated hardware for modern spaces. Explore global brands, unmatched quality and expert guidance — at our Sakchi showroom.",
+      "Curated hardware for modern spaces. Explore global brands, unmatched quality and expert guidance at our Sakchi showroom.",
     primaryCta: "Explore Collections",
     ctaTarget: "/collections",
     imageUrl: "/cinema/hero/HC-01-HERO-01.png",
@@ -142,7 +142,7 @@ export default async function HomePage() {
     title: offer.title,
     description: offer.description || "Ask our Sakchi showroom team for details and availability.",
     primaryCta: "Enquire about this offer",
-    ctaTarget: buildWhatsAppLink(`Hardware Collection — I'd like to know more about your offer: ${offer.title}.`, siteSettings),
+    ctaTarget: buildWhatsAppLink(`Hardware Collection: I'd like to know more about your offer: ${offer.title}.`, siteSettings),
     imageUrl: offer.imageUrl || HERO_FALLBACK_IMAGE,
     specimenLabel: "Current offer",
     specimenCaption: offer.brandName || "Hardware Collection · Sakchi",

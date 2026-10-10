@@ -170,7 +170,7 @@ export default function ProductReel({ products }: ProductReelProps) {
               Selected architectural hardware from our authorized partners.
             </p>
             <p className="text-[var(--text-secondary)] text-xs mt-6">
-              01 — {activeProducts.length.toString().padStart(2, "0")}
+              01 / {activeProducts.length.toString().padStart(2, "0")}
             </p>
           </div>
 

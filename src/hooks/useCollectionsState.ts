@@ -115,7 +115,7 @@ export function useCollectionsState({
         return prev.filter((p) => (p._id || p.id) !== id);
       } else {
         if (prev.length >= 5) {
-          setShortlistToast("Consultation list is full — up to 5 specimens at a time.");
+          setShortlistToast("Consultation list is full. Up to 5 specimens at a time.");
           setTimeout(() => setShortlistToast(null), 3000);
           return prev;
         }
@@ -129,18 +129,18 @@ export function useCollectionsState({
     const defaultNumber = settings?.whatsappNumber || "919835190738";
     if (shortlist.length === 0) {
       const genericMsg =
-        "Hardware Collection — Architectural Consultation\n\nHi, I would like to consult with a specialist regarding architectural hardware and digital lock specifications for my project.";
+        "Hardware Collection: Architectural Consultation\n\nHi, I would like to consult with a specialist regarding architectural hardware and digital lock specifications for my project.";
       return `https://wa.me/${defaultNumber}?text=${encodeURIComponent(genericMsg)}`;
     }
 
     const itemsList = shortlist
       .map(
         (p, i) =>
-          `${i + 1}. ${p.brandName || p.brand || "Hardware Collection"} — ${p.name}`
+          `${i + 1}. ${p.brandName || p.brand || "Hardware Collection"} - ${p.name}`
       )
       .join("\n");
 
-    const message = `Hardware Collection — Architectural Consultation\n\nI would like to consult on the following items:\n\n${itemsList}\n\nPlease share finish samples, availability, and technical sizing.`;
+    const message = `Hardware Collection: Architectural Consultation\n\nI would like to consult on the following items:\n\n${itemsList}\n\nPlease share finish samples, availability, and technical sizing.`;
     return `https://wa.me/${defaultNumber}?text=${encodeURIComponent(message)}`;
   }, [settings?.whatsappNumber, shortlist]);
 

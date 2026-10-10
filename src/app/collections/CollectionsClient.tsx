@@ -115,7 +115,7 @@ export default function CollectionsClient({
   const enquiryHref = useCallback(
     (label: string) =>
       buildWhatsAppLink(
-        `Hardware Collection — I'd like to know more about ${label}. Could you share what's available at the showroom?`,
+        `Hardware Collection: I'd like to know more about ${label}. Could you share what's available at the showroom?`,
         settings
       ),
     [settings]
@@ -127,13 +127,13 @@ export default function CollectionsClient({
     const named =
       brand && !product.name.toLowerCase().startsWith(brand.toLowerCase()) ? `${brand} ${product.name}` : product.name;
     return buildWhatsAppLink(
-      `Hardware Collection — I'm interested in ${named}. Could you share finishes, price and availability?`,
+      `Hardware Collection: I'm interested in ${named}. Could you share finishes, price and availability?`,
       settings
     );
   };
 
   const offerEnquiryHref = useCallback(
-    (title: string) => buildWhatsAppLink(`Hardware Collection — I'd like to know more about your offer: ${title}.`, settings),
+    (title: string) => buildWhatsAppLink(`Hardware Collection: I'd like to know more about your offer: ${title}.`, settings),
     [settings]
   );
 
@@ -182,7 +182,7 @@ export default function CollectionsClient({
             Architectural Hardware Collections
           </h1>
           <p className="mt-4 text-[15px] sm:text-base text-[var(--text-secondary)] font-light max-w-lg">
-            Explore hardware by application—from doors and digital security to kitchens, wardrobes, bathrooms and glass systems.
+            Explore hardware by application, from doors and digital security to kitchens, wardrobes, bathrooms and glass systems.
           </p>
         </div>
 

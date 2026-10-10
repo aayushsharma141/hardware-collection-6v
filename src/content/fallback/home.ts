@@ -124,7 +124,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     img: "/cinema/categories/HC-03-DOORS.png",
     href: showroomHref("door"),
     blurb:
-      "Long-format entrance pulls in satin stainless — a low-reflectance surface that holds its finish under daily contact and reads quietly against timber, glass and stone.",
+      "Long-format entrance pulls in satin stainless, a low-reflectance surface that holds its finish under daily contact and reads quietly against timber, glass and stone.",
     statement:
       "A low-reflectance surface that holds its finish under daily contact.",
     sweepDelay: "0s",
@@ -152,7 +152,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     img: "/cinema/categories/HC-03-SECURITY.png",
     href: showroomHref("smart-security"), // category: digital-locks
     blurb:
-      "Fingerprint, PIN and key access in one graphite body. Working units are on the wall in Sakchi — enrol a print and feel the throw before you specify it.",
+      "Fingerprint, PIN and key access in one graphite body. Working units are on the wall in Sakchi. Enrol a print and feel the throw before you specify it.",
     statement:
       "Fingerprint, PIN and key in one graphite body. Working units are on the wall in Sakchi.",
     sweepDelay: "3s",
@@ -168,7 +168,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     blurb:
       "Full-extension runners with integrated soft-close damping. The difference between grades is in the last centimetre of travel, which is why we keep them loaded and open on display.",
     statement:
-      "Full-extension runners — the difference between grades is the last centimetre of travel.",
+      "Full-extension runners. The difference between grades is the last centimetre of travel.",
     sweepDelay: "0.5s",
   },
   {
@@ -180,7 +180,7 @@ export const SIGNATURE_PIECES: SignaturePiece[] = [
     img: "/cinema/collection/HC-05-02.png",
     href: showroomHref("wardrobe-furniture"), // category: cabinet-wardrobe-handles
     blurb:
-      "Small-format knobs in matte gold — the detail a kitchen is read by, and the one most often chosen from a photograph rather than in the hand.",
+      "Small-format knobs in matte gold, the detail a kitchen is read by, and the one most often chosen from a photograph rather than in the hand.",
     statement:
       "The detail a kitchen is read by, and the one most often chosen from a photograph.",
     sweepDelay: "4s",

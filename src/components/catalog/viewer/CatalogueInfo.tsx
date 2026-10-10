@@ -79,7 +79,7 @@ export default function CatalogueInfo({
             {entry?.releaseDate && <Row term="Released" value={entry.releaseDate.slice(0, 10)} />}
             {pages > 0 && <Row term="Pages" value={String(pages)} />}
             {size && <Row term="Size" value={size} />}
-            <Row term="Access" value="View only — reference material" />
+            <Row term="Access" value="View only: reference material" />
           </dl>
 
           {catalogues.length > 1 && (
