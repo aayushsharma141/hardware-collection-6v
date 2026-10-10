@@ -202,7 +202,7 @@ function CinematicScene({
             alt={scene.title.replace('\n', ' ')}
             aria-hidden="true"
             fill
-            sizes="100vw"
+            unoptimized
             className="scene-img object-cover will-change-transform"
             style={{
               opacity: isLast ? 0.8 : 0.9,
