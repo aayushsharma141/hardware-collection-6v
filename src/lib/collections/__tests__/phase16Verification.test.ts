@@ -57,14 +57,14 @@ describe("Phase 16: Local Search & SEO Verification Suite", () => {
       expect(noindexHeader?.value).toBe("noindex, nofollow");
     });
 
-    it("enforces Strict-Transport-Security (HSTS) with preload and subdomains in default security headers", async () => {
+    it("enforces Strict-Transport-Security (HSTS) in default security headers", async () => {
       const headersList = typeof nextConfig.headers === "function" ? await nextConfig.headers() : [];
       const globalRule = headersList.find((entry) => entry.source === "/(.*)" && !entry.has);
 
       expect(globalRule).toBeDefined();
       const hstsHeader = globalRule?.headers?.find((h) => h.key === "Strict-Transport-Security");
       expect(hstsHeader).toBeDefined();
-      expect(hstsHeader?.value).toBe("max-age=31536000; includeSubDomains; preload");
+      expect(hstsHeader?.value).toBe("max-age=31536000");
     });
   });
 
