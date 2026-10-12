@@ -79,7 +79,8 @@
   --color-destructive:          var(--color-wine-deep);
   --color-border:               rgba(26, 16, 23, 0.09);
   --color-input:                rgba(26, 16, 23, 0.09);
-  --color-ring:                 var(--color-brass);
+  /* Wine, not brass: brass on ivory is 2.07:1, below the 3:1 floor for a focus indicator. */
+  --color-ring:                 var(--color-wine);
 
   /* Legacy gold aliases — still valid for decorative use */
   --color-gold-primary:   var(--color-brass);
@@ -90,6 +91,19 @@
   --color-dark-surface-2: var(--color-graphite);
   --color-glass-bg:       rgba(17, 16, 15, 0.7);
   --color-glass-border:   rgba(200, 169, 110, 0.2);
+
+  /* ── Shape ───────────────────────────────────────────────────
+     Sharp is the house shape. The scale steps are zeroed so every shadcn
+     `rounded-md/lg/xl` resolves square; only `rounded-full` (chips, dots)
+     keeps a curve. Bare `rounded` is a fixed 0.25rem and is swept per
+     component, not here. */
+  --radius-xs:  0;
+  --radius-sm:  0;
+  --radius-md:  0;
+  --radius-lg:  0;
+  --radius-xl:  0;
+  --radius-2xl: 0;
+  --radius-3xl: 0;
 
   /* ── Spacing ─────────────────────────────────────────────── */
   --spacing-unit-xs: 4px;
@@ -176,9 +190,12 @@
   --duration-slow:      400ms;
   --duration-very-slow: 500ms;
 
-  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
+  /* One easing for UI feedback. Tailwind's own transition utilities fall back
+     to this curve too, instead of the symmetric cubic-bezier(.4,0,.2,1). */
+  --ease-smooth-out: cubic-bezier(0.23, 1, 0.32, 1);
   --ease-in-out:     ease-in-out;
   --ease-out:        cubic-bezier(0.23, 1, 0.32, 1);
+  --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 
   --distance-micro:  4px;
   --distance-small:  6px;
@@ -202,17 +219,23 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
 
-  /* Semantic token defaults — all components get bright unless a
-     theme wrapper overrides. Eliminates dark fallback values. */
+/* Semantic tokens, declared once. The site is light-only, so .theme-dark,
+   .theme-ivory and .theme-light used to repeat this block verbatim; they now
+   inherit it and only set their own background and colour.
+   --accent-gold is brass-ink (4.79:1 on ivory) because it is used as text;
+   the old #9a7a42 was 3.70:1. */
+:root {
   --surface:           #fbf5ea;
   --surface-raised:    #f7f0e2;
   --surface-elevated:  #ede2d0;
   --text-primary:      #1a1017;
   --text-secondary:    #3d2e38;
   --accent:            #8b1a42;
+  --accent-hover:      #6b1432;
   --accent-functional: #8b1a42;
-  --accent-gold:       #9a7a42;
+  --accent-gold:       #85683a;
   --border:            rgba(26, 16, 23, 0.09);
   --border-accent:     rgba(139, 26, 66, 0.50);
   --glass-bg:          rgba(251, 245, 234, 0.85);
@@ -242,7 +265,7 @@ body {
   }
 
   .btn-tactile {
-    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease;
+    transition: transform var(--t-base) var(--ease-ui), background-color var(--t-base) var(--ease-ui), color var(--t-base) var(--ease-ui);
   }
   
   .btn-tactile:active {
@@ -480,14 +503,41 @@ html.lenis, html.lenis body { height: auto; }
   --wine-rule:  rgba(139, 26, 66, 0.55);
   --brass-rule: rgba(200, 169, 110, 0.55);
 
-  /* Easing */
-  --standard:      cubic-bezier(0.25, 0.1, 0.25, 1);
-  --cinematic:     cubic-bezier(0.22, 1, 0.36, 1);
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-micro: 140ms;
-  --dur-fast:  180ms;
-  --dur-base:  240ms;
-  --dur-slow:  350ms;
+  /* Motion contract: one curve, three speeds. The legacy names stay so the
+     ~15 consumers keep working, but they all resolve to the same values. */
+  --ease-ui:       cubic-bezier(0.23, 1, 0.32, 1);
+  --standard:      var(--ease-ui);
+  --cinematic:     var(--ease-ui);
+  --ease-out-expo: var(--ease-ui);
+  --t-fast: 140ms;   /* press, colour, underline */
+  --t-base: 200ms;   /* hover, small reveals */
+  --t-slow: 320ms;   /* panels, drawers; nothing in UI goes longer */
+  --dur-micro: var(--t-fast);
+  --dur-fast:  var(--t-base);
+  --dur-base:  var(--t-base);
+  --dur-slow:  var(--t-slow);
+  --press: 0.97;
+
+  /* Letter-spacing: three steps replace 18 ad-hoc values. */
+  --track-tight: -0.01em;
+  --track-label: 0.14em;
+  --track-caps:  0.2em;
+
+  /* Overlay: one warm-ink scrim, tinted from --ink instead of neutral black. */
+  --scrim:        rgba(26, 16, 23, 0.55);
+  --scrim-strong: rgba(26, 16, 23, 0.72);
+
+  /* Depth: hairline first; the only shadow is for floating UI, offset and tinted. */
+  --shadow-float: 0 12px 32px -12px rgba(26, 16, 23, 0.28), 0 2px 6px rgba(26, 16, 23, 0.08);
+
+  /* z-index scale: replaces z-[60], z-[100] and z-[9999]. */
+  --z-base: 0;
+  --z-raised: 10;
+  --z-sticky: 40;
+  --z-overlay: 50;
+  --z-modal: 60;
+  --z-toast: 70;
+  --z-top: 100;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -510,26 +560,6 @@ html.lenis, html.lenis body { height: auto; }
 
 .theme-dark {
   /* Overridden to warm-bright — all sections are bright, no dark */
-  --surface:           #fbf5ea;
-  --surface-raised:    #f7f0e2;
-  --surface-elevated:  #ede2d0;
-
-  --text-primary:      #1a1017;
-  --text-secondary:    #3d2e38;
-
-  --accent:            #8b1a42;
-  --accent-hover:      #6b1432;
-  --accent-functional: #8b1a42;
-  --accent-gold:       #9a7a42;
-
-  --border:            rgba(26, 16, 23, 0.09);
-  --border-accent:     rgba(139, 26, 66, 0.50);
-
-  --glass-bg:          rgba(251, 245, 234, 0.85);
-  --glass-border:      rgba(139, 26, 66, 0.15);
-
-  --pointer-glow:      rgba(139, 26, 66, 0.05);
-
   background-color: var(--surface);
   color:            var(--text-primary);
 
@@ -539,26 +569,6 @@ html.lenis, html.lenis body { height: auto; }
 /* Alias — existing TSX still references theme-ivory */
 .theme-ivory,
 .theme-light {
-  --surface:           #fbf5ea;
-  --surface-raised:    #f7f0e2;
-  --surface-elevated:  #ede2d0;
-
-  --text-primary:      #1a1017;
-  --text-secondary:    #3d2e38;
-
-  --accent:            #8b1a42;
-  --accent-hover:      #6b1432;
-  --accent-functional: #8b1a42;
-  --accent-gold:       #9a7a42;
-
-  --border:            rgba(26, 16, 23, 0.09);
-  --border-accent:     rgba(139, 26, 66, 0.50);
-
-  --glass-bg:          rgba(251, 245, 234, 0.85);
-  --glass-border:      rgba(139, 26, 66, 0.15);
-
-  --pointer-glow:      rgba(139, 26, 66, 0.05);
-
   background-color: var(--surface);
   color:            var(--text-primary);
 
@@ -598,38 +608,38 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Underline sweep — brass/gold on interactive elements */
 .architecture-rule { position: relative; }
-.architecture-rule::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0.18); transform-origin: left; transition: transform 220ms var(--standard); }
+.architecture-rule::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0.18); transform-origin: left; transition: transform var(--t-base) var(--standard); }
 .architecture-rule:hover::after, .architecture-rule:focus-within::after { transform: scaleX(1); }
 
 .rail-button { position: relative; overflow: hidden; transition: color var(--dur-micro) var(--ease-out-expo); }
-.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--cinematic); }
+.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform var(--t-base) var(--cinematic); }
 .rail-button:hover::after, .rail-button:focus-visible::after { transform: scaleX(1); }
 
 /* Primary CTA — wine plate */
-.brass-plate { position: relative; background-color: var(--wine); color: #ffffff; box-shadow: inset 0 0 0 1px var(--wine-deep); transition: background-color 220ms var(--cinematic), color 220ms var(--cinematic), transform var(--dur-micro) var(--ease-out-expo); }
+.brass-plate { position: relative; background-color: var(--wine); color: #ffffff; box-shadow: inset 0 0 0 1px var(--wine-deep); transition: background-color var(--t-base) var(--cinematic), color var(--t-base) var(--cinematic), transform var(--dur-micro) var(--ease-out-expo); }
 .brass-plate:hover, .brass-plate:focus-visible { background-color: var(--wine-deep); color: #ffffff; }
 .brass-plate:active { transform: scale(0.98); }
-.brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(255,255,255,.40); transform-origin: left; transition: transform 220ms var(--cinematic); }
+.brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(255,255,255,.40); transform-origin: left; transition: transform var(--t-base) var(--cinematic); }
 .brass-plate:hover::after, .brass-plate:focus-visible::after { transform: translateX(12px); }
 
 /* Aperture hover — chrome sweep */
-.aperture-sweep { position: absolute; top: 18%; bottom: 10%; left: 34%; width: 18%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent); transform: skewX(-18deg); opacity: .42; transition: transform 520ms var(--cinematic), opacity 260ms ease; pointer-events: none; }
+.aperture-sweep { position: absolute; top: 18%; bottom: 10%; left: 34%; width: 18%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent); transform: skewX(-18deg); opacity: .42; transition: transform 320ms var(--ease-ui), opacity 200ms var(--ease-ui); pointer-events: none; }
 .aperture:hover .aperture-sweep, .aperture:focus-within .aperture-sweep { transform: translateX(76px) skewX(-18deg); opacity: .72; }
-.aperture-image { filter: contrast(1.03) saturate(1.02); transition: filter 260ms ease; }
+.aperture-image { filter: contrast(1.03) saturate(1.02); transition: filter var(--t-base) var(--ease-ui); }
 .aperture:hover .aperture-image, .aperture:focus-within .aperture-image { filter: contrast(1.09) saturate(1.10); }
 
 /* Product cards */
-.specimen-tray { position: relative; background: var(--surface-raised, var(--pearl)); border: 1px solid var(--border, var(--rule)); transition: border-color 220ms var(--standard), transform var(--dur-micro) var(--ease-out-expo); }
+.specimen-tray { position: relative; background: var(--surface-raised, var(--pearl)); border: 1px solid var(--border, var(--rule)); transition: border-color var(--t-base) var(--standard), transform var(--dur-micro) var(--ease-out-expo); }
 .specimen-tray:hover, .specimen-tray:focus-within { border-color: var(--border-accent, var(--wine-rule)); }
 .specimen-tray:active { transform: scale(0.99); }
 .specimen-frame { position: relative; isolation: isolate; overflow: hidden; background: var(--surface-elevated, var(--mist)); border: 1px solid var(--border, var(--soft-rule)); }
-.specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(26,16,23,.06); pointer-events: none; z-index: 2; transition: border-color 220ms var(--standard); }
-.specimen-frame::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: 12%; height: 20%; z-index: 1; background: linear-gradient(90deg, transparent, rgba(139,26,66,.12), transparent); transform: translateX(-14%); transition: transform 220ms var(--cinematic), left 220ms var(--standard), right 220ms var(--standard); pointer-events: none; }
+.specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(26,16,23,.06); pointer-events: none; z-index: 2; transition: border-color var(--t-base) var(--standard); }
+.specimen-frame::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: 12%; height: 20%; z-index: 1; background: linear-gradient(90deg, transparent, rgba(139,26,66,.12), transparent); transform: translateX(-14%); transition: transform var(--t-base) var(--cinematic), left var(--t-base) var(--standard), right var(--t-base) var(--standard); pointer-events: none; }
 .specimen-tray:hover .specimen-frame::before, .specimen-tray:focus-within .specimen-frame::before { border-color: rgba(139,26,66,.30); }
 .specimen-tray:hover .specimen-frame::after, .specimen-tray:focus-within .specimen-frame::after { transform: translateX(14%); left: 12%; right: 12%; }
 
 /* Shortlist toggle */
-.shortlist-control .ti-plus, .shortlist-control .shortlist-icon { transition: transform 180ms var(--standard); }
+.shortlist-control .ti-plus, .shortlist-control .shortlist-icon { transition: transform var(--t-fast) var(--ease-ui); }
 .shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon,
 .shortlist-control[aria-pressed='true'] .ti-plus, .shortlist-control[aria-pressed='true'] .shortlist-icon { transform: rotate(45deg); }
 .shortlist-control[aria-pressed='true'] { background: var(--wine); color: #ffffff; border-color: var(--wine); }
@@ -638,33 +648,33 @@ html.lenis, html.lenis body { height: auto; }
 /* Threshold card */
 .threshold-card { position: relative; transition: transform var(--dur-micro) var(--ease-out-expo); }
 .threshold-card:active { transform: scale(0.99); }
-.threshold-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(139,26,66,0); transition: background-color 220ms var(--cinematic); }
+.threshold-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(139,26,66,0); transition: background-color var(--t-base) var(--cinematic); }
 .threshold-card:hover::before, .threshold-card:focus-within::before { background: var(--wine); }
-.threshold-card .threshold-action i, .threshold-card .threshold-action svg { transform: translateX(0); transition: transform 220ms var(--cinematic); }
+.threshold-card .threshold-action i, .threshold-card .threshold-action svg { transform: translateX(0); transition: transform var(--t-base) var(--cinematic); }
 .threshold-card:hover .threshold-action i, .threshold-card:hover .threshold-action svg,
 .threshold-card:focus-within .threshold-action i, .threshold-card:focus-within .threshold-action svg { transform: translateX(6px); }
-.threshold-card .threshold-image { transition: filter 220ms ease; }
+.threshold-card .threshold-image { transition: filter var(--t-base) ease; }
 .threshold-card:hover .threshold-image, .threshold-card:focus-within .threshold-image { filter: contrast(1.08) brightness(1.04); }
 
 /* Mobile list row */
 .mobile-row { min-height: 78px; position: relative; }
-.mobile-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: transparent; transition: background-color 180ms ease; }
+.mobile-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: transparent; transition: background-color var(--t-fast) var(--ease-ui); }
 .mobile-row:hover::before, .mobile-row:focus-within::before { background: var(--wine); }
-.mobile-row i, .mobile-row svg { transform: translateX(0); transition: transform 180ms var(--cinematic); }
+.mobile-row i, .mobile-row svg { transform: translateX(0); transition: transform var(--t-fast) var(--ease-ui); }
 .mobile-row:hover i, .mobile-row:hover svg, .mobile-row:focus-within i, .mobile-row:focus-within svg { transform: translateX(5px); }
 
 /* Phone frame mockup */
 .phone-frame { box-shadow: inset 0 0 0 1px rgba(26,16,23,.14), 0 0 0 8px var(--pearl), 0 0 0 9px rgba(26,16,23,.08); }
 
 /* Checkbox */
-.check-box { width: 16px; height: 16px; border: 1px solid rgba(26,16,23,.28); display: inline-flex; align-items: center; justify-content: center; color: #ffffff; flex: 0 0 auto; transition: all var(--dur-micro) var(--ease-out-expo); }
+.check-box { width: 16px; height: 16px; border: 1px solid rgba(26,16,23,.28); display: inline-flex; align-items: center; justify-content: center; color: #ffffff; flex: 0 0 auto; transition: background-color var(--t-fast) var(--ease-ui), border-color var(--t-fast) var(--ease-ui), color var(--t-fast) var(--ease-ui); }
 .check-box.is-checked { background: var(--wine); border-color: var(--wine); }
 
 /* Index rows */
 .index-row { min-height: 44px; border-bottom: 1px solid var(--rule); transition: color var(--dur-micro) var(--ease-out-expo); }
 .index-row.is-active { color: var(--ink); }
 .index-row.is-active .index-rule { transform: scaleX(1); }
-.index-rule { width: 34px; height: 2px; background: var(--wine); transform: scaleX(.35); transform-origin: left; transition: transform 180ms var(--standard); }
+.index-rule { width: 34px; height: 2px; background: var(--wine); transform: scaleX(.35); transform-origin: left; transition: transform var(--t-fast) var(--ease-ui); }
 
 
 
@@ -705,6 +715,12 @@ select {
 :focus-visible {
   outline: 2px solid var(--wine);
   outline-offset: 3px;
+}
+/* Wine is 2.1:1 on the dark grounds, so the ring flips to brass (8:1) there. */
+.hc-viewer :focus-visible,
+[data-surface="dark"] :focus-visible,
+[data-surface="dark"]:focus-visible {
+  outline-color: var(--brass);
 }
 
 /* Hero Carousel Progress Refill Animation */
