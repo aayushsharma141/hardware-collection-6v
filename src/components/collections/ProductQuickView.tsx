@@ -94,7 +94,7 @@ export default function ProductQuickView({
                   <Button
                     asChild
                     variant="outline"
-                    className="h-12 rounded-none border-[var(--border)] bg-transparent text-[13px] font-medium uppercase tracking-widest hover:border-[var(--color-brass)] hover:bg-transparent sm:text-xs"
+                    className="h-12 rounded-none border-[var(--border)] bg-transparent text-[13px] font-medium uppercase tracking-widest hover:border-[var(--border-accent)] hover:bg-transparent sm:text-xs"
                   >
                     <Link href={catalogueHref}>View {brand} catalogue</Link>
                   </Button>

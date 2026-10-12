@@ -36,7 +36,7 @@ export default function ShowcaseCard({ product, image, onOpen }: ShowcaseCardPro
   const imageUrl = typeof image === "string" ? image : image ? urlForImage(image).url() : "";
 
   return (
-    <Card className="group h-full gap-0 overflow-hidden rounded-none border-[var(--border)] bg-[var(--surface)] p-0 shadow-none transition-colors duration-300 hover:border-[var(--color-brass)] relative">
+    <Card className="group h-full gap-0 overflow-hidden rounded-none border-[var(--border)] bg-[var(--surface)] p-0 shadow-none transition-colors duration-300 hover:border-[var(--border-accent)] relative">
       <button
         ref={cardRef}
         type="button"
@@ -63,7 +63,7 @@ export default function ShowcaseCard({ product, image, onOpen }: ShowcaseCardPro
 
         <span className="flex flex-1 flex-col gap-1.5 p-4">
           {brand && (
-            <span className="hc-mono text-[11px] font-semibold uppercase tracking-[0.18em] text-[var(--text-secondary)] sm:text-[10px]">
+            <span className="hc-mono text-[11px] font-semibold uppercase tracking-[0.2em] text-[var(--text-secondary)] sm:text-[11px]">
               {brand}
             </span>
           )}

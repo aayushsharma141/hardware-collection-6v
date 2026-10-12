@@ -125,7 +125,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
           {/* Header matching Reference Mockup */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
+              <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-1.5">
                 Trusted Brands
               </p>
               <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--text-primary)] leading-tight">
@@ -140,7 +140,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
               </p>
               <Link
                 href="/catalogues"
-                className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-wine)] inline-flex items-center gap-1.5 hover:underline"
+                className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-wine)] inline-flex items-center gap-1.5 hover:underline"
               >
                 <span>View All Brands</span>
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -171,7 +171,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
               <Link
                 key={`brand-1-${brand.id || idx}-${idx}`}
                 href={brand.href}
-                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
+                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-[1.03] select-none"
                 title={brand.name}
               >
                 {brand.logo ? (
@@ -196,7 +196,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
               <Link
                 key={`brand-1-dup-${brand.id || idx}-${idx}`}
                 href={brand.href}
-                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
+                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-[1.03] select-none"
                 title={brand.name}
                 tabIndex={-1}
               >
@@ -227,7 +227,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
                 <Link
                   key={`brand-2-${brand.id || idx}-${idx}`}
                   href={brand.href}
-                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
+                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-[1.03] select-none"
                   title={brand.name}
                 >
                   {brand.logo ? (
@@ -252,7 +252,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
                 <Link
                   key={`brand-2-dup-${brand.id || idx}-${idx}`}
                   href={brand.href}
-                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
+                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-[1.03] select-none"
                   title={brand.name}
                   tabIndex={-1}
                 >

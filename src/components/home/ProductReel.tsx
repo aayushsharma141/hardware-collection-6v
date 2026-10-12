@@ -220,7 +220,7 @@ function ProductCard({
             alt={`${product.brand} ${product.name}`}
             fill
             sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
-            className="object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
+            className="object-cover group-hover:scale-[1.05] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)]">
@@ -228,7 +228,7 @@ function ProductCard({
           </div>
         )}
         {/* Hover darkened overlay for editorial contrast */}
-        <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
+        <div className="absolute inset-0 bg-[var(--color-ink)]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
         {/* Reflective light sweep */}
         <div
           className="light-sweep-overlay pointer-events-none"
@@ -241,7 +241,7 @@ function ProductCard({
       {/* Specimen label */}
       <div className="space-y-1">
         <div className="flex items-baseline justify-between mb-2">
-          <p className="text-[var(--text-secondary)] text-[10px] tracking-widest uppercase opacity-70">
+          <p className="text-[var(--text-secondary)] text-[11px] tracking-widest uppercase opacity-70">
             {product.index} · {product.category}
           </p>
           <span className="text-[var(--text-secondary)] text-sm group-hover:translate-x-1 transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)]" aria-hidden="true">
@@ -265,7 +265,7 @@ function ProductCard({
 function ChapterLabel() {
   return (
     <>
-      <p className="hc-mono text-[var(--accent)] font-medium tracking-[0.22em] text-[10px] sm:text-[11px] uppercase mb-1">
+      <p className="hc-mono text-[var(--accent)] font-medium tracking-[0.2em] text-[11px] uppercase mb-1">
         Selected hardware
       </p>
       <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mt-2">
@@ -311,7 +311,7 @@ function MobileProductCard({
             alt={`${product.brand} ${product.name}`}
             fill
             sizes="(max-width: 640px) 80vw, (max-width: 1024px) 40vw, 320px"
-            className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
+            className="object-cover group-hover:scale-[1.03] transition-transform duration-300 ease-out will-change-transform"
           />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)]">

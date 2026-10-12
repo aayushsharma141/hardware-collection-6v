@@ -73,8 +73,8 @@ export function FloatingConsultationCapsule({ hasShortlist = false }: { hasShort
             }
             className="group relative flex items-center gap-3 bg-[var(--color-pearl)]/95 hover:bg-[var(--color-pearl)] border border-[var(--color-ink)]/[0.12] hover:border-[var(--color-wine)]/60 rounded-none px-6 py-3.5 shadow-[var(--shadow-float)] transition duration-300 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)]"
           >
-            <div className="w-2 h-2 rounded-full bg-[var(--color-wine)] animate-pulse" />
-            <span className="text-xs uppercase tracking-[0.16em] font-medium text-[var(--color-charcoal)] group-hover:text-[var(--color-ink)] transition-colors">
+            <div className="w-2 h-2 rounded-full bg-[var(--color-wine)]" />
+            <span className="text-xs uppercase tracking-[0.14em] font-medium text-[var(--color-charcoal)] group-hover:text-[var(--color-ink)] transition-colors">
               Need help choosing? <span className="text-[var(--color-wine)] font-semibold">Consult a specialist</span>
             </span>
             <ArrowRight className="w-3.5 h-3.5 text-[var(--color-wine)] transition-transform duration-300 group-hover:translate-x-1" />

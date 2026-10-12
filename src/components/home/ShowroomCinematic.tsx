@@ -223,7 +223,7 @@ function CinematicScene({
       >
         <div className="mb-6 flex items-center gap-3">
           <span className="w-6 h-[1px] bg-[var(--color-wine)]/30" />
-          <span className="hc-mono text-[var(--color-wine)] font-medium tracking-[0.2em] text-[10px] sm:text-xs uppercase">
+          <span className="hc-mono text-[var(--color-wine)] font-medium tracking-[0.2em] text-[11px] sm:text-xs uppercase">
             {scene.eyebrow}
           </span>
         </div>
@@ -244,7 +244,7 @@ function CinematicScene({
                 rel="noopener noreferrer"
                 className="group inline-flex items-center justify-between px-6 py-3.5 bg-[var(--text-primary)] text-[var(--surface)] transition-[transform,background-color] duration-300 active:scale-[0.98] hover:bg-[var(--color-wine)]"
               >
-                <span className="font-medium text-[10px] tracking-[0.2em] uppercase mr-3">Get Directions</span>
+                <span className="font-medium text-[11px] tracking-[0.2em] uppercase mr-3">Get Directions</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
                   <line x1="7" y1="17" x2="17" y2="7"></line>
                   <polyline points="7 7 17 7 17 17"></polyline>
@@ -258,7 +258,7 @@ function CinematicScene({
                 rel="noopener noreferrer"
                 className="group inline-flex items-center justify-between px-6 py-3.5 border border-[var(--border)] bg-transparent text-[var(--text-primary)] transition-[transform,border-color,color] duration-300 active:scale-[0.98] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)]"
               >
-                <span className="font-medium text-[10px] tracking-[0.2em] uppercase mr-3">WhatsApp</span>
+                <span className="font-medium text-[11px] tracking-[0.2em] uppercase mr-3">WhatsApp</span>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="transition-transform group-hover:translate-x-1">
                   <line x1="7" y1="17" x2="17" y2="7"></line>
                   <polyline points="7 7 17 7 17 17"></polyline>
@@ -276,7 +276,7 @@ function CinematicScene({
         aria-hidden="true"
       >
         <span className="w-8 lg:w-16 h-px bg-[var(--text-secondary)] opacity-30"></span>
-        <span className="hc-mono text-[10px] tracking-[0.2em] font-medium">0{index + 1} / 0{SCENES.length}</span>
+        <span className="hc-mono text-[12px] tracking-[0.2em] font-medium">0{index + 1} / 0{SCENES.length}</span>
       </div>
     </div>
   );

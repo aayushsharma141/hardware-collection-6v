@@ -75,7 +75,7 @@ export default function ShowroomCta({ whatsappHref, phone, onVisit, address }: S
         </div>
 
         <div className="flex items-start gap-4 lg:justify-end">
-          <MapPin aria-hidden="true" className="mt-1 h-6 w-6 shrink-0 text-[var(--color-brass)]" />
+          <MapPin aria-hidden="true" className="mt-1 h-6 w-6 shrink-0 text-[var(--color-brass-ink)]" />
           <div>
             <p className="hc-serif text-2xl font-light">Our Showroom</p>
             <address className="mt-2 text-sm font-light not-italic leading-relaxed text-[var(--text-secondary)]">

@@ -150,7 +150,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                   isActive && !isReducedMotion ? "scale-105" : "scale-100"
                 }`}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-black/20"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-ink)]/70 via-[var(--color-ink)]/30 to-[var(--color-ink)]/20"></div>
             </div>
 
             <div className="relative z-20 w-full max-w-[1320px] mx-auto px-6 flex flex-col items-start justify-center h-full">
@@ -193,7 +193,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
           {/* Desktop Arrows */}
           <button
             onClick={prevSlide}
-            className="hidden md:flex absolute left-4 z-30 p-2 rounded-none bg-black/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="hidden md:flex absolute left-4 z-30 p-2 rounded-none bg-[var(--color-ink)]/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
             aria-label="Previous slide"
           >
             <ChevronLeft className="w-8 h-8" />
@@ -201,7 +201,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
           
           <button
             onClick={nextSlide}
-            className="hidden md:flex absolute right-4 z-30 p-2 rounded-none bg-black/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
+            className="hidden md:flex absolute right-4 z-30 p-2 rounded-none bg-[var(--color-ink)]/30 text-[var(--text-primary)] hover:bg-white/20 transition-colors focus:outline-none focus:ring-2 focus:ring-white"
             aria-label="Next slide"
           >
             <ChevronRight className="w-8 h-8" />
@@ -222,7 +222,7 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
                 <button
                   key={index}
                   onClick={() => setCurrentIndex(index)}
-                  className={`h-2 rounded-none transition-all focus:outline-none focus:ring-2 focus:ring-white ${
+                  className={`h-2 rounded-none transition-[width,background-color] duration-300 focus:outline-none focus:ring-2 focus:ring-white ${
                     index === currentIndex ? "bg-white w-6" : "bg-white/40 hover:bg-white/60 w-2"
                   }`}
                   role="tab"

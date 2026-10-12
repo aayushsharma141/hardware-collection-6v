@@ -56,7 +56,7 @@ export default function AboutStory({
 
           {/* Right Column: Narrative & 3 Pillars */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
+            <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-1.5">
               Why Hardware Collection
             </p>
             <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-[1.05] tracking-tight mb-5 sm:mb-8">

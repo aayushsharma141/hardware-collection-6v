@@ -96,7 +96,7 @@ export function ChapterIndex() {
             />
             {/* Chapter label — only visible when active or on group hover */}
             <span
-              className="text-[10px] tracking-widest uppercase font-medium transition-[color,opacity] duration-200"
+              className="text-[11px] tracking-widest uppercase font-medium transition-[color,opacity] duration-200"
               style={{
                 color: isActive
                   ? "rgba(200, 169, 110, 1)"

@@ -60,7 +60,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
       {/* ── Top Editorial Block ─────────────────────────────────── */}
       <div className="w-full flex flex-col mb-6">
         {/* Eyebrow */}
-        <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-2.5">
+        <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-2.5">
           Architectural Hardware
         </p>
 
@@ -82,7 +82,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="px-5 py-3.5 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 hover:bg-[var(--color-wine-deep)] active:scale-[0.98] transition-all shadow-sm rounded-none"
+              className="px-5 py-3.5 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.14em] inline-flex items-center gap-2 hover:bg-[var(--color-wine-deep)] active:scale-[0.98] transition rounded-none"
             >
               <span>{ctaLabel}</span>
               <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -92,7 +92,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
           ) : (
             <Link
               href={ctaHref}
-              className="px-5 py-3.5 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 hover:bg-[var(--color-wine-deep)] active:scale-[0.98] transition-all shadow-sm rounded-none"
+              className="px-5 py-3.5 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.14em] inline-flex items-center gap-2 hover:bg-[var(--color-wine-deep)] active:scale-[0.98] transition rounded-none"
             >
               <span>{ctaLabel}</span>
               <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -103,7 +103,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
 
           <a
             href="#showroom"
-            className="px-3 py-3.5 text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--text-primary)] hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
+            className="px-3 py-3.5 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--text-primary)] hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
           >
             <span>Visit Showroom</span>
             <svg className="w-3.5 h-3.5 text-[var(--color-wine)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -130,15 +130,15 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
         />
 
         {/* Bottom Bar: Label, Counter & Nav Controls */}
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/85 via-black/50 to-transparent p-3.5 flex items-end justify-between gap-2">
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--color-ink)]/85 via-[var(--color-ink)]/50 to-transparent p-3.5 flex items-end justify-between gap-2">
           <div>
-            <p className="hc-mono text-[9.5px] uppercase tracking-[0.2em] font-semibold text-[var(--color-brass)] leading-tight">
+            <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-brass)] leading-tight">
               {slide.specimenLabel || "Premium Hardware for Timeless Spaces"}
             </p>
           </div>
 
           <div className="flex items-center gap-2 shrink-0">
-            <span className="hc-mono text-[10px] text-white/80 tracking-[0.15em]">
+            <span className="hc-mono text-[12px] text-white/80 tracking-[0.14em]">
               0{currentSlideIndex + 1} / 0{slides.length}
             </span>
 
@@ -174,7 +174,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
           <p className="hc-serif text-2xl sm:text-3xl font-light text-[var(--text-primary)] leading-none">
             10+
           </p>
-          <p className="hc-mono text-[8.5px] sm:text-[9px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
+          <p className="hc-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
             Years in Sakchi
           </p>
         </div>
@@ -182,7 +182,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
           <p className="hc-serif text-2xl sm:text-3xl font-light text-[var(--text-primary)] leading-none">
             20+
           </p>
-          <p className="hc-mono text-[8.5px] sm:text-[9px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
+          <p className="hc-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
             Authorized Brands
           </p>
         </div>
@@ -190,7 +190,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
           <p className="hc-serif text-2xl sm:text-3xl font-light text-[var(--text-primary)] leading-none">
             1000+
           </p>
-          <p className="hc-mono text-[8.5px] sm:text-[9px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
+          <p className="hc-mono text-[11px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium mt-1">
             Homes & Projects
           </p>
         </div>

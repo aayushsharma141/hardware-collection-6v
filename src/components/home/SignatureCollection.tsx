@@ -38,7 +38,7 @@ export default function SignatureCollection() {
               <motion.img 
                 src="/cinema/showroom/exterior.png"
                 alt="Smart Entrance"
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
                           </div>
             <div className="mt-8">
@@ -58,7 +58,7 @@ export default function SignatureCollection() {
               <motion.img 
                 src="/cinema/showroom/interior.png"
                 alt="Modern Kitchen"
-                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
               />
                           </div>
             <div className="mt-8">
