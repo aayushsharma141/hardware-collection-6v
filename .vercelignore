@@ -39,5 +39,7 @@ tests
 .skills
 ECC
 Front-End-Checklist
-Hardware Collection
+# Anchored to the repo root: the raw asset folder stays out of uploads, but
+# public/Hardware Collection/ (logo and showroom photos) must ship.
+/Hardware Collection
 Hardware-Collection-Knowledge-Base
