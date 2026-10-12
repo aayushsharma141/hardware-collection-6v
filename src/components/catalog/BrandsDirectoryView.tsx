@@ -321,7 +321,7 @@ export default function BrandsDirectoryView({
                   scrollToLetter(brand.letter);
                 }
               }}
-              className="text-left bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] hover:border-[var(--color-wine)]/30 transition-all group"
+              className="text-left bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] hover:border-[var(--color-wine)]/30 transition group"
             >
               <div>
                 {(() => {
@@ -397,7 +397,7 @@ export default function BrandsDirectoryView({
                   <div
                     key={brand.id}
                     id={`brand-${brand.id}`}
-                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition-all"
+                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition"
                   >
                     {/* Left: Brand Identity */}
                     <div className="flex items-center gap-5 md:w-[35%] shrink-0 mb-4 md:mb-0">

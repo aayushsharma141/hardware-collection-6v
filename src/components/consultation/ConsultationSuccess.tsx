@@ -55,7 +55,7 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-3 px-5 rounded-none bg-[var(--color-wine)] hover:brightness-110 text-white font-semibold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2 group active:scale-[0.98]"
+          className="flex-1 py-3 px-5 rounded-none bg-[var(--color-wine)] hover:brightness-110 text-white font-semibold text-xs uppercase tracking-[0.14em] transition flex items-center justify-center gap-2 group active:scale-[0.97]"
         >
           <span>WhatsApp Us</span>
           <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -63,7 +63,7 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
 
         <a
           href={SHOWROOM_PHONE_HREF}
-          className="flex-1 py-3 px-5 rounded-none bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--text-primary)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+          className="flex-1 py-3 px-5 rounded-none bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--text-primary)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.14em] transition flex items-center justify-center gap-2 active:scale-[0.97]"
         >
           <PhoneCall className="w-3.5 h-3.5 text-[var(--color-wine)]" />
           <span>Call Showroom</span>

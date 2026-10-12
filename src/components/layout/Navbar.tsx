@@ -307,15 +307,15 @@ export default function Navbar({
                        lg and xl, where 16px pushed the CTA out of the bar. */
                     className={`relative px-2.5 xl:px-4 py-1.5 text-sm xl:text-base leading-6 uppercase tracking-[0.12em] xl:tracking-[0.18em] rounded-none select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] whitespace-nowrap shrink-0 ${isActive
                         ? "text-[var(--color-wine)] font-medium"
-                        : "text-[var(--color-wine)] font-normal hover:text-[var(--color-wine-deep)] hover:bg-[var(--color-wine)]/[0.06]"
+                        : "text-[var(--color-wine)] font-normal hover:text-[var(--color-wine-deep)]"
                       }`}
                     style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                     aria-current={isActive ? "page" : undefined}
                   >
                     {isActive && (
                       <motion.span
-                        layoutId={shouldReduceMotion ? undefined : "active-nav-capsule"}
-                        className="absolute inset-0 rounded-none bg-[var(--color-wine)]/[0.06] border border-[var(--color-wine)]/[0.10] -z-10"
+                        layoutId={shouldReduceMotion ? undefined : "active-nav-mark"}
+                        className="absolute inset-x-2.5 xl:inset-x-4 -bottom-px h-[2px] bg-[var(--color-wine)]"
                         transition={
                           shouldReduceMotion
                             ? { duration: 0 }
@@ -338,7 +338,7 @@ export default function Navbar({
               {/* Desktop Phone Contact Pill */}
               <a
                 href={`tel:${cleanPhone}`}
-                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded-none bg-[var(--color-pearl)]/80 border border-[var(--color-ink)]/[0.08] hover:border-[var(--color-wine)]/25 hover:bg-[var(--color-pearl)]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--color-charcoal)] hover:text-[var(--color-ink)] whitespace-nowrap shrink-0 transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded-none bg-[var(--color-pearl)]/80 border border-[var(--color-ink)]/[0.08] hover:border-[var(--color-wine)]/25 hover:bg-[var(--color-pearl)]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--color-charcoal)] hover:text-[var(--color-ink)] whitespace-nowrap shrink-0 transition duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label={`Call Hardware Collection at ${primaryPhone}`}
               >
@@ -349,7 +349,7 @@ export default function Navbar({
               {/* Desktop Inquire CTA Button */}
               <button
                 onClick={() => openDrawer({ source: "navbar", intent: "consultation" })}
-                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-11 min-h-[44px] px-4 xl:px-5 rounded-none bg-[var(--color-wine)] hover:bg-[var(--color-wine-deep)] text-white text-[11px] xl:text-[12px] font-bold uppercase tracking-[0.14em] leading-none whitespace-nowrap shrink-0 shadow-[0_4px_14px_rgba(139,26,66,0.20)] hover:shadow-[0_6px_20px_rgba(139,26,66,0.30)] active:scale-[0.98] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-11 min-h-[44px] px-4 xl:px-5 rounded-none bg-[var(--color-wine)] hover:bg-[var(--color-wine-deep)] text-white text-[11px] xl:text-[12px] font-bold uppercase tracking-[0.14em] leading-none whitespace-nowrap shrink-0 shadow-[0_4px_14px_rgba(139,26,66,0.20)] hover:shadow-[0_6px_20px_rgba(139,26,66,0.30)] active:scale-[0.97] transition duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
               >
                 <span>Book Consultation</span>
@@ -360,7 +360,7 @@ export default function Navbar({
               <button
                 ref={menuButtonRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] bg-transparent text-[var(--text-primary)] hover:text-[var(--color-wine)] active:scale-[0.96] transition-all duration-200 focus-visible:outline-none"
+                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] bg-transparent text-[var(--text-primary)] hover:text-[var(--color-wine)] active:scale-[0.97] transition duration-200 focus-visible:outline-none"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-nav-modal"

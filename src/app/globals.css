@@ -358,13 +358,6 @@ html[data-drawer-open] .mobile-conversion-bar {
   to   { clip-path: inset(0% 0% 0% 0%); }
 }
 
-@keyframes light-sweep {
-  0%   { transform: translateX(-120%) skewX(-20deg); opacity: 0; }
-  10%  { opacity: 1; }
-  90%  { opacity: 0.6; }
-  100% { transform: translateX(220%) skewX(-20deg); opacity: 0; }
-}
-
 @keyframes ticker-left {
   0% {
     transform: translate3d(0, 0, 0);
@@ -404,34 +397,6 @@ html[data-drawer-open] .mobile-conversion-bar {
 }
 
 /* ── Chrome sweep — dark sections & product photography only ─── */
-.light-sweep-overlay {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-  z-index: 4;
-}
-
-.light-sweep-overlay::after {
-  content: '';
-  position: absolute;
-  top: -20%;
-  left: 0;
-  width: 60%;
-  height: 140%;
-  background: linear-gradient(
-    105deg,
-    transparent 0%,
-    rgba(255,255,255,0.04) 40%,
-    rgba(255,255,255,0.12) 50%,
-    rgba(255,255,255,0.04) 60%,
-    transparent 100%
-  );
-  mix-blend-mode: screen;
-  animation: light-sweep 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  animation-delay: var(--sweep-delay, 0s);
-}
-
 .cinema-skew-layer {
   transform: skewY(var(--scroll-skew));
   will-change: transform;
@@ -444,29 +409,6 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 .lenis.lenis-scrolling iframe { pointer-events: none; }
-
-/* ── Liquid glass shimmer (nav) ──────────────────────────────── */
-@keyframes liquid-glass-shimmer {
-  0%   { transform: translate(-20%, -15%) rotate(0deg) scale(1);   opacity: 0.035; }
-  50%  { transform: translate(25%, 15%)  rotate(3deg) scale(1.1); opacity: 0.07; }
-  100% { transform: translate(-20%, -15%) rotate(0deg) scale(1);   opacity: 0.035; }
-}
-
-.liquid-glass-reflection {
-  background: radial-gradient(
-    ellipse 70% 80% at 50% 0%,
-    rgba(255,255,255,0.13) 0%,
-    rgba(139,26,66,0.06)  40%,
-    rgba(139,26,66,0.02)  60%,
-    transparent 75%
-  );
-  animation: liquid-glass-shimmer 18s ease-in-out infinite;
-  will-change: transform, opacity;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .liquid-glass-reflection { animation: none !important; }
-}
 
 /* ─────────────────────────────────────────────────────────────
    KOMBAI DESIGN TOKENS & INTERACTION SYSTEM
@@ -609,56 +551,72 @@ html.lenis, html.lenis body { height: auto; }
 }
 .hc-focus:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
 
-/* Underline sweep — brass/gold on interactive elements */
-.architecture-rule { position: relative; }
-.architecture-rule::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0.18); transform-origin: left; transition: transform var(--t-base) var(--standard); }
-.architecture-rule:hover::after, .architecture-rule:focus-within::after { transform: scaleX(1); }
+/* ── Interaction contract ─────────────────────────────────────
+   One "you are here" mark: a 2px wine rule that sweeps in from the left.
+   Hover lives inside (hover: hover) and (pointer: fine) so touch never gets a
+   stuck hover; keyboard focus and :active are always live. */
+.architecture-rule, .rail-button { position: relative; }
+.rail-button { overflow: hidden; transition: color var(--t-fast) var(--ease-ui); }
+.architecture-rule::after,
+.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--wine); transform-origin: left; transition: transform var(--t-base) var(--ease-ui); }
+.architecture-rule::after { transform: scaleX(0.18); }
+.rail-button::after { transform: scaleX(0); }
+.architecture-rule:focus-within::after,
+.rail-button:focus-visible::after { transform: scaleX(1); }
 
-.rail-button { position: relative; overflow: hidden; transition: color var(--dur-micro) var(--ease-out-expo); }
-.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform var(--t-base) var(--cinematic); }
-.rail-button:hover::after, .rail-button:focus-visible::after { transform: scaleX(1); }
+/* Primary CTA: wine plate */
+.brass-plate { position: relative; background-color: var(--wine); color: #ffffff; box-shadow: inset 0 0 0 1px var(--wine-deep); transition: background-color var(--t-base) var(--ease-ui), color var(--t-base) var(--ease-ui), transform var(--t-fast) var(--ease-ui); }
+.brass-plate:focus-visible { background-color: var(--wine-deep); color: #ffffff; }
+.brass-plate:active { transform: scale(var(--press)); }
+.brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(255,255,255,.40); transform-origin: left; transition: transform var(--t-base) var(--ease-ui); }
+.brass-plate:focus-visible::after { transform: translateX(12px); }
 
-/* Primary CTA — wine plate */
-.brass-plate { position: relative; background-color: var(--wine); color: #ffffff; box-shadow: inset 0 0 0 1px var(--wine-deep); transition: background-color var(--t-base) var(--cinematic), color var(--t-base) var(--cinematic), transform var(--dur-micro) var(--ease-out-expo); }
-.brass-plate:hover, .brass-plate:focus-visible { background-color: var(--wine-deep); color: #ffffff; }
-.brass-plate:active { transform: scale(0.98); }
-.brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(255,255,255,.40); transform-origin: left; transition: transform var(--t-base) var(--cinematic); }
-.brass-plate:hover::after, .brass-plate:focus-visible::after { transform: translateX(12px); }
-
-/* Aperture hover — chrome sweep */
-/* Decorative sweep retired: motion on the hero is one idea, not three. */
+/* Aperture: the hero image frame. The old chrome sweep and hover filter are
+   retired (see Phase 3); the sweep element is hidden rather than removed. */
 .aperture-sweep { display: none; }
-/* No filter on hover: it shifts the colour of a product finish. */
 
 /* Product cards */
-.specimen-tray { position: relative; background: var(--surface-raised, var(--pearl)); border: 1px solid var(--border, var(--rule)); transition: border-color var(--t-base) var(--standard), transform var(--dur-micro) var(--ease-out-expo); }
-.specimen-tray:hover, .specimen-tray:focus-within { border-color: var(--border-accent, var(--wine-rule)); }
+.specimen-tray { position: relative; background: var(--surface-raised, var(--pearl)); border: 1px solid var(--border, var(--rule)); transition: border-color var(--t-base) var(--ease-ui), transform var(--t-fast) var(--ease-ui); }
+.specimen-tray:focus-within { border-color: var(--border-accent, var(--wine-rule)); }
 .specimen-tray:active { transform: scale(0.99); }
 .specimen-frame { position: relative; isolation: isolate; overflow: hidden; background: var(--surface-elevated, var(--mist)); border: 1px solid var(--border, var(--soft-rule)); }
-.specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(26,16,23,.06); pointer-events: none; z-index: 2; transition: border-color var(--t-base) var(--standard); }
-.specimen-tray:hover .specimen-frame::before, .specimen-tray:focus-within .specimen-frame::before { border-color: rgba(139,26,66,.30); }
+.specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(26,16,23,.06); pointer-events: none; z-index: 2; transition: border-color var(--t-base) var(--ease-ui); }
+.specimen-tray:focus-within .specimen-frame::before { border-color: rgba(139,26,66,.30); }
+
 /* Shortlist toggle */
 .shortlist-control .ti-plus, .shortlist-control .shortlist-icon { transition: transform var(--t-fast) var(--ease-ui); }
-.shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon,
 .shortlist-control[aria-pressed='true'] .ti-plus, .shortlist-control[aria-pressed='true'] .shortlist-icon { transform: rotate(45deg); }
 .shortlist-control[aria-pressed='true'] { background: var(--wine); color: #ffffff; border-color: var(--wine); }
-.shortlist-control:active { transform: scale(0.95); }
+.shortlist-control:active { transform: scale(var(--press)); }
 
-/* Threshold card */
-.threshold-card { position: relative; transition: transform var(--dur-micro) var(--ease-out-expo); }
+/* Threshold card: the mark is a bottom rule, not a side bar */
+.threshold-card { position: relative; transition: transform var(--t-fast) var(--ease-ui); }
 .threshold-card:active { transform: scale(0.99); }
-.threshold-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(139,26,66,0); transition: background-color var(--t-base) var(--cinematic); }
-.threshold-card:hover::before, .threshold-card:focus-within::before { background: var(--wine); }
-.threshold-card .threshold-action i, .threshold-card .threshold-action svg { transform: translateX(0); transition: transform var(--t-base) var(--cinematic); }
-.threshold-card:hover .threshold-action i, .threshold-card:hover .threshold-action svg,
+.threshold-card::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--wine); transform: scaleX(0); transform-origin: left; transition: transform var(--t-base) var(--ease-ui); }
+.threshold-card:focus-within::before { transform: scaleX(1); }
+.threshold-card .threshold-action i, .threshold-card .threshold-action svg { transform: translateX(0); transition: transform var(--t-base) var(--ease-ui); }
 .threshold-card:focus-within .threshold-action i, .threshold-card:focus-within .threshold-action svg { transform: translateX(6px); }
 
-/* Mobile list row */
+/* Mobile list row: touch gets the mark on press */
 .mobile-row { min-height: 78px; position: relative; }
-.mobile-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: transparent; transition: background-color var(--t-fast) var(--ease-ui); }
-.mobile-row:hover::before, .mobile-row:focus-within::before { background: var(--wine); }
+.mobile-row::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--wine); transform: scaleX(0); transform-origin: left; transition: transform var(--t-fast) var(--ease-ui); }
+.mobile-row:focus-within::before, .mobile-row:active::before { transform: scaleX(1); }
 .mobile-row i, .mobile-row svg { transform: translateX(0); transition: transform var(--t-fast) var(--ease-ui); }
-.mobile-row:hover i, .mobile-row:hover svg, .mobile-row:focus-within i, .mobile-row:focus-within svg { transform: translateX(5px); }
+.mobile-row:focus-within i, .mobile-row:focus-within svg { transform: translateX(5px); }
+
+@media (hover: hover) and (pointer: fine) {
+  .architecture-rule:hover::after,
+  .rail-button:hover::after { transform: scaleX(1); }
+  .brass-plate:hover { background-color: var(--wine-deep); color: #ffffff; }
+  .brass-plate:hover::after { transform: translateX(12px); }
+  .specimen-tray:hover { border-color: var(--border-accent, var(--wine-rule)); }
+  .specimen-tray:hover .specimen-frame::before { border-color: rgba(139,26,66,.30); }
+  .shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon { transform: rotate(45deg); }
+  .threshold-card:hover::before { transform: scaleX(1); }
+  .threshold-card:hover .threshold-action i, .threshold-card:hover .threshold-action svg { transform: translateX(6px); }
+  .mobile-row:hover::before { transform: scaleX(1); }
+  .mobile-row:hover i, .mobile-row:hover svg { transform: translateX(5px); }
+}
 
 /* Phone frame mockup */
 .phone-frame { box-shadow: inset 0 0 0 1px rgba(26,16,23,.14), 0 0 0 8px var(--pearl), 0 0 0 9px rgba(26,16,23,.08); }
@@ -792,7 +750,7 @@ select {
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* Continuous metallic highlight crossing the mark in a seamless loop. */
+/* One metallic highlight crossing the mark when the lockup enters. */
 @keyframes brand-sheen-loop {
   0% {
     transform: translateX(-150%) skewX(-20deg);
@@ -868,9 +826,9 @@ select {
   );
 }
 
-/* Continuous sweep starts after entrance settles and repeats seamlessly. */
+/* Plays once, after the entrance settles. */
 .brand-lockup--enter .brand-lockup__sheen::before {
-  animation: brand-sheen-loop 2.8s linear 620ms infinite;
+  animation: brand-sheen-loop 2.8s linear 620ms 1 both;
   will-change: transform, opacity;
 }
 

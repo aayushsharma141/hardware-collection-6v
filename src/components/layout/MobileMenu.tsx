@@ -167,7 +167,7 @@ export function MobileMenu({
             <div className="flex flex-col gap-2.5">
               <a
                 href={`tel:${cleanPhone}`}
-                className="flex items-center justify-center gap-2.5 h-12 rounded-none bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.16em] active:scale-[0.98] transition-all"
+                className="flex items-center justify-center gap-2.5 h-12 rounded-none bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.16em] active:scale-[0.97] transition"
               >
                 <Phone className="w-4 h-4 text-[var(--color-wine)]" />
                 <span>Call Showroom ({primaryPhone})</span>
@@ -178,7 +178,7 @@ export function MobileMenu({
                   onClose();
                   onConsultClick();
                 }}
-                className="flex w-full items-center justify-center gap-2 h-12 rounded-none bg-[var(--color-wine)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-[0.16em] active:scale-[0.98] transition-all"
+                className="flex w-full items-center justify-center gap-2 h-12 rounded-none bg-[var(--color-wine)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-[0.16em] active:scale-[0.97] transition"
               >
                 <span>Consult Specialist</span>
                 <ArrowUpRight className="w-4 h-4" />

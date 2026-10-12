@@ -101,7 +101,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                 id={`brand-card-${key}`}
                 key={brand._id || brand.id || key || idx}
                 onClick={handleCardClick}
-                className={`bg-[var(--surface-raised)] border p-8 flex flex-col justify-between min-h-[340px] rounded-none group relative overflow-hidden cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--surface-elevated)] ${
+                className={`bg-[var(--surface-raised)] border p-8 flex flex-col justify-between min-h-[340px] rounded-none group relative overflow-hidden cursor-pointer transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--surface-elevated)] ${
                   isSelected
                     ? "border-[var(--color-wine)] ring-1 ring-[var(--color-wine)]/30 bg-[var(--surface-elevated)]"
                     : "border-[var(--border)] hover:border-[var(--accent)]/50"
@@ -152,7 +152,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                         e.stopPropagation();
                         handleCardClick();
                       }}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] whitespace-nowrap rounded-none bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition-all duration-300"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] whitespace-nowrap rounded-none bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition duration-300"
                     >
                       <BookOpen className="w-4 h-4" />
                       <span>{catalogCount > 1 ? `View ${catalogCount} Catalogues` : "View Catalogue"}</span>
