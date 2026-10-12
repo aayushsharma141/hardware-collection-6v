@@ -289,7 +289,7 @@ export default function BrandsDirectoryView({
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
             <span className="hc-mono text-[11px] font-medium tracking-[0.2em] text-[var(--color-wine)] uppercase block mb-2">
-              All Authrosied Brands
+              All Authorized Brands
             </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
               Featured Brands
@@ -397,10 +397,10 @@ export default function BrandsDirectoryView({
                   <div
                     key={brand.id}
                     id={`brand-${brand.id}`}
-                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition"
+                    className="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center lg:grid-cols-[minmax(220px,280px)_minmax(0,1fr)_auto] lg:gap-8 p-5 sm:p-6 lg:px-8 bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition"
                   >
                     {/* Left: Brand Identity */}
-                    <div className="flex items-center gap-5 md:w-[35%] shrink-0 mb-4 md:mb-0">
+                    <div className="flex min-w-0 items-center gap-5">
                       <div className="w-20 h-14 bg-white border border-[var(--border)] flex items-center justify-center shrink-0 p-2">
                         {brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo ? (
                           <img
@@ -429,14 +429,14 @@ export default function BrandsDirectoryView({
                     </div>
 
                     {/* Middle: Specialization */}
-                    <div className="md:w-[40%] mb-5 md:mb-0 md:pr-8">
+                    <div className="min-w-0 md:col-span-2 md:row-start-2 lg:col-span-1 lg:col-start-2 lg:row-start-1">
                       <p className="text-[13.5px] text-[var(--text-secondary)] leading-relaxed font-light">
                         {brand.directoryDescription}
                       </p>
                     </div>
 
                     {/* Right: Actions */}
-                    <div className="flex flex-col sm:flex-row items-center justify-between gap-3 w-full md:w-[25%] shrink-0 mt-4 md:mt-0">
+                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:col-start-2 md:row-start-1 md:justify-end lg:col-start-3">
                       {brand.website && (
                         <a
                           href={brand.website}
