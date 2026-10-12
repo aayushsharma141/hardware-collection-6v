@@ -25,10 +25,10 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
     >
       {/* Quiet Gold Icon Frame */}
       <div className="w-12 h-12 rounded-none bg-[var(--color-brass)]/10 border border-[var(--color-brass)]/30 flex items-center justify-center mb-5">
-        <Check className="w-5 h-5 text-[var(--color-brass)]" />
+        <Check className="w-5 h-5 text-[var(--color-brass-ink)]" />
       </div>
 
-      <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--color-brass)] font-semibold mb-2 hc-mono">
+      <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--color-brass-ink)] font-semibold mb-2 hc-mono">
         HARDWARE COLLECTION · SAKCHI
       </p>
 
@@ -45,7 +45,7 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
 
       {/* Reference ID Card */}
       <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-none p-4 mb-6 w-full text-center">
-        <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-[0.2em] mb-1 font-semibold hc-mono">REFERENCE ID</p>
+        <p className="text-[11px] text-[var(--text-secondary)] uppercase tracking-[0.2em] mb-1 font-semibold hc-mono">REFERENCE ID</p>
         <p className="text-[var(--color-wine)] hc-mono text-sm sm:text-base font-bold tracking-wider">{leadId}</p>
       </div>
 

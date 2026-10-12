@@ -56,21 +56,21 @@ export function ConsultationDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 220 }}
-            className="relative w-full max-w-xl h-[100dvh] bg-[#fbf5ea] border-l border-[#1a1017]/[0.10] shadow-[0_0_80px_rgba(0,0,0,0.2)] flex flex-col overflow-y-auto"
+            className="relative w-full max-w-xl h-[100dvh] bg-[var(--color-ivory)] border-l border-[var(--color-ink)]/[0.10] shadow-[0_0_80px_rgba(0,0,0,0.2)] flex flex-col overflow-y-auto"
             role="dialog"
             aria-modal="true"
           >
             {/* Header */}
-            <div className="sticky top-0 z-20 bg-[#fbf5ea]/95 backdrop-blur-xl border-b border-[var(--border)] flex justify-between items-center px-6 py-4">
+            <div className="sticky top-0 z-20 bg-[var(--color-ivory)]/95 backdrop-blur-xl border-b border-[var(--border)] flex justify-between items-center px-6 py-4">
               <div className="flex items-center gap-2">
-                <span className="w-1.5 h-1.5 rounded-full bg-[#8b1a42]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-wine)]" />
                 <span className="text-[11px] text-[var(--accent)] tracking-[0.2em] uppercase font-semibold font-dmsans">
                   HARDWARE COLLECTION · SAKCHI
                 </span>
               </div>
               <button
                 onClick={closeDrawer}
-                className="w-8 h-8 rounded bg-[#1a1017]/[0.05] border border-[#1a1017]/[0.1] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[#8b1a42] hover:text-white transition-all focus:outline-none cursor-pointer"
+                className="w-8 h-8 rounded bg-[var(--color-ink)]/[0.05] border border-[var(--color-ink)]/[0.1] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--color-wine)] hover:text-white transition-all focus:outline-none cursor-pointer"
                 aria-label="Close dialog"
               >
                 <X className="w-4 h-4" />

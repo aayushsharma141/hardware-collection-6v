@@ -53,7 +53,7 @@ Neutral black is not used for scrims or shadows. Both are tinted from ink.
 ## Typography
 
 Cormorant Garamond for display, DM Sans for body and UI, Jost for the wordmark only.
-Phase 2 removes Manrope, Cinzel and the monospace eyebrows. Letter-spacing has three
+Manrope and Cinzel are no longer loaded (their tokens alias DM Sans and Cormorant), and `.hc-mono` now renders DM Sans with tabular numerals. Letter-spacing has three
 steps: `--track-tight` (-0.01em), `--track-label` (0.14em), `--track-caps` (0.2em).
 Floor: 12px for text, 11px for uppercase labels.
 
