@@ -51,9 +51,9 @@ export default function SharePreview({
     <div
       role="dialog"
       aria-label="Share to WhatsApp"
-      className="absolute inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm sm:p-6"
+      className="absolute inset-0 z-50 flex items-center justify-center bg-[var(--v-chrome)] p-4 sm:p-6"
     >
-      <div className="flex w-full max-w-md max-h-[100dvh] flex-col overflow-hidden rounded-2xl border border-[var(--v-line-strong)] bg-[var(--v-surface)] shadow-2xl">
+      <div className="flex w-full max-w-md max-h-[100dvh] flex-col overflow-hidden rounded-2xl border border-[var(--v-line-strong)] bg-[var(--v-surface)] shadow-[var(--shadow-float)]">
         <div className="flex shrink-0 items-center gap-1 border-b border-[var(--v-line)] px-3 py-3">
           <button
             type="button"
@@ -112,7 +112,7 @@ export default function SharePreview({
             type="button"
             onClick={onShare}
             disabled={busy || message.trim().length === 0}
-            className="v-press flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded bg-[var(--v-send)] font-body text-sm font-bold text-[var(--v-surface)] hover:bg-[var(--v-send-hover)] disabled:opacity-50 hc-focus"
+            className="v-press flex min-h-[52px] w-full items-center justify-center gap-2.5 rounded-none bg-[var(--v-send)] font-body text-sm font-bold text-[var(--v-surface)] hover:bg-[var(--v-send-hover)] disabled:opacity-50 hc-focus"
           >
             {busy ? (
               <Loader2 className="h-5 w-5 animate-spin" />

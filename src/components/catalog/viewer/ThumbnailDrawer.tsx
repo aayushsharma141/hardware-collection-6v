@@ -90,13 +90,13 @@ function Thumbnail({
       onClick={() => onSelect(page)}
       aria-label={`Go to page ${page}`}
       aria-current={active ? "true" : undefined}
-      className={`v-press group flex flex-col items-center gap-1.5 rounded p-1.5 hc-focus ${
+      className={`v-press group flex flex-col items-center gap-1.5 rounded-none p-1.5 hc-focus ${
         active ? "bg-[var(--v-accent-bg)]" : "hover:bg-black/5"
       }`}
     >
       <canvas
         ref={canvasRef}
-        className={`w-full rounded border bg-[var(--v-panel)] ${
+        className={`w-full rounded-none border bg-[var(--v-panel)] ${
           active ? "border-[var(--v-text)]" : "border-[var(--v-line)]"
         }`}
         style={{ minHeight: 84 }}
@@ -190,14 +190,14 @@ export default function ThumbnailDrawer({
             type="button"
             onClick={onClose}
             aria-label="Close pages"
-            className="v-press flex h-11 w-11 items-center justify-center rounded text-[var(--v-text-faint)] hover:text-[var(--v-text)] hc-focus"
+            className="v-press flex h-11 w-11 items-center justify-center rounded-none text-[var(--v-text-faint)] hover:text-[var(--v-text)] hc-focus"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
         <div className="shrink-0 px-3 pb-3">
-          <div className="flex min-h-11 items-center gap-2 rounded border border-[var(--v-line-strong)] bg-[var(--v-panel)] px-3">
+          <div className="flex min-h-11 items-center gap-2 rounded-none border border-[var(--v-line-strong)] bg-[var(--v-panel)] px-3">
             <Search className="h-4 w-4 shrink-0 text-[var(--v-text-faint)]" />
             <input
               type="text"

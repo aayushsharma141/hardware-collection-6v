@@ -810,7 +810,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
         </>
       ) : (
         <div className="flex h-full items-center justify-center p-6">
-          <div className="w-full max-w-md rounded-2xl border border-[var(--v-line)] bg-[var(--v-panel)] p-8 text-center md:p-12 shadow-[0_30px_70px_-30px_rgba(0,0,0,0.1)]">
+          <div className="w-full max-w-md rounded-2xl border border-[var(--v-line)] bg-[var(--v-panel)] p-8 text-center md:p-12 shadow-[var(--shadow-float)]">
             <FileText className="mx-auto mb-6 h-12 w-12 text-[var(--v-text-dim)]" />
             <h2 className="mb-4 font-display text-2xl text-[var(--v-text)] md:text-3xl">
               Not yet available

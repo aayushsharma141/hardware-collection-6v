@@ -626,10 +626,9 @@ html.lenis, html.lenis body { height: auto; }
 .brass-plate:hover::after, .brass-plate:focus-visible::after { transform: translateX(12px); }
 
 /* Aperture hover — chrome sweep */
-.aperture-sweep { position: absolute; top: 18%; bottom: 10%; left: 34%; width: 18%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent); transform: skewX(-18deg); opacity: .42; transition: transform 320ms var(--ease-ui), opacity 200ms var(--ease-ui); pointer-events: none; }
-.aperture:hover .aperture-sweep, .aperture:focus-within .aperture-sweep { transform: translateX(76px) skewX(-18deg); opacity: .72; }
-.aperture-image { filter: contrast(1.03) saturate(1.02); transition: filter var(--t-base) var(--ease-ui); }
-.aperture:hover .aperture-image, .aperture:focus-within .aperture-image { filter: contrast(1.09) saturate(1.10); }
+/* Decorative sweep retired: motion on the hero is one idea, not three. */
+.aperture-sweep { display: none; }
+/* No filter on hover: it shifts the colour of a product finish. */
 
 /* Product cards */
 .specimen-tray { position: relative; background: var(--surface-raised, var(--pearl)); border: 1px solid var(--border, var(--rule)); transition: border-color var(--t-base) var(--standard), transform var(--dur-micro) var(--ease-out-expo); }
@@ -637,10 +636,7 @@ html.lenis, html.lenis body { height: auto; }
 .specimen-tray:active { transform: scale(0.99); }
 .specimen-frame { position: relative; isolation: isolate; overflow: hidden; background: var(--surface-elevated, var(--mist)); border: 1px solid var(--border, var(--soft-rule)); }
 .specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(26,16,23,.06); pointer-events: none; z-index: 2; transition: border-color var(--t-base) var(--standard); }
-.specimen-frame::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: 12%; height: 20%; z-index: 1; background: linear-gradient(90deg, transparent, rgba(139,26,66,.12), transparent); transform: translateX(-14%); transition: transform var(--t-base) var(--cinematic), left var(--t-base) var(--standard), right var(--t-base) var(--standard); pointer-events: none; }
 .specimen-tray:hover .specimen-frame::before, .specimen-tray:focus-within .specimen-frame::before { border-color: rgba(139,26,66,.30); }
-.specimen-tray:hover .specimen-frame::after, .specimen-tray:focus-within .specimen-frame::after { transform: translateX(14%); left: 12%; right: 12%; }
-
 /* Shortlist toggle */
 .shortlist-control .ti-plus, .shortlist-control .shortlist-icon { transition: transform var(--t-fast) var(--ease-ui); }
 .shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon,
@@ -656,8 +652,6 @@ html.lenis, html.lenis body { height: auto; }
 .threshold-card .threshold-action i, .threshold-card .threshold-action svg { transform: translateX(0); transition: transform var(--t-base) var(--cinematic); }
 .threshold-card:hover .threshold-action i, .threshold-card:hover .threshold-action svg,
 .threshold-card:focus-within .threshold-action i, .threshold-card:focus-within .threshold-action svg { transform: translateX(6px); }
-.threshold-card .threshold-image { transition: filter var(--t-base) ease; }
-.threshold-card:hover .threshold-image, .threshold-card:focus-within .threshold-image { filter: contrast(1.08) brightness(1.04); }
 
 /* Mobile list row */
 .mobile-row { min-height: 78px; position: relative; }

@@ -28,7 +28,7 @@ interface CatalogHeaderProps {
 }
 
 const menuItem =
-  "flex w-full min-h-11 items-center gap-3 rounded px-3 font-body text-sm text-[var(--v-text-dim)] hover:bg-black/5 hover:text-[var(--v-text)] hc-focus";
+  "flex w-full min-h-11 items-center gap-3 rounded-none px-3 font-body text-sm text-[var(--v-text-dim)] hover:bg-black/5 hover:text-[var(--v-text)] hc-focus";
 
 /** A labelled tool in the desktop cluster. */
 function Tool({
@@ -133,7 +133,7 @@ export default function CatalogHeader({
         <div
           role="menu"
           aria-label="Catalogue options"
-          className="absolute right-3 top-16 z-50 w-60 rounded-2xl border border-[var(--v-line)] bg-[var(--v-panel)] p-2 shadow-xl lg:hidden"
+          className="absolute right-3 top-16 z-50 w-60 rounded-2xl border border-[var(--v-line)] bg-[var(--v-panel)] p-2 shadow-[var(--shadow-float)] lg:hidden"
         >
           <button type="button" role="menuitem" onClick={onToggleFullscreen} className={menuItem}>
             {fullscreen ? (

@@ -321,7 +321,7 @@ export default function BrandsDirectoryView({
                   scrollToLetter(brand.letter);
                 }
               }}
-              className="text-left bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] shadow-[0_1px_4px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.06)] hover:border-[var(--color-wine)]/30 transition-all group"
+              className="text-left bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] hover:border-[var(--color-wine)]/30 transition-all group"
             >
               <div>
                 {(() => {
@@ -397,7 +397,7 @@ export default function BrandsDirectoryView({
                   <div
                     key={brand.id}
                     id={`brand-${brand.id}`}
-                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition-all shadow-[0_1px_3px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.04)]"
+                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition-all"
                   >
                     {/* Left: Brand Identity */}
                     <div className="flex items-center gap-5 md:w-[35%] shrink-0 mb-4 md:mb-0">
@@ -451,7 +451,7 @@ export default function BrandsDirectoryView({
                       <button
                         type="button"
                         onClick={() => handleOpenCatalogue(brand)}
-                        className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm"
+                        className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap"
                       >
                         VIEW CATALOGUE
                       </button>
@@ -527,7 +527,7 @@ export default function BrandsDirectoryView({
       <section className="py-16 sm:py-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {/* Ask an expert */}
-          <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-8 sm:p-12 text-center shadow-[0_2px_12px_rgba(26,16,23,0.02)]">
+          <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-8 sm:p-12 text-center">
             <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-3">
               Need help identifying something?
             </h2>

@@ -19,12 +19,12 @@ export default function PageJump({ page, pages, onGo, onCancel }: PageJumpProps)
   };
 
   return (
-    <div className="absolute inset-0 z-50 flex items-center justify-center bg-[var(--v-chrome)] px-6 backdrop-blur-sm">
+    <div className="absolute inset-0 z-50 flex items-center justify-center bg-[var(--v-chrome)] px-6">
       <div
         role="dialog"
         aria-modal="true"
         aria-label="Go to page"
-        className="w-full max-w-xs rounded-2xl border border-[var(--v-line)] bg-[var(--v-panel)] p-6 text-center shadow-[0_30px_70px_-30px_rgba(0,0,0,0.15)]"
+        className="w-full max-w-xs rounded-2xl border border-[var(--v-line)] bg-[var(--v-panel)] p-6 text-center shadow-[var(--shadow-float)]"
       >
         <h2 className="font-body text-[11px] uppercase tracking-[0.18em] text-[var(--v-text-dim)]">
           Go to page
@@ -59,14 +59,14 @@ export default function PageJump({ page, pages, onGo, onCancel }: PageJumpProps)
           <button
             type="button"
             onClick={onCancel}
-            className="v-press min-h-11 flex-1 rounded border border-[var(--v-line-strong)] bg-[var(--v-panel)] font-body text-[11px] text-[var(--v-text-dim)] hover:border-[var(--v-text)] hover:text-[var(--v-text)] hc-focus"
+            className="v-press min-h-11 flex-1 rounded-none border border-[var(--v-line-strong)] bg-[var(--v-panel)] font-body text-[11px] text-[var(--v-text-dim)] hover:border-[var(--v-text)] hover:text-[var(--v-text)] hc-focus"
           >
             Cancel
           </button>
           <button
             type="button"
             onClick={commit}
-            className="v-press min-h-11 flex-1 rounded bg-[var(--v-text)] font-body text-[11px] font-bold text-[var(--v-surface)] hover:bg-white hc-focus"
+            className="v-press min-h-11 flex-1 rounded-none bg-[var(--v-text)] font-body text-[11px] font-bold text-[var(--v-surface)] hover:bg-white hc-focus"
           >
             Go
           </button>

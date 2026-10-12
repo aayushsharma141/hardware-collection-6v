@@ -120,7 +120,7 @@ export default function ViewerControls({
   };
 
   const menuItem =
-    "v-press flex w-full min-h-9 items-center gap-2 rounded px-2.5 font-body text-xs text-[var(--v-text-dim)] hover:bg-black/5 hover:text-[var(--v-text)] hc-focus";
+    "v-press flex w-full min-h-9 items-center gap-2 rounded-none px-2.5 font-body text-xs text-[var(--v-text-dim)] hover:bg-black/5 hover:text-[var(--v-text)] hc-focus";
 
   return (
     <div 

@@ -135,7 +135,7 @@ export default function CaptureSelector({ region, onChange }: CaptureSelectorPro
           top: `${region.y * 100}%`,
           width: `${region.w * 100}%`,
           height: `${region.h * 100}%`,
-          boxShadow: "0 0 0 9999px rgba(247,246,243,0.62)",
+          boxShadow: "0 0 0 9999px rgba(14,12,12,0.66)",
           outline: "2px solid var(--v-text)",
         }}
       >
