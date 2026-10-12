@@ -47,27 +47,27 @@ export default async function PrivacyPage() {
             <>
               {/* Section 1 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   1. Overview
                 </h2>
                 <p>
                   Hardware Collection operates an architectural hardware, modular kitchen, and security locks
                   showroom based in Sakchi, Jamshedpur, Jharkhand. This Privacy Policy explains how we collect
                   and handle your information when you browse our website (
-                  <span className="font-normal text-[#1a1017]">hardwarecollection.co</span>), submit a project inquiry,
+                  <span className="font-normal text-[var(--color-ink)]">hardwarecollection.co</span>), submit a project inquiry,
                   or reach out via WhatsApp or phone.
                 </p>
               </section>
 
               {/* Section 2 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   2. Information You Provide Directly
                 </h2>
                 <p className="mb-3">
                   When you use our consultation forms or contact us directly, we may collect:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[#3d2e38]">
+                <ul className="list-disc pl-6 space-y-1 text-[var(--color-charcoal)]">
                   <li>Your name and contact details (phone number, email address).</li>
                   <li>Your role (Architect, Interior Designer, Builder, Contractor, or Homeowner).</li>
                   <li>Project details, location, and hardware categories of interest.</li>
@@ -80,13 +80,13 @@ export default async function PrivacyPage() {
 
               {/* Section 3 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   3. How We Use Your Information
                 </h2>
                 <p className="mb-3">
                   We use the details you submit solely to fulfill your hardware requests:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[#3d2e38]">
+                <ul className="list-disc pl-6 space-y-1 text-[var(--color-charcoal)]">
                   <li>Responding to your project inquiries and preparing product recommendations.</li>
                   <li>Sharing technical cut-sheets, brand catalogues, and estimate schedules.</li>
                   <li>Coordinating in-person showroom visits and tactile product demonstrations in Sakchi.</li>
@@ -99,7 +99,7 @@ export default async function PrivacyPage() {
 
               {/* Section 4 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   4. WhatsApp & Third-Party Communication
                 </h2>
                 <p>
@@ -111,7 +111,7 @@ export default async function PrivacyPage() {
 
               {/* Section 5 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   5. Data Security & Storage
                 </h2>
                 <p>
@@ -123,7 +123,7 @@ export default async function PrivacyPage() {
 
               {/* Section 6 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   6. Your Rights & Inquiries
                 </h2>
                 <p>
@@ -134,24 +134,24 @@ export default async function PrivacyPage() {
             </>
           )}
 
-          <div className="mt-6 p-6 rounded-xl bg-[#f7f0e2] border border-[#1a1017]/[0.08] space-y-3 text-sm not-prose">
+          <div className="mt-6 p-6 rounded-xl bg-[var(--color-pearl)] border border-[var(--color-ink)]/[0.08] space-y-3 text-sm not-prose">
             <div className="flex items-start gap-3">
-              <MapPin className="w-4 h-4 text-[#8b1a42] shrink-0 mt-1" />
+              <MapPin className="w-4 h-4 text-[var(--color-wine)] shrink-0 mt-1" />
               <div>
-                <strong className="text-[#1a1017] font-medium block">Hardware Collection Showroom</strong>
+                <strong className="text-[var(--color-ink)] font-medium block">Hardware Collection Showroom</strong>
                 <span>{siteSettings?.showroomAddress || "1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001"}</span>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
               <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-[#8b1a42] shrink-0" />
+                <Phone className="w-4 h-4 text-[var(--color-wine)] shrink-0" />
                 <span>+91 70336 50739 - showroom contact</span>
               </div>
               <span className="hidden sm:inline text-[var(--border)]">/</span>
               <span className="pl-7 sm:pl-0">mukesh khandelwal no. +91 98351 90738</span>
             </div>
             <div className="flex items-center gap-3">
-              <Mail className="w-4 h-4 text-[#8b1a42] shrink-0" />
+              <Mail className="w-4 h-4 text-[var(--color-wine)] shrink-0" />
               <span>info@hardwarecollection.co</span>
             </div>
           </div>

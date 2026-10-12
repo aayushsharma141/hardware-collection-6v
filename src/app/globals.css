@@ -118,23 +118,24 @@
 
   /* ── Typography ──────────────────────────────────────────── */
   --font-serif:    var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-sans:     var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans:     var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display:  var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-body:     var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body:     var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-cormorant: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-dmsans:   var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-cinzel:   var(--font-cinzel), serif;
-  --font-manrope:  var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  /* Cinzel and Manrope are no longer loaded; their tokens alias the two house faces. */
+  --font-cinzel:   var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
+  --font-manrope:  var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono:     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --font-headline-xl:       var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-headline-lg:       var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-headline-lg-mobile: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-headline-md:       var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-body-lg:           var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-body-md:           var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-ui-button:         var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-label-caps:        var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body-lg:           var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body-md:           var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-ui-button:         var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-label-caps:        var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* ── Motion ──────────────────────────────────────────────── */
   --animate-gradient-x: gradient-x 15s ease infinite;
@@ -309,7 +310,7 @@ body {
      unchanged by these classes.
 
      Display and headings take Cormorant (hc-serif); body, supporting
-     copy and buttons take DM Sans/Manrope; eyebrow and metadata take
+     copy and buttons take DM Sans; eyebrow and metadata take
      hc-mono. The role sets size, leading and tracking only — colour and
      family stay with the component. */
   .t-display   { font-size: clamp(48px, 13vw,   60px); line-height: 0.94; letter-spacing: -0.015em; }
@@ -318,8 +319,8 @@ body {
   .t-h4        { font-size: clamp(20px, 5.4vw,  22px); line-height: 1.15; }
   .t-body      { font-size: clamp(15px, 4.2vw,  17px); line-height: 1.6;  }
   .t-body-sm   { font-size: clamp(14px, 3.8vw,  15px); line-height: 1.55; }
-  .t-eyebrow   { font-size: 11px; line-height: 1.4;  letter-spacing: 0.22em; font-weight: 600; text-transform: uppercase; }
-  .t-meta      { font-size: 12px; line-height: 1.45; letter-spacing: 0.16em; }
+  .t-eyebrow   { font-size: 12px; line-height: 1.4;  letter-spacing: var(--track-caps); font-weight: 600; text-transform: uppercase; }
+  .t-meta      { font-size: 12px; line-height: 1.45; letter-spacing: var(--track-label); }
   .t-button    { font-size: 14px; line-height: 1.4;  letter-spacing: 0.1em;  font-weight: 600; }
 }
 
@@ -595,7 +596,9 @@ html.lenis, html.lenis body { height: auto; }
   color: var(--text-primary);
 }
 .hc-serif { font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif; }
-.hc-mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
+/* Labels and figures, not code: DM Sans with tabular numerals. The old
+   monospace face made every eyebrow read as a terminal. */
+.hc-mono  { font-family: var(--font-dmsans), 'DM Sans', sans-serif; font-variant-numeric: tabular-nums; }
 /* Base layer, not unlayered: an unlayered rule outranks every @layer
    utilities class regardless of specificity, and with .hc-root on <body> this
    `font` shorthand was silently discarding the text-*, font-* and leading-*

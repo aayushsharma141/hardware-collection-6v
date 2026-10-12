@@ -47,12 +47,12 @@ export default async function TermsPage() {
             <>
               {/* Section 1 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   1. Acceptance of Terms
                 </h2>
                 <p>
                   By accessing and using this website (
-                  <span className="font-normal text-[#1a1017]">hardwarecollection.co</span>), viewing our digital catalogues,
+                  <span className="font-normal text-[var(--color-ink)]">hardwarecollection.co</span>), viewing our digital catalogues,
                   or submitting project inquiries to Hardware Collection, Sakchi, Jamshedpur, you agree to comply with
                   and be bound by these terms. If you disagree with any part of these terms, please consult our showroom
                   team directly before specifying products.
@@ -61,14 +61,14 @@ export default async function TermsPage() {
 
               {/* Section 2 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   2. Informational &amp; Specification Reference
                 </h2>
                 <p className="mb-3">
                   This website serves as an architectural portfolio and specification reference for the premium brands
                   we represent in Jamshedpur. Please note:
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[#3d2e38]">
+                <ul className="list-disc pl-6 space-y-1 text-[var(--color-charcoal)]">
                   <li>
                     This website is not an automated e-commerce storefront. Orders, availability verification,
                     and technical pricing are finalized through direct showroom consultation or written estimates.
@@ -83,14 +83,14 @@ export default async function TermsPage() {
 
               {/* Section 3 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   3. Manufacturer Specifications &amp; Warranties
                 </h2>
                 <p className="mb-3">
                   Hardware Collection is an authorized dealer and specification partner for world-class manufacturers
                   including Blum, Häfele, Dorset, Hettich, Tattva, and other represented brands.
                 </p>
-                <ul className="list-disc pl-6 space-y-1 text-[#3d2e38]">
+                <ul className="list-disc pl-6 space-y-1 text-[var(--color-charcoal)]">
                   <li>
                     All product warranties, technical certifications, and performance guarantees are provided
                     directly by the respective manufacturer according to their official terms.
@@ -104,7 +104,7 @@ export default async function TermsPage() {
 
               {/* Section 4 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   4. Consultations &amp; Price Estimates
                 </h2>
                 <p>
@@ -116,7 +116,7 @@ export default async function TermsPage() {
 
               {/* Section 5 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   5. Intellectual Property
                 </h2>
                 <p>
@@ -128,7 +128,7 @@ export default async function TermsPage() {
 
               {/* Section 6 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[#1a1017] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
                   6. Governing Law &amp; Jurisdiction
                 </h2>
                 <p>
@@ -140,24 +140,24 @@ export default async function TermsPage() {
             </>
           )}
 
-          <div className="mt-6 p-6 rounded-xl bg-[#f7f0e2] border border-[#1a1017]/[0.08] space-y-3 text-sm not-prose">
+          <div className="mt-6 p-6 rounded-xl bg-[var(--color-pearl)] border border-[var(--color-ink)]/[0.08] space-y-3 text-sm not-prose">
             <div className="flex items-start gap-3">
-              <MapPin className="w-4 h-4 text-[#8b1a42] shrink-0 mt-1" />
+              <MapPin className="w-4 h-4 text-[var(--color-wine)] shrink-0 mt-1" />
               <div>
-                <strong className="text-[#1a1017] font-medium block">Hardware Collection Showroom</strong>
+                <strong className="text-[var(--color-ink)] font-medium block">Hardware Collection Showroom</strong>
                 <span>{siteSettings?.showroomAddress || "1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001"}</span>
               </div>
             </div>
             <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
               <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-[#8b1a42] shrink-0" />
+                <Phone className="w-4 h-4 text-[var(--color-wine)] shrink-0" />
                 <span>+91 70336 50739 - showroom contact</span>
               </div>
               <span className="hidden sm:inline text-[var(--border)]">/</span>
               <span className="pl-7 sm:pl-0">mukesh khandelwal no. +91 98351 90738</span>
             </div>
             <div className="flex items-center gap-3">
-              <Mail className="w-4 h-4 text-[#8b1a42] shrink-0" />
+              <Mail className="w-4 h-4 text-[var(--color-wine)] shrink-0" />
               <span>info@hardwarecollection.co</span>
             </div>
           </div>
