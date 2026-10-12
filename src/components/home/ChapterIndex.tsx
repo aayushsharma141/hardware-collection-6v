@@ -86,7 +86,7 @@ export function ChapterIndex() {
           >
             {/* Tick mark */}
             <span
-              className="block h-[1px] transition-all duration-500 ease-out"
+              className="block h-[1px] transition-[width,background-color] duration-200 ease-out"
               style={{
                 width: isActive ? "20px" : "8px",
                 backgroundColor: isActive
@@ -96,7 +96,7 @@ export function ChapterIndex() {
             />
             {/* Chapter label — only visible when active or on group hover */}
             <span
-              className="text-[10px] tracking-widest uppercase font-medium transition-all duration-300"
+              className="text-[10px] tracking-widest uppercase font-medium transition-[color,opacity] duration-200"
               style={{
                 color: isActive
                   ? "rgba(200, 169, 110, 1)"

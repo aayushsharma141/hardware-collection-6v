@@ -348,7 +348,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
               
               {/* Dropdown Menu */}
               <div
-                className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-[var(--surface)] border border-[var(--text-primary)]/10 shadow-[var(--shadow-float)] overflow-hidden transition-all duration-300 origin-top ${
+                className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-[var(--surface)] border border-[var(--text-primary)]/10 shadow-[var(--shadow-float)] overflow-hidden transition duration-300 origin-top ${
                   isDropdownOpen ? "opacity-100 scale-y-100 visible" : "opacity-0 scale-y-95 invisible"
                 }`}
               >
@@ -393,7 +393,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           <button
             type="submit"
             disabled={isSubmitting}
-            className="group flex items-center justify-between w-full cursor-pointer disabled:opacity-60 transition-all focus:outline-none"
+            className="group flex items-center justify-between w-full cursor-pointer disabled:opacity-60 transition focus:outline-none"
           >
             <span className="text-[13px] font-bold uppercase tracking-[0.24em] text-[var(--color-wine)] transition-colors group-hover:text-[#520e20]">
               Send Enquiry
@@ -401,7 +401,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
             <div className="flex-1 h-[1px] bg-[var(--color-wine)]/20 mx-6 group-hover:bg-[var(--color-wine)]/40 transition-colors" />
             <div className="relative flex items-center justify-center shrink-0">
               {/* Outer soft halo */}
-              <div className="w-12 h-12 rounded-none bg-[var(--color-wine)]/[0.08] flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--color-wine)]/[0.14] group-active:scale-95">
+              <div className="w-12 h-12 rounded-none bg-[var(--color-wine)]/[0.08] flex items-center justify-center transition duration-300 group-hover:scale-105 group-hover:bg-[var(--color-wine)]/[0.14] group-active:scale-[0.97]">
                 {/* Inner circular button */}
                 <div className="w-10 h-10 rounded-none bg-[var(--color-wine)] group-hover:bg-[#581123] flex items-center justify-center text-white transition-transform duration-300 group-hover:translate-x-0.5 shadow-[var(--shadow-float)]">
                   {isSubmitting ? (
