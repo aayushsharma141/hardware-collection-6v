@@ -101,7 +101,7 @@ export function MobileMenu({
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-          className="fixed inset-0 z-[100] lg:hidden flex flex-col justify-between bg-[var(--surface)] text-[var(--text-primary)] px-6 pt-5 pb-8 overflow-y-auto"
+          className="fixed inset-0 z-[var(--z-top)] lg:hidden flex flex-col justify-between bg-[var(--surface)] text-[var(--text-primary)] px-6 pt-5 pb-8 overflow-y-auto"
           style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
         >
           {/* Top Bar */}

@@ -24,7 +24,7 @@ export default function CaptureToolbar({ busy, onCancel, onConfirm }: CaptureToo
           <button
             type="button"
             onClick={onCancel}
-            className="v-press flex min-h-[52px] items-center gap-2 rounded border border-[var(--v-line-strong)] bg-[var(--v-chrome)] px-4 font-body text-[11px] font-semibold text-[var(--v-text-dim)] backdrop-blur-md hover:text-[var(--v-text)] hc-focus"
+            className="v-press flex min-h-[52px] items-center gap-2 rounded-none border border-[var(--v-line-strong)] bg-[var(--v-chrome)] px-4 font-body text-[11px] font-semibold text-[var(--v-text-dim)] backdrop-blur-md hover:text-[var(--v-text)] hc-focus"
           >
             Cancel
           </button>
@@ -32,7 +32,7 @@ export default function CaptureToolbar({ busy, onCancel, onConfirm }: CaptureToo
             type="button"
             onClick={onConfirm}
             disabled={busy}
-            className="v-press flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded bg-[var(--v-text)] font-body text-[11px] font-bold text-[var(--v-surface)] hover:bg-white disabled:opacity-60 hc-focus"
+            className="v-press flex min-h-[52px] flex-1 items-center justify-center gap-2 rounded-none bg-[var(--v-text)] font-body text-[11px] font-bold text-[var(--v-surface)] hover:bg-white disabled:opacity-60 hc-focus"
           >
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
             Continue

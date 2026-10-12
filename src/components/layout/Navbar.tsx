@@ -173,8 +173,8 @@ export default function Navbar({
   const barMaterial = isOverHero
     ? "border-transparent bg-transparent shadow-none"
     : isScrolled
-      ? "border-[var(--color-ink)]/[0.08] bg-[var(--color-ivory)]/95 backdrop-blur-md shadow-[0_8px_30px_rgba(26,16,23,0.09),inset_0_1px_0_rgba(255,255,255,0.65)]"
-      : "border-[var(--color-ink)]/[0.08] bg-[var(--color-ivory)]/85 backdrop-blur-md shadow-[0_4px_20px_rgba(26,16,23,0.04),inset_0_1px_0_rgba(255,255,255,0.65)]";
+      ? "border-[var(--color-ink)]/[0.08] bg-[var(--color-ivory)]/95 backdrop-blur-md shadow-[var(--shadow-float)]"
+      : "border-[var(--color-ink)]/[0.08] bg-[var(--color-ivory)]/85 backdrop-blur-md";
 
   const isLinkActive = (link: NavLinkItem) => {
     if (link.id === "collections") {
@@ -229,7 +229,7 @@ export default function Navbar({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="fixed top-0 left-0 right-0 z-[60] bg-[var(--color-wine)] text-white text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] text-center py-2 px-4"
+            className="fixed top-0 left-0 right-0 z-[var(--z-modal)] bg-[var(--color-wine)] text-white text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] text-center py-2 px-4"
             style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
           >
             {announcementBar}
@@ -261,7 +261,7 @@ export default function Navbar({
         />
 
         <div
-          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded border transition-[height,background-color,box-shadow,border-color,backdrop-filter] duration-300 ease-out ${isScrolled ? "h-[58px] md:h-[64px]" : "h-[64px] md:h-[76px]"
+          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded-none border transition-[height,background-color,box-shadow,border-color,backdrop-filter] duration-300 ease-out ${isScrolled ? "h-[58px] md:h-[64px]" : "h-[64px] md:h-[76px]"
             } ${barMaterial}`}
         >
           {/* Strict Balanced 3-Zone Desktop Grid & 2-Zone Mobile Layout */}
@@ -305,7 +305,7 @@ export default function Navbar({
                        (a global font reset was overriding these classes) and
                        what --nav-brand-size was balanced against. 14px between
                        lg and xl, where 16px pushed the CTA out of the bar. */
-                    className={`relative px-2.5 xl:px-4 py-1.5 text-sm xl:text-base leading-6 uppercase tracking-[0.12em] xl:tracking-[0.18em] rounded select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] whitespace-nowrap shrink-0 ${isActive
+                    className={`relative px-2.5 xl:px-4 py-1.5 text-sm xl:text-base leading-6 uppercase tracking-[0.12em] xl:tracking-[0.18em] rounded-none select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] whitespace-nowrap shrink-0 ${isActive
                         ? "text-[var(--color-wine)] font-medium"
                         : "text-[var(--color-wine)] font-normal hover:text-[var(--color-wine-deep)] hover:bg-[var(--color-wine)]/[0.06]"
                       }`}
@@ -315,7 +315,7 @@ export default function Navbar({
                     {isActive && (
                       <motion.span
                         layoutId={shouldReduceMotion ? undefined : "active-nav-capsule"}
-                        className="absolute inset-0 rounded bg-[var(--color-wine)]/[0.06] border border-[var(--color-wine)]/[0.10] -z-10"
+                        className="absolute inset-0 rounded-none bg-[var(--color-wine)]/[0.06] border border-[var(--color-wine)]/[0.10] -z-10"
                         transition={
                           shouldReduceMotion
                             ? { duration: 0 }
@@ -338,7 +338,7 @@ export default function Navbar({
               {/* Desktop Phone Contact Pill */}
               <a
                 href={`tel:${cleanPhone}`}
-                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded bg-[var(--color-pearl)]/80 border border-[var(--color-ink)]/[0.08] hover:border-[var(--color-wine)]/25 hover:bg-[var(--color-pearl)]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--color-charcoal)] hover:text-[var(--color-ink)] whitespace-nowrap shrink-0 transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded-none bg-[var(--color-pearl)]/80 border border-[var(--color-ink)]/[0.08] hover:border-[var(--color-wine)]/25 hover:bg-[var(--color-pearl)]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--color-charcoal)] hover:text-[var(--color-ink)] whitespace-nowrap shrink-0 transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label={`Call Hardware Collection at ${primaryPhone}`}
               >
@@ -349,7 +349,7 @@ export default function Navbar({
               {/* Desktop Inquire CTA Button */}
               <button
                 onClick={() => openDrawer({ source: "navbar", intent: "consultation" })}
-                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-11 min-h-[44px] px-4 xl:px-5 rounded bg-[var(--color-wine)] hover:bg-[var(--color-wine-deep)] text-white text-[11px] xl:text-[12px] font-bold uppercase tracking-[0.14em] leading-none whitespace-nowrap shrink-0 shadow-[0_4px_14px_rgba(139,26,66,0.20)] hover:shadow-[0_6px_20px_rgba(139,26,66,0.30)] active:scale-[0.98] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-11 min-h-[44px] px-4 xl:px-5 rounded-none bg-[var(--color-wine)] hover:bg-[var(--color-wine-deep)] text-white text-[11px] xl:text-[12px] font-bold uppercase tracking-[0.14em] leading-none whitespace-nowrap shrink-0 shadow-[0_4px_14px_rgba(139,26,66,0.20)] hover:shadow-[0_6px_20px_rgba(139,26,66,0.30)] active:scale-[0.98] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
               >
                 <span>Book Consultation</span>

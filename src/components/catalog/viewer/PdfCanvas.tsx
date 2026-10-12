@@ -257,7 +257,7 @@ function PageView({
         role={current ? "img" : undefined}
         aria-label={current ? pageLabel : undefined}
         aria-hidden={current ? undefined : true}
-        className="block bg-[var(--v-panel)] shadow-md"
+        className="block bg-[var(--v-panel)]"
         onContextMenu={(e) => e.preventDefault()}
         onDragStart={(e) => e.preventDefault()}
       />
@@ -271,7 +271,7 @@ function PageView({
               setFailed(false);
               setAttempt((a) => a + 1);
             }}
-            className="v-press rounded border border-[var(--v-line-strong)] px-5 py-2 font-body text-[11px] text-[var(--v-text-dim)] hover:border-[var(--v-text)] hover:text-[var(--v-text)] hc-focus"
+            className="v-press rounded-none border border-[var(--v-line-strong)] px-5 py-2 font-body text-[11px] text-[var(--v-text-dim)] hover:border-[var(--v-text)] hover:text-[var(--v-text)] hc-focus"
           >
             Retry
           </button>

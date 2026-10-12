@@ -51,7 +51,7 @@ export default function CatalogueInfo({
   const size = formatSize(entry?.size);
 
   return (
-    <div className="absolute inset-0 z-50 flex flex-col justify-end bg-[var(--v-chrome)] backdrop-blur-sm md:flex-row md:justify-end">
+    <div className="absolute inset-0 z-50 flex flex-col justify-end bg-[var(--v-chrome)] md:flex-row md:justify-end">
       <button type="button" aria-label="Close information" onClick={onClose} className="flex-1 cursor-default" />
       <aside
         aria-label="Catalogue information"
@@ -65,7 +65,7 @@ export default function CatalogueInfo({
             type="button"
             onClick={onClose}
             aria-label="Close information"
-            className="v-press flex h-11 w-11 items-center justify-center rounded text-[var(--v-text-faint)] hover:text-[var(--v-text)] hc-focus"
+            className="v-press flex h-11 w-11 items-center justify-center rounded-none text-[var(--v-text-faint)] hover:text-[var(--v-text)] hc-focus"
           >
             <X className="h-5 w-5" />
           </button>
@@ -94,7 +94,7 @@ export default function CatalogueInfo({
                       type="button"
                       onClick={() => onSelect(i)}
                       aria-current={i === active ? "true" : undefined}
-                      className={`v-press flex w-full min-h-11 items-center gap-3 rounded px-3 py-2 text-left hc-focus ${
+                      className={`v-press flex w-full min-h-11 items-center gap-3 rounded-none px-3 py-2 text-left hc-focus ${
                         i === active
                           ? "bg-[var(--v-accent-bg)] text-[var(--v-accent-fg)] font-semibold"
                           : "text-[var(--v-text-dim)] hover:bg-black/5 hover:text-[var(--v-text)]"
@@ -116,7 +116,7 @@ export default function CatalogueInfo({
           <button
             type="button"
             onClick={onEnquire}
-            className="v-press mt-6 flex min-h-11 w-full items-center justify-center rounded border border-[var(--v-send)] font-body text-[11px] font-semibold text-[var(--v-send)] hover:bg-[var(--v-send)] hover:text-[var(--v-surface)] hc-focus"
+            className="v-press mt-6 flex min-h-11 w-full items-center justify-center rounded-none border border-[var(--v-send)] font-body text-[11px] font-semibold text-[var(--v-send)] hover:bg-[var(--v-send)] hover:text-[var(--v-surface)] hc-focus"
           >
             Ask about this catalogue
           </button>

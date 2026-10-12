@@ -56,7 +56,7 @@ export function ConsultationDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", damping: 28, stiffness: 220 }}
-            className="relative w-full max-w-xl h-[100dvh] bg-[var(--color-ivory)] border-l border-[var(--color-ink)]/[0.10] shadow-[0_0_80px_rgba(0,0,0,0.2)] flex flex-col overflow-y-auto"
+            className="relative w-full max-w-xl h-[100dvh] bg-[var(--color-ivory)] border-l border-[var(--color-ink)]/[0.10] shadow-[var(--shadow-float)] flex flex-col overflow-y-auto"
             role="dialog"
             aria-modal="true"
           >
@@ -70,7 +70,7 @@ export function ConsultationDrawer() {
               </div>
               <button
                 onClick={closeDrawer}
-                className="w-8 h-8 rounded bg-[var(--color-ink)]/[0.05] border border-[var(--color-ink)]/[0.1] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--color-wine)] hover:text-white transition-all focus:outline-none cursor-pointer"
+                className="w-8 h-8 rounded-none bg-[var(--color-ink)]/[0.05] border border-[var(--color-ink)]/[0.1] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--text-primary)] hover:bg-[var(--color-wine)] hover:text-white transition-all focus:outline-none cursor-pointer"
                 aria-label="Close dialog"
               >
                 <X className="w-4 h-4" />

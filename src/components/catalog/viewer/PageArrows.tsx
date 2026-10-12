@@ -12,7 +12,7 @@ interface PageArrowsProps {
 }
 
 const arrow =
-  "v-press pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-[var(--v-line)] bg-[var(--v-panel)] text-[var(--v-text-dim)] shadow-sm backdrop-blur-sm transition-opacity duration-200 hover:text-[var(--v-text)] disabled:pointer-events-none disabled:opacity-0 hc-focus";
+  "v-press pointer-events-auto flex h-12 w-12 items-center justify-center rounded-full border border-[var(--v-line)] bg-[var(--v-panel)] text-[var(--v-text-dim)] transition-opacity duration-200 hover:text-[var(--v-text)] disabled:pointer-events-none disabled:opacity-0 hc-focus";
 
 /** Previous / next page buttons resting at the vertical middle of the viewer. */
 export default function PageArrows({ page, pages, visible, onStep }: PageArrowsProps) {

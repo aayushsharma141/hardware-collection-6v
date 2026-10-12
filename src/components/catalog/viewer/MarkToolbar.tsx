@@ -40,7 +40,7 @@ function ToolButton({
       onClick={onClick}
       disabled={disabled}
       aria-pressed={active === undefined ? undefined : active}
-      className={`v-press flex min-h-11 min-w-11 flex-col items-center justify-center gap-1 rounded px-3 py-1.5 disabled:opacity-30 hc-focus ${
+      className={`v-press flex min-h-11 min-w-11 flex-col items-center justify-center gap-1 rounded-none px-3 py-1.5 disabled:opacity-30 hc-focus ${
         active
           ? "bg-[var(--v-accent-bg)] text-[var(--v-accent-fg)] font-semibold"
           : "text-[var(--v-text-dim)] hover:bg-black/5 hover:text-[var(--v-text)]"
@@ -80,7 +80,7 @@ export default function MarkToolbar({
       </div>
 
       <div className="absolute inset-x-0 bottom-0 z-40 px-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
-        <div className="mx-auto flex w-full max-w-md items-center justify-between gap-1 rounded-2xl border border-[var(--v-line-strong)] bg-[var(--v-chrome)] p-1.5 backdrop-blur-md shadow-[0_4px_30px_rgba(0,0,0,0.1)]">
+        <div className="mx-auto flex w-full max-w-md items-center justify-between gap-1 rounded-2xl border border-[var(--v-line-strong)] bg-[var(--v-chrome)] p-1.5 backdrop-blur-md shadow-[var(--shadow-float)]">
           <ToolButton
             active={tool === "select"}
             label="Select"
@@ -121,7 +121,7 @@ export default function MarkToolbar({
           <button
             type="button"
             onClick={onDone}
-            className="v-press ml-1 flex min-h-11 items-center gap-2 rounded bg-[var(--v-text)] px-4 font-body text-[11px] font-bold text-[var(--v-surface)] hover:bg-white hc-focus"
+            className="v-press ml-1 flex min-h-11 items-center gap-2 rounded-none bg-[var(--v-text)] px-4 font-body text-[11px] font-bold text-[var(--v-surface)] hover:bg-white hc-focus"
           >
             <Check className="h-4 w-4" />
             Share
