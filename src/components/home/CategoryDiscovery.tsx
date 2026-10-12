@@ -56,7 +56,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
       <div className="hidden lg:block px-12 xl:px-16">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">
           <div>
-            <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink">
+            <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.2em] font-semibold text-brass-ink">
               Showroom families
             </p>
             <h2 className="hc-serif mt-3 text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)]">
@@ -69,7 +69,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
             </p>
             <a
               href="/collections"
-              className="inline-flex items-center justify-center px-8 py-3.5 bg-[var(--accent)] text-white text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-[var(--accent-light)] min-w-[200px]"
+              className="inline-flex items-center justify-center px-8 py-3.5 bg-[var(--accent)] text-white text-[11px] font-semibold tracking-[0.2em] uppercase transition duration-300 hover:bg-[var(--accent-light)] min-w-[200px]"
             >
               Explore All Collections
             </a>
@@ -77,7 +77,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
         </div>
 
         <motion.div 
-          className="mt-10 grid gap-[1px] bg-[var(--border)] rounded-none overflow-hidden shadow-sm"
+          className="mt-10 grid gap-[1px] bg-[var(--border)] rounded-none overflow-hidden"
           style={{
             // One column per family, the focal one a little wider.
             gridTemplateColumns: activeFamilies.map((f) => (f.isFocal ? "1.28fr" : "1fr")).join(" "),
@@ -99,27 +99,27 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                 {cat.image ? (
                   <Image
                     alt={`${cat.name} showroom family`}
-                    className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:scale-[1.03]"
+                    className="object-cover transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:scale-[1.03]"
                     fill
                     sizes="(max-width: 1024px) 50vw, 20vw"
                     src={cat.image}
                   />
                 ) : (
                   <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)]">
-                    <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
+                    <span className="text-[11px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
                   </div>
                 )}
                 {/* Scrim under the index: the brass numerals lose contrast on
                     brightly lit photography (card 05's shelving). */}
                 <div
                   aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/55 to-transparent pointer-events-none"
+                  className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[var(--color-ink)]/55 to-transparent pointer-events-none"
                 />
-                <span className="absolute left-4 top-4 hc-mono text-xs tracking-[0.18em] font-semibold text-[var(--accent)]">
+                <span className="absolute left-4 top-4 bg-[var(--surface)] px-2 py-1 hc-mono text-xs tracking-[0.2em] font-semibold text-[var(--accent)]">
                   {cat.index}
                 </span>
                 {cat.isFocal && (
-                  <span className="absolute right-4 top-4 border border-[var(--accent)]/[0.5] px-2.5 py-1 hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--accent)] bg-[var(--surface)]/80 backdrop-blur-sm rounded-none">
+                  <span className="absolute right-4 top-4 border border-[var(--accent)]/[0.5] px-2.5 py-1 hc-mono text-[11px] uppercase tracking-[0.14em] font-semibold text-[var(--accent)] bg-[var(--surface)] rounded-none">
                     Focal family
                   </span>
                 )}
@@ -194,7 +194,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
               href={cat.href}
               className="mobile-row w-full py-4 flex items-center gap-4 text-left no-underline hover:bg-[var(--surface-raised)] transition-colors duration-150"
             >
-              <span className="hc-mono w-6 text-xs font-semibold tracking-[0.12em] text-brass-ink">
+              <span className="hc-mono w-6 text-xs font-semibold tracking-[0.14em] text-brass-ink">
                 0{idx + 1}
               </span>
               {cat.image ? (
@@ -207,14 +207,14 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                 />
               ) : (
                 <div className="h-[56px] w-[80px] shrink-0 rounded-none border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center">
-                  <span className="text-[8px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Wait</span>
+                  <span className="text-[11px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Wait</span>
                 </div>
               )}
               <div className="flex-1 min-w-0">
                 <strong className="block hc-serif text-2xl leading-tight font-normal text-[var(--text-primary)]">
                   {cat.name} {cat.nameBreak || ""}
                 </strong>
-                <small className="mt-1 block text-xs uppercase tracking-[0.12em] text-[var(--text-secondary)] truncate">
+                <small className="mt-1 block text-xs uppercase tracking-[0.14em] text-[var(--text-secondary)] truncate">
                   {cat.subtitle}
                 </small>
               </div>

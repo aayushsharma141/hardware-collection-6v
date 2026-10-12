@@ -270,7 +270,7 @@ export default function BrandsDirectoryView({
     <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
       {/* ── 01. Hero & Header Section ─────────────────────────────────── */}
       <section className="pt-12 sm:pt-16 pb-10 sm:pb-14 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span className="hc-mono text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-3">
+        <span className="hc-mono text-[11px] font-medium tracking-[0.2em] text-[var(--color-wine)] uppercase block mb-3">
           MANUFACTURER REFERENCE LIBRARY
         </span>
         <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4">
@@ -288,7 +288,7 @@ export default function BrandsDirectoryView({
       <section id="featured" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
-            <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
+            <span className="hc-mono text-[11px] font-medium tracking-[0.2em] text-[var(--color-wine)] uppercase block mb-2">
               All Authrosied Brands
             </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
@@ -359,7 +359,7 @@ export default function BrandsDirectoryView({
       <section id="all-brands" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 border-t border-[var(--border)]">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
-            <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
+            <span className="hc-mono text-[11px] font-medium tracking-[0.2em] text-[var(--color-wine)] uppercase block mb-2">
               All Partners
             </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
@@ -468,7 +468,7 @@ export default function BrandsDirectoryView({
       <section className="py-16 sm:py-20 bg-[var(--color-obsidian)] text-white">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="hc-mono text-[11px] font-medium tracking-[0.25em] text-[var(--color-bone)]/60 uppercase block mb-3">
+            <span className="hc-mono text-[11px] font-medium tracking-[0.2em] text-[var(--color-bone)]/60 uppercase block mb-3">
               How to use the catalogue
             </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-white tracking-tight">

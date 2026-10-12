@@ -52,7 +52,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
         {/* Header matching Reference Mockup */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
           <div>
-            <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
+            <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-1.5">
               FAQ
             </p>
             <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight">
@@ -66,7 +66,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
               href={generateWhatsAppUrl("faq-enquiry")}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[11px] font-semibold uppercase tracking-[0.15em] text-[var(--color-wine)] inline-flex items-center gap-1 hover:underline"
+              className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-wine)] inline-flex items-center gap-1 hover:underline"
             >
               <span>WhatsApp an Expert</span>
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">

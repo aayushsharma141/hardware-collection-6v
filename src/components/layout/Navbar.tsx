@@ -229,7 +229,7 @@ export default function Navbar({
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="fixed top-0 left-0 right-0 z-[var(--z-modal)] bg-[var(--color-wine)] text-white text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] text-center py-2 px-4"
+            className="fixed top-0 left-0 right-0 z-[var(--z-modal)] bg-[var(--color-wine)] text-white text-[11px] sm:text-xs font-medium uppercase tracking-[0.14em] text-center py-2 px-4"
             style={{ fontFamily: "var(--font-dmsans), sans-serif" }}
           >
             {announcementBar}
@@ -305,7 +305,7 @@ export default function Navbar({
                        (a global font reset was overriding these classes) and
                        what --nav-brand-size was balanced against. 14px between
                        lg and xl, where 16px pushed the CTA out of the bar. */
-                    className={`relative px-2.5 xl:px-4 py-1.5 text-sm xl:text-base leading-6 uppercase tracking-[0.12em] xl:tracking-[0.18em] rounded-none select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] whitespace-nowrap shrink-0 ${isActive
+                    className={`relative px-2.5 xl:px-4 py-1.5 text-sm xl:text-base leading-6 uppercase tracking-[0.14em] xl:tracking-[0.2em] rounded-none select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] whitespace-nowrap shrink-0 ${isActive
                         ? "text-[var(--color-wine)] font-medium"
                         : "text-[var(--color-wine)] font-normal hover:text-[var(--color-wine-deep)]"
                       }`}
@@ -338,7 +338,7 @@ export default function Navbar({
               {/* Desktop Phone Contact Pill */}
               <a
                 href={`tel:${cleanPhone}`}
-                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded-none bg-[var(--color-pearl)]/80 border border-[var(--color-ink)]/[0.08] hover:border-[var(--color-wine)]/25 hover:bg-[var(--color-pearl)]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[var(--color-charcoal)] hover:text-[var(--color-ink)] whitespace-nowrap shrink-0 transition duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded-none bg-[var(--color-pearl)]/80 border border-[var(--color-ink)]/[0.08] hover:border-[var(--color-wine)]/25 hover:bg-[var(--color-pearl)]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.14em] text-[var(--color-charcoal)] hover:text-[var(--color-ink)] whitespace-nowrap shrink-0 transition duration-200 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label={`Call Hardware Collection at ${primaryPhone}`}
               >

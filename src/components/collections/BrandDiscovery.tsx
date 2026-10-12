@@ -38,7 +38,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
       <div className="max-w-[1320px] mx-auto px-6">
         {/* Header */}
         <div className="max-w-3xl mb-12 md:mb-16">
-          <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] mb-3 block">
+          <span className="hc-mono text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] mb-3 block">
             AUTHORIZED PARTNERS
           </span>
           <h2
@@ -150,7 +150,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
         <div className="pt-12 border-t border-[var(--border)]">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-8 gap-2">
             <div>
-              <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] mb-2 block">
+              <span className="hc-mono text-[11px] uppercase tracking-[0.2em] text-[var(--accent)] mb-2 block">
                 Full Manufacturer Directory
               </span>
               <h3 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
@@ -174,7 +174,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                 className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded-none bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-[border-color,transform] duration-150 ease-out active:scale-[0.97] group/cell cursor-pointer animate-brand-enter"
               >
                 {CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.logo || brand.logoUrl ? (
-                  <div className="relative w-full h-full flex items-center justify-center transition-transform duration-150 ease-out group-hover/cell:scale-105">
+                  <div className="relative w-full h-full flex items-center justify-center transition-transform duration-150 ease-out group-hover/cell:scale-[1.03]">
                     <Image
                       src={CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.logo || brand.logoUrl as string}
                       alt={brand.name}

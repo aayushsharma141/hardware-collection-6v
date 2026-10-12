@@ -98,12 +98,12 @@ export default function StaticHero({
       />
       <div
         aria-hidden
-        className="absolute inset-0 -z-10 bg-gradient-to-t from-[#1a1017]/90 via-[#1a1017]/45 to-[#1a1017]/20 lg:bg-gradient-to-r lg:from-[#1a1017]/85 lg:via-[#1a1017]/45 lg:to-transparent"
+        className="absolute inset-0 -z-10 bg-gradient-to-t from-[var(--color-ink)]/90 via-[var(--color-ink)]/45 to-[var(--color-ink)]/20 lg:bg-gradient-to-r lg:from-[var(--color-ink)]/85 lg:via-[var(--color-ink)]/45 lg:to-transparent"
       />
 
       <div className="mx-auto w-full max-w-[1360px] px-6 pb-16 pt-32 lg:px-12 lg:pb-0">
         <div className="max-w-2xl">
-          <p className="hc-mono mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-brass)]">
+          <p className="hc-mono mb-5 text-xs font-semibold uppercase tracking-[0.2em] text-[var(--color-brass)]">
             {eyebrow || FALLBACK.eyebrow}
           </p>
           <h1

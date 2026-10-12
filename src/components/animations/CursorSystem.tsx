@@ -118,7 +118,7 @@ export const CursorSystem = () => {
           <motion.span 
             initial={{ opacity: 0, scale: 0.5 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="text-[9px] font-semibold tracking-widest text-zinc-950 uppercase"
+            className="text-[11px] font-semibold tracking-widest text-zinc-950 uppercase"
           >
             {cursorText}
           </motion.span>

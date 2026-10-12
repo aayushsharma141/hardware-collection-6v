@@ -85,7 +85,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
     <section
       aria-roledescription="carousel"
       aria-label="Featured collections and offers"
-      className="relative isolate overflow-hidden bg-[#1a1017] text-white"
+      className="relative isolate overflow-hidden bg-[var(--color-ink)] text-white"
     >
       <Carousel
         setApi={setApi}
@@ -127,11 +127,11 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div aria-live={playing ? "off" : "polite"} className="max-w-md">
             {active.offerHref ? (
-              <p className="hc-mono text-[9.5px] uppercase tracking-[0.25em] text-[var(--color-brass)] font-semibold mb-1">
+              <p className="hc-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-brass)] font-semibold mb-1">
                 SPECIAL OFFER
               </p>
             ) : active.tagline ? (
-              <p className="hc-mono text-[10px] uppercase tracking-[0.2em] text-white/70 mb-1">
+              <p className="hc-mono text-[11px] uppercase tracking-[0.2em] text-white/70 mb-1">
                 {active.tagline}
               </p>
             ) : null}
@@ -141,7 +141,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                 <>
                   <Button
                     asChild
-                    className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
+                    className="bg-[#fbf5ea] text-[var(--color-ink)] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.14em] transition"
                   >
                     <a href={active.offerHref} target="_blank" rel="noopener noreferrer">
                       <MessageCircle aria-hidden="true" className="h-4 w-4 mr-2" />
@@ -151,7 +151,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                   <Button
                     asChild
                     variant="outline"
-                    className="h-11 rounded-none border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-[0.16em] text-white hover:border-white hover:bg-white/10 hover:text-white active:scale-[0.98] transition-all"
+                    className="h-11 rounded-none border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-[0.14em] text-white hover:border-white hover:bg-white/10 hover:text-white active:scale-[0.98] transition"
                   >
                     <a href="#offers">
                       All offers
@@ -163,7 +163,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                 <>
                   <Button
                     asChild
-                    className="brass-plate h-11 rounded px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+                    className="brass-plate h-11 rounded-none px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
                   >
                     <a
                       href={active.href}
@@ -176,7 +176,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                   <Button
                     asChild
                     variant="outline"
-                    className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
+                    className="h-11 rounded-none border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
                   >
                     <a href="#" target="_blank" rel="noopener noreferrer">
                       <MessageCircle aria-hidden="true" className="h-4 w-4" />
@@ -187,7 +187,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
               ) : (
                 <Button
                   asChild
-                  className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
+                  className="bg-[#fbf5ea] text-[var(--color-ink)] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.14em] transition"
                 >
                   <a href={`#${active.id}`}>
                     Explore
@@ -210,7 +210,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                   className="hc-focus group flex h-11 w-7 items-center justify-center"
                 >
                   <span
-                    className={`block h-[2px] rounded-none transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                    className={`block h-[2px] rounded-none transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
                       index === current ? "w-6 bg-white" : "w-3 bg-white/30 group-hover:bg-white/60"
                     }`}
                   />

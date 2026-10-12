@@ -154,7 +154,7 @@ export function MobileMenu({
                   >
                     {link.name}
                   </span>
-                  <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
+                  <span className="hc-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
                     0{idx + 1}
                   </span>
                 </Link>
@@ -167,7 +167,7 @@ export function MobileMenu({
             <div className="flex flex-col gap-2.5">
               <a
                 href={`tel:${cleanPhone}`}
-                className="flex items-center justify-center gap-2.5 h-12 rounded-none bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.16em] active:scale-[0.97] transition"
+                className="flex items-center justify-center gap-2.5 h-12 rounded-none bg-[var(--surface-raised)] border border-[var(--border)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.14em] active:scale-[0.97] transition"
               >
                 <Phone className="w-4 h-4 text-[var(--color-wine)]" />
                 <span>Call Showroom ({primaryPhone})</span>
@@ -178,14 +178,14 @@ export function MobileMenu({
                   onClose();
                   onConsultClick();
                 }}
-                className="flex w-full items-center justify-center gap-2 h-12 rounded-none bg-[var(--color-wine)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-[0.16em] active:scale-[0.97] transition"
+                className="flex w-full items-center justify-center gap-2 h-12 rounded-none bg-[var(--color-wine)] hover:brightness-110 text-white font-bold text-xs uppercase tracking-[0.14em] active:scale-[0.97] transition"
               >
                 <span>Consult Specialist</span>
                 <ArrowUpRight className="w-4 h-4" />
               </button>
             </div>
 
-            <p className="hc-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] text-center pt-2">
+            <p className="hc-mono text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)] text-center pt-2">
               Sakchi, Jamshedpur · {SHOWROOM_HOURS_FALLBACK}
             </p>
           </div>

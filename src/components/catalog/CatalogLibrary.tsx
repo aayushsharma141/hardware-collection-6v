@@ -46,7 +46,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
     <section id="official-catalogues" className="py-20 md:py-28 bg-[var(--surface)] text-[var(--text-primary)] border-t border-[var(--border)]">
       <div className="max-w-[1320px] mx-auto px-6">
         <div className="max-w-4xl mb-16 md:mb-20">
-          <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink mb-3 block">
+          <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.2em] font-semibold text-brass-ink mb-3 block">
             Authorized Reference Library
           </span>
           <h1 className="hc-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.0] mb-5">
@@ -123,7 +123,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                 
                 {/* Middle: Brand Logo & Tagline */}
                 <div className="my-auto py-4">
-                  <div className="h-16 w-full max-w-[220px] flex items-center justify-start transition-transform duration-300 group-hover:scale-105">
+                  <div className="h-16 w-full max-w-[220px] flex items-center justify-start transition-transform duration-300 group-hover:scale-[1.03]">
                     {logoSrc ? (
                       <NormalizedLogo
                         src={logoSrc}
@@ -168,7 +168,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                       className="inline-flex items-center gap-1.5 min-h-[44px] whitespace-nowrap px-1 py-2 text-xs sm:text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors group/link"
                     >
                       <span>Visit Website</span>
-                      <ArrowUpRight className="w-4 h-4 text-[var(--color-brass)] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
+                      <ArrowUpRight className="w-4 h-4 text-[var(--color-brass-ink)] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
                     </a>
                   ) : (
                     <span className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">

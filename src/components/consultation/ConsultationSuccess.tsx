@@ -70,7 +70,7 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
         </a>
       </div>
 
-      <p className="text-[11px] text-[var(--text-secondary)] mt-5">
+      <p className="text-[12px] text-[var(--text-secondary)] mt-5">
         Direct showroom desk: <span className="text-[var(--text-primary)] font-medium">{SHOWROOM_PHONE_DISPLAY}</span>
       </p>
     </motion.div>

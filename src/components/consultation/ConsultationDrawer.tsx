@@ -45,7 +45,7 @@ export function ConsultationDrawer() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3, ease: "easeInOut" }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+            className="absolute inset-0 bg-[var(--color-ink)]/60 backdrop-blur-sm"
             onClick={closeDrawer}
           />
 

@@ -40,14 +40,14 @@ export default function Footer(_props?: FooterProps) {
             <p className="text-xs text-[var(--text-secondary)] font-light leading-relaxed max-w-xs">
               Architectural hardware, digital security and kitchen systems showroom in Sakchi, Jamshedpur.
             </p>
-            <p className="hc-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[var(--color-brass-ink)] pt-0.5">
+            <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-brass-ink)] pt-0.5">
               10+ Years · 20+ Authorised Brands Partner
             </p>
           </div>
 
           {/* Column 2: Explore (col-span-1 lg:col-span-3) */}
           <div className="col-span-1 lg:col-span-3 space-y-2.5">
-            <h4 className="hc-mono text-[10.5px] uppercase tracking-[0.22em] font-semibold text-[var(--text-secondary)]">
+            <h4 className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--text-secondary)]">
               Explore
             </h4>
             <ul className="space-y-2 text-xs text-[var(--text-primary)]">
@@ -57,7 +57,7 @@ export default function Footer(_props?: FooterProps) {
                   className="hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
                 >
                   <span>Collections</span>
-                  <span className="text-[10px]">&rarr;</span>
+                  <span className="text-[12px]">&rarr;</span>
                 </Link>
               </li>
               <li>
@@ -66,7 +66,7 @@ export default function Footer(_props?: FooterProps) {
                   className="hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
                 >
                   <span>Brands & Catalogues</span>
-                  <span className="text-[10px]">&rarr;</span>
+                  <span className="text-[12px]">&rarr;</span>
                 </Link>
               </li>
             </ul>
@@ -74,7 +74,7 @@ export default function Footer(_props?: FooterProps) {
 
           {/* Column 3: Legal (col-span-1 lg:col-span-2) */}
           <div className="col-span-1 lg:col-span-2 space-y-2.5">
-            <h4 className="hc-mono text-[10.5px] uppercase tracking-[0.22em] font-semibold text-[var(--text-secondary)]">
+            <h4 className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--text-secondary)]">
               Legal
             </h4>
             <ul className="space-y-2 text-xs text-[var(--text-primary)]">
@@ -84,7 +84,7 @@ export default function Footer(_props?: FooterProps) {
                   className="hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
                 >
                   <span>Privacy Policy</span>
-                  <span className="text-[10px]">&rarr;</span>
+                  <span className="text-[12px]">&rarr;</span>
                 </Link>
               </li>
               <li>
@@ -93,7 +93,7 @@ export default function Footer(_props?: FooterProps) {
                   className="hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
                 >
                   <span>Terms & Conditions</span>
-                  <span className="text-[10px]">&rarr;</span>
+                  <span className="text-[12px]">&rarr;</span>
                 </Link>
               </li>
             </ul>
@@ -101,7 +101,7 @@ export default function Footer(_props?: FooterProps) {
 
           {/* Column 4: Contact (col-span-2 lg:col-span-3) */}
           <div className="col-span-2 lg:col-span-3 space-y-2.5">
-            <h4 className="hc-mono text-[10.5px] uppercase tracking-[0.22em] font-semibold text-[var(--text-secondary)]">
+            <h4 className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--text-secondary)]">
               Contact
             </h4>
             
@@ -123,11 +123,11 @@ export default function Footer(_props?: FooterProps) {
         </div>
 
         {/* Bottom Sub-Footer Bar */}
-        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[var(--text-secondary)] font-light">
+        <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[12px] text-[var(--text-secondary)] font-light">
           <p>© 2026 Hardware Collection (Mukesh Khandelwal). All rights reserved.</p>
 
           <div className="flex items-center gap-4">
-            <span className="text-[10.5px] uppercase tracking-wider text-[var(--text-secondary)]">Follow us</span>
+            <span className="text-[11px] uppercase tracking-wider text-[var(--text-secondary)]">Follow us</span>
             <div className="flex items-center gap-3">
               <a
                 href="#"

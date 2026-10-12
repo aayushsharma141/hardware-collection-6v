@@ -115,7 +115,7 @@ function MobileReviewCard({ review }: { review: Testimonial }) {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <StarRating rating={rating} className="w-3.5 h-3.5" />
-          <span className="hc-mono uppercase text-[var(--text-secondary)] bg-[var(--surface)] px-2 py-0.5 border border-[var(--border)] text-[10px] tracking-[0.2em] font-medium">
+          <span className="hc-mono uppercase text-[var(--text-secondary)] bg-[var(--surface)] px-2 py-0.5 border border-[var(--border)] text-[11px] tracking-[0.2em] font-medium">
             {review.source || "Google"}
           </span>
         </div>

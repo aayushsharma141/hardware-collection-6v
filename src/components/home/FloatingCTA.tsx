@@ -61,7 +61,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
           {/* Header */}
           <div className="flex items-end justify-between mb-8 sm:mb-10">
             <div>
-              <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
+              <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-1.5">
                 Voices of Trust
               </p>
               <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight">
@@ -99,7 +99,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
             {displayReviews.map((rev, idx) => (
               <div
                 key={idx}
-                className="bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-[0_2px_8px_rgba(0,0,0,0.02)]"
+                className="bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-7 flex flex-col justify-between rounded-none shadow-[0_2px_8px_rgba(26, 16, 23, 0.02)]"
               >
                 <div>
                   <span className="hc-serif text-3xl sm:text-4xl text-[var(--color-brass)] leading-none block mb-3 select-none">
@@ -114,7 +114,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
                   <p className="hc-serif text-base font-medium text-[var(--text-primary)]">
                     {rev.customerName}
                   </p>
-                  <p className="text-[11px] text-[var(--text-secondary)] font-light mt-0.5">
+                  <p className="text-[12px] text-[var(--text-secondary)] font-light mt-0.5">
                     {rev.role}
                   </p>
                 </div>
@@ -139,11 +139,11 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
                   <p className="hc-serif text-sm font-medium text-[var(--text-primary)]">
                     {displayReviews[activeReviewIndex].customerName}
                   </p>
-                  <p className="text-[10.5px] text-[var(--text-secondary)] font-light">
+                  <p className="text-[12px] text-[var(--text-secondary)] font-light">
                     {displayReviews[activeReviewIndex].role}
                   </p>
                 </div>
-                <span className="text-[10px] hc-mono text-[var(--text-secondary)]">
+                <span className="text-[12px] hc-mono text-[var(--text-secondary)]">
                   0{activeReviewIndex + 1} / 0{displayReviews.length}
                 </span>
               </div>
@@ -162,7 +162,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
             {/* Left 4 Cols: Title, Copy & Directions Button */}
             <div className="lg:col-span-4 flex flex-col justify-between">
               <div>
-                <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
+                <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-1.5">
                   Visit Our Showroom
                 </p>
                 <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-4">
@@ -179,7 +179,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
                 href={SHOWROOM_MAP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-6 py-3.5 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center justify-center gap-2 hover:bg-[var(--color-wine-deep)] transition-colors w-fit mb-6 lg:mb-0"
+                className="px-6 py-3.5 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.14em] inline-flex items-center justify-center gap-2 hover:bg-[var(--color-wine-deep)] transition-colors w-fit mb-6 lg:mb-0"
               >
                 <span>Get Directions</span>
                 <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -209,7 +209,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
                     <h3 className="text-xs sm:text-[13px] font-semibold text-[var(--text-primary)]">
                       Sakchi, Jamshedpur
                     </h3>
-                    <address className="not-italic text-[11px] text-[var(--text-secondary)] font-light leading-relaxed mt-1">
+                    <address className="not-italic text-[12px] text-[var(--text-secondary)] font-light leading-relaxed mt-1">
                       {SHOWROOM_ADDRESS}
                     </address>
                   </div>
@@ -217,7 +217,7 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
 
                 <div className="border-t border-[var(--border)]/70 pt-4 flex items-start gap-3">
                   <Clock className="w-4 h-4 text-[var(--color-brass-ink)] shrink-0 mt-0.5" />
-                  <div className="text-[11px] text-[var(--text-secondary)] font-light leading-relaxed">
+                  <div className="text-[12px] text-[var(--text-secondary)] font-light leading-relaxed">
                     <p className="font-medium text-[var(--text-primary)]">
                       Wed - Mon: 10:00 AM - 8:00 PM
                     </p>
@@ -232,13 +232,13 @@ export default function FloatingCTA({ reviews: _reviews = [] }: FloatingCTAProps
                   href={generateWhatsAppUrl("showroom-visit")}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="py-3 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.16em] text-center hover:bg-[var(--color-wine-deep)] transition-colors"
+                  className="py-3 bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.14em] text-center hover:bg-[var(--color-wine-deep)] transition-colors"
                 >
                   WhatsApp
                 </a>
                 <a
                   href={SHOWROOM_PHONE_HREF}
-                  className="py-3 bg-transparent border border-[var(--border)] text-[var(--text-primary)] text-[11px] font-semibold uppercase tracking-[0.16em] text-center hover:border-[var(--text-primary)] transition-colors"
+                  className="py-3 bg-transparent border border-[var(--border)] text-[var(--text-primary)] text-[11px] font-semibold uppercase tracking-[0.14em] text-center hover:border-[var(--text-primary)] transition-colors"
                 >
                   Call
                 </a>
