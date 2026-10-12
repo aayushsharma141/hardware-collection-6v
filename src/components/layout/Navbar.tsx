@@ -174,7 +174,7 @@ export default function Navbar({
     ? "border-transparent bg-transparent shadow-none"
     : isScrolled
       ? "border-[var(--color-ink)]/[0.08] bg-[var(--color-ivory)]/95 backdrop-blur-md shadow-[var(--shadow-float)]"
-      : "border-[var(--color-ink)]/[0.08] bg-[var(--color-ivory)]/85 backdrop-blur-md";
+      : "border-[var(--color-ink)]/[0.08] bg-[var(--color-ivory)]/95 backdrop-blur-md";
 
   const isLinkActive = (link: NavLinkItem) => {
     if (link.id === "collections") {
