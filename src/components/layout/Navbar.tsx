@@ -4,11 +4,12 @@ import React, { useState, useEffect, useLayoutEffect, useRef } from "react";
 import Link from "next/link";
 import { BrandLockup } from "@/components/brand/BrandLockup";
 import { usePathname } from "next/navigation";
-import { Phone, ArrowUpRight, Menu, X } from "lucide-react";
+import { Phone, ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { useConsultationStore } from "@/components/consultation/store";
 import { lockScroll, unlockScroll } from "@/lib/browser/scrollLock";
 import { useGSAP, gsap, DURATION, EASE, prefersReducedMotion } from "@/lib/animations";
+import { AnimatedMenuIcon } from "./AnimatedMenuIcon";
 
 interface NavbarProps {
   primaryPhone?: string;
@@ -21,6 +22,7 @@ interface NavbarProps {
 }
 
 import { MobileMenu } from "./MobileMenu";
+import { AudioMuteButton } from "@/components/audio/AudioMuteButton";
 
 export interface NavLinkItem {
   name: string;
@@ -44,6 +46,13 @@ const NAV_BAND_PX = 96;
  */
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
+
+/**
+ * Routes renamed since the Navigation document was written. The CMS menu still
+ * stores `/catalogs`, which next.config.ts redirects, so linking the new path
+ * saves every click a 308 hop. Remove an entry once the document is updated.
+ */
+const RENAMED_PATHS: Readonly<Record<string, string>> = { "/catalogs": "/catalogues" };
 
 /** Default nav links — only used when Sanity navigation doc has no mainMenu */
 const NAV_LINKS_FALLBACK: NavLinkItem[] = [
@@ -82,11 +91,14 @@ export default function Navbar({
   // Use Sanity nav if populated, else fall back to hardcoded links
   const navLinks: NavLinkItem[] =
     mainMenu && mainMenu.length > 0
-      ? mainMenu.map((item) => ({
-        name: item.label.replace(/catalogs/i, "Catalogues").replace(/catalogues/i, "Catalogues"),
-        href: item.path,
-        id: item.path.replace(/^\//, "").replace(/\//g, "-") || "home",
-      }))
+      ? mainMenu.map((item) => {
+        const href = RENAMED_PATHS[item.path] ?? item.path;
+        return {
+          name: item.label.replace(/catalogs/i, "Catalogues").replace(/catalogues/i, "Catalogues"),
+          href,
+          id: href.replace(/^\//, "").replace(/\//g, "-") || "home",
+        };
+      })
       : NAV_LINKS_FALLBACK;
 
 
@@ -166,25 +178,32 @@ export default function Navbar({
 
   const cleanPhone = primaryPhone.replace(/\s+/g, "");
 
-  // Height tracks density; fill, border, blur and shadow track the hero. The
-  // two shadows are one declaration because Tailwind resolves a second
-  // `shadow-*` class by replacing the first, which had been quietly dropping
-  // the inset highlight.
-  const barMaterial = isOverHero
-    ? "border-transparent bg-transparent shadow-none"
-    : isScrolled
-      ? "border-[#1a1017]/[0.08] bg-[#fbf5ea]/95 backdrop-blur-md shadow-[0_8px_30px_rgba(26,16,23,0.09),inset_0_1px_0_rgba(255,255,255,0.65)]"
-      : "border-[#1a1017]/[0.08] bg-[#fbf5ea]/85 backdrop-blur-md shadow-[0_4px_20px_rgba(26,16,23,0.04),inset_0_1px_0_rgba(255,255,255,0.65)]";
+  // Height tracks density; fill, border, blur and shadow track the hero.
+  // Liquid glass styling provides rich multi-layered specular reflections and refraction.
+  const barMaterial = mobileMenuOpen
+    ? "liquid-glass-nav liquid-glass-nav--scrolled !bg-white/80 !border-white/90 shadow-[0_8px_30px_rgba(26,16,23,0.08)]"
+    : isOverHero
+      ? "liquid-glass-nav liquid-glass-nav--hero"
+      : isScrolled
+        ? "liquid-glass-nav liquid-glass-nav--scrolled"
+        : "liquid-glass-nav";
 
   const isLinkActive = (link: NavLinkItem) => {
+    if (link.href === pathname) return true;
+    if (link.id === "home") {
+      return pathname === "/";
+    }
     if (link.id === "collections") {
       // /collections is the only collections route; categories are in-page sections.
       return pathname === "/collections";
     }
-    if (link.id === "brands") {
-      return pathname === "/catalogues" || pathname === "/catalogs";
-    }
-    if (link.id === "catalogues" || link.id === "catalog") {
+    if (
+      link.id === "brands" ||
+      link.id === "catalogues" ||
+      link.id === "catalogs" ||
+      link.id === "catalog" ||
+      link.href.startsWith("/catalog")
+    ) {
       return pathname === "/catalogues" || pathname === "/catalogs";
     }
     return false;
@@ -192,6 +211,12 @@ export default function Navbar({
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, link: NavLinkItem) => {
     setMobileMenuOpen(false);
+    if (link.id === "home" && pathname === "/") {
+      e.preventDefault();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      window.history.pushState(null, "", "/");
+      return;
+    }
     if ((link.id === "catalog" || link.id === "catalogues" || link.id === "brands") && (pathname === "/catalogues" || pathname === "/catalogs")) {
       if (link.href.includes("#")) {
         const hash = link.href.split("#")[1];
@@ -214,6 +239,7 @@ export default function Navbar({
   };
 
   const handleLogoClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    setMobileMenuOpen(false);
     if (pathname === "/") {
       e.preventDefault();
       window.scrollTo({ top: 0, behavior: "smooth" });
@@ -237,11 +263,25 @@ export default function Navbar({
         )}
       </AnimatePresence>
 
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            onClick={() => setMobileMenuOpen(false)}
+            className="fixed inset-0 z-[80] bg-black/40 backdrop-blur-xs lg:hidden pointer-events-auto"
+            aria-hidden="true"
+          />
+        )}
+      </AnimatePresence>
+
       {/* ── Floating Tactile Glass Header ─────────────────────── */}
       <header
         ref={navbarRef}
         role="banner"
-        className={`navbar-island fixed left-0 right-0 z-50 flex justify-center pointer-events-none transition-[top,padding] duration-300 ease-out ${isScrolled ? "top-2 md:top-3 px-3 md:px-8" : "top-3 md:top-5 px-3 md:px-8"
+        className={`navbar-island fixed left-0 right-0 z-[100] flex justify-center pointer-events-none transition-[top,padding] duration-300 ease-out ${isScrolled ? "top-2 md:top-3 px-3 md:px-8" : "top-3 md:top-5 px-3 md:px-8"
           }`}
         style={{
           fontFamily: "var(--font-dmsans), 'DM Sans', -apple-system, sans-serif",
@@ -261,11 +301,33 @@ export default function Navbar({
         />
 
         <div
-          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] rounded border transition-[height,background-color,box-shadow,border-color,backdrop-filter] duration-300 ease-out ${isScrolled ? "h-[58px] md:h-[64px]" : "h-[64px] md:h-[76px]"
-            } ${barMaterial}`}
+          className={`pointer-events-auto relative w-full max-w-[1920px] 2xl:max-w-[2200px] overflow-hidden flex flex-col transition-[border-radius,box-shadow,background-color,border-color] duration-350 ease-[cubic-bezier(0.19,1,0.22,1)] max-h-[calc(100dvh-20px)] sm:max-h-[calc(100dvh-28px)] lg:max-h-none ${
+            isScrolled ? "lg:h-[64px]" : "lg:h-[76px]"
+          } ${
+            mobileMenuOpen
+              ? "rounded-[28px] sm:rounded-[36px] bg-gradient-to-b from-[#fbf7f0]/98 via-[#faf5eb]/98 to-[#f7f0e4]/98 backdrop-blur-3xl border border-white/90 shadow-[0_24px_60px_rgba(26,16,23,0.22),0_4px_16px_rgba(26,16,23,0.06)]"
+              : `${barMaterial} rounded-full`
+          }`}
         >
+          {/* Liquid Glass Optical Surface & Specular Highlights */}
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 rounded-[inherit] overflow-hidden"
+          >
+            {/* Top curved gloss highlight */}
+            <div className="absolute inset-x-0 top-0 h-[48%] bg-gradient-to-b from-white/20 via-white/5 to-transparent pointer-events-none" />
+            {/* Specular rim flare */}
+            <div className="absolute inset-x-8 sm:inset-x-12 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/70 to-transparent pointer-events-none opacity-70" />
+            {/* Bottom edge reflection */}
+            <div className="absolute inset-x-12 sm:inset-x-16 bottom-0 h-[0.5px] bg-gradient-to-r from-transparent via-white/25 to-transparent pointer-events-none" />
+          </div>
+
           {/* Strict Balanced 3-Zone Desktop Grid & 2-Zone Mobile Layout */}
-          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2 lg:gap-0 lg:grid-cols-[auto_1fr_auto] items-center h-full px-4 sm:px-6 md:px-8">
+          <div
+            className={`grid grid-cols-[minmax(0,1fr)_auto] gap-2 lg:gap-0 lg:grid-cols-[auto_1fr_auto] items-center px-5 sm:px-7 md:px-8 shrink-0 transition-[height] duration-300 ease-out ${
+              isScrolled ? "h-[58px] md:h-[64px]" : "h-[64px] md:h-[76px]"
+            } lg:h-full`}
+          >
 
             {/* ── Column 1: Brand Lockup (Left-Aligned) ─────────── */}
             <div className="flex items-center justify-start shrink-0">
@@ -277,10 +339,6 @@ export default function Navbar({
               >
                 <BrandLockup
                   layout="inline"
-                  /* --nav-brand-size (globals.css) is ~1.4x the previous mark
-                     at full desktop width. It steps down with the bar on
-                     scroll but stays above the old resting size, so the logo
-                     remains the strongest anchor in the compact state. */
                   fontSize={`calc(var(--nav-brand-size) * ${isScrolled ? "0.88" : "1"})`}
                   emblemSizes="(max-width: 768px) 64px, 128px"
                   animateEntrance
@@ -292,7 +350,7 @@ export default function Navbar({
             {/* ── Column 2: Exact Center Nav Links ────────────────── */}
             <nav
               aria-label="Primary Navigation"
-              className="hidden lg:flex items-center justify-center gap-1 xl:gap-3 px-1 xl:px-4"
+              className="hidden lg:flex items-center justify-center gap-1 xl:gap-2.5 px-2 xl:px-4"
             >
               {navLinks.map((link) => {
                 const isActive = isLinkActive(link);
@@ -301,13 +359,9 @@ export default function Navbar({
                     key={link.id}
                     href={link.href}
                     onClick={(e) => handleNavClick(e, link)}
-                    /* 16px regular from xl up: the size the nav has shipped at
-                       (a global font reset was overriding these classes) and
-                       what --nav-brand-size was balanced against. 14px between
-                       lg and xl, where 16px pushed the CTA out of the bar. */
-                    className={`relative px-2.5 xl:px-4 py-1.5 text-sm xl:text-base leading-6 uppercase tracking-[0.12em] xl:tracking-[0.18em] rounded select-none transition-colors duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${isActive
-                        ? "text-[#8b1a42] font-medium"
-                        : "text-[#8b1a42] font-normal hover:text-[#6b1432] hover:bg-[#8b1a42]/[0.06]"
+                    className={`relative px-3 xl:px-4 py-1.5 text-sm xl:text-base leading-6 uppercase tracking-[0.12em] xl:tracking-[0.18em] rounded-full select-none transition-all duration-200 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] whitespace-nowrap shrink-0 ${isActive
+                        ? "text-[#8b1a42] font-semibold"
+                        : "text-[#4a3442] font-normal hover:text-[#8b1a42] hover:bg-white/25 hover:shadow-[0_2px_8px_rgba(26,16,23,0.02)] hover:border hover:border-white/40"
                       }`}
                     style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                     aria-current={isActive ? "page" : undefined}
@@ -315,7 +369,7 @@ export default function Navbar({
                     {isActive && (
                       <motion.span
                         layoutId={shouldReduceMotion ? undefined : "active-nav-capsule"}
-                        className="absolute inset-0 rounded bg-[#8b1a42]/[0.06] border border-[#8b1a42]/[0.10] -z-10"
+                        className="absolute inset-0 rounded-full bg-gradient-to-b from-white/80 to-white/45 border border-white/70 shadow-[0_2px_8px_rgba(139,26,66,0.06),inset_0_1px_0_rgba(255,255,255,0.7)] -z-10"
                         transition={
                           shouldReduceMotion
                             ? { duration: 0 }
@@ -323,7 +377,7 @@ export default function Navbar({
                               type: "spring",
                               stiffness: 420,
                               damping: 32,
-                            }
+                              }
                         }
                       />
                     )}
@@ -334,11 +388,14 @@ export default function Navbar({
             </nav>
 
             {/* ── Column 3: Contact & CTAs (Right-Aligned) ───────── */}
-            <div className="flex items-center justify-end gap-2.5 sm:gap-3.5 md:gap-4 shrink-0">
+            <div className="flex items-center justify-end gap-2 sm:gap-2.5 md:gap-3.5 shrink-0">
+              {/* Ambient Sound Mute Button (Desktop only — on mobile it lives inside MobileMenu) */}
+              <AudioMuteButton className="hidden lg:flex" />
+
               {/* Desktop Phone Contact Pill */}
               <a
                 href={`tel:${cleanPhone}`}
-                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded bg-[#f7f0e2]/80 border border-[#1a1017]/[0.08] hover:border-[#8b1a42]/25 hover:bg-[#f7f0e2]/80 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[#3d2e38] hover:text-[#1a1017] whitespace-nowrap shrink-0 transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-2 h-11 min-h-[44px] px-3.5 xl:px-4 rounded-full bg-white/25 hover:bg-white/50 border border-white/50 hover:border-white/75 text-[11px] xl:text-[12px] font-medium uppercase tracking-[0.12em] text-[#3d2e38] hover:text-[#1a1017] shadow-[0_2px_6px_rgba(26,16,23,0.02),inset_0_1px_0_rgba(255,255,255,0.6)] backdrop-blur-md whitespace-nowrap shrink-0 transition-all duration-200 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
                 aria-label={`Call Hardware Collection at ${primaryPhone}`}
               >
@@ -349,47 +406,43 @@ export default function Navbar({
               {/* Desktop Inquire CTA Button */}
               <button
                 onClick={() => openDrawer({ source: "navbar", intent: "consultation" })}
-                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-11 min-h-[44px] px-4 xl:px-5 rounded bg-[#8b1a42] hover:bg-[#6b1432] text-white text-[11px] xl:text-[12px] font-bold uppercase tracking-[0.14em] leading-none whitespace-nowrap shrink-0 shadow-[0_4px_14px_rgba(139,26,66,0.20)] hover:shadow-[0_6px_20px_rgba(139,26,66,0.30)] active:scale-[0.98] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b1a42] select-none"
+                className="hidden lg:inline-flex items-center justify-center gap-1.5 h-11 min-h-[44px] px-4 xl:px-5 rounded-full bg-gradient-to-b from-[#9b1f4c] via-[#8b1a42] to-[#781537] hover:from-[#a82453] hover:via-[#951c47] hover:to-[#83183d] text-white text-[11px] xl:text-[12px] font-bold uppercase tracking-[0.14em] leading-none whitespace-nowrap shrink-0 border border-[#b23260]/40 shadow-[0_4px_16px_rgba(139,26,66,0.28),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.42),inset_0_1px_0_rgba(255,255,255,0.55)] active:scale-[0.98] transition-all duration-200 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#8b1a42] select-none"
                 style={{ fontFamily: "var(--font-dmsans), 'DM Sans', sans-serif" }}
               >
                 <span>Book Consultation</span>
                 <ArrowUpRight className="w-3.5 h-3.5 stroke-[2.4] text-white transition-transform duration-[220ms] ease-out group-hover:translate-x-[2px] group-hover:-translate-y-[2px]" />
               </button>
 
-              {/* Mobile Menu Button */}
+              {/* Mobile Menu Button - Seamlessly integrated into navbar */}
               <button
                 ref={menuButtonRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] bg-transparent text-[var(--text-primary)] hover:text-[var(--color-wine)] active:scale-[0.96] transition-all duration-200 focus-visible:outline-none"
+                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-full text-[#2d1b26] hover:text-[#8b1a42] active:scale-[0.92] transition-colors duration-200 !outline-none focus:!outline-none focus-visible:!outline-none -mr-1"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-nav-modal"
               >
-                {mobileMenuOpen ? (
-                  <X className="w-4 h-4" />
-                ) : (
-                  <Menu className="w-4 h-4" />
-                )}
+                <AnimatedMenuIcon isOpen={mobileMenuOpen} size={22} />
               </button>
             </div>
 
           </div>
+
+          {/* Mobile Menu Content rendered directly inside expanding navbar */}
+          <MobileMenu
+            isOpen={mobileMenuOpen}
+            onClose={() => setMobileMenuOpen(false)}
+            menuButtonRef={menuButtonRef}
+            navLinks={navLinks}
+            isLinkActive={isLinkActive}
+            handleNavClick={handleNavClick}
+            handleLogoClick={handleLogoClick}
+            primaryPhone={primaryPhone}
+            cleanPhone={cleanPhone}
+            onConsultClick={() => openDrawer({ source: "navbar", intent: "consultation" })}
+          />
         </div>
       </header>
-
-
-      <MobileMenu
-        isOpen={mobileMenuOpen}
-        onClose={() => setMobileMenuOpen(false)}
-        menuButtonRef={menuButtonRef}
-        navLinks={navLinks}
-        isLinkActive={isLinkActive}
-        handleNavClick={handleNavClick}
-        handleLogoClick={handleLogoClick}
-        primaryPhone={primaryPhone}
-        cleanPhone={cleanPhone}
-        onConsultClick={() => openDrawer({ source: "navbar", intent: "consultation" })}
-      />
 
     </>
   );

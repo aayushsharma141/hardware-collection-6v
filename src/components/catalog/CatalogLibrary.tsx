@@ -101,7 +101,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                 id={`brand-card-${key}`}
                 key={brand._id || brand.id || key || idx}
                 onClick={handleCardClick}
-                className={`bg-[var(--surface-raised)] border p-8 flex flex-col justify-between min-h-[340px] rounded-none group relative overflow-hidden cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--surface-elevated)] ${
+                className={`bg-white border p-8 flex flex-col justify-between min-h-[340px] rounded-none group relative overflow-hidden cursor-pointer transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--surface-elevated)] ${
                   isSelected
                     ? "border-[var(--color-wine)] ring-1 ring-[var(--color-wine)]/30 bg-[var(--surface-elevated)]"
                     : "border-[var(--border)] hover:border-[var(--accent)]/50"
@@ -144,7 +144,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                 </div>
                 
                 {/* Bottom Actions: View Catalog + Visit Brand Website */}
-                <div className="flex flex-wrap items-center justify-between pt-5 border-t border-[var(--border)] gap-x-3 gap-y-2">
+                <div className="flex flex-wrap items-center justify-start pt-5 border-t border-[var(--border)] gap-x-3 gap-y-2">
                   {catalogCount > 0 && (
                     <button
                       type="button"
@@ -181,7 +181,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
           })}
         </div>
 
-        <div className="mt-20 text-center border border-[var(--border)] p-10 md:p-16 rounded-none bg-[var(--surface-raised)]">
+        <div className="mt-20 text-center border border-[var(--border)] p-10 md:p-16 rounded-none bg-white">
           <h3 className="font-display text-3xl sm:text-4xl text-[var(--text-primary)] mb-4 font-light">Need a Physical Copy?</h3>
           <p className="font-body text-[var(--text-secondary)] max-w-2xl mx-auto mb-8 text-base sm:text-lg leading-relaxed font-light">
             We maintain physical copies of all official catalogues in our Sakchi showroom for architects, designers, and contractors.

@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import Link from "next/link";
 import { type FeaturedCategory } from "./families";
 
@@ -62,8 +62,16 @@ const CURATED_SPACES: CuratedSpace[] = [
   },
 ];
 
-export default function CategoryDiscoveryMobile(_props?: CategoryDiscoveryMobileProps) {
-  const spaces = CURATED_SPACES;
+export default function CategoryDiscoveryMobile({
+  populatedGroupIds,
+}: CategoryDiscoveryMobileProps = {}) {
+  const spaces = React.useMemo(() => {
+    if (!populatedGroupIds || populatedGroupIds.length === 0) return CURATED_SPACES;
+    return CURATED_SPACES.filter((space) => {
+      const slug = space.href.replace("/collections#", "");
+      return populatedGroupIds.includes(slug);
+    });
+  }, [populatedGroupIds]);
 
   return (
     <section className="w-full px-5 py-10 bg-[var(--surface)] border-b border-[var(--border)] lg:hidden">
@@ -73,7 +81,7 @@ export default function CategoryDiscoveryMobile(_props?: CategoryDiscoveryMobile
           Collections
         </p>
         <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight">
-          What are you working on?
+          What are you looking for?
         </h2>
         <div className="flex items-end justify-between gap-3 mt-2">
           <p className="text-xs text-[var(--text-secondary)] font-light max-w-[32ch] leading-relaxed">
@@ -100,9 +108,8 @@ export default function CategoryDiscoveryMobile(_props?: CategoryDiscoveryMobile
             <Link
               key={space.name}
               href={space.href}
-              className={`group block bg-[var(--surface-raised)] border border-[var(--border)] overflow-hidden transition-all duration-300 active:scale-[0.98] ${
-                isLastOdd ? "col-span-2" : ""
-              }`}
+              className={`group block bg-white border border-[var(--border)] overflow-hidden transition-all duration-300 active:scale-[0.98] ${isLastOdd ? "col-span-2" : ""
+                }`}
             >
               <div className={`relative overflow-hidden bg-neutral-900 ${isLastOdd ? "aspect-[21/9]" : "aspect-[16/10]"}`}>
                 <Image
@@ -114,7 +121,7 @@ export default function CategoryDiscoveryMobile(_props?: CategoryDiscoveryMobile
                 />
               </div>
 
-              <div className="p-3 bg-[var(--surface)] flex items-center justify-between border-t border-[var(--border)]/70">
+              <div className="p-3 bg-white flex items-center justify-between border-t border-[var(--border)]/70">
                 <div className="min-w-0 pr-1">
                   <h3 className="hc-serif text-base sm:text-lg font-normal text-[var(--text-primary)] leading-tight truncate">
                     {space.name}

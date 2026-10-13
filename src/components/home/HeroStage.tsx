@@ -6,8 +6,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { useReducedMotion } from "motion/react";
 import Link from "next/link";
-import Image from "next/image";
-import { ChevronLeft, ChevronRight, MessageCircle } from "lucide-react";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
+import { ChevronLeft, ChevronRight, MessageCircle, ArrowRight } from "lucide-react";
 import { HeroSlide } from "@/types/hero";
 import { generateWhatsAppUrl, SHOWROOM_YEARS_OF_TRUST } from "@/lib/config";
 
@@ -150,35 +150,42 @@ export default function HeroStage({ slides }: HeroStageProps) {
       data-nav-hero
       className="hidden lg:block relative min-h-[860px] h-[100dvh] w-full border-b border-[var(--border)] overflow-hidden bg-[var(--surface)]"
     >
-      {/* Background Image — scroll-linked cinematic parallax */}
-      {currentSlide.imageUrl ? (
-        <Image
-          key={`bg-${currentSlideIndex}`}
-          alt="Architectural brass hardware in the Hardware Collection showroom"
-          className="hero-bg-image absolute inset-0 h-full w-full object-cover opacity-[0.80] transition-opacity duration-700 will-change-transform"
-          fill
-          priority
-          sizes="(min-width: 1024px) 100vw, 1px"
-          src={currentSlide.imageUrl}
-        />
-      ) : (
-        <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] opacity-50">
-          <span className="text-[12px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending Background</span>
-        </div>
-      )}
-      <div className="absolute inset-0 bg-[var(--surface)]/30" />
-      <div className="absolute inset-y-0 left-0 w-[70%] bg-gradient-to-r from-[var(--surface)] via-[var(--surface)]/[0.85] to-transparent" />
-
+      {/* Background Image — alpha-masked photographic depth, zero milky smoke */}
+      <div
+        className="hero-bg-container absolute inset-0 pointer-events-none overflow-hidden"
+        style={{
+          maskImage:
+            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.15) 54%, rgba(0, 0, 0, 0.7) 66%, black 82%, black 100%)",
+          WebkitMaskImage:
+            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.15) 54%, rgba(0, 0, 0, 0.7) 66%, black 82%, black 100%)",
+        }}
+      >
+        {currentSlide.imageUrl ? (
+          <Image
+            key={`bg-${currentSlideIndex}`}
+            alt="Architectural brass hardware in the Hardware Collection showroom"
+            className="hero-bg-image absolute inset-0 h-full w-full object-cover opacity-100 transition-opacity duration-700 will-change-transform"
+            fill
+            priority
+            sizes="(min-width: 1024px) 100vw, 1px"
+            src={currentSlide.imageUrl}
+          />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] opacity-50">
+            <span className="text-[12px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending Background</span>
+          </div>
+        )}
+      </div>
 
       {/* Main Content Area */}
       <div className="relative z-10 mx-6 lg:mx-10 xl:mx-[80px] 2xl:mx-[100px] h-full flex flex-col justify-between pt-[110px] pb-[60px]">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_380px] xl:grid-cols-[minmax(460px,580px)_1fr] items-end gap-8 xl:gap-12 my-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_390px] xl:grid-cols-[minmax(460px,580px)_1fr] items-end gap-8 xl:gap-14 my-auto">
           {/* Left Column: Typography & CTAs */}
           <div className="hero-text-col pb-4">
             <div className="flex items-center gap-3 mb-6">
               <div className="relative flex items-center justify-center shrink-0">
-                <span className="absolute h-3.5 w-3.5 bg-[var(--color-wine)]/25 rounded-none animate-ping opacity-75" />
-                <span className="relative h-2 w-2 bg-[var(--color-wine)] rounded-none" />
+                <span className="absolute h-3 w-3 bg-[var(--color-wine)]/30 rounded-full animate-ping opacity-75" />
+                <span className="relative h-2 w-2 bg-[var(--color-wine)] rounded-full" />
               </div>
               <p className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)]">
                 {currentSlide.eyebrow || `Architectural Hardware Experts · ${SHOWROOM_YEARS_OF_TRUST}+ Years`}
@@ -186,7 +193,7 @@ export default function HeroStage({ slides }: HeroStageProps) {
             </div>
 
             <div className="overflow-hidden mb-6 pb-2">
-              <p aria-hidden="true" className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[98px] 2xl:text-[112px] leading-[0.92] font-light tracking-[-0.01em] text-[var(--text-primary)] whitespace-pre-line">
+              <p aria-hidden="true" className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[96px] 2xl:text-[110px] leading-[0.94] font-light tracking-[-0.01em] text-[var(--text-primary)] whitespace-pre-line">
                 {currentSlide.title || "The Art of\nthe Finish."}
               </p>
             </div>
@@ -196,119 +203,122 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 "Premium architectural hardware and modular solutions, curated for contemporary spaces."}
             </p>
 
-            {/* Dual CTAs with physical tactile feedback */}
+            {/* Dual CTAs with physical tactile feedback & pill geometry */}
             <div className="mt-8 xl:mt-10 flex flex-wrap items-center gap-4">
               {isExternalCta ? (
                 <a
                   href={ctaHref}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="brass-plate hc-focus h-[50px] xl:h-[54px] px-6 xl:px-8 bg-[var(--color-wine)] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:brightness-110 active:scale-[0.975] active:duration-100 transition-[background-color,transform,filter] duration-200 btn-tactile transition-premium rounded-none shadow-lg shrink-0"
+                  className="group hc-focus h-[52px] xl:h-[56px] px-7 xl:px-9 rounded-full bg-gradient-to-b from-[#9b1f4c] via-[#8b1a42] to-[#781537] hover:from-[#a82453] hover:via-[#951c47] hover:to-[#83183d] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.16em] inline-flex items-center gap-3 no-underline border border-[#b23260]/40 shadow-[0_4px_16px_rgba(139,26,66,0.28),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.38),inset_0_1px_0_rgba(255,255,255,0.55)] active:scale-[0.98] transition-all duration-200 shrink-0"
                 >
                   <span>{ctaLabel}</span>
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
+                  <ArrowRight className="w-4 h-4 stroke-[2.4] text-white transition-transform duration-200 group-hover:translate-x-1" />
                 </a>
               ) : (
                 <Link
                   href={ctaHref}
-                  className="brass-plate hc-focus h-[50px] xl:h-[54px] px-6 xl:px-8 bg-[var(--color-wine)] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.18em] flex items-center gap-3.5 no-underline hover:brightness-110 active:scale-[0.975] active:duration-100 transition-[background-color,transform,filter] duration-200 btn-tactile transition-premium rounded-none shadow-lg shrink-0"
+                  className="group hc-focus h-[52px] xl:h-[56px] px-7 xl:px-9 rounded-full bg-gradient-to-b from-[#9b1f4c] via-[#8b1a42] to-[#781537] hover:from-[#a82453] hover:via-[#951c47] hover:to-[#83183d] text-white text-xs sm:text-[13px] font-bold uppercase tracking-[0.16em] inline-flex items-center gap-3 no-underline border border-[#b23260]/40 shadow-[0_4px_16px_rgba(139,26,66,0.28),inset_0_1px_0_rgba(255,255,255,0.4)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.38),inset_0_1px_0_rgba(255,255,255,0.55)] active:scale-[0.98] transition-all duration-200 shrink-0"
                 >
                   <span>{ctaLabel}</span>
-                  <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
+                  <ArrowRight className="w-4 h-4 stroke-[2.4] text-white transition-transform duration-200 group-hover:translate-x-1" />
                 </Link>
               )}
 
-              {/* Secondary WhatsApp CTA with tactile feedback */}
+              {/* Secondary WhatsApp CTA with frosted glass pill styling */}
               <a
                 href={generateWhatsAppUrl("general-enquiry")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group hc-focus h-[50px] xl:h-[54px] px-5 xl:px-7 bg-transparent border border-[var(--accent)]/70 hover:border-[var(--color-wine)] hover:bg-[var(--color-wine)] hover:text-white active:scale-[0.975] active:duration-100 text-[var(--text-primary)] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.18em] flex items-center gap-2.5 rounded-none transition-[background-color,border-color,color,transform] duration-200 shadow-sm shrink-0"
+                className="group hc-focus h-[52px] xl:h-[56px] px-6 xl:px-8 rounded-full bg-white/60 hover:bg-white/90 border border-white/80 hover:border-[#8b1a42]/30 text-[#2d1b26] hover:text-[#8b1a42] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2.5 shadow-[0_2px_8px_rgba(26,16,23,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-md active:scale-[0.98] transition-all duration-200 shrink-0"
               >
-                <MessageCircle className="w-4 h-4 text-[var(--accent)] group-hover:text-white transition-colors duration-200" />
+                <MessageCircle className="w-4 h-4 text-[#8b1a42] transition-transform duration-200 group-hover:scale-110" />
                 <span>WhatsApp Us</span>
               </a>
             </div>
-
-
           </div>
 
-          {/* Right Column: Hero Product Aperture Card */}
+          {/* Right Column: Museum Specimen Pedestal Showcase */}
           <div
             ref={apertureRef}
             aria-label="Hero product aperture"
-            className="aperture relative justify-self-end h-[480px] w-[380px] xl:h-[580px] xl:w-[500px] border-x border-[var(--border)] bg-[var(--surface-raised)] overflow-hidden focus-within:border-[var(--color-wine)]/[0.60] shadow-xl rounded-none shrink-0"
+            className="aperture relative justify-self-end h-[490px] w-[390px] xl:h-[590px] xl:w-[510px] rounded-[32px] xl:rounded-[40px] bg-gradient-to-b from-[#fbf7f0]/95 via-[#faf5eb]/95 to-[#f7f0e4]/95 backdrop-blur-2xl border border-white/90 shadow-[0_24px_60px_rgba(26,16,23,0.14),0_4px_16px_rgba(26,16,23,0.04),inset_0_1px_0_rgba(255,255,255,0.95)] overflow-hidden shrink-0 flex flex-col justify-between p-6 xl:p-8"
             tabIndex={0}
           >
-            <div className="absolute inset-x-0 top-0 h-px bg-[var(--color-wine)]/[0.50]" />
-            <div className="absolute inset-x-0 bottom-0 h-px bg-[var(--color-wine)]/[0.25]" />
-            <div className="absolute inset-y-0 left-0 w-px bg-[var(--color-wine)]/[0.15]" />
+            {/* Specular top rim flare */}
+            <div className="absolute inset-x-8 top-0 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
 
-            <div className="absolute top-6 left-6 right-6 flex items-center justify-between hc-mono text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)]">
-              <span>Selected specimen</span>
-              <span className="text-[var(--color-wine)] tabular-nums font-semibold">
+            {/* Ambient radial finish glow */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(197,160,89,0.16)_0%,transparent_70%)] pointer-events-none" />
+
+            {/* Top Bar: Specimen Header */}
+            <div className="relative z-10 flex items-center justify-between">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/70 border border-white/90 shadow-[0_2px_6px_rgba(26,16,23,0.02)]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8b1a42]" />
+                <span className="hc-mono text-[9px] uppercase tracking-[0.22em] text-[#7a6872] font-semibold">
+                  Selected Specimen
+                </span>
+              </div>
+              <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[#8b1a42] font-semibold tabular-nums px-2.5 py-1 rounded-full bg-[#8b1a42]/10 border border-[#8b1a42]/20">
                 {pad2(currentSlideIndex + 1)} / {pad2(slides.length)}
               </span>
             </div>
 
-            {currentSlide.productUrl ? (
-              <Image
-                key={`aperture-${currentSlideIndex}`}
-                alt="Close detail of a brass hardware finish"
-                className="aperture-image absolute inset-[44px_20px_80px] xl:inset-[44px_24px_80px] h-[340px] xl:h-[430px] w-auto max-w-[340px] xl:max-w-[450px] object-contain mix-blend-multiply will-change-transform m-auto"
-                src={currentSlide.productUrl}
-                width={450}
-                height={450}
-              />
-            ) : (
-              <div className="absolute inset-[44px_20px_80px] xl:inset-[44px_24px_80px] flex items-center justify-center mix-blend-multiply m-auto">
-                <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending Product</span>
-              </div>
-            )}
+            {/* Center Product Image Showcase */}
+            <div className="relative z-10 flex-1 my-2 flex items-center justify-center min-h-0">
+              {currentSlide.productUrl ? (
+                <Image
+                  key={`aperture-${currentSlideIndex}`}
+                  alt="Close detail of a brass hardware finish"
+                  className="aperture-image h-auto max-h-[300px] xl:max-h-[380px] w-auto max-w-full object-contain mix-blend-multiply drop-shadow-md will-change-transform transition-transform duration-500 hover:scale-[1.03]"
+                  src={currentSlide.productUrl}
+                  width={450}
+                  height={450}
+                  style={{ width: "auto", height: "auto" }}
+                />
+              ) : (
+                <div className="flex items-center justify-center mix-blend-multiply">
+                  <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending Product</span>
+                </div>
+              )}
+            </div>
 
-            <div className="aperture-sweep" />
-
-            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between border-t border-[var(--border)] pt-4">
-              <div className="aperture-meta">
-                <p className="hc-mono text-[9px] uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+            {/* Bottom Meta & Tactile Controls */}
+            <div className="relative z-10 pt-4 border-t border-[#e8ded1]/80 flex items-end justify-between">
+              <div className="aperture-meta min-w-0 pr-3">
+                <p className="hc-mono text-[9px] uppercase tracking-[0.2em] text-[#7a6872] font-medium">
                   {specimenStudy.study}
                 </p>
-                <p className="mt-1 text-[11px] uppercase tracking-[0.16em] text-[var(--text-primary)] font-medium">
+                <p className="mt-1 text-xs uppercase tracking-[0.16em] text-[#1a1017] font-semibold truncate">
                   {specimenStudy.spec}
                 </p>
               </div>
 
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   type="button"
                   onClick={handlePrevSlide}
                   aria-label="Previous specimen"
-                  className="hc-focus p-2 text-[var(--color-wine)] hover:brightness-110 motion-safe:active:scale-[0.97] transition-[color,scale] duration-150 ease-[var(--ease-out)]"
+                  className="w-9 h-9 rounded-full bg-white/80 hover:bg-[#8b1a42] text-[#4a3442] hover:text-white border border-white/90 shadow-[0_2px_6px_rgba(26,16,23,0.04)] flex items-center justify-center motion-safe:active:scale-[0.97] transition-[background-color,color,scale] duration-150 ease-[var(--ease-out)]"
                 >
-                  <ChevronLeft className="w-4 h-4" />
+                  <ChevronLeft className="w-4 h-4 stroke-[2.2]" />
                 </button>
                 <button
                   type="button"
                   onClick={handleNextSlide}
                   aria-label="Next specimen"
-                  className="hc-focus p-2 text-[var(--color-wine)] hover:brightness-110 motion-safe:active:scale-[0.97] transition-[color,scale] duration-150 ease-[var(--ease-out)]"
+                  className="w-9 h-9 rounded-full bg-white/80 hover:bg-[#8b1a42] text-[#4a3442] hover:text-white border border-white/90 shadow-[0_2px_6px_rgba(26,16,23,0.04)] flex items-center justify-center motion-safe:active:scale-[0.97] transition-[background-color,color,scale] duration-150 ease-[var(--ease-out)]"
                 >
-                  <ChevronRight className="w-4 h-4" />
+                  <ChevronRight className="w-4 h-4 stroke-[2.2]" />
                 </button>
               </div>
             </div>
           </div>
         </div>
-
-
       </div>
 
-      {/* Centered Minimal Stepper — Bold Line with Stretching & Refill Animation */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-3">
+      {/* Centered Minimal Stepper — Floating Frosted Capsule with Refill Progress */}
+      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-40 flex items-center gap-2.5 px-4 py-2 rounded-full bg-white/75 backdrop-blur-xl border border-white/90 shadow-[0_4px_20px_rgba(26,16,23,0.08),inset_0_1px_0_rgba(255,255,255,0.95)]">
         {slides.map((s, idx) => {
           const isActive = currentSlideIndex === idx;
           return (
@@ -316,20 +326,20 @@ export default function HeroStage({ slides }: HeroStageProps) {
               key={s.id || idx}
               type="button"
               onClick={() => setCurrentSlideIndex(idx)}
-              className="group py-2.5 px-0.5 cursor-pointer hc-focus flex items-center"
+              className="group py-1 cursor-pointer hc-focus flex items-center"
               aria-label={`Go to slide ${idx + 1}`}
             >
               <div
-                className={`h-[3.5px] rounded-none transition-all duration-300 ease-out overflow-hidden relative ${
+                className={`h-[3px] rounded-full transition-all duration-300 ease-out overflow-hidden relative ${
                   isActive
-                    ? "w-14 sm:w-16 bg-[var(--text-primary)]/15"
-                    : "w-4 bg-[var(--text-primary)]/25 hover:bg-[var(--text-primary)]/45 hover:w-6"
+                    ? "w-12 sm:w-14 bg-[#1a1017]/15"
+                    : "w-3 bg-[#1a1017]/25 hover:bg-[#1a1017]/50 hover:w-5"
                 }`}
               >
                 {isActive && (
                   <span
                     key={`refill-${currentSlideIndex}`}
-                    className="absolute inset-0 bg-[var(--color-wine)] rounded-none origin-left animate-hero-refill"
+                    className="absolute inset-0 bg-[#8b1a42] rounded-full origin-left animate-hero-refill"
                   />
                 )}
               </div>

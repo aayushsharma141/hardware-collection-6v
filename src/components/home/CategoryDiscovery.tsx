@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { motion } from "motion/react";
 import { resolveFamilies, type FeaturedCategory } from "./families";
 
@@ -69,18 +69,21 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
             </p>
             <a
               href="/collections"
-              className="inline-flex items-center justify-center px-8 py-3.5 bg-[var(--accent)] text-white text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-[var(--accent-light)] min-w-[200px]"
+              className="group/btn inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[var(--accent)] text-white text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-[var(--accent-light)] shadow-[0_4px_16px_rgba(139,26,66,0.22)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.32)] active:scale-[0.98] min-w-[200px]"
             >
-              Explore All Collections
+              <span>Explore All Collections</span>
+              <svg className="w-3.5 h-3.5 text-white transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
             </a>
           </div>
         </div>
 
         <motion.div 
-          className="mt-10 grid gap-[1px] bg-[var(--border)] rounded-none overflow-hidden shadow-sm"
+          className="mt-10 grid gap-6"
           style={{
             // One column per family, the focal one a little wider.
-            gridTemplateColumns: activeFamilies.map((f) => (f.isFocal ? "1.28fr" : "1fr")).join(" "),
+            gridTemplateColumns: activeFamilies.map((f) => (f.isFocal ? "1.24fr" : "1fr")).join(" "),
           }}
           variants={containerVariants}
           initial="hidden"
@@ -91,7 +94,11 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
             <motion.article
               variants={itemVariants}
               key={cat.id || cat.name}
-              className={`threshold-card group/card bg-[var(--surface-raised)] pb-6 flex flex-col justify-between ${
+              className={`threshold-card group/card bg-white rounded-2xl border ${
+                cat.isFocal
+                  ? "border-[var(--accent)]/50 shadow-[0_12px_36px_rgba(139,26,66,0.08),0_2px_8px_rgba(0,0,0,0.03)]"
+                  : "border-[var(--border)] shadow-[0_6px_24px_rgba(26,16,23,0.03)]"
+              } hover:shadow-[0_16px_40px_rgba(26,16,23,0.08)] hover:border-[var(--color-wine)]/40 overflow-hidden flex flex-col justify-between transition-all duration-300 ${
                 cat.isFocal ? "relative z-10" : ""
               }`}
             >
@@ -99,9 +106,9 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                 {cat.image ? (
                   <Image
                     alt={`${cat.name} showroom family`}
-                    className="object-cover transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:scale-[1.03]"
+                    className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:scale-[1.04]"
                     fill
-                    sizes="(max-width: 1024px) 50vw, 20vw"
+                    sizes="(max-width: 1024px) 50vw, 25vw"
                     src={cat.image}
                   />
                 ) : (
@@ -115,25 +122,21 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                   aria-hidden="true"
                   className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/55 to-transparent pointer-events-none"
                 />
-                <span className="absolute left-4 top-4 hc-mono text-xs tracking-[0.18em] font-semibold text-[var(--accent)]">
+                <span className="absolute left-4 top-4 hc-mono text-[11px] tracking-[0.18em] font-semibold text-[var(--accent)] bg-white/85 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/90 shadow-sm">
                   {cat.index}
                 </span>
                 {cat.isFocal && (
-                  <span className="absolute right-4 top-4 border border-[var(--accent)]/[0.5] px-2.5 py-1 hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--accent)] bg-[var(--surface)]/80 backdrop-blur-sm rounded-none">
+                  <span className="absolute right-4 top-4 border border-[var(--accent)]/40 px-3 py-1 hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--accent)] bg-white/90 backdrop-blur-md rounded-full shadow-sm">
                     Focal family
                   </span>
                 )}
               </div>
 
-              <div
-                className={`border-t ${
-                  cat.isFocal ? "border-[var(--accent)]" : "border-[var(--border)]"
-                } bg-[var(--surface)] px-5 xl:px-6 pt-6 pb-5 flex-1 flex flex-col justify-between`}
-              >
+              <div className="bg-white px-6 pt-6 pb-6 flex-1 flex flex-col justify-between">
                 <div>
                   <h3
                     className={`hc-serif leading-[0.95] text-[var(--text-primary)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:translate-x-1 ${
-                      cat.isFocal ? "text-[34px] xl:text-[38px]" : "text-[26px] xl:text-[30px]"
+                      cat.isFocal ? "text-[32px] xl:text-[36px]" : "text-[26px] xl:text-[29px]"
                     }`}
                   >
                     {cat.name}
@@ -147,19 +150,21 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                   <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)] font-normal">
                     {cat.subtitle}
                   </p>
-                  <p className="mt-3 border-t border-[var(--border)] pt-3 text-xs leading-relaxed text-[var(--text-secondary)] font-light">
+                  <p className="mt-3 border-t border-[var(--border)]/70 pt-3 text-xs leading-relaxed text-[var(--text-secondary)] font-light">
                     {cat.detail}
                   </p>
                 </div>
 
                 <a
                   href={cat.href}
-                  className="threshold-action mt-6 flex items-center gap-2.5 text-xs uppercase tracking-widest font-semibold text-[var(--text-secondary)] no-underline hover:text-[var(--accent)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:translate-x-1"
+                  className="threshold-action mt-6 flex items-center justify-between text-xs uppercase tracking-widest font-semibold text-[var(--text-secondary)] no-underline group-hover/card:text-[var(--accent)] transition-colors duration-200"
                 >
                   <span>View {cat.name}</span>
-                  <svg className="w-4 h-4 text-[var(--accent)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
+                  <span className="w-8 h-8 rounded-full bg-white border border-[var(--border)] group-hover/card:border-[var(--accent)] group-hover/card:bg-[var(--accent)] group-hover/card:text-white flex items-center justify-center transition-all duration-300 shadow-sm">
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </span>
                 </a>
               </div>
             </motion.article>
@@ -200,13 +205,13 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
               {cat.image ? (
                 <Image
                   alt={cat.name}
-                  className="h-[56px] w-[80px] object-cover rounded-none border border-[var(--border)] shrink-0"
+                  className="h-[56px] w-[80px] object-cover rounded-lg border border-[var(--border)] shrink-0"
                   width={80}
                   height={56}
                   src={cat.image}
                 />
               ) : (
-                <div className="h-[56px] w-[80px] shrink-0 rounded-none border border-[var(--border)] bg-[var(--surface-raised)] flex items-center justify-center">
+                <div className="h-[56px] w-[80px] shrink-0 rounded-lg border border-[var(--border)] bg-white flex items-center justify-center">
                   <span className="text-[8px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Wait</span>
                 </div>
               )}

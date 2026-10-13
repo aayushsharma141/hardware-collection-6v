@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import Link from "next/link";
 
 interface FeaturedItem {
@@ -38,7 +38,7 @@ const FEATURED_ITEMS: FeaturedItem[] = [
   },
 ];
 
-export default function ProductReelMobile(_props?: { products?: unknown }) {
+export default function ProductReelMobile({}: { products?: unknown } = {}) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prev = () => {

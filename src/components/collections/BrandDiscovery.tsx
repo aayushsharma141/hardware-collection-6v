@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { motion, useReducedMotion } from "motion/react";
 import { Brand, getSlugString } from "@/types/catalog";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
@@ -119,6 +119,21 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                           </p>
                         )}
                         <div className="flex flex-wrap items-center gap-4 mt-1">
+                          {(brand.catalogues?.length || brand.officialCatalogUrl) && (
+                            <a
+                              href={
+                                brand.slug
+                                  ? `/catalogues?brand=${typeof brand.slug === "object" ? brand.slug.current : brand.slug}`
+                                  : "/catalogues"
+                              }
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              tabIndex={isHovered ? 0 : -1}
+                              className="inline-flex items-center gap-2 text-[var(--text-secondary)] text-xs tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors duration-150 hc-focus w-fit"
+                            >
+                              View Catalogue
+                            </a>
+                          )}
                           <button
                             type="button"
                             onClick={() => askAboutBrand(brand)}
@@ -127,15 +142,6 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                           >
                             Explore Collection
                           </button>
-                          {(brand.catalogues?.length || brand.officialCatalogUrl) && (
-                            <a
-                              href="/catalogs"
-                              tabIndex={isHovered ? 0 : -1}
-                              className="inline-flex items-center gap-2 text-[var(--text-secondary)] text-xs tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors duration-150 hc-focus w-fit"
-                            >
-                              View Catalog
-                            </a>
-                          )}
                         </div>
                       </motion.div>
                     </div>
@@ -171,7 +177,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                 aria-label={`Ask about ${brand.name} in a consultation`}
                 title={`${brand.name}: Ask about availability`}
                 style={{ "--i": Math.min(i, 12) } as React.CSSProperties}
-                className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded-none bg-[var(--surface)] border border-[var(--border)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-[border-color,transform] duration-150 ease-out active:scale-[0.97] group/cell cursor-pointer animate-brand-enter"
+                className="relative flex items-center justify-center shrink-0 h-20 md:h-24 w-44 md:w-56 px-6 py-4 rounded-none bg-white border border-[var(--border)] hover:border-[var(--accent)]/40 focus-visible:border-[var(--accent)] transition-[border-color,transform] duration-150 ease-out active:scale-[0.97] group/cell cursor-pointer animate-brand-enter"
               >
                 {CANONICAL_BRANDS_BY_ID[normalizeBrandKey(brand)]?.logo || brand.logoUrl ? (
                   <div className="relative w-full h-full flex items-center justify-center transition-transform duration-150 ease-out group-hover/cell:scale-105">

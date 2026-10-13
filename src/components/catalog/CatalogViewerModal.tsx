@@ -30,6 +30,7 @@ import AnnotationLayer from "./viewer/AnnotationLayer";
 import CaptureSelector from "./viewer/CaptureSelector";
 import PageJump from "./viewer/PageJump";
 import PageArrows from "./viewer/PageArrows";
+import MatchStrip from "./viewer/MatchStrip";
 import { useIsDesktop } from "./viewer/useIsDesktop";
 import type {
   AnnotationTool,
@@ -78,9 +79,22 @@ const SharePreview = dynamic(() => import("./viewer/SharePreview"), { ssr: false
 
 type Sheet = "none" | "pages" | "search" | "info" | "jump";
 
+/**
+ * Where to open when the visitor arrives from a /collections brand logo: the
+ * catalogue (its index in the brand's list), its best-matching page, and the
+ * other matching pages. Already validated against the PDF Sanity serves.
+ */
+export interface CatalogueMatchContext {
+  catalogue: number;
+  page: number;
+  query: string;
+  pages: number[];
+}
+
 interface CatalogViewerModalProps {
   brand: Brand;
   onClose: () => void;
+  match?: CatalogueMatchContext | null;
 }
 
 function catalogLabel(entry: CatalogueDocument, brandName: string, index: number): string {
@@ -174,7 +188,7 @@ function SheetDialogWrapper({ children, reduceMotion }: SheetDialogWrapperProps)
   );
 }
 
-export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModalProps) {
+export default function CatalogViewerModal({ brand, onClose, match = null }: CatalogViewerModalProps) {
   const catalogs = useMemo<CatalogueDocument[]>(() => brand.catalogues ?? [], [brand]);
   const slug = getSlugString(brand.slug);
   const reduceMotion = useReducedMotion();
@@ -187,9 +201,14 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
   const idleTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [state, setState] = useState<ViewerState>("browse");
-  const [active, setActive] = useState(0);
+  // A match opens its own catalogue at its best page; onLoaded clamps the page.
+  const [active, setActive] = useState(() =>
+    match && match.catalogue < catalogs.length ? match.catalogue : 0
+  );
   const [doc, setDoc] = useState<PDFDocumentProxy | null>(null);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(() => (match && match.catalogue < catalogs.length ? match.page : 1));
+  const [showMatches, setShowMatches] = useState(true);
+  const [searchQuery, setSearchQuery] = useState("");
   const [numPages, setNumPages] = useState(0);
   const [zoom, setZoom] = useState(1);
   const [fit, setFit] = useState<FitMode>("width");
@@ -215,6 +234,8 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
   const [announcement, setAnnouncement] = useState("");
 
   const hasCatalogs = catalogs.length > 0 && Boolean(slug);
+  // The matched pages belong to one catalogue; switching to another hides them.
+  const matchPages = match && showMatches && active === match.catalogue ? match.pages : [];
   const external = !hasCatalogs ? brand.officialCatalogUrl : null;
   const ready = status === "ready";
   const title = hasCatalogs
@@ -680,7 +701,10 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
                 onSetZoom={zoomTo}
                 onOpenPageJump={() => openSheet("jump")}
                 onOpenPages={() => openSheet("pages")}
-                onOpenSearch={() => openSheet("search")}
+                onOpenSearch={() => {
+                  setSearchQuery("");
+                  openSheet("search");
+                }}
                 searchable={Boolean(doc)}
                 onSelect={startMarking}
                 onActivity={wake}
@@ -691,6 +715,20 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
                 visible={chromeVisible}
                 onStep={(delta) => goToPage(page + delta)}
               />
+              {match && (
+                <MatchStrip
+                  query={match.query}
+                  pages={matchPages}
+                  current={page}
+                  visible={chromeVisible}
+                  onGo={goToPage}
+                  onSearch={() => {
+                    setSearchQuery(match.query);
+                    openSheet("search");
+                  }}
+                  onDismiss={() => setShowMatches(false)}
+                />
+              )}
             </>
           )}
 
@@ -768,6 +806,7 @@ export default function CatalogViewerModal({ brand, onClose }: CatalogViewerModa
               >
                 <CatalogSearch
                   catalogId={`${slug}-${active}`}
+                  initialQuery={searchQuery}
                   onSelect={(target) => {
                     goToPage(target);
                   }}

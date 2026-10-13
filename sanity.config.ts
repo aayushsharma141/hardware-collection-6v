@@ -19,6 +19,17 @@ export default defineConfig({
   dataset,
   // Add and edit the content schema in the './src/content/sanity/schemaTypes' folder
   schema,
+  document: {
+    // One document each, at a fixed id, which the site reads with `[0]`. The
+    // registry removes Duplicate and keeps them out of every create menu. A
+    // deleted or unpublished one blanks the matching part of the live site, so
+    // those actions are removed too.
+    singletons: ['homePage', 'heroManager', 'siteSettings', 'navigation'],
+    actions: (prev, context) =>
+      context.singleton
+        ? prev.filter(({action}) => action !== 'delete' && action !== 'unpublish')
+        : prev,
+  },
   plugins: [
     structureTool({structure}),
     presentationTool({

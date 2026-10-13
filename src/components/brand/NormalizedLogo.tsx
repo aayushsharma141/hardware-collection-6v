@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 
 interface NormalizedLogoProps {
   src: string;

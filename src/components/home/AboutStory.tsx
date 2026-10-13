@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { Award, Compass, Store } from "lucide-react";
 
 interface AboutStoryProps {
@@ -32,7 +32,6 @@ const VALUE_PILLARS = [
 
 export default function AboutStory({
   id = "about",
-  legacyShowroomImageUrl: _legacyShowroomImageUrl,
 }: AboutStoryProps) {
   const imageUrl = "/cinema/hero/HC-01-HERO-02.png";
 

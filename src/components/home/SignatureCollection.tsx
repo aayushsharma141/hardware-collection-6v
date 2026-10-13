@@ -34,7 +34,7 @@ export default function SignatureCollection() {
             style={{ y: shouldReduceMotion ? 0 : leftPanelY }}
             className="w-full lg:w-[90%]"
           >
-            <div className="relative aspect-square overflow-hidden bg-[var(--surface-raised)] group">
+            <div className="relative aspect-square overflow-hidden bg-white group">
               <motion.img 
                 src="/cinema/showroom/exterior.png"
                 alt="Smart Entrance"
@@ -54,7 +54,7 @@ export default function SignatureCollection() {
             style={{ y: shouldReduceMotion ? 0 : rightPanelY }}
             className="w-full lg:w-[80%] ml-auto mt-16 lg:mt-0"
           >
-            <div className="relative aspect-[4/5] overflow-hidden bg-[var(--surface-raised)] group">
+            <div className="relative aspect-[4/5] overflow-hidden bg-white group">
               <motion.img 
                 src="/cinema/showroom/interior.png"
                 alt="Modern Kitchen"

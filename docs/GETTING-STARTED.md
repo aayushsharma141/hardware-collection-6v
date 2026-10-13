@@ -81,7 +81,7 @@ node scripts/sync-pdfjs-assets.mjs
 `npm run build` runs the same script with `--check` in `prebuild`. That check fails the build if the files have drifted.
 
 **Catalogue search shows "Search index is unavailable for this catalog."**
-`prebuild` builds the per-catalogue search indexes in `public/search-indexes/`, and only when Sanity credentials are available. If they are missing, the script logs `[catalog-index] Sanity project not configured; skipping.` and the build continues. This is harmless in local development.
+`prebuild` builds the per-catalogue search indexes in `catalog-index/` (private, outside `public/`), and only when Sanity credentials are available. If they are missing, the script logs `[catalog-index] Sanity project not configured; skipping.` and the build continues. This is harmless in local development.
 
 **Lead form submissions fail locally**
 `/api/leads` needs `DATABASE_URL` pointing at a PostgreSQL database that has the `Lead` table. The repo has no `prisma/migrations` folder, so the schema in `prisma/schema.prisma` is the only definition of the table. Telegram and email alerts also need their own variables. Without them, the lead is still saved, but its notification status is marked `failed`. See [CONFIGURATION.md](CONFIGURATION.md#required-vs-optional-settings).

@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { ArrowRight, Tag } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -43,7 +43,7 @@ export default function OffersSection({ offers, enquiryHref }: OffersSectionProp
         <ul className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
           {offers.map((offer) => (
             <li key={offer._id}>
-              <Card className="group h-full flex flex-col sm:flex-row gap-0 overflow-hidden rounded-none border border-[var(--border)] bg-[var(--surface-raised)]/70 p-0 shadow-none transition-all duration-300 hover:border-[var(--color-brass)] hover:shadow-md">
+              <Card className="group h-full flex flex-col sm:flex-row gap-0 overflow-hidden rounded-none border border-[var(--border)] bg-white p-0 shadow-none transition-all duration-300 hover:border-[var(--color-brass)] hover:shadow-md">
                 <div className="flex min-w-0 flex-1 flex-col gap-3 p-6">
                   <div className="flex items-center gap-2">
                     <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[10px] font-semibold uppercase tracking-[0.16em] bg-[var(--color-brass)]/15 text-brass-ink border border-[var(--color-brass)]/30">

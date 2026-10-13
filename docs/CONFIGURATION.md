@@ -21,8 +21,9 @@ The site is configured with environment variables and a few committed config fil
 | `TELEGRAM_CHAT_ID` | Required for lead alerts | none | Telegram chat that receives new-lead alerts. |
 | `RESEND_API_KEY` | Optional | none | Resend API key for lead notification emails (`src/lib/leads/email.ts`). |
 | `STAFF_EMAIL` | Optional | none | Address that receives lead notification emails. |
-| `UPSTASH_REDIS_REST_URL` | Optional | none | Upstash Redis REST URL for the `/api/leads` rate limiter. |
-| `UPSTASH_REDIS_REST_TOKEN` | Optional | none | Upstash Redis REST token. Rate limiting is turned on only when both Upstash variables are set. |
+| `UPSTASH_REDIS_REST_URL` | Optional | none | Upstash Redis REST URL for the `/api/leads` rate limiter and the catalogue search index (`/api/catalog/reindex`, brand rows on `/collections`). |
+| `UPSTASH_REDIS_REST_TOKEN` | Optional | none | Upstash Redis REST token. Rate limiting and catalogue search are turned on only when both Upstash variables are set. |
+| `CATALOG_REINDEX_SECRET` | Optional (needed for catalogue search) | none | Secret for `POST /api/catalog/reindex`: a `Bearer` token, or the signing secret of a Sanity webhook on `catalogue` documents. If unset, the route answers 500. |
 | `NEXT_PUBLIC_SHOWROOM_MAP_URL` | Optional | Google Maps search URL for "Hardware Collection Jamshedpur" | Showroom map link, read in `src/lib/config.ts`. |
 | `NODE_ENV` | Set by Next.js | — | Controls the Sanity test fallbacks, the Vision tool (development only), whether `/api/seed` is disabled (production), and Prisma client caching. |
 
@@ -88,6 +89,7 @@ NEXT_PUBLIC_SHOWROOM_MAP_URL=
 **Degrade gracefully:**
 
 - `SANITY_API_TOKEN` missing: the Sanity client returns no data and the site renders from `src/content/fallback/`. CI's build job relies on this to check that the site still renders without Sanity.
+- `UPSTASH_REDIS_REST_*` or `CATALOG_REINDEX_SECRET` missing: `/collections` shows no brand rows and says catalogue matching is unavailable; brands are never inferred from CMS products instead.
 - `UPSTASH_REDIS_REST_*` missing: `/api/leads` runs without rate limiting. With both set, it allows 5 requests per minute per IP (sliding window).
 - `NEXT_PUBLIC_SANITY_PROJECT_ID` / `NEXT_PUBLIC_SANITY_DATASET` missing during `npm run build`: the `prebuild` step (`scripts/build-catalog-index.mjs`) logs `[catalog-index] Sanity project not configured; skipping.` and continues. The app import check above still applies.
 

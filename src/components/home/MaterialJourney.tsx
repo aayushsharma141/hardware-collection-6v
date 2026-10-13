@@ -2,7 +2,7 @@
 
 import { useRef, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -228,7 +228,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
             Genuine solid brass, surgical stainless steel, and triple-PVD coatings engineered for tactile longevity.
           </p>
 
-          <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-none mb-6 border border-[var(--border)]">
+          <div className="relative aspect-[16/10] overflow-hidden bg-white rounded-none mb-6 border border-[var(--border)]">
             <Image
               src={displayMaterials[1]?.img || displayMaterials[0]?.img || DEFAULT_MATERIALS[1].img}
               alt="Architectural Brass Finish"
@@ -250,7 +250,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
             {displayMaterials.map((mat, i) => (
               <span
                 key={mat._key || i}
-                className="px-3 py-1.5 rounded-none border border-[var(--border)] bg-[var(--surface-raised)] text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
+                className="px-3 py-1.5 rounded-none border border-[var(--border)] bg-white text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
               >
                 {mat.name}
               </span>
@@ -279,7 +279,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
             </p>
 
             {/* Featured Material Visual with Light Sweep */}
-            <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-none mb-6 border border-[var(--border)] shadow-md">
+            <div className="relative aspect-[16/10] overflow-hidden bg-white rounded-none mb-6 border border-[var(--border)] shadow-md">
               <Image
                 src={displayMaterials[1]?.img || displayMaterials[0]?.img || DEFAULT_MATERIALS[1].img}
                 alt="Architectural Brass Finish"
@@ -312,7 +312,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
               {displayMaterials.map((mat, i) => (
                 <span
                   key={mat._key || i}
-                  className="px-3 py-1.5 rounded-none border border-[var(--border)] bg-[var(--surface-raised)] text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
+                  className="px-3 py-1.5 rounded-none border border-[var(--border)] bg-white text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
                 >
                   {mat.name}
                 </span>

@@ -44,7 +44,7 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
       </p>
 
       {/* Reference ID Card */}
-      <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-none p-4 mb-6 w-full text-center">
+      <div className="bg-white border border-[var(--border)] rounded-none p-4 mb-6 w-full text-center">
         <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-[0.2em] mb-1 font-semibold hc-mono">REFERENCE ID</p>
         <p className="text-[var(--color-wine)] hc-mono text-sm sm:text-base font-bold tracking-wider">{leadId}</p>
       </div>
@@ -63,7 +63,7 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
 
         <a
           href={SHOWROOM_PHONE_HREF}
-          className="flex-1 py-3 px-5 rounded-none bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--text-primary)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
+          className="flex-1 py-3 px-5 rounded-none bg-white border border-[var(--border)] hover:border-[var(--text-primary)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
         >
           <PhoneCall className="w-3.5 h-3.5 text-[var(--color-wine)]" />
           <span>Call Showroom</span>

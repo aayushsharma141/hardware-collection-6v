@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -213,7 +213,7 @@ function ProductCard({
   return (
     <div className="flex flex-col gap-4">
       {/* Image with light sweep + hover zoom */}
-      <div className="relative overflow-hidden bg-[var(--surface-raised)] aspect-[3/4] rounded-none">
+      <div className="relative overflow-hidden bg-white aspect-[3/4] rounded-none">
         {product.img ? (
           <Image
             src={product.img}
@@ -223,7 +223,7 @@ function ProductCard({
             className="object-cover group-hover:scale-[1.05] transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] will-change-transform"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)]">
+          <div className="absolute inset-0 flex items-center justify-center bg-white">
             <span className="text-3xl font-light opacity-10 hc-serif text-[var(--text-primary)] text-center px-4">{product.brand}</span>
           </div>
         )}
@@ -304,7 +304,7 @@ function MobileProductCard({
   return (
     <div className="flex flex-col gap-3">
       {/* Portrait image &mdash; aspect 4:5 */}
-      <div className="relative overflow-hidden bg-[var(--surface-raised)] aspect-[4/5] rounded-none">
+      <div className="relative overflow-hidden bg-white aspect-[4/5] rounded-none">
         {product.img ? (
           <Image
             src={product.img}
@@ -314,7 +314,7 @@ function MobileProductCard({
             className="object-cover group-hover:scale-[1.03] transition-transform duration-700 ease-out will-change-transform"
           />
         ) : (
-          <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface-raised)]">
+          <div className="absolute inset-0 flex items-center justify-center bg-white">
             <span className="text-3xl font-light opacity-10 hc-serif text-[var(--text-primary)] text-center px-4">{product.brand}</span>
           </div>
         )}

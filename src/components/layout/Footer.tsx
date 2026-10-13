@@ -7,6 +7,8 @@ import { usePathname } from "next/navigation";
 import {
   SHOWROOM_PHONE_DISPLAY,
   SHOWROOM_PHONE_HREF,
+  SHOWROOM_SECONDARY_PHONE_DISPLAY,
+  SHOWROOM_SECONDARY_PHONE_HREF,
 } from "@/lib/config";
 // Social icons as inline SVGs for reliability
 
@@ -16,7 +18,7 @@ export interface FooterProps {
   showroomGroups?: unknown;
 }
 
-export default function Footer(_props?: FooterProps) {
+export default function Footer({}: FooterProps = {}) {
   const pathname = usePathname();
 
   // Suppress rendering inside Sanity Studio CMS
@@ -104,19 +106,19 @@ export default function Footer(_props?: FooterProps) {
             <h4 className="hc-mono text-[10.5px] uppercase tracking-[0.22em] font-semibold text-[var(--text-secondary)]">
               Contact
             </h4>
-            
+
             <div className="space-y-2 pt-1">
               <a
-                href="tel:+917033650739"
+                href={SHOWROOM_SECONDARY_PHONE_HREF}
                 className="text-[11.5px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] block transition-colors"
               >
-                +91 70336 50739 - showroom contact
+                Hardware Collection Showroom : {SHOWROOM_SECONDARY_PHONE_DISPLAY}
               </a>
               <a
-                href="tel:+919835190738"
+                href={SHOWROOM_PHONE_HREF}
                 className="text-[11.5px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] block transition-colors"
               >
-                mukesh khandelwal no. +91 98351 90738
+                Mukesh Khandelwal : {SHOWROOM_PHONE_DISPLAY}
               </a>
             </div>
           </div>

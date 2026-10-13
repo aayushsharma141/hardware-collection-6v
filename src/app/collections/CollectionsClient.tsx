@@ -25,7 +25,10 @@ import {
 } from "@/lib/collections/showroom";
 
 import CollectionsHero, { type HeroSlide } from "@/components/collections/CollectionsHero";
-import CollectionExplorer from "@/components/collections/CollectionExplorer";
+import CollectionExplorer, { type CategoryBrandChip } from "@/components/collections/CollectionExplorer";
+import { verifyBrandMatch } from "@/lib/catalog/search/verifyMatch";
+import { buildMatchHref } from "@/lib/catalog/search/matchLink";
+import type { CategoryMatches } from "@/lib/catalog/search/types";
 import ProductQuickView from "@/components/collections/ProductQuickView";
 import OffersSection from "@/components/collections/OffersSection";
 import ShowroomCta from "@/components/collections/ShowroomCta";
@@ -37,6 +40,8 @@ export interface CollectionsClientProps {
   offers: Offer[];
   settings?: import("@/types/catalog").SiteSettings | null;
   heroManager?: import("@/types/catalog").HeroManager | null;
+  /** Brands whose uploaded catalogues contain each category products, if catalogue search is available. */
+  catalogueMatches?: CategoryMatches | null;
 }
 
 /**
@@ -66,7 +71,7 @@ export default function CollectionsClient({
   brands: rawBrands,
   offers,
   settings,
-  heroManager: _heroManager,
+  catalogueMatches,
 }: CollectionsClientProps) {
   const brands = useMemo(
     () =>
@@ -112,6 +117,49 @@ export default function CollectionsClient({
     [brands]
   );
 
+  // Brands that supply each category, from searching the uploaded catalogue PDFs
+  // (so it does not depend on products being entered in the CMS). A brand is shown
+  // only when a catalogue page actually matched; there is no CMS-based fallback,
+  // because a product record does not prove a matching page exists. A match is
+  // used only if it was found in the PDF Sanity serves at that position today.
+  const categoryBrands = useMemo(() => {
+    const byKey = new Map(brands.map((b) => [normalizeBrandKey(b), b]));
+    const titles = new Map(categories.map((c) => [c.slug, c.title || c.name || ""]));
+    const chips = new Map<string, CategoryBrandChip[]>();
+    for (const [slug, matches] of Object.entries(catalogueMatches ?? {})) {
+      const list: CategoryBrandChip[] = [];
+      for (const match of matches) {
+        const brand = byKey.get(match.brandKey);
+        const verified = brand ? verifyBrandMatch(brand, match) : null;
+        if (!brand || !verified) continue;
+        const best = verified.catalogues[0];
+        list.push({
+          key: match.brandKey,
+          name: brand.name || match.brand,
+          logo: brand.logoUrl || brand.logo || undefined,
+          href: buildMatchHref(verified, titles.get(slug) ?? ""),
+          bestPage: best.pages[0].page,
+          morePages: best.pages.length - 1,
+        });
+      }
+      if (list.length > 0) chips.set(slug, list);
+    }
+    return chips;
+  }, [brands, categories, catalogueMatches]);
+
+  // Products entered in the CMS under each category, featured first, for the
+  // explorer cards. Real records only; a category without any shows none.
+  const categoryProducts = useMemo(() => {
+    const byCategory = new Map<string, Product[]>();
+    for (const product of products) {
+      const slug = productCategorySlug(product);
+      if (!slug) continue;
+      byCategory.set(slug, [...(byCategory.get(slug) ?? []), product]);
+    }
+    for (const list of byCategory.values()) list.sort((a, b) => Number(Boolean(b.featured)) - Number(Boolean(a.featured)));
+    return byCategory;
+  }, [products]);
+
   const enquiryHref = useCallback(
     (label: string) =>
       buildWhatsAppLink(
@@ -143,15 +191,6 @@ export default function CollectionsClient({
     []
   );
 
-  const brandLogo = useCallback(
-    (brandName: string) => {
-      const key = normalizeBrandKey({ name: brandName } as Brand);
-      const brand = brands.find((b) => normalizeBrandKey(b) === key);
-      return brand?.logoUrl || brand?.logo || undefined;
-    },
-    [brands]
-  );
-
   const whatsappHref = buildGeneralInquiryWhatsappLink(settings?.whatsappNumber);
 
   // Up to 7 collection slides: 7 showroom categories with active offers woven in, capped at 7.
@@ -174,8 +213,10 @@ export default function CollectionsClient({
 
   return (
     <div className="hc-root min-h-screen w-full bg-[var(--surface)] text-[var(--text-primary)] selection:bg-[var(--color-brass)]/30 selection:text-white">
-      <main className="w-full pb-16 sm:pb-0">
-        <CollectionsHero slides={heroSlides} whatsappHref={whatsappHref} />
+      <main className="w-full pb-16 sm:pb-0 pt-[88px] sm:pt-[100px] md:pt-[112px]">
+        <div className="max-w-[1440px] 2xl:max-w-[1600px] mx-auto px-3 sm:px-6 lg:px-8">
+          <CollectionsHero slides={heroSlides} whatsappHref={whatsappHref} />
+        </div>
 
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 pt-10 sm:pt-14 pb-2">
           <h1 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight">
@@ -190,7 +231,9 @@ export default function CollectionsClient({
           sections={sections}
           familyCategories={familyCategories}
           familyImage={familyImage}
-          brandLogo={brandLogo}
+          categoryBrands={categoryBrands}
+          categoryProducts={categoryProducts}
+          catalogueSearchAvailable={Boolean(catalogueMatches)}
           getImage={getProductDisplayImage}
           onOpenProduct={(product, trigger) => handleProductSelect(product, trigger)}
           enquiryHref={enquiryHref}
@@ -216,6 +259,8 @@ export default function CollectionsClient({
           </div>
           <Link
             href="/catalogues"
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-sm font-semibold uppercase tracking-wider text-[var(--accent)] hover:underline inline-flex items-center gap-2 shrink-0"
           >
             <span>Explore Brands & Catalogues</span>
@@ -230,7 +275,14 @@ export default function CollectionsClient({
         whatsappHref={selectedProduct ? productEnquiryHref(selectedProduct) : whatsappHref}
         catalogueHref={
           selectedProduct
-            ? catalogueHrefFor(selectedProduct.brandName || selectedProduct.brand || "")
+            ? // Open at this brand's matching pages for the product's category when the
+              // catalogue search found them; otherwise the catalogue from its start.
+              categoryBrands
+                .get(productCategorySlug(selectedProduct))
+                ?.find(
+                  (chip) =>
+                    chip.key === normalizeBrandKey({ name: selectedProduct.brandName || selectedProduct.brand || "" } as Brand)
+                )?.href ?? catalogueHrefFor(selectedProduct.brandName || selectedProduct.brand || "")
             : undefined
         }
         onClose={() => handleProductSelect(null)}

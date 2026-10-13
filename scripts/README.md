@@ -14,6 +14,8 @@ Utility and automation scripts for the Hardware Collection project.
 | audit-dependencies.cjs | Legacy design-token / button import audit (not a CVE scanner) |
 | build-catalog-index.mjs | Builds per-catalogue search indexes for the catalogue viewer |
 | compress-catalogs.py | Recompresses brand catalog PDFs before upload to Sanity |
+| ocr-catalogues.ts | OCRs catalogue pages without a text layer and stores the text in the Upstash catalogue index (`npx tsx`) |
+| reindex-catalogues.ts | Builds/refreshes the Upstash catalogue search index and category matches; `--report` prints them (`npx tsx`) |
 | evidence-engine.ts | Evidence platform validation |
 | generate-docs-registry.js | Generates a docs registry (writes to a legacy `apps/web/` path that no longer exists) |
 | migrate-category-images.ts | Uploads category images to Sanity |

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
 
 export default function TactileStatement() {
@@ -68,7 +68,7 @@ export default function TactileStatement() {
             {/* Small detail image overlapping */}
             <motion.div 
               style={{ y: useTransform(scrollYProgress, [0, 1], [50, -150]) }}
-              className="absolute -bottom-10 -left-10 w-48 h-64 border border-[var(--border)] hidden lg:block bg-[var(--surface-raised)] overflow-hidden"
+              className="absolute -bottom-10 -left-10 w-48 h-64 border border-[var(--border)] hidden lg:block bg-white overflow-hidden"
             >
               <Image
                 src="/Hardware Collection/hardware_collection_sakchi_shop_interior_view.jpeg"

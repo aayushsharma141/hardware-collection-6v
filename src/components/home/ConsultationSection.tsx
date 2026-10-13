@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { ConsultationForm } from "@/components/consultation/ConsultationForm";
 import { urlForImage } from "@/content/sanity/lib/image";
 import {

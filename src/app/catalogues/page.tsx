@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import CatalogsClient from "./CatalogsClient";
 import { getBrands, getSiteSettings, getShowroomGroups } from "@/content/sanity/queries";
 import { BRANDS } from "@/content/fallback/catalog";
