@@ -168,7 +168,7 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     tier: "Architectural Hardware",
     authorized: true,
     logo: "/brands/rexton-logo.webp",
-    website: null,
+    website: "https://rextontechnologies.in/",
     tagline: "Reliable Hardware Solutions",
     description: "Rexton provides reliable architectural hardware.",
     keyHighlights: ["Durability", "Precision"]
@@ -243,7 +243,8 @@ export const CANONICAL_BRANDS: BrandInfo[] = [
     website: null,
     tagline: "Hardware Excellence",
     description: "Maranello offers a comprehensive range of premium hardware products.",
-    keyHighlights: ["Excellence", "Durability"]
+    keyHighlights: ["Excellence", "Durability"],
+    imageStyle: { transform: "scale(1.2)" }
   },
   {
     id: "godrej",

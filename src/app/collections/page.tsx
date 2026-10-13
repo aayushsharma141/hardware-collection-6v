@@ -1,4 +1,4 @@
-import React, { Suspense } from "react";
+import React from "react";
 import CollectionsClient from "./CollectionsClient";
 import {
   getCategories,
@@ -11,6 +11,7 @@ import {
 import { CATEGORIES, BRANDS, PRODUCTS } from "@/content/fallback/catalog";
 import { mergeCategories, mergeProducts } from "@/lib/collections/catalogue";
 import { Category, Brand } from "@/types/catalog";
+import { getCategoryMatches } from "@/lib/catalog/search/getCategoryMatches";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -25,13 +26,14 @@ export const metadata: Metadata = {
 };
 
 export default async function CollectionsPage() {
-  const [sanityCategories, sanityProducts, sanityBrands, settings, offers, heroManager] = await Promise.all([
+  const [sanityCategories, sanityProducts, sanityBrands, settings, offers, heroManager, catalogueMatches] = await Promise.all([
     getCategories(),
     getAllProducts(),
     getBrands(),
     getSiteSettings(),
     getActiveOffers(),
     getHeroManager(),
+    getCategoryMatches(),
   ]);
 
   const categories = mergeCategories(CATEGORIES as unknown as Category[], sanityCategories);
@@ -72,6 +74,7 @@ export default async function CollectionsPage() {
         offers={offers}
         settings={settings}
         heroManager={heroManager}
+        catalogueMatches={catalogueMatches}
       />
     </>
   );

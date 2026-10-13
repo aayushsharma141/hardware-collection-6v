@@ -1,7 +1,9 @@
 #!/usr/bin/env node
 /**
- * Builds the per-catalogue text indexes the viewer's search reads from
- * /search-indexes/<brand-slug>-<n>.json, where <n> is the catalogue's position
+ * Builds the per-catalogue text indexes the viewer's search reads (through
+ * /api/catalog/<slug>/<n>/search) from catalog-index/<brand-slug>-<n>.json.
+ * The folder is private: the text includes price lists, so it must never be
+ * written under public/. <n> is the catalogue's position
  * in the brand's list (created order — the same order /api/catalog/<slug>/<n>
  * serves, so index and PDF always refer to the same file).
  *
@@ -26,7 +28,7 @@ try {
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
-const outDir = path.resolve(process.cwd(), "public", "search-indexes");
+const outDir = path.resolve(process.cwd(), "catalog-index");
 
 async function main() {
   if (!projectId || !dataset) {

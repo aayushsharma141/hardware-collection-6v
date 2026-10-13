@@ -4,11 +4,12 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Footer from "@/components/layout/Footer";
-import CatalogViewerModal from "@/components/catalog/CatalogViewerModal";
+import CatalogViewerModal, { type CatalogueMatchContext } from "@/components/catalog/CatalogViewerModal";
 import BrandsDirectoryView from "@/components/catalog/BrandsDirectoryView";
 import { AnimatePresence } from "motion/react";
 import { Brand, ResolvedBrand, SiteSettings } from "@/types/catalog";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
+import { parseMatchParams } from "@/lib/catalog/search/matchLink";
 
 export interface CatalogsClientProps {
   brands: Brand[];
@@ -42,8 +43,23 @@ function resolveBrandFromParam(
   };
 }
 
+/**
+ * The /collections match context on the URL (`cat`, `page`, `pages`, `q`, `v`),
+ * kept only if it still describes the PDF this brand serves at that position.
+ * A link made before the catalogue was replaced opens the catalogue normally
+ * rather than at a page number that now belongs to a different file.
+ */
+function resolveMatchFromParams(params: URLSearchParams, brand: ResolvedBrand): CatalogueMatchContext | null {
+  const parsed = parseMatchParams(params, brand.catalogues?.length ?? 0);
+  if (!parsed) return null;
+  const served = brand.catalogues?.[parsed.catalogue]?.pdfVersion;
+  if (!served || !parsed.version || served !== parsed.version) return null;
+  return { catalogue: parsed.catalogue, page: parsed.page, query: parsed.query, pages: parsed.pages };
+}
+
 export default function CatalogsClient({ brands, settings, showroomGroups }: CatalogsClientProps) {
   const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | null>(null);
+  const [match, setMatch] = useState<CatalogueMatchContext | null>(null);
 
   // Synchronize ?brand= query param without triggering SSG bailout
   React.useEffect(() => {
@@ -53,7 +69,10 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
       const brandParam = params.get("brand");
       if (brandParam) {
         const nextBrand = resolveBrandFromParam(brandParam, brands);
-        if (nextBrand) setSelectedCatalogBrand(nextBrand);
+        if (nextBrand) {
+          setSelectedCatalogBrand(nextBrand);
+          setMatch(resolveMatchFromParams(params, nextBrand));
+        }
       }
     };
 
@@ -68,7 +87,10 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
         <BrandsDirectoryView 
           brands={brands || []} 
           settings={settings}
-          onSelectBrand={setSelectedCatalogBrand} 
+          onSelectBrand={(brand) => {
+            setMatch(null);
+            setSelectedCatalogBrand(brand);
+          }}
           selectedBrandSlug={selectedCatalogBrand ? normalizeBrandKey(selectedCatalogBrand) : null}
         />
 
@@ -94,9 +116,13 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
           <CatalogViewerModal
             // Keyed by brand so switching brands opens a fresh viewer rather
             // than carrying the previous catalog's page and zoom across.
-            key={normalizeBrandKey(selectedCatalogBrand)}
+            key={`${normalizeBrandKey(selectedCatalogBrand)}:${match ? `${match.catalogue}-${match.page}` : ""}`}
             brand={selectedCatalogBrand}
-            onClose={() => setSelectedCatalogBrand(null)}
+            match={match}
+            onClose={() => {
+              setSelectedCatalogBrand(null);
+              setMatch(null);
+            }}
           />
         )}
       </AnimatePresence>

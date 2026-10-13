@@ -5,7 +5,7 @@ The site exposes a small set of HTTP routes under `src/app/api/`, built as Next.
 
 | Consumer | Routes |
 |---|---|
-| Site frontend (browser) | `/api/leads`, `/api/leads/retry`, `/api/catalog/[slug]/[index]` |
+| Site frontend (browser) | `/api/leads`, `/api/leads/retry`, `/api/catalog/[slug]/[index]`, `/api/catalog/[slug]/[index]/search` |
 | Sanity (webhook and Presentation tool) | `/api/revalidate`, `/api/draft-mode/enable`, `/api/draft-mode/disable` |
 | Local development only | `/api/seed` |
 
@@ -20,7 +20,9 @@ There is no user authentication. Each route protects itself according to who cal
 | `POST /api/leads` | None (public form endpoint). Protected by a honeypot field and an optional rate limit. |
 | `POST /api/leads/retry` | None. Callers must know the lead ID returned by `/api/leads`. |
 | `GET /api/catalog/[slug]/[index]` | None (public, read-only). |
+| `GET /api/catalog/[slug]/[index]/search` | None (public, read-only, rate limited). |
 | `POST /api/revalidate` | Sanity webhook signature, checked with `parseBody` from `next-sanity/webhook` against `SANITY_REVALIDATE_SECRET`. |
+| `POST /api/catalog/reindex` | `Authorization: Bearer <CATALOG_REINDEX_SECRET>`, or a Sanity webhook signed with the same secret. |
 | `GET /api/draft-mode/enable` | Sanity preview secret, checked by `defineEnableDraftMode` from `next-sanity/draft-mode` using a client configured with `SANITY_API_TOKEN`. |
 | `GET /api/draft-mode/disable` | None. |
 | `POST /api/seed` | `Authorization: Bearer <SANITY_API_TOKEN>` header. Always returns `403` when `NODE_ENV === "production"`. |
@@ -34,7 +36,9 @@ The webhook secret has to match the value configured on the webhook in Sanity's 
 | `POST` | `/api/leads` | Validates a lead, stores it in PostgreSQL, sends the email notification in the background and the Telegram alert before responding. | No |
 | `POST` | `/api/leads/retry` | Retries a failed Telegram notification for an existing lead. Idempotent. | No |
 | `GET` | `/api/catalog/[slug]/[index]` | Streams a brand catalog PDF from Sanity through the site's origin, with HTTP Range support. | No |
+| `GET` | `/api/catalog/[slug]/[index]/search` | Searches one catalogue's page text on the server and returns ranked page numbers with short snippets. | No |
 | `POST` | `/api/revalidate` | Sanity webhook. Clears the Next.js cache tag that matches the changed document's `_type`. | Webhook signature |
+| `POST` | `/api/catalog/reindex` | Brings the catalogue text index in Upstash in line with Sanity and rebuilds the category -> brand matches. Resumable; continues itself while work is pending. | Bearer or webhook signature |
 | `GET` | `/api/draft-mode/enable` | Turns on Next.js draft mode for Sanity previews. | Sanity preview secret |
 | `GET` | `/api/draft-mode/disable` | Turns off draft mode and redirects to `/`. | No |
 | `POST` | `/api/seed` | Seeds Sanity with fallback brands, categories, products, site settings, navigation and legal pages. | Bearer token, development only |
@@ -177,6 +181,33 @@ A `206 Partial Content` response is fully buffered before it is sent, so it neve
 
 The browser never sees the Sanity asset URL. This discourages casual downloading and link sharing, but it is not DRM.
 
+### `GET /api/catalog/[slug]/[index]/search`
+
+Source: `src/app/api/catalog/[slug]/[index]/search/route.ts`, logic in `src/lib/catalog/search/findInCatalogue.ts`. Used by the viewer's Find panel.
+
+- **Query:** `q`, the search term (trimmed, capped at 80 characters). A term shorter than 2 characters returns no matches; the panel sends an empty `q` once to learn whether the catalogue is searchable.
+- **Response:** `200` with `{ "matches": [{ "page": 61, "snippet": "…mortise hinges…", "score": 30 }] }`, best first, at most 60.
+- **Source of text:** the live index in Upstash (`catalog:index:<slug>-<n>`), else the build-time file `catalog-index/<slug>-<n>.json`. That folder is outside `public/` and gitignored, and `next.config.ts` traces it into this function and `/collections`.
+- **Headers:** `Cache-Control: private, max-age=300`, `X-Robots-Tag: noindex`.
+
+The page text includes price lists, so it never leaves the server. Only page numbers and snippets do.
+
+### `POST /api/catalog/reindex`
+
+Source: `src/app/api/catalog/reindex/route.ts`. Reads every catalogue PDF in Sanity, extracts page text for new or replaced PDFs (`src/lib/catalog/indexing/`), removes deleted ones, and rebuilds the matches that `/collections` shows as brand rows. One run works for about 40 seconds (`maxDuration` 60); if catalogues remain it schedules another run, which resumes from stored progress. A PDF that fails is recorded and not retried until it changes. `?force=1` (bearer only) reindexes everything.
+
+```json
+{
+  "outcomes": { "blum-0": "complete", "godrej-0": "needs_ocr", "hafele-0": "unchanged" },
+  "pending": [],
+  "pruned": [],
+  "notFullySearchable": { "godrej-0": { "coverage": "none", "emptyPages": 4, "pages": 4 } },
+  "matchesChanged": true
+}
+```
+
+`needs_ocr` means the PDF was read but too many pages have no text layer; run `npx tsx scripts/ocr-catalogues.ts` for it. Errors: `401` bad token or signature, `500` secret unset, `503` Upstash unset.
+
 ### `POST /api/revalidate`
 
 Source: `src/app/api/revalidate/route.ts`. Sanity sends a signed webhook whose body contains at least `_type`. The route calls `revalidateTag(body._type, { expire: 0 })`.
@@ -248,6 +279,8 @@ The remaining routes return their own response bodies rather than using `handleA
 | `/api/catalog/[slug]/[index]` | `404` | Plain text `Not found`. The index is invalid or out of range, or no catalog exists at that position. |
 | | `499` | Empty body. The client aborted the request. |
 | | `502` | Plain text `Upstream error`. The Sanity lookup failed, or the CDN fetch failed or returned a non-OK status. |
+| `/api/catalog/[slug]/[index]/search` | `404` | `{ "error": "Not found" }`. The slug or position is invalid, or the catalogue has no index. |
+| | `429` | `{ "error": "Too many searches" }`. Over the rate limit. |
 | `/api/revalidate` | `400` | `{ "message": "Bad Request: payload has no _type" }` |
 | | `401` | `{ "message": "Invalid signature" }` |
 | | `500` | `{ "message": "Revalidation is not configured on this deployment." }` when `SANITY_REVALIDATE_SECRET` is unset. Otherwise `{ "message": "<error message>" }`. |
@@ -257,7 +290,9 @@ The remaining routes return their own response bodies rather than using `handleA
 
 ## Rate Limits
 
-Only `POST /api/leads` has a rate limit. It uses `@upstash/ratelimit` backed by `@upstash/redis`:
+`GET /api/catalog/[slug]/[index]/search` allows 30 requests per minute per client IP (sliding window, key `ratelimit_catalog_search_<first x-forwarded-for address>`), under the same activation rule as below. If Redis is unreachable, the search is served unthrottled. `POST /api/leads/retry` also limits to 5 per minute.
+
+`POST /api/leads` has a rate limit. It uses `@upstash/ratelimit` backed by `@upstash/redis`:
 
 - **Limit:** 5 requests per 1 minute, as a sliding window (`Ratelimit.slidingWindow(5, "1 m")`), with analytics enabled.
 - **Key:** `ratelimit_leads_<x-forwarded-for>`. The full `x-forwarded-for` header value is used, or `unknown` if the header is missing.
