@@ -81,6 +81,18 @@ const CONTENT_SECURITY_POLICY = [
 ].join("; ");
 
 const nextConfig: NextConfig = {
+  // pdf.js is loaded at request time by the catalogue indexer (/api/catalog/reindex);
+  // bundling it would break its worker and font lookups.
+  serverExternalPackages: ["pdfjs-dist"],
+  // /collections ranks catalogue brands from these build-time page indexes when
+  // the live (Redis) index is unavailable, and the viewer's search route
+  // (/api/catalog/[slug]/[index]/search) reads them; both use fs at request
+  // time. Keys are picomatch globs, so `[slug]` would be a character class:
+  // `/api/catalog/**` covers the route instead.
+  outputFileTracingIncludes: {
+    "/collections": ["./catalog-index/**/*"],
+    "/api/catalog/**": ["./catalog-index/**/*"],
+  },
   async headers() {
     const defaultHeaders = [
       {
@@ -199,6 +211,15 @@ const nextConfig: NextConfig = {
     ];
   },
   images: {
+    // Optimised delivery: AVIF first (smaller than WebP at the same quality), WebP as
+    // fallback. Images default to quality 100 (see LazyImage); 90 is allowed for
+    // anything that wants a smaller file. Measured: q90 is ~39 dB against the
+    // original, q100 ~40 dB, and q100 is still a fraction of the original size.
+    formats: ["image/avif", "image/webp"],
+    qualities: [90, 100],
+    // Sanity assets are content-addressed (the hash changes when the file does), so
+    // a converted image can be cached for a month without going stale.
+    minimumCacheTTL: 60 * 60 * 24 * 30,
     remotePatterns: [
       {
         protocol: "https",

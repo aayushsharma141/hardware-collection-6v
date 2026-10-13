@@ -123,7 +123,11 @@ export interface CatalogueDocument {
   version?: string | null;
   releaseDate?: string | null;
   size?: number | null;
-  pdfUrl?: string | null;
+  /**
+   * Short fingerprint of the PDF (see `withPdfVersions`); null when there is no
+   * file. Never a URL: catalogues are view-only and stream through the proxy.
+   */
+  pdfVersion?: string | null;
   coverUrl?: string | null;
 }
 

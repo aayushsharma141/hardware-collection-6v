@@ -2,17 +2,16 @@
 
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Search, X } from "lucide-react";
+import type { PageHit } from "@/lib/catalog/search/findInCatalogue";
 
 /**
  * Text search across the catalogue.
  *
- * This version uses a pre-generated lightweight JSON index created at build time.
- * It provides instant, local searching with synonym support and basic ranking,
- * removing the need for slow, heavy client-side PDF parsing.
+ * Each search is a request to /api/catalog/<slug>/<n>/search, which ranks the
+ * catalogue's pages on the server and returns page numbers and snippets. The
+ * page text itself never reaches the browser: it includes price lists, and a
+ * downloadable copy would undo the view-only viewer.
  */
-
-const MAX_RESULTS = 60;
-const SNIPPET = 90;
 
 /** The categories customers actually walk in asking for, as one-tap starters. */
 const POPULAR = [
@@ -26,27 +25,34 @@ const POPULAR = [
   "Door hardware",
 ];
 
-const SYNONYMS: Record<string, string[]> = {
-  handles: ["handle", "pull", "pulls", "knob", "knobs"],
-  wardrobe: ["wardrobe", "closet", "sliding", "wardrobe system"],
-  kitchen: ["kitchen", "cabinet", "drawer", "hinge", "organizer"],
-};
+type SearchResult = { ok: true; matches: PageHit[] } | { ok: false; reason: "missing" | "busy" | "failed" };
 
-interface Match {
-  page: number;
-  snippet: string;
-  score: number;
+/** `<slug>-<n>` -> the search route for that catalogue. */
+function searchUrl(catalogId: string, term: string): string | null {
+  const parts = /^(.+)-(\d+)$/.exec(catalogId);
+  if (!parts) return null;
+  return `/api/catalog/${encodeURIComponent(parts[1])}/${parts[2]}/search?q=${encodeURIComponent(term)}`;
 }
 
-interface IndexData {
-  catalog: string;
-  brand: string;
-  title: string;
-  pages: { page: number; text: string }[];
+async function searchCatalogue(catalogId: string, term: string): Promise<SearchResult> {
+  const url = searchUrl(catalogId, term);
+  if (!url) return { ok: false, reason: "missing" };
+  try {
+    const res = await fetch(url);
+    if (res.status === 404) return { ok: false, reason: "missing" };
+    if (res.status === 429) return { ok: false, reason: "busy" };
+    if (!res.ok) return { ok: false, reason: "failed" };
+    const data = (await res.json()) as { matches?: PageHit[] };
+    return { ok: true, matches: data.matches ?? [] };
+  } catch {
+    return { ok: false, reason: "failed" };
+  }
 }
 
 interface CatalogSearchProps {
   catalogId: string;
+  /** Run this search as soon as the index has loaded (e.g. the category the visitor came from). */
+  initialQuery?: string;
   onSelect: (page: number) => void;
   onClose: () => void;
   onSearched: (query: string, results: number) => void;
@@ -54,16 +60,19 @@ interface CatalogSearchProps {
 
 export default function CatalogSearch({
   catalogId,
+  initialQuery = "",
   onSelect,
   onClose,
   onSearched,
 }: CatalogSearchProps) {
-  const [query, setQuery] = useState("");
-  const [matches, setMatches] = useState<Match[]>([]);
+  const [query, setQuery] = useState(initialQuery);
+  const [matches, setMatches] = useState<PageHit[]>([]);
   const [searching, setSearching] = useState(false);
   const [searched, setSearched] = useState(false);
-  const [indexData, setIndexData] = useState<IndexData | null>(null);
   const [loadError, setLoadError] = useState(false);
+  const [busy, setBusy] = useState(false);
+  // Only the newest search may update the list; an older, slower response is dropped.
+  const latestRef = useRef(0);
 
   // Drag to resize state
   const asideRef = useRef<HTMLElement>(null);
@@ -95,129 +104,72 @@ export default function CatalogSearch({
     };
   }, []);
 
+  // Read through refs so a parent re-render (new callback identity) does not refetch the index.
+  const initialQueryRef = useRef(initialQuery);
+  const onSearchedRef = useRef(onSearched);
   useEffect(() => {
-    let mounted = true;
-    const fetchIndex = async () => {
-      try {
-        const res = await fetch(`/search-indexes/${catalogId}.json`);
-        if (!res.ok) {
-          throw new Error("Index not found");
-        }
-        const data = await res.json();
-        if (mounted) {
-          setIndexData(data);
-          setLoadError(false);
-        }
-      } catch {
-        if (mounted) {
-          setLoadError(true);
-        }
-      }
-    };
-    void fetchIndex();
-    return () => {
-      mounted = false;
-    };
-  }, [catalogId]);
-
-  const scoreMatch = (pageText: string, queryTokens: string[]): { score: number; snippet: string } | null => {
-    let score = 0;
-    let firstMatchIndex = -1;
-
-    for (const token of queryTokens) {
-      if (!token) continue;
-      
-      const tokenSynonyms = SYNONYMS[token] || [];
-      const allTokens = [token, ...tokenSynonyms];
-
-      let tokenMatched = false;
-      for (const t of allTokens) {
-        const idx = pageText.indexOf(t);
-        if (idx !== -1) {
-          if (firstMatchIndex === -1 || idx < firstMatchIndex) {
-            firstMatchIndex = idx;
-          }
-          if (t === token) score += 30; // Keyword match
-          else score += 20; // Synonym match
-          tokenMatched = true;
-          break; // Stop checking synonyms for this token if one matched
-        }
-      }
-      
-      if (!tokenMatched) {
-        // Partial match
-        if (pageText.includes(token)) {
-           score += 10;
-        }
-      }
-    }
-
-    if (score === 0) return null;
-
-    // Build snippet
-    const start = Math.max(0, firstMatchIndex - SNIPPET / 2);
-    const snippet = `${start > 0 ? "…" : ""}${pageText.slice(start, start + SNIPPET).trim()}…`;
-
-    return { score, snippet };
-  };
+    onSearchedRef.current = onSearched;
+  }, [onSearched]);
 
   const run = useCallback(
-    (term?: string) => {
-      const searched_ = (term ?? query).trim();
-      const needle = searched_.toLowerCase();
-      
-      if (needle.length < 2 || !indexData) return;
+    async (term: string) => {
+      const searched_ = term.trim();
+      if (searched_.length < 2) return;
+      const request = ++latestRef.current;
 
       setSearching(true);
       setSearched(true);
+      setBusy(false);
       setMatches([]);
 
-      const tokens = needle.split(/\s+/);
-      const found: Match[] = [];
+      const result = await searchCatalogue(catalogId, searched_);
+      if (request !== latestRef.current) return;
 
-      // Exact phrase match check + token scoring
-      for (const page of indexData.pages) {
-        let pageScore = 0;
-        let snippetStr = "";
-
-        const exactIdx = page.text.indexOf(needle);
-        if (exactIdx !== -1) {
-          pageScore += 60; // Exact phrase match
-          const start = Math.max(0, exactIdx - SNIPPET / 2);
-          snippetStr = `${start > 0 ? "…" : ""}${page.text.slice(start, start + SNIPPET).trim()}…`;
-        }
-
-        const tokenResult = scoreMatch(page.text, tokens);
-        if (tokenResult) {
-          pageScore += tokenResult.score;
-          if (!snippetStr) snippetStr = tokenResult.snippet;
-        }
-
-        if (pageScore > 0) {
-          found.push({
-            page: page.page,
-            snippet: snippetStr,
-            score: pageScore,
-          });
-        }
-      }
-
-      // Sort by score descending
-      found.sort((a, b) => b.score - a.score);
-      const topResults = found.slice(0, MAX_RESULTS);
-
-      setMatches(topResults);
       setSearching(false);
-      onSearched(searched_, topResults.length);
+      if (!result.ok) {
+        if (result.reason === "busy") setBusy(true);
+        else setLoadError(true);
+        return;
+      }
+      setLoadError(false);
+      setMatches(result.matches);
+      onSearchedRef.current(searched_, result.matches.length);
     },
-    [query, indexData, onSearched]
+    [catalogId]
   );
+
+  // A new catalogue starts clean (reset during render, as React recommends for
+  // state derived from a prop change).
+  const [shownFor, setShownFor] = useState(catalogId);
+  if (shownFor !== catalogId) {
+    setShownFor(catalogId);
+    setMatches([]);
+    setSearched(false);
+    setLoadError(false);
+    setBusy(false);
+  }
+
+  // The category the visitor came from is searched straight away. An empty
+  // query still asks once, so a catalogue without an index says so before the
+  // visitor types.
+  useEffect(() => {
+    latestRef.current++;
+    const initial = initialQueryRef.current.trim();
+    if (initial.length >= 2) {
+      void run(initial);
+      return;
+    }
+    const request = latestRef.current;
+    void searchCatalogue(catalogId, "").then((result) => {
+      if (request === latestRef.current && !result.ok && result.reason === "missing") setLoadError(true);
+    });
+  }, [catalogId, run]);
 
   const start = useCallback(
     (term?: string) => {
-      run(term);
+      void run(term ?? query);
     },
-    [run]
+    [run, query]
   );
 
   return (
@@ -280,6 +232,11 @@ export default function CatalogSearch({
                Search index is unavailable for this catalog.
              </div>
           )}
+          {busy && (
+            <p aria-live="polite" className="px-1 py-2 font-body text-xs text-[var(--v-text-dim)]">
+              Too many searches in a short time. Please try again in a minute.
+            </p>
+          )}
           {!searched && !searching && !loadError && (
             <div className="px-1 pb-2">
               <p className="pb-2 font-body text-[10px] text-[var(--v-text-dim)]">
@@ -307,7 +264,7 @@ export default function CatalogSearch({
               Searching…
             </p>
           )}
-          {!searching && searched && matches.length === 0 && (
+          {!searching && searched && !busy && !loadError && matches.length === 0 && (
             <p className="px-1 py-2 font-body text-xs text-[var(--v-text-dim)]">
               No matches. Try a different keyword or explore the Pages index.
             </p>

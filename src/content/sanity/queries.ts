@@ -5,7 +5,7 @@ import { CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
 import { mergeCategories, mergeProducts } from "@/lib/collections/catalogue";
 import { categoryRails, groupProducts } from "@/lib/collections/showroom";
 import type { Category, Offer } from "@/types/catalog";
-import type { HeroManagerData } from "@/types/hero";
+import { withPdfVersions, type BrandRow } from "@/lib/catalog/viewOnly";
 
 
 /** Fields every product card and list needs, in both old and new image shapes. */
@@ -68,7 +68,7 @@ export const getBrandsQuery = groq`
     country,
     website,
     "officialCatalogUrl": officialCatalogue.asset->url,
-    "catalogues": *[_type == "catalogue" && references(^._id)] | order(_createdAt asc) { _id, catalogueName, "title": catalogueName, version, releaseDate, "size": pdfFile.asset->size, "pdfUrl": pdfFile.asset->url, "coverUrl": coverImage.asset->url },
+    "catalogues": *[_type == "catalogue" && references(^._id)] | order(_createdAt asc) { _id, catalogueName, "title": catalogueName, version, releaseDate, "size": pdfFile.asset->size, "assetId": pdfFile.asset._ref, "coverUrl": coverImage.asset->url },
     "marketingAssets": marketingAssets[].asset->url,
     seo
   }
@@ -129,7 +129,10 @@ export async function getCuratedCollections() {
 
 export async function getBrands() {
   try {
-    return await client.fetch(getBrandsQuery, {}, { next: { tags: ["brand"] } });
+    // The asset id becomes a short fingerprint here, on the server: brands are
+    // passed to client components, and the full id rebuilds the PDF's CDN URL.
+    const brands = await client.fetch<BrandRow[]>(getBrandsQuery, {}, { next: { tags: ["brand", "catalogue"] } });
+    return withPdfVersions(brands);
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
