@@ -1223,3 +1223,17 @@ select {
 @media (prefers-reduced-motion: reduce) {
   .hc-atm-pool { animation: none; }
 }
+
+/* ── Hero headline reveal ──────────────────────────────────────
+   Each word is its own clip box; GSAP slides `.hero-word__inner` up from
+   108%. The default state is fully visible, so reduced-motion and
+   no-JS render the finished headline. Bottom padding keeps descenders
+   (g, y) inside the clip. */
+.hero-word {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: top;
+  padding-bottom: 0.16em;
+  margin-bottom: -0.16em;
+}
+.hero-word__inner { display: inline-block; will-change: transform; }

@@ -27,6 +27,10 @@ export default function HeroStage({ slides }: HeroStageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const apertureRef = useRef<HTMLDivElement>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  // Auto-advance holds while the pointer or keyboard focus is inside the hero
+  // (WCAG 2.2.2); `resumeCount` restarts the progress bar in step with the timer.
+  const [isPaused, setIsPaused] = useState(false);
+  const [resumeCount, setResumeCount] = useState(0);
 
   const shouldReduceMotion = useReducedMotion();
 
@@ -42,18 +46,24 @@ export default function HeroStage({ slides }: HeroStageProps) {
 
   // Auto-advance every 8 seconds if reduced motion is not enabled (resets on slide change)
   useEffect(() => {
-    if (shouldReduceMotion || !slides || slides.length <= 1) return;
+    if (shouldReduceMotion || isPaused || !slides || slides.length <= 1) return;
     const timer = setInterval(() => {
       handleNextSlide();
     }, 8000);
     return () => clearInterval(timer);
-  }, [handleNextSlide, shouldReduceMotion, slides, currentSlideIndex]);
+  }, [handleNextSlide, shouldReduceMotion, isPaused, slides, currentSlideIndex]);
+
+  const pause = useCallback(() => setIsPaused(true), []);
+  const resume = useCallback(() => {
+    setIsPaused(false);
+    setResumeCount((n) => n + 1);
+  }, []);
 
   useGSAP(
     () => {
       if (!slides || slides.length === 0 || shouldReduceMotion || !containerRef.current) return;
 
-      const heroH1 = containerRef.current.querySelector(".hero-h1");
+      const heroWords = containerRef.current.querySelectorAll(".hero-word__inner");
       const heroP = containerRef.current.querySelector(".hero-p");
       const heroImage = containerRef.current.querySelector(".hero-bg-image");
       const aperture = apertureRef.current;
@@ -82,11 +92,11 @@ export default function HeroStage({ slides }: HeroStageProps) {
       // Slide Change Transition Animation
       const tl = gsap.timeline();
 
-      if (heroH1) {
+      if (heroWords.length) {
         tl.fromTo(
-          heroH1,
-          { y: "100%", opacity: 0 },
-          { y: "0%", opacity: 1, duration: 1.2, ease: "power4.out" },
+          heroWords,
+          { yPercent: 108 },
+          { yPercent: 0, duration: 0.85, ease: "power3.out", stagger: 0.055 },
           0
         );
       }
@@ -148,6 +158,10 @@ export default function HeroStage({ slides }: HeroStageProps) {
       ref={containerRef}
       data-chapter="1"
       data-nav-hero
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+      onFocusCapture={pause}
+      onBlurCapture={resume}
       className="hidden lg:block relative min-h-[860px] h-[100dvh] w-full border-b border-[var(--border)] overflow-hidden bg-[var(--surface)]"
     >
       {/* Background Image — alpha-masked photographic depth, zero milky smoke */}
@@ -189,9 +203,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
               </p>
             </div>
 
-            <div className="overflow-hidden mb-6 pb-2">
+            <div className="mb-6 pb-2">
               <p aria-hidden="true" className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[96px] 2xl:text-[110px] leading-[0.94] font-light tracking-[-0.01em] text-[var(--text-primary)] whitespace-pre-line">
-                {currentSlide.title || "The Art of\nthe Finish."}
+                {splitHeadline(currentSlide.title || "The Art of\nthe Finish.")}
               </p>
             </div>
 
@@ -335,8 +349,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
               >
                 {isActive && (
                   <span
-                    key={`refill-${currentSlideIndex}`}
+                    key={`refill-${currentSlideIndex}-${resumeCount}`}
                     className="absolute inset-0 bg-[#8b1a42] rounded-full origin-left animate-hero-refill"
+                    style={{ animationPlayState: isPaused ? "paused" : "running" }}
                   />
                 )}
               </div>
@@ -346,6 +361,29 @@ export default function HeroStage({ slides }: HeroStageProps) {
       </div>
     </section>
   );
+}
+
+/**
+ * Headline as per-word masks: each word slides up from its own clip box.
+ * Real spaces and line breaks stay in the text so the copy survives.
+ */
+function splitHeadline(title: string) {
+  return title.split("\n").map((line, li) => (
+    <span key={li}>
+      {li > 0 && "\n"}
+      {line
+        .split(" ")
+        .filter(Boolean)
+        .map((word, wi, words) => (
+          <span key={wi}>
+            <span className="hero-word">
+              <span className="hero-word__inner">{word}</span>
+            </span>
+            {wi < words.length - 1 && " "}
+          </span>
+        ))}
+    </span>
+  ));
 }
 
 /** Two-digit specimen index. */
