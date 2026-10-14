@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState, useSyncExternalStore } from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import Autoplay from "embla-carousel-autoplay";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -78,6 +78,28 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
     else autoplayPlugin.stop();
   }, [api, playing, isMultiple]);
 
+  const handleExploreClick = (e: React.MouseEvent<HTMLAnchorElement>, targetId: string) => {
+    e.preventDefault();
+    if (typeof window === "undefined") return;
+
+    window.dispatchEvent(
+      new CustomEvent("open-showroom-family", { detail: { familyId: targetId } })
+    );
+
+    const elem = document.getElementById(targetId);
+    if (elem) {
+      window.history.pushState(null, "", `#${targetId}`);
+
+      const lenis = (window as unknown as { __lenis?: { scrollTo: (target: HTMLElement, options: { offset: number; duration: number }) => void } }).__lenis;
+      if (lenis && typeof lenis.scrollTo === "function") {
+        lenis.scrollTo(elem, { offset: -96, duration: 0.9 });
+      } else {
+        const top = elem.getBoundingClientRect().top + window.scrollY - 96;
+        window.scrollTo({ top, behavior: "smooth" });
+      }
+    }
+  };
+
   if (slides.length === 0) return null;
   const active = slides[Math.min(current, slides.length - 1)];
 
@@ -85,7 +107,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
     <section
       aria-roledescription="carousel"
       aria-label="Featured collections and offers"
-      className="relative isolate overflow-hidden bg-[var(--color-ink)] text-white"
+      className="relative isolate overflow-hidden bg-[#1a1017] text-white rounded-[24px] sm:rounded-[32px] border border-white/10 shadow-[0_20px_50px_rgba(26,16,23,0.15)]"
     >
       <Carousel
         setApi={setApi}
@@ -105,7 +127,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                 alt=""
                 fill
                 priority={index === 0}
-                sizes="100vw"
+                sizes="(max-width: 1440px) 100vw, 1440px"
                 className="object-cover object-center"
               />
             </CarouselItem>
@@ -122,16 +144,16 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
         className="absolute inset-x-0 bottom-0 -z-10 h-40 bg-gradient-to-t from-[var(--text-primary)] to-transparent opacity-90"
       />
 
-      <div className="mx-auto flex min-h-[560px] w-full max-w-[1320px] flex-col justify-end gap-12 px-4 pb-8 pt-32 sm:px-6 md:min-h-[640px] md:px-8 md:pt-40">
+      <div className="mx-auto flex min-h-[460px] sm:min-h-[500px] md:min-h-[540px] w-full max-w-[1320px] flex-col justify-end gap-10 px-5 pb-8 pt-14 sm:px-8 sm:pb-10 sm:pt-16 md:px-10">
 
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div aria-live={playing ? "off" : "polite"} className="max-w-md">
             {active.offerHref ? (
-              <p className="hc-mono text-[11px] uppercase tracking-[0.2em] text-[var(--color-brass)] font-semibold mb-1">
+              <p className="hc-mono text-[9.5px] uppercase tracking-[0.25em] text-[var(--color-brass)] font-semibold mb-1">
                 SPECIAL OFFER
               </p>
             ) : active.tagline ? (
-              <p className="hc-mono text-[11px] uppercase tracking-[0.2em] text-white/70 mb-1">
+              <p className="hc-mono text-[10px] uppercase tracking-[0.2em] text-white/70 mb-1">
                 {active.tagline}
               </p>
             ) : null}
@@ -141,7 +163,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                 <>
                   <Button
                     asChild
-                    className="bg-[#fbf5ea] text-[var(--color-ink)] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.14em] transition"
+                    className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
                   >
                     <a href={active.offerHref} target="_blank" rel="noopener noreferrer">
                       <MessageCircle aria-hidden="true" className="h-4 w-4 mr-2" />
@@ -151,7 +173,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                   <Button
                     asChild
                     variant="outline"
-                    className="h-11 rounded-none border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-[0.14em] text-white hover:border-white hover:bg-white/10 hover:text-white active:scale-[0.98] transition"
+                    className="h-11 rounded-none border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-[0.16em] text-white hover:border-white hover:bg-white/10 hover:text-white active:scale-[0.98] transition-all"
                   >
                     <a href="#offers">
                       All offers
@@ -163,7 +185,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                 <>
                   <Button
                     asChild
-                    className="brass-plate h-11 rounded-none px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
+                    className="brass-plate h-11 rounded px-5 text-xs font-semibold uppercase tracking-widest text-white hover:opacity-95"
                   >
                     <a
                       href={active.href}
@@ -176,7 +198,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                   <Button
                     asChild
                     variant="outline"
-                    className="h-11 rounded-none border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
+                    className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
                   >
                     <a href="#" target="_blank" rel="noopener noreferrer">
                       <MessageCircle aria-hidden="true" className="h-4 w-4" />
@@ -187,9 +209,12 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
               ) : (
                 <Button
                   asChild
-                  className="bg-[#fbf5ea] text-[var(--color-ink)] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.14em] transition"
+                  className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
                 >
-                  <a href={`#${active.id}`}>
+                  <a
+                    href={`#${active.id}`}
+                    onClick={(e) => handleExploreClick(e, active.id)}
+                  >
                     Explore
                     <ArrowRight aria-hidden="true" className="h-4 w-4 ml-2" />
                   </a>
@@ -210,7 +235,7 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                   className="hc-focus group flex h-11 w-7 items-center justify-center"
                 >
                   <span
-                    className={`block h-[2px] rounded-none transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
+                    className={`block h-[2px] rounded-none transition-all duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none ${
                       index === current ? "w-6 bg-white" : "w-3 bg-white/30 group-hover:bg-white/60"
                     }`}
                   />

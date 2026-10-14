@@ -66,7 +66,7 @@
      are used as they are. --color-muted is the brand's muted *text* colour, so
      shadcn's `bg-muted` is not used; style those parts with className. */
   --color-foreground:           var(--color-ink);
-  --color-card:                 var(--color-ivory);
+  --color-card:                 #ffffff;
   --color-card-foreground:      var(--color-ink);
   --color-popover:              var(--color-ivory);
   --color-popover-foreground:   var(--color-ink);
@@ -79,8 +79,7 @@
   --color-destructive:          var(--color-wine-deep);
   --color-border:               rgba(26, 16, 23, 0.09);
   --color-input:                rgba(26, 16, 23, 0.09);
-  /* Wine, not brass: brass on ivory is 2.07:1, below the 3:1 floor for a focus indicator. */
-  --color-ring:                 var(--color-wine);
+  --color-ring:                 var(--color-brass);
 
   /* Legacy gold aliases — still valid for decorative use */
   --color-gold-primary:   var(--color-brass);
@@ -91,19 +90,6 @@
   --color-dark-surface-2: var(--color-graphite);
   --color-glass-bg:       rgba(17, 16, 15, 0.7);
   --color-glass-border:   rgba(200, 169, 110, 0.2);
-
-  /* ── Shape ───────────────────────────────────────────────────
-     Sharp is the house shape. The scale steps are zeroed so every shadcn
-     `rounded-md/lg/xl` resolves square; only `rounded-full` (chips, dots)
-     keeps a curve. Bare `rounded` is a fixed 0.25rem and is swept per
-     component, not here. */
-  --radius-xs:  0;
-  --radius-sm:  0;
-  --radius-md:  0;
-  --radius-lg:  0;
-  --radius-xl:  0;
-  --radius-2xl: 0;
-  --radius-3xl: 0;
 
   /* ── Spacing ─────────────────────────────────────────────── */
   --spacing-unit-xs: 4px;
@@ -118,24 +104,23 @@
 
   /* ── Typography ──────────────────────────────────────────── */
   --font-serif:    var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-sans:     var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans:     var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-display:  var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-body:     var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body:     var(--font-manrope), var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-cormorant: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-dmsans:   var(--font-dmsans), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  /* Cinzel and Manrope are no longer loaded; their tokens alias the two house faces. */
-  --font-cinzel:   var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-manrope:  var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-cinzel:   var(--font-cinzel), serif;
+  --font-manrope:  var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono:     ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 
   --font-headline-xl:       var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-headline-lg:       var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-headline-lg-mobile: var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
   --font-headline-md:       var(--font-cormorant), "Cormorant Garamond", Georgia, serif;
-  --font-body-lg:           var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-body-md:           var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-ui-button:         var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-label-caps:        var(--font-dmsans), "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body-lg:           var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body-md:           var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-ui-button:         var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-label-caps:        var(--font-manrope), -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
 
   /* ── Motion ──────────────────────────────────────────────── */
   --animate-gradient-x: gradient-x 15s ease infinite;
@@ -182,6 +167,27 @@
     from { opacity: 0; }
     to   { opacity: 1; }
   }
+  @keyframes eq-pulse-1 {
+    0%, 100% { height: 4px; }
+    50% { height: 14px; }
+  }
+  @keyframes eq-pulse-2 {
+    0%, 100% { height: 14px; }
+    50% { height: 6px; }
+  }
+  @keyframes eq-pulse-3 {
+    0%, 100% { height: 8px; }
+    50% { height: 16px; }
+  }
+  @keyframes eq-pulse-4 {
+    0%, 100% { height: 12px; }
+    50% { height: 4px; }
+  }
+
+  --animate-eq-1: eq-pulse-1 1.1s ease-in-out infinite;
+  --animate-eq-2: eq-pulse-2 0.85s ease-in-out infinite;
+  --animate-eq-3: eq-pulse-3 1.25s ease-in-out infinite;
+  --animate-eq-4: eq-pulse-4 0.95s ease-in-out infinite;
 
   --duration-stagger:   40ms;
   --duration-micro:     80ms;
@@ -191,12 +197,9 @@
   --duration-slow:      400ms;
   --duration-very-slow: 500ms;
 
-  /* One easing for UI feedback. Tailwind's own transition utilities fall back
-     to this curve too, instead of the symmetric cubic-bezier(.4,0,.2,1). */
-  --ease-smooth-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-smooth-out: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-in-out:     ease-in-out;
   --ease-out:        cubic-bezier(0.23, 1, 0.32, 1);
-  --default-transition-timing-function: cubic-bezier(0.23, 1, 0.32, 1);
 
   --distance-micro:  4px;
   --distance-small:  6px;
@@ -220,23 +223,17 @@ body {
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
 
-/* Semantic tokens, declared once. The site is light-only, so .theme-dark,
-   .theme-ivory and .theme-light used to repeat this block verbatim; they now
-   inherit it and only set their own background and colour.
-   --accent-gold is brass-ink (4.79:1 on ivory) because it is used as text;
-   the old #9a7a42 was 3.70:1. */
-:root {
+  /* Semantic token defaults — all components get bright unless a
+     theme wrapper overrides. Eliminates dark fallback values. */
   --surface:           #fbf5ea;
   --surface-raised:    #f7f0e2;
   --surface-elevated:  #ede2d0;
   --text-primary:      #1a1017;
   --text-secondary:    #3d2e38;
   --accent:            #8b1a42;
-  --accent-hover:      #6b1432;
   --accent-functional: #8b1a42;
-  --accent-gold:       #85683a;
+  --accent-gold:       #9a7a42;
   --border:            rgba(26, 16, 23, 0.09);
   --border-accent:     rgba(139, 26, 66, 0.50);
   --glass-bg:          rgba(251, 245, 234, 0.85);
@@ -266,7 +263,7 @@ body {
   }
 
   .btn-tactile {
-    transition: transform var(--t-base) var(--ease-ui), background-color var(--t-base) var(--ease-ui), color var(--t-base) var(--ease-ui);
+    transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.2s ease, color 0.2s ease;
   }
   
   .btn-tactile:active {
@@ -310,7 +307,7 @@ body {
      unchanged by these classes.
 
      Display and headings take Cormorant (hc-serif); body, supporting
-     copy and buttons take DM Sans; eyebrow and metadata take
+     copy and buttons take DM Sans/Manrope; eyebrow and metadata take
      hc-mono. The role sets size, leading and tracking only — colour and
      family stay with the component. */
   .t-display   { font-size: clamp(48px, 13vw,   60px); line-height: 0.94; letter-spacing: -0.015em; }
@@ -319,8 +316,8 @@ body {
   .t-h4        { font-size: clamp(20px, 5.4vw,  22px); line-height: 1.15; }
   .t-body      { font-size: clamp(15px, 4.2vw,  17px); line-height: 1.6;  }
   .t-body-sm   { font-size: clamp(14px, 3.8vw,  15px); line-height: 1.55; }
-  .t-eyebrow   { font-size: 12px; line-height: 1.4;  letter-spacing: var(--track-caps); font-weight: 600; text-transform: uppercase; }
-  .t-meta      { font-size: 12px; line-height: 1.45; letter-spacing: var(--track-label); }
+  .t-eyebrow   { font-size: 11px; line-height: 1.4;  letter-spacing: 0.22em; font-weight: 600; text-transform: uppercase; }
+  .t-meta      { font-size: 12px; line-height: 1.45; letter-spacing: 0.16em; }
   .t-button    { font-size: 14px; line-height: 1.4;  letter-spacing: 0.1em;  font-weight: 600; }
 }
 
@@ -347,8 +344,9 @@ body {
   }
 }
 
-html[data-drawer-open] .mobile-conversion-bar {
-  display: none;
+html[data-drawer-open] .mobile-conversion-bar,
+html[data-drawer-open] .floating-action-buttons {
+  display: none !important;
 }
 
 /* ── Keyframes ───────────────────────────────────────────────── */
@@ -356,6 +354,13 @@ html[data-drawer-open] .mobile-conversion-bar {
 @keyframes aperture-open {
   from { clip-path: inset(50% 50% 50% 50%); }
   to   { clip-path: inset(0% 0% 0% 0%); }
+}
+
+@keyframes light-sweep {
+  0%   { transform: translateX(-120%) skewX(-20deg); opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 0.6; }
+  100% { transform: translateX(220%) skewX(-20deg); opacity: 0; }
 }
 
 @keyframes ticker-left {
@@ -397,6 +402,34 @@ html[data-drawer-open] .mobile-conversion-bar {
 }
 
 /* ── Chrome sweep — dark sections & product photography only ─── */
+.light-sweep-overlay {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 4;
+}
+
+.light-sweep-overlay::after {
+  content: '';
+  position: absolute;
+  top: -20%;
+  left: 0;
+  width: 60%;
+  height: 140%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    rgba(255,255,255,0.04) 40%,
+    rgba(255,255,255,0.12) 50%,
+    rgba(255,255,255,0.04) 60%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  animation: light-sweep 8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-delay: var(--sweep-delay, 0s);
+}
+
 .cinema-skew-layer {
   transform: skewY(var(--scroll-skew));
   will-change: transform;
@@ -409,6 +442,29 @@ html.lenis, html.lenis body { height: auto; }
 .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
 .lenis.lenis-stopped { overflow: hidden; }
 .lenis.lenis-scrolling iframe { pointer-events: none; }
+
+/* ── Liquid glass shimmer (nav) ──────────────────────────────── */
+@keyframes liquid-glass-shimmer {
+  0%   { transform: translate(-20%, -15%) rotate(0deg) scale(1);   opacity: 0.035; }
+  50%  { transform: translate(25%, 15%)  rotate(3deg) scale(1.1); opacity: 0.07; }
+  100% { transform: translate(-20%, -15%) rotate(0deg) scale(1);   opacity: 0.035; }
+}
+
+.liquid-glass-reflection {
+  background: radial-gradient(
+    ellipse 70% 80% at 50% 0%,
+    rgba(255,255,255,0.13) 0%,
+    rgba(139,26,66,0.06)  40%,
+    rgba(139,26,66,0.02)  60%,
+    transparent 75%
+  );
+  animation: liquid-glass-shimmer 18s ease-in-out infinite;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass-reflection { animation: none !important; }
+}
 
 /* ─────────────────────────────────────────────────────────────
    KOMBAI DESIGN TOKENS & INTERACTION SYSTEM
@@ -446,41 +502,14 @@ html.lenis, html.lenis body { height: auto; }
   --wine-rule:  rgba(139, 26, 66, 0.55);
   --brass-rule: rgba(200, 169, 110, 0.55);
 
-  /* Motion contract: one curve, three speeds. The legacy names stay so the
-     ~15 consumers keep working, but they all resolve to the same values. */
-  --ease-ui:       cubic-bezier(0.23, 1, 0.32, 1);
-  --standard:      var(--ease-ui);
-  --cinematic:     var(--ease-ui);
-  --ease-out-expo: var(--ease-ui);
-  --t-fast: 140ms;   /* press, colour, underline */
-  --t-base: 200ms;   /* hover, small reveals */
-  --t-slow: 320ms;   /* panels, drawers; nothing in UI goes longer */
-  --dur-micro: var(--t-fast);
-  --dur-fast:  var(--t-base);
-  --dur-base:  var(--t-base);
-  --dur-slow:  var(--t-slow);
-  --press: 0.97;
-
-  /* Letter-spacing: three steps replace 18 ad-hoc values. */
-  --track-tight: -0.01em;
-  --track-label: 0.14em;
-  --track-caps:  0.2em;
-
-  /* Overlay: one warm-ink scrim, tinted from --ink instead of neutral black. */
-  --scrim:        rgba(26, 16, 23, 0.55);
-  --scrim-strong: rgba(26, 16, 23, 0.72);
-
-  /* Depth: hairline first; the only shadow is for floating UI, offset and tinted. */
-  --shadow-float: 0 12px 32px -12px rgba(26, 16, 23, 0.28), 0 2px 6px rgba(26, 16, 23, 0.08);
-
-  /* z-index scale: replaces z-[60], z-[100] and z-[9999]. */
-  --z-base: 0;
-  --z-raised: 10;
-  --z-sticky: 40;
-  --z-overlay: 50;
-  --z-modal: 60;
-  --z-toast: 70;
-  --z-top: 100;
+  /* Easing */
+  --standard:      cubic-bezier(0.25, 0.1, 0.25, 1);
+  --cinematic:     cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --dur-micro: 140ms;
+  --dur-fast:  180ms;
+  --dur-base:  240ms;
+  --dur-slow:  350ms;
 }
 
 /* ─────────────────────────────────────────────────────────────
@@ -503,6 +532,26 @@ html.lenis, html.lenis body { height: auto; }
 
 .theme-dark {
   /* Overridden to warm-bright — all sections are bright, no dark */
+  --surface:           #fbf5ea;
+  --surface-raised:    #f7f0e2;
+  --surface-elevated:  #ede2d0;
+
+  --text-primary:      #1a1017;
+  --text-secondary:    #3d2e38;
+
+  --accent:            #8b1a42;
+  --accent-hover:      #6b1432;
+  --accent-functional: #8b1a42;
+  --accent-gold:       #9a7a42;
+
+  --border:            rgba(26, 16, 23, 0.09);
+  --border-accent:     rgba(139, 26, 66, 0.50);
+
+  --glass-bg:          rgba(251, 245, 234, 0.85);
+  --glass-border:      rgba(139, 26, 66, 0.15);
+
+  --pointer-glow:      rgba(139, 26, 66, 0.05);
+
   background-color: var(--surface);
   color:            var(--text-primary);
 
@@ -512,6 +561,26 @@ html.lenis, html.lenis body { height: auto; }
 /* Alias — existing TSX still references theme-ivory */
 .theme-ivory,
 .theme-light {
+  --surface:           #fbf5ea;
+  --surface-raised:    #f7f0e2;
+  --surface-elevated:  #ede2d0;
+
+  --text-primary:      #1a1017;
+  --text-secondary:    #3d2e38;
+
+  --accent:            #8b1a42;
+  --accent-hover:      #6b1432;
+  --accent-functional: #8b1a42;
+  --accent-gold:       #9a7a42;
+
+  --border:            rgba(26, 16, 23, 0.09);
+  --border-accent:     rgba(139, 26, 66, 0.50);
+
+  --glass-bg:          rgba(251, 245, 234, 0.85);
+  --glass-border:      rgba(139, 26, 66, 0.15);
+
+  --pointer-glow:      rgba(139, 26, 66, 0.05);
+
   background-color: var(--surface);
   color:            var(--text-primary);
 
@@ -538,9 +607,7 @@ html.lenis, html.lenis body { height: auto; }
   color: var(--text-primary);
 }
 .hc-serif { font-family: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif; }
-/* Labels and figures, not code: DM Sans with tabular numerals. The old
-   monospace face made every eyebrow read as a terminal. */
-.hc-mono  { font-family: var(--font-dmsans), 'DM Sans', sans-serif; font-variant-numeric: tabular-nums; }
+.hc-mono  { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace; }
 /* Base layer, not unlayered: an unlayered rule outranks every @layer
    utilities class regardless of specificity, and with .hc-root on <body> this
    `font` shorthand was silently discarding the text-*, font-* and leading-*
@@ -551,85 +618,75 @@ html.lenis, html.lenis body { height: auto; }
 }
 .hc-focus:focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
 
-/* ── Interaction contract ─────────────────────────────────────
-   One "you are here" mark: a 2px wine rule that sweeps in from the left.
-   Hover lives inside (hover: hover) and (pointer: fine) so touch never gets a
-   stuck hover; keyboard focus and :active are always live. */
-.architecture-rule, .rail-button { position: relative; }
-.rail-button { overflow: hidden; transition: color var(--t-fast) var(--ease-ui); }
-.architecture-rule::after,
-.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 2px; background: var(--wine); transform-origin: left; transition: transform var(--t-base) var(--ease-ui); }
-.architecture-rule::after { transform: scaleX(0.18); }
-.rail-button::after { transform: scaleX(0); }
-.architecture-rule:focus-within::after,
-.rail-button:focus-visible::after { transform: scaleX(1); }
+/* Underline sweep — brass/gold on interactive elements */
+.architecture-rule { position: relative; }
+.architecture-rule::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0.18); transform-origin: left; transition: transform 220ms var(--standard); }
+.architecture-rule:hover::after, .architecture-rule:focus-within::after { transform: scaleX(1); }
 
-/* Primary CTA: wine plate */
-.brass-plate { position: relative; background-color: var(--wine); color: #ffffff; box-shadow: inset 0 0 0 1px var(--wine-deep); transition: background-color var(--t-base) var(--ease-ui), color var(--t-base) var(--ease-ui), transform var(--t-fast) var(--ease-ui); }
-.brass-plate:focus-visible { background-color: var(--wine-deep); color: #ffffff; }
-.brass-plate:active { transform: scale(var(--press)); }
-.brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(255,255,255,.40); transform-origin: left; transition: transform var(--t-base) var(--ease-ui); }
-.brass-plate:focus-visible::after { transform: translateX(12px); }
+.rail-button { position: relative; overflow: hidden; transition: color var(--dur-micro) var(--ease-out-expo); }
+.rail-button::after { content: ''; position: absolute; left: 0; right: 0; bottom: -1px; height: 1px; background: var(--brass); transform: scaleX(0); transform-origin: left; transition: transform 220ms var(--cinematic); }
+.rail-button:hover::after, .rail-button:focus-visible::after { transform: scaleX(1); }
 
-/* Aperture: the hero image frame. The old chrome sweep and hover filter are
-   retired (see Phase 3); the sweep element is hidden rather than removed. */
-.aperture-sweep { display: none; }
+/* Primary CTA — wine plate */
+.brass-plate { position: relative; background-color: var(--wine); color: #ffffff; box-shadow: inset 0 0 0 1px var(--wine-deep); transition: background-color 220ms var(--cinematic), color 220ms var(--cinematic), transform var(--dur-micro) var(--ease-out-expo); }
+.brass-plate:hover, .brass-plate:focus-visible { background-color: var(--wine-deep); color: #ffffff; }
+.brass-plate:active { transform: scale(0.98); }
+.brass-plate::after { content: ''; position: absolute; left: 14px; right: 42px; bottom: 7px; height: 1px; background: rgba(255,255,255,.40); transform-origin: left; transition: transform 220ms var(--cinematic); }
+.brass-plate:hover::after, .brass-plate:focus-visible::after { transform: translateX(12px); }
+
+/* Aperture hover — chrome sweep */
+.aperture-sweep { position: absolute; top: 18%; bottom: 10%; left: 34%; width: 18%; background: linear-gradient(90deg, transparent, rgba(255,255,255,.13), transparent); transform: skewX(-18deg); opacity: .42; transition: transform 520ms var(--cinematic), opacity 260ms ease; pointer-events: none; }
+.aperture:hover .aperture-sweep, .aperture:focus-within .aperture-sweep { transform: translateX(76px) skewX(-18deg); opacity: .72; }
+.aperture-image { filter: contrast(1.03) saturate(1.02); transition: filter 260ms ease; }
+.aperture:hover .aperture-image, .aperture:focus-within .aperture-image { filter: contrast(1.09) saturate(1.10); }
 
 /* Product cards */
-.specimen-tray { position: relative; background: var(--surface-raised, var(--pearl)); border: 1px solid var(--border, var(--rule)); transition: border-color var(--t-base) var(--ease-ui), transform var(--t-fast) var(--ease-ui); }
-.specimen-tray:focus-within { border-color: var(--border-accent, var(--wine-rule)); }
+.specimen-tray { position: relative; background: var(--surface-raised, var(--pearl)); border: 1px solid var(--border, var(--rule)); transition: border-color 220ms var(--standard), transform var(--dur-micro) var(--ease-out-expo); }
+.specimen-tray:hover, .specimen-tray:focus-within { border-color: var(--border-accent, var(--wine-rule)); }
 .specimen-tray:active { transform: scale(0.99); }
 .specimen-frame { position: relative; isolation: isolate; overflow: hidden; background: var(--surface-elevated, var(--mist)); border: 1px solid var(--border, var(--soft-rule)); }
-.specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(26,16,23,.06); pointer-events: none; z-index: 2; transition: border-color var(--t-base) var(--ease-ui); }
-.specimen-tray:focus-within .specimen-frame::before { border-color: rgba(139,26,66,.30); }
+.specimen-frame::before { content: ''; position: absolute; inset: 8px; border: 1px solid rgba(26,16,23,.06); pointer-events: none; z-index: 2; transition: border-color 220ms var(--standard); }
+.specimen-frame::after { content: ''; position: absolute; left: 18%; right: 18%; bottom: 12%; height: 20%; z-index: 1; background: linear-gradient(90deg, transparent, rgba(139,26,66,.12), transparent); transform: translateX(-14%); transition: transform 220ms var(--cinematic), left 220ms var(--standard), right 220ms var(--standard); pointer-events: none; }
+.specimen-tray:hover .specimen-frame::before, .specimen-tray:focus-within .specimen-frame::before { border-color: rgba(139,26,66,.30); }
+.specimen-tray:hover .specimen-frame::after, .specimen-tray:focus-within .specimen-frame::after { transform: translateX(14%); left: 12%; right: 12%; }
 
 /* Shortlist toggle */
-.shortlist-control .ti-plus, .shortlist-control .shortlist-icon { transition: transform var(--t-fast) var(--ease-ui); }
+.shortlist-control .ti-plus, .shortlist-control .shortlist-icon { transition: transform 180ms var(--standard); }
+.shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon,
 .shortlist-control[aria-pressed='true'] .ti-plus, .shortlist-control[aria-pressed='true'] .shortlist-icon { transform: rotate(45deg); }
 .shortlist-control[aria-pressed='true'] { background: var(--wine); color: #ffffff; border-color: var(--wine); }
-.shortlist-control:active { transform: scale(var(--press)); }
+.shortlist-control:active { transform: scale(0.95); }
 
-/* Threshold card: the mark is a bottom rule, not a side bar */
-.threshold-card { position: relative; transition: transform var(--t-fast) var(--ease-ui); }
+/* Threshold card */
+.threshold-card { position: relative; transition: transform var(--dur-micro) var(--ease-out-expo); }
 .threshold-card:active { transform: scale(0.99); }
-.threshold-card::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--wine); transform: scaleX(0); transform-origin: left; transition: transform var(--t-base) var(--ease-ui); }
-.threshold-card:focus-within::before { transform: scaleX(1); }
-.threshold-card .threshold-action i, .threshold-card .threshold-action svg { transform: translateX(0); transition: transform var(--t-base) var(--ease-ui); }
+.threshold-card::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 1px; background: rgba(139,26,66,0); transition: background-color 220ms var(--cinematic); }
+.threshold-card:hover::before, .threshold-card:focus-within::before { background: var(--wine); }
+.threshold-card .threshold-action i, .threshold-card .threshold-action svg { transform: translateX(0); transition: transform 220ms var(--cinematic); }
+.threshold-card:hover .threshold-action i, .threshold-card:hover .threshold-action svg,
 .threshold-card:focus-within .threshold-action i, .threshold-card:focus-within .threshold-action svg { transform: translateX(6px); }
+.threshold-card .threshold-image { transition: filter 220ms ease; }
+.threshold-card:hover .threshold-image, .threshold-card:focus-within .threshold-image { filter: contrast(1.08) brightness(1.04); }
 
-/* Mobile list row: touch gets the mark on press */
+/* Mobile list row */
 .mobile-row { min-height: 78px; position: relative; }
-.mobile-row::before { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 2px; background: var(--wine); transform: scaleX(0); transform-origin: left; transition: transform var(--t-fast) var(--ease-ui); }
-.mobile-row:focus-within::before, .mobile-row:active::before { transform: scaleX(1); }
-.mobile-row i, .mobile-row svg { transform: translateX(0); transition: transform var(--t-fast) var(--ease-ui); }
-.mobile-row:focus-within i, .mobile-row:focus-within svg { transform: translateX(5px); }
-
-@media (hover: hover) and (pointer: fine) {
-  .architecture-rule:hover::after,
-  .rail-button:hover::after { transform: scaleX(1); }
-  .brass-plate:hover { background-color: var(--wine-deep); color: #ffffff; }
-  .brass-plate:hover::after { transform: translateX(12px); }
-  .specimen-tray:hover { border-color: var(--border-accent, var(--wine-rule)); }
-  .specimen-tray:hover .specimen-frame::before { border-color: rgba(139,26,66,.30); }
-  .shortlist-control:hover .ti-plus, .shortlist-control:hover .shortlist-icon { transform: rotate(45deg); }
-  .threshold-card:hover::before { transform: scaleX(1); }
-  .threshold-card:hover .threshold-action i, .threshold-card:hover .threshold-action svg { transform: translateX(6px); }
-  .mobile-row:hover::before { transform: scaleX(1); }
-  .mobile-row:hover i, .mobile-row:hover svg { transform: translateX(5px); }
-}
+.mobile-row::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: transparent; transition: background-color 180ms ease; }
+.mobile-row:hover::before, .mobile-row:focus-within::before { background: var(--wine); }
+.mobile-row i, .mobile-row svg { transform: translateX(0); transition: transform 180ms var(--cinematic); }
+.mobile-row:hover i, .mobile-row:hover svg, .mobile-row:focus-within i, .mobile-row:focus-within svg { transform: translateX(5px); }
 
 /* Phone frame mockup */
 .phone-frame { box-shadow: inset 0 0 0 1px rgba(26,16,23,.14), 0 0 0 8px var(--pearl), 0 0 0 9px rgba(26,16,23,.08); }
 
 /* Checkbox */
-.check-box { width: 16px; height: 16px; border: 1px solid rgba(26,16,23,.28); display: inline-flex; align-items: center; justify-content: center; color: #ffffff; flex: 0 0 auto; transition: background-color var(--t-fast) var(--ease-ui), border-color var(--t-fast) var(--ease-ui), color var(--t-fast) var(--ease-ui); }
+.check-box { width: 16px; height: 16px; border: 1px solid rgba(26,16,23,.28); display: inline-flex; align-items: center; justify-content: center; color: #ffffff; flex: 0 0 auto; transition: all var(--dur-micro) var(--ease-out-expo); }
 .check-box.is-checked { background: var(--wine); border-color: var(--wine); }
 
 /* Index rows */
 .index-row { min-height: 44px; border-bottom: 1px solid var(--rule); transition: color var(--dur-micro) var(--ease-out-expo); }
 .index-row.is-active { color: var(--ink); }
 .index-row.is-active .index-rule { transform: scaleX(1); }
-.index-rule { width: 34px; height: 2px; background: var(--wine); transform: scaleX(.35); transform-origin: left; transition: transform var(--t-fast) var(--ease-ui); }
+.index-rule { width: 34px; height: 2px; background: var(--wine); transform: scaleX(.35); transform-origin: left; transition: transform 180ms var(--standard); }
 
 
 
@@ -670,12 +727,6 @@ select {
 :focus-visible {
   outline: 2px solid var(--wine);
   outline-offset: 3px;
-}
-/* Wine is 2.1:1 on the dark grounds, so the ring flips to brass (8:1) there. */
-.hc-viewer :focus-visible,
-[data-surface="dark"] :focus-visible,
-[data-surface="dark"]:focus-visible {
-  outline-color: var(--brass);
 }
 
 /* Hero Carousel Progress Refill Animation */
@@ -740,6 +791,25 @@ select {
    no scale loop and no rotation on the emblem itself.
    ───────────────────────────────────────────────────────────── */
 
+.brand-lockup {
+  --hw-base: #8b1a42;
+  --col-base: #1a1017;
+}
+
+.group:hover .brand-lockup,
+.brand-lockup:hover {
+  --hw-base: #6b1432;
+  --col-base: #3d2e38;
+}
+
+.brand-lockup__word--hw {
+  color: var(--hw-base);
+}
+
+.brand-lockup__word--col {
+  color: var(--col-base);
+}
+
 @keyframes brand-emblem-enter {
   from { opacity: 0; transform: scale(0.92); }
   to   { opacity: 1; transform: scale(1); }
@@ -750,21 +820,45 @@ select {
   to   { opacity: 1; transform: translateX(0); }
 }
 
-/* One metallic highlight crossing the mark when the lockup enters. */
-@keyframes brand-sheen-loop {
+/* Synchronized continuous metallic shine sweep:
+   Highlight travels left-to-right at calibrated, identical perceived speed across
+   HARDWARE, crosses the gap, traverses COLLECTION, then seamlessly loops.
+   Using 300% background-size ensures the background image covers 100% of the
+   element's glyph box throughout the entire cycle, preventing any clipping or
+   fading of edge letters. */
+@keyframes brand-hw-shine {
   0% {
-    transform: translateX(-150%) skewX(-20deg);
-    opacity: 0;
+    background-position: 80% 0;
   }
-  15% {
-    opacity: 1;
+  18% {
+    background-position: 20% 0;
   }
-  85% {
-    opacity: 1;
+  50% {
+    background-position: 20% 0;
+  }
+  65% {
+    background-position: 80% 0;
   }
   100% {
-    transform: translateX(280%) skewX(-20deg);
-    opacity: 0;
+    background-position: 80% 0;
+  }
+}
+
+@keyframes brand-col-shine {
+  0%, 19.1% {
+    background-position: 80% 0;
+  }
+  40.5% {
+    background-position: 20% 0;
+  }
+  60% {
+    background-position: 20% 0;
+  }
+  75% {
+    background-position: 80% 0;
+  }
+  100% {
+    background-position: 80% 0;
   }
 }
 
@@ -774,8 +868,7 @@ select {
     filter 500ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Hover: a small lift on the emblem plus a restrained warm halo —
-   deliberately not a gold bloom. */
+/* Hover: a small lift on the emblem plus a restrained warm halo */
 .group:hover .brand-lockup__emblem-img {
   transform: scale(1.055);
   filter: drop-shadow(0 2px 7px rgba(139, 26, 66, 0.20))
@@ -790,55 +883,68 @@ select {
   animation: brand-words-enter 720ms cubic-bezier(0.16, 1, 0.3, 1) 140ms both;
 }
 
-.brand-lockup__sheen {
-  position: absolute;
-  /* The emblem's negative margins push it past the lockup's layout box, so the
-     sweep's clip region is opened up vertically to cover the whole mark. */
-  top: -0.55em;
-  bottom: -0.55em;
-  left: 0;
-  right: 0;
-  overflow: hidden;
-  pointer-events: none;
-  border-radius: 0.35em;
-}
-
-.brand-lockup__sheen::before {
-  content: "";
-  position: absolute;
-  top: -20%;
-  bottom: -20%;
-  left: 0;
-  width: 42%;
-  opacity: 0;
-  /* `screen` leaves the near-white bar untouched and only lifts the dark
-     glyphs and the emblem's shadows as it passes — a highlight travelling
-     over the mark rather than a bright bar sliding across the navbar.
-     `overlay` reads as nothing at all on a ground this light. */
-  mix-blend-mode: screen;
-  background: linear-gradient(
-    100deg,
-    rgba(255, 255, 255, 0)    0%,
-    rgba(226, 195, 141, 0.30) 34%,
-    rgba(255, 252, 246, 0.62) 50%,
-    rgba(226, 195, 141, 0.30) 66%,
-    rgba(255, 255, 255, 0)    100%
+/* HARDWARE: deep wine base, ruby/rose-gold highlight, pale rose-white peak glint */
+.brand-lockup--enter .brand-lockup__word--hw {
+  background-image: linear-gradient(
+    110deg,
+    var(--hw-base) 0%,
+    var(--hw-base) 45%,
+    #df587d 48.5%,
+    #fff2f5 50%,
+    #df587d 51.5%,
+    var(--hw-base) 55%,
+    var(--hw-base) 100%
   );
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: brand-hw-shine 4s linear infinite;
+  will-change: background-position;
 }
 
-/* Plays once, after the entrance settles. */
-.brand-lockup--enter .brand-lockup__sheen::before {
-  animation: brand-sheen-loop 2.8s linear 620ms 1 both;
-  will-change: transform, opacity;
+/* COLLECTION: charcoal base, polished platinum highlight, white peak glint */
+.brand-lockup--enter .brand-lockup__word--col {
+  background-image: linear-gradient(
+    110deg,
+    var(--col-base) 0%,
+    var(--col-base) 45%,
+    #b0aab0 48.5%,
+    #ffffff 50%,
+    #b0aab0 51.5%,
+    var(--col-base) 55%,
+    var(--col-base) 100%
+  );
+  background-size: 300% 100%;
+  background-repeat: no-repeat;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: brand-col-shine 4s linear infinite;
+  will-change: background-position;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .brand-lockup--enter .brand-lockup__emblem,
   .brand-lockup--enter .brand-lockup__words,
-  .brand-lockup--enter .brand-lockup__sheen::before {
+  .brand-lockup--enter .brand-lockup__word--hw,
+  .brand-lockup--enter .brand-lockup__word--col {
     animation: none !important;
   }
-  .brand-lockup__sheen { display: none; }
+  .brand-lockup--enter .brand-lockup__word--hw,
+  .brand-lockup--enter .brand-lockup__word--col {
+    background-image: none !important;
+    -webkit-text-fill-color: initial !important;
+  }
+  .brand-lockup--enter .brand-lockup__word--hw {
+    color: var(--hw-base) !important;
+  }
+  .brand-lockup--enter .brand-lockup__word--col {
+    color: var(--col-base) !important;
+  }
   .group:hover .brand-lockup__emblem-img {
     transform: none;
     filter: none;
@@ -955,3 +1061,67 @@ select {
   .v-press:active:not(:disabled) { transform: none; }
   .v-menu { animation: none; }
 }
+
+/* ─────────────────────────────────────────────────────────────
+   LIQUID GLASS NAVBAR
+   Multi-layered specular refraction, curved meniscus highlights,
+   and fluid lens optics inspired by architectural glass & crystal.
+   ───────────────────────────────────────────────────────────── */
+
+.liquid-glass-nav {
+  position: relative;
+  border-radius: 9999px;
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  backdrop-filter: blur(18px) saturate(150%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.20) 0%,
+    rgba(251, 245, 235, 0.10) 50%,
+    rgba(255, 255, 255, 0.14) 100%
+  );
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow:
+    0 10px 30px -8px rgba(26, 16, 23, 0.05),
+    0 2px 6px -1px rgba(26, 16, 23, 0.02),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.55),
+    inset 0 -0.5px 0 0 rgba(26, 16, 23, 0.03);
+  transition:
+    height 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    background 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 300ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.liquid-glass-nav--scrolled {
+  -webkit-backdrop-filter: blur(22px) saturate(165%);
+  backdrop-filter: blur(22px) saturate(165%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.32) 0%,
+    rgba(251, 245, 235, 0.18) 50%,
+    rgba(255, 255, 255, 0.24) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 14px 34px -8px rgba(26, 16, 23, 0.07),
+    0 3px 10px -2px rgba(26, 16, 23, 0.03),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.65),
+    inset 0 -0.5px 0 0 rgba(26, 16, 23, 0.05);
+}
+
+.liquid-glass-nav--hero {
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.04) 50%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  border-color: rgba(255, 255, 255, 0.28);
+  box-shadow:
+    0 6px 20px -6px rgba(26, 16, 23, 0.03),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.45),
+    inset 0 -0.5px 0 0 rgba(26, 16, 23, 0.02);
+}
+

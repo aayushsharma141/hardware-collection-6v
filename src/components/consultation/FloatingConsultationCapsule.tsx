@@ -71,13 +71,13 @@ export function FloatingConsultationCapsule({ hasShortlist = false }: { hasShort
                 intent: "consultation",
               })
             }
-            className="group relative flex items-center gap-3 bg-[var(--color-pearl)]/95 hover:bg-[var(--color-pearl)] border border-[var(--color-ink)]/[0.12] hover:border-[var(--color-wine)]/60 rounded-none px-6 py-3.5 shadow-[var(--shadow-float)] transition duration-300 active:scale-[0.97] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)]"
+            className="group relative flex items-center gap-3 bg-[#f7f0e2]/95 hover:bg-[#f7f0e2] border border-[#1a1017]/[0.12] hover:border-[#8b1a42]/60 rounded px-6 py-3.5 shadow-[0_18px_40px_rgba(26,16,23,0.14)] backdrop-blur-2xl transition-all duration-300 active:scale-[0.98] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[#8b1a42]"
           >
-            <div className="w-2 h-2 rounded-full bg-[var(--color-wine)]" />
-            <span className="text-xs uppercase tracking-[0.14em] font-medium text-[var(--color-charcoal)] group-hover:text-[var(--color-ink)] transition-colors">
-              Need help choosing? <span className="text-[var(--color-wine)] font-semibold">Consult a specialist</span>
+            <div className="w-2 h-2 rounded-full bg-[#8b1a42] animate-pulse" />
+            <span className="text-xs uppercase tracking-[0.16em] font-medium text-[#3d2e38] group-hover:text-[#1a1017] transition-colors">
+              Need help choosing? <span className="text-[#8b1a42] font-semibold">Consult a specialist</span>
             </span>
-            <ArrowRight className="w-3.5 h-3.5 text-[var(--color-wine)] transition-transform duration-300 group-hover:translate-x-1" />
+            <ArrowRight className="w-3.5 h-3.5 text-[#8b1a42] transition-transform duration-300 group-hover:translate-x-1" />
           </button>
         </motion.div>
       )}

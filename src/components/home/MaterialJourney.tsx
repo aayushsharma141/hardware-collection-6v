@@ -2,7 +2,7 @@
 
 import { useRef, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
@@ -228,7 +228,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
             Genuine solid brass, surgical stainless steel, and triple-PVD coatings engineered for tactile longevity.
           </p>
 
-          <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-none mb-6 border border-[var(--border)]">
+          <div className="relative aspect-[16/10] overflow-hidden bg-white rounded-none mb-6 border border-[var(--border)]">
             <Image
               src={displayMaterials[1]?.img || displayMaterials[0]?.img || DEFAULT_MATERIALS[1].img}
               alt="Architectural Brass Finish"
@@ -239,7 +239,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
             <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)]/55 via-transparent to-transparent" />
             <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
               <div>
-                <p className="text-[var(--accent)] text-[11px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
+                <p className="text-[var(--accent)] text-[10px] tracking-widest uppercase font-medium">FEATURED SPECIMEN</p>
                 <p className="hc-serif text-lg text-[var(--text-primary)]">Living Cartridge Brass</p>
               </div>
               <span className="text-[var(--text-secondary)]/70 text-xs tracking-wider">Unlacquered</span>
@@ -250,7 +250,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
             {displayMaterials.map((mat, i) => (
               <span
                 key={mat._key || i}
-                className="px-3 py-1.5 rounded-none border border-[var(--border)] bg-[var(--surface-raised)] text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
+                className="px-3 py-1.5 rounded-none border border-[var(--border)] bg-white text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
               >
                 {mat.name}
               </span>
@@ -267,7 +267,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
       <div className="block lg:hidden">
         <section data-chapter="4" className="py-16 bg-[var(--surface)] border-t border-[var(--border)]">
           <div className="container mx-auto px-6">
-            <p className="hc-mono text-brass-ink font-semibold tracking-[0.2em] text-xs uppercase mb-2">
+            <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase mb-2">
               The finish
             </p>
             <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.05] mb-4">
@@ -279,7 +279,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
             </p>
 
             {/* Featured Material Visual with Light Sweep */}
-            <div className="relative aspect-[16/10] overflow-hidden bg-[var(--surface-raised)] rounded-none mb-6 border border-[var(--border)]">
+            <div className="relative aspect-[16/10] overflow-hidden bg-white rounded-none mb-6 border border-[var(--border)] shadow-md">
               <Image
                 src={displayMaterials[1]?.img || displayMaterials[0]?.img || DEFAULT_MATERIALS[1].img}
                 alt="Architectural Brass Finish"
@@ -312,7 +312,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
               {displayMaterials.map((mat, i) => (
                 <span
                   key={mat._key || i}
-                  className="px-3 py-1.5 rounded-none border border-[var(--border)] bg-[var(--surface-raised)] text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
+                  className="px-3 py-1.5 rounded-none border border-[var(--border)] bg-white text-[11px] uppercase tracking-wider text-[var(--text-secondary)] font-light"
                 >
                   {mat.name}
                 </span>
@@ -413,7 +413,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
               zIndex: 4,
               backgroundImage: `radial-gradient(
                 circle 300px at var(--lens-x) var(--lens-y),
-                rgba(26, 16, 23, 0.05),
+                rgba(0, 0, 0, 0.05),
                 transparent 70%
               )`,
             }}
@@ -430,7 +430,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
 
         {/* Right: Typography */}
         <div className="flex flex-col justify-center px-16 relative" style={{ zIndex: 3 }}>
-          <p className="hc-mono text-brass-ink text-xs tracking-[0.2em] font-semibold uppercase mb-4">
+          <p className="hc-mono text-brass-ink text-xs tracking-[0.25em] font-semibold uppercase mb-4">
             FINISH 0{index + 1} / 0{total}
           </p>
           <h3 className="hc-serif text-7xl xl:text-8xl 2xl:text-9xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[0.9] mb-3">
@@ -447,7 +447,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
               const [term, ...rest] = entry.split(": ");
               return (
                 <div key={term} className="flex flex-wrap items-baseline gap-x-3">
-                  <dt className="hc-mono text-[11px] uppercase tracking-[0.2em] text-brass-ink font-semibold">
+                  <dt className="hc-mono text-[11px] uppercase tracking-[0.18em] text-brass-ink font-semibold">
                     {term}
                   </dt>
                   <dd className="text-[15px] text-[var(--text-secondary)] leading-snug">
@@ -459,7 +459,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
           </dl>
           <Link
             href="/collections"
-            className="mt-8 inline-flex items-center gap-2.5 text-brass-ink text-xs sm:text-sm tracking-widest uppercase font-semibold hover:text-[var(--accent)] hover:gap-4 transition duration-200"
+            className="mt-8 inline-flex items-center gap-2.5 text-brass-ink text-xs sm:text-sm tracking-widest uppercase font-semibold hover:text-[var(--accent)] hover:gap-4 transition-all duration-200"
           >
             Explore finishes <span aria-hidden="true">&rarr;</span>
           </Link>
@@ -472,7 +472,7 @@ function MaterialPanel({ mat, index, total, onLensMove, onLensLeave }: MaterialP
 function ChapterLabel() {
   return (
     <>
-      <p className="hc-mono text-brass-ink font-semibold tracking-[0.2em] text-xs uppercase">
+      <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase">
         The finish
       </p>
     </>

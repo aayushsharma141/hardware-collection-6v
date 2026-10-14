@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Cormorant_Garamond, DM_Sans, Jost } from "next/font/google";
+import { Cormorant_Garamond, DM_Sans, Cinzel, Manrope, Jost } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -10,6 +10,18 @@ const cormorant = Cormorant_Garamond({
 
 const dmSans = DM_Sans({
   variable: "--font-dmsans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+});
+
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+});
+
+const manrope = Manrope({
+  variable: "--font-manrope",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
@@ -37,6 +49,7 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import DraftModeBanner from "@/components/preview/DraftModeBanner";
 
 import { FloatingActionButtons } from "@/components/ui/FloatingActionButtons";
+import { BackgroundAudio } from "@/components/audio/BackgroundAudio";
 
 const CANONICAL_HOST = "https://www.hardwarecollection.co";
 
@@ -173,7 +186,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${dmSans.variable} ${jost.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${dmSans.variable} ${cinzel.variable} ${manrope.variable} ${jost.variable} h-full antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://wa.me" />
@@ -182,7 +195,7 @@ export default async function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className="min-h-full flex flex-col font-sans hc-root antialiased">
+      <body className="min-h-full flex flex-col font-manrope hc-root antialiased">
         <MotionProvider>
           <Navbar
             primaryPhone={settings?.primaryPhone}
@@ -194,6 +207,7 @@ export default async function RootLayout({
           {children}
         </MotionProvider>
         <FloatingActionButtons />
+        <BackgroundAudio />
         <ConsultationDrawer />
         {isDraftMode && <VisualEditing />}
         {isDraftMode && <DraftModeBanner />}

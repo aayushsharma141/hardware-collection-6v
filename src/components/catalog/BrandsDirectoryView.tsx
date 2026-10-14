@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useMemo } from "react";
+import Image from "next/image";
 import { Brand, ResolvedBrand, SiteSettings } from "@/types/catalog";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { normalizeBrandKey } from "@/content/fallback/brands";
@@ -34,7 +35,7 @@ const DIRECTORY_ROSTER: BrandDirectoryMeta[] = [
     letter: "B",
     initial: "B",
     directoryDescription: "Quality architectural hardware.",
-    website: null,
+    website: "https://mpghardware.com/brands/becker",
   },
   {
     id: "blum",
@@ -55,7 +56,8 @@ const DIRECTORY_ROSTER: BrandDirectoryMeta[] = [
     letter: "D",
     initial: "D",
     directoryDescription: "Architectural glass hardware and patch fittings.",
-    website: null,
+    website: "https://www.dorioindia.com/",
+    country: "India",
   },
   {
     id: "dorset",
@@ -147,7 +149,8 @@ const DIRECTORY_ROSTER: BrandDirectoryMeta[] = [
     letter: "M",
     initial: "M",
     directoryDescription: "Reliable architectural hardware.",
-    website: null,
+    website: "https://madhuramoverseas.com/",
+    country: "India",
   },
   // O (1 brand)
   {
@@ -166,7 +169,7 @@ const DIRECTORY_ROSTER: BrandDirectoryMeta[] = [
     letter: "P",
     initial: "P",
     directoryDescription: "Premium hardware solutions.",
-    website: null,
+    website: "https://mpghardware.com/brands/pans",
   },
   // R (1 brand)
   {
@@ -175,7 +178,7 @@ const DIRECTORY_ROSTER: BrandDirectoryMeta[] = [
     letter: "R",
     initial: "R",
     directoryDescription: "Hardware excellence for interiors.",
-    website: null,
+    website: "https://rextontechnologies.in/",
   },
   // S (1 brand)
   {
@@ -184,7 +187,8 @@ const DIRECTORY_ROSTER: BrandDirectoryMeta[] = [
     letter: "S",
     initial: "S",
     directoryDescription: "Hardware defined by design.",
-    website: null,
+    website: "https://shapeshw.com/",
+    country: "India",
   },
   // T (2 brands)
   {
@@ -193,7 +197,8 @@ const DIRECTORY_ROSTER: BrandDirectoryMeta[] = [
     letter: "T",
     initial: "T",
     directoryDescription: "Quality architectural hardware.",
-    website: null,
+    website: "https://tacoworld.in/",
+    country: "India",
   },
   {
     id: "tattva",
@@ -201,7 +206,7 @@ const DIRECTORY_ROSTER: BrandDirectoryMeta[] = [
     letter: "T",
     initial: "T",
     directoryDescription: "Luxury artisanal cast-brass statement handles.",
-    website: null,
+    website: "https://mukulgoyal.com/",
     country: "India",
   },
   // Y (1 brand)
@@ -246,18 +251,6 @@ export default function BrandsDirectoryView({
     });
     return groups;
   }, []);
-  const handleOpenCatalogue = (meta: BrandDirectoryMeta) => {
-    const matched = brandLookup.get(meta.id);
-    const resolved: ResolvedBrand = {
-      ...(matched || {}),
-      id: meta.id,
-      name: meta.name,
-      logoUrl: matched?.logoUrl || matched?.logo || null,
-      website: meta.website || matched?.website || null,
-      tagline: meta.directoryDescription,
-    };
-    onSelectBrand(resolved);
-  };
 
   const scrollToLetter = (letter: string) => {
     const el = document.getElementById(`letter-${letter}`);
@@ -270,7 +263,7 @@ export default function BrandsDirectoryView({
     <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
       {/* ── 01. Hero & Header Section ─────────────────────────────────── */}
       <section className="pt-12 sm:pt-16 pb-10 sm:pb-14 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span className="hc-mono text-[11px] font-medium tracking-[0.2em] text-[var(--color-wine)] uppercase block mb-3">
+        <span className="hc-mono text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-3">
           MANUFACTURER REFERENCE LIBRARY
         </span>
         <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4">
@@ -288,7 +281,7 @@ export default function BrandsDirectoryView({
       <section id="featured" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
-            <span className="hc-mono text-[11px] font-medium tracking-[0.2em] text-[var(--color-wine)] uppercase block mb-2">
+            <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
               All Authorized Brands
             </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
@@ -321,7 +314,7 @@ export default function BrandsDirectoryView({
                   scrollToLetter(brand.letter);
                 }
               }}
-              className="text-left bg-[var(--surface-raised)] border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] hover:border-[var(--color-wine)]/30 transition group"
+              className="text-left bg-white border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] shadow-[0_1px_4px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.06)] hover:border-[var(--color-wine)]/30 transition-all group"
             >
               <div>
                 {(() => {
@@ -329,10 +322,13 @@ export default function BrandsDirectoryView({
                   if (logoSrc) {
                     return (
                       <div className="h-8 mb-4 flex items-center justify-start">
-                        <img
+                        <Image
                           src={logoSrc as string}
                           alt={`${brand.name} logo`}
+                          width={120}
+                          height={32}
                           className="max-h-full max-w-[120px] object-contain object-left"
+                          unoptimized={typeof logoSrc === "string" && logoSrc.endsWith(".svg")}
                         />
                       </div>
                     );
@@ -359,7 +355,7 @@ export default function BrandsDirectoryView({
       <section id="all-brands" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 border-t border-[var(--border)]">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
-            <span className="hc-mono text-[11px] font-medium tracking-[0.2em] text-[var(--color-wine)] uppercase block mb-2">
+            <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
               All Partners
             </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
@@ -397,19 +393,22 @@ export default function BrandsDirectoryView({
                   <div
                     key={brand.id}
                     id={`brand-${brand.id}`}
-                    className="grid grid-cols-1 gap-4 md:grid-cols-[minmax(0,1fr)_auto] md:items-center lg:grid-cols-[minmax(220px,280px)_minmax(0,1fr)_auto] lg:gap-8 p-5 sm:p-6 lg:px-8 bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition"
+                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-white border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition-all shadow-[0_1px_3px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.04)]"
                   >
                     {/* Left: Brand Identity */}
-                    <div className="flex min-w-0 items-center gap-5">
+                    <div className="flex items-center gap-5 md:w-[35%] shrink-0 mb-4 md:mb-0">
                       <div className="w-20 h-14 bg-white border border-[var(--border)] flex items-center justify-center shrink-0 p-2">
                         {brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo ? (
-                          <img
+                          <Image
                             src={(brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo) as string}
                             alt={`${brand.name} logo`}
+                            width={80}
+                            height={56}
                             className="max-w-full max-h-full object-contain"
+                            unoptimized={typeof (brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo) === "string" && ((brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo) as string).endsWith(".svg")}
                           />
                         ) : (
-                          <div className="w-14 h-14 bg-[var(--surface-elevated)] flex items-center justify-center border border-[var(--border)]">
+                          <div className="w-14 h-14 bg-white flex items-center justify-center border border-[var(--border)]">
                             <span className="hc-serif text-2xl font-normal text-[var(--text-secondary)]">
                               {brand.initial}
                             </span>
@@ -429,32 +428,55 @@ export default function BrandsDirectoryView({
                     </div>
 
                     {/* Middle: Specialization */}
-                    <div className="min-w-0 md:col-span-2 md:row-start-2 lg:col-span-1 lg:col-start-2 lg:row-start-1">
+                    <div className="md:w-[40%] mb-5 md:mb-0 md:pr-8">
                       <p className="text-[13.5px] text-[var(--text-secondary)] leading-relaxed font-light">
                         {brand.directoryDescription}
                       </p>
                     </div>
 
                     {/* Right: Actions */}
-                    <div className="flex flex-col sm:flex-row sm:items-center gap-3 md:col-start-2 md:row-start-1 md:justify-end lg:col-start-3">
-                      {brand.website && (
-                        <a
-                          href={brand.website}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="w-full sm:w-auto px-5 py-2.5 border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] text-[12px] font-medium hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors text-center whitespace-nowrap"
-                        >
-                          VISIT WEBSITE
-                        </a>
-                      )}
-
-                      <button
-                        type="button"
-                        onClick={() => handleOpenCatalogue(brand)}
-                        className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap"
+                    <div className="flex flex-col sm:flex-row items-center justify-start gap-3 w-full md:w-[25%] shrink-0 mt-4 md:mt-0">
+                      <a
+                        href={`/catalogues?brand=${brand.id}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={(e) => {
+                          const resolved = brandLookup.get(brand.id) as ResolvedBrand | undefined;
+                          if (resolved && onSelectBrand && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
+                            e.preventDefault();
+                            onSelectBrand(resolved);
+                          }
+                        }}
+                        className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm text-center"
                       >
                         VIEW CATALOGUE
-                      </button>
+                      </a>
+
+                      {(() => {
+                        const websiteUrl = brand.website || brandLookup.get(brand.id)?.website;
+                        if (websiteUrl) {
+                          return (
+                            <a
+                              href={websiteUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="w-full sm:w-auto px-5 py-2.5 border border-[var(--border)] bg-white text-[var(--text-primary)] text-[12px] font-medium hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors text-center whitespace-nowrap"
+                            >
+                              VISIT WEBSITE
+                            </a>
+                          );
+                        }
+                        return (
+                          <a
+                            href={buildWhatsAppUrl(`Hi Hardware Collection, I would like to enquire about ${brand.name} hardware products.`)}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="w-full sm:w-auto px-5 py-2.5 border border-[var(--border)] bg-white text-[var(--text-primary)] text-[12px] font-medium hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors text-center whitespace-nowrap"
+                          >
+                            ENQUIRE BRAND
+                          </a>
+                        );
+                      })()}
                     </div>
                   </div>
                 ))}
@@ -468,7 +490,7 @@ export default function BrandsDirectoryView({
       <section className="py-16 sm:py-20 bg-[var(--color-obsidian)] text-white">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="hc-mono text-[11px] font-medium tracking-[0.2em] text-[var(--color-bone)]/60 uppercase block mb-3">
+            <span className="hc-mono text-[11px] font-medium tracking-[0.25em] text-[var(--color-bone)]/60 uppercase block mb-3">
               How to use the catalogue
             </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-white tracking-tight">
@@ -527,7 +549,7 @@ export default function BrandsDirectoryView({
       <section className="py-16 sm:py-20 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {/* Ask an expert */}
-          <div className="bg-[var(--surface-raised)] border border-[var(--border)] p-8 sm:p-12 text-center">
+          <div className="bg-white border border-[var(--border)] p-8 sm:p-12 text-center shadow-[0_2px_12px_rgba(26,16,23,0.02)]">
             <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-3">
               Need help identifying something?
             </h2>
@@ -538,7 +560,7 @@ export default function BrandsDirectoryView({
               href={buildWhatsAppUrl("Hi Hardware Collection, I need some help identifying and specifying hardware.")}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-6 py-3 text-[13px] font-medium tracking-wide text-[var(--text-primary)] border border-[var(--border)] bg-[var(--surface)] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors"
+              className="inline-flex items-center gap-2 px-6 py-3 text-[13px] font-medium tracking-wide text-[var(--text-primary)] border border-[var(--border)] bg-white hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors"
             >
               <span>Ask an expert</span>
               <span>→</span>

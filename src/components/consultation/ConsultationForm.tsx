@@ -54,7 +54,7 @@ const INITIAL_FORM_VALUES: FormValues = {
 
 const CLS_FIELD =
   "w-full bg-transparent border-b border-[var(--text-primary)]/15 hover:border-[var(--text-primary)]/35 focus:border-[var(--color-wine)] pb-3 text-[17px] xl:text-[18px] text-[var(--text-primary)] placeholder:text-[var(--text-secondary)] focus:outline-none transition-colors duration-200 rounded-none";
-const CLS_LABEL = "text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-semibold mb-2 block";
+const CLS_LABEL = "text-[11px] uppercase tracking-[0.25em] text-[var(--text-secondary)] font-semibold mb-2 block";
 
 // ── Main Component ──────────────────────────────────────────────────────────
 
@@ -249,7 +249,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
                 type="button"
                 onClick={handleRetryNotification}
                 disabled={isRetrying}
-                className="inline-flex items-center gap-1 px-2.5 py-1 rounded-none bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-medium transition-colors disabled:opacity-50"
+                className="inline-flex items-center gap-1 px-2.5 py-1 rounded bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 font-medium transition-colors disabled:opacity-50"
               >
                 <RefreshCw className={`w-3 h-3 ${isRetrying ? "animate-spin" : ""}`} />
                 <span>Retry</span>
@@ -273,7 +273,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
       <div className="mb-8 lg:mb-10">
         <div className="flex items-center gap-3 mb-4">
           <span className="w-6 h-[1px] bg-[var(--text-primary)]/50 shrink-0" aria-hidden="true" />
-          <span className="text-[12px] uppercase tracking-[0.2em] text-[var(--text-primary)] font-semibold font-dmsans">
+          <span className="text-[12px] uppercase tracking-[0.25em] text-[var(--text-primary)] font-semibold font-dmsans">
             Request a Consultation
           </span>
         </div>
@@ -348,7 +348,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
               
               {/* Dropdown Menu */}
               <div
-                className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-[var(--surface)] border border-[var(--text-primary)]/10 shadow-[var(--shadow-float)] overflow-hidden transition duration-300 origin-top ${
+                className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-[var(--surface)] border border-[var(--text-primary)]/10 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-300 origin-top ${
                   isDropdownOpen ? "opacity-100 scale-y-100 visible" : "opacity-0 scale-y-95 invisible"
                 }`}
               >
@@ -393,17 +393,17 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           <button
             type="submit"
             disabled={isSubmitting}
-            className="group flex items-center justify-between w-full cursor-pointer disabled:opacity-60 transition focus:outline-none"
+            className="group flex items-center justify-between w-full cursor-pointer disabled:opacity-60 transition-all focus:outline-none"
           >
-            <span className="text-[13px] font-bold uppercase tracking-[0.2em] text-[var(--color-wine)] transition-colors group-hover:text-[#520e20]">
+            <span className="text-[13px] font-bold uppercase tracking-[0.24em] text-[var(--color-wine)] transition-colors group-hover:text-[#520e20]">
               Send Enquiry
             </span>
             <div className="flex-1 h-[1px] bg-[var(--color-wine)]/20 mx-6 group-hover:bg-[var(--color-wine)]/40 transition-colors" />
             <div className="relative flex items-center justify-center shrink-0">
               {/* Outer soft halo */}
-              <div className="w-12 h-12 rounded-none bg-[var(--color-wine)]/[0.08] flex items-center justify-center transition duration-300 group-hover:scale-[1.03] group-hover:bg-[var(--color-wine)]/[0.14] group-active:scale-[0.97]">
+              <div className="w-12 h-12 rounded-none bg-[var(--color-wine)]/[0.08] flex items-center justify-center transition-all duration-300 group-hover:scale-105 group-hover:bg-[var(--color-wine)]/[0.14] group-active:scale-95">
                 {/* Inner circular button */}
-                <div className="w-10 h-10 rounded-none bg-[var(--color-wine)] group-hover:bg-[#581123] flex items-center justify-center text-white transition-transform duration-300 group-hover:translate-x-0.5 shadow-[var(--shadow-float)]">
+                <div className="w-10 h-10 rounded-none bg-[var(--color-wine)] group-hover:bg-[#581123] flex items-center justify-center text-white transition-transform duration-300 group-hover:translate-x-0.5 shadow-sm">
                   {isSubmitting ? (
                     <Loader2 className="w-4 h-4 animate-spin text-white" />
                   ) : (

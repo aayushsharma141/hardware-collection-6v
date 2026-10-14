@@ -37,14 +37,14 @@ export default function HeroTrustBadges({ pillars = DEFAULT_PILLARS }: HeroTrust
                 key={pillar._key}
                 className="flex items-center gap-3 text-left sm:flex-col sm:gap-0 sm:text-center sm:px-3 lg:px-4 group cursor-pointer"
               >
-                <div className="w-9 h-9 sm:w-12 sm:h-12 shrink-0 rounded-none flex items-center justify-center bg-[var(--accent)]/10 text-[var(--accent)] group-hover:bg-[var(--color-wine)]/10 group-hover:text-[var(--color-wine)] group-hover:scale-[1.03] transition-[transform,background-color,color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:mb-3.5">
+                <div className="w-9 h-9 sm:w-12 sm:h-12 shrink-0 rounded-none flex items-center justify-center bg-[var(--accent)]/10 text-[var(--accent)] group-hover:bg-[var(--color-wine)]/10 group-hover:text-[var(--color-wine)] group-hover:scale-110 transition-[transform,background-color,color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:mb-3.5">
                   <Icon className="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.5]" />
                 </div>
                 <div className="min-w-0">
-                  <h3 className="hc-mono text-[11px] sm:text-xs font-bold uppercase tracking-[0.14em] sm:tracking-[0.14em] text-[var(--text-primary)] mb-1 group-hover:text-[var(--color-wine)] transition-colors">
+                  <h3 className="hc-mono text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] sm:tracking-[0.16em] text-[var(--text-primary)] mb-1 group-hover:text-[var(--color-wine)] transition-colors">
                     {pillar.title}
                   </h3>
-                  <p className="text-[12px] sm:text-xs text-[var(--text-secondary)] font-light leading-snug sm:leading-relaxed">
+                  <p className="text-[11px] sm:text-xs text-[var(--text-secondary)] font-light leading-snug sm:leading-relaxed">
                     {pillar.description}
                   </p>
                 </div>

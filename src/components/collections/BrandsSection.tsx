@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import Link from "next/link";
 import { Brand } from "@/types/catalog";
 import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
@@ -42,7 +42,7 @@ export default function BrandsSection({ brands }: BrandsSectionProps) {
             const logo = brand.logoUrl || brand.logo || canonical?.logo;
             const imageStyle = canonical?.imageStyle;
             const inner = (
-              <span className="flex h-24 items-center justify-center rounded-none border border-[var(--border)] bg-[var(--surface)] p-4 transition duration-300 group-hover:border-[var(--border-accent)]">
+              <span className="flex h-24 items-center justify-center rounded-none border border-[var(--border)] bg-white p-4 transition-all duration-300 group-hover:border-[var(--color-brass)] group-hover:shadow-sm">
                 {logo ? (
                   <div className="relative flex h-full w-full items-center justify-center overflow-hidden">
                     <Image
@@ -52,12 +52,12 @@ export default function BrandsSection({ brands }: BrandsSectionProps) {
                       height={96}
                       sizes="(min-width: 1024px) 160px, 40vw"
                       style={imageStyle}
-                      className="max-h-12 w-auto max-w-[85%] object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+                      className="max-h-12 w-auto max-w-[85%] object-contain transition-transform duration-300 group-hover:scale-105"
                       unoptimized={typeof logo === "string" && logo.endsWith(".svg")}
                     />
                   </div>
                 ) : (
-                  <span className="hc-mono text-center text-xs sm:text-sm font-semibold uppercase tracking-[0.14em] text-[var(--text-primary)]">
+                  <span className="hc-mono text-center text-xs sm:text-sm font-semibold uppercase tracking-[0.16em] text-[var(--text-primary)]">
                     {brand.name}
                   </span>
                 )}
@@ -69,6 +69,8 @@ export default function BrandsSection({ brands }: BrandsSectionProps) {
                   <Link
                     href={`/catalogues?brand=${key}`}
                     aria-label={`${brand.name} catalogue`}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="group hc-focus block"
                   >
                     {inner}

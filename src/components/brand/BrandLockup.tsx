@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 
 const EMBLEM_SRC = "/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png";
 
@@ -99,7 +99,7 @@ export function BrandLockup({
                 margin cancels the trailing letter-space so the stack's width is the
                 visual glyph run, which the two lines below align themselves to. */}
             <span
-              className="font-medium uppercase text-[#8b1a42] transition-colors duration-300 group-hover:text-[#6b1432]"
+              className="brand-lockup__word brand-lockup__word--hw font-medium uppercase transition-colors duration-300"
               style={{ letterSpacing: "0.055em", marginRight: "-0.055em" }}
             >
               HARDWARE
@@ -111,7 +111,7 @@ export function BrandLockup({
                 link's aria-label carries the accessible name, so the split letters
                 are hidden from assistive tech rather than spelled out. */}
             <span
-              className="mt-[0.3em] flex justify-between font-medium uppercase text-[#1a1017] transition-colors duration-300 group-hover:text-[#3d2e38]"
+              className="brand-lockup__word brand-lockup__word--col mt-[0.3em] flex justify-between font-medium uppercase transition-colors duration-300"
               aria-hidden="true"
               style={{ fontSize: "0.54em" }}
             >
@@ -128,28 +128,20 @@ export function BrandLockup({
              wordmark sets them; COLLECTION carries the wider tracking. */
           <span className="flex items-baseline gap-[0.42em] whitespace-nowrap">
             <span
-              className="font-medium uppercase text-[#8b1a42] transition-colors duration-300 group-hover:text-[#6b1432]"
+              className="brand-lockup__word brand-lockup__word--hw font-medium uppercase transition-colors duration-300"
               style={{ letterSpacing: "0.055em", marginRight: "-0.055em" }}
             >
               HARDWARE
             </span>
             <span
-              className="font-medium uppercase text-[#1a1017] transition-colors duration-300 group-hover:text-[#3d2e38]"
+              className="brand-lockup__word brand-lockup__word--col font-medium uppercase transition-colors duration-300"
               style={{ letterSpacing: "0.1em", marginRight: "-0.1em" }}
             >
               COLLECTION
             </span>
           </span>
         )}
-
       </span>
-
-      {/* Recurring metallic pass over the finished mark. Purely decorative,
-          sits above the lockup and clips to it; removed entirely under
-          prefers-reduced-motion. */}
-      {animateEntrance && (
-        <span className="brand-lockup__sheen" aria-hidden="true" />
-      )}
     </span>
   );
 }
