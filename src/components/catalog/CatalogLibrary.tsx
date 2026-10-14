@@ -152,7 +152,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                         e.stopPropagation();
                         handleCardClick();
                       }}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] whitespace-nowrap rounded-none bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition duration-300"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] whitespace-nowrap rounded-full bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition duration-300"
                     >
                       <BookOpen className="w-4 h-4" />
                       <span>{catalogCount > 1 ? `View ${catalogCount} Catalogues` : "View Catalogue"}</span>
@@ -190,7 +190,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
             href={buildWhatsAppUrl("Hi Hardware Collection, I would like to request a physical catalogue.")}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2.5 bg-[var(--accent)] text-[var(--surface)] px-9 py-4 rounded-none font-bold uppercase tracking-widest text-xs sm:text-sm transition-colors duration-300 hover:bg-[var(--accent-hover)]"
+            className="inline-flex items-center gap-2.5 bg-[var(--accent)] text-[var(--surface)] px-9 py-4 rounded-full font-bold uppercase tracking-widest text-xs sm:text-sm transition-colors duration-300 hover:bg-[var(--accent-hover)]"
           >
             Request via WhatsApp
           </a>

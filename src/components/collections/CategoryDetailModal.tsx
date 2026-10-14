@@ -79,7 +79,7 @@ export default function CategoryDetailModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         data-lenis-prevent="true"
-        className="max-h-[90dvh] sm:max-h-[92dvh] w-[94vw] sm:w-[95vw] max-w-4xl gap-0 overflow-hidden rounded-none border border-[var(--border)] bg-white p-0 text-[var(--text-primary)] shadow-2xl sm:max-w-4xl"
+        className="max-h-[90dvh] sm:max-h-[92dvh] w-[94vw] sm:w-[95vw] max-w-4xl gap-0 overflow-hidden rounded-2xl border border-[var(--border)] bg-white p-0 text-[var(--text-primary)] shadow-2xl sm:max-w-4xl"
       >
         <div
           data-lenis-prevent="true"
@@ -136,7 +136,7 @@ export default function CategoryDetailModal({
               </p>
               <Button
                 asChild
-                className="bg-[var(--accent)] hover:opacity-90 text-white h-11 rounded-none px-4 text-[11px] font-bold uppercase tracking-[0.15em] transition-opacity w-full mt-1"
+                className="bg-[var(--accent)] hover:opacity-90 text-white h-11 rounded-full px-4 text-[11px] font-bold uppercase tracking-[0.15em] transition-opacity w-full mt-1"
               >
                 <a
                   href={enquiryHref(category.name)}

@@ -360,7 +360,7 @@ export default function CollectionExplorer({
                     </div>
                     <Button
                       asChild
-                      className="bg-[var(--accent)] hover:opacity-90 text-white h-12 rounded-none px-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors shrink-0"
+                      className="bg-[var(--accent)] hover:opacity-90 text-white h-12 rounded-full px-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors shrink-0"
                     >
                       <a
                         href={enquiryHref(section.group.title)}

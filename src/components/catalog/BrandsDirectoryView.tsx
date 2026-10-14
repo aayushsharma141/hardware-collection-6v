@@ -446,7 +446,7 @@ export default function BrandsDirectoryView({
                             onSelectBrand(resolved);
                           }
                         }}
-                        className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm text-center"
+                        className="w-full sm:w-auto rounded-full px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm text-center"
                       >
                         VIEW CATALOGUE
                       </Link>

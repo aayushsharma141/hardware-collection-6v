@@ -118,14 +118,14 @@ export default function StaticHero({
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <CtaLink
               href={primaryHref}
-              className="inline-flex min-h-12 items-center justify-center rounded-none bg-[var(--color-wine)] px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:brightness-110 hc-focus"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--color-wine)] px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:brightness-110 hc-focus"
             >
               {primaryLabel}
             </CtaLink>
             {secondaryLabel && (
               <CtaLink
                 href={secondaryHref}
-                className="inline-flex min-h-12 items-center justify-center rounded-none border border-white/50 px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/10 hc-focus"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/50 px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/10 hc-focus"
               >
                 {secondaryLabel}
               </CtaLink>

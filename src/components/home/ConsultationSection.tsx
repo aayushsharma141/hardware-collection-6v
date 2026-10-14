@@ -210,14 +210,14 @@ export function ConsultationSection({
               href={generateWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-full h-12 bg-[#25D366]/10 text-[#128C7E] border border-[#25D366]/20 rounded-none text-[11px] uppercase tracking-[0.15em] font-semibold transition-colors hover:bg-[#25D366]/20"
+              className="flex items-center justify-center w-full h-12 bg-[#25D366]/10 text-[#128C7E] border border-[#25D366]/20 rounded-full text-[11px] uppercase tracking-[0.15em] font-semibold transition-colors hover:bg-[#25D366]/20"
             >
               Chat on WhatsApp
             </a>
             <div className="flex gap-3">
               <a
                 href={SHOWROOM_PHONE_HREF}
-                className="flex items-center justify-center flex-1 h-12 border border-[var(--border)] text-[var(--text-primary)] rounded-none text-[11px] uppercase tracking-[0.15em] font-medium transition-colors hover:border-[var(--text-primary)]"
+                className="flex items-center justify-center flex-1 h-12 border border-[var(--border)] text-[var(--text-primary)] rounded-full text-[11px] uppercase tracking-[0.15em] font-medium transition-colors hover:border-[var(--text-primary)]"
               >
                 Call Now
               </a>
@@ -225,7 +225,7 @@ export function ConsultationSection({
                 href={SHOWROOM_MAP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center flex-1 h-12 border border-[var(--border)] text-[var(--text-primary)] rounded-none text-[11px] uppercase tracking-[0.15em] font-medium transition-colors hover:border-[var(--text-primary)]"
+                className="flex items-center justify-center flex-1 h-12 border border-[var(--border)] text-[var(--text-primary)] rounded-full text-[11px] uppercase tracking-[0.15em] font-medium transition-colors hover:border-[var(--text-primary)]"
               >
                 Directions
               </a>

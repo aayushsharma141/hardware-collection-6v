@@ -66,7 +66,7 @@ export default function OffersSection({ offers, enquiryHref }: OffersSectionProp
                   <Button
                     asChild
                     variant="outline"
-                    className="mt-auto h-10 w-fit rounded-none border-[var(--color-brass)] bg-transparent px-4 text-xs font-medium text-brass-ink hover:bg-[var(--color-brass)] hover:text-white transition-all duration-200"
+                    className="mt-auto h-10 w-fit rounded-full border-[var(--color-brass)] bg-transparent px-4 text-xs font-medium text-brass-ink hover:bg-[var(--color-brass)] hover:text-white transition-all duration-200"
                   >
                     <a href={enquiryHref(offer.title)} target="_blank" rel="noopener noreferrer">
                       Enquire offer

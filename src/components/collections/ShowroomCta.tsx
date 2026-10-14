@@ -45,7 +45,7 @@ export default function ShowroomCta({ whatsappHref, phone, onVisit, address, map
           <div className="mt-7 flex flex-wrap gap-3">
             <Button
               asChild
-              className="brass-plate h-12 rounded-none px-6 text-xs font-semibold uppercase tracking-widest text-[var(--surface)] hover:opacity-95 transition-opacity duration-300"
+              className="brass-plate h-12 rounded-full px-6 text-xs font-semibold uppercase tracking-widest text-[var(--surface)] hover:opacity-95 transition-opacity duration-300"
             >
               <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                 <MessageCircle aria-hidden="true" className="h-4 w-4" />
@@ -56,7 +56,7 @@ export default function ShowroomCta({ whatsappHref, phone, onVisit, address, map
               <Button
                 asChild
                 variant="outline"
-                className="h-12 rounded-none border-[var(--border)] bg-transparent px-6 text-xs font-medium uppercase tracking-widest text-[var(--text-primary)] hover:border-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--surface)] transition-colors duration-300"
+                className="h-12 rounded-full border-[var(--border)] bg-transparent px-6 text-xs font-medium uppercase tracking-widest text-[var(--text-primary)] hover:border-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--surface)] transition-colors duration-300"
               >
                 <a href={`tel:${phone.replace(/[^\d+]/g, "")}`}>
                   <Phone aria-hidden="true" className="h-4 w-4" />
@@ -68,7 +68,7 @@ export default function ShowroomCta({ whatsappHref, phone, onVisit, address, map
               type="button"
               variant="outline"
               onClick={onVisit}
-              className="h-12 rounded-none border-[var(--border)] bg-transparent px-6 text-xs font-medium uppercase tracking-widest text-[var(--text-primary)] hover:border-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--surface)] transition-colors duration-300"
+              className="h-12 rounded-full border-[var(--border)] bg-transparent px-6 text-xs font-medium uppercase tracking-widest text-[var(--text-primary)] hover:border-[var(--text-primary)] hover:bg-[var(--text-primary)] hover:text-[var(--surface)] transition-colors duration-300"
             >
               <Store aria-hidden="true" className="h-4 w-4" />
               Visit showroom
