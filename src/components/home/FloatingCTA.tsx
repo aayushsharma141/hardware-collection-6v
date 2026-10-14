@@ -43,7 +43,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
       {/* ── 06 VOICES OF TRUST ("What our customers say.") ─────────── */}
       {/* Withheld entirely when no approved testimonials exist in Sanity */}
       {validReviews.length > 0 && (
-        <section className="py-12 lg:py-20 bg-[var(--surface)] border-b border-[var(--border)] relative z-10">
+        <section className="py-12 lg:py-20 bg-transparent border-b border-[var(--border)] relative z-10">
           <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
             {/* Header */}
             <div className="flex items-end justify-between mb-8 sm:mb-10">
@@ -151,7 +151,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
       {/* ── 07 VISIT OUR SHOWROOM ("Experience it in person.") ─────── */}
       <section
         id="showroom"
-        className="py-12 lg:py-20 bg-[var(--surface)] border-b border-[var(--border)] relative z-10 scroll-mt-20"
+        className="py-12 lg:py-20 bg-transparent border-b border-[var(--border)] relative z-10 scroll-mt-20"
       >
         <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">

@@ -47,7 +47,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
   };
 
   return (
-    <section className="py-12 lg:py-20 bg-[var(--surface)] border-b border-[var(--border)] relative z-10" id="faq">
+    <section className="py-12 lg:py-20 bg-transparent border-b border-[var(--border)] relative z-10" id="faq">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
         {/* Header matching Reference Mockup */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">

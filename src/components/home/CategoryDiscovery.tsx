@@ -53,7 +53,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
         : "aspect-[4/3]";
 
   return (
-    <section id="categories" className="bg-[var(--surface)] text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
+    <section id="categories" className="bg-transparent text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
       {/* Desktop Version */}
       <div className="hidden lg:block px-12 xl:px-16">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">

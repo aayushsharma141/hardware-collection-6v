@@ -126,13 +126,6 @@
   /* ── Motion ──────────────────────────────────────────────── */
   --animate-gradient-x: gradient-x 15s ease infinite;
 
-  @keyframes atmospheric-shift {
-    0% { background-color: rgb(252, 250, 248); }
-    35% { background-color: rgb(246, 244, 242); }
-    70% { background-color: rgb(250, 248, 246); }
-    100% { background-color: rgb(252, 250, 248); }
-  }
-
   @keyframes gradient-x {
     0%   { background-position: 0% 50%; }
     50%  { background-position: 100% 50%; }
@@ -208,13 +201,6 @@
   --distance-medium: 12px;
 
   --breakpoint-xs: 390px;
-}
-
-@supports (animation-timeline: scroll()) {
-  .atmospheric-bg {
-    animation: atmospheric-shift linear both;
-    animation-timeline: scroll(root);
-  }
 }
 
 /* ── Default body — bright base ────────────────────────────── */
@@ -329,10 +315,6 @@ body {
 :root {
   --pointer-x: 50%;
   --pointer-y: 50%;
-
-  --atm-r: 10;
-  --atm-g: 10;
-  --atm-b: 12;
 
   --scroll-skew: 0deg;
 
@@ -1188,4 +1170,56 @@ select {
 @media (prefers-reduced-motion: reduce) {
   .hc-spot-glow { display: none; }
   .hc-press-card:active { transform: none; }
+}
+
+/* ── Living ground ─────────────────────────────────────────────
+   Fixed behind <main>. Three slow light pools drift over the ivory
+   (transform only, compositor-thread) with a fine paper grain on top.
+   Pools lean on light, not on brass: worst-case brass-ink text over the
+   ground stays ~4.7:1 (plain ivory is 4.8:1).
+   Sections are transparent so the cards float over it. Under
+   prefers-reduced-motion the pools hold still. */
+.hc-atmosphere {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background-color: var(--surface);
+}
+.hc-atm-pool {
+  position: absolute;
+  width: 70vmax;
+  height: 70vmax;
+  border-radius: 50%;
+  will-change: transform;
+}
+.hc-atm-pool--brass {
+  top: -22vmax; left: -16vmax;
+  background: radial-gradient(circle, color-mix(in srgb, var(--brass) 8%, transparent), transparent 62%);
+  animation: atm-drift-brass 71s ease-in-out infinite alternate;
+}
+.hc-atm-pool--wine {
+  bottom: -30vmax; right: -20vmax;
+  background: radial-gradient(circle, color-mix(in srgb, var(--wine) 4%, transparent), transparent 64%);
+  animation: atm-drift-wine 97s ease-in-out infinite alternate;
+}
+.hc-atm-pool--warm {
+  top: 28vh; left: 38vw;
+  width: 55vmax; height: 55vmax;
+  background: radial-gradient(circle, color-mix(in srgb, #ffffff 70%, transparent), transparent 66%);
+  animation: atm-drift-warm 113s ease-in-out infinite alternate;
+}
+.hc-atm-grain {
+  position: absolute;
+  inset: 0;
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='220' height='220'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.9 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+@keyframes atm-drift-brass { to { transform: translate3d(14vw, 18vh, 0) scale(1.12); } }
+@keyframes atm-drift-wine  { to { transform: translate3d(-16vw, -14vh, 0) scale(1.08); } }
+@keyframes atm-drift-warm  { to { transform: translate3d(-12vw, 12vh, 0) scale(0.92); } }
+@media (prefers-reduced-motion: reduce) {
+  .hc-atm-pool { animation: none; }
 }
