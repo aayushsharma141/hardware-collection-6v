@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import Link from "next/link";
 import { CANONICAL_BRANDS } from "@/content/fallback/brands";
 
@@ -102,6 +102,8 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
             id: key,
             logo: brandLogo,
             href: `/catalogues?brand=${key}`,
+            imageClass: canonical?.imageClass,
+            imageStyle: canonical?.imageStyle,
           };
         })
       : FEATURED_BRANDS;
@@ -118,14 +120,14 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
   return (
     <section
       id="brands"
-      className={`py-8 sm:py-12 bg-[var(--surface)] ${hideHeader ? "border-y" : "border-b"} border-[var(--border)] relative z-10 scroll-mt-20 overflow-hidden`}
+      className={`${hideHeader ? "py-5 sm:py-8 border-y" : "py-8 sm:py-12 border-b"} bg-[var(--surface)] border-[var(--border)] relative z-10 scroll-mt-20 overflow-hidden`}
     >
       {!hideHeader && (
         <div className="max-w-[1440px] mx-auto px-5 lg:px-16 mb-6 sm:mb-8">
           {/* Header matching Reference Mockup */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-1.5">
+              <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
                 Trusted Brands
               </p>
               <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--text-primary)] leading-tight">
@@ -140,7 +142,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
               </p>
               <Link
                 href="/catalogues"
-                className="text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-wine)] inline-flex items-center gap-1.5 hover:underline"
+                className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-wine)] inline-flex items-center gap-1.5 hover:underline"
               >
                 <span>View All Brands</span>
                 <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -171,7 +173,9 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
               <Link
                 key={`brand-1-${brand.id || idx}-${idx}`}
                 href={brand.href}
-                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-[1.03] select-none"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
                 title={brand.name}
               >
                 {brand.logo ? (
@@ -181,7 +185,8 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
                     width={140}
                     height={50}
                     unoptimized={brand.logo.endsWith(".svg")}
-                    className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                    className={`max-h-7 sm:max-h-12 w-auto object-contain transform-gpu ${brand.imageClass || ""}`}
+                    style={brand.imageStyle}
                   />
                 ) : (
                   <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
@@ -196,7 +201,9 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
               <Link
                 key={`brand-1-dup-${brand.id || idx}-${idx}`}
                 href={brand.href}
-                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-[1.03] select-none"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
                 title={brand.name}
                 tabIndex={-1}
               >
@@ -207,7 +214,8 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
                     width={140}
                     height={50}
                     unoptimized={brand.logo.endsWith(".svg")}
-                    className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                    className={`max-h-7 sm:max-h-12 w-auto object-contain transform-gpu ${brand.imageClass || ""}`}
+                    style={brand.imageStyle}
                   />
                 ) : (
                   <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
@@ -227,7 +235,9 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
                 <Link
                   key={`brand-2-${brand.id || idx}-${idx}`}
                   href={brand.href}
-                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-[1.03] select-none"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
                   title={brand.name}
                 >
                   {brand.logo ? (
@@ -237,7 +247,8 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
                       width={140}
                       height={50}
                       unoptimized={brand.logo.endsWith(".svg")}
-                      className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                      className={`max-h-7 sm:max-h-12 w-auto object-contain transform-gpu ${brand.imageClass || ""}`}
+                      style={brand.imageStyle}
                     />
                   ) : (
                     <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">
@@ -252,7 +263,9 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
                 <Link
                   key={`brand-2-dup-${brand.id || idx}-${idx}`}
                   href={brand.href}
-                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-[1.03] select-none"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="shrink-0 h-10 sm:h-14 w-28 sm:w-36 flex items-center justify-center transition-transform duration-300 ease-out hover:scale-105 select-none"
                   title={brand.name}
                   tabIndex={-1}
                 >
@@ -263,7 +276,8 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
                       width={140}
                       height={50}
                       unoptimized={brand.logo.endsWith(".svg")}
-                      className="max-h-7 sm:max-h-12 w-auto object-contain transform-gpu"
+                      className={`max-h-7 sm:max-h-12 w-auto object-contain transform-gpu ${brand.imageClass || ""}`}
+                      style={brand.imageStyle}
                     />
                   ) : (
                     <span className="hc-serif text-base sm:text-lg font-medium text-[var(--text-primary)]">

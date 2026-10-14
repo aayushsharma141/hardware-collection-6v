@@ -37,7 +37,7 @@ export default function ReviewsMobile({ reviews = [] }: { reviews?: Testimonial[
             target="_blank"
             rel="noopener noreferrer"
             aria-label="4.4 stars from 50+ Google reviews - view the listing on Maps"
-            className="hc-focus flex items-center gap-2 min-h-[48px] bg-[var(--surface-raised)] border border-[var(--border)] px-3.5 py-2.5 rounded-none transition-[border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:border-[var(--color-wine)] active:scale-[0.97] motion-reduce:active:scale-100"
+            className="hc-focus flex items-center gap-2 min-h-[48px] bg-white border border-[var(--border)] px-3.5 py-2.5 rounded-none transition-[border-color,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] active:border-[var(--color-wine)] active:scale-[0.985] motion-reduce:active:scale-100"
           >
             <span className="inline-flex items-center gap-1.5 text-[var(--color-wine)] font-bold text-[15px] whitespace-nowrap">
               <Star className="w-4 h-4 fill-current" strokeWidth={1.5} aria-hidden="true" />
@@ -111,11 +111,11 @@ function MobileReviewCard({ review }: { review: Testimonial }) {
   const dateStr = formatTestimonialDate(review.date);
 
   return (
-    <div className="w-[300px] shrink-0 bg-[var(--surface-raised)] border border-[var(--border)] p-5 rounded-none flex flex-col justify-between gap-4 select-none cursor-pointer hover:border-[var(--color-wine)]/30 transition-colors duration-300">
+    <div className="w-[300px] shrink-0 bg-white border border-[var(--border)] p-5 rounded-none flex flex-col justify-between gap-4 select-none cursor-pointer hover:border-[var(--color-wine)]/30 transition-colors duration-300">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <StarRating rating={rating} className="w-3.5 h-3.5" />
-          <span className="hc-mono uppercase text-[var(--text-secondary)] bg-[var(--surface)] px-2 py-0.5 border border-[var(--border)] text-[11px] tracking-[0.2em] font-medium">
+          <span className="hc-mono uppercase text-[var(--text-secondary)] bg-[var(--surface)] px-2 py-0.5 border border-[var(--border)] text-[10px] tracking-[0.2em] font-medium">
             {review.source || "Google"}
           </span>
         </div>

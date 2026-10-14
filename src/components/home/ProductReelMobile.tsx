@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import Link from "next/link";
 
 interface FeaturedItem {
@@ -38,7 +38,7 @@ const FEATURED_ITEMS: FeaturedItem[] = [
   },
 ];
 
-export default function ProductReelMobile(_props?: { products?: unknown }) {
+export default function ProductReelMobile({}: { products?: unknown } = {}) {
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prev = () => {
@@ -55,7 +55,7 @@ export default function ProductReelMobile(_props?: { products?: unknown }) {
     <section className="w-full px-5 py-10 bg-[var(--surface)] border-b border-[var(--border)] lg:hidden">
       {/* Header Info */}
       <div className="mb-6">
-        <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-1.5">
+        <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
           Featured
         </p>
         <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-2.5">
@@ -68,7 +68,7 @@ export default function ProductReelMobile(_props?: { products?: unknown }) {
         </p>
         <Link
           href="/collections"
-          className="px-5 py-3.5 bg-[var(--color-ink)] text-white text-[11px] font-semibold uppercase tracking-[0.14em] inline-flex items-center gap-2 rounded-none hover:bg-[#3d2e38] transition-colors"
+          className="px-5 py-3.5 bg-[#1a1017] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 rounded-none hover:bg-[#3d2e38] transition-colors"
         >
           <span>Explore Featured Pieces</span>
           <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -89,9 +89,9 @@ export default function ProductReelMobile(_props?: { products?: unknown }) {
         />
 
         {/* Bottom Dark Scrim Overlay */}
-        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[var(--color-ink)]/90 via-[var(--color-ink)]/60 to-transparent p-4 sm:p-5 flex items-end justify-between gap-3">
+        <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/90 via-black/60 to-transparent p-4 sm:p-5 flex items-end justify-between gap-3">
           <div>
-            <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-brass)] mb-0.5">
+            <p className="hc-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[var(--color-brass)] mb-0.5">
               {current.category}
             </p>
             <p className="text-xs text-white/90 font-light leading-snug line-clamp-2">

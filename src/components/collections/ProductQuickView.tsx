@@ -1,6 +1,6 @@
 "use client";
 
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
@@ -37,10 +37,14 @@ export default function ProductQuickView({
 
   return (
     <Dialog open={product !== null} onOpenChange={(open) => !open && onClose()}>
-      <DialogContent className="max-h-[90dvh] max-w-3xl gap-0 overflow-y-auto rounded-none border-[var(--border)] bg-[var(--surface)] p-0 text-[var(--text-primary)] sm:max-w-3xl">
+      <DialogContent
+        data-lenis-prevent="true"
+        className="max-h-[90dvh] max-w-3xl gap-0 overflow-y-auto overscroll-contain touch-pan-y rounded-none border-[var(--border)] bg-white p-0 text-[var(--text-primary)] sm:max-w-3xl"
+        style={{ WebkitOverflowScrolling: "touch" }}
+      >
         {product && (
           <div className="grid md:grid-cols-2">
-            <div className="relative aspect-[4/3] bg-[var(--surface-raised)] sm:aspect-square md:aspect-auto md:min-h-[420px]">
+            <div className="relative aspect-[4/3] bg-white sm:aspect-square md:aspect-auto md:min-h-[420px]">
               {image ? (
                 <Image
                   src={image}
@@ -94,9 +98,11 @@ export default function ProductQuickView({
                   <Button
                     asChild
                     variant="outline"
-                    className="h-12 rounded-none border-[var(--border)] bg-transparent text-[13px] font-medium uppercase tracking-widest hover:border-[var(--border-accent)] hover:bg-transparent sm:text-xs"
+                    className="h-12 rounded-none border-[var(--border)] bg-transparent text-[13px] font-medium uppercase tracking-widest hover:border-[var(--color-brass)] hover:bg-transparent sm:text-xs"
                   >
-                    <Link href={catalogueHref}>View {brand} catalogue</Link>
+                    <Link href={catalogueHref} target="_blank" rel="noopener noreferrer">
+                      View {brand} catalogue
+                    </Link>
                   </Button>
                 )}
               </div>

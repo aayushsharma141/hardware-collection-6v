@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import Link from "next/link";
 import { type FeaturedCategory } from "./families";
 
@@ -62,18 +62,26 @@ const CURATED_SPACES: CuratedSpace[] = [
   },
 ];
 
-export default function CategoryDiscoveryMobile(_props?: CategoryDiscoveryMobileProps) {
-  const spaces = CURATED_SPACES;
+export default function CategoryDiscoveryMobile({
+  populatedGroupIds,
+}: CategoryDiscoveryMobileProps = {}) {
+  const spaces = React.useMemo(() => {
+    if (!populatedGroupIds || populatedGroupIds.length === 0) return CURATED_SPACES;
+    return CURATED_SPACES.filter((space) => {
+      const slug = space.href.replace("/collections#", "");
+      return populatedGroupIds.includes(slug);
+    });
+  }, [populatedGroupIds]);
 
   return (
     <section className="w-full px-5 py-10 bg-[var(--surface)] border-b border-[var(--border)] lg:hidden">
       {/* Header matching Reference Mockup */}
       <div className="flex flex-col mb-6">
-        <p className="hc-mono text-[11px] uppercase tracking-[0.2em] font-semibold text-[var(--color-wine)] mb-1.5">
+        <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
           Collections
         </p>
         <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight">
-          What are you working on?
+          What are you looking for?
         </h2>
         <div className="flex items-end justify-between gap-3 mt-2">
           <p className="text-xs text-[var(--text-secondary)] font-light max-w-[32ch] leading-relaxed">
@@ -81,7 +89,7 @@ export default function CategoryDiscoveryMobile(_props?: CategoryDiscoveryMobile
           </p>
           <Link
             href="/collections"
-            className="shrink-0 text-[11px] font-semibold uppercase tracking-[0.14em] text-[var(--color-wine)] inline-flex items-center gap-1 hover:underline pb-0.5"
+            className="shrink-0 text-[10.5px] font-semibold uppercase tracking-[0.14em] text-[var(--color-wine)] inline-flex items-center gap-1 hover:underline pb-0.5"
           >
             <span>View All</span>
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -100,9 +108,8 @@ export default function CategoryDiscoveryMobile(_props?: CategoryDiscoveryMobile
             <Link
               key={space.name}
               href={space.href}
-              className={`group block bg-[var(--surface-raised)] border border-[var(--border)] overflow-hidden transition duration-300 active:scale-[0.98] ${
-                isLastOdd ? "col-span-2" : ""
-              }`}
+              className={`group block bg-white border border-[var(--border)] overflow-hidden transition-all duration-300 active:scale-[0.98] ${isLastOdd ? "col-span-2" : ""
+                }`}
             >
               <div className={`relative overflow-hidden bg-neutral-900 ${isLastOdd ? "aspect-[21/9]" : "aspect-[16/10]"}`}>
                 <Image
@@ -110,16 +117,16 @@ export default function CategoryDiscoveryMobile(_props?: CategoryDiscoveryMobile
                   alt={`${space.name} architectural hardware`}
                   fill
                   sizes={isLastOdd ? "(max-width: 768px) 100vw, 480px" : "(max-width: 768px) 50vw, 240px"}
-                  className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                 />
               </div>
 
-              <div className="p-3 bg-[var(--surface)] flex items-center justify-between border-t border-[var(--border)]/70">
+              <div className="p-3 bg-white flex items-center justify-between border-t border-[var(--border)]/70">
                 <div className="min-w-0 pr-1">
                   <h3 className="hc-serif text-base sm:text-lg font-normal text-[var(--text-primary)] leading-tight truncate">
                     {space.name}
                   </h3>
-                  <p className="text-[11px] uppercase tracking-[0.06em] leading-snug text-[var(--text-secondary)] line-clamp-2 mt-1 font-light">
+                  <p className="text-[9px] sm:text-[9.5px] uppercase tracking-[0.1em] text-[var(--text-secondary)] truncate mt-0.5 font-light">
                     {space.subtitle}
                   </p>
                 </div>

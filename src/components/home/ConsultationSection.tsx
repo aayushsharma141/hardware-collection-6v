@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { ConsultationForm } from "@/components/consultation/ConsultationForm";
 import { urlForImage } from "@/content/sanity/lib/image";
 import {
@@ -49,10 +49,10 @@ export function ConsultationSection({
             <div className="flex items-start gap-3 mb-10">
               <span className="w-6 h-[1px] bg-[var(--border)] shrink-0 mt-2" aria-hidden="true" />
               <div className="flex flex-col leading-tight">
-                <span className="text-[11px] uppercase tracking-[0.2em] text-[var(--text-primary)] font-semibold">
+                <span className="text-[11px] uppercase tracking-[0.25em] text-[var(--text-primary)] font-semibold">
                   Private Consultation
                 </span>
-                <span className="text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-medium mt-1">
+                <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-medium mt-1">
                   Sakchi, Jamshedpur
                 </span>
               </div>
@@ -65,7 +65,7 @@ export function ConsultationSection({
             >
               Let&apos;s Plan
               <br />
-              <span className="italic text-[var(--color-brass-ink)]">Your Space.</span>
+              <span className="italic text-[var(--color-brass)]">Your Space.</span>
             </h2>
 
             {/* Supporting Copy */}
@@ -79,12 +79,12 @@ export function ConsultationSection({
             <div className="flex items-end gap-6 max-w-[400px]">
               <div>
                 <p
-                  className="font-cormorant text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-none"
+                  className="font-cormorant text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-none drop-shadow-sm"
                   style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
                 >
                   10+
                 </p>
-                <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-semibold mt-2 font-dmsans">
+                <p className="text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-semibold mt-2 font-dmsans drop-shadow-sm">
                   Years of Experience
                 </p>
               </div>
@@ -93,12 +93,12 @@ export function ConsultationSection({
 
               <div>
                 <p
-                  className="font-cormorant text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-none tabular-nums"
+                  className="font-cormorant text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-none tabular-nums drop-shadow-sm"
                   style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
                 >
                   20+
                 </p>
-                <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-semibold mt-2 font-dmsans leading-tight">
+                <p className="text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-semibold mt-2 font-dmsans leading-tight drop-shadow-sm">
                   Authorised<br />Brands
                 </p>
               </div>
@@ -107,12 +107,12 @@ export function ConsultationSection({
 
               <div>
                 <p
-                  className="font-cormorant text-3xl lg:text-4xl font-normal text-[var(--text-primary)] leading-none tracking-wide"
+                  className="font-cormorant text-3xl lg:text-4xl font-normal text-[var(--text-primary)] leading-none tracking-wide drop-shadow-sm"
                   style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
                 >
                   SAKCHI
                 </p>
-                <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-semibold mt-2 font-dmsans">
+                <p className="text-[9px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-semibold mt-2 font-dmsans drop-shadow-sm">
                   Showroom Location
                 </p>
               </div>
@@ -140,14 +140,14 @@ export function ConsultationSection({
             priority
             className="object-cover object-center"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-transparent to-[var(--color-ink)]/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--surface)] via-transparent to-black/20" />
         </div>
 
         {/* 2. Headline & Editorial Copy */}
         <div className="px-6 sm:px-10 pt-6 pb-4">
           <div className="flex items-center gap-3 mb-4">
             <span className="w-6 h-[1px] bg-[var(--border)]" aria-hidden="true" />
-            <span className="text-[11px] uppercase tracking-[0.2em] text-[var(--text-primary)] font-semibold">
+            <span className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-primary)] font-semibold">
               Private Consultation · Sakchi
             </span>
           </div>
@@ -158,7 +158,7 @@ export function ConsultationSection({
           >
             Let&apos;s Plan
             <br />
-            <span className="italic text-[var(--color-brass-ink)]">Your Space.</span>
+            <span className="italic text-[var(--color-brass)]">Your Space.</span>
           </h2>
 
           <p className="text-[14px] text-[var(--text-secondary)] font-normal leading-relaxed max-w-md mb-6">
@@ -174,7 +174,7 @@ export function ConsultationSection({
               >
                 10+
               </p>
-              <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium leading-tight">
+              <p className="text-[9px] uppercase tracking-[0.15em] text-[var(--text-secondary)] font-medium leading-tight">
                 Years in<br />Sakchi
               </p>
             </div>
@@ -186,7 +186,7 @@ export function ConsultationSection({
               >
                 20+
               </p>
-              <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium leading-tight">
+              <p className="text-[9px] uppercase tracking-[0.15em] text-[var(--text-secondary)] font-medium leading-tight">
                 Authorized<br />Brands
               </p>
             </div>
@@ -198,7 +198,7 @@ export function ConsultationSection({
               >
                 HQ
               </p>
-              <p className="text-[11px] uppercase tracking-[0.14em] text-[var(--text-secondary)] font-medium leading-tight">
+              <p className="text-[9px] uppercase tracking-[0.15em] text-[var(--text-secondary)] font-medium leading-tight">
                 Flagship<br />Showroom
               </p>
             </div>
@@ -210,14 +210,14 @@ export function ConsultationSection({
               href={generateWhatsAppUrl()}
               target="_blank"
               rel="noopener noreferrer"
-              className="flex items-center justify-center w-full h-12 bg-[#25D366]/10 text-[#128C7E] border border-[#25D366]/20 rounded-none text-[11px] uppercase tracking-[0.14em] font-semibold transition-colors hover:bg-[#25D366]/20"
+              className="flex items-center justify-center w-full h-12 bg-[#25D366]/10 text-[#128C7E] border border-[#25D366]/20 rounded-none text-[11px] uppercase tracking-[0.15em] font-semibold transition-colors hover:bg-[#25D366]/20"
             >
               Chat on WhatsApp
             </a>
             <div className="flex gap-3">
               <a
                 href={SHOWROOM_PHONE_HREF}
-                className="flex items-center justify-center flex-1 h-12 border border-[var(--border)] text-[var(--text-primary)] rounded-none text-[11px] uppercase tracking-[0.14em] font-medium transition-colors hover:border-[var(--text-primary)]"
+                className="flex items-center justify-center flex-1 h-12 border border-[var(--border)] text-[var(--text-primary)] rounded-none text-[11px] uppercase tracking-[0.15em] font-medium transition-colors hover:border-[var(--text-primary)]"
               >
                 Call Now
               </a>
@@ -225,7 +225,7 @@ export function ConsultationSection({
                 href={SHOWROOM_MAP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center flex-1 h-12 border border-[var(--border)] text-[var(--text-primary)] rounded-none text-[11px] uppercase tracking-[0.14em] font-medium transition-colors hover:border-[var(--text-primary)]"
+                className="flex items-center justify-center flex-1 h-12 border border-[var(--border)] text-[var(--text-primary)] rounded-none text-[11px] uppercase tracking-[0.15em] font-medium transition-colors hover:border-[var(--text-primary)]"
               >
                 Directions
               </a>
@@ -247,7 +247,7 @@ export function ConsultationSection({
           <div className="container mx-auto px-6 lg:px-16 py-8 sm:py-10">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-5">
               <div>
-                <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--color-brass-ink)] font-semibold">
+                <p className="text-[10px] uppercase tracking-[0.2em] text-[var(--color-brass)] font-semibold">
                   Flagship Showroom
                 </p>
                 <h3
@@ -266,7 +266,7 @@ export function ConsultationSection({
                 <span>Get Directions</span>
               </a>
             </div>
-            <div className="relative w-full rounded-none overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] h-[200px] sm:h-[280px]">
+            <div className="relative w-full rounded-none overflow-hidden border border-[var(--border)] bg-[var(--surface-raised)] shadow-sm h-[200px] sm:h-[280px]">
               <iframe
                 title="Hardware Collection Sakchi Showroom Map"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3677.674844391696!2d86.20150000000001!3d22.8028401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f5e3035e707e07%3A0x8f8ee13c908afec6!2sHardware%20Collection%20-%20Best%20Dorset%20Lock%20Dealer%20%7C%20Hafele%20Hardware%20%7C%20Modular%20Kitchen%20%7C%20Labacha%20Dealer%20in%20Jamshedpur!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin"

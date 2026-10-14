@@ -1,5 +1,5 @@
 import React from "react";
-import Image from "next/image";
+import { LazyImage as Image } from "@/components/ui/lazy-image";
 
 interface NormalizedLogoProps {
   src: string;
@@ -29,7 +29,7 @@ export function NormalizedLogo({ src, alt, aspect, className = "", style }: Norm
       width={width * 2}
       height={Math.round((width * 2) / ratio)}
       sizes={`${width}px`}
-      className={`h-full w-auto max-w-full object-contain object-left transition duration-[400ms] ease-out hover:brightness-110 ${className}`}
+      className={`h-full w-auto max-w-full object-contain object-left transition-all duration-[400ms] ease-out hover:brightness-110 ${className}`}
       style={style}
       unoptimized={src.endsWith(".svg")}
     />

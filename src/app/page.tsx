@@ -1,7 +1,7 @@
 import React from "react";
 import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
-import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getHeroManager, getActiveOffers } from "@/content/sanity/queries";
+import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getActiveOffers } from "@/content/sanity/queries";
 import { buildWhatsAppLink } from "@/lib/integrations/whatsapp";
 import {
   HERO_FALLBACK_IMAGE,
@@ -105,14 +105,13 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function HomePage() {
-  const [homeData, siteSettings, brands, testimonials, faqs, showroomGroups, heroManager, offers] = await Promise.all([
+  const [homeData, siteSettings, brands, testimonials, faqs, showroomGroups, offers] = await Promise.all([
     getHomePage(),
     getSiteSettings(),
     getBrands(),
     getTestimonials(),
     getFaqs(),
     getShowroomGroups(),
-    getHeroManager(),
     getActiveOffers(),
   ]);
   const populatedGroupIds = showroomGroups.map((group) => group.id);

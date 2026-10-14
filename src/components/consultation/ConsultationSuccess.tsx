@@ -25,10 +25,10 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
     >
       {/* Quiet Gold Icon Frame */}
       <div className="w-12 h-12 rounded-none bg-[var(--color-brass)]/10 border border-[var(--color-brass)]/30 flex items-center justify-center mb-5">
-        <Check className="w-5 h-5 text-[var(--color-brass-ink)]" />
+        <Check className="w-5 h-5 text-[var(--color-brass)]" />
       </div>
 
-      <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--color-brass-ink)] font-semibold mb-2 hc-mono">
+      <p className="text-[11px] uppercase tracking-[0.2em] text-[var(--color-brass)] font-semibold mb-2 hc-mono">
         HARDWARE COLLECTION · SAKCHI
       </p>
 
@@ -44,8 +44,8 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
       </p>
 
       {/* Reference ID Card */}
-      <div className="bg-[var(--surface-raised)] border border-[var(--border)] rounded-none p-4 mb-6 w-full text-center">
-        <p className="text-[11px] text-[var(--text-secondary)] uppercase tracking-[0.2em] mb-1 font-semibold hc-mono">REFERENCE ID</p>
+      <div className="bg-white border border-[var(--border)] rounded-none p-4 mb-6 w-full text-center">
+        <p className="text-[10px] text-[var(--text-secondary)] uppercase tracking-[0.2em] mb-1 font-semibold hc-mono">REFERENCE ID</p>
         <p className="text-[var(--color-wine)] hc-mono text-sm sm:text-base font-bold tracking-wider">{leadId}</p>
       </div>
 
@@ -55,7 +55,7 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
           href={waUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="flex-1 py-3 px-5 rounded-none bg-[var(--color-wine)] hover:brightness-110 text-white font-semibold text-xs uppercase tracking-[0.14em] transition flex items-center justify-center gap-2 group active:scale-[0.97]"
+          className="flex-1 py-3 px-5 rounded-none bg-[var(--color-wine)] hover:brightness-110 text-white font-semibold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2 group active:scale-[0.98]"
         >
           <span>WhatsApp Us</span>
           <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
@@ -63,14 +63,14 @@ export function ConsultationSuccess({ leadId }: ConsultationSuccessProps) {
 
         <a
           href={SHOWROOM_PHONE_HREF}
-          className="flex-1 py-3 px-5 rounded-none bg-[var(--surface-raised)] border border-[var(--border)] hover:border-[var(--text-primary)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.14em] transition flex items-center justify-center gap-2 active:scale-[0.97]"
+          className="flex-1 py-3 px-5 rounded-none bg-white border border-[var(--border)] hover:border-[var(--text-primary)] text-[var(--text-primary)] font-semibold text-xs uppercase tracking-[0.14em] transition-all flex items-center justify-center gap-2 active:scale-[0.98]"
         >
           <PhoneCall className="w-3.5 h-3.5 text-[var(--color-wine)]" />
           <span>Call Showroom</span>
         </a>
       </div>
 
-      <p className="text-[12px] text-[var(--text-secondary)] mt-5">
+      <p className="text-[11px] text-[var(--text-secondary)] mt-5">
         Direct showroom desk: <span className="text-[var(--text-primary)] font-medium">{SHOWROOM_PHONE_DISPLAY}</span>
       </p>
     </motion.div>
