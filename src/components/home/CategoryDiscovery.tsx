@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { motion } from "motion/react";
+import { SpotlightGlow, trackSpotlight } from "@/components/ui/Spotlight";
 import { resolveFamilies, type FeaturedCategory } from "./families";
 
 const containerVariants = {
@@ -52,7 +53,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
         : "aspect-[4/3]";
 
   return (
-    <section id="categories" className="bg-[var(--surface)] text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
+    <section id="categories" className="bg-transparent text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
       {/* Desktop Version */}
       <div className="hidden lg:block px-12 xl:px-16">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">
@@ -95,14 +96,16 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
             <motion.article
               variants={itemVariants}
               key={cat.id || cat.name}
-              className={`threshold-card group/card bg-white rounded-2xl border ${
+              onPointerMove={trackSpotlight}
+              className={`hc-spot threshold-card group/card bg-white rounded-2xl border ${
                 cat.isFocal
                   ? "border-[var(--accent)]/50 shadow-[0_12px_36px_rgba(139,26,66,0.08),0_2px_8px_rgba(0,0,0,0.03)]"
                   : "border-[var(--border)] shadow-[0_6px_24px_rgba(26,16,23,0.03)]"
-              } hover:shadow-[0_16px_40px_rgba(26,16,23,0.08)] hover:border-[var(--color-wine)]/40 overflow-hidden flex flex-col justify-between transition-all duration-300 ${
+              } hover:shadow-[0_16px_40px_rgba(26,16,23,0.08)] hover:border-[var(--color-wine)]/40 overflow-hidden flex flex-col justify-between transition-[box-shadow,border-color,transform] duration-300 ${
                 cat.isFocal ? "relative z-10" : ""
               }`}
             >
+              <SpotlightGlow />
               <div className={`threshold-image relative ${frameRatio} overflow-hidden bg-neutral-900`}>
                 {cat.image ? (
                   <Image
@@ -133,7 +136,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                 )}
               </div>
 
-              <div className="bg-white px-6 pt-6 pb-6 flex-1 flex flex-col justify-between">
+              <div className="px-6 pt-6 pb-6 flex-1 flex flex-col justify-between">
                 <div>
                   <h3
                     className={`hc-serif leading-[0.95] text-[var(--text-primary)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:translate-x-1 ${

@@ -74,7 +74,7 @@ export default function CategoryDiscoveryMobile({
   }, [populatedGroupIds]);
 
   return (
-    <section className="w-full px-5 py-10 bg-[var(--surface)] border-b border-[var(--border)] lg:hidden">
+    <section className="w-full px-5 py-10 bg-transparent border-b border-[var(--border)] lg:hidden">
       {/* Header matching Reference Mockup */}
       <div className="flex flex-col mb-6">
         <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
