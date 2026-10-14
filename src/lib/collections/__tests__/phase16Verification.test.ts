@@ -145,7 +145,8 @@ describe("Phase 16: Local Search & SEO Verification Suite", () => {
       expect(layoutContent).toContain('"@type": "HardwareStore"');
       expect(layoutContent).toContain('"latitude": 22.8028401');
       expect(layoutContent).toContain('"longitude": 86.2015');
-      expect(layoutContent).toContain('"hasMap": SHOWROOM_MAP_URL');
+      // The map link is the Studio value when set, else SHOWROOM_MAP_URL (see resolveMapUrl).
+      expect(layoutContent).toContain('"hasMap": resolveMapUrl(');
       expect(layoutContent).toContain('"openingHoursSpecification"');
       // Secondary unverified phone must not be hardcoded or present in schema
       expect(layoutContent).not.toContain("+917033650739");

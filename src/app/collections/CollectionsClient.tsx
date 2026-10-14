@@ -8,6 +8,7 @@ import { Product, Category, Brand, Offer } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";
 import { useConsultationStore } from "@/components/consultation/store";
 import { buildGeneralInquiryWhatsappLink, buildWhatsAppLink } from "@/lib/integrations/whatsapp";
+import { resolveMapUrl } from "@/lib/config";
 import {
   HERO_FALLBACK_IMAGE,
   formatOfferDate,
@@ -248,6 +249,7 @@ export default function CollectionsClient({
           whatsappHref={whatsappHref}
           phone={phone}
           address={settings?.showroomAddress}
+          mapUrl={resolveMapUrl(settings?.googleMapsUrl)}
           onVisit={() => openDrawer({ source: "collections", intent: "consultation" })}
         />
 

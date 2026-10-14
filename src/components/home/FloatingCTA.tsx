@@ -15,9 +15,11 @@ interface FloatingCTAProps {
   reviews?: Testimonial[];
   heading?: string;
   description?: string;
+  /** "Get Directions" target; the Studio value when set, else the configured default. */
+  mapUrl?: string;
 }
 
-export default function FloatingCTA({ reviews = [] }: FloatingCTAProps) {
+export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) {
   const validReviews = (reviews || []).filter(
     (r) => r && r.quote && r.quote.trim().length > 0 && r.customerName && r.customerName.trim().length > 0
   );
@@ -170,7 +172,7 @@ export default function FloatingCTA({ reviews = [] }: FloatingCTAProps) {
               </div>
 
               <a
-                href={SHOWROOM_MAP_URL}
+                href={mapUrl ?? SHOWROOM_MAP_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="group px-7 py-3.5 rounded-full bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center justify-center gap-2 hover:bg-[var(--color-wine-deep)] shadow-[0_4px_16px_rgba(139,26,66,0.2)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.3)] active:scale-[0.98] transition-all duration-200 w-fit mb-6 lg:mb-0"
