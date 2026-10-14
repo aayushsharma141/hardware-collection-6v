@@ -1151,3 +1151,41 @@ select {
 }
 
 
+
+/* ── Alive cards ───────────────────────────────────────────────
+   Light passes across hardware; the card itself stays put.
+   `.hc-spot` hosts a cursor-following glow (`SpotlightGlow`), and
+   `.hc-press-card` gives the card a physical press. Mouse + hover
+   only; touch and reduced-motion get the static card. */
+.hc-spot { position: relative; isolation: isolate; }
+.hc-spot-glow {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    var(--spot-size, 280px) circle at var(--sx, 50%) var(--sy, 50%),
+    color-mix(in srgb, var(--wine) 10%, transparent),
+    color-mix(in srgb, var(--brass) 7%, transparent) 45%,
+    transparent 72%
+  );
+  transition: opacity 240ms var(--ease-out-expo);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hc-spot:hover > .hc-spot-glow,
+  .hc-spot:focus-within > .hc-spot-glow { opacity: 1; }
+}
+.hc-press-card {
+  transition:
+    transform var(--dur-micro) var(--ease-out-expo),
+    background-color 200ms var(--ease-out-expo),
+    border-color 200ms var(--ease-out-expo),
+    box-shadow 200ms var(--ease-out-expo);
+}
+.hc-press-card:active { transform: scale(0.99); }
+@media (prefers-reduced-motion: reduce) {
+  .hc-spot-glow { display: none; }
+  .hc-press-card:active { transform: none; }
+}
