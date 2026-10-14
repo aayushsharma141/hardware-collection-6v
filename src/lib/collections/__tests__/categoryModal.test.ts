@@ -61,8 +61,11 @@ describe("Subcategory Pop-Up Modal Architecture & Integration Guard", () => {
     expect(explorerContent).not.toMatch(subRoutePattern);
   });
 
-  it("CategoryDetailModal opens brand catalogues in a new tab with target='_blank' and rel='noopener noreferrer'", () => {
+  it("CategoryDetailModal keeps internal catalogue links in-tab and only opens external links in a new tab", () => {
     const content = fs.readFileSync(modalPath, "utf-8");
+    // Internal routes (anti-UI-slop rule 4): no new-tab spawning.
+    expect(content).not.toMatch(/<Link[^>]*target="_blank"/);
+    // The WhatsApp enquiry is external and still opens a new tab safely.
     expect(content).toContain('target="_blank"');
     expect(content).toContain('rel="noopener noreferrer"');
   });

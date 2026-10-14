@@ -24,7 +24,7 @@ export default async function NotFound() {
           404
         </span>
 
-        <h1 className="hc-serif text-2xl sm:text-3xl md:text-4xl uppercase tracking-[0.06em] font-light text-[var(--text-primary)] leading-[1.2] mb-5">
+        <h1 className="hc-serif text-2xl sm:text-3xl md:text-4xl uppercase tracking-[0.06em] font-light text-[var(--text-primary)] leading-[1.2] mb-5 text-balance">
           This space isn&apos;t in the collection
         </h1>
 

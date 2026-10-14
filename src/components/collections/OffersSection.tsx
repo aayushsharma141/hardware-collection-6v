@@ -30,7 +30,7 @@ export default function OffersSection({ offers, enquiryHref }: OffersSectionProp
       <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 md:px-8">
         <header className="mb-8 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <h2 id="offers-heading" className="hc-serif text-3xl font-light leading-tight sm:text-4xl">
+            <h2 id="offers-heading" className="hc-serif text-3xl font-light leading-tight sm:text-4xl text-balance">
               Current Offers & Promotions
             </h2>
             <span aria-hidden="true" className="hidden h-px w-8 bg-[var(--color-brass)] sm:inline-block" />
@@ -66,7 +66,7 @@ export default function OffersSection({ offers, enquiryHref }: OffersSectionProp
                   <Button
                     asChild
                     variant="outline"
-                    className="mt-auto h-10 w-fit rounded-none border-[var(--color-brass)] bg-transparent px-4 text-xs font-medium text-brass-ink hover:bg-[var(--color-brass)] hover:text-white transition-all duration-200"
+                    className="mt-auto h-10 w-fit rounded-full border-[var(--color-brass)] bg-transparent px-4 text-xs font-medium text-brass-ink hover:bg-[var(--color-brass)] hover:text-white transition-all duration-200"
                   >
                     <a href={enquiryHref(offer.title)} target="_blank" rel="noopener noreferrer">
                       Enquire offer
