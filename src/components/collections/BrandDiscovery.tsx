@@ -44,7 +44,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
           </span>
           <h2
             id="brand-discovery-heading"
-            className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mb-4"
+            className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mb-4 text-balance"
           >
             Brand Discovery
           </h2>

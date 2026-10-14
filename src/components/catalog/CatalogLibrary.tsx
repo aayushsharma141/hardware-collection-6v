@@ -49,7 +49,7 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
           <span className="hc-mono text-xs sm:text-sm uppercase tracking-[0.2em] font-semibold text-brass-ink mb-3 block">
             Authorized Reference Library
           </span>
-          <h1 className="hc-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.0] mb-5">
+          <h1 className="hc-serif text-4xl sm:text-6xl lg:text-7xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.0] mb-5 text-balance">
             Official Brand Partners & Catalogues
           </h1>
           <p className="text-base sm:text-xl leading-relaxed text-[var(--text-secondary)] font-light max-w-3xl">

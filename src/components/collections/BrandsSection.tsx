@@ -26,7 +26,7 @@ export default function BrandsSection({ brands }: BrandsSectionProps) {
     >
       <div className="mx-auto w-full max-w-[1320px] px-4 sm:px-6 md:px-8">
         <header className="mb-8 flex flex-col gap-2 md:mb-10 md:flex-row md:items-end md:justify-between">
-          <h2 id="brands-heading" className="hc-serif flex items-center gap-4 text-3xl font-light leading-tight sm:text-4xl">
+          <h2 id="brands-heading" className="hc-serif flex items-center gap-4 text-3xl font-light leading-tight sm:text-4xl text-balance">
             Authorized Brands
             <span aria-hidden="true" className="hidden h-px w-8 bg-[var(--color-brass)] sm:inline-block" />
           </h2>

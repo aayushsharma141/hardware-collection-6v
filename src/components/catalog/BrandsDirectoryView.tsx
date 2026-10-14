@@ -267,7 +267,7 @@ export default function BrandsDirectoryView({
         <span className="hc-mono text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-3">
           MANUFACTURER REFERENCE LIBRARY
         </span>
-        <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4">
+        <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4 text-balance">
           Brands & Catalogues
         </h1>
         <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] font-light max-w-2xl mx-auto">
@@ -285,7 +285,7 @@ export default function BrandsDirectoryView({
             <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
               All Authorized Brands
             </span>
-            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
+            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight text-balance">
               Featured Brands
             </h2>
           </div>
@@ -359,7 +359,7 @@ export default function BrandsDirectoryView({
             <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
               All Partners
             </span>
-            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
+            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight text-balance">
               Official Catalogue Library
             </h2>
           </div>
@@ -492,7 +492,7 @@ export default function BrandsDirectoryView({
             <span className="hc-mono text-[11px] font-medium tracking-[0.25em] text-[var(--color-bone)]/60 uppercase block mb-3">
               How to use the catalogue
             </span>
-            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-white tracking-tight">
+            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-white tracking-tight text-balance">
               Find exactly what you need
             </h2>
           </div>
@@ -549,7 +549,7 @@ export default function BrandsDirectoryView({
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {/* Ask an expert */}
           <div className="bg-white border border-[var(--border)] p-8 sm:p-12 text-center shadow-[0_2px_12px_rgba(26,16,23,0.02)]">
-            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-3">
+            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-3 text-balance">
               Need help identifying something?
             </h2>
             <p className="text-sm text-[var(--text-secondary)] font-light mb-8 max-w-[280px] mx-auto">
@@ -568,7 +568,7 @@ export default function BrandsDirectoryView({
 
           {/* Physical copy */}
           <div className="bg-[var(--color-obsidian)] p-8 sm:p-12 text-center border border-[var(--color-obsidian)]">
-            <h2 className="hc-serif text-2xl font-normal text-white mb-3">
+            <h2 className="hc-serif text-2xl font-normal text-white mb-3 text-balance">
               Need a physical copy?
             </h2>
             <p className="text-sm text-white/60 font-light mb-8 max-w-[280px] mx-auto">

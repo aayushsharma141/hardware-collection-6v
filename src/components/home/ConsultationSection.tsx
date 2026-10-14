@@ -60,7 +60,7 @@ export function ConsultationSection({
 
             {/* Large Editorial Headline: Roman + Italic Gold */}
             <h2
-              className="font-cormorant text-[clamp(40px,4vw,56px)] font-normal tracking-tight text-[var(--text-primary)] leading-[1.05] mb-4"
+              className="font-cormorant text-[clamp(40px,4vw,56px)] font-normal tracking-tight text-[var(--text-primary)] leading-[1.05] mb-4 text-balance"
               style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
             >
               Let&apos;s Plan
@@ -153,7 +153,7 @@ export function ConsultationSection({
           </div>
 
           <h2
-            className="font-cormorant text-3xl sm:text-4xl font-normal tracking-tight text-[var(--text-primary)] leading-[1.05] mb-4"
+            className="font-cormorant text-3xl sm:text-4xl font-normal tracking-tight text-[var(--text-primary)] leading-[1.05] mb-4 text-balance"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
             Let&apos;s Plan

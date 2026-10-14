@@ -108,7 +108,7 @@ export default function StaticHero({
           </p>
           <h1
             id="home-hero-heading"
-            className="hc-serif whitespace-pre-line text-5xl font-light leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl"
+            className="hc-serif whitespace-pre-line text-5xl font-light leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl text-balance"
           >
             {headline || FALLBACK.headline}
           </h1>

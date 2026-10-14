@@ -24,7 +24,7 @@ export default function SignatureCollection() {
           <p className="text-brass-ink font-medium tracking-widest text-sm uppercase mb-4">
             CURATED
           </p>
-          <h2 className="text-4xl lg:text-6xl font-light text-[var(--text-primary)]">Signature Collections</h2>
+          <h2 className="text-4xl lg:text-6xl font-light text-[var(--text-primary)] text-balance">Signature Collections</h2>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 relative">

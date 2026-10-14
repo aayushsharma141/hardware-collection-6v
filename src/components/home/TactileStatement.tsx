@@ -39,7 +39,7 @@ export default function TactileStatement() {
             <p className="text-brass-ink font-medium tracking-widest text-sm uppercase mb-6">
               THE TACTILE STATEMENT
             </p>
-            <h2 className="text-5xl lg:text-7xl font-light text-[var(--text-primary)] leading-tight mb-8">
+            <h2 className="text-5xl lg:text-7xl font-light text-[var(--text-primary)] leading-tight mb-8 text-balance">
               HARDWARE<br />YOU CAN<br />EXPERIENCE.
             </h2>
             <p className="text-xl text-[var(--text-secondary)] font-light max-w-md">

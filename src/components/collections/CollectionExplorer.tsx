@@ -130,7 +130,7 @@ export default function CollectionExplorer({
           <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--accent)] block mb-3">
             Showroom Taxonomy
           </span>
-          <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight max-w-2xl">
+          <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight max-w-2xl text-balance">
             Find the hardware
             <br />
             for your space.

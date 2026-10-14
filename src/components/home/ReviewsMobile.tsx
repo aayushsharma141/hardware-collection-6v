@@ -25,7 +25,7 @@ export default function ReviewsMobile({ reviews = [] }: { reviews?: Testimonial[
           <p className="font-label-caps t-eyebrow text-[var(--color-wine)] font-semibold tracking-[0.2em] uppercase text-xs">
             Client Experiences
           </p>
-          <h2 className="hc-serif t-h2 mt-3 text-[var(--text-primary)] text-3xl sm:text-4xl font-light">
+          <h2 className="hc-serif t-h2 mt-3 text-[var(--text-primary)] text-3xl sm:text-4xl font-light text-balance">
             Voices of Trust
           </h2>
         </div>

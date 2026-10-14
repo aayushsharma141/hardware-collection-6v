@@ -36,7 +36,7 @@ export default function ShowroomCta({ whatsappHref, phone, onVisit, address, map
 
       <div className="mx-auto flex w-full max-w-[1320px] flex-col gap-10 px-4 py-14 sm:px-6 md:px-8 lg:flex-row lg:items-center lg:justify-between lg:py-16">
         <div className="max-w-xl">
-          <h2 id="cta-heading" className="hc-serif text-3xl font-light leading-tight sm:text-4xl">
+          <h2 id="cta-heading" className="hc-serif text-3xl font-light leading-tight sm:text-4xl text-balance">
             Looking for something specific?
           </h2>
           <p className="mt-3 text-sm font-light leading-relaxed text-[var(--text-secondary)] sm:text-base">
