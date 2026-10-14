@@ -69,8 +69,6 @@ export default function BrandsSection({ brands }: BrandsSectionProps) {
                   <Link
                     href={`/catalogues?brand=${key}`}
                     aria-label={`${brand.name} catalogue`}
-                    target="_blank"
-                    rel="noopener noreferrer"
                     className="group hc-focus block"
                   >
                     {inner}

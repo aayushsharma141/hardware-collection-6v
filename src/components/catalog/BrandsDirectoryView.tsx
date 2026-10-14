@@ -2,6 +2,7 @@
 
 import React, { useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Brand, ResolvedBrand, SiteSettings } from "@/types/catalog";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { normalizeBrandKey } from "@/content/fallback/brands";
@@ -436,10 +437,8 @@ export default function BrandsDirectoryView({
 
                     {/* Right: Actions */}
                     <div className="flex flex-col sm:flex-row items-center justify-start gap-3 w-full md:w-[25%] shrink-0 mt-4 md:mt-0">
-                      <a
+                      <Link
                         href={`/catalogues?brand=${brand.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
                         onClick={(e) => {
                           const resolved = brandLookup.get(brand.id) as ResolvedBrand | undefined;
                           if (resolved && onSelectBrand && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
@@ -450,7 +449,7 @@ export default function BrandsDirectoryView({
                         className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm text-center"
                       >
                         VIEW CATALOGUE
-                      </a>
+                      </Link>
 
                       {(() => {
                         const websiteUrl = brand.website || brandLookup.get(brand.id)?.website;
