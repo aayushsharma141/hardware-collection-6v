@@ -9,3 +9,9 @@
 - Execute tasks autonomously within the workspace boundaries.
 - Never run destructive commands (such as deleting non-project files or clearing system directories).
 - Verify all changes locally within this workspace before declaring task completion.
+
+## UI, Brand & Feature Preservation Invariant
+
+- Never delete, strip, or revert UI enhancements, audio systems (`public/audio/*`, `ShowroomAudioPlayer`), or brand styling (liquid glass navbar, text shine sweeps) under the pretext of "cleaning scope" or "isolating bug fixes".
+- Consult `.agents/rules/ui_audio_preservation.md` for context on the PR #49 regression incident and recovery.
+
