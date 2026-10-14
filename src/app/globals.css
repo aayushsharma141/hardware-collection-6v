@@ -1207,7 +1207,7 @@ select {
 .hc-atm-pool--warm {
   top: 28vh; left: 38vw;
   width: 55vmax; height: 55vmax;
-  background: radial-gradient(circle, color-mix(in srgb, #ffffff 70%, transparent), transparent 66%);
+  background: radial-gradient(circle, color-mix(in srgb, var(--white) 70%, transparent), transparent 66%);
   animation: atm-drift-warm 113s ease-in-out infinite alternate;
 }
 .hc-atm-grain {
