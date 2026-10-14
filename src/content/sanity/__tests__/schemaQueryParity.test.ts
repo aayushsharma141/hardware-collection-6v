@@ -6,6 +6,7 @@ import {
   getAllProductsQuery,
   ACTIVE_OFFERS_QUERY,
   getHeroManagerQuery,
+  getTestimonialsQuery,
 } from "../queries";
 
 function fieldNames(type: string): Set<string> {
@@ -24,6 +25,9 @@ describe("Sanity schema / query parity", () => {
     ["brand", getBrandsQuery, ["authorizedStatus", "featured", "displayOrder", "description", "brandPositioning", "website", "country", "logo", "officialCatalogue", "marketingAssets", "seo"]],
     ["offer", ACTIVE_OFFERS_QUERY, ["validUntil", "offerType", "image", "brand"]],
     ["product", getAllProductsQuery, ["catalogReference", "subcategoryTitle", "showroomDisplay", "featured", "heroImage", "shortDescription", "specifications", "seo"]],
+    // `source`, `date` and `approved` were stored and queried but never declared,
+    // so Studio showed them as unknown fields and editors could not edit them.
+    ["testimonial", getTestimonialsQuery, ["customerName", "testimonialText", "rating", "source", "date", "approved"]],
   ];
 
   it.each(cases)("%s: query fields exist in the schema", (type, query, fields) => {

@@ -35,6 +35,32 @@ export const testimonialType = defineType({
       initialValue: 5,
       validation: (rule) => rule.min(1).max(5),
     }),
+    // The three fields below are stored on every testimonial and read by the
+    // homepage (`getTestimonialsQuery` sorts by `date` and shows only approved
+    // reviews), but were missing from the schema, so Studio flagged them as
+    // "unknown fields" and editors could not change them.
+    defineField({
+      name: "source",
+      title: "Source",
+      type: "string",
+      group: "meta",
+      description: "Where the review came from, for example Google.",
+    }),
+    defineField({
+      name: "date",
+      title: "Review Date",
+      type: "date",
+      group: "meta",
+      description: "When the customer wrote the review. The homepage shows the newest first.",
+    }),
+    defineField({
+      name: "approved",
+      title: "Show on Website",
+      type: "boolean",
+      group: "meta",
+      description: "Turn off to hide this review from the website without deleting it.",
+      initialValue: true,
+    }),
     defineField({
       name: "customerType",
       title: "Customer Type",
