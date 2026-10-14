@@ -58,27 +58,27 @@ export default function ProductReelMobile({}: { products?: unknown } = {}) {
         <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
           Featured
         </p>
-        <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-2.5">
+        <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-2.5 text-balance">
           Hardware that
           <br />
           completes the space.
         </h2>
-        <p className="text-xs text-[var(--text-secondary)] font-light leading-relaxed max-w-[36ch] mb-5">
+        <p className="text-xs text-[var(--text-secondary)] font-light leading-relaxed max-w-[36ch] mb-5 text-pretty">
           From doors to kitchens, every detail matters. Explore our handpicked selection of premium hardware, designed for function, durability and style.
         </p>
         <Link
           href="/collections"
-          className="px-5 py-3.5 bg-[#1a1017] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 rounded-none hover:bg-[#3d2e38] transition-colors"
+          className="px-6 py-3.5 bg-[#1a1017] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 rounded-full shadow-[0_4px_14px_rgba(26,16,23,0.18)] active:scale-[0.98] hover:bg-[#3d2e38] transition-all"
         >
           <span>Explore Featured Pieces</span>
           <svg className="w-3.5 h-3.5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M14 5l7 7m0 0l-7 7m7-7H3" />
           </svg>
         </Link>
       </div>
 
       {/* Featured Showcase Card with Overlay & Arrows */}
-      <div className="relative aspect-[4/3] w-full overflow-hidden border border-[var(--border)] bg-neutral-900 mt-6">
+      <div className="relative aspect-[4/3] w-full overflow-hidden rounded-2xl border border-[var(--border)] bg-neutral-900 mt-6 shadow-[0_8px_24px_rgba(26,16,23,0.06)]">
         <Image
           key={`feat-${currentIndex}`}
           src={current.image}
@@ -99,14 +99,14 @@ export default function ProductReelMobile({}: { products?: unknown } = {}) {
             </p>
           </div>
 
-          <div className="flex items-center gap-1.5 shrink-0">
+          <div className="flex items-center gap-2 shrink-0">
             <button
               type="button"
               onClick={prev}
               aria-label="Previous featured"
-              className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 active:scale-95 transition-all"
             >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
@@ -114,9 +114,9 @@ export default function ProductReelMobile({}: { products?: unknown } = {}) {
               type="button"
               onClick={next}
               aria-label="Next featured"
-              className="w-7 h-7 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 transition-colors"
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 active:scale-95 transition-all"
             >
-              <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </button>

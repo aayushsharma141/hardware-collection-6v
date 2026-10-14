@@ -53,9 +53,9 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
           <div>
             <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
-              FAQ
+              Showroom Advisory
             </p>
-            <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight">
+            <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight text-balance">
               Common questions.
             </h2>
           </div>
@@ -96,6 +96,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
                       className={`w-4 h-4 transition-transform duration-300 motion-reduce:transition-none ${
                         isOpen ? "rotate-45 text-[var(--color-wine)]" : "rotate-0"
                       }`}
+                      strokeWidth={1.5}
                     />
                   </span>
                 </button>
@@ -111,7 +112,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
                 >
                   <div className="min-h-0 overflow-hidden">
                     <div className="pb-5 pt-0 text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed max-w-3xl">
-                      <p>{faq.answer}</p>
+                      <p className="text-pretty">{faq.answer}</p>
                     </div>
                   </div>
                 </div>
