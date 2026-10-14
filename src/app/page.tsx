@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import Footer from "@/components/layout/Footer";
 import { getHomePage, getSiteSettings, getBrands, getTestimonials, getFaqs, getShowroomGroups, getActiveOffers } from "@/content/sanity/queries";
 import { buildWhatsAppLink } from "@/lib/integrations/whatsapp";
+import { resolveMapUrl } from "@/lib/config";
 import {
   HERO_FALLBACK_IMAGE,
   formatOfferDate,
@@ -92,11 +93,12 @@ const fallbackHeroSlides: HeroSlide[] = [
 ];
 
 export async function generateMetadata(): Promise<Metadata> {
-  const homeData = await getHomePage();
+  const [homeData, siteSettings] = await Promise.all([getHomePage(), getSiteSettings()]);
   const seo = homeData?.seo;
   
   return {
-    title: seo?.metaTitle || "Hardware Showroom Sakchi, Jamshedpur | Hardware Collection",
+    // The home page's own SEO title wins; otherwise the site-wide title from Business Settings.
+    title: seo?.metaTitle || siteSettings?.seo?.metaTitle || "Hardware Showroom Sakchi, Jamshedpur | Hardware Collection",
     description: seo?.metaDescription || "Hardware Collection is a premium architectural hardware showroom in Sakchi, Jamshedpur, offering door hardware, digital locks, kitchen and wardrobe systems, bathroom and glass hardware from authorized brands.",
     alternates: {
       canonical: 'https://www.hardwarecollection.co',
@@ -212,7 +214,12 @@ export default async function HomePage() {
         {/* 06 & 07 VOICES OF TRUST & VISIT SAKCHI */}
         {/* FloatingCTA contains both the reviews (06) and the Consultation Section (07) */}
         <div className="w-full">
-          <FloatingCTA reviews={testimonials} heading={homeData?.ctaHeading} description={homeData?.ctaDescription} />
+          <FloatingCTA
+            reviews={testimonials}
+            heading={homeData?.ctaHeading}
+            description={homeData?.ctaDescription}
+            mapUrl={resolveMapUrl(siteSettings?.googleMapsUrl)}
+          />
         </div>
 
         {/* 08 FAQ — Only essential questions */}

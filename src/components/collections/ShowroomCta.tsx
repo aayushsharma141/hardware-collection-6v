@@ -9,6 +9,8 @@ export interface ShowroomCtaProps {
   /** Opens the showroom-visit booking. */
   onVisit: () => void;
   address?: string;
+  /** "Get directions" target; resolve it with `resolveMapUrl` so the Studio value is used when set. */
+  mapUrl: string;
 }
 
 // A real photograph of the Sakchi showroom, not a render.
@@ -18,7 +20,7 @@ const SHOWROOM_PHOTO = "/Hardware Collection/hardware_collection_sakchi_shop_int
  * The hand-off: everything past recognising a product happens with the team.
  * WhatsApp, a call, or a visit — never a form or a checkout.
  */
-export default function ShowroomCta({ whatsappHref, phone, onVisit, address }: ShowroomCtaProps) {
+export default function ShowroomCta({ whatsappHref, phone, onVisit, address, mapUrl }: ShowroomCtaProps) {
   const lines = (address || "Sakchi, Jamshedpur\nJharkhand – 831001").split(/\n|,\s*(?=Jharkhand)/);
 
   return (
@@ -86,7 +88,7 @@ export default function ShowroomCta({ whatsappHref, phone, onVisit, address }: S
               ))}
             </address>
             <a
-              href="https://maps.google.com/?q=Hardware+Collection+Sakchi+Jamshedpur"
+              href={mapUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-3 inline-flex items-center gap-1.5 text-xs text-brass-ink hover:underline font-medium"

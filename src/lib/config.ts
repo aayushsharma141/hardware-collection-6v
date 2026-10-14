@@ -35,6 +35,24 @@ export const SHOWROOM_MAP_URL =
   process.env.NEXT_PUBLIC_SHOWROOM_MAP_URL ??
   "https://www.google.com/maps/search/?api=1&query=Hardware+Collection+Jamshedpur";
 
+/**
+ * The showroom's Google Maps link: the one an editor set in Studio (Business
+ * Settings), else `SHOWROOM_MAP_URL`. A value that is not an http(s) URL is
+ * ignored, so a typo in the CMS cannot produce a broken "Get directions" button.
+ */
+export function resolveMapUrl(fromCms?: string | null): string {
+  const value = fromCms?.trim();
+  if (value) {
+    try {
+      const { protocol } = new URL(value);
+      if (protocol === "https:" || protocol === "http:") return value;
+    } catch {
+      // Not a URL: fall through to the default.
+    }
+  }
+  return SHOWROOM_MAP_URL;
+}
+
 /** Builds a WhatsApp deep-link with an optional custom message. */
 export function buildWhatsAppUrl(message?: string, number?: string): string {
   const text = encodeURIComponent(message ?? SHOWROOM_DEFAULT_WA_MESSAGE);

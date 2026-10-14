@@ -40,7 +40,7 @@ const jost = Jost({
 
 import { getSiteSettings, getNavigation } from "@/content/sanity/queries";
 import { CANONICAL_BRANDS } from "@/content/fallback/brands";
-import { SHOWROOM_MAP_URL } from "@/lib/config";
+import { resolveMapUrl } from "@/lib/config";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
 import Navbar from "@/components/layout/Navbar";
@@ -173,7 +173,7 @@ export default async function RootLayout({
             "closes": "14:00"
           }
         ],
-        "hasMap": SHOWROOM_MAP_URL,
+        "hasMap": resolveMapUrl(settings?.googleMapsUrl),
         "description": settings?.seo?.description || "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
         "brand": CANONICAL_BRANDS.map((brand) => ({
           "@type": "Brand",
