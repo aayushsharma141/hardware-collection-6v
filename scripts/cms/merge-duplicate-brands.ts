@@ -4,6 +4,7 @@
  *
  *   brand-marnello   survives, slug "maranello"   (brand-maranello is deleted)
  *   brand-decore     survives, slug "decor-bath"  (brand-decor-bath is deleted)
+ *   brand-becker     survives, slug "becker"      (brand-backer is deleted; owner-approved 2026-10-14)
  *
  * Where both documents have a value the survivor's is kept, except the Decor
  * Bath `description` and `brandPositioning`: the duplicate holds the real copy
@@ -38,6 +39,9 @@ import { planMerge, type Doc } from "../../src/content/sanity/lib/brandMerge";
 const MERGES: { keep: string; drop: string; slug: string; preferDrop?: string[] }[] = [
   { keep: "brand-marnello", drop: "brand-maranello", slug: "maranello" },
   { keep: "brand-decore", drop: "brand-decor-bath", slug: "decor-bath", preferDrop: ["description", "brandPositioning"] },
+  // Owner-approved 2026-10-14: "Backer" is a misspelling of Becker, which is the original.
+  // Nothing referenced Backer, so this only removes the duplicate document.
+  { keep: "brand-becker", drop: "brand-backer", slug: "becker" },
 ];
 
 /** .env.local holds one UTF-16 line spliced into UTF-8, so strip NULs before parsing. */
