@@ -8,18 +8,19 @@ An automated agent working on catalogue view-only mode and Playwright E2E tests 
 ### What was recovered in PR #53 & Subsequent Commits:
 1. **Ambient Showroom Audio System**:
    - `public/audio/showroom-ambient.mp3`
-   - `src/components/audio/ShowroomAudioPlayer.tsx`
-   - Global sound toggle in `Navbar.tsx` and persistent audio controls
+   - `src/components/audio/BackgroundAudio.tsx` (rendered in `src/app/layout.tsx`)
+   - `src/components/audio/AudioMuteButton.tsx` (rendered in `src/components/layout/Navbar.tsx`)
+   - Global sound toggle and persistent audio preferences in `localStorage`
 2. **Liquid Glass Navbar & Navigation**:
-   - Multi-layer glassmorphism (`.liquid-glass-nav`), optical blur, and subtle inner glow
-   - `AnimatedMenuIcon.tsx`, `MobileMenu.tsx`, and responsive desktop navigation
+   - Multi-layer glassmorphism (`.liquid-glass-nav`), optical blur, and subtle inner glow in `src/app/globals.css`
+   - `src/components/layout/AnimatedMenuIcon.tsx`, `src/components/layout/MobileMenu.tsx`, and responsive navigation in `src/components/layout/Navbar.tsx`
 3. **Showroom Brand Lockup & Typography Shine**:
-   - 3D emblem with optical padding
-   - Continuous synchronized metallic text shine sweep (`brand-hw-shine` on `HARDWARE`, `brand-col-shine` on `COLLECTION` using `background-clip: text`)
+   - 3D emblem with optical padding in `src/components/brand/BrandLockup.tsx`
+   - Continuous synchronized metallic text shine sweep (`brand-hw-shine` on `HARDWARE`, `brand-col-shine` on `COLLECTION` using `background-clip: text`) in `src/app/globals.css`
    - Explicit removal of the legacy rectangular box shimmer overlay (`.brand-lockup__sheen` / `brand-sheen-loop`) to avoid obscuring the mark
 4. **Enhanced Discovery & CTAs**:
-   - `CategoryDiscovery.tsx`
-   - `FloatingCTA.tsx`
+   - `src/components/home/CategoryDiscovery.tsx`
+   - `src/components/home/FloatingCTA.tsx`
    - Product detail drawers and consultation booking flows
 
 ---
