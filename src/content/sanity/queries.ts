@@ -265,6 +265,10 @@ export async function getSiteSettings() {
       "slug": slug.current, 
       "logoUrl": logo.asset->url 
     },
+    instagramUrl,
+    facebookUrl,
+    linkedinUrl,
+    pinterestUrl,
     seo
   }`;
   try {
@@ -279,7 +283,8 @@ export async function getNavigation() {
   const query = groq`*[_type == "navigation"][0] {
     announcementBar,
     "mainMenu": mainMenu[] { label, path },
-    "footerLegalLinks": footerLegalLinks[] { label, path }
+    "footerLegalLinks": footerLegalLinks[] { label, path },
+    "socialLinks": socialLinks[] { platform, url }
   }`;
   try {
     return await client.fetch(query, {}, { next: { tags: ["navigation"] } });

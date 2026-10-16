@@ -77,14 +77,11 @@ export default function CategoryDiscoveryMobile({
     <section className="w-full px-5 py-10 bg-transparent border-b border-[var(--border)] lg:hidden">
       {/* Header matching Reference Mockup */}
       <div className="flex flex-col mb-6">
-        <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
-          Collections
-        </p>
         <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight text-balance">
           What are you looking for?
         </h2>
         <div className="flex items-end justify-between gap-3 mt-2">
-          <p className="text-xs text-[var(--text-secondary)] font-light max-w-[32ch] leading-relaxed">
+          <p className="text-xs text-[var(--text-secondary)] font-normal max-w-[32ch] leading-relaxed">
             Explore by space and find the right hardware for your home or project.
           </p>
           <Link
@@ -126,7 +123,7 @@ export default function CategoryDiscoveryMobile({
                   <h3 className="hc-serif text-base sm:text-lg font-normal text-[var(--text-primary)] leading-tight truncate">
                     {space.name}
                   </h3>
-                  <p className="text-[9px] sm:text-[9.5px] uppercase tracking-[0.1em] text-[var(--text-secondary)] truncate mt-0.5 font-light">
+                  <p className="text-[9px] sm:text-[9.5px] uppercase tracking-[0.1em] text-[var(--text-secondary)] truncate mt-0.5 font-medium">
                     {space.subtitle}
                   </p>
                 </div>

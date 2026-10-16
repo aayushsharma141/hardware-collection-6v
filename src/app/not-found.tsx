@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { generateWhatsAppUrl } from "@/lib/config";
 import Footer from "@/components/layout/Footer";
-import { getShowroomGroups } from "@/content/sanity/queries";
+import { getShowroomGroups, getSiteSettings } from "@/content/sanity/queries";
 
 export const metadata: Metadata = {
   title: {
@@ -15,7 +15,10 @@ export const metadata: Metadata = {
 
 export default async function NotFound() {
   const whatsappUrl = generateWhatsAppUrl("general-enquiry");
-  const showroomGroups = await getShowroomGroups();
+  const [showroomGroups, settings] = await Promise.all([
+    getShowroomGroups(),
+    getSiteSettings(),
+  ]);
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-[var(--surface)] text-[var(--text-primary)]">
@@ -53,7 +56,7 @@ export default async function NotFound() {
         </div>
       </main>
 
-      <Footer showroomGroups={showroomGroups} />
+      <Footer settings={settings} showroomGroups={showroomGroups} />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { Brand, ResolvedBrand, SiteSettings } from "@/types/catalog";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { normalizeBrandKey } from "@/content/fallback/brands";
 import BrandTrustStrip from "@/components/brand/BrandTrustStrip";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 
 interface BrandsDirectoryViewProps {
   brands: Brand[];
@@ -27,6 +28,20 @@ interface BrandDirectoryMeta {
   initial: string;
   country?: string;
 }
+
+const BRAND_APPLICATION_IMAGES: Record<string, string> = {
+  blum: "/cinema/categories/HC-03-KITCHEN.png",
+  dorset: "/cinema/categories/HC-03-DOORS.png",
+  hafele: "/cinema/categories/HC-03-FURNITURE.png",
+  hettich: "/cinema/categories/HC-03-WARDROBE.png",
+};
+
+const BRAND_DESCRIPTORS: Record<string, string> = {
+  blum: "Lift systems & functional kitchen fittings",
+  dorset: "Architectural door hardware & digital locks",
+  hafele: "Architectural hardware & wardrobe accessories",
+  hettich: "Drawer systems & sliding wardrobe fittings",
+};
 
 const DIRECTORY_ROSTER: BrandDirectoryMeta[] = [
   // B (2 brands)
@@ -264,14 +279,11 @@ export default function BrandsDirectoryView({
     <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
       {/* ── 01. Hero & Header Section ─────────────────────────────────── */}
       <section className="pt-12 sm:pt-16 pb-10 sm:pb-14 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <span className="hc-mono text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-3">
-          MANUFACTURER REFERENCE LIBRARY
-        </span>
         <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4 text-balance">
           Brands & Catalogues
         </h1>
         <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] font-light max-w-2xl mx-auto">
-          Official manufacturer catalogues, technical references and product specifications from our authorized partners.
+          Find official product catalogues, specifications and manufacturer references for the hardware you need.
         </p>
       </section>
 
@@ -282,9 +294,6 @@ export default function BrandsDirectoryView({
       <section id="featured" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
-            <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
-              All Authorized Brands
-            </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight text-balance">
               Featured Brands
             </h2>
@@ -301,11 +310,17 @@ export default function BrandsDirectoryView({
           </button>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-          {featuredBrands.map((brand) => (
-            <button
-              key={brand.id}
-              onClick={() => {
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+          {featuredBrands.map((brand) => {
+            const resolved = brandLookup.get(brand.id) as ResolvedBrand | undefined;
+            const logoSrc = resolved?.logoUrl || resolved?.logo;
+            const applicationImage = BRAND_APPLICATION_IMAGES[brand.id] || "/cinema/categories/HC-03-DOORS.png";
+            const descriptor = BRAND_DESCRIPTORS[brand.id] || brand.featuredDescription || "Architectural hardware & fittings";
+
+            const handleBrandAction = () => {
+              if (resolved && onSelectBrand && (resolved.catalogues?.length || resolved.officialCatalogUrl)) {
+                onSelectBrand(resolved);
+              } else {
                 const el = document.getElementById(`brand-${brand.id}`);
                 if (el) {
                   el.scrollIntoView({ behavior: "smooth", block: "center" });
@@ -314,41 +329,68 @@ export default function BrandsDirectoryView({
                 } else {
                   scrollToLetter(brand.letter);
                 }
-              }}
-              className="text-left bg-white border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] shadow-[0_1px_4px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.06)] hover:border-[var(--color-wine)]/30 transition-all group"
-            >
-              <div>
-                {(() => {
-                  const logoSrc = brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo;
-                  if (logoSrc) {
-                    return (
-                      <div className="h-8 mb-4 flex items-center justify-start">
+              }
+            };
+
+            return (
+              <div
+                key={brand.id}
+                onClick={handleBrandAction}
+                className="group bg-white border border-[var(--border)] rounded-2xl p-6 sm:p-7 flex flex-col justify-between cursor-pointer hover:border-[var(--color-wine)]/50 transition-all duration-300 shadow-[0_1px_3px_rgba(26,16,23,0.02)] hover:-translate-y-1"
+              >
+                <div>
+                  {/* Official Brand Logo as Main Identifier */}
+                  <div className="h-10 mb-4 flex items-center justify-between">
+                    {logoSrc ? (
+                      <div className="h-8 flex items-center justify-start">
                         <Image
                           src={logoSrc as string}
                           alt={`${brand.name} logo`}
-                          width={120}
-                          height={32}
-                          className="max-h-full max-w-[120px] object-contain object-left"
+                          width={110}
+                          height={28}
+                          className="h-7 w-auto max-w-[110px] object-contain object-left"
                           unoptimized={typeof logoSrc === "string" && logoSrc.endsWith(".svg")}
                         />
                       </div>
-                    );
-                  }
-                  return (
-                    <h3 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-2 group-hover:text-[var(--color-wine)] transition-colors">
-                      {brand.name}
-                    </h3>
-                  );
-                })()}
-                <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed font-light">
-                  {brand.featuredDescription}
-                </p>
+                    ) : (
+                      <span className="hc-serif text-xl font-normal text-[var(--text-primary)]">
+                        {brand.name}
+                      </span>
+                    )}
+                    {brand.country && (
+                      <span className="text-[10px] hc-mono uppercase tracking-wider text-[var(--text-secondary)]">
+                        {brand.country}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Refined Product / Application Context Image */}
+                  <div className="relative aspect-[16/10] w-full rounded-xl overflow-hidden mb-3.5 bg-[var(--surface)] border border-[var(--border)]/70">
+                    <Image
+                      src={applicationImage}
+                      alt={`${brand.name} architectural hardware application`}
+                      fill
+                      sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                      className="object-cover transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-105"
+                    />
+                  </div>
+
+                  {/* Short Descriptor: establishes what the brand specializes in */}
+                  <p className="text-[13px] text-[var(--text-secondary)] font-light leading-relaxed line-clamp-2 mb-4">
+                    {descriptor}
+                  </p>
+                </div>
+
+                {/* Simple Action: Explore Collection → */}
+                <div className="border-t border-[var(--border)]/70 pt-3.5 flex items-center justify-between">
+                  <span className="text-[11.5px] hc-mono font-medium uppercase tracking-wider text-[var(--text-primary)] group-hover:text-[var(--color-wine)] transition-colors">
+                    Explore Collection
+                  </span>
+                  <ArrowRight className="w-3.5 h-3.5 text-[var(--text-secondary)] group-hover:text-[var(--color-wine)] transition-transform duration-200 group-hover:translate-x-1" />
+                </div>
               </div>
-              <div className="mt-4 flex justify-end">
-                <span className="text-[var(--text-primary)]/40 group-hover:text-[var(--color-wine)] transition-colors">→</span>
-              </div>
-            </button>
-          ))}
+            );
+          })}
         </div>
       </section>
 
@@ -356,9 +398,6 @@ export default function BrandsDirectoryView({
       <section id="all-brands" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 border-t border-[var(--border)]">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
-            <span className="hc-mono text-[10px] sm:text-[11px] font-medium tracking-[0.22em] text-[var(--color-wine)] uppercase block mb-2">
-              All Partners
-            </span>
             <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight text-balance">
               Official Catalogue Library
             </h2>
@@ -384,7 +423,7 @@ export default function BrandsDirectoryView({
           {groupedDirectory.map(({ letter, items }) => (
             <div key={letter} id={`letter-${letter}`} className="scroll-mt-28">
               <div className="pb-3 mb-4 border-b border-[var(--border)]">
-                <h3 className="hc-serif text-2xl font-normal text-[var(--text-primary)]/50 leading-none">
+                <h3 className="hc-serif text-2xl font-light text-[var(--text-primary)]/50 leading-none">
                   {letter}
                 </h3>
               </div>
@@ -394,11 +433,11 @@ export default function BrandsDirectoryView({
                   <div
                     key={brand.id}
                     id={`brand-${brand.id}`}
-                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-white border border-[var(--border)] hover:border-[var(--color-wine)]/30 transition-all shadow-[0_1px_3px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.04)]"
+                    className="flex flex-col md:flex-row md:items-center justify-between p-5 sm:p-6 lg:px-8 bg-white border border-[var(--border)] rounded-2xl hover:border-[var(--color-wine)]/40 hover:shadow-[0_12px_32px_rgba(91,30,49,0.06)] transition-all duration-300 hover:-translate-y-0.5 group/row"
                   >
                     {/* Left: Brand Identity */}
                     <div className="flex items-center gap-5 md:w-[35%] shrink-0 mb-4 md:mb-0">
-                      <div className="w-20 h-14 bg-white border border-[var(--border)] flex items-center justify-center shrink-0 p-2">
+                      <div className="w-20 h-14 bg-[var(--surface-raised)]/60 border border-[var(--border)] rounded-xl flex items-center justify-center shrink-0 p-2 group-hover/row:bg-white group-hover/row:border-[var(--color-wine)]/30 transition-colors">
                         {brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo ? (
                           <Image
                             src={(brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo) as string}
@@ -409,19 +448,19 @@ export default function BrandsDirectoryView({
                             unoptimized={typeof (brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo) === "string" && ((brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo) as string).endsWith(".svg")}
                           />
                         ) : (
-                          <div className="w-14 h-14 bg-white flex items-center justify-center border border-[var(--border)]">
-                            <span className="hc-serif text-2xl font-normal text-[var(--text-secondary)]">
+                          <div className="w-10 h-10 flex items-center justify-center">
+                            <span className="hc-serif text-xl font-light text-[var(--color-wine)]">
                               {brand.initial}
                             </span>
                           </div>
                         )}
                       </div>
                       <div>
-                        <h4 className="text-xl hc-serif text-[var(--text-primary)] mb-0.5">
+                        <h4 className="text-xl hc-serif font-light text-[var(--text-primary)] mb-0.5 group-hover/row:text-[var(--color-wine)] transition-colors">
                           {brand.name}
                         </h4>
                         {brand.country && (
-                          <span className="text-[11px] text-[var(--text-secondary)] uppercase tracking-wider">
+                          <span className="text-[10px] hc-mono text-[var(--text-secondary)] uppercase tracking-wider px-2 py-0.5 rounded bg-[var(--surface-raised)] border border-[var(--border)]">
                             {brand.country}
                           </span>
                         )}
@@ -446,7 +485,7 @@ export default function BrandsDirectoryView({
                             onSelectBrand(resolved);
                           }
                         }}
-                        className="w-full sm:w-auto rounded-full px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm text-center"
+                        className="w-full sm:w-auto rounded-full px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] hc-mono font-medium uppercase tracking-wider hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm text-center"
                       >
                         VIEW CATALOGUE
                       </Link>
@@ -459,9 +498,10 @@ export default function BrandsDirectoryView({
                               href={websiteUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="w-full sm:w-auto px-5 py-2.5 border border-[var(--border)] bg-white text-[var(--text-primary)] text-[12px] font-medium hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors text-center whitespace-nowrap"
+                              className="w-full sm:w-auto rounded-full px-5 py-2.5 border border-[var(--border)] bg-white text-[var(--text-primary)] text-[12px] hc-mono font-medium uppercase tracking-wider hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors text-center whitespace-nowrap inline-flex items-center justify-center gap-1.5"
                             >
-                              VISIT WEBSITE
+                              <span>VISIT WEBSITE</span>
+                              <ArrowUpRight className="w-3.5 h-3.5" />
                             </a>
                           );
                         }
@@ -470,9 +510,10 @@ export default function BrandsDirectoryView({
                             href={buildWhatsAppUrl(`Hi Hardware Collection, I would like to enquire about ${brand.name} hardware products.`)}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="w-full sm:w-auto px-5 py-2.5 border border-[var(--border)] bg-white text-[var(--text-primary)] text-[12px] font-medium hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors text-center whitespace-nowrap"
+                            className="w-full sm:w-auto rounded-full px-5 py-2.5 border border-[var(--border)] bg-white text-[var(--text-primary)] text-[12px] hc-mono font-medium uppercase tracking-wider hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] transition-colors text-center whitespace-nowrap inline-flex items-center justify-center gap-1.5"
                           >
-                            ENQUIRE BRAND
+                            <span>ENQUIRE BRAND</span>
+                            <ArrowRight className="w-3.5 h-3.5" />
                           </a>
                         );
                       })()}
@@ -549,7 +590,7 @@ export default function BrandsDirectoryView({
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {/* Ask an expert */}
           <div className="bg-white border border-[var(--border)] p-8 sm:p-12 text-center shadow-[0_2px_12px_rgba(26,16,23,0.02)]">
-            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-3 text-balance">
+            <h2 className="hc-serif text-2xl font-light text-[var(--text-primary)] mb-3 text-balance">
               Need help identifying something?
             </h2>
             <p className="text-sm text-[var(--text-secondary)] font-light mb-8 max-w-[280px] mx-auto">
@@ -568,7 +609,7 @@ export default function BrandsDirectoryView({
 
           {/* Physical copy */}
           <div className="bg-[var(--color-obsidian)] p-8 sm:p-12 text-center border border-[var(--color-obsidian)]">
-            <h2 className="hc-serif text-2xl font-normal text-white mb-3 text-balance">
+            <h2 className="hc-serif text-2xl font-light text-white mb-3 text-balance">
               Need a physical copy?
             </h2>
             <p className="text-sm text-white/60 font-light mb-8 max-w-[280px] mx-auto">

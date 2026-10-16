@@ -155,11 +155,6 @@ export default function HeroCarousel({ slides }: HeroCarouselProps) {
 
             <div className="relative z-20 w-full max-w-[1320px] mx-auto px-6 flex flex-col items-start justify-center h-full">
               <div className="max-w-4xl space-y-6">
-                {slide.eyebrow && (
-                  <p className="font-body text-xs md:text-sm font-bold uppercase tracking-widest text-[var(--color-primary)]">
-                    {slide.eyebrow}
-                  </p>
-                )}
                 
                 <h2 className="text-hero text-[var(--color-text-inverse)] whitespace-pre-line">
                   {slide.title}

@@ -36,13 +36,10 @@ export default function TactileStatement() {
             style={{ y: shouldReduceMotion ? 0 : textY }}
             className="order-2 lg:order-1"
           >
-            <p className="text-brass-ink font-medium tracking-widest text-sm uppercase mb-6">
-              THE TACTILE STATEMENT
-            </p>
-            <h2 className="text-5xl lg:text-7xl font-light text-[var(--text-primary)] leading-tight mb-8 text-balance">
-              HARDWARE<br />YOU CAN<br />EXPERIENCE.
+            <h2 className="hc-serif text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-light text-[var(--text-primary)] leading-[1.04] tracking-tight mb-6 text-balance">
+              Hardware<br />you can<br />experience.
             </h2>
-            <p className="text-xl text-[var(--text-secondary)] font-light max-w-md">
+            <p className="text-base sm:text-lg lg:text-xl text-[var(--text-secondary)] font-light leading-relaxed max-w-md">
               Weight. Texture. Resistance. True quality isn&apos;t just seen. It communicates through touch.
             </p>
           </motion.div>

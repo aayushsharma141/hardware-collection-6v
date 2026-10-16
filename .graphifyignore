@@ -1,0 +1,29 @@
+# Dependencies & build outputs
+node_modules/
+.next/
+out/
+build/
+coverage/
+
+# Vendor & runtime third-party assets
+public/pdf.worker.min.mjs
+public/pdfjs/
+
+# Quarantined & archived trees (per .agents/workflows/graphify.md)
+_quarantine/
+_archive/
+Hardware Collection/
+Hardware-Collection-Knowledge-Base/
+
+# Internal tool & agent state
+.git/
+.planning/
+.agents/
+.claude/
+.impeccable/
+.gemini/
+.superdesign/
+.vercel/
+catalog-index/
+graphify-out/
+graft/

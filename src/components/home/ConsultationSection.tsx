@@ -45,22 +45,10 @@ export function ConsultationSection({
 
           {/* Top Left: Eyebrow + Headline + Short Copy */}
           <div className="relative z-10 max-w-[500px]">
-            {/* Eyebrow */}
-            <div className="flex items-start gap-3 mb-10">
-              <span className="w-6 h-[1px] bg-[var(--border)] shrink-0 mt-2" aria-hidden="true" />
-              <div className="flex flex-col leading-tight">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-[var(--text-primary)] font-semibold">
-                  Private Consultation
-                </span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-medium mt-1">
-                  Sakchi, Jamshedpur
-                </span>
-              </div>
-            </div>
 
             {/* Large Editorial Headline: Roman + Italic Gold */}
             <h2
-              className="font-cormorant text-[clamp(40px,4vw,56px)] font-normal tracking-tight text-[var(--text-primary)] leading-[1.05] mb-4 text-balance"
+              className="hc-serif text-4xl sm:text-5xl lg:text-[54px] font-light tracking-tight text-[var(--text-primary)] leading-[1.05] mb-4 text-balance"
               style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
             >
               Let&apos;s Plan
@@ -69,7 +57,7 @@ export function ConsultationSection({
             </h2>
 
             {/* Supporting Copy */}
-            <p className="text-[16px] xl:text-[17px] text-[var(--text-secondary)] font-normal leading-relaxed max-w-[400px]">
+            <p className="text-[15px] sm:text-[16px] text-[var(--text-secondary)] font-light leading-relaxed max-w-[420px]">
               Meet our experts at our Sakchi showroom and get the right solution for your project.
             </p>
           </div>
@@ -79,7 +67,7 @@ export function ConsultationSection({
             <div className="flex items-end gap-6 max-w-[400px]">
               <div>
                 <p
-                  className="font-cormorant text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-none drop-shadow-sm"
+                  className="font-cormorant text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-none drop-shadow-sm"
                   style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
                 >
                   10+
@@ -93,7 +81,7 @@ export function ConsultationSection({
 
               <div>
                 <p
-                  className="font-cormorant text-4xl lg:text-5xl font-normal text-[var(--text-primary)] leading-none tabular-nums drop-shadow-sm"
+                  className="font-cormorant text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-none tabular-nums drop-shadow-sm"
                   style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
                 >
                   20+
@@ -107,7 +95,7 @@ export function ConsultationSection({
 
               <div>
                 <p
-                  className="font-cormorant text-3xl lg:text-4xl font-normal text-[var(--text-primary)] leading-none tracking-wide drop-shadow-sm"
+                  className="font-cormorant text-3xl lg:text-4xl font-light text-[var(--text-primary)] leading-none tracking-wide drop-shadow-sm"
                   style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
                 >
                   SAKCHI
@@ -145,15 +133,9 @@ export function ConsultationSection({
 
         {/* 2. Headline & Editorial Copy */}
         <div className="px-6 sm:px-10 pt-6 pb-4">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="w-6 h-[1px] bg-[var(--border)]" aria-hidden="true" />
-            <span className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-primary)] font-semibold">
-              Private Consultation · Sakchi
-            </span>
-          </div>
 
           <h2
-            className="font-cormorant text-3xl sm:text-4xl font-normal tracking-tight text-[var(--text-primary)] leading-[1.05] mb-4 text-balance"
+            className="hc-serif text-3xl sm:text-4xl font-light tracking-tight text-[var(--text-primary)] leading-[1.08] mb-3 text-balance"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
           >
             Let&apos;s Plan
@@ -161,7 +143,7 @@ export function ConsultationSection({
             <span className="italic text-[var(--color-brass)]">Your Space.</span>
           </h2>
 
-          <p className="text-[14px] text-[var(--text-secondary)] font-normal leading-relaxed max-w-md mb-6">
+          <p className="text-[13.5px] text-[var(--text-secondary)] font-light leading-relaxed max-w-md mb-6">
             Meet our experts at our Sakchi showroom and get the right solution for your project.
           </p>
 
@@ -169,7 +151,7 @@ export function ConsultationSection({
           <div className="grid grid-cols-3 divide-x divide-[var(--border)] border-y border-[var(--border)] py-6 mb-8 text-center">
             <div className="flex flex-col items-center justify-start px-2">
               <p
-                className="font-cormorant text-3xl sm:text-4xl font-normal text-[var(--text-primary)] leading-none mb-2"
+                className="font-cormorant text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-none mb-2"
                 style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
               >
                 10+
@@ -181,7 +163,7 @@ export function ConsultationSection({
 
             <div className="flex flex-col items-center justify-start px-2">
               <p
-                className="font-cormorant text-3xl sm:text-4xl font-normal text-[var(--text-primary)] leading-none tabular-nums mb-2"
+                className="font-cormorant text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-none tabular-nums mb-2"
                 style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
               >
                 20+
@@ -193,7 +175,7 @@ export function ConsultationSection({
 
             <div className="flex flex-col items-center justify-start px-2">
               <p
-                className="font-cormorant text-3xl sm:text-4xl font-normal text-[var(--text-primary)] leading-none mb-2"
+                className="font-cormorant text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-none mb-2"
                 style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
               >
                 HQ

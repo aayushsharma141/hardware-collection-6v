@@ -23,6 +23,19 @@ export const SHOWROOM_HOURS_FALLBACK = "Wed–Mon: 10:00 AM – 8:00 PM\nTuesday
 export const SHOWROOM_YEARS_OF_TRUST = 10;
 export const SHOWROOM_BRAND_COUNT = 20;
 
+/** Official showroom social channels fallback */
+export interface ShowroomSocialLink {
+  platform: "LinkedIn" | "Pinterest" | "Instagram" | "Facebook" | string;
+  url: string;
+}
+
+export const SHOWROOM_SOCIAL_FALLBACKS: ShowroomSocialLink[] = [
+  { platform: "LinkedIn", url: "https://www.linkedin.com/in/hardware-collection-96687278" },
+  { platform: "Pinterest", url: "https://in.pinterest.com/hardwarecollectionjsr/" },
+  { platform: "Instagram", url: "https://instagram.com/hardware.collection" },
+  { platform: "Facebook", url: "https://www.facebook.com/hardware-collection/" },
+];
+
 export const SHOWROOM_DEFAULT_WA_MESSAGE =
   "Hi, I\u2019m interested in Hardware Collection\u2019s collections. I\u2019d like to know more.";
 

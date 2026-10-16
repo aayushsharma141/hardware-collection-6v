@@ -92,20 +92,20 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
   const activeBrands: BrandItem[] =
     brands && brands.length > 0
       ? brands.map((b) => {
-          const slugStr = typeof b.slug === "object" ? b.slug?.current : b.slug;
-          const key = slugStr || b.id || (typeof b.name === "string" ? b.name.toLowerCase().replace(/[^a-z0-9]/g, "") : "");
-          const canonical = CANONICAL_BRANDS.find((c) => c.id === key);
-          const brandName = ("brandName" in b && b.brandName ? b.brandName : b.name) || "Brand";
-          const brandLogo = canonical?.logo || (typeof b.logoUrl === "string" ? b.logoUrl : undefined) || (typeof b.logo === "string" ? b.logo : undefined);
-          return {
-            name: brandName,
-            id: key,
-            logo: brandLogo,
-            href: `/catalogues?brand=${key}`,
-            imageClass: canonical?.imageClass,
-            imageStyle: canonical?.imageStyle,
-          };
-        })
+        const slugStr = typeof b.slug === "object" ? b.slug?.current : b.slug;
+        const key = slugStr || b.id || (typeof b.name === "string" ? b.name.toLowerCase().replace(/[^a-z0-9]/g, "") : "");
+        const canonical = CANONICAL_BRANDS.find((c) => c.id === key);
+        const brandName = ("brandName" in b && b.brandName ? b.brandName : b.name) || "Brand";
+        const brandLogo = canonical?.logo || (typeof b.logoUrl === "string" ? b.logoUrl : undefined) || (typeof b.logo === "string" ? b.logo : undefined);
+        return {
+          name: brandName,
+          id: key,
+          logo: brandLogo,
+          href: `/catalogues?brand=${key}`,
+          imageClass: canonical?.imageClass,
+          imageStyle: canonical?.imageStyle,
+        };
+      })
       : FEATURED_BRANDS;
 
   // Split activeBrands into two rows for the dual-marquee effect
@@ -127,9 +127,6 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
           {/* Header matching Reference Mockup */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
-                Direct Partnerships
-              </p>
               <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--text-primary)] leading-tight text-balance">
                 Authorized Brands.
                 <br />

@@ -417,7 +417,7 @@ export default function Navbar({
               <button
                 ref={menuButtonRef}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-full text-[#2d1b26] hover:text-[#8b1a42] active:scale-[0.92] transition-colors duration-200 !outline-none focus:!outline-none focus-visible:!outline-none -mr-1"
+                className="lg:hidden flex items-center justify-center w-11 h-11 min-w-[44px] min-h-[44px] rounded-full text-[#2d1b26] hover:text-[#8b1a42] active:scale-[0.92] transition-colors duration-200 outline-none focus-visible:ring-2 focus-visible:ring-[#8b1a42] -mr-1"
                 aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
                 aria-expanded={mobileMenuOpen}
                 aria-controls="mobile-nav-modal"

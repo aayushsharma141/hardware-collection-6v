@@ -44,7 +44,7 @@ export default function HeroTrustBadges({ pillars = DEFAULT_PILLARS }: HeroTrust
                   <h3 className="hc-mono text-[10px] sm:text-xs font-bold uppercase tracking-[0.12em] sm:tracking-[0.16em] text-[var(--text-primary)] mb-1 group-hover:text-[var(--color-wine)] transition-colors">
                     {pillar.title}
                   </h3>
-                  <p className="text-[11px] sm:text-xs text-[var(--text-secondary)] font-light leading-snug sm:leading-relaxed">
+                  <p className="text-[11.5px] sm:text-[12.5px] text-[var(--text-secondary)] font-light leading-snug sm:leading-relaxed">
                     {pillar.description}
                   </p>
                 </div>

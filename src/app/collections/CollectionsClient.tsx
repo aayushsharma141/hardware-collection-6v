@@ -220,10 +220,10 @@ export default function CollectionsClient({
         </div>
 
         <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 pt-10 sm:pt-14 pb-2">
-          <h1 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight text-balance">
+          <h1 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-light tracking-tight text-balance">
             Architectural Hardware Collections
           </h1>
-          <p className="mt-4 text-[15px] sm:text-base text-[var(--text-secondary)] font-light max-w-lg">
+          <p className="mt-4 text-[15px] sm:text-base text-[var(--text-secondary)] font-light leading-relaxed max-w-lg">
             Explore hardware by application, from doors and digital security to kitchens, wardrobes, bathrooms and glass systems.
           </p>
         </div>
@@ -256,8 +256,7 @@ export default function CollectionsClient({
         {/* Contextual Cross-Link Bridge to Brands & Catalogues */}
         <div className="border-t border-[var(--border)] py-10 px-5 sm:px-8 lg:px-12 max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-widest text-[var(--accent)] font-semibold">Brand Directory</p>
-            <p className="text-lg sm:text-xl font-light text-[var(--text-primary)] mt-1">Looking for a specific manufacturer or official reference?</p>
+            <p className="text-lg sm:text-xl font-light text-[var(--text-primary)]">Looking for a specific manufacturer or official reference?</p>
           </div>
           <Link
             href="/catalogues"

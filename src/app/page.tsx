@@ -39,7 +39,7 @@ const fallbackHeroSlides: HeroSlide[] = [
   {
     id: "ch01",
     eyebrow: "ARCHITECTURAL HARDWARE",
-    title: "The Art of\nthe Finish.",
+    title: "The Right Hardware\nChanges Everything.",
     description:
       "Curated hardware for modern spaces. Explore global brands, unmatched quality and expert guidance at our Sakchi showroom.",
     primaryCta: "Explore Collections",
