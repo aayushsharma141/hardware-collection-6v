@@ -52,9 +52,6 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
         {/* Header matching Reference Mockup */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
           <div>
-            <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
-              Showroom Advisory
-            </p>
             <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight text-balance">
               Common questions.
             </h2>
@@ -88,7 +85,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
                   className="w-full py-5 flex items-center justify-between text-left outline-none group"
                   aria-expanded={isOpen}
                 >
-                  <span className="hc-serif text-lg sm:text-xl font-normal text-[var(--text-primary)] group-hover:text-[var(--color-wine)] transition-colors pr-6">
+                  <span className="hc-serif text-lg sm:text-xl font-light text-[var(--text-primary)] group-hover:text-[var(--color-wine)] transition-colors pr-6">
                     {faq.question}
                   </span>
                   <span className="shrink-0 w-6 h-6 flex items-center justify-center text-[var(--text-secondary)] group-hover:text-[var(--color-wine)] transition-colors">
@@ -111,7 +108,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
                   aria-hidden={!isOpen}
                 >
                   <div className="min-h-0 overflow-hidden">
-                    <div className="pb-5 pt-0 text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed max-w-3xl">
+                    <div className="pb-5 pt-0 text-[13.5px] sm:text-[14.5px] font-light text-[var(--text-secondary)] leading-relaxed max-w-3xl">
                       <p className="text-pretty">{faq.answer}</p>
                     </div>
                   </div>

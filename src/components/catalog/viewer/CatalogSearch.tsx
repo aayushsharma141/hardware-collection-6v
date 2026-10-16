@@ -213,7 +213,7 @@ export default function CatalogSearch({
                   start();
                 }
               }}
-              className="min-w-0 flex-1 bg-transparent py-2 font-body text-sm text-[var(--v-text)] outline-none placeholder:text-[var(--v-text-faint)]"
+              className="min-w-0 flex-1 bg-transparent py-2 font-body text-base md:text-sm text-[var(--v-text)] outline-none placeholder:text-[var(--v-text-faint)]"
             />
           </div>
           <button

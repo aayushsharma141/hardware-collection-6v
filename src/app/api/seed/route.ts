@@ -101,6 +101,10 @@ export async function POST(request: Request) {
       defaultWhatsappMessage: "Hi Hardware Collection, I would like to connect with your consultation desk regarding architectural hardware.",
       googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Hardware+Collection+Jamshedpur",
       googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3677.674844391696!2d86.20150000000001!3d22.8028401!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f5e3035e707e07%3A0x8f8ee13c908afec6!2sHardware%20Collection!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
+      linkedinUrl: "https://www.linkedin.com/in/hardware-collection-96687278",
+      pinterestUrl: "https://in.pinterest.com/hardwarecollectionjsr/",
+      instagramUrl: "https://instagram.com/hardware.collection",
+      facebookUrl: "https://www.facebook.com/hardware-collection/",
       seo: {
         metaTitle: "Hardware Collection | Premium Architectural Hardware in Jamshedpur",
         metaDescription: "Authorized Hafele & Dorset Dealer in Sakchi, Jamshedpur. Premium architectural hardware and digital locks.",
@@ -121,8 +125,10 @@ export async function POST(request: Request) {
         { _key: "f2", label: "Terms & Conditions", path: "/terms" }
       ],
       socialLinks: [
-        { _key: "s1", platform: "Instagram", url: "https://instagram.com/hardwarecollectionjsr" },
-        { _key: "s2", platform: "Facebook", url: "https://facebook.com/hardwarecollectionjsr" }
+        { _key: "s1", platform: "LinkedIn", url: "https://www.linkedin.com/in/hardware-collection-96687278" },
+        { _key: "s2", platform: "Pinterest", url: "https://in.pinterest.com/hardwarecollectionjsr/" },
+        { _key: "s3", platform: "Instagram", url: "https://instagram.com/hardware.collection" },
+        { _key: "s4", platform: "Facebook", url: "https://www.facebook.com/hardware-collection/" }
       ]
     });
 

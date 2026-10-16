@@ -101,29 +101,43 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                 id={`brand-card-${key}`}
                 key={brand._id || brand.id || key || idx}
                 onClick={handleCardClick}
-                className={`bg-[var(--surface-raised)] border p-8 flex flex-col justify-between min-h-[340px] rounded-none group relative overflow-hidden cursor-pointer transition duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] hover:bg-[var(--surface-elevated)] ${
+                tabIndex={0}
+                role="button"
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleCardClick();
+                  }
+                }}
+                className={`p-7 sm:p-8 flex flex-col justify-between min-h-[360px] rounded-2xl group relative overflow-hidden cursor-pointer transition-[transform,border-color,box-shadow,background-color] duration-300 hover:-translate-y-1.5 shadow-[0_4px_20px_rgba(26,16,23,0.03)] hover:shadow-[0_20px_48px_rgba(91,30,49,0.09)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] ${
                   isSelected
-                    ? "border-[var(--color-wine)] ring-1 ring-[var(--color-wine)]/30 bg-[var(--surface-elevated)]"
-                    : "border-[var(--border)] hover:border-[var(--accent)]/50"
+                    ? "border border-[var(--color-wine)] ring-1 ring-[var(--color-wine)]/30 bg-white"
+                    : "border border-[var(--border)] bg-white hover:border-[var(--color-wine)]/40"
                 }`}
               >
+                {/* Subtle Top Brass/Wine Accent Line */}
+                <div
+                  aria-hidden="true"
+                  className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-transparent via-[var(--color-brass)]/40 to-transparent group-hover:via-[var(--color-wine)] transition-colors duration-500"
+                />
+
                 {/* Top Badge */}
                 <div className="flex flex-wrap items-center justify-between gap-2">
-                  <span className={`text-xs uppercase font-bold tracking-[0.2em] px-3 py-1 rounded-none border ${
+                  <span className={`text-[10px] hc-mono uppercase font-semibold tracking-[0.16em] px-3 py-1 rounded-full border ${
                     isSelected
-                      ? "text-[var(--surface)] bg-[var(--color-wine)] border-[var(--color-wine)]"
-                      : "text-brass-ink bg-[var(--color-brass)]/10 border-[var(--color-brass)]/20"
+                      ? "text-white bg-[var(--color-wine)] border-[var(--color-wine)]"
+                      : "text-[var(--color-brass-ink)] bg-[var(--surface-raised)] border-[var(--color-brass)]/30 group-hover:border-[var(--color-wine)]/30 group-hover:text-[var(--color-wine)] transition-colors"
                   }`}>
-                    {isSelected ? "Selected Brand Partner" : "Authorized Partner"}
+                    {isSelected ? "Selected Partner" : "Authorized Partner"}
                   </span>
-                  <span className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                  <span className="text-[10px] hc-mono font-medium text-[var(--text-secondary)] uppercase tracking-wider px-2 py-0.5 rounded-md bg-[var(--surface-raised)] border border-[var(--border)]">
                     {country}
                   </span>
                 </div>
                 
-                {/* Middle: Brand Logo & Tagline */}
-                <div className="my-auto py-4">
-                  <div className="h-16 w-full max-w-[220px] flex items-center justify-start transition-transform duration-300 group-hover:scale-[1.03]">
+                {/* Middle: Brand Logo Pedestal & Tagline */}
+                <div className="my-auto py-3">
+                  <div className="h-20 w-full rounded-xl bg-[var(--surface-raised)]/60 border border-[var(--border)]/70 flex items-center justify-center p-3 group-hover:bg-white group-hover:border-[var(--color-wine)]/30 group-hover:shadow-xs transition-[border-color,background-color,box-shadow] duration-300">
                     {logoSrc ? (
                       <NormalizedLogo
                         src={logoSrc}
@@ -133,18 +147,21 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                         style={meta.imageStyle}
                       />
                     ) : (
-                      <span className="font-display text-2xl text-[var(--text-primary)] group-hover:text-[var(--accent)] transition-colors">
+                      <span className="hc-serif text-3xl font-light text-[var(--color-wine)]">
                         {displayName}
                       </span>
                     )}
                   </div>
-                  <p className="font-body text-sm sm:text-base text-[var(--text-secondary)] mt-4 leading-relaxed line-clamp-2 font-normal">
+                  <h3 className="hc-serif text-2xl font-light text-[var(--text-primary)] mt-3 group-hover:text-[var(--color-wine)] transition-colors">
+                    {displayName}
+                  </h3>
+                  <p className="text-[13.5px] text-[var(--text-secondary)] mt-1.5 leading-relaxed line-clamp-2 font-light">
                     {tagline}
                   </p>
                 </div>
                 
                 {/* Bottom Actions: View Catalog + Visit Brand Website */}
-                <div className="flex flex-wrap items-center justify-between pt-5 border-t border-[var(--border)] gap-x-3 gap-y-2">
+                <div className="flex flex-wrap items-center justify-between pt-4 border-t border-[var(--border)]/70 gap-x-3 gap-y-2">
                   {catalogCount > 0 && (
                     <button
                       type="button"
@@ -152,9 +169,9 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                         e.stopPropagation();
                         handleCardClick();
                       }}
-                      className="inline-flex items-center gap-2 px-4 py-2.5 min-h-[44px] whitespace-nowrap rounded-full bg-[var(--accent)]/10 hover:bg-[var(--accent)] text-[var(--accent)] hover:text-white font-body text-xs sm:text-sm font-bold uppercase tracking-wider transition duration-300"
+                      className="inline-flex items-center gap-2 px-4 py-2 min-h-[40px] whitespace-nowrap rounded-full bg-[var(--color-wine)] text-white text-xs hc-mono font-medium tracking-wider uppercase hover:bg-[var(--color-wine-deep)] shadow-xs transition duration-200"
                     >
-                      <BookOpen className="w-4 h-4" />
+                      <BookOpen className="w-3.5 h-3.5" />
                       <span>{catalogCount > 1 ? `View ${catalogCount} Catalogues` : "View Catalogue"}</span>
                     </button>
                   )}
@@ -165,13 +182,13 @@ export default function CatalogLibrary({ brands, onSelectBrand, selectedBrandSlu
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={(e) => e.stopPropagation()}
-                      className="inline-flex items-center gap-1.5 min-h-[44px] whitespace-nowrap px-1 py-2 text-xs sm:text-sm font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)] uppercase tracking-wider transition-colors group/link"
+                      className="inline-flex items-center gap-1.5 min-h-[40px] whitespace-nowrap px-3 py-1.5 rounded-full border border-[var(--border)] bg-white text-xs hc-mono font-medium text-[var(--text-primary)] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] uppercase tracking-wider transition-colors group/link"
                     >
-                      <span>Visit Website</span>
-                      <ArrowUpRight className="w-4 h-4 text-[var(--color-brass-ink)] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-300" />
+                      <span>Website</span>
+                      <ArrowUpRight className="w-3.5 h-3.5 text-[var(--color-brass-ink)] group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5 transition-transform duration-200" />
                     </a>
                   ) : (
-                    <span className="text-xs font-semibold text-[var(--text-secondary)] uppercase tracking-wider">
+                    <span className="text-[10px] hc-mono text-[var(--text-secondary)] uppercase tracking-wider">
                       Showroom Partner
                     </span>
                   )}

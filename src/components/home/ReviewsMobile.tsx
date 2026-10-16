@@ -22,9 +22,6 @@ export default function ReviewsMobile({ reviews = [] }: { reviews?: Testimonial[
       <div className="flex flex-col space-y-unit-md">
         {/* Header in margin-padded container */}
         <div className="px-margin-mobile flex flex-col space-y-unit-xs">
-          <p className="font-label-caps t-eyebrow text-[var(--color-wine)] font-semibold tracking-[0.2em] uppercase text-xs">
-            Client Experiences
-          </p>
           <h2 className="hc-serif t-h2 mt-3 text-[var(--text-primary)] text-3xl sm:text-4xl font-light text-balance">
             Voices of Trust
           </h2>
@@ -111,23 +108,34 @@ function MobileReviewCard({ review }: { review: Testimonial }) {
   const dateStr = formatTestimonialDate(review.date);
 
   return (
-    <div className="w-[300px] shrink-0 bg-white border border-[var(--border)] p-5 rounded-none flex flex-col justify-between gap-4 select-none cursor-pointer hover:border-[var(--color-wine)]/30 transition-colors duration-300">
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <StarRating rating={rating} className="w-3.5 h-3.5" />
-          <span className="hc-mono uppercase text-[var(--text-secondary)] bg-[var(--surface)] px-2 py-0.5 border border-[var(--border)] text-[10px] tracking-[0.2em] font-medium">
-            {review.source || "Google"}
-          </span>
-        </div>
-        <p className="text-[var(--text-secondary)] t-body-sm font-light italic line-clamp-4 leading-relaxed">
-          &ldquo;{review.quote}&rdquo;
+    <div className="w-[300px] shrink-0 bg-white border border-[var(--border)] p-6 rounded-2xl flex flex-col justify-between gap-4 hover:border-[var(--color-brass)]/60 transition-colors duration-200 shadow-[0_1px_3px_rgba(26,16,23,0.02)]">
+      <div>
+        <span
+          aria-hidden="true"
+          className="hc-serif text-3xl text-[var(--color-brass)] leading-none mb-2.5 block select-none"
+        >
+          &ldquo;
+        </span>
+
+        <p className="hc-serif text-[15px] sm:text-[15.5px] font-light leading-[1.6] text-[var(--text-primary)] text-pretty line-clamp-4 mb-2">
+          {review.quote}
         </p>
       </div>
 
-      <div className="border-t border-[var(--border)] pt-3 flex items-center justify-between gap-2">
-        <p className="text-[var(--text-primary)] text-[14px] font-medium truncate">{review.customerName}</p>
-        {dateStr && (
-          <p className="text-[var(--text-secondary)] t-meta shrink-0 tracking-normal text-xs">{dateStr}</p>
+      <div className="border-t border-[var(--border)]/70 pt-3 flex items-center justify-between gap-2.5">
+        <div>
+          <p className="text-[13.5px] font-medium text-[var(--text-primary)] truncate">
+            {review.customerName}
+          </p>
+          <p className="text-[10px] text-[var(--text-secondary)] hc-mono uppercase tracking-wider">
+            {review.source ? `Verified · ${review.source}` : dateStr || "Verified Client"}
+          </p>
+        </div>
+
+        {rating > 0 && (
+          <div className="shrink-0" aria-label={`${rating} out of 5 stars`}>
+            <StarRating rating={rating} className="w-2.5 h-2.5" />
+          </div>
         )}
       </div>
     </div>

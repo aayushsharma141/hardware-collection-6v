@@ -1,5 +1,6 @@
 "use client";
 
+import "@/lib/browser/pdfPolyfills";
 import React, {
   useCallback,
   useEffect,
@@ -174,6 +175,16 @@ function PageView({
   }, [current, canvasRef]);
 
   useEffect(() => {
+    const node = localRef.current;
+    return () => {
+      if (node) {
+        node.width = 0;
+        node.height = 0;
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     const canvas = localRef.current;
     if (!canvas) return;
     let cancelled = false;
@@ -188,7 +199,15 @@ function PageView({
         cb.current.onNaturalSize(page, { w: natural.width, h: natural.height });
 
         const viewport = pdfPage.getViewport({ scale });
-        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        // iOS WebKit maximum single canvas dimension is 4096px, and max canvas area is 16MP.
+        // Cap DPR and render dimensions so older/smaller iOS devices never fail texture allocation.
+        const baseDpr = Math.min(window.devicePixelRatio || 1, 2);
+        const MAX_CANVAS_DIM = 4096;
+        const rawW = viewport.width * baseDpr;
+        const rawH = viewport.height * baseDpr;
+        const clamp = Math.min(1, MAX_CANVAS_DIM / Math.max(rawW, rawH, 1));
+        const dpr = baseDpr * clamp;
+
         canvas.width = Math.floor(viewport.width * dpr);
         canvas.height = Math.floor(viewport.height * dpr);
         canvas.style.width = `${Math.floor(viewport.width)}px`;
@@ -198,7 +217,7 @@ function PageView({
         if (!ctx) return;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-        const task = pdfPage.render({ canvas, viewport });
+        const task = pdfPage.render({ canvas, viewport, transform: [dpr, 0, 0, dpr, 0, 0] });
         taskRef.current = task;
         await task.promise;
         if (cancelled) return;
@@ -215,6 +234,12 @@ function PageView({
     return () => {
       cancelled = true;
       taskRef.current?.cancel();
+      // On iOS Safari / WebKit, explicitly zeroing canvas dimensions forces immediate release
+      // of GPU backing store memory rather than accumulating MBs of texture cache.
+      if (canvas) {
+        canvas.width = 0;
+        canvas.height = 0;
+      }
     };
     // Deliberately not keyed on `current`: becoming the page under the reader
     // must not redraw the canvas, or every scroll would flash.

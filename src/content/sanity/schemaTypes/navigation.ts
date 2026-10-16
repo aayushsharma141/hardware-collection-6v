@@ -56,7 +56,7 @@ export const navigationType = defineType({
         {
           type: "object",
           fields: [
-            defineField({ name: "platform", title: "Platform", type: "string", options: { list: ['Instagram', 'Facebook', 'LinkedIn', 'WhatsApp', 'Other'] } }),
+            defineField({ name: "platform", title: "Platform", type: "string", options: { list: ['Instagram', 'Facebook', 'LinkedIn', 'Pinterest', 'WhatsApp', 'YouTube', 'Other'] } }),
             defineField({ name: "url", title: "URL", type: "url" }),
           ],
         },

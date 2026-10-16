@@ -148,15 +148,6 @@ export default function CollectionsHero({ slides, whatsappHref }: CollectionsHer
 
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div aria-live={playing ? "off" : "polite"} className="max-w-md">
-            {active.offerHref ? (
-              <p className="hc-mono text-[9.5px] uppercase tracking-[0.25em] text-[var(--color-brass)] font-semibold mb-1">
-                SPECIAL OFFER
-              </p>
-            ) : active.tagline ? (
-              <p className="hc-mono text-[10px] uppercase tracking-[0.2em] text-white/70 mb-1">
-                {active.tagline}
-              </p>
-            ) : null}
             <p className="hc-serif mt-1 text-3xl font-light">{active.title}</p>
             <div className="mt-4 flex flex-wrap gap-3">
               {active.offerHref ? (

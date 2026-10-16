@@ -78,8 +78,13 @@ function Thumbnail({
       }
     })();
 
+    const canvas = canvasRef.current;
     return () => {
       cancelled = true;
+      if (canvas) {
+        canvas.width = 0;
+        canvas.height = 0;
+      }
     };
   }, [visible, doc, page]);
 
@@ -207,7 +212,7 @@ export default function ThumbnailDrawer({
               aria-label="Filter pages by number"
               onChange={(e) => setFilter(e.target.value.replace(/[^0-9]/g, ""))}
               onKeyDown={(e) => e.stopPropagation()}
-              className="min-w-0 flex-1 bg-transparent py-2 font-body text-sm tabular-nums text-[var(--v-text)] outline-none placeholder:text-[var(--v-text-faint)]"
+              className="min-w-0 flex-1 bg-transparent py-2 font-body text-base md:text-sm tabular-nums text-[var(--v-text)] outline-none placeholder:text-[var(--v-text-faint)]"
             />
           </div>
         </div>

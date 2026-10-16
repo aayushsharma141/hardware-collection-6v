@@ -1,3 +1,8 @@
+// iOS / Safari Polyfill for PDF.js Worker compatibility across all iOS versions
+if(typeof Promise.withResolvers!=="function"){Promise.withResolvers=function(){var a,b,c=new Promise(function(d,e){a=d,b=e});return{promise:c,resolve:a,reject:b}};}
+if(typeof Promise.try!=="function"){Promise.try=function(a){return new Promise(function(b){b(a())})};}
+if(typeof Object.hasOwn!=="function"){Object.hasOwn=function(a,b){return Object.prototype.hasOwnProperty.call(a,b)}};
+if(!Array.prototype.at){Array.prototype.at=function(a){a=Math.trunc(a)||0;if(a<0)a+=this.length;return a<0||a>=this.length?void 0:this[a]};}
 /**
  * @licstart The following is the entire license notice for the
  * JavaScript code in this page

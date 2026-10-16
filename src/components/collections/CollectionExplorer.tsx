@@ -128,15 +128,12 @@ export default function CollectionExplorer({
       <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 py-12 md:py-20">
         {/* Section Header */}
         <div className="mb-10 md:mb-14">
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--accent)] block mb-3">
-            Showroom Taxonomy
-          </span>
-          <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight max-w-2xl text-balance">
+          <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-light tracking-tight max-w-2xl text-balance">
             Find the hardware
             <br />
             for your space.
           </h2>
-          <p className="mt-4 text-[15px] sm:text-base text-[var(--text-secondary)] font-light max-w-lg">
+          <p className="mt-4 text-[15px] sm:text-base text-[var(--text-secondary)] font-light leading-relaxed max-w-lg">
             Explore our curated collections by application. Expand any space to see the full category specification.
           </p>
           {!catalogueSearchAvailable && (
@@ -178,7 +175,7 @@ export default function CollectionExplorer({
                     </span>
                     <div className="flex flex-col gap-1 min-w-0">
                       <span
-                        className={`hc-serif text-xl sm:text-2xl md:text-[28px] transition-colors truncate ${
+                        className={`hc-serif text-xl sm:text-2xl md:text-[28px] font-light transition-colors truncate ${
                           isOpen ? "text-[var(--accent)]" : "text-[var(--text-primary)]"
                         }`}
                       >
@@ -283,7 +280,7 @@ export default function CollectionExplorer({
                                 }
                                 className="text-left cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--accent)] outline-none"
                               >
-                                <span className="hc-serif text-base sm:text-lg text-[var(--text-primary)] group-hover/card:text-[var(--accent)] transition-colors leading-snug line-clamp-1">
+                                <span className="hc-serif text-base sm:text-lg font-light text-[var(--text-primary)] group-hover/card:text-[var(--accent)] transition-colors leading-snug line-clamp-1">
                                   {category.name}
                                 </span>
                               </button>

@@ -1,29 +1,30 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, DM_Sans, Cinzel, Manrope, Jost } from "next/font/google";
 import "./globals.css";
+import "@/lib/browser/pdfPolyfills";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const dmSans = DM_Sans({
   variable: "--font-dmsans",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 const cinzel = Cinzel({
   variable: "--font-cinzel",
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  display: "swap",
 });
 
 const manrope = Manrope({
   variable: "--font-manrope",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 /**
@@ -35,7 +36,7 @@ const manrope = Manrope({
 const jost = Jost({
   variable: "--font-wordmark",
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
+  display: "swap",
 });
 
 import { getSiteSettings, getNavigation } from "@/content/sanity/queries";

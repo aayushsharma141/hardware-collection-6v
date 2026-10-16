@@ -12,7 +12,7 @@
  * same "\n", so setting this keeps the page identical. Studio's single-line
  * string field shows the break as a space; retyping the headline there drops it.
  */
-export const HERO_HEADLINE = "The Art of\nthe Finish.";
+export const HERO_HEADLINE = "The Right Hardware\nChanges Everything.";
 
 export const PULL_HANDLE_PRODUCT_ID = "3PbNCBB2cZv8B31WUkE8jD";
 export const HAFELE_BRAND_ID = "brand-hafele";

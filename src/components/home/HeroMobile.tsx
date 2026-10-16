@@ -30,7 +30,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
   if (!slides || slides.length === 0) return null;
   const slide = slides[currentSlideIndex] || slides[0];
 
-  const heading = slide.title || "The Art of\nthe Finish.";
+  const heading = slide.title || "The Right Hardware\nChanges Everything.";
   const ctaLabel = slide.primaryCta || "Explore Collections";
   const ctaHref = slide.ctaTarget || "/collections";
   const isExternalCta = /^https?:\/\//.test(ctaHref);
@@ -60,21 +60,14 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
     >
       {/* ── Top Editorial Block ─────────────────────────────────── */}
       <div className="w-full flex flex-col mb-6">
-        {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 mb-2.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-wine)]" />
-          <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)]">
-            {slide.eyebrow || "Architectural Hardware"}
-          </p>
-        </div>
 
         {/* Headline */}
-        <p aria-hidden="true" className="hc-serif text-[40px] sm:text-[46px] leading-[1.02] font-light text-[var(--text-primary)] whitespace-pre-line mb-3 tracking-tight text-balance">
+        <p aria-hidden="true" className="hc-serif text-[38px] sm:text-[44px] leading-[1.04] font-light text-[var(--text-primary)] whitespace-pre-line mb-3.5 tracking-[-0.01em] text-balance">
           {heading}
         </p>
 
         {/* Subtitle / Description */}
-        <p className="text-[13px] sm:text-[14px] leading-relaxed font-light text-[var(--text-secondary)] mb-6 max-w-[38ch] text-pretty">
+        <p className="text-[13.5px] sm:text-[14.5px] leading-[1.6] font-light text-[var(--text-secondary)] mb-6 max-w-[36ch] text-pretty">
           {slide.description ||
             "Curated hardware for modern spaces. Explore global brands, unmatched quality and expert guidance at our Sakchi showroom."}
         </p>
@@ -86,7 +79,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
               href={ctaHref}
               target="_blank"
               rel="noopener noreferrer"
-              className="group relative px-6 py-3.5 rounded-full bg-gradient-to-r from-[var(--color-wine)] to-[#4a1824] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_4px_16px_rgba(42,14,23,0.22)] border border-white/20"
+              className="group relative px-6 py-3.5 rounded-full bg-gradient-to-r from-[var(--color-wine)] to-[#4a1824] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 hover:brightness-110 motion-safe:active:scale-[0.98] transition-[filter,box-shadow,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-wine)] shadow-[0_4px_16px_rgba(42,14,23,0.22)] border border-white/20"
             >
               <span>{ctaLabel}</span>
               <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform" />
@@ -94,7 +87,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
           ) : (
             <Link
               href={ctaHref}
-              className="group relative px-6 py-3.5 rounded-full bg-gradient-to-r from-[var(--color-wine)] to-[#4a1824] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 hover:brightness-110 active:scale-[0.98] transition-all shadow-[0_4px_16px_rgba(42,14,23,0.22)] border border-white/20"
+              className="group relative px-6 py-3.5 rounded-full bg-gradient-to-r from-[var(--color-wine)] to-[#4a1824] text-white text-[11px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2 hover:brightness-110 motion-safe:active:scale-[0.98] transition-[filter,box-shadow,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80 focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--color-wine)] shadow-[0_4px_16px_rgba(42,14,23,0.22)] border border-white/20"
             >
               <span>{ctaLabel}</span>
               <ArrowRight className="w-3.5 h-3.5 text-white/90 group-hover:translate-x-0.5 transition-transform" />
@@ -103,7 +96,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
 
           <a
             href="#showroom"
-            className="px-5 py-3.5 rounded-full bg-white/70 hover:bg-white text-[var(--text-primary)] text-[11px] font-semibold uppercase tracking-[0.15em] inline-flex items-center gap-1.5 transition-all shadow-sm border border-[var(--border)] active:scale-[0.98] backdrop-blur-md"
+            className="px-5 py-3.5 rounded-full bg-white/70 hover:bg-white text-[var(--text-primary)] text-[11px] font-semibold uppercase tracking-[0.15em] inline-flex items-center gap-1.5 motion-safe:active:scale-[0.98] transition-[background-color,border-color,transform] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] shadow-sm border border-[var(--border)] backdrop-blur-md"
           >
             <span>Visit Showroom</span>
             <ArrowRight className="w-3.5 h-3.5 text-[var(--color-wine)]" />
@@ -154,7 +147,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
                 type="button"
                 onClick={prevSlide}
                 aria-label="Previous hero slide"
-                className="w-8 h-8 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/30 motion-safe:active:scale-[0.97] transition-[background-color,scale] duration-150 ease-[var(--ease-out)]"
+                className="w-8 h-8 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/30 motion-safe:active:scale-[0.97] transition-[background-color,scale] duration-150 ease-[var(--ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
@@ -162,7 +155,7 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
                 type="button"
                 onClick={nextSlide}
                 aria-label="Next hero slide"
-                className="w-8 h-8 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/30 motion-safe:active:scale-[0.97] transition-[background-color,scale] duration-150 ease-[var(--ease-out)]"
+                className="w-8 h-8 rounded-full bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center text-white hover:bg-white/30 motion-safe:active:scale-[0.97] transition-[background-color,scale] duration-150 ease-[var(--ease-out)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/80"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>

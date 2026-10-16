@@ -9,7 +9,7 @@ import Link from "next/link";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { ChevronLeft, ChevronRight, MessageCircle, ArrowRight } from "lucide-react";
 import { HeroSlide } from "@/types/hero";
-import { generateWhatsAppUrl, SHOWROOM_YEARS_OF_TRUST } from "@/lib/config";
+import { generateWhatsAppUrl } from "@/lib/config";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -196,20 +196,13 @@ export default function HeroStage({ slides }: HeroStageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_390px] xl:grid-cols-[minmax(460px,580px)_1fr] items-end gap-8 xl:gap-14 my-auto">
           {/* Left Column: Typography & CTAs */}
           <div className="hero-text-col pb-4">
-            <div className="flex items-center gap-3 mb-6">
-              <span className="h-2 w-2 bg-[var(--color-wine)] rounded-full shrink-0" />
-              <p className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)]">
-                {currentSlide.eyebrow || `Architectural Hardware Experts · ${SHOWROOM_YEARS_OF_TRUST}+ Years`}
+            <div className="mb-5">
+              <p aria-hidden="true" className="hero-h1 hc-serif text-[56px] sm:text-[68px] lg:text-[76px] xl:text-[92px] 2xl:text-[104px] leading-[0.98] xl:leading-[0.96] font-light tracking-[-0.015em] text-[var(--text-primary)] whitespace-pre-line">
+                {splitHeadline(currentSlide.title || "The Right Hardware\nChanges Everything.")}
               </p>
             </div>
 
-            <div className="mb-6 pb-2">
-              <p aria-hidden="true" className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[96px] 2xl:text-[110px] leading-[0.94] font-light tracking-[-0.01em] text-[var(--text-primary)] whitespace-pre-line">
-                {splitHeadline(currentSlide.title || "The Art of\nthe Finish.")}
-              </p>
-            </div>
-
-            <p className="hero-p mt-4 max-w-[500px] text-base lg:text-lg xl:text-xl leading-[1.65] font-light text-[var(--text-secondary)]">
+            <p className="hero-p mt-4 max-w-[480px] text-base lg:text-[17px] xl:text-[18px] leading-[1.6] font-light text-[var(--text-secondary)]">
               {currentSlide.description ||
                 "Premium architectural hardware and modular solutions, curated for contemporary spaces."}
             </p>

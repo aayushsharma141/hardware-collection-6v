@@ -58,15 +58,12 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
       <div className="hidden lg:block px-12 xl:px-16">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">
           <div>
-            <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink">
-              Showroom families
-            </p>
-            <h2 className="hc-serif mt-3 text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)] text-balance">
+            <h2 className="hc-serif text-4xl sm:text-5xl lg:text-6xl xl:text-[68px] leading-[1.0] font-light tracking-[-0.015em] text-[var(--text-primary)] text-balance">
               Where to begin
             </h2>
           </div>
-          <div className="flex flex-col items-end gap-6 max-w-[420px]">
-            <p className="text-right text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] font-light text-pretty">
+          <div className="flex flex-col items-end gap-5 max-w-[400px]">
+            <p className="text-right text-sm sm:text-[15px] lg:text-base leading-relaxed text-[var(--text-secondary)] font-light text-pretty">
               A considered route through architectural hardware, security, bath, kitchen systems and the joinery details that finish a room.
             </p>
             <Link
@@ -139,8 +136,8 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
               <div className="px-6 pt-6 pb-6 flex-1 flex flex-col justify-between">
                 <div>
                   <h3
-                    className={`hc-serif leading-[0.95] text-[var(--text-primary)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:translate-x-1 ${
-                      cat.isFocal ? "text-[32px] xl:text-[36px]" : "text-[26px] xl:text-[29px]"
+                    className={`hc-serif leading-[1.12] text-[var(--text-primary)] font-light transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:translate-x-1 ${
+                      cat.isFocal ? "text-[28px] xl:text-[32px]" : "text-[24px] xl:text-[27px]"
                     }`}
                   >
                     {cat.name}
@@ -151,10 +148,10 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                       </>
                     )}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)] font-normal text-pretty">
+                  <p className="mt-2.5 text-[13px] sm:text-[13.5px] leading-relaxed text-[var(--text-secondary)] font-light text-pretty">
                     {cat.subtitle}
                   </p>
-                  <p className="mt-3 border-t border-[var(--border)]/70 pt-3 text-xs leading-relaxed text-[var(--text-secondary)] font-light text-pretty">
+                  <p className="mt-2.5 border-t border-[var(--border)]/70 pt-2.5 text-[11.5px] leading-relaxed text-[var(--text-secondary)]/85 font-light text-pretty">
                     {cat.detail}
                   </p>
                 </div>
@@ -180,10 +177,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
       <div className="block lg:hidden px-6">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-5">
           <div>
-            <p className="hc-mono text-xs uppercase tracking-[0.2em] font-semibold text-brass-ink">
-              Showroom families
-            </p>
-            <h3 className="hc-serif mt-2 text-4xl sm:text-5xl leading-none text-[var(--text-primary)] text-balance">
+            <h3 className="hc-serif text-3xl sm:text-4xl leading-tight font-light text-[var(--text-primary)] text-balance">
               Where to begin
             </h3>
           </div>
@@ -222,7 +216,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                   </div>
                 )}
                 <div className="flex-1 min-w-0">
-                  <strong className="block hc-serif text-2xl leading-tight font-normal text-[var(--text-primary)]">
+                  <strong className="block hc-serif text-2xl leading-tight font-light text-[var(--text-primary)]">
                     {cat.name} {cat.nameBreak || ""}
                   </strong>
                   <small className="mt-1 block text-xs uppercase tracking-[0.12em] text-[var(--text-secondary)] truncate">

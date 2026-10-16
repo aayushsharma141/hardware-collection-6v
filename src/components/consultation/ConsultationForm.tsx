@@ -271,12 +271,9 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
         >
       {/* Form Editorial Header */}
       <div className="mb-8 lg:mb-10">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="w-6 h-[1px] bg-[var(--text-primary)]/50 shrink-0" aria-hidden="true" />
-          <span className="text-[12px] uppercase tracking-[0.25em] text-[var(--text-primary)] font-semibold font-dmsans">
-            Request a Consultation
-          </span>
-        </div>
+        <h3 className="text-2xl font-light text-[var(--text-primary)] mb-2 font-cormorant">
+          Request a Consultation
+        </h3>
         <p className="text-[17px] lg:text-[18px] text-[var(--text-secondary)] font-normal leading-relaxed max-w-sm">
           Share a few details and our showroom team will get in touch with you shortly.
         </p>
@@ -334,8 +331,10 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
               <button
                 type="button"
                 id={`${uid}-project-type`}
+                aria-haspopup="listbox"
+                aria-expanded={isDropdownOpen}
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className={`w-full bg-transparent border-b border-[var(--text-primary)]/15 hover:border-[var(--text-primary)]/35 focus:border-[var(--color-wine)] pb-3 text-[17px] xl:text-[18px] text-[var(--text-primary)] flex items-center justify-between focus:outline-none transition-colors duration-200 rounded-none ${!values.projectType ? "text-[var(--text-secondary)]" : ""}`}
+                className={`w-full bg-transparent border-b border-[var(--text-primary)]/15 hover:border-[var(--text-primary)]/35 focus:border-[var(--color-wine)] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-[var(--color-wine)] pb-3 text-[17px] xl:text-[18px] text-[var(--text-primary)] flex items-center justify-between transition-colors duration-200 rounded-none ${!values.projectType ? "text-[var(--text-secondary)]" : ""}`}
               >
                 <span className="truncate">
                   {values.projectType || "Select Project Type"}
@@ -348,6 +347,8 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
               
               {/* Dropdown Menu */}
               <div
+                role="listbox"
+                aria-label="Project Type"
                 className={`absolute left-0 right-0 top-[calc(100%+8px)] z-50 bg-[var(--surface)] border border-[var(--text-primary)]/10 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.1)] overflow-hidden transition-all duration-300 origin-top ${
                   isDropdownOpen ? "opacity-100 scale-y-100 visible" : "opacity-0 scale-y-95 invisible"
                 }`}
@@ -357,11 +358,13 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
                     <button
                       key={pt}
                       type="button"
+                      role="option"
+                      aria-selected={values.projectType === pt}
                       onClick={() => {
                         setField("projectType")(pt);
                         setIsDropdownOpen(false);
                       }}
-                      className={`text-left px-5 py-3.5 text-[16px] transition-colors ${
+                      className={`text-left px-5 py-3.5 text-[16px] transition-colors focus-visible:outline-none focus-visible:bg-[var(--color-wine)]/10 ${
                         values.projectType === pt 
                           ? "bg-[var(--color-wine)]/5 text-[var(--color-wine)] font-medium" 
                           : "text-[var(--text-secondary)] hover:bg-[var(--text-primary)]/5 hover:text-[var(--text-primary)]"
@@ -393,7 +396,7 @@ export function ConsultationForm({ onSuccess, inline = false }: ConsultationForm
           <button
             type="submit"
             disabled={isSubmitting}
-            className="group flex items-center justify-between w-full cursor-pointer disabled:opacity-60 transition-all focus:outline-none"
+            className="group flex items-center justify-between w-full cursor-pointer disabled:opacity-60 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] focus-visible:ring-offset-2 p-1"
           >
             <span className="text-[13px] font-bold uppercase tracking-[0.24em] text-[var(--color-wine)] transition-colors group-hover:text-[#520e20]">
               Send Enquiry

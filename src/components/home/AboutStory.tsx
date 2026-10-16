@@ -59,13 +59,10 @@ export default function AboutStory({
 
           {/* Right Column: Narrative & 3 Pillars */}
           <div className="lg:col-span-7 flex flex-col justify-center">
-            <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
-              Showroom Distinction
-            </p>
             <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-[1.08] tracking-tight mb-5 sm:mb-8 text-balance">
-              More than hardware.
+              See the hardware
               <br />
-              A better experience.
+              before you choose.
             </h2>
 
             {/* 3 Pillars with refined architectural marks */}
@@ -81,10 +78,10 @@ export default function AboutStory({
                       <Icon className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.5} />
                     </div>
                     <div className="min-w-0">
-                      <h3 className="hc-serif text-base sm:text-xl font-normal text-[var(--text-primary)] mb-0.5 sm:mb-1">
+                      <h3 className="hc-serif text-base sm:text-xl font-light text-[var(--text-primary)] mb-0.5 sm:mb-1">
                         {pillar.title}
                       </h3>
-                      <p className="text-xs text-[var(--text-secondary)] font-light leading-relaxed max-w-[32ch] text-pretty">
+                      <p className="text-[13px] sm:text-[13.5px] text-[var(--text-secondary)] font-light leading-relaxed max-w-[32ch] text-pretty">
                         {pillar.description}
                       </p>
                     </div>

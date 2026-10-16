@@ -70,7 +70,7 @@ describe("planOpenItems", () => {
   });
 
   it("keeps the line break the live hero already shows", () => {
-    expect(HERO_HEADLINE).toBe("The Art of\nthe Finish.");
+    expect(HERO_HEADLINE).toBe("The Right Hardware\nChanges Everything.");
   });
 
   it("only plans logo files that exist in the repo", () => {
