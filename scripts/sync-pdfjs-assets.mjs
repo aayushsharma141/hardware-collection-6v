@@ -18,7 +18,7 @@
  */
 
 import { createRequire } from "node:module";
-import { cp, mkdir, readdir, rm, stat } from "node:fs/promises";
+import { cp, mkdir, readFile, readdir, rm, stat, writeFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 
@@ -90,7 +90,18 @@ async function main() {
     } else {
       await mkdir(path.dirname(destination), { recursive: true });
     }
-    await cp(source, destination, { recursive: true });
+    if (to === "pdf.worker.min.mjs") {
+      const originalWorker = await readFile(source, "utf8");
+      const workerPolyfill = `// iOS / Safari Polyfill for PDF.js Worker compatibility across all iOS versions
+if(typeof Promise.withResolvers!=="function"){Promise.withResolvers=function(){var a,b,c=new Promise(function(d,e){a=d,b=e});return{promise:c,resolve:a,reject:b}};}
+if(typeof Promise.try!=="function"){Promise.try=function(a){return new Promise(function(b){b(a())})};}
+if(typeof Object.hasOwn!=="function"){Object.hasOwn=function(a,b){return Object.prototype.hasOwnProperty.call(a,b)}};
+if(!Array.prototype.at){Array.prototype.at=function(a){a=Math.trunc(a)||0;if(a<0)a+=this.length;return a<0||a>=this.length?void 0:this[a]};}
+`;
+      await writeFile(destination, workerPolyfill + originalWorker, "utf8");
+    } else {
+      await cp(source, destination, { recursive: true });
+    }
     console.log(`  ${to} (${expected} file${expected === 1 ? "" : "s"})`);
   }
 
