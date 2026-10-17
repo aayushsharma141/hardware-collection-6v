@@ -720,7 +720,7 @@ select {
 ::-webkit-scrollbar-thumb {
   background: rgba(139, 26, 66, 0.28);
   border: 2px solid var(--pearl);
-  border-radius: 999px;
+  border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover { background: rgba(139, 26, 66, 0.55); }
 ::-webkit-scrollbar-corner { background: var(--pearl); }
