@@ -289,8 +289,6 @@ export async function getSiteSettings() {
     instagramUrl,
     facebookUrl,
     "socialLinks": coalesce(socialLinks[] { platform, url }, []),
-    mainLogo,
-    mainLogoInverse,
     "defaultCategoryImage": defaultCategoryImage,
     "defaultCategoryImageUrl": defaultCategoryImage.asset->url,
     "authorizedBrandRefs": authorizedBrands[]->{ 

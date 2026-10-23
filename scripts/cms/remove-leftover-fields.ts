@@ -7,13 +7,17 @@
  *   category.status      retired in favour of the Publish button
  *   homePage.heroSlides  the pre-Hero-Manager hero; the homepage hero now
  *                        comes from code and the offers marked "show on home"
+ *   siteSettings.mainLogo, siteSettings.mainLogoInverse
+ *                        uploaded logos nothing renders (see below)
  *
  * Nothing in src/ or scripts/ reads any of these (checked 2026-10-13). Only the
  * fields listed here are touched, and the script refuses to remove one that a
  * registered schema declares.
  *
- * NOT included: `siteSettings.mainLogo` (decide whether the logo should be
- * editable first) and the testimonial fields `quote`, `source`, `date`,
+ * `siteSettings.mainLogo` / `mainLogoInverse` were added on 2026-10-24: the owner decided
+ * the logo is not editable (BrandLockup draws it), so the stored images go.
+ *
+ * NOT included: the testimonial fields `quote`, `source`, `date`,
  * `approved`, which the site reads and need their own migration.
  *
  * READ-ONLY BY DEFAULT: prints every removal and its value and writes nothing.
@@ -33,6 +37,8 @@ const SPEC: LeftoverSpec = {
   brand: ["brandName", "catalogType"],
   category: ["status"],
   homePage: ["heroSlides"],
+  // The header and footer draw the logo from BrandLockup; no component reads these.
+  siteSettings: ["mainLogo", "mainLogoInverse"],
 };
 
 /** .env.local holds one UTF-16 line spliced into UTF-8, so strip NULs before parsing. */

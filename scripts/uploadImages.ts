@@ -46,9 +46,6 @@ async function main() {
   const interior = await uploadImage("/cinema/showroom/interior.png");
   const consultation = await uploadImage("/cinema/consultation/consultation-editorial-v2.jpg");
   
-  // SiteSettings images
-  const mainLogo = await uploadImage("/Hardware Collection/HQ_LOGO_SMB-removebg-preview (2).png");
-  
   console.log("Updating homePage...");
   const homePageResult = await client
     .patch("homePage")
@@ -60,16 +57,6 @@ async function main() {
     })
     .commit();
   console.log("homePage updated:", homePageResult._id);
-
-  console.log("Updating siteSettings...");
-  const siteSettingsResult = await client
-    .patch("siteSettings")
-    .setIfMissing({ _type: "siteSettings" })
-    .set({
-      mainLogo: mainLogo
-    })
-    .commit();
-  console.log("siteSettings updated:", siteSettingsResult._id);
 }
 
 main().catch(console.error);
