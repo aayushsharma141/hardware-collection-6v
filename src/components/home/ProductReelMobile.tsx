@@ -52,7 +52,7 @@ export default function ProductReelMobile({}: { products?: unknown } = {}) {
   const current = FEATURED_ITEMS[currentIndex];
 
   return (
-    <section className="w-full px-5 py-10 bg-[var(--surface)] border-b border-[var(--border)] lg:hidden">
+    <section className="w-full px-5 py-10 bg-transparent border-b border-[var(--border)] lg:hidden">
       {/* Header Info */}
       <div className="mb-6">
         <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-2.5 text-balance">

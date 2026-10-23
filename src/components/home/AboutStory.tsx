@@ -39,7 +39,7 @@ export default function AboutStory({
   return (
     <section
       id={id}
-      className="py-12 lg:py-20 bg-[var(--surface)] border-b border-[var(--border)] relative z-10 scroll-mt-20"
+      className="py-12 lg:py-20 bg-transparent border-b border-[var(--border)] relative z-10 scroll-mt-20"
     >
       <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-14 items-center">
