@@ -32,6 +32,7 @@ import CategoryDiscoveryMobile from "@/components/home/CategoryDiscoveryMobile";
 import ProductReelMobile from "@/components/home/ProductReelMobile";
 import AboutStory from "@/components/home/AboutStory";
 import HeroTrustBadges from "@/components/home/HeroTrustBadges";
+import FinishesStrip from "@/components/home/FinishesStrip";
 import { HeroSlide } from "@/types/hero";
 
 
@@ -204,6 +205,11 @@ export default async function HomePage() {
         </div>
         <div className="hidden lg:block theme-ivory">
           <ProductReel products={homeData?.featuredProductRefs} />
+        </div>
+
+        {/* 04b FINISHES — Material Finishes from Studio (Home Page > Material Finishes) */}
+        <div className="theme-ivory">
+          <FinishesStrip finishes={homeData?.materialFinishes} />
         </div>
 
         {/* 05 WHY HARDWARE COLLECTION — Hardware that completes the space */}

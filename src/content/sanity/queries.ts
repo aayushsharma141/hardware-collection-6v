@@ -207,7 +207,15 @@ export async function getHomePage() {
     "heroImageMobileLqip": heroImageMobile.asset->metadata.lqip,
     
     valuePropositions,
-    materialFinishes,
+    "materialFinishes": materialFinishes[]{
+      _key,
+      name,
+      subName,
+      description,
+      specification,
+      "imageUrl": image.asset->url,
+      "imageLqip": image.asset->metadata.lqip
+    },
     legacyYearsOfTrust,
     legacyBrandsCount,
     "legacyShowroomImage": legacyShowroomImage,
