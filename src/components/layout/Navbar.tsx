@@ -46,13 +46,6 @@ const NAV_BAND_PX = 96;
 const useIsomorphicLayoutEffect =
   typeof window !== "undefined" ? useLayoutEffect : useEffect;
 
-/**
- * Routes renamed since the Navigation document was written. The CMS menu still
- * stores `/catalogs`, which next.config.ts redirects, so linking the new path
- * saves every click a 308 hop. Remove an entry once the document is updated.
- */
-const RENAMED_PATHS: Readonly<Record<string, string>> = { "/catalogs": "/catalogues" };
-
 /** Default nav links — only used when Sanity navigation doc has no mainMenu */
 const NAV_LINKS_FALLBACK: NavLinkItem[] = [
   { name: "Collections", href: "/collections", id: "collections" },
@@ -91,9 +84,9 @@ export default function Navbar({
   const navLinks: NavLinkItem[] =
     mainMenu && mainMenu.length > 0
       ? mainMenu.map((item) => {
-        const href = RENAMED_PATHS[item.path] ?? item.path;
+        const href = item.path;
         return {
-          name: item.label.replace(/catalogs/i, "Catalogues").replace(/catalogues/i, "Catalogues"),
+          name: item.label,
           href,
           id: href.replace(/^\//, "").replace(/\//g, "-") || "home",
         };
