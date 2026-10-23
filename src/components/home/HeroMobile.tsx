@@ -60,14 +60,6 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
     >
       {/* ── Top Editorial Block ─────────────────────────────────── */}
       <div className="w-full flex flex-col mb-6">
-        {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 mb-2.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-wine)]" />
-          <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)]">
-            {slide.eyebrow || "Architectural Hardware"}
-          </p>
-        </div>
-
         {/* Headline */}
         <p aria-hidden="true" className="hc-serif text-[40px] sm:text-[46px] leading-[1.02] font-light text-[var(--text-primary)] whitespace-pre-line mb-3 tracking-tight text-balance">
           {heading}

@@ -55,9 +55,6 @@ export default function ProductReelMobile({}: { products?: unknown } = {}) {
     <section className="w-full px-5 py-10 bg-transparent border-b border-[var(--border)] lg:hidden">
       {/* Header Info */}
       <div className="mb-6">
-        <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
-          Featured
-        </p>
         <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-2.5 text-balance">
           Hardware that
           <br />

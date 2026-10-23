@@ -59,7 +59,6 @@ function CtaLink({ href, className, children }: { href: string; className: strin
  * scrim, with the headline and up to two calls to action.
  */
 export default function StaticHero({
-  eyebrow,
   headline,
   description,
   primaryCta,
@@ -103,9 +102,6 @@ export default function StaticHero({
 
       <div className="mx-auto w-full max-w-[1360px] px-6 pb-16 pt-32 lg:px-12 lg:pb-0">
         <div className="max-w-2xl">
-          <p className="hc-mono mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-brass)]">
-            {eyebrow || FALLBACK.eyebrow}
-          </p>
           <h1
             id="home-hero-heading"
             className="hc-serif whitespace-pre-line text-5xl font-light leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl text-balance"

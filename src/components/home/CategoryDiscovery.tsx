@@ -58,10 +58,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
       <div className="hidden lg:block px-12 xl:px-16">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">
           <div>
-            <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink">
-              Showroom families
-            </p>
-            <h2 className="hc-serif mt-3 text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)] text-balance">
+            <h2 className="hc-serif text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)] text-balance">
               Where to begin
             </h2>
           </div>
@@ -180,10 +177,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
       <div className="block lg:hidden px-6">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-5">
           <div>
-            <p className="hc-mono text-xs uppercase tracking-[0.2em] font-semibold text-brass-ink">
-              Showroom families
-            </p>
-            <h3 className="hc-serif mt-2 text-4xl sm:text-5xl leading-none text-[var(--text-primary)] text-balance">
+            <h3 className="hc-serif text-4xl sm:text-5xl leading-none text-[var(--text-primary)] text-balance">
               Where to begin
             </h3>
           </div>
