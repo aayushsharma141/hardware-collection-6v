@@ -68,8 +68,8 @@ hairline. No glints, sweeps or glow halos on hover.
 
 ## Shapes
 
-Pills for controls, soft cards for structure, per `.agents/rules/anti_ui_slop.md`
-(which supersedes the earlier square-corner contract). CTAs, inputs, chips, status
+Pills for controls, soft cards for structure. This supersedes the earlier
+square-corner contract. CTAs, inputs, chips, status
 dots and carousel buttons are `rounded-full` (9999px). Cards, dialogs and framed media
 are `rounded-2xl` (1rem). Don't mix a square button beside a pill. Dark tool surfaces
 such as the catalogue viewer (`.hc-viewer`) stay square. Bare `rounded` is fixed at
