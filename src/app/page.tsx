@@ -221,6 +221,7 @@ export default async function HomePage() {
             legacyYearsOfTrust={homeData?.legacyYearsOfTrust}
             legacyBrandsCount={homeData?.legacyBrandsCount}
             legacyShowroomImageUrl={homeData?.legacyShowroomImageUrl}
+            legacyPillars={homeData?.legacyPillars}
           />
         </div>
 
