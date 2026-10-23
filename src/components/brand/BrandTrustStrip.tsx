@@ -127,9 +127,6 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
           {/* Header matching Reference Mockup */}
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
-              <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
-                Direct Partnerships
-              </p>
               <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--text-primary)] leading-tight text-balance">
                 Authorized Brands.
                 <br />

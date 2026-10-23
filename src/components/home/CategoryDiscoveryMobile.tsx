@@ -77,9 +77,6 @@ export default function CategoryDiscoveryMobile({
     <section className="w-full px-5 py-10 bg-[var(--surface)] border-b border-[var(--border)] lg:hidden">
       {/* Header matching Reference Mockup */}
       <div className="flex flex-col mb-6">
-        <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)] mb-1.5">
-          Collections
-        </p>
         <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight text-balance">
           What are you looking for?
         </h2>

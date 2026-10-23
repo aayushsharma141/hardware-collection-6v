@@ -48,9 +48,6 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
             {/* Header */}
             <div className="flex items-end justify-between mb-8 sm:mb-10">
               <div>
-                <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
-                  Client Reviews
-                </p>
                 <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight text-balance">
                   What our customers say.
                 </h2>
@@ -158,9 +155,6 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
             {/* Left 4 Cols: Title, Copy & Directions Button */}
             <div className="lg:col-span-4 flex flex-col justify-between">
               <div>
-                <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
-                  Visit Our Showroom
-                </p>
                 <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-4 text-balance">
                   Experience it
                   <br />
