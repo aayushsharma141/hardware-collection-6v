@@ -176,7 +176,6 @@ export function getSlugString(slug?: string | { current?: string }): string {
 }
 
 export interface SiteSettings {
-  mainLogo?: unknown;
   whatsappNumber?: string;
   defaultWhatsappMessage?: string;
   primaryPhone?: string;
