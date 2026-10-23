@@ -31,6 +31,7 @@ import HeroMobile from "@/components/home/HeroMobile";
 import CategoryDiscoveryMobile from "@/components/home/CategoryDiscoveryMobile";
 import ProductReelMobile from "@/components/home/ProductReelMobile";
 import AboutStory from "@/components/home/AboutStory";
+import HeroTrustBadges from "@/components/home/HeroTrustBadges";
 import { HeroSlide } from "@/types/hero";
 
 
@@ -177,6 +178,11 @@ export default async function HomePage() {
         </div>
         <div className="hidden lg:block">
           <HeroStage slides={heroSlides} />
+        </div>
+
+        {/* 01b WHY US — Value Propositions from Studio (Home Page > Why Choose Us) */}
+        <div className="theme-ivory">
+          <HeroTrustBadges pillars={homeData?.valuePropositions} />
         </div>
 
         {/* 02 WHERE TO BEGIN — What are you working on? */}
