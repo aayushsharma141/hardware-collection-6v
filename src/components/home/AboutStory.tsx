@@ -2,7 +2,8 @@
 
 import React from "react";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
-import { Award, Compass, Store } from "lucide-react";
+import { Award, Compass, ShieldCheck, Store } from "lucide-react";
+import { pillarGridClass, resolvePillars, type StudioPillar } from "./pillars";
 
 interface AboutStoryProps {
   id?: string;
@@ -10,30 +11,19 @@ interface AboutStoryProps {
   legacyYearsOfTrust?: number;
   legacyBrandsCount?: number;
   legacyShowroomImageUrl?: string;
+  /** Studio: Home Page > Legacy Pillars. */
+  legacyPillars?: StudioPillar[];
 }
 
-const VALUE_PILLARS = [
-  {
-    icon: Award,
-    title: "Curated Selection",
-    description: "Premium brands, handpicked for modern spaces.",
-  },
-  {
-    icon: Compass,
-    title: "Expert Guidance",
-    description: "Personalized advice for homes and projects.",
-  },
-  {
-    icon: Store,
-    title: "Physical Showroom",
-    description: "Experience and compare before you decide.",
-  },
-];
+/** Icons are not editable in Studio: they follow the pillar's position. */
+const PILLAR_ICONS = [Award, Compass, Store, ShieldCheck];
 
 export default function AboutStory({
   id = "about",
   legacyShowroomImageUrl,
+  legacyPillars,
 }: AboutStoryProps) {
+  const pillars = resolvePillars(legacyPillars);
   const imageUrl = legacyShowroomImageUrl || "/cinema/hero/HC-01-HERO-02.png";
 
   return (
@@ -57,7 +47,7 @@ export default function AboutStory({
             </div>
           </div>
 
-          {/* Right Column: Narrative & 3 Pillars */}
+          {/* Right Column: Narrative & Pillars */}
           <div className="lg:col-span-7 flex flex-col justify-center">
             <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-[1.08] tracking-tight mb-5 sm:mb-8 text-balance">
               More than hardware.
@@ -65,13 +55,13 @@ export default function AboutStory({
               A better experience.
             </h2>
 
-            {/* 3 Pillars with refined architectural marks */}
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-1 sm:gap-6 pt-1 divide-y sm:divide-y-0 divide-[var(--border)]/60">
-              {VALUE_PILLARS.map((pillar, idx) => {
-                const Icon = pillar.icon;
+            {/* Pillars with refined architectural marks */}
+            <div className={`grid grid-cols-1 ${pillarGridClass(pillars.length)} gap-1 sm:gap-6 pt-1 divide-y sm:divide-y-0 divide-[var(--border)]/60`}>
+              {pillars.map((pillar, idx) => {
+                const Icon = PILLAR_ICONS[idx % PILLAR_ICONS.length];
                 return (
                   <div
-                    key={idx}
+                    key={pillar.key}
                     className="flex flex-row sm:flex-col items-start gap-3.5 sm:gap-0 py-3.5 sm:py-0"
                   >
                     <div className="text-[var(--color-brass-ink)] shrink-0 sm:mb-3.5 mt-0.5 sm:mt-0">
@@ -81,9 +71,11 @@ export default function AboutStory({
                       <h3 className="hc-serif text-base sm:text-xl font-normal text-[var(--text-primary)] mb-0.5 sm:mb-1">
                         {pillar.title}
                       </h3>
-                      <p className="text-xs text-[var(--text-secondary)] font-light leading-relaxed max-w-[32ch] text-pretty">
-                        {pillar.description}
-                      </p>
+                      {pillar.description ? (
+                        <p className="text-xs text-[var(--text-secondary)] font-light leading-relaxed max-w-[32ch] text-pretty">
+                          {pillar.description}
+                        </p>
+                      ) : null}
                     </div>
                   </div>
                 );
