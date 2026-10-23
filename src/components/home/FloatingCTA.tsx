@@ -48,10 +48,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
             {/* Header */}
             <div className="flex items-end justify-between mb-8 sm:mb-10">
               <div>
-                <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
-                  Voices of Trust
-                </p>
-                <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight">
+                <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight text-balance">
                   What our customers say.
                 </h2>
               </div>
@@ -94,8 +91,8 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                     <span className="hc-serif text-3xl sm:text-4xl text-[var(--color-brass)] leading-none block mb-3 select-none">
                       &ldquo;
                     </span>
-                    <p className="text-xs sm:text-[13px] leading-relaxed text-[var(--text-primary)] font-light mb-6">
-                      &ldquo;{rev.quote}&rdquo;
+                    <p className="text-xs sm:text-[13px] leading-relaxed text-[var(--text-primary)] font-light mb-6 text-pretty">
+                      {rev.quote}
                     </p>
                   </div>
 
@@ -119,8 +116,8 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                     <span className="hc-serif text-3xl text-[var(--color-brass)] leading-none block mb-2 select-none">
                       &ldquo;
                     </span>
-                    <p className="text-xs leading-relaxed text-[var(--text-primary)] font-light mb-6">
-                      &ldquo;{validReviews[activeReviewIndex].quote}&rdquo;
+                    <p className="text-xs leading-relaxed text-[var(--text-primary)] font-light mb-6 text-pretty">
+                      {validReviews[activeReviewIndex].quote}
                     </p>
                   </div>
 
@@ -158,15 +155,12 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
             {/* Left 4 Cols: Title, Copy & Directions Button */}
             <div className="lg:col-span-4 flex flex-col justify-between">
               <div>
-                <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
-                  Visit Our Showroom
-                </p>
-                <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-4">
+                <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-4 text-balance">
                   Experience it
                   <br />
                   in person.
                 </h2>
-                <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed max-w-[34ch] mb-6">
+                <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed max-w-[34ch] mb-6 text-pretty">
                   See, touch and compare a wide range of architectural hardware at our Sakchi showroom.
                 </p>
               </div>
@@ -200,7 +194,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
               <div className="space-y-4">
                 {/* Location */}
                 <div className="flex items-start gap-3">
-                  <MapPin className="w-4 h-4 text-[var(--color-brass-ink)] shrink-0 mt-0.5" />
+                  <MapPin className="w-4 h-4 text-[var(--color-brass-ink)] shrink-0 mt-0.5" strokeWidth={1.5} />
                   <div>
                     <h3 className="text-xs sm:text-[13px] font-semibold text-[var(--text-primary)]">
                       Sakchi, Jamshedpur
@@ -212,7 +206,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                 </div>
 
                 <div className="border-t border-[var(--border)]/70 pt-4 flex items-start gap-3">
-                  <Clock className="w-4 h-4 text-[var(--color-brass-ink)] shrink-0 mt-0.5" />
+                  <Clock className="w-4 h-4 text-[var(--color-brass-ink)] shrink-0 mt-0.5" strokeWidth={1.5} />
                   <div className="text-[11px] text-[var(--text-secondary)] font-light leading-relaxed">
                     <p className="font-medium text-[var(--text-primary)]">
                       Wed - Mon: 10:00 AM - 8:00 PM

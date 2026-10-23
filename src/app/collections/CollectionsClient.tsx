@@ -261,8 +261,6 @@ export default function CollectionsClient({
           </div>
           <Link
             href="/catalogues"
-            target="_blank"
-            rel="noopener noreferrer"
             className="text-sm font-semibold uppercase tracking-wider text-[var(--accent)] hover:underline inline-flex items-center gap-2 shrink-0"
           >
             <span>Explore Brands & Catalogues</span>

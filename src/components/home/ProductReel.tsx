@@ -114,15 +114,16 @@ export default function ProductReel({ products }: ProductReelProps) {
       viewport={{ once: true, margin: "-50px" }}
     >
       {activeProducts.map((p, i) => (
-        <motion.a
+        <motion.div
           variants={itemVariants}
           key={i}
-          href={p.href}
           className="snap-start shrink-0 block group"
           style={{ width: "78vw" }}
         >
-          <MobileProductCard product={p} />
-        </motion.a>
+          <Link href={p.href} className="block w-full">
+            <MobileProductCard product={p} />
+          </Link>
+        </motion.div>
       ))}
     </motion.div>
   );
@@ -183,15 +184,16 @@ export default function ProductReel({ products }: ProductReelProps) {
             viewport={{ once: true }}
           >
             {activeProducts.map((p, i) => (
-              <motion.a
+              <motion.div
                 variants={itemVariants}
-              key={i}
-              href={p.href}
-              className="product-card shrink-0 block group cursor-pointer"
-              style={{ width: "340px" }}
-            >
-              <ProductCard product={p} />
-              </motion.a>
+                key={i}
+                className="product-card shrink-0 block group cursor-pointer"
+                style={{ width: "340px" }}
+              >
+                <Link href={p.href} className="block w-full">
+                  <ProductCard product={p} />
+                </Link>
+              </motion.div>
             ))}
           </motion.div>
 
@@ -265,10 +267,7 @@ function ProductCard({
 function ChapterLabel() {
   return (
     <>
-      <p className="hc-mono text-[var(--accent)] font-medium tracking-[0.22em] text-[10px] sm:text-[11px] uppercase mb-1">
-        Selected hardware
-      </p>
-      <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mt-2">
+      <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight text-balance">
         Selected<br />
         <span className="text-[var(--text-secondary)]">Architectural</span><br />
         Hardware.

@@ -44,7 +44,7 @@ const prefersReducedMotion = () => window.matchMedia("(prefers-reduced-motion: r
  * reduced motion, pauses while the pointer is over the hero or focus is inside
  * it.
  */
-export default function CollectionsHero({ slides }: CollectionsHeroProps) {
+export default function CollectionsHero({ slides, whatsappHref }: CollectionsHeroProps) {
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
 
@@ -200,8 +200,11 @@ export default function CollectionsHero({ slides }: CollectionsHeroProps) {
                     variant="outline"
                     className="h-11 rounded border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-widest text-white hover:border-white hover:bg-white/10 hover:text-white"
                   >
-                    <a href="#" target="_blank" rel="noopener noreferrer">
-                      <MessageCircle aria-hidden="true" className="h-4 w-4" />
+                    <a
+                      href={whatsappHref ?? "/#showroom"}
+                      {...(whatsappHref ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                    >
+                      <MessageCircle aria-hidden="true" className="h-4 w-4 mr-2" />
                       Ask our team
                     </a>
                   </Button>

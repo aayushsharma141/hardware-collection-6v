@@ -36,9 +36,6 @@ export default function TactileStatement() {
             style={{ y: shouldReduceMotion ? 0 : textY }}
             className="order-2 lg:order-1"
           >
-            <p className="text-brass-ink font-medium tracking-widest text-sm uppercase mb-6">
-              THE TACTILE STATEMENT
-            </p>
             <h2 className="text-5xl lg:text-7xl font-light text-[var(--text-primary)] leading-tight mb-8">
               HARDWARE<br />YOU CAN<br />EXPERIENCE.
             </h2>

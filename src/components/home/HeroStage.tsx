@@ -9,7 +9,7 @@ import Link from "next/link";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { ChevronLeft, ChevronRight, MessageCircle, ArrowRight } from "lucide-react";
 import { HeroSlide } from "@/types/hero";
-import { generateWhatsAppUrl, SHOWROOM_YEARS_OF_TRUST } from "@/lib/config";
+import { generateWhatsAppUrl } from "@/lib/config";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -155,9 +155,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
         className="hero-bg-container absolute inset-0 pointer-events-none overflow-hidden"
         style={{
           maskImage:
-            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.15) 54%, rgba(0, 0, 0, 0.7) 66%, black 82%, black 100%)",
+            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(26, 16, 23, 0.15) 54%, rgba(26, 16, 23, 0.7) 66%, #1a1017 82%, #1a1017 100%)",
           WebkitMaskImage:
-            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.15) 54%, rgba(0, 0, 0, 0.7) 66%, black 82%, black 100%)",
+            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(26, 16, 23, 0.15) 54%, rgba(26, 16, 23, 0.7) 66%, #1a1017 82%, #1a1017 100%)",
         }}
       >
         {currentSlide.imageUrl ? (
@@ -182,16 +182,6 @@ export default function HeroStage({ slides }: HeroStageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_390px] xl:grid-cols-[minmax(460px,580px)_1fr] items-end gap-8 xl:gap-14 my-auto">
           {/* Left Column: Typography & CTAs */}
           <div className="hero-text-col pb-4">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="relative flex items-center justify-center shrink-0">
-                <span className="absolute h-3 w-3 bg-[var(--color-wine)]/30 rounded-full animate-ping opacity-75" />
-                <span className="relative h-2 w-2 bg-[var(--color-wine)] rounded-full" />
-              </div>
-              <p className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)]">
-                {currentSlide.eyebrow || `Architectural Hardware Experts · ${SHOWROOM_YEARS_OF_TRUST}+ Years`}
-              </p>
-            </div>
-
             <div className="overflow-hidden mb-6 pb-2">
               <p aria-hidden="true" className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[96px] 2xl:text-[110px] leading-[0.94] font-light tracking-[-0.01em] text-[var(--text-primary)] whitespace-pre-line">
                 {currentSlide.title || "The Art of\nthe Finish."}
@@ -203,8 +193,8 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 "Premium architectural hardware and modular solutions, curated for contemporary spaces."}
             </p>
 
-            {/* Dual CTAs with physical tactile feedback & pill geometry */}
-            <div className="mt-8 xl:mt-10 flex flex-wrap items-center gap-4">
+            {/* Action Group: Dominant Primary CTA + Understated Concierge Support */}
+            <div className="mt-8 xl:mt-10 flex flex-wrap items-center gap-5">
               {isExternalCta ? (
                 <a
                   href={ctaHref}
@@ -225,15 +215,15 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 </Link>
               )}
 
-              {/* Secondary WhatsApp CTA with frosted glass pill styling */}
+              {/* Secondary Concierge: Subordinate hierarchy without competing visual weight */}
               <a
                 href={generateWhatsAppUrl("general-enquiry")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group hc-focus h-[52px] xl:h-[56px] px-6 xl:px-8 rounded-full bg-white/60 hover:bg-white/90 border border-white/80 hover:border-[#8b1a42]/30 text-[#2d1b26] hover:text-[#8b1a42] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2.5 shadow-[0_2px_8px_rgba(26,16,23,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-md active:scale-[0.98] transition-all duration-200 shrink-0"
+                className="group hc-focus h-[46px] xl:h-[48px] px-5 xl:px-6 rounded-full bg-white/40 hover:bg-white/80 border border-[var(--border)] hover:border-[var(--color-wine)]/40 text-[var(--color-charcoal)] hover:text-[var(--color-wine)] text-xs sm:text-[12.5px] font-medium tracking-[0.12em] uppercase inline-flex items-center gap-2 backdrop-blur-sm active:scale-[0.98] transition-all duration-200 shrink-0"
               >
-                <MessageCircle className="w-4 h-4 text-[#8b1a42] transition-transform duration-200 group-hover:scale-110" />
-                <span>WhatsApp Us</span>
+                <MessageCircle className="w-3.5 h-3.5 text-[var(--color-wine)] transition-transform duration-200 group-hover:scale-110" />
+                <span>WhatsApp Showroom</span>
               </a>
             </div>
           </div>

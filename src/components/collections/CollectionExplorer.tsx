@@ -127,9 +127,6 @@ export default function CollectionExplorer({
       <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 py-12 md:py-20">
         {/* Section Header */}
         <div className="mb-10 md:mb-14">
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--accent)] block mb-3">
-            Showroom Taxonomy
-          </span>
           <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight max-w-2xl">
             Find the hardware
             <br />

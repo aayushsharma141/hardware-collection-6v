@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { motion } from "motion/react";
 import { resolveFamilies, type FeaturedCategory } from "./families";
@@ -56,18 +57,15 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
       <div className="hidden lg:block px-12 xl:px-16">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">
           <div>
-            <p className="hc-mono text-xs sm:text-sm uppercase tracking-[0.25em] font-semibold text-brass-ink">
-              Showroom families
-            </p>
-            <h2 className="hc-serif mt-3 text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)]">
+            <h2 className="hc-serif text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)] text-balance">
               Where to begin
             </h2>
           </div>
           <div className="flex flex-col items-end gap-6 max-w-[420px]">
-            <p className="text-right text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] font-light">
+            <p className="text-right text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] font-light text-pretty">
               A considered route through architectural hardware, security, bath, kitchen systems and the joinery details that finish a room.
             </p>
-            <a
+            <Link
               href="/collections"
               className="group/btn inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[var(--accent)] text-white text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-[var(--accent-light)] shadow-[0_4px_16px_rgba(139,26,66,0.22)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.32)] active:scale-[0.98] min-w-[200px]"
             >
@@ -75,7 +73,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
               <svg className="w-3.5 h-3.5 text-white transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
-            </a>
+            </Link>
           </div>
         </div>
 
@@ -147,15 +145,15 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                       </>
                     )}
                   </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)] font-normal">
+                  <p className="mt-3 text-sm leading-relaxed text-[var(--text-secondary)] font-normal text-pretty">
                     {cat.subtitle}
                   </p>
-                  <p className="mt-3 border-t border-[var(--border)]/70 pt-3 text-xs leading-relaxed text-[var(--text-secondary)] font-light">
+                  <p className="mt-3 border-t border-[var(--border)]/70 pt-3 text-xs leading-relaxed text-[var(--text-secondary)] font-light text-pretty">
                     {cat.detail}
                   </p>
                 </div>
 
-                <a
+                <Link
                   href={cat.href}
                   className="threshold-action mt-6 flex items-center justify-between text-xs uppercase tracking-widest font-semibold text-[var(--text-secondary)] no-underline group-hover/card:text-[var(--accent)] transition-colors duration-200"
                 >
@@ -165,7 +163,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                   </span>
-                </a>
+                </Link>
               </div>
             </motion.article>
           ))}
@@ -176,10 +174,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
       <div className="block lg:hidden px-6">
         <div className="flex items-end justify-between border-b border-[var(--border)] pb-5">
           <div>
-            <p className="hc-mono text-xs uppercase tracking-[0.2em] font-semibold text-brass-ink">
-              Showroom families
-            </p>
-            <h3 className="hc-serif mt-2 text-4xl sm:text-5xl leading-none text-[var(--text-primary)]">
+            <h3 className="hc-serif text-4xl sm:text-5xl leading-none text-[var(--text-primary)] text-balance">
               Where to begin
             </h3>
           </div>
@@ -193,40 +188,43 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
           viewport={{ once: true, margin: "-50px" }}
         >
           {activeFamilies.map((cat, idx) => (
-            <motion.a
+            <motion.div
               variants={itemVariants}
               key={cat.id || cat.name}
-              href={cat.href}
-              className="mobile-row w-full py-4 flex items-center gap-4 text-left no-underline hover:bg-[var(--surface-raised)] transition-colors duration-150"
             >
-              <span className="hc-mono w-6 text-xs font-semibold tracking-[0.12em] text-brass-ink">
-                0{idx + 1}
-              </span>
-              {cat.image ? (
-                <Image
-                  alt={cat.name}
-                  className="h-[56px] w-[80px] object-cover rounded-lg border border-[var(--border)] shrink-0"
-                  width={80}
-                  height={56}
-                  src={cat.image}
-                />
-              ) : (
-                <div className="h-[56px] w-[80px] shrink-0 rounded-lg border border-[var(--border)] bg-white flex items-center justify-center">
-                  <span className="text-[8px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Wait</span>
+              <Link
+                href={cat.href}
+                className="mobile-row w-full py-4 flex items-center gap-4 text-left no-underline hover:bg-[var(--surface-raised)] transition-colors duration-150"
+              >
+                <span className="hc-mono w-6 text-xs font-semibold tracking-[0.12em] text-brass-ink">
+                  0{idx + 1}
+                </span>
+                {cat.image ? (
+                  <Image
+                    alt={cat.name}
+                    className="h-[56px] w-[80px] object-cover rounded-lg border border-[var(--border)] shrink-0"
+                    width={80}
+                    height={56}
+                    src={cat.image}
+                  />
+                ) : (
+                  <div className="h-[56px] w-[80px] shrink-0 rounded-lg border border-[var(--border)] bg-white flex items-center justify-center">
+                    <span className="text-[8px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Wait</span>
+                  </div>
+                )}
+                <div className="flex-1 min-w-0">
+                  <strong className="block hc-serif text-2xl leading-tight font-normal text-[var(--text-primary)]">
+                    {cat.name} {cat.nameBreak || ""}
+                  </strong>
+                  <small className="mt-1 block text-xs uppercase tracking-[0.12em] text-[var(--text-secondary)] truncate">
+                    {cat.subtitle}
+                  </small>
                 </div>
-              )}
-              <div className="flex-1 min-w-0">
-                <strong className="block hc-serif text-2xl leading-tight font-normal text-[var(--text-primary)]">
-                  {cat.name} {cat.nameBreak || ""}
-                </strong>
-                <small className="mt-1 block text-xs uppercase tracking-[0.12em] text-[var(--text-secondary)] truncate">
-                  {cat.subtitle}
-                </small>
-              </div>
-              <svg className="w-5 h-5 text-[var(--accent)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-              </svg>
-            </motion.a>
+                <svg className="w-5 h-5 text-[var(--accent)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                </svg>
+              </Link>
+            </motion.div>
           ))}
         </motion.div>
       </div>
