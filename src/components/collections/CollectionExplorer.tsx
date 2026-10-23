@@ -124,26 +124,15 @@ export default function CollectionExplorer({
 
   return (
     <section className="w-full bg-[var(--surface)]">
-      <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 py-12 md:py-20">
-        {/* Section Header */}
-        <div className="mb-10 md:mb-14">
-          <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight max-w-2xl">
-            Find the hardware
-            <br />
-            for your space.
-          </h2>
-          <p className="mt-4 text-[15px] sm:text-base text-[var(--text-secondary)] font-light max-w-lg">
-            Explore our curated collections by application. Expand any space to see the full category specification.
+      <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 pt-8 md:pt-10 pb-12 md:pb-20">
+        {!catalogueSearchAvailable && (
+          <p
+            role="status"
+            className="mb-8 max-w-xl text-[13px] text-[var(--text-secondary)] font-light border-l-2 border-[var(--color-brass)] pl-3"
+          >
+            Brand matching from our catalogues is temporarily unavailable. Ask us on WhatsApp which brands supply a product.
           </p>
-          {!catalogueSearchAvailable && (
-            <p
-              role="status"
-              className="mt-5 max-w-xl text-[13px] text-[var(--text-secondary)] font-light border-l-2 border-[var(--color-brass)] pl-3"
-            >
-              Brand matching from our catalogues is temporarily unavailable. Ask us on WhatsApp which brands supply a product.
-            </p>
-          )}
-        </div>
+        )}
 
         {/* 7 Canonical Showroom Families Rendered in Server HTML */}
         <div className="w-full border-t border-[var(--border)] flex flex-col">
@@ -227,15 +216,14 @@ export default function CollectionExplorer({
                   {/* Use-Case & Category Cards */}
                   {categories.length > 0 ? (
                     <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-5 mb-10">
-                      {categories.map((category, catIndex) => {
-                        const catNumStr = String(catIndex + 1).padStart(2, "0");
+                      {categories.map((category) => {
                         const brands = categoryBrands.get(category.slug) ?? [];
                         const products = categoryProducts.get(category.slug) ?? [];
 
                         return (
                           <div
                             key={category.slug}
-                            className="group/card flex flex-col text-left border border-[var(--border)] bg-white hover:border-[var(--accent)]/40 transition-colors overflow-hidden"
+                            className="group/card flex flex-col text-left border border-[var(--border)] bg-white rounded-2xl shadow-[0_6px_24px_rgba(26,16,23,0.03)] hover:shadow-[0_16px_40px_rgba(26,16,23,0.08)] hover:border-[var(--accent)]/40 hover:-translate-y-0.5 transition-all duration-300 overflow-hidden"
                           >
                             {/* Category Image - Opens Detail Modal */}
                             <button
@@ -263,10 +251,7 @@ export default function CollectionExplorer({
                             </button>
 
                             {/* Card Body */}
-                            <div className="p-4 sm:p-5 flex flex-col gap-2 flex-1">
-                              <span className="hc-mono text-[10px] text-[var(--color-brass)] font-medium">
-                                {catNumStr}
-                              </span>
+                            <div className="p-4 sm:p-5 flex flex-col gap-2.5 flex-1">
                               <button
                                 type="button"
                                 onClick={() =>
@@ -277,12 +262,12 @@ export default function CollectionExplorer({
                                 }
                                 className="text-left cursor-pointer focus-visible:ring-2 focus-visible:ring-[var(--accent)] outline-none"
                               >
-                                <span className="hc-serif text-base sm:text-lg text-[var(--text-primary)] group-hover/card:text-[var(--accent)] transition-colors leading-snug line-clamp-1">
+                                <span className="hc-serif text-lg sm:text-xl text-[var(--text-primary)] group-hover/card:text-[var(--accent)] transition-colors leading-snug line-clamp-2">
                                   {category.name}
                                 </span>
                               </button>
                               {category.blurb && (
-                                <p className="text-[12px] text-[var(--text-secondary)] font-light line-clamp-2 leading-relaxed">
+                                <p className="text-[13px] text-[var(--text-secondary)] font-light line-clamp-2 leading-relaxed">
                                   {category.blurb}
                                 </p>
                               )}
@@ -291,7 +276,7 @@ export default function CollectionExplorer({
                               {(brands.length > 0 || products.length > 0) && (
                                 <div className="flex flex-wrap items-center gap-1.5 pt-1 mt-auto">
                                   {brands.length > 0 && (
-                                    <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--text-secondary)] bg-[var(--surface-elevated)] px-2 py-0.5 border border-[var(--border)]">
+                                    <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[var(--text-secondary)] bg-[var(--surface-elevated)] px-2.5 py-1 rounded-full border border-[var(--border)]">
                                       <BookOpen className="w-3 h-3 text-[var(--color-brass)] shrink-0" />
                                       <span>
                                         {brands.length} {brands.length === 1 ? "Brand" : "Brands"}
@@ -299,7 +284,7 @@ export default function CollectionExplorer({
                                     </span>
                                   )}
                                   {products.length > 0 && (
-                                    <span className="inline-flex items-center gap-1 text-[11px] font-mono text-[var(--color-brass)] bg-[var(--surface-elevated)] px-2 py-0.5 border border-[var(--border)]">
+                                    <span className="inline-flex items-center gap-1.5 text-[11px] font-mono text-[var(--color-brass-ink)] bg-[var(--surface-elevated)] px-2.5 py-1 rounded-full border border-[var(--border)]">
                                       <Sparkles className="w-3 h-3 shrink-0" />
                                       <span>
                                         {products.length} {products.length === 1 ? "Specimen" : "Specimens"}
@@ -319,10 +304,12 @@ export default function CollectionExplorer({
                                       familyTitle: section.group.title,
                                     })
                                   }
-                                  className="min-h-11 flex items-center gap-1.5 text-xs font-bold uppercase tracking-wider text-[var(--accent)] hover:opacity-80 transition-opacity cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                                  className="min-h-11 flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[var(--accent)] cursor-pointer outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)] rounded-full"
                                 >
                                   <span>Explore Range</span>
-                                  <ArrowRight className="w-3.5 h-3.5 group-hover/card:translate-x-1 transition-transform" />
+                                  <span className="w-7 h-7 rounded-full border border-[var(--accent)]/40 flex items-center justify-center group-hover/card:bg-[var(--accent)] group-hover/card:text-white group-hover/card:border-[var(--accent)] transition-all duration-300">
+                                    <ArrowRight className="w-3.5 h-3.5 group-hover/card:translate-x-0.5 transition-transform" />
+                                  </span>
                                 </button>
 
                                 <a

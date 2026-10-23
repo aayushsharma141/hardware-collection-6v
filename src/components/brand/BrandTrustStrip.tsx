@@ -124,29 +124,24 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
     >
       {!hideHeader && (
         <div className="max-w-[1440px] mx-auto px-5 lg:px-16 mb-6 sm:mb-8">
-          {/* Header matching Reference Mockup */}
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
-            <div>
-              <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--text-primary)] leading-tight text-balance">
-                Authorized Brands.
-                <br />
-                Genuine Products.
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 md:gap-12 border-b border-[var(--border)] pb-6 sm:pb-8">
+            <div className="max-w-2xl">
+              <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light tracking-tight text-[var(--text-primary)] leading-[1.05] text-balance">
+                Authorized brands. Genuine products.
               </h2>
-            </div>
-            <div className="flex flex-col items-start md:items-end gap-2 max-w-md">
-              <p className="text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed md:text-right text-pretty">
-                Experience a curated range of architectural hardware from leading global brands, all under one roof.
+              <p className="mt-4 max-w-xl text-sm sm:text-base text-[var(--text-secondary)] font-light leading-relaxed text-pretty">
+                A curated range of architectural hardware from leading global brands, all under one roof.
               </p>
-              <Link
-                href="/catalogues"
-                className="text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--color-wine)] inline-flex items-center gap-1.5 hover:underline"
-              >
-                <span>View All Brands</span>
-                <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                </svg>
-              </Link>
             </div>
+            <Link
+              href="/catalogues"
+              className="group/btn shrink-0 self-start md:self-auto inline-flex items-center justify-center gap-2.5 min-h-11 px-6 rounded-full border border-[var(--accent)]/40 text-[var(--accent)] text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] active:scale-[0.98]"
+            >
+              <span>View All Brands</span>
+              <svg className="w-3.5 h-3.5 transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
+            </Link>
           </div>
         </div>
       )}

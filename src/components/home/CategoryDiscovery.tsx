@@ -55,26 +55,24 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
     <section id="categories" className="bg-[var(--surface)] text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
       {/* Desktop Version */}
       <div className="hidden lg:block px-12 xl:px-16">
-        <div className="flex items-end justify-between border-b border-[var(--border)] pb-8">
-          <div>
-            <h2 className="hc-serif text-6xl xl:text-7xl 2xl:text-8xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)] text-balance">
+        <div className="flex items-end justify-between gap-12 border-b border-[var(--border)] pb-8">
+          <div className="max-w-2xl">
+            <h2 className="hc-serif text-6xl xl:text-7xl leading-[0.95] font-light tracking-[-0.01em] text-[var(--text-primary)] text-balance">
               Where to begin
             </h2>
-          </div>
-          <div className="flex flex-col items-end gap-6 max-w-[420px]">
-            <p className="text-right text-base sm:text-lg leading-relaxed text-[var(--text-secondary)] font-light text-pretty">
+            <p className="mt-5 max-w-xl text-base lg:text-lg leading-relaxed text-[var(--text-secondary)] font-light text-pretty">
               A considered route through architectural hardware, security, bath, kitchen systems and the joinery details that finish a room.
             </p>
-            <Link
-              href="/collections"
-              className="group/btn inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[var(--accent)] text-white text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-[var(--accent-light)] shadow-[0_4px_16px_rgba(139,26,66,0.22)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.32)] active:scale-[0.98] min-w-[200px]"
-            >
-              <span>Explore All Collections</span>
-              <svg className="w-3.5 h-3.5 text-white transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </Link>
           </div>
+          <Link
+            href="/collections"
+            className="group/btn shrink-0 inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[var(--accent)] text-white text-[11px] font-semibold tracking-[0.2em] uppercase transition-all duration-300 hover:bg-[var(--accent-light)] shadow-[0_4px_16px_rgba(139,26,66,0.22)] hover:shadow-[0_6px_22px_rgba(139,26,66,0.32)] active:scale-[0.98]"
+          >
+            <span>Explore All Collections</span>
+            <svg className="w-3.5 h-3.5 text-white transition-transform duration-200 group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </Link>
         </div>
 
         <motion.div 
@@ -113,20 +111,6 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                   <div className="absolute inset-0 flex items-center justify-center bg-[var(--surface)] border border-[var(--border)]">
                     <span className="text-[10px] tracking-[0.2em] uppercase opacity-40 hc-mono text-[var(--text-secondary)]">Pending</span>
                   </div>
-                )}
-                {/* Scrim under the index: the brass numerals lose contrast on
-                    brightly lit photography (card 05's shelving). */}
-                <div
-                  aria-hidden="true"
-                  className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-black/55 to-transparent pointer-events-none"
-                />
-                <span className="absolute left-4 top-4 hc-mono text-[11px] tracking-[0.18em] font-semibold text-[var(--accent)] bg-white/85 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/90 shadow-sm">
-                  {cat.index}
-                </span>
-                {cat.isFocal && (
-                  <span className="absolute right-4 top-4 border border-[var(--accent)]/40 px-3 py-1 hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--accent)] bg-white/90 backdrop-blur-md rounded-full shadow-sm">
-                    Focal family
-                  </span>
                 )}
               </div>
 
@@ -187,7 +171,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
         >
-          {activeFamilies.map((cat, idx) => (
+          {activeFamilies.map((cat) => (
             <motion.div
               variants={itemVariants}
               key={cat.id || cat.name}
@@ -196,9 +180,6 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                 href={cat.href}
                 className="mobile-row w-full py-4 flex items-center gap-4 text-left no-underline hover:bg-[var(--surface-raised)] transition-colors duration-150"
               >
-                <span className="hc-mono w-6 text-xs font-semibold tracking-[0.12em] text-brass-ink">
-                  0{idx + 1}
-                </span>
                 {cat.image ? (
                   <Image
                     alt={cat.name}

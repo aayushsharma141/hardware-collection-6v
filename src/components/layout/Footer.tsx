@@ -141,13 +141,20 @@ export default function Footer({ settings, socialLinks: customSocialLinks }: Foo
             <p className="text-xs text-[var(--text-secondary)] font-light leading-relaxed max-w-xs">
               Architectural hardware, digital security and kitchen systems showroom in Sakchi, Jamshedpur.
             </p>
-            <p className="hc-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[var(--color-brass-ink)] pt-0.5">
-              10+ Years · 20+ Authorised Brands Partner
-            </p>
+            <ul className="flex flex-wrap gap-2 pt-1" aria-label="Showroom credentials">
+              {["10+ Years", "20+ Authorised Brands"].map((item) => (
+                <li
+                  key={item}
+                  className="hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--color-brass-ink)] px-3 py-1.5 rounded-full border border-[var(--color-brass)]/40 bg-white/50"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
 
             {resolvedSocialLinks.length > 0 && (
-              <div className="pt-2">
-                <p className="hc-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[var(--text-secondary)] mb-2.5">
+              <div className="pt-3 mt-1 border-t border-[var(--border)]/70 max-w-xs">
+                <p className="hc-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[var(--text-secondary)] mb-3 mt-3">
                   Follow Showroom
                 </p>
                 <div className="flex items-center gap-2.5 flex-wrap" aria-label="Showroom social media channels">
@@ -159,7 +166,7 @@ export default function Footer({ settings, socialLinks: customSocialLinks }: Foo
                       rel="noopener noreferrer"
                       aria-label={`Hardware Collection on ${social.platform}`}
                       title={`${social.platform} — Hardware Collection`}
-                      className="w-8 h-8 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--color-wine)] hover:border-[var(--color-wine)] hover:bg-[var(--surface-raised)] transition-[color,border-color,background-color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] focus-visible:ring-offset-2"
+                      className="w-10 h-10 rounded-full border border-[var(--border)] bg-white/60 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--color-wine)] hover:border-[var(--color-wine)] hover:bg-[var(--surface-raised)] transition-[color,border-color,background-color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] focus-visible:ring-offset-2"
                     >
                       <SocialIcon platform={social.platform} />
                     </a>
