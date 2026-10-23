@@ -47,15 +47,12 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
   };
 
   return (
-    <section className="py-12 lg:py-20 bg-[var(--surface)] border-b border-[var(--border)] relative z-10" id="faq">
+    <section className="py-12 lg:py-20 bg-transparent border-b border-[var(--border)] relative z-10" id="faq">
       <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
         {/* Header matching Reference Mockup */}
         <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3 mb-8">
           <div>
-            <p className="hc-mono text-[10.5px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)] mb-1.5">
-              FAQ
-            </p>
-            <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight">
+            <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-light text-[var(--text-primary)] leading-tight tracking-tight text-balance">
               Common questions.
             </h2>
           </div>
@@ -70,7 +67,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
             >
               <span>WhatsApp an Expert</span>
               <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </a>
           </div>
@@ -96,6 +93,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
                       className={`w-4 h-4 transition-transform duration-300 motion-reduce:transition-none ${
                         isOpen ? "rotate-45 text-[var(--color-wine)]" : "rotate-0"
                       }`}
+                      strokeWidth={1.5}
                     />
                   </span>
                 </button>
@@ -111,7 +109,7 @@ export default function FaqSection({ faqs }: { faqs?: FaqItem[] }) {
                 >
                   <div className="min-h-0 overflow-hidden">
                     <div className="pb-5 pt-0 text-xs sm:text-sm text-[var(--text-secondary)] font-light leading-relaxed max-w-3xl">
-                      <p>{faq.answer}</p>
+                      <p className="text-pretty">{faq.answer}</p>
                     </div>
                   </div>
                 </div>

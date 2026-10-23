@@ -108,6 +108,18 @@ export const siteSettingsType = defineType({
 
     // --- Social ---
     defineField({
+      name: "linkedinUrl",
+      title: "LinkedIn URL",
+      type: "url",
+      group: "social",
+    }),
+    defineField({
+      name: "pinterestUrl",
+      title: "Pinterest URL",
+      type: "url",
+      group: "social",
+    }),
+    defineField({
       name: "instagramUrl",
       title: "Instagram URL",
       type: "url",

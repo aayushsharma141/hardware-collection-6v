@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import Link from "next/link";
-import { ArrowRight, BookOpen, ExternalLink, MessageCircle, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, MessageCircle, Sparkles } from "lucide-react";
 import { Product, getSlugString } from "@/types/catalog";
 import { FamilyCategory } from "@/lib/collections/showroom";
 import { CategoryBrandChip } from "./CollectionExplorer";
@@ -79,7 +79,7 @@ export default function CategoryDetailModal({
     <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         data-lenis-prevent="true"
-        className="max-h-[90dvh] sm:max-h-[92dvh] w-[94vw] sm:w-[95vw] max-w-4xl gap-0 overflow-hidden rounded-none border border-[var(--border)] bg-white p-0 text-[var(--text-primary)] shadow-2xl sm:max-w-4xl"
+        className="max-h-[90dvh] sm:max-h-[92dvh] w-[94vw] sm:w-[95vw] max-w-4xl gap-0 overflow-hidden rounded-2xl border border-[var(--border)] bg-white p-0 text-[var(--text-primary)] shadow-2xl sm:max-w-4xl"
       >
         <div
           data-lenis-prevent="true"
@@ -136,7 +136,7 @@ export default function CategoryDetailModal({
               </p>
               <Button
                 asChild
-                className="bg-[var(--accent)] hover:opacity-90 text-white h-11 rounded-none px-4 text-[11px] font-bold uppercase tracking-[0.15em] transition-opacity w-full mt-1"
+                className="bg-[var(--accent)] hover:opacity-90 text-white h-11 rounded-full px-4 text-[11px] font-bold uppercase tracking-[0.15em] transition-opacity w-full mt-1"
               >
                 <a
                   href={enquiryHref(category.name)}
@@ -179,9 +179,7 @@ export default function CategoryDetailModal({
                       <Link
                         key={brand.key}
                         href={brand.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group/brand flex items-center justify-between gap-4 p-3 bg-white border border-[var(--border)] hover:border-[var(--accent)]/50 transition-all rounded-none"
+                        className="group/brand flex items-center justify-between gap-4 p-3 bg-white border border-[var(--border)] hover:border-[var(--accent)]/50 transition-[border-color] duration-200 ease-out rounded-none"
                       >
                         <div className="flex items-center gap-3 min-w-0">
                           {brand.logo ? (
@@ -284,12 +282,10 @@ export default function CategoryDetailModal({
             <div className="pt-2 text-center">
               <Link
                 href="/catalogues"
-                target="_blank"
-                rel="noopener noreferrer"
                 className="text-[11px] font-semibold uppercase tracking-widest text-[var(--accent)] hover:underline inline-flex items-center gap-1.5"
               >
                 <span>Browse All Brand Official Catalogues</span>
-                <ExternalLink className="w-3.5 h-3.5" />
+                <ArrowRight className="w-3.5 h-3.5" strokeWidth={1.75} />
               </Link>
             </div>
           </div>

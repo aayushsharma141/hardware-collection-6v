@@ -12,6 +12,6 @@
 
 ## UI, Brand & Feature Preservation Invariant
 
-- Never delete, strip, or revert UI enhancements, audio systems (`public/audio/*`, `BackgroundAudio`, `AudioMuteButton`), or brand styling (liquid glass navbar, text shine sweeps) under the pretext of "cleaning scope" or "isolating bug fixes".
-- Consult `.agents/rules/ui_audio_preservation.md` for context on the PR #49 regression incident and recovery.
+- Never delete, strip, or revert UI enhancements or brand styling (liquid glass navbar, text shine sweeps) under the pretext of "cleaning scope" or "isolating bug fixes".
+- Background/ambient audio was removed at the client's request. Do not re-add it.
 

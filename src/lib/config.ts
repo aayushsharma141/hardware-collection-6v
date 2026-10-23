@@ -13,6 +13,19 @@ export const SHOWROOM_SECONDARY_PHONE_DISPLAY = "+91 70336 50739";
 
 export const SHOWROOM_WHATSAPP_NUMBER = "919835190738";
 
+/** Official showroom social channels fallback */
+export interface ShowroomSocialLink {
+  platform: "LinkedIn" | "Pinterest" | "Instagram" | "Facebook" | string;
+  url: string;
+}
+
+export const SHOWROOM_SOCIAL_FALLBACKS: ShowroomSocialLink[] = [
+  { platform: "LinkedIn", url: "https://www.linkedin.com/in/hardware-collection-96687278" },
+  { platform: "Pinterest", url: "https://in.pinterest.com/hardwarecollectionjsr/" },
+  { platform: "Instagram", url: "https://instagram.com/hardware.collection" },
+  { platform: "Facebook", url: "https://www.facebook.com/hardware-collection/" },
+];
+
 /** Canonical showroom address — owner-chosen, GBP check pending. */
 export const SHOWROOM_ADDRESS = "1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001";
 

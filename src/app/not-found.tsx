@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 import { ArrowRight, MessageCircle } from "lucide-react";
 import { generateWhatsAppUrl } from "@/lib/config";
 import Footer from "@/components/layout/Footer";
-import { getShowroomGroups } from "@/content/sanity/queries";
+import { getShowroomGroups, getSiteSettings } from "@/content/sanity/queries";
 
 export const metadata: Metadata = {
   title: {
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default async function NotFound() {
   const whatsappUrl = generateWhatsAppUrl("general-enquiry");
-  const showroomGroups = await getShowroomGroups();
+  const [settings, showroomGroups] = await Promise.all([getSiteSettings(), getShowroomGroups()]);
 
   return (
     <div className="min-h-screen flex flex-col justify-between bg-[var(--surface)] text-[var(--text-primary)]">
@@ -24,7 +24,7 @@ export default async function NotFound() {
           404
         </span>
 
-        <h1 className="hc-serif text-2xl sm:text-3xl md:text-4xl uppercase tracking-[0.06em] font-light text-[var(--text-primary)] leading-[1.2] mb-5">
+        <h1 className="hc-serif text-2xl sm:text-3xl md:text-4xl uppercase tracking-[0.06em] font-light text-[var(--text-primary)] leading-[1.2] mb-5 text-balance">
           This space isn&apos;t in the collection
         </h1>
 
@@ -53,7 +53,7 @@ export default async function NotFound() {
         </div>
       </main>
 
-      <Footer showroomGroups={showroomGroups} />
+      <Footer settings={settings} showroomGroups={showroomGroups} />
     </div>
   );
 }

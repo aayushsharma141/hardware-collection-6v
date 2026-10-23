@@ -22,7 +22,6 @@ interface NavbarProps {
 }
 
 import { MobileMenu } from "./MobileMenu";
-import { AudioMuteButton } from "@/components/audio/AudioMuteButton";
 
 export interface NavLinkItem {
   name: string;
@@ -389,8 +388,6 @@ export default function Navbar({
 
             {/* ── Column 3: Contact & CTAs (Right-Aligned) ───────── */}
             <div className="flex items-center justify-end gap-2 sm:gap-2.5 md:gap-3.5 shrink-0">
-              {/* Ambient Sound Mute Button (Desktop only — on mobile it lives inside MobileMenu) */}
-              <AudioMuteButton className="hidden lg:flex" />
 
               {/* Desktop Phone Contact Pill */}
               <a

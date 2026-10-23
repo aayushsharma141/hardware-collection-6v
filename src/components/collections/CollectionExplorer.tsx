@@ -1,5 +1,6 @@
 "use client";
 
+import { SpotlightGlow, trackSpotlight } from "@/components/ui/Spotlight";
 import React, { useState, useSyncExternalStore, useEffect, useCallback } from "react";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { ArrowRight, BookOpen, ChevronDown, MessageCircle, Sparkles } from "lucide-react";
@@ -127,10 +128,7 @@ export default function CollectionExplorer({
       <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 py-12 md:py-20">
         {/* Section Header */}
         <div className="mb-10 md:mb-14">
-          <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[var(--accent)] block mb-3">
-            Showroom Taxonomy
-          </span>
-          <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight max-w-2xl">
+          <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight max-w-2xl text-balance">
             Find the hardware
             <br />
             for your space.
@@ -238,8 +236,10 @@ export default function CollectionExplorer({
                         return (
                           <div
                             key={category.slug}
-                            className="group/card flex flex-col text-left border border-[var(--border)] bg-white hover:border-[var(--accent)]/40 transition-colors overflow-hidden"
+                            onPointerMove={trackSpotlight}
+                            className="hc-spot hc-press-card group/card flex flex-col text-left rounded-2xl border border-[var(--border)] bg-white hover:border-[var(--accent)]/40 hover:shadow-[0_12px_32px_-16px_rgba(26,16,23,0.18)] overflow-hidden"
                           >
+                            <SpotlightGlow />
                             {/* Category Image - Opens Detail Modal */}
                             <button
                               type="button"
@@ -258,7 +258,7 @@ export default function CollectionExplorer({
                                   alt={category.name}
                                   fill
                                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 33vw, 50vw"
-                                  className="object-cover group-hover/card:scale-105 transition-transform duration-700 ease-out"
+                                  className="object-cover group-hover/card:scale-[1.045] transition-transform duration-[420ms] ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none motion-reduce:group-hover/card:scale-100"
                                 />
                               ) : (
                                 <div className="absolute inset-0 bg-[var(--surface-elevated)]" />
@@ -360,7 +360,7 @@ export default function CollectionExplorer({
                     </div>
                     <Button
                       asChild
-                      className="bg-[var(--accent)] hover:opacity-90 text-white h-12 rounded-none px-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors shrink-0"
+                      className="bg-[var(--accent)] hover:opacity-90 text-white h-12 rounded-full px-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors shrink-0"
                     >
                       <a
                         href={enquiryHref(section.group.title)}

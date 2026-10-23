@@ -60,21 +60,13 @@ export default function HeroMobile({ slides }: HeroMobileProps) {
     >
       {/* ── Top Editorial Block ─────────────────────────────────── */}
       <div className="w-full flex flex-col mb-6">
-        {/* Eyebrow */}
-        <div className="inline-flex items-center gap-2 mb-2.5">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-wine)]/80 animate-pulse" />
-          <p className="hc-mono text-[10.5px] uppercase tracking-[0.24em] font-semibold text-[var(--color-wine)]">
-            Architectural Hardware
-          </p>
-        </div>
-
         {/* Headline */}
-        <p aria-hidden="true" className="hc-serif text-[40px] sm:text-[46px] leading-[1.02] font-light text-[var(--text-primary)] whitespace-pre-line mb-3 tracking-tight">
+        <p aria-hidden="true" className="hc-serif text-[40px] sm:text-[46px] leading-[1.02] font-light text-[var(--text-primary)] whitespace-pre-line mb-3 tracking-tight text-balance">
           {heading}
         </p>
 
         {/* Subtitle / Description */}
-        <p className="text-[13px] sm:text-[14px] leading-relaxed font-light text-[var(--text-secondary)] mb-6 max-w-[38ch]">
+        <p className="text-[13px] sm:text-[14px] leading-relaxed font-light text-[var(--text-secondary)] mb-6 max-w-[38ch] text-pretty">
           {slide.description ||
             "Curated hardware for modern spaces. Explore global brands, unmatched quality and expert guidance at our Sakchi showroom."}
         </p>

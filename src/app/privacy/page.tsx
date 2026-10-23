@@ -31,7 +31,7 @@ export default async function PrivacyPage() {
           <span className="hc-mono text-xs uppercase tracking-[0.22em] font-semibold text-[var(--color-primary)] mb-3 block">
             LEGAL INFORMATION · SAKCHI SHOWROOM
           </span>
-          <h1 className="hc-serif text-4xl sm:text-5xl lg:text-6xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.05] mb-4">
+          <h1 className="hc-serif text-4xl sm:text-5xl lg:text-6xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.05] mb-4 text-balance">
             {pageData?.title || "Privacy Policy"}
           </h1>
           <p className="text-sm text-[var(--text-secondary)] font-light">
@@ -47,7 +47,7 @@ export default async function PrivacyPage() {
             <>
               {/* Section 1 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3 text-balance">
                   1. Overview
                 </h2>
                 <p>
@@ -61,7 +61,7 @@ export default async function PrivacyPage() {
 
               {/* Section 2 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3 text-balance">
                   2. Information You Provide Directly
                 </h2>
                 <p className="mb-3">
@@ -80,7 +80,7 @@ export default async function PrivacyPage() {
 
               {/* Section 3 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3 text-balance">
                   3. How We Use Your Information
                 </h2>
                 <p className="mb-3">
@@ -99,7 +99,7 @@ export default async function PrivacyPage() {
 
               {/* Section 4 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3 text-balance">
                   4. WhatsApp & Third-Party Communication
                 </h2>
                 <p>
@@ -111,7 +111,7 @@ export default async function PrivacyPage() {
 
               {/* Section 5 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3 text-balance">
                   5. Data Security & Storage
                 </h2>
                 <p>
@@ -123,7 +123,7 @@ export default async function PrivacyPage() {
 
               {/* Section 6 */}
               <section>
-                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3">
+                <h2 className="hc-serif text-2xl text-[var(--color-ink)] font-normal mb-3 text-balance">
                   6. Your Rights & Inquiries
                 </h2>
                 <p>

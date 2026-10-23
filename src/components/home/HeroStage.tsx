@@ -9,7 +9,7 @@ import Link from "next/link";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { ChevronLeft, ChevronRight, MessageCircle, ArrowRight } from "lucide-react";
 import { HeroSlide } from "@/types/hero";
-import { generateWhatsAppUrl, SHOWROOM_YEARS_OF_TRUST } from "@/lib/config";
+import { generateWhatsAppUrl } from "@/lib/config";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
@@ -27,6 +27,10 @@ export default function HeroStage({ slides }: HeroStageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const apertureRef = useRef<HTMLDivElement>(null);
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  // Auto-advance holds while the pointer or keyboard focus is inside the hero
+  // (WCAG 2.2.2); `resumeCount` restarts the progress bar in step with the timer.
+  const [isPaused, setIsPaused] = useState(false);
+  const [resumeCount, setResumeCount] = useState(0);
 
   const shouldReduceMotion = useReducedMotion();
 
@@ -42,18 +46,24 @@ export default function HeroStage({ slides }: HeroStageProps) {
 
   // Auto-advance every 8 seconds if reduced motion is not enabled (resets on slide change)
   useEffect(() => {
-    if (shouldReduceMotion || !slides || slides.length <= 1) return;
+    if (shouldReduceMotion || isPaused || !slides || slides.length <= 1) return;
     const timer = setInterval(() => {
       handleNextSlide();
     }, 8000);
     return () => clearInterval(timer);
-  }, [handleNextSlide, shouldReduceMotion, slides, currentSlideIndex]);
+  }, [handleNextSlide, shouldReduceMotion, isPaused, slides, currentSlideIndex]);
+
+  const pause = useCallback(() => setIsPaused(true), []);
+  const resume = useCallback(() => {
+    setIsPaused(false);
+    setResumeCount((n) => n + 1);
+  }, []);
 
   useGSAP(
     () => {
       if (!slides || slides.length === 0 || shouldReduceMotion || !containerRef.current) return;
 
-      const heroH1 = containerRef.current.querySelector(".hero-h1");
+      const heroWords = containerRef.current.querySelectorAll(".hero-word__inner");
       const heroP = containerRef.current.querySelector(".hero-p");
       const heroImage = containerRef.current.querySelector(".hero-bg-image");
       const aperture = apertureRef.current;
@@ -82,11 +92,11 @@ export default function HeroStage({ slides }: HeroStageProps) {
       // Slide Change Transition Animation
       const tl = gsap.timeline();
 
-      if (heroH1) {
+      if (heroWords.length) {
         tl.fromTo(
-          heroH1,
-          { y: "100%", opacity: 0 },
-          { y: "0%", opacity: 1, duration: 1.2, ease: "power4.out" },
+          heroWords,
+          { yPercent: 108 },
+          { yPercent: 0, duration: 0.85, ease: "power3.out", stagger: 0.055 },
           0
         );
       }
@@ -148,6 +158,10 @@ export default function HeroStage({ slides }: HeroStageProps) {
       ref={containerRef}
       data-chapter="1"
       data-nav-hero
+      onMouseEnter={pause}
+      onMouseLeave={resume}
+      onFocusCapture={pause}
+      onBlurCapture={resume}
       className="hidden lg:block relative min-h-[860px] h-[100dvh] w-full border-b border-[var(--border)] overflow-hidden bg-[var(--surface)]"
     >
       {/* Background Image — alpha-masked photographic depth, zero milky smoke */}
@@ -155,9 +169,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
         className="hero-bg-container absolute inset-0 pointer-events-none overflow-hidden"
         style={{
           maskImage:
-            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.15) 54%, rgba(0, 0, 0, 0.7) 66%, black 82%, black 100%)",
+            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(26, 16, 23, 0.15) 54%, rgba(26, 16, 23, 0.7) 66%, #1a1017 82%, #1a1017 100%)",
           WebkitMaskImage:
-            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(0, 0, 0, 0.15) 54%, rgba(0, 0, 0, 0.7) 66%, black 82%, black 100%)",
+            "linear-gradient(to right, transparent 0%, transparent 46%, rgba(26, 16, 23, 0.15) 54%, rgba(26, 16, 23, 0.7) 66%, #1a1017 82%, #1a1017 100%)",
         }}
       >
         {currentSlide.imageUrl ? (
@@ -182,19 +196,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
         <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_390px] xl:grid-cols-[minmax(460px,580px)_1fr] items-end gap-8 xl:gap-14 my-auto">
           {/* Left Column: Typography & CTAs */}
           <div className="hero-text-col pb-4">
-            <div className="flex items-center gap-3 mb-6">
-              <div className="relative flex items-center justify-center shrink-0">
-                <span className="absolute h-3 w-3 bg-[var(--color-wine)]/30 rounded-full animate-ping opacity-75" />
-                <span className="relative h-2 w-2 bg-[var(--color-wine)] rounded-full" />
-              </div>
-              <p className="hc-mono text-xs sm:text-[13px] uppercase tracking-[0.25em] font-semibold text-[var(--color-wine)]">
-                {currentSlide.eyebrow || `Architectural Hardware Experts · ${SHOWROOM_YEARS_OF_TRUST}+ Years`}
-              </p>
-            </div>
-
-            <div className="overflow-hidden mb-6 pb-2">
+            <div className="mb-6 pb-2">
               <p aria-hidden="true" className="hero-h1 hc-serif text-[64px] lg:text-[72px] xl:text-[96px] 2xl:text-[110px] leading-[0.94] font-light tracking-[-0.01em] text-[var(--text-primary)] whitespace-pre-line">
-                {currentSlide.title || "The Art of\nthe Finish."}
+                {splitHeadline(currentSlide.title || "The Art of\nthe Finish.")}
               </p>
             </div>
 
@@ -203,8 +207,8 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 "Premium architectural hardware and modular solutions, curated for contemporary spaces."}
             </p>
 
-            {/* Dual CTAs with physical tactile feedback & pill geometry */}
-            <div className="mt-8 xl:mt-10 flex flex-wrap items-center gap-4">
+            {/* Action Group: Dominant Primary CTA + Understated Concierge Support */}
+            <div className="mt-8 xl:mt-10 flex flex-wrap items-center gap-5">
               {isExternalCta ? (
                 <a
                   href={ctaHref}
@@ -225,15 +229,15 @@ export default function HeroStage({ slides }: HeroStageProps) {
                 </Link>
               )}
 
-              {/* Secondary WhatsApp CTA with frosted glass pill styling */}
+              {/* Secondary Concierge: Subordinate hierarchy without competing visual weight */}
               <a
                 href={generateWhatsAppUrl("general-enquiry")}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group hc-focus h-[52px] xl:h-[56px] px-6 xl:px-8 rounded-full bg-white/60 hover:bg-white/90 border border-white/80 hover:border-[#8b1a42]/30 text-[#2d1b26] hover:text-[#8b1a42] text-xs sm:text-[13px] font-semibold uppercase tracking-[0.16em] inline-flex items-center gap-2.5 shadow-[0_2px_8px_rgba(26,16,23,0.04),inset_0_1px_0_rgba(255,255,255,0.8)] backdrop-blur-md active:scale-[0.98] transition-all duration-200 shrink-0"
+                className="group hc-focus h-[46px] xl:h-[48px] px-5 xl:px-6 rounded-full bg-white/40 hover:bg-white/80 border border-[var(--border)] hover:border-[var(--color-wine)]/40 text-[var(--color-charcoal)] hover:text-[var(--color-wine)] text-xs sm:text-[12.5px] font-medium tracking-[0.12em] uppercase inline-flex items-center gap-2 backdrop-blur-sm active:scale-[0.98] transition-all duration-200 shrink-0"
               >
-                <MessageCircle className="w-4 h-4 text-[#8b1a42] transition-transform duration-200 group-hover:scale-110" />
-                <span>WhatsApp Us</span>
+                <MessageCircle className="w-3.5 h-3.5 text-[var(--color-wine)] transition-transform duration-200 group-hover:scale-110" />
+                <span>WhatsApp Showroom</span>
               </a>
             </div>
           </div>
@@ -338,8 +342,9 @@ export default function HeroStage({ slides }: HeroStageProps) {
               >
                 {isActive && (
                   <span
-                    key={`refill-${currentSlideIndex}`}
+                    key={`refill-${currentSlideIndex}-${resumeCount}`}
                     className="absolute inset-0 bg-[#8b1a42] rounded-full origin-left animate-hero-refill"
+                    style={{ animationPlayState: isPaused ? "paused" : "running" }}
                   />
                 )}
               </div>
@@ -349,6 +354,29 @@ export default function HeroStage({ slides }: HeroStageProps) {
       </div>
     </section>
   );
+}
+
+/**
+ * Headline as per-word masks: each word slides up from its own clip box.
+ * Real spaces and line breaks stay in the text so the copy survives.
+ */
+function splitHeadline(title: string) {
+  return title.split("\n").map((line, li) => (
+    <span key={li}>
+      {li > 0 && "\n"}
+      {line
+        .split(" ")
+        .filter(Boolean)
+        .map((word, wi, words) => (
+          <span key={wi}>
+            <span className="hero-word">
+              <span className="hero-word__inner">{word}</span>
+            </span>
+            {wi < words.length - 1 && " "}
+          </span>
+        ))}
+    </span>
+  ));
 }
 
 /** Two-digit specimen index. */

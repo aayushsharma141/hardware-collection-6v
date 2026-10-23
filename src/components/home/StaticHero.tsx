@@ -59,7 +59,6 @@ function CtaLink({ href, className, children }: { href: string; className: strin
  * scrim, with the headline and up to two calls to action.
  */
 export default function StaticHero({
-  eyebrow,
   headline,
   description,
   primaryCta,
@@ -103,12 +102,9 @@ export default function StaticHero({
 
       <div className="mx-auto w-full max-w-[1360px] px-6 pb-16 pt-32 lg:px-12 lg:pb-0">
         <div className="max-w-2xl">
-          <p className="hc-mono mb-5 text-xs font-semibold uppercase tracking-[0.22em] text-[var(--color-brass)]">
-            {eyebrow || FALLBACK.eyebrow}
-          </p>
           <h1
             id="home-hero-heading"
-            className="hc-serif whitespace-pre-line text-5xl font-light leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl"
+            className="hc-serif whitespace-pre-line text-5xl font-light leading-[1.02] tracking-[-0.01em] sm:text-6xl lg:text-7xl text-balance"
           >
             {headline || FALLBACK.headline}
           </h1>
@@ -118,14 +114,14 @@ export default function StaticHero({
           <div className="mt-9 flex flex-col gap-3 sm:flex-row">
             <CtaLink
               href={primaryHref}
-              className="inline-flex min-h-12 items-center justify-center rounded-none bg-[var(--color-wine)] px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:brightness-110 hc-focus"
+              className="inline-flex min-h-12 items-center justify-center rounded-full bg-[var(--color-wine)] px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:brightness-110 hc-focus"
             >
               {primaryLabel}
             </CtaLink>
             {secondaryLabel && (
               <CtaLink
                 href={secondaryHref}
-                className="inline-flex min-h-12 items-center justify-center rounded-none border border-white/50 px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/10 hc-focus"
+                className="inline-flex min-h-12 items-center justify-center rounded-full border border-white/50 px-8 text-sm font-semibold uppercase tracking-[0.14em] text-white transition-colors hover:bg-white/10 hc-focus"
               >
                 {secondaryLabel}
               </CtaLink>
