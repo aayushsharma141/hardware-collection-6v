@@ -1,6 +1,6 @@
 ---
 name: Hardware Collection
-description: A specimen-plate showroom. Hairlines, square corners, warm ink on ivory, one brass/wine index mark.
+description: A specimen-plate showroom. Hairlines, pill controls and softly rounded cards, warm ink on ivory, one brass/wine index mark.
 colors:
   ivory: "#fbf5ea"
   pearl: "#f7f0e2"
@@ -20,8 +20,11 @@ typography:
     fontFamily: "DM Sans, -apple-system, Segoe UI, sans-serif"
   wordmark:
     fontFamily: "Jost, sans-serif"
+  mono:
+    fontFamily: "ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace"
 rounded:
   none: "0"
+  card: "1rem"
   chip: "9999px"
 spacing:
   sm: "8px"
@@ -37,7 +40,7 @@ into `src/app/globals.css`; later phases bring components in line with it.
 ## Overview
 
 The site is a showroom of finishes and mechanisms, so the interface behaves like a
-spec sheet: hairline rules instead of shadows, square corners, warm tonal depth,
+spec sheet: hairline rules instead of shadows, pill controls and softly rounded cards, warm tonal depth,
 and a single "you are here" mark. Product photography carries the colour; the UI
 stays quiet around it.
 
@@ -53,7 +56,7 @@ Neutral black is not used for scrims or shadows. Both are tinted from ink.
 ## Typography
 
 Cormorant Garamond for display, DM Sans for body and UI, Jost for the wordmark only.
-Manrope and Cinzel are no longer loaded (their tokens alias DM Sans and Cormorant), and `.hc-mono` now renders DM Sans with tabular numerals. Letter-spacing has three
+Manrope and Cinzel are no longer loaded (their tokens alias DM Sans and Cormorant). `.hc-mono` is the one exception to the web-font stack: it uses the system monospace stack (`ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas`) for codes, indices and measurements, so nothing extra is downloaded. Letter-spacing has three
 steps: `--track-tight` (-0.01em), `--track-label` (0.14em), `--track-caps` (0.2em).
 Floor: 12px for text, 11px for uppercase labels.
 
@@ -65,9 +68,12 @@ hairline. No glints, sweeps or glow halos on hover.
 
 ## Shapes
 
-Square. `--radius-*` is zeroed in the theme, so `rounded-md/lg/xl/2xl` resolve to 0.
-Only `rounded-full` is kept, for chips, status dots and the carousel buttons. Bare
-`rounded` is fixed at 0.25rem and is swept out per component.
+Pills for controls, soft cards for structure. This supersedes the earlier
+square-corner contract. CTAs, inputs, chips, status
+dots and carousel buttons are `rounded-full` (9999px). Cards, dialogs and framed media
+are `rounded-2xl` (1rem). Don't mix a square button beside a pill. Dark tool surfaces
+such as the catalogue viewer (`.hc-viewer`) stay square. Bare `rounded` is fixed at
+0.25rem and is swept out per component.
 
 ## Motion
 
