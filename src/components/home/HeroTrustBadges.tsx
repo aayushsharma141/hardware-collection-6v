@@ -6,22 +6,28 @@ import * as LucideIcons from "lucide-react";
 interface TrustPillar {
   _key: string;
   title: string;
-  description: string;
-  icon: string;
+  description?: string;
+  icon?: string;
 }
 
 interface HeroTrustBadgesProps {
   pillars?: TrustPillar[];
 }
 
-// Fallback just in case sanity data is missing
-const DEFAULT_PILLARS = [
+// Shown when the Home Page "Value Propositions" field in Studio is empty. Same wording as Studio today.
+export const DEFAULT_PILLARS: TrustPillar[] = [
   { _key: "p1", title: "AUTHORIZED DEALER", description: "100% Genuine Products", icon: "ShieldCheck" },
   { _key: "p2", title: "PREMIUM BRANDS", description: "World-class Hardware", icon: "Award" },
+  { _key: "p3", title: "EXPERT GUIDANCE", description: "Personalized Consultation", icon: "UserCheck" },
+  { _key: "p4", title: "WIDE RANGE", description: "Complete Solutions", icon: "Package" },
+  { _key: "p5", title: "RELIABLE SUPPORT", description: "After-sales Assistance", icon: "Headphones" },
+  { _key: "p6", title: "VISIT SHOWROOM", description: "Sakchi, Jamshedpur", icon: "MapPin" },
 ];
 
-export default function HeroTrustBadges({ pillars = DEFAULT_PILLARS }: HeroTrustBadgesProps) {
-  const displayPillars = pillars?.length > 0 ? pillars : DEFAULT_PILLARS;
+export default function HeroTrustBadges({ pillars }: HeroTrustBadgesProps) {
+  // An item still being written in Studio has no title yet; skip it rather than render a blank tile.
+  const authored = pillars?.filter((pillar) => pillar.title?.trim()) ?? [];
+  const displayPillars = authored.length > 0 ? authored : DEFAULT_PILLARS;
 
   return (
     <section
@@ -31,11 +37,11 @@ export default function HeroTrustBadges({ pillars = DEFAULT_PILLARS }: HeroTrust
       <div className="max-w-[1360px] mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-x-4 gap-y-5 sm:gap-6 lg:gap-0 lg:divide-x lg:divide-[var(--border)]">
           {displayPillars.map((pillar) => {
-            const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[pillar.icon] || LucideIcons.ShieldCheck;
+            const Icon = (LucideIcons as unknown as Record<string, React.ElementType>)[pillar.icon ?? ""] || LucideIcons.ShieldCheck;
             return (
               <div
                 key={pillar._key}
-                className="flex items-center gap-3 text-left sm:flex-col sm:gap-0 sm:text-center sm:px-3 lg:px-4 group cursor-pointer"
+                className="flex items-center gap-3 text-left sm:flex-col sm:gap-0 sm:text-center sm:px-3 lg:px-4 group"
               >
                 <div className="w-9 h-9 sm:w-12 sm:h-12 shrink-0 rounded-none flex items-center justify-center bg-[var(--accent)]/10 text-[var(--accent)] group-hover:bg-[var(--color-wine)]/10 group-hover:text-[var(--color-wine)] group-hover:scale-110 transition-[transform,background-color,color] duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] sm:mb-3.5">
                   <Icon className="w-4 h-4 sm:w-5 sm:h-5 stroke-[1.5]" />
