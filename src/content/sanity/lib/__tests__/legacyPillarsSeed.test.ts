@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { LEGACY_PILLARS } from "@/content/fallback/legacyPillars";
+import { LEGACY_PILLARS } from "@/components/home/pillars";
 import { planLegacyPillars, type HomeDoc } from "../legacyPillarsSeed";
 
 const home = (extra: Partial<HomeDoc> = {}, id = "homePage"): HomeDoc => ({ _id: id, _type: "homePage", ...extra });

@@ -1,6 +1,6 @@
 /**
  * seed-legacy-pillars.ts — set Studio's Home Page "Legacy Pillars" to the three
- * pillars the About section used to hardcode (src/content/fallback/legacyPillars.ts),
+ * pillars the About section used to hardcode (src/components/home/pillars.ts),
  * so the page can read the field with no visible change. Studio held a different
  * pair ("Expert Selection", "Premium Showroom"); they are replaced, and listed in
  * the dry run and the backup. Drafts are patched too.
@@ -17,7 +17,7 @@
 import { createClient } from "@sanity/client";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
-import { LEGACY_PILLARS } from "../../src/content/fallback/legacyPillars";
+import { LEGACY_PILLARS } from "../../src/components/home/pillars";
 import { planLegacyPillars, type HomeDoc } from "../../src/content/sanity/lib/legacyPillarsSeed";
 
 /** .env.local holds one UTF-16 line spliced into UTF-8, so strip NULs before parsing. */

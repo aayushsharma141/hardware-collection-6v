@@ -5,7 +5,7 @@
  *
  * The site's About section reads this field. Studio held a different pair of
  * pillars than the three the page used to hardcode, so the field is set to the
- * page's wording (src/content/fallback/legacyPillars.ts) and the page then reads
+ * page's wording (src/components/home/pillars.ts) and the page then reads
  * it without any visible change. Drafts are patched too.
  */
 

@@ -1,6 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { LEGACY_PILLARS } from "@/content/fallback/legacyPillars";
-import { MAX_PILLARS, pillarGridClass, resolvePillars } from "../pillars";
+import { LEGACY_PILLARS, MAX_PILLARS, pillarGridClass, resolvePillars } from "../pillars";
 
 describe("resolvePillars", () => {
   it("uses the built-in three when Studio has none", () => {
