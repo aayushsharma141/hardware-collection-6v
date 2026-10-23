@@ -246,7 +246,13 @@ export async function getHomePage() {
       "imageUrl": heroImage.asset->url, 
       "brandName": brand->name 
     },
-    "showroomGalleryUrls": showroomGallery[].asset->url,
+    "showroomPhotos": showroomGallery[defined(asset)]{
+      _key,
+      "url": asset->url,
+      "lqip": asset->metadata.lqip,
+      "width": asset->metadata.dimensions.width,
+      "height": asset->metadata.dimensions.height
+    },
     "testimonialRefs": testimonials[]->{ 
       _id, 
       customerName, 

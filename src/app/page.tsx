@@ -33,6 +33,7 @@ import ProductReelMobile from "@/components/home/ProductReelMobile";
 import AboutStory from "@/components/home/AboutStory";
 import HeroTrustBadges from "@/components/home/HeroTrustBadges";
 import FinishesStrip from "@/components/home/FinishesStrip";
+import ShowroomGallery from "@/components/home/ShowroomGallery";
 import { HeroSlide } from "@/types/hero";
 
 
@@ -222,6 +223,11 @@ export default async function HomePage() {
             legacyShowroomImageUrl={homeData?.legacyShowroomImageUrl}
             legacyPillars={homeData?.legacyPillars}
           />
+        </div>
+
+        {/* 05b INSIDE THE SHOWROOM — photographs from Studio (Home Page > Showroom Gallery) */}
+        <div className="theme-ivory">
+          <ShowroomGallery photos={homeData?.showroomPhotos} />
         </div>
 
         {/* 06 & 07 VOICES OF TRUST & VISIT SAKCHI */}
