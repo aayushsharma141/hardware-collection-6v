@@ -26,6 +26,16 @@ export function photoRatio(photo: ShowroomPhoto): number {
 }
 
 /**
+ * The `sizes` hint for one photo: the full width when stacked, and on desktop its share of the
+ * viewport, but never more than it can be drawn at (its shape times the row height cap).
+ */
+export function photoSizes(ratio: number, totalRatio: number): string {
+  const share = Math.round((100 * ratio) / totalRatio);
+  const maxWidth = Math.round(ratio * MAX_ROW_HEIGHT);
+  return `(max-width: 1023px) 100vw, min(${share}vw, ${maxWidth}px)`;
+}
+
+/**
  * Inside the showroom: the photographs in Studio's Home Page > Showroom Gallery,
  * shown at their own proportions. On desktop they sit in one row of equal height
  * (each photo's share of the width follows its shape); on phones they stack.
@@ -37,7 +47,8 @@ export default function ShowroomGallery({ photos }: ShowroomGalleryProps) {
   const items = (photos ?? []).filter((photo) => photo.url).slice(0, MAX_PHOTOS);
   if (items.length === 0) return null;
   // Photos share one row height, so the row is as wide as the heights allow: ratios summed, times the cap.
-  const rowMaxWidth = Math.round(items.reduce((sum, photo) => sum + photoRatio(photo), 0) * MAX_ROW_HEIGHT + GAP * (items.length - 1));
+  const totalRatio = items.reduce((sum, photo) => sum + photoRatio(photo), 0);
+  const rowMaxWidth = Math.round(totalRatio * MAX_ROW_HEIGHT + GAP * (items.length - 1));
 
   return (
     <section id="showroom-photos" aria-labelledby="showroom-photos-heading" className="py-16 lg:py-24 border-t border-[var(--border)] text-[var(--text-primary)]">
@@ -67,7 +78,7 @@ export default function ShowroomGallery({ photos }: ShowroomGalleryProps) {
                   src={photo.url as string}
                   alt={`Hardware Collection showroom in Sakchi, photograph ${index + 1} of ${items.length}`}
                   fill
-                  sizes={`(max-width: 1024px) 100vw, ${Math.round((100 * ratio) / items.reduce((sum, p) => sum + photoRatio(p), 0))}vw`}
+                  sizes={photoSizes(ratio, totalRatio)}
                   placeholder={photo.lqip ? "blur" : "empty"}
                   blurDataURL={photo.lqip}
                   className="object-cover"

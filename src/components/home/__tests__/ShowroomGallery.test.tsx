@@ -1,7 +1,7 @@
 import { createElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
-import ShowroomGallery, { photoRatio, type ShowroomPhoto } from "../ShowroomGallery";
+import ShowroomGallery, { photoRatio, photoSizes, type ShowroomPhoto } from "../ShowroomGallery";
 
 const render = (photos?: ShowroomPhoto[]) => renderToStaticMarkup(createElement(ShowroomGallery, { photos }));
 
@@ -34,5 +34,14 @@ describe("ShowroomGallery", () => {
   it("shows at most four photos", () => {
     const many = Array.from({ length: 7 }, (_, i) => ({ _key: `k${i}`, url: `https://cdn.sanity.io/images/p/d/${i}-100x100.jpg`, width: 100, height: 100 }));
     expect((render(many).match(/<li/g) ?? []).length).toBe(4);
+  });
+});
+
+describe("photoSizes", () => {
+  it("is the full width when stacked and never asks for more than the row height cap allows", () => {
+    // Two equal squares: half the viewport each, but a square cannot be drawn wider than the 560px row height.
+    expect(photoSizes(1, 2)).toBe("(max-width: 1023px) 100vw, min(50vw, 560px)");
+    // A 1.5:1 photo beside a 0.6:1 one.
+    expect(photoSizes(1.5, 2.1)).toBe("(max-width: 1023px) 100vw, min(71vw, 840px)");
   });
 });
