@@ -38,9 +38,6 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
       <div className="max-w-[1320px] mx-auto px-6">
         {/* Header */}
         <div className="max-w-3xl mb-12 md:mb-16">
-          <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] mb-3 block">
-            AUTHORIZED PARTNERS
-          </span>
           <h2
             id="brand-discovery-heading"
             className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mb-4"
@@ -156,9 +153,6 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
         <div className="pt-12 border-t border-[var(--border)]">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-8 gap-2">
             <div>
-              <span className="hc-mono text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-[var(--accent)] mb-2 block">
-                Full Manufacturer Directory
-              </span>
               <h3 className="hc-serif text-2xl sm:text-3xl font-normal tracking-[0.02em] text-[var(--text-primary)]">
                 All Authorized Partners
               </h3>

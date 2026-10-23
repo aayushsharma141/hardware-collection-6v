@@ -221,12 +221,6 @@ function CinematicScene({
         className="relative max-w-[1320px] mx-auto w-full px-8 lg:px-16 flex flex-col items-start justify-end pb-12 lg:pb-20 h-full"
         style={{ zIndex: 3 }}
       >
-        <div className="mb-6 flex items-center gap-3">
-          <span className="w-6 h-[1px] bg-[var(--color-wine)]/30" />
-          <span className="hc-mono text-[var(--color-wine)] font-medium tracking-[0.2em] text-[10px] sm:text-xs uppercase">
-            {scene.eyebrow}
-          </span>
-        </div>
         <h2 className="hc-serif text-5xl sm:text-6xl lg:text-[5rem] xl:text-[6rem] font-light text-[var(--text-primary)] leading-[1.05] mb-6 whitespace-pre-line tracking-tight">
           {scene.title}
         </h2>

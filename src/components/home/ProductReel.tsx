@@ -267,10 +267,7 @@ function ProductCard({
 function ChapterLabel() {
   return (
     <>
-      <p className="hc-mono text-[var(--accent)] font-medium tracking-[0.22em] text-[10px] sm:text-[11px] uppercase mb-1">
-        Curated Showcase
-      </p>
-      <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mt-2 text-balance">
+      <h2 className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight text-balance">
         Selected<br />
         <span className="text-[var(--text-secondary)]">Architectural</span><br />
         Hardware.

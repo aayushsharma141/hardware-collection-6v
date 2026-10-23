@@ -43,21 +43,8 @@ export function ConsultationSection({
             className="object-cover object-[85%_center]"
           />
 
-          {/* Top Left: Eyebrow + Headline + Short Copy */}
+          {/* Top Left: Headline + Short Copy */}
           <div className="relative z-10 max-w-[500px]">
-            {/* Eyebrow */}
-            <div className="flex items-start gap-3 mb-10">
-              <span className="w-6 h-[1px] bg-[var(--border)] shrink-0 mt-2" aria-hidden="true" />
-              <div className="flex flex-col leading-tight">
-                <span className="text-[11px] uppercase tracking-[0.25em] text-[var(--text-primary)] font-semibold">
-                  Private Consultation
-                </span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-[var(--text-secondary)] font-medium mt-1">
-                  Sakchi, Jamshedpur
-                </span>
-              </div>
-            </div>
-
             {/* Large Editorial Headline: Roman + Italic Gold */}
             <h2
               className="font-cormorant text-[clamp(40px,4vw,56px)] font-normal tracking-tight text-[var(--text-primary)] leading-[1.05] mb-4"
@@ -145,13 +132,6 @@ export function ConsultationSection({
 
         {/* 2. Headline & Editorial Copy */}
         <div className="px-6 sm:px-10 pt-6 pb-4">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="w-6 h-[1px] bg-[var(--border)]" aria-hidden="true" />
-            <span className="text-[10px] uppercase tracking-[0.22em] text-[var(--text-primary)] font-semibold">
-              Private Consultation · Sakchi
-            </span>
-          </div>
-
           <h2
             className="font-cormorant text-3xl sm:text-4xl font-normal tracking-tight text-[var(--text-primary)] leading-[1.05] mb-4"
             style={{ fontFamily: "var(--font-cormorant), Georgia, serif" }}
