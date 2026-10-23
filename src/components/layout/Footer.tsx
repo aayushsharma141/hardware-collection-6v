@@ -12,7 +12,7 @@ import {
   SHOWROOM_SOCIAL_FALLBACKS,
   ShowroomSocialLink,
 } from "@/lib/config";
-import { buildWhatsAppUrl } from "@/lib/config";
+import { buildWhatsAppUrl, resolveMapUrl } from "@/lib/config";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -23,6 +23,8 @@ interface SiteSettings {
   pinterestUrl?: string | null;
   instagramUrl?: string | null;
   facebookUrl?: string | null;
+  whatsappNumber?: string | null;
+  googleMapsUrl?: string | null;
   socialLinks?: ShowroomSocialLink[];
 }
 
@@ -125,159 +127,147 @@ export default function Footer({ settings, socialLinks: customSocialLinks }: Foo
     : SHOWROOM_PHONE_HREF;
   const primaryPhoneDisplay = settings?.primaryPhone || SHOWROOM_PHONE_DISPLAY;
 
+  const whatsappHref = buildWhatsAppUrl(undefined, settings?.whatsappNumber ?? undefined);
+  const mapsHref = resolveMapUrl(settings?.googleMapsUrl);
+
+  const columnHeading =
+    "hc-mono text-[10.5px] uppercase tracking-[0.22em] font-semibold text-[var(--text-secondary)]";
+  const columnLink =
+    "hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors";
+
   return (
     <footer
       role="contentinfo"
       className="w-full bg-[var(--surface)] border-t border-[var(--border)] pt-10 pb-8 px-5 lg:px-16 text-[var(--text-primary)] relative z-10"
     >
       <div className="max-w-[1440px] mx-auto">
-        {/* Top Grid matching Reference Mockup */}
-        <div className="grid grid-cols-2 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-12 pb-8 sm:pb-10 border-b border-[var(--border)]">
-          {/* Column 1: Brand Info & Socials (col-span-2 lg:col-span-4) */}
-          <div className="col-span-2 lg:col-span-4 space-y-3.5">
+        {/* Two rows on desktop: link columns on top, credentials and socials sharing one baseline below */}
+        <div className="grid grid-cols-2 lg:grid-cols-12 gap-x-6 sm:gap-x-8 lg:gap-x-12 gap-y-6 lg:gap-y-5 pb-8 sm:pb-10 border-b border-[var(--border)]">
+          {/* Brand */}
+          <div className="order-1 col-span-2 lg:col-span-4 lg:col-start-1 lg:row-start-1 space-y-3.5">
             <Link href="/" aria-label="Hardware Collection home" className="inline-block">
               <BrandLockup layout="stacked" fontSize="14px" />
             </Link>
             <p className="text-xs text-[var(--text-secondary)] font-light leading-relaxed max-w-xs">
               Architectural hardware, digital security and kitchen systems showroom in Sakchi, Jamshedpur.
             </p>
-            <ul className="flex flex-wrap gap-2 pt-1" aria-label="Showroom credentials">
-              {["10+ Years", "20+ Authorised Brands"].map((item) => (
-                <li
-                  key={item}
-                  className="hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--color-brass-ink)] px-3 py-1.5 rounded-full border border-[var(--color-brass)]/40 bg-white/50"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
+          </div>
 
-            {resolvedSocialLinks.length > 0 && (
-              <div className="pt-3 mt-1 border-t border-[var(--border)]/70 max-w-xs">
-                <p className="hc-mono text-[10px] uppercase tracking-[0.2em] font-semibold text-[var(--text-secondary)] mb-3 mt-3">
-                  Follow Showroom
-                </p>
-                <div className="flex items-center gap-2.5 flex-wrap" aria-label="Showroom social media channels">
-                  {resolvedSocialLinks.map((social) => (
-                    <a
-                      key={`${social.platform}-${social.url}`}
-                      href={social.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Hardware Collection on ${social.platform}`}
-                      title={`${social.platform} — Hardware Collection`}
-                      className="w-10 h-10 rounded-full border border-[var(--border)] bg-white/60 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--color-wine)] hover:border-[var(--color-wine)] hover:bg-[var(--surface-raised)] transition-[color,border-color,background-color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] focus-visible:ring-offset-2"
-                    >
-                      <SocialIcon platform={social.platform} />
-                    </a>
-                  ))}
-                </div>
+          {/* Credentials */}
+          <ul
+            className="order-2 col-span-2 lg:col-span-4 lg:col-start-1 lg:row-start-2 lg:self-center flex flex-wrap gap-2"
+            aria-label="Showroom credentials"
+          >
+            {["10+ Years", "20+ Authorised Brands"].map((item) => (
+              <li
+                key={item}
+                className="hc-mono text-[10px] uppercase tracking-[0.16em] font-semibold text-[var(--color-brass-ink)] px-3 py-1.5 rounded-full border border-[var(--color-brass)]/40 bg-white/50 whitespace-nowrap"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          {/* Socials, level with the credential chips */}
+          {resolvedSocialLinks.length > 0 && (
+            <div className="order-3 col-span-2 lg:col-span-8 lg:col-start-5 lg:row-start-2 lg:self-center flex flex-wrap items-center gap-x-5 gap-y-3">
+              <p className={columnHeading}>Follow Showroom</p>
+              <div className="flex items-center gap-2.5 flex-wrap" aria-label="Showroom social media channels">
+                {resolvedSocialLinks.map((social) => (
+                  <a
+                    key={`${social.platform}-${social.url}`}
+                    href={social.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Hardware Collection on ${social.platform}`}
+                    title={`${social.platform} — Hardware Collection`}
+                    className="w-10 h-10 rounded-full border border-[var(--border)] bg-white/60 flex items-center justify-center text-[var(--text-secondary)] hover:text-[var(--color-wine)] hover:border-[var(--color-wine)] hover:bg-[var(--surface-raised)] transition-[color,border-color,background-color] duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] focus-visible:ring-offset-2"
+                  >
+                    <SocialIcon platform={social.platform} />
+                  </a>
+                ))}
               </div>
-            )}
-          </div>
+            </div>
+          )}
 
-          {/* Column 2: Explore (col-span-1 lg:col-span-3) */}
-          <div className="col-span-1 lg:col-span-3 space-y-2.5">
-            <h4 className="hc-mono text-[10.5px] uppercase tracking-[0.22em] font-semibold text-[var(--text-secondary)]">
-              Explore
-            </h4>
+          {/* Explore */}
+          <div className="order-4 col-span-1 lg:col-span-3 lg:col-start-5 lg:row-start-1 space-y-2.5">
+            <h4 className={columnHeading}>Explore</h4>
             <ul className="space-y-2 text-xs text-[var(--text-primary)]">
               <li>
-                <Link
-                  href="/collections"
-                  className="hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
-                >
+                <Link href="/collections" className={columnLink}>
                   <span>Collections</span>
-                  <span className="text-[10px]">&rarr;</span>
+                  <span className="text-[10px]" aria-hidden="true">&rarr;</span>
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/catalogues"
-                  className="hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
-                >
+                <Link href="/catalogues" className={columnLink}>
                   <span>Brands &amp; Catalogues</span>
-                  <span className="text-[10px]">&rarr;</span>
+                  <span className="text-[10px]" aria-hidden="true">&rarr;</span>
                 </Link>
               </li>
             </ul>
           </div>
 
-          {/* Column 3: Legal (col-span-1 lg:col-span-2) */}
-          <div className="col-span-1 lg:col-span-2 space-y-2.5">
-            <h4 className="hc-mono text-[10.5px] uppercase tracking-[0.22em] font-semibold text-[var(--text-secondary)]">
-              Legal
-            </h4>
+          {/* Showroom (took the Legal column's place) */}
+          <div className="order-5 col-span-1 lg:col-span-2 lg:col-start-8 lg:row-start-1 space-y-2.5">
+            <h4 className={columnHeading}>Showroom</h4>
             <ul className="space-y-2 text-xs text-[var(--text-primary)]">
               <li>
-                <Link
-                  href="/privacy"
-                  className="hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
-                >
-                  <span>Privacy Policy</span>
-                  <span className="text-[10px]">&rarr;</span>
-                </Link>
+                <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className={columnLink}>
+                  <span>WhatsApp Concierge</span>
+                  <span className="text-[10px]" aria-hidden="true">↗</span>
+                </a>
               </li>
               <li>
-                <Link
-                  href="/terms"
-                  className="hover:text-[var(--color-wine)] inline-flex items-center gap-1.5 transition-colors"
-                >
-                  <span>Terms &amp; Conditions</span>
-                  <span className="text-[10px]">&rarr;</span>
-                </Link>
+                <a href={mapsHref} target="_blank" rel="noopener noreferrer" className={columnLink}>
+                  <span>Showroom Directions</span>
+                  <span className="text-[10px]" aria-hidden="true">↗</span>
+                </a>
               </li>
             </ul>
           </div>
 
-          {/* Column 4: Contact (col-span-2 lg:col-span-3) */}
-          <div className="col-span-2 lg:col-span-3 space-y-2.5">
-            <h4 className="hc-mono text-[10.5px] uppercase tracking-[0.22em] font-semibold text-[var(--text-secondary)]">
-              Contact
-            </h4>
+          {/* Contact */}
+          <div className="order-6 col-span-2 lg:col-span-3 lg:col-start-10 lg:row-start-1 space-y-2.5">
+            <h4 className={columnHeading}>Contact</h4>
 
             <div className="space-y-2 pt-1">
               <a
                 href={showroomPhoneHref}
                 className="text-[11.5px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] block transition-colors"
               >
-                Hardware Collection Showroom : {showroomPhoneDisplay}
+                Call: {showroomPhoneDisplay}
               </a>
               <a
                 href={primaryPhoneHref}
                 className="text-[11.5px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] block transition-colors"
               >
-                Mukesh Khandelwal : {primaryPhoneDisplay}
+                Whatsapp: {primaryPhoneDisplay}
               </a>
             </div>
           </div>
         </div>
 
-        {/* Bottom Sub-Footer Bar */}
+        {/* Bottom bar: copyright left, legal links right (took the old bottom links' place) */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[var(--text-secondary)] font-light">
           <p>© 2026 Hardware Collection (Mukesh Khandelwal). All rights reserved.</p>
 
-          <div className="flex items-center gap-5">
-            <a
-              href={buildWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--text-secondary)] hover:text-[var(--color-wine)] transition-colors inline-flex items-center gap-1.5 font-medium uppercase tracking-[0.14em] text-[10px]"
+          <nav aria-label="Legal" className="flex items-center gap-5">
+            <Link
+              href="/privacy"
+              className="text-[var(--text-secondary)] hover:text-[var(--color-wine)] transition-colors font-medium uppercase tracking-[0.14em] text-[10px]"
             >
-              <span>WhatsApp Concierge</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-            <span className="text-[var(--border)]">•</span>
-            <a
-              href="https://maps.app.goo.gl/6qokJfpuQgfNwqZK9"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[var(--text-secondary)] hover:text-[var(--color-wine)] transition-colors inline-flex items-center gap-1.5 font-medium uppercase tracking-[0.14em] text-[10px]"
+              Privacy Policy
+            </Link>
+            <span aria-hidden="true" className="text-[var(--border)]">•</span>
+            <Link
+              href="/terms"
+              className="text-[var(--text-secondary)] hover:text-[var(--color-wine)] transition-colors font-medium uppercase tracking-[0.14em] text-[10px]"
             >
-              <span>Showroom Directions</span>
-              <span aria-hidden="true">↗</span>
-            </a>
-          </div>
+              Terms &amp; Conditions
+            </Link>
+          </nav>
         </div>
       </div>
     </footer>
