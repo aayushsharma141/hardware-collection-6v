@@ -2,10 +2,9 @@
 
 import React, { useEffect, useCallback, useRef } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Volume2, VolumeX } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { motion, AnimatePresence, useReducedMotion } from "motion/react";
 import { SHOWROOM_HOURS_FALLBACK } from "@/lib/config";
-import { useAudioStore } from "@/components/audio/audioStore";
 import type { NavLinkItem } from "./Navbar";
 
 interface MobileMenuProps {
@@ -31,8 +30,6 @@ export function MobileMenu({
   onConsultClick,
 }: MobileMenuProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
-  const isPlaying = useAudioStore((s) => s.isPlaying);
-  const toggleAudio = useAudioStore((s) => s.toggle);
   const shouldReduceMotion = useReducedMotion();
 
   const handleKeyDown = useCallback(
@@ -229,77 +226,6 @@ export function MobileMenu({
                 );
               })}
             </nav>
-
-            {/* Minimalist Showroom Ambiance / Sound Control */}
-            <motion.div
-              initial={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : { opacity: 0, y: 12, scale: 0.98 }
-              }
-              animate={
-                shouldReduceMotion
-                  ? { opacity: 1 }
-                  : { opacity: 1, y: 0, scale: 1 }
-              }
-              exit={
-                shouldReduceMotion
-                  ? { opacity: 0 }
-                  : { opacity: 0, y: 8 }
-              }
-              transition={
-                shouldReduceMotion
-                  ? { duration: 0.15 }
-                  : {
-                      type: "spring",
-                      stiffness: 400,
-                      damping: 34,
-                      mass: 0.7,
-                      delay: 0.2,
-                    }
-              }
-              className="flex items-center justify-between py-3 px-3.5 rounded-2xl bg-white/45 border border-white/70 shadow-[0_1px_6px_rgba(26,16,23,0.02)]"
-            >
-              <div className="flex items-center gap-2.5">
-                <span className="hc-mono text-[10px] uppercase tracking-[0.2em] text-[#7a6872] font-semibold">
-                  Showroom Ambience
-                </span>
-              </div>
-
-              <button
-                type="button"
-                onClick={toggleAudio}
-                aria-label={isPlaying ? "Mute background audio" : "Play background audio"}
-                aria-pressed={isPlaying}
-                className={`flex items-center gap-2 h-7 px-3 rounded-full border transition-all duration-200 active:scale-[0.94] ${
-                  isPlaying
-                    ? "bg-[#8b1a42]/10 border-[#8b1a42]/25 text-[#8b1a42]"
-                    : "bg-white/60 border-black/5 text-[#7a6872] hover:text-[#1a1017]"
-                }`}
-              >
-                {isPlaying ? (
-                  <>
-                    <span className="flex items-end gap-[2px] h-2.5 w-2.5 pb-[1px]" aria-hidden="true">
-                      <span className="w-[1.5px] rounded-full bg-[#8b1a42] animate-eq-1" />
-                      <span className="w-[1.5px] rounded-full bg-[#8b1a42] animate-eq-2" />
-                      <span className="w-[1.5px] rounded-full bg-[#8b1a42] animate-eq-3" />
-                    </span>
-                    <span className="font-manrope text-[10px] font-semibold uppercase tracking-[0.14em]">
-                      Sound On
-                    </span>
-                    <Volume2 className="w-3 h-3 text-[#8b1a42]" />
-                  </>
-                ) : (
-                  <>
-                    <span className="w-1.5 h-1.5 rounded-full bg-[#7a6872]/40" />
-                    <span className="font-manrope text-[10px] font-medium uppercase tracking-[0.14em]">
-                      Sound Off
-                    </span>
-                    <VolumeX className="w-3 h-3 text-[#7a6872]" />
-                  </>
-                )}
-              </button>
-            </motion.div>
 
             {/* Bottom Actions without Phone Number */}
             <motion.div

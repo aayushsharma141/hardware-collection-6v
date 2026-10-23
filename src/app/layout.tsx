@@ -49,7 +49,6 @@ import { VisualEditing } from "next-sanity/visual-editing";
 import DraftModeBanner from "@/components/preview/DraftModeBanner";
 
 import { FloatingActionButtons } from "@/components/ui/FloatingActionButtons";
-import { BackgroundAudio } from "@/components/audio/BackgroundAudio";
 
 const CANONICAL_HOST = "https://www.hardwarecollection.co";
 
@@ -207,7 +206,6 @@ export default async function RootLayout({
           {children}
         </MotionProvider>
         <FloatingActionButtons />
-        <BackgroundAudio />
         <ConsultationDrawer />
         {isDraftMode && <VisualEditing />}
         {isDraftMode && <DraftModeBanner />}

@@ -168,28 +168,6 @@
     from { opacity: 0; }
     to   { opacity: 1; }
   }
-  @keyframes eq-pulse-1 {
-    0%, 100% { height: 4px; }
-    50% { height: 14px; }
-  }
-  @keyframes eq-pulse-2 {
-    0%, 100% { height: 14px; }
-    50% { height: 6px; }
-  }
-  @keyframes eq-pulse-3 {
-    0%, 100% { height: 8px; }
-    50% { height: 16px; }
-  }
-  @keyframes eq-pulse-4 {
-    0%, 100% { height: 12px; }
-    50% { height: 4px; }
-  }
-
-  --animate-eq-1: eq-pulse-1 1.1s ease-in-out infinite;
-  --animate-eq-2: eq-pulse-2 0.85s ease-in-out infinite;
-  --animate-eq-3: eq-pulse-3 1.25s ease-in-out infinite;
-  --animate-eq-4: eq-pulse-4 0.95s ease-in-out infinite;
-
   --duration-stagger:   40ms;
   --duration-micro:     80ms;
   --duration-quick:     150ms;
