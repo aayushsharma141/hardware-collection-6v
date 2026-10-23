@@ -260,7 +260,6 @@ export async function getSiteSettings() {
     pinterestUrl,
     instagramUrl,
     facebookUrl,
-    "socialLinks": coalesce(socialLinks[] { platform, url }, []),
     mainLogo,
     mainLogoInverse,
     "defaultCategoryImage": defaultCategoryImage,

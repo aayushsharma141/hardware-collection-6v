@@ -191,7 +191,6 @@ export interface SiteSettings {
   pinterestUrl?: string;
   instagramUrl?: string;
   facebookUrl?: string;
-  socialLinks?: { platform: string; url: string }[];
 }
 
 export interface ShowroomFamilyNav {

@@ -25,7 +25,6 @@ interface SiteSettings {
   facebookUrl?: string | null;
   whatsappNumber?: string | null;
   googleMapsUrl?: string | null;
-  socialLinks?: ShowroomSocialLink[];
 }
 
 // ─── Social icon SVGs (inline, no external dep) ──────────────────────────────
@@ -89,14 +88,10 @@ export interface FooterProps {
 export default function Footer({ settings, socialLinks: customSocialLinks }: FooterProps = {}) {
   const pathname = usePathname();
 
-  // Priority: explicit prop -> CMS socialLinks array -> CMS explicit fields -> fallback defaults
+  // Priority: explicit prop -> Site Settings URL fields -> fallback defaults
   const resolvedSocialLinks = React.useMemo(() => {
     if (customSocialLinks && customSocialLinks.length > 0) {
       return customSocialLinks;
-    }
-
-    if (settings?.socialLinks && settings.socialLinks.length > 0) {
-      return settings.socialLinks;
     }
 
     const fromFields: ShowroomSocialLink[] = [];
