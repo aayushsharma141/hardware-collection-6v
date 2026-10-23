@@ -221,7 +221,7 @@ function CinematicScene({
         className="relative max-w-[1320px] mx-auto w-full px-8 lg:px-16 flex flex-col items-start justify-end pb-12 lg:pb-20 h-full"
         style={{ zIndex: 3 }}
       >
-        <h2 className="hc-serif text-5xl sm:text-6xl lg:text-[5rem] xl:text-[6rem] font-light text-[var(--text-primary)] leading-[1.05] mb-6 whitespace-pre-line tracking-tight">
+        <h2 className="hc-serif text-5xl sm:text-6xl lg:text-[5rem] xl:text-[6rem] font-light text-[var(--text-primary)] leading-[1.05] mb-6 whitespace-pre-line tracking-tight text-balance">
           {scene.title}
         </h2>
         <p className="text-base sm:text-lg lg:text-xl text-[var(--text-primary)] opacity-70 font-light max-w-xl leading-relaxed mb-12">

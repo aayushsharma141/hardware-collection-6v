@@ -36,7 +36,7 @@ export default function TactileStatement() {
             style={{ y: shouldReduceMotion ? 0 : textY }}
             className="order-2 lg:order-1"
           >
-            <h2 className="text-5xl lg:text-7xl font-light text-[var(--text-primary)] leading-tight mb-8">
+            <h2 className="text-5xl lg:text-7xl font-light text-[var(--text-primary)] leading-tight mb-8 text-balance">
               HARDWARE<br />YOU CAN<br />EXPERIENCE.
             </h2>
             <p className="text-xl text-[var(--text-secondary)] font-light max-w-md">

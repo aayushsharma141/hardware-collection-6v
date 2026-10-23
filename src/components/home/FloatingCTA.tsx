@@ -63,7 +63,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                     className="w-9 h-9 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-primary)] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] active:scale-95 transition-all"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
                   <button
@@ -73,7 +73,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                     className="w-9 h-9 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-primary)] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] active:scale-95 transition-all"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
                 </div>
@@ -173,7 +173,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
               >
                 <span>Get Directions</span>
                 <svg className="w-3.5 h-3.5 text-white transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </a>
             </div>

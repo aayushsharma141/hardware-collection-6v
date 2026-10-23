@@ -127,7 +127,7 @@ export default function CollectionExplorer({
       <div className="mx-auto w-full max-w-[1440px] px-5 sm:px-8 lg:px-12 py-12 md:py-20">
         {/* Section Header */}
         <div className="mb-10 md:mb-14">
-          <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight max-w-2xl">
+          <h2 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight max-w-2xl text-balance">
             Find the hardware
             <br />
             for your space.
@@ -357,7 +357,7 @@ export default function CollectionExplorer({
                     </div>
                     <Button
                       asChild
-                      className="bg-[var(--accent)] hover:opacity-90 text-white h-12 rounded-none px-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors shrink-0"
+                      className="bg-[var(--accent)] hover:opacity-90 text-white h-12 rounded-full px-6 text-[11px] font-bold uppercase tracking-[0.15em] transition-colors shrink-0"
                     >
                       <a
                         href={enquiryHref(section.group.title)}

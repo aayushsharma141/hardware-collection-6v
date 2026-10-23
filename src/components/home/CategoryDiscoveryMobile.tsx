@@ -77,7 +77,7 @@ export default function CategoryDiscoveryMobile({
     <section className="w-full px-5 py-10 bg-[var(--surface)] border-b border-[var(--border)] lg:hidden">
       {/* Header matching Reference Mockup */}
       <div className="flex flex-col mb-6">
-        <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight">
+        <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight text-balance">
           What are you looking for?
         </h2>
         <div className="flex items-end justify-between gap-3 mt-2">
@@ -90,7 +90,7 @@ export default function CategoryDiscoveryMobile({
           >
             <span>View All</span>
             <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M14 5l7 7m0 0l-7 7m7-7H3" />
             </svg>
           </Link>
         </div>
@@ -133,7 +133,7 @@ export default function CategoryDiscoveryMobile({
                   viewBox="0 0 24 24"
                   stroke="currentColor"
                 >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 5l7 7-7 7" />
                 </svg>
               </div>
             </Link>

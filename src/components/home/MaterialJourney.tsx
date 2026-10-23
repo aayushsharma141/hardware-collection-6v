@@ -220,7 +220,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
           <p className="text-[var(--accent)] font-medium tracking-widest text-[11px] uppercase mb-1">
             The finish
           </p>
-          <h2 className="hc-serif text-[32px] sm:text-4xl font-normal tracking-[0.015em] text-[var(--text-primary)] leading-[1.05] mb-4">
+          <h2 className="hc-serif text-[32px] sm:text-4xl font-normal tracking-[0.015em] text-[var(--text-primary)] leading-[1.05] mb-4 text-balance">
             The details define<br />
             <span className="text-[var(--text-secondary)]">the architecture.</span>
           </h2>
@@ -270,7 +270,7 @@ export default function MaterialJourney({ materials }: MaterialJourneyProps) {
             <p className="hc-mono text-brass-ink font-semibold tracking-[0.25em] text-xs uppercase mb-2">
               The finish
             </p>
-            <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.05] mb-4">
+            <h2 className="hc-serif text-4xl sm:text-5xl font-light tracking-[-0.01em] text-[var(--text-primary)] leading-[1.05] mb-4 text-balance">
               The details define<br />
               <span className="text-[var(--text-secondary)]">the architecture.</span>
             </h2>

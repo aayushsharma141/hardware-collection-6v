@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { motion, useReducedMotion } from "motion/react";
 import { Brand, getSlugString } from "@/types/catalog";
@@ -40,7 +41,7 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
         <div className="max-w-3xl mb-12 md:mb-16">
           <h2
             id="brand-discovery-heading"
-            className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mb-4"
+            className="hc-serif text-3xl sm:text-4xl lg:text-5xl font-normal tracking-[0.02em] text-[var(--text-primary)] leading-tight mb-4 text-balance"
           >
             Brand Discovery
           </h2>
@@ -117,19 +118,17 @@ export default function BrandDiscovery({ brands }: BrandDiscoveryProps) {
                         )}
                         <div className="flex flex-wrap items-center gap-4 mt-1">
                           {(brand.catalogues?.length || brand.officialCatalogUrl) && (
-                            <a
+                            <Link
                               href={
                                 brand.slug
                                   ? `/catalogues?brand=${typeof brand.slug === "object" ? brand.slug.current : brand.slug}`
                                   : "/catalogues"
                               }
-                              target="_blank"
-                              rel="noopener noreferrer"
                               tabIndex={isHovered ? 0 : -1}
                               className="inline-flex items-center gap-2 text-[var(--text-secondary)] text-xs tracking-widest uppercase hover:text-[var(--text-primary)] transition-colors duration-150 hc-focus w-fit"
                             >
                               View Catalogue
-                            </a>
+                            </Link>
                           )}
                           <button
                             type="button"
