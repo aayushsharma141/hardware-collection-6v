@@ -6,7 +6,6 @@ import { BrandLockup } from "@/components/brand/BrandLockup";
 import { usePathname } from "next/navigation";
 import {
   SHOWROOM_PHONE_DISPLAY,
-  SHOWROOM_PHONE_HREF,
   SHOWROOM_SECONDARY_PHONE_DISPLAY,
   SHOWROOM_SECONDARY_PHONE_HREF,
   SHOWROOM_SOCIAL_FALLBACKS,
@@ -117,9 +116,6 @@ export default function Footer({ settings, socialLinks: customSocialLinks }: Foo
     : SHOWROOM_SECONDARY_PHONE_HREF;
   const showroomPhoneDisplay = settings?.secondaryPhone || SHOWROOM_SECONDARY_PHONE_DISPLAY;
 
-  const primaryPhoneHref = settings?.primaryPhone
-    ? `tel:${settings.primaryPhone.replace(/\s+/g, "")}`
-    : SHOWROOM_PHONE_HREF;
   const primaryPhoneDisplay = settings?.primaryPhone || SHOWROOM_PHONE_DISPLAY;
 
   const whatsappHref = buildWhatsAppUrl(undefined, settings?.whatsappNumber ?? undefined);
@@ -235,7 +231,9 @@ export default function Footer({ settings, socialLinks: customSocialLinks }: Foo
                 Call: {showroomPhoneDisplay}
               </a>
               <a
-                href={primaryPhoneHref}
+                href={whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-[11.5px] font-medium text-[var(--text-primary)] hover:text-[var(--color-wine)] block transition-colors"
               >
                 Whatsapp: {primaryPhoneDisplay}
