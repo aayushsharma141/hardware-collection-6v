@@ -244,7 +244,7 @@ export default function Footer({ settings, socialLinks: customSocialLinks }: Foo
 
         {/* Bottom bar: copyright left, legal links right (took the old bottom links' place) */}
         <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-[11px] text-[var(--text-secondary)] font-light">
-          <p>© 2026 Hardware Collection (Mukesh Khandelwal). All rights reserved.</p>
+          <p>© 2026 Hardware Collection. All rights reserved.</p>
 
           <nav aria-label="Legal" className="flex items-center gap-5">
             <Link
