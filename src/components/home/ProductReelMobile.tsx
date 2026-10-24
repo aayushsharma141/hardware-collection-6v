@@ -52,7 +52,7 @@ export default function ProductReelMobile({}: { products?: unknown } = {}) {
   const current = FEATURED_ITEMS[currentIndex];
 
   return (
-    <section className="w-full px-5 py-10 bg-[var(--surface)] border-b border-[var(--border)] lg:hidden">
+    <section className="w-full px-5 py-10 bg-transparent border-b border-[var(--border)] lg:hidden">
       {/* Header Info */}
       <div className="mb-6">
         <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] leading-tight tracking-tight mb-2.5 text-balance">
@@ -104,7 +104,7 @@ export default function ProductReelMobile({}: { products?: unknown } = {}) {
               className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 active:scale-95 transition-all"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15 19l-7-7 7-7" />
               </svg>
             </button>
             <button
@@ -114,7 +114,7 @@ export default function ProductReelMobile({}: { products?: unknown } = {}) {
               className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/40 flex items-center justify-center text-white hover:bg-white/20 active:scale-95 transition-all"
             >
               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 5l7 7-7 7" />
               </svg>
             </button>
           </div>

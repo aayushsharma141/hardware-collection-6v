@@ -31,6 +31,9 @@ import HeroMobile from "@/components/home/HeroMobile";
 import CategoryDiscoveryMobile from "@/components/home/CategoryDiscoveryMobile";
 import ProductReelMobile from "@/components/home/ProductReelMobile";
 import AboutStory from "@/components/home/AboutStory";
+import HeroTrustBadges from "@/components/home/HeroTrustBadges";
+import FinishesStrip from "@/components/home/FinishesStrip";
+import ShowroomGallery from "@/components/home/ShowroomGallery";
 import { HeroSlide } from "@/types/hero";
 
 
@@ -179,6 +182,11 @@ export default async function HomePage() {
           <HeroStage slides={heroSlides} />
         </div>
 
+        {/* 01b WHY US — Value Propositions from Studio (Home Page > Why Choose Us) */}
+        <div className="theme-ivory">
+          <HeroTrustBadges pillars={homeData?.valuePropositions} />
+        </div>
+
         {/* 02 WHERE TO BEGIN — What are you working on? */}
         <div className="block lg:hidden">
           <CategoryDiscoveryMobile categories={homeData?.featuredCategoryRefs} populatedGroupIds={populatedGroupIds} />
@@ -200,6 +208,11 @@ export default async function HomePage() {
           <ProductReel products={homeData?.featuredProductRefs} />
         </div>
 
+        {/* 04b FINISHES — Material Finishes from Studio (Home Page > Material Finishes) */}
+        <div className="theme-ivory">
+          <FinishesStrip finishes={homeData?.materialFinishes} />
+        </div>
+
         {/* 05 WHY HARDWARE COLLECTION — Hardware that completes the space */}
         <div className="theme-ivory">
           <AboutStory 
@@ -208,7 +221,13 @@ export default async function HomePage() {
             legacyYearsOfTrust={homeData?.legacyYearsOfTrust}
             legacyBrandsCount={homeData?.legacyBrandsCount}
             legacyShowroomImageUrl={homeData?.legacyShowroomImageUrl}
+            legacyPillars={homeData?.legacyPillars}
           />
+        </div>
+
+        {/* 05b INSIDE THE SHOWROOM — photographs from Studio (Home Page > Showroom Gallery) */}
+        <div className="theme-ivory">
+          <ShowroomGallery photos={homeData?.showroomPhotos} />
         </div>
 
         {/* 06 & 07 VOICES OF TRUST & VISIT SAKCHI */}

@@ -120,7 +120,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
   return (
     <section
       id="brands"
-      className={`${hideHeader ? "py-5 sm:py-8 border-y" : "py-8 sm:py-12 border-b"} bg-[var(--surface)] border-[var(--border)] relative z-10 scroll-mt-20 overflow-hidden`}
+      className={`${hideHeader ? "py-5 sm:py-8 border-y" : "py-8 sm:py-12 border-b"} bg-transparent border-[var(--border)] relative z-10 scroll-mt-20 overflow-hidden`}
     >
       {!hideHeader && (
         <div className="max-w-[1440px] mx-auto px-5 lg:px-16 mb-6 sm:mb-8">

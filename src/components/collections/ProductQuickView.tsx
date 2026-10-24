@@ -39,7 +39,7 @@ export default function ProductQuickView({
     <Dialog open={product !== null} onOpenChange={(open) => !open && onClose()}>
       <DialogContent
         data-lenis-prevent="true"
-        className="max-h-[90dvh] max-w-3xl gap-0 overflow-y-auto overscroll-contain touch-pan-y rounded-none border-[var(--border)] bg-white p-0 text-[var(--text-primary)] sm:max-w-3xl"
+        className="max-h-[90dvh] max-w-3xl gap-0 overflow-y-auto overscroll-contain touch-pan-y rounded-2xl border-[var(--border)] bg-white p-0 text-[var(--text-primary)] sm:max-w-3xl"
         style={{ WebkitOverflowScrolling: "touch" }}
       >
         {product && (
@@ -88,7 +88,7 @@ export default function ProductQuickView({
                 </p>
                 <Button
                   asChild
-                  className="brass-plate h-12 rounded-none text-[13px] font-semibold uppercase tracking-widest text-white hover:opacity-95 sm:text-xs"
+                  className="brass-plate h-12 rounded-full text-[13px] font-semibold uppercase tracking-widest text-white hover:opacity-95 sm:text-xs"
                 >
                   <a href={whatsappHref} target="_blank" rel="noopener noreferrer">
                     Ask on WhatsApp
@@ -98,9 +98,9 @@ export default function ProductQuickView({
                   <Button
                     asChild
                     variant="outline"
-                    className="h-12 rounded-none border-[var(--border)] bg-transparent text-[13px] font-medium uppercase tracking-widest hover:border-[var(--color-brass)] hover:bg-transparent sm:text-xs"
+                    className="h-12 rounded-full border-[var(--border)] bg-transparent text-[13px] font-medium uppercase tracking-widest hover:border-[var(--color-brass)] hover:bg-transparent sm:text-xs"
                   >
-                    <Link href={catalogueHref} target="_blank" rel="noopener noreferrer">
+                    <Link href={catalogueHref}>
                       View {brand} catalogue
                     </Link>
                   </Button>

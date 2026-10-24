@@ -7,6 +7,20 @@ import { categoryRails, groupProducts } from "@/lib/collections/showroom";
 import type { Category, Offer } from "@/types/catalog";
 import { withPdfVersions, type BrandRow } from "@/lib/catalog/viewOnly";
 
+/**
+ * How long a cached Sanity read may be served before it is fetched again.
+ *
+ * Reads are cached by tag, and the publish webhook (/api/revalidate) clears the
+ * tag so an edit shows up at once. That depends on the webhook being configured
+ * and working. Without a time limit, a missing or failing webhook leaves the
+ * site on the content of its last deploy indefinitely, and nothing ever tells
+ * anyone. This is the safety net: the worst case is a few minutes of lag.
+ */
+export const SANITY_REVALIDATE_SECONDS = 300;
+
+/** Cache options for a Sanity read: cleared by these tags on publish, and by the timer regardless. */
+const cached = (...tags: string[]) => ({ next: { tags, revalidate: SANITY_REVALIDATE_SECONDS } });
+
 
 /** Fields every product card and list needs, in both old and new image shapes. */
 const PRODUCT_LIST_FIELDS = `
@@ -111,7 +125,7 @@ export const getCuratedCollectionsQuery = groq`
 
 export async function getCategories() {
   try {
-    return await client.fetch(getCategoriesQuery, {}, { next: { tags: ["category"] } });
+    return await client.fetch(getCategoriesQuery, {}, cached("category"));
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -120,7 +134,7 @@ export async function getCategories() {
 
 export async function getCuratedCollections() {
   try {
-    return await client.fetch(getCuratedCollectionsQuery, {}, { next: { tags: ["curatedCollection"] } });
+    return await client.fetch(getCuratedCollectionsQuery, {}, cached("curatedCollection"));
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -131,7 +145,7 @@ export async function getBrands() {
   try {
     // The asset id becomes a short fingerprint here, on the server: brands are
     // passed to client components, and the full id rebuilds the PDF's CDN URL.
-    const brands = await client.fetch<BrandRow[]>(getBrandsQuery, {}, { next: { tags: ["brand", "catalogue"] } });
+    const brands = await client.fetch<BrandRow[]>(getBrandsQuery, {}, cached("brand", "catalogue"));
     return withPdfVersions(brands);
   } catch (error) {
     console.error("Sanity fetch error:", error);
@@ -141,7 +155,7 @@ export async function getBrands() {
 
 export async function getAllProducts() {
   try {
-    return await client.fetch(getAllProductsQuery, {}, { next: { tags: ["product"] } });
+    return await client.fetch(getAllProductsQuery, {}, cached("product"));
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -164,7 +178,7 @@ export async function getShowroomGroups(): Promise<{ id: string; title: string }
 
 export async function getFeaturedProducts() {
   try {
-    return await client.fetch(getFeaturedProductsQuery, {}, { next: { tags: ["product"] } });
+    return await client.fetch(getFeaturedProductsQuery, {}, cached("product"));
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -173,7 +187,7 @@ export async function getFeaturedProducts() {
 
 export async function getTestimonials(): Promise<Testimonial[]> {
   try {
-    return await client.fetch<Testimonial[]>(getTestimonialsQuery, {}, { next: { tags: ["testimonial"] } });
+    return await client.fetch<Testimonial[]>(getTestimonialsQuery, {}, cached("testimonial"));
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -193,7 +207,15 @@ export async function getHomePage() {
     "heroImageMobileLqip": heroImageMobile.asset->metadata.lqip,
     
     valuePropositions,
-    materialFinishes,
+    "materialFinishes": materialFinishes[]{
+      _key,
+      name,
+      subName,
+      description,
+      specification,
+      "imageUrl": image.asset->url,
+      "imageLqip": image.asset->metadata.lqip
+    },
     legacyYearsOfTrust,
     legacyBrandsCount,
     "legacyShowroomImage": legacyShowroomImage,
@@ -224,7 +246,13 @@ export async function getHomePage() {
       "imageUrl": heroImage.asset->url, 
       "brandName": brand->name 
     },
-    "showroomGalleryUrls": showroomGallery[].asset->url,
+    "showroomPhotos": showroomGallery[defined(asset)]{
+      _key,
+      "url": asset->url,
+      "lqip": asset->metadata.lqip,
+      "width": asset->metadata.dimensions.width,
+      "height": asset->metadata.dimensions.height
+    },
     "testimonialRefs": testimonials[]->{ 
       _id, 
       customerName, 
@@ -238,7 +266,7 @@ export async function getHomePage() {
     cta
   }`;
   try {
-    return await client.fetch(query, {}, { next: { tags: ["homePage", "product", "category", "brand", "testimonial"] } });
+    return await client.fetch(query, {}, cached("homePage", "product", "category", "brand", "testimonial"));
   } catch (error) {
     console.error("Sanity fetch error (getHomePage):", error);
     return null;
@@ -260,8 +288,6 @@ export async function getSiteSettings() {
     pinterestUrl,
     instagramUrl,
     facebookUrl,
-    mainLogo,
-    mainLogoInverse,
     "defaultCategoryImage": defaultCategoryImage,
     "defaultCategoryImageUrl": defaultCategoryImage.asset->url,
     "authorizedBrandRefs": authorizedBrands[]->{ 
@@ -272,7 +298,7 @@ export async function getSiteSettings() {
     seo
   }`;
   try {
-    return await client.fetch(query, {}, { next: { tags: ["siteSettings", "brand"] } });
+    return await client.fetch(query, {}, cached("siteSettings", "brand"));
   } catch (error) {
     console.error("Sanity fetch error (getSiteSettings):", error);
     return null;
@@ -286,7 +312,7 @@ export async function getNavigation() {
     "footerLegalLinks": footerLegalLinks[] { label, path }
   }`;
   try {
-    return await client.fetch(query, {}, { next: { tags: ["navigation"] } });
+    return await client.fetch(query, {}, cached("navigation"));
   } catch (error) {
     console.error("Sanity fetch error (getNavigation):", error);
     return null;
@@ -306,7 +332,7 @@ export const getLegalPageBySlugQuery = groq`
 
 export async function getLegalPageBySlug(slug: string) {
   try {
-    return await client.fetch(getLegalPageBySlugQuery, { slug }, { next: { tags: ["legalPage"] } });
+    return await client.fetch(getLegalPageBySlugQuery, { slug }, cached("legalPage"));
   } catch (error) {
     console.error(`Sanity fetch error (getLegalPageBySlug for ${slug}):`, error);
     return null;
@@ -325,7 +351,7 @@ export const getFaqsQuery = groq`
 
 export async function getFaqs() {
   try {
-    return await client.fetch(getFaqsQuery, {}, { next: { tags: ["faq"] } });
+    return await client.fetch(getFaqsQuery, {}, cached("faq"));
   } catch (error) {
     console.error("Sanity fetch error (getFaqs):", error);
     return [];
@@ -366,7 +392,7 @@ export const ACTIVE_OFFERS_QUERY = groq`*[_type == "offer" && active != false
 export async function getActiveOffers(): Promise<Offer[]> {
   const query = ACTIVE_OFFERS_QUERY;
   try {
-    return (await client.fetch(query, {}, { next: { tags: ["offer"] } })) ?? [];
+    return (await client.fetch(query, {}, cached("offer"))) ?? [];
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];
@@ -416,7 +442,7 @@ export const getHeroManagerQuery = groq`
 
 export async function getHeroManager() {
   try {
-    return await client.fetch(getHeroManagerQuery, {}, { next: { tags: ["heroManager", "offer", "category", "brand"] } });
+    return await client.fetch(getHeroManagerQuery, {}, cached("heroManager", "offer", "category", "brand"));
   } catch (error) {
     console.error("Sanity fetch error (getHeroManager):", error);
     return null;

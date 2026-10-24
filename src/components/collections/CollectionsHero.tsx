@@ -163,7 +163,7 @@ export default function CollectionsHero({ slides, whatsappHref }: CollectionsHer
                 <>
                   <Button
                     asChild
-                    className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
+                    className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-full px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
                   >
                     <a href={active.offerHref} target="_blank" rel="noopener noreferrer">
                       <MessageCircle aria-hidden="true" className="h-4 w-4 mr-2" />
@@ -173,7 +173,7 @@ export default function CollectionsHero({ slides, whatsappHref }: CollectionsHer
                   <Button
                     asChild
                     variant="outline"
-                    className="h-11 rounded-none border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-[0.16em] text-white hover:border-white hover:bg-white/10 hover:text-white active:scale-[0.98] transition-all"
+                    className="h-11 rounded-full border-white/40 bg-transparent px-5 text-xs font-medium uppercase tracking-[0.16em] text-white hover:border-white hover:bg-white/10 hover:text-white active:scale-[0.98] transition-all"
                   >
                     <a href="#offers">
                       All offers
@@ -212,7 +212,7 @@ export default function CollectionsHero({ slides, whatsappHref }: CollectionsHer
               ) : (
                 <Button
                   asChild
-                  className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-none px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
+                  className="bg-[#fbf5ea] text-[#1a1017] hover:bg-white active:scale-[0.98] h-11 rounded-full px-6 text-xs font-bold uppercase tracking-[0.16em] transition-all"
                 >
                   <a
                     href={`#${active.id}`}

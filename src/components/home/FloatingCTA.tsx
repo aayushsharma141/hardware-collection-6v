@@ -43,7 +43,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
       {/* ── 06 VOICES OF TRUST ("What our customers say.") ─────────── */}
       {/* Withheld entirely when no approved testimonials exist in Sanity */}
       {validReviews.length > 0 && (
-        <section className="py-12 lg:py-20 bg-[var(--surface)] border-b border-[var(--border)] relative z-10">
+        <section className="py-12 lg:py-20 bg-transparent border-b border-[var(--border)] relative z-10">
           <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
             {/* Header */}
             <div className="flex items-end justify-between mb-8 sm:mb-10">
@@ -63,7 +63,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                     className="w-9 h-9 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-primary)] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] active:scale-95 transition-all"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M15 19l-7-7 7-7" />
                     </svg>
                   </button>
                   <button
@@ -73,7 +73,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                     className="w-9 h-9 rounded-full border border-[var(--border)] flex items-center justify-center text-[var(--text-primary)] hover:border-[var(--color-wine)] hover:text-[var(--color-wine)] active:scale-95 transition-all"
                   >
                     <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 5l7 7-7 7" />
                     </svg>
                   </button>
                 </div>
@@ -148,7 +148,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
       {/* ── 07 VISIT OUR SHOWROOM ("Experience it in person.") ─────── */}
       <section
         id="showroom"
-        className="py-12 lg:py-20 bg-[var(--surface)] border-b border-[var(--border)] relative z-10 scroll-mt-20"
+        className="py-12 lg:py-20 bg-transparent border-b border-[var(--border)] relative z-10 scroll-mt-20"
       >
         <div className="max-w-[1440px] mx-auto px-5 lg:px-16">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
@@ -173,7 +173,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
               >
                 <span>Get Directions</span>
                 <svg className="w-3.5 h-3.5 text-white transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                 </svg>
               </a>
             </div>

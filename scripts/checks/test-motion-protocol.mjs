@@ -74,9 +74,7 @@ if (fs.existsSync(motionProviderPath)) {
 // Verify components that use animation implement useReducedMotion guards
 const animatedComponents = [
   "components/ThreeDHero.tsx",
-  "components/home/ShowroomCinematic.tsx",
   "components/home/ProductReel.tsx",
-  "components/home/MaterialJourney.tsx",
   "components/home/TactileStatement.tsx",
   "components/home/SignatureCollection.tsx",
 ];

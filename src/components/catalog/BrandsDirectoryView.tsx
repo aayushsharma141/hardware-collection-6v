@@ -2,6 +2,7 @@
 
 import React, { useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Brand, ResolvedBrand, SiteSettings } from "@/types/catalog";
 import { buildWhatsAppUrl } from "@/lib/config";
 import { normalizeBrandKey } from "@/content/fallback/brands";
@@ -263,7 +264,7 @@ export default function BrandsDirectoryView({
     <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
       {/* ── 01. Hero & Header Section ─────────────────────────────────── */}
       <section className="pt-12 sm:pt-16 pb-10 sm:pb-14 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4">
+        <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4 text-balance">
           Brands & Catalogues
         </h1>
         <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] font-light max-w-2xl mx-auto">
@@ -278,7 +279,7 @@ export default function BrandsDirectoryView({
       <section id="featured" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-8 gap-4">
           <div>
-            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
+            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight text-balance">
               Featured Brands
             </h2>
           </div>
@@ -377,7 +378,7 @@ export default function BrandsDirectoryView({
       <section id="all-brands" className="py-12 sm:py-16 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 border-t border-[var(--border)]">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-6">
           <div>
-            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight">
+            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-[var(--text-primary)] tracking-tight text-balance">
               Official Catalogue Library
             </h2>
           </div>
@@ -455,10 +456,8 @@ export default function BrandsDirectoryView({
 
                     {/* Right: Actions */}
                     <div className="flex flex-col sm:flex-row items-center justify-start gap-3 w-full md:w-[25%] shrink-0 mt-4 md:mt-0">
-                      <a
+                      <Link
                         href={`/catalogues?brand=${brand.id}`}
-                        target="_blank"
-                        rel="noopener noreferrer"
                         onClick={(e) => {
                           const resolved = brandLookup.get(brand.id) as ResolvedBrand | undefined;
                           if (resolved && onSelectBrand && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
@@ -466,10 +465,10 @@ export default function BrandsDirectoryView({
                             onSelectBrand(resolved);
                           }
                         }}
-                        className="w-full sm:w-auto px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm text-center"
+                        className="w-full sm:w-auto rounded-full px-5 py-2.5 bg-[var(--color-wine)] text-white text-[12px] font-medium hover:bg-[var(--color-wine-deep)] transition-colors whitespace-nowrap shadow-sm text-center"
                       >
                         VIEW CATALOGUE
-                      </a>
+                      </Link>
 
                       {(() => {
                         const websiteUrl = brand.website || brandLookup.get(brand.id)?.website;
@@ -509,7 +508,7 @@ export default function BrandsDirectoryView({
       <section className="py-16 sm:py-20 bg-[var(--color-obsidian)] text-white">
         <div className="max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-white tracking-tight">
+            <h2 className="hc-serif text-3xl sm:text-4xl font-light text-white tracking-tight text-balance">
               Find exactly what you need
             </h2>
           </div>
@@ -566,7 +565,7 @@ export default function BrandsDirectoryView({
         <div className="grid md:grid-cols-2 gap-6 max-w-5xl mx-auto">
           {/* Ask an expert */}
           <div className="bg-white border border-[var(--border)] p-8 sm:p-12 text-center shadow-[0_2px_12px_rgba(26,16,23,0.02)]">
-            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-3">
+            <h2 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-3 text-balance">
               Need help identifying something?
             </h2>
             <p className="text-sm text-[var(--text-secondary)] font-light mb-8 max-w-[280px] mx-auto">
@@ -585,7 +584,7 @@ export default function BrandsDirectoryView({
 
           {/* Physical copy */}
           <div className="bg-[var(--color-obsidian)] p-8 sm:p-12 text-center border border-[var(--color-obsidian)]">
-            <h2 className="hc-serif text-2xl font-normal text-white mb-3">
+            <h2 className="hc-serif text-2xl font-normal text-white mb-3 text-balance">
               Need a physical copy?
             </h2>
             <p className="text-sm text-white/60 font-light mb-8 max-w-[280px] mx-auto">

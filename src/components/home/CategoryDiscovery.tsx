@@ -4,6 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { motion } from "motion/react";
+import { SpotlightGlow, trackSpotlight } from "@/components/ui/Spotlight";
 import { resolveFamilies, type FeaturedCategory } from "./families";
 
 const containerVariants = {
@@ -52,7 +53,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
         : "aspect-[4/3]";
 
   return (
-    <section id="categories" className="bg-[var(--surface)] text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
+    <section id="categories" className="bg-transparent text-[var(--text-primary)] py-16 lg:py-24 border-t border-[var(--border)]">
       {/* Desktop Version */}
       <div className="hidden lg:block px-12 xl:px-16">
         <div className="flex items-end justify-between gap-12 border-b border-[var(--border)] pb-8">
@@ -90,14 +91,16 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
             <motion.article
               variants={itemVariants}
               key={cat.id || cat.name}
-              className={`threshold-card group/card bg-white rounded-2xl border ${
+              onPointerMove={trackSpotlight}
+              className={`hc-spot threshold-card group/card bg-white rounded-2xl border ${
                 cat.isFocal
                   ? "border-[var(--accent)]/50 shadow-[0_12px_36px_rgba(139,26,66,0.08),0_2px_8px_rgba(0,0,0,0.03)]"
                   : "border-[var(--border)] shadow-[0_6px_24px_rgba(26,16,23,0.03)]"
-              } hover:shadow-[0_16px_40px_rgba(26,16,23,0.08)] hover:border-[var(--color-wine)]/40 overflow-hidden flex flex-col justify-between transition-all duration-300 ${
+              } hover:shadow-[0_16px_40px_rgba(26,16,23,0.08)] hover:border-[var(--color-wine)]/40 overflow-hidden flex flex-col justify-between transition-[box-shadow,border-color,transform] duration-300 ${
                 cat.isFocal ? "relative z-10" : ""
               }`}
             >
+              <SpotlightGlow />
               <div className={`threshold-image relative ${frameRatio} overflow-hidden bg-neutral-900`}>
                 {cat.image ? (
                   <Image
@@ -114,7 +117,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                 )}
               </div>
 
-              <div className="bg-white px-6 pt-6 pb-6 flex-1 flex flex-col justify-between">
+              <div className="px-6 pt-6 pb-6 flex-1 flex flex-col justify-between">
                 <div>
                   <h3
                     className={`hc-serif leading-[0.95] text-[var(--text-primary)] transition-transform duration-300 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover/card:translate-x-1 ${
@@ -144,7 +147,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                   <span>View {cat.name}</span>
                   <span className="w-8 h-8 rounded-full bg-white border border-[var(--border)] group-hover/card:border-[var(--accent)] group-hover/card:bg-[var(--accent)] group-hover/card:text-white flex items-center justify-center transition-all duration-300 shadow-sm">
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M14 5l7 7m0 0l-7 7m7-7H3" />
                     </svg>
                   </span>
                 </Link>
@@ -202,7 +205,7 @@ export default function CategoryDiscovery({ categories, populatedGroupIds }: Cat
                   </small>
                 </div>
                 <svg className="w-5 h-5 text-[var(--accent)] shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.75} d="M9 5l7 7-7 7" />
                 </svg>
               </Link>
             </motion.div>

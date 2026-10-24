@@ -22,7 +22,7 @@ export default function ReviewsMobile({ reviews = [] }: { reviews?: Testimonial[
       <div className="flex flex-col space-y-unit-md">
         {/* Header in margin-padded container */}
         <div className="px-margin-mobile flex flex-col space-y-unit-xs">
-          <h2 className="hc-serif t-h2 text-[var(--text-primary)] text-3xl sm:text-4xl font-light">
+          <h2 className="hc-serif t-h2 text-[var(--text-primary)] text-3xl sm:text-4xl font-light text-balance">
             Voices of Trust
           </h2>
         </div>
