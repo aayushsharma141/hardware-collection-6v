@@ -288,7 +288,6 @@ export async function getSiteSettings() {
     pinterestUrl,
     instagramUrl,
     facebookUrl,
-    "socialLinks": coalesce(socialLinks[] { platform, url }, []),
     "defaultCategoryImage": defaultCategoryImage,
     "defaultCategoryImageUrl": defaultCategoryImage.asset->url,
     "authorizedBrandRefs": authorizedBrands[]->{ 

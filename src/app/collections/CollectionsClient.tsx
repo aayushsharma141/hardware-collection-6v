@@ -223,8 +223,8 @@ export default function CollectionsClient({
           <h1 className="hc-serif text-[clamp(2rem,5vw,3.5rem)] text-[var(--text-primary)] leading-[1.1] font-normal tracking-tight text-balance">
             Architectural Hardware Collections
           </h1>
-          <p className="mt-4 text-[15px] sm:text-base text-[var(--text-secondary)] font-light max-w-lg">
-            Explore hardware by application, from doors and digital security to kitchens, wardrobes, bathrooms and glass systems.
+          <p className="mt-4 text-[15px] sm:text-base text-[var(--text-secondary)] font-light max-w-xl text-pretty">
+            Find the hardware for your space. Explore by application, from doors and digital security to kitchens, wardrobes, bathrooms and glass systems, and expand any space for the full category specification.
           </p>
         </div>
 

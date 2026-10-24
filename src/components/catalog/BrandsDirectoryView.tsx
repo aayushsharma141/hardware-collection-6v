@@ -309,37 +309,65 @@ export default function BrandsDirectoryView({
                   scrollToLetter(brand.letter);
                 }
               }}
-              className="text-left bg-white border border-[var(--border)] p-6 sm:p-8 flex flex-col justify-between min-h-[160px] shadow-[0_1px_4px_rgba(26,16,23,0.02)] hover:shadow-[0_4px_16px_rgba(26,16,23,0.06)] hover:border-[var(--color-wine)]/30 transition-all group"
+              className="relative text-left bg-white border border-[var(--border)] rounded-2xl overflow-hidden flex flex-col min-h-[280px] shadow-[0_6px_24px_rgba(26,16,23,0.03)] hover:shadow-[0_16px_40px_rgba(26,16,23,0.08)] hover:border-[var(--color-wine)]/30 hover:-translate-y-0.5 transition-all duration-300 group focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] focus-visible:ring-offset-2"
             >
-              <div>
+              {/* Brand-colour edge: a thin rule that thickens on hover */}
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 top-0 h-[3px] group-hover:h-1.5 transition-[height] duration-300"
+                style={{ backgroundColor: brand.accentColor ?? "var(--color-wine)" }}
+              />
+
+              {/* Logo panel */}
+              <div className="mt-[3px] h-24 sm:h-28 bg-[var(--surface)] border-b border-[var(--border)] flex items-center justify-center px-6">
                 {(() => {
                   const logoSrc = brandLookup.get(brand.id)?.logoUrl || brandLookup.get(brand.id)?.logo;
                   if (logoSrc) {
                     return (
-                      <div className="h-8 mb-4 flex items-center justify-start">
-                        <Image
-                          src={logoSrc as string}
-                          alt={`${brand.name} logo`}
-                          width={120}
-                          height={32}
-                          className="max-h-full max-w-[120px] object-contain object-left"
-                          unoptimized={typeof logoSrc === "string" && logoSrc.endsWith(".svg")}
-                        />
-                      </div>
+                      <Image
+                        src={logoSrc as string}
+                        alt={`${brand.name} logo`}
+                        width={150}
+                        height={48}
+                        className="max-h-12 w-auto max-w-[150px] object-contain transition-transform duration-500 ease-out group-hover:scale-105"
+                        unoptimized={typeof logoSrc === "string" && logoSrc.endsWith(".svg")}
+                      />
                     );
                   }
                   return (
-                    <h3 className="hc-serif text-2xl font-normal text-[var(--text-primary)] mb-2 group-hover:text-[var(--color-wine)] transition-colors">
+                    <span className="hc-serif text-3xl font-normal text-[var(--text-primary)]">
                       {brand.name}
-                    </h3>
+                    </span>
                   );
                 })()}
-                <p className="text-[13px] text-[var(--text-secondary)] leading-relaxed font-light">
-                  {brand.featuredDescription}
-                </p>
               </div>
-              <div className="mt-4 flex justify-end">
-                <span className="text-[var(--text-primary)]/40 group-hover:text-[var(--color-wine)] transition-colors">→</span>
+
+              <div className="flex-1 flex flex-col justify-between p-5 sm:p-6">
+                <div>
+                  <div className="flex items-baseline justify-between gap-3">
+                    <h3 className="hc-serif text-2xl leading-tight text-[var(--text-primary)] group-hover:text-[var(--color-wine)] transition-colors">
+                      {brand.name}
+                    </h3>
+                    {brand.country && (
+                      <span className="hc-mono shrink-0 text-[10px] uppercase tracking-[0.16em] text-[var(--text-secondary)]">
+                        {brand.country}
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-2 text-[13px] text-[var(--text-secondary)] leading-relaxed font-light text-pretty">
+                    {brand.featuredDescription}
+                  </p>
+                </div>
+
+                <div className="mt-5 pt-4 border-t border-[var(--border)] flex items-center justify-between text-[11px] font-semibold uppercase tracking-[0.16em] text-[var(--text-secondary)] group-hover:text-[var(--color-wine)] transition-colors">
+                  <span>View catalogue</span>
+                  <span
+                    aria-hidden="true"
+                    className="w-8 h-8 rounded-full border border-[var(--border)] flex items-center justify-center text-sm group-hover:bg-[var(--color-wine)] group-hover:border-[var(--color-wine)] group-hover:text-white transition-all duration-300"
+                  >
+                    →
+                  </span>
+                </div>
               </div>
             </button>
           ))}
