@@ -72,7 +72,7 @@ jobs:
       # Hardcoded here so CI doesn't require repository variables to be set.
       # Without SANITY_API_TOKEN the Sanity client returns no data and the
       # build falls through to src/content/fallback/, proving offline resilience.
-      NEXT_PUBLIC_SANITY_PROJECT_ID: gfwqxrd2
+      NEXT_PUBLIC_SANITY_PROJECT_ID: hoghkg00
       NEXT_PUBLIC_SANITY_DATASET: production
     steps:
       - uses: actions/checkout@v4

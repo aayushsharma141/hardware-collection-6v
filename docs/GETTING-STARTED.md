@@ -43,7 +43,7 @@ This guide takes you from a fresh clone to the Hardware Collection site running 
    NEXT_PUBLIC_SANITY_DATASET=
    ```
 
-   The CI build job in `.github/workflows/ci.yml` sets these to `gfwqxrd2` and `production`. Both are `NEXT_PUBLIC_` values that ship in the client bundle, so they are not secrets. For the full variable list (`SANITY_API_TOKEN`, `DATABASE_URL`, Telegram, Resend and Upstash), see [CONFIGURATION.md](CONFIGURATION.md).
+   The CI build job in `.github/workflows/ci.yml` sets these to `hoghkg00` and `production`. Both are `NEXT_PUBLIC_` values that ship in the client bundle, so they are not secrets. For the full variable list (`SANITY_API_TOKEN`, `DATABASE_URL`, Telegram, Resend and Upstash), see [CONFIGURATION.md](CONFIGURATION.md).
 
 ## First run
 
