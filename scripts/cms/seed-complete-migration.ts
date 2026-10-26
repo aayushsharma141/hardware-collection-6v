@@ -22,6 +22,15 @@ import fs from "fs";
 import { CANONICAL_BRANDS } from "../../src/content/fallback/brands";
 import { CATEGORIES, PRODUCTS } from "../../src/content/fallback/catalog";
 import { railGroupId } from "../../src/lib/collections/showroom";
+import { SHOWROOM_SOCIAL_FALLBACKS } from "../../src/lib/config";
+
+const socialUrl = (platform: string) => SHOWROOM_SOCIAL_FALLBACKS.find((s) => s.platform === platform)?.url;
+const socialUrls = {
+  linkedinUrl: socialUrl("LinkedIn"),
+  pinterestUrl: socialUrl("Pinterest"),
+  instagramUrl: socialUrl("Instagram"),
+  facebookUrl: socialUrl("Facebook"),
+};
 
 dotenv.config({ path: path.resolve(process.cwd(), ".env.local") });
 
@@ -159,8 +168,9 @@ async function main() {
     email: "hardwarecollectionjsr@gmail.com",
     address: "1/18, Kashidih, Near Durga Puja Maidan,\nSakchi, Jamshedpur,\nJharkhand 831001",
     openingHours: "Mon–Sun: 10:00 AM – 8:00 PM",
-    instagramUrl: "https://www.instagram.com/hardwarecollection_jsr/",
-    facebookUrl: "https://www.facebook.com/hardwarecollectionjsr/",
+    // The footer shows only these fields when any is set, so all four are
+    // written, from SHOWROOM_SOCIAL_FALLBACKS (the links the live site shows).
+    ...socialUrls,
     googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=Hardware+Collection,+Kashidih,+Sakchi,+Jamshedpur",
     googleMapsEmbedUrl: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3677.892699292556!2d86.20885231542845!3d22.806427385061614!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x39f5e31e5088fcc1%3A0x6fb7ebaa2fb0327e!2sKashidih%2C%20Sakchi%2C%20Jamshedpur%2C%20Jharkhand%20831001!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin",
     authorizedBrands: brandDocIds.map((id) => ({
@@ -186,9 +196,8 @@ async function main() {
       { _key: "legal-terms", label: "Terms of Service", path: "/terms" },
     ],
     socialLinks: [
-      { _key: "social-instagram", platform: "Instagram", url: "https://www.instagram.com/hardwarecollection_jsr/" },
+      ...SHOWROOM_SOCIAL_FALLBACKS.map((s) => ({ _key: `social-${s.platform.toLowerCase()}`, platform: s.platform, url: s.url })),
       { _key: "social-whatsapp", platform: "WhatsApp", url: "https://wa.me/919835190738" },
-      { _key: "social-facebook", platform: "Facebook", url: "https://www.facebook.com/hardwarecollectionjsr/" },
     ],
   });
   console.log("  Seeded navigation successfully");
