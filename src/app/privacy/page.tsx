@@ -2,7 +2,8 @@ import React from "react";
 import Link from "next/link";
 import Footer from "@/components/layout/Footer";
 import { getSiteSettings, getBrands, getLegalPageBySlug, getShowroomGroups } from "@/content/sanity/queries";
-import { ArrowLeft, Mail, Phone, MapPin } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
+import { LegalContactCard } from "@/components/legal/LegalContactCard";
 import { PortableText } from "@portabletext/react";
 
 export const metadata = {
@@ -134,27 +135,7 @@ export default async function PrivacyPage() {
             </>
           )}
 
-          <div className="mt-6 p-6 rounded-xl bg-[var(--color-pearl)] border border-[var(--color-ink)]/[0.08] space-y-3 text-sm not-prose">
-            <div className="flex items-start gap-3">
-              <MapPin className="w-4 h-4 text-[var(--color-wine)] shrink-0 mt-1" />
-              <div>
-                <strong className="text-[var(--color-ink)] font-medium block">Hardware Collection Showroom</strong>
-                <span>{siteSettings?.showroomAddress || "1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001"}</span>
-              </div>
-            </div>
-            <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-              <div className="flex items-center gap-3">
-                <Phone className="w-4 h-4 text-[var(--color-wine)] shrink-0" />
-                <span>+91 70336 50739 - showroom contact</span>
-              </div>
-              <span className="hidden sm:inline text-[var(--border)]">/</span>
-              <span className="pl-7 sm:pl-0">mukesh khandelwal no. +91 98351 90738</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Mail className="w-4 h-4 text-[var(--color-wine)] shrink-0" />
-              <span>info@hardwarecollection.co</span>
-            </div>
-          </div>
+          <LegalContactCard settings={siteSettings} />
         </div>
       </main>
 

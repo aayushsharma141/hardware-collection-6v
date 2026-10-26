@@ -392,7 +392,8 @@ export const ACTIVE_OFFERS_QUERY = groq`*[_type == "offer" && active != false
 export async function getActiveOffers(): Promise<Offer[]> {
   const query = ACTIVE_OFFERS_QUERY;
   try {
-    return (await client.fetch(query, {}, cached("offer"))) ?? [];
+    // "brand" too: each offer projects `brand->name`, so a renamed brand must refresh it.
+    return (await client.fetch(query, {}, cached("offer", "brand"))) ?? [];
   } catch (error) {
     console.error("Sanity fetch error:", error);
     return [];

@@ -180,6 +180,7 @@ export interface SiteSettings {
   defaultWhatsappMessage?: string;
   primaryPhone?: string;
   secondaryPhone?: string;
+  email?: string;
   showroomAddress?: string;
   showroomHours?: string;
   googleMapsUrl?: string;
