@@ -22,6 +22,13 @@ async function main() {
     return;
   }
 
+  const slideLinks: Record<string, string> = {
+    "slide-1": "/collections",
+    "slide-2": "/catalogues",
+    "slide-3": "/collections#smart-security",
+    "slide-4": "/#showroom",
+  };
+
   const fixSlides = (slides: any[]) =>
     slides.map((s, idx) => ({
       _key: s._key,
@@ -29,9 +36,10 @@ async function main() {
       slideType: "custom",
       title: s.title,
       subtitle: s.subtitle,
-      imageDesktop: s.image,
-      imageMobile: s.image,
-      position: idx + 1,
+      link: s.link || slideLinks[s._key] || (idx === 0 ? "/collections" : idx === 1 ? "/catalogues" : idx === 2 ? "/collections#smart-security" : "/#showroom"),
+      imageDesktop: s.imageDesktop || s.image,
+      imageMobile: s.imageMobile || s.imageDesktop || s.image,
+      position: s.position ?? (idx + 1),
     }));
 
   const updatedHome = fixSlides(doc.homeHero);

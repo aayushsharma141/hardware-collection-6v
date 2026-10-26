@@ -84,14 +84,11 @@ const nextConfig: NextConfig = {
   // pdf.js is loaded at request time by the catalogue indexer (/api/catalog/reindex);
   // bundling it would break its worker and font lookups.
   serverExternalPackages: ["pdfjs-dist"],
-  // /collections ranks catalogue brands from these build-time page indexes when
-  // the live (Redis) index is unavailable, and the viewer's search route
-  // (/api/catalog/[slug]/[index]/search) reads them; both use fs at request
-  // time. Keys are picomatch globs, so `[slug]` would be a character class:
-  // `/api/catalog/**` covers the route instead.
+  // Traces build-time catalogue indexes into all server functions (/collections,
+  // /api/catalog/[slug]/[index]/search, etc.) so in-catalogue search and brand ranking
+  // reliably find index files in deployed Vercel functions.
   outputFileTracingIncludes: {
-    "/collections": ["./catalog-index/**/*"],
-    "/api/catalog/**": ["./catalog-index/**/*"],
+    "/*": ["./catalog-index/**/*"],
   },
   async headers() {
     const defaultHeaders = [
