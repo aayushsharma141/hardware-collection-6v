@@ -178,8 +178,8 @@ async function main() {
     _type: "navigation",
     mainMenu: [
       { _key: "menu-collections", label: "Collections", path: "/collections" },
-      { _key: "menu-catalogues", label: "Catalogues", path: "/catalogues" },
-      { _key: "menu-showroom", label: "Showroom", path: "/#showroom" },
+      // Matches NAV_LINKS_FALLBACK in Navbar.tsx, the menu the live site shows.
+      { _key: "menu-catalogues", label: "Brands & Catalogues", path: "/catalogues" },
     ],
     footerLegalLinks: [
       { _key: "legal-privacy", label: "Privacy Policy", path: "/privacy" },
