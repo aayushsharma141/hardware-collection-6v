@@ -1,4 +1,5 @@
 import type { LeadNotificationPayload } from "./schema";
+import { escapeHtml } from "./escapeHtml";
 
 export async function sendTelegramAlert(leadData: LeadNotificationPayload) {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -10,24 +11,26 @@ export async function sendTelegramAlert(leadData: LeadNotificationPayload) {
 
   const { name, phone, customerType, location, projectType } = leadData;
 
-  const text = `🔔 *NEW WEBSITE ENQUIRY*
+  // HTML rather than Markdown: Markdown has no reliable escape, so a visitor's
+  // name with an `_` or `*` made Telegram reject the alert outright.
+  const text = `🔔 <b>NEW WEBSITE ENQUIRY</b>
 
-👤 *Customer Type*
-${customerType || "N/A"}
+👤 <b>Customer Type</b>
+${escapeHtml(customerType || "N/A")}
 
-🧑 *Name*
-${name}
+🧑 <b>Name</b>
+${escapeHtml(name)}
 
-📍 *Location*
-${location || "N/A"}
+📍 <b>Location</b>
+${escapeHtml(location || "N/A")}
 
-📞 *Phone*
-${phone}
+📞 <b>Phone</b>
+${escapeHtml(phone)}
 
-🏗 *Project Type*
-${projectType || "N/A"}
+🏗 <b>Project Type</b>
+${escapeHtml(projectType || "N/A")}
 
-🌐 *Source*
+🌐 <b>Source</b>
 Hardware Collection Website`;
 
   const response = await fetch(
@@ -38,7 +41,7 @@ Hardware Collection Website`;
       body: JSON.stringify({
         chat_id: chatId,
         text,
-        parse_mode: "Markdown",
+        parse_mode: "HTML",
       }),
     }
   );

@@ -13,7 +13,9 @@ if (globalForPrisma.prisma) {
   const connectionString = process.env.DATABASE_URL;
   const pool = new Pool({ connectionString });
   const adapter = new PrismaPg(pool);
-  prisma = new PrismaClient({ adapter, log: ["query"] });
+  // Query logging writes every lead's name and phone into the server logs, so
+  // it is for local debugging only.
+  prisma = new PrismaClient({ adapter, log: process.env.NODE_ENV === "production" ? ["error"] : ["query"] });
 }
 
 export { prisma };

@@ -3,32 +3,15 @@ import { prisma, updateNotificationStatus } from "@/lib/leads/createLead";
 import { sendTelegramAlert } from "@/lib/leads/telegram";
 import { logger } from "@/lib/logger";
 import { ApiError, handleApiError } from "@/lib/api-error";
-import { Redis } from "@upstash/redis";
-import { Ratelimit } from "@upstash/ratelimit";
-
-let ratelimit: Ratelimit | null = null;
-if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-  const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN,
-  });
-  ratelimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(5, "1 m"),
-    analytics: true,
-  });
-}
+import { allowLeadRequest, clientIp } from "@/lib/leads/rateLimit";
 
 export async function POST(request: Request) {
   try {
-    const ip = request.headers.get("x-forwarded-for") || "unknown";
-    
-    if (ratelimit) {
-      const { success } = await ratelimit.limit(`ratelimit_leads_retry_${ip}`);
-      if (!success) {
-        logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads/retry" });
-        throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
-      }
+    const ip = clientIp(request);
+
+    if (!(await allowLeadRequest("leads_retry", ip))) {
+      logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads/retry" });
+      throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
     }
 
     const { lead_id } = (await request.json()) as { lead_id?: string };

@@ -29,7 +29,8 @@ interface StaticIndexFile {
 export async function readStaticIndexes(dir: string = STATIC_INDEX_DIR): Promise<CatalogueIndex[]> {
   let names: string[];
   try {
-    names = await readdir(dir);
+    // See the readFile below: `dir` is runtime, the folder is traced explicitly.
+    names = await readdir(/*turbopackIgnore: true*/ dir);
   } catch {
     return [];
   }
@@ -39,7 +40,10 @@ export async function readStaticIndexes(dir: string = STATIC_INDEX_DIR): Promise
     const match = /^(.+)-(\d+)\.json$/.exec(name);
     if (!match) continue;
     try {
-      const raw = JSON.parse(await readFile(path.join(dir, name), "utf8")) as StaticIndexFile;
+      // `dir` is a runtime value, so the tracer cannot scope this read and would
+      // pack the whole project into the function. The folder is already traced
+      // explicitly (outputFileTracingIncludes in next.config.ts).
+      const raw = JSON.parse(await readFile(path.join(/*turbopackIgnore: true*/ dir, name), "utf8")) as StaticIndexFile;
       if (!raw.assetId || !Array.isArray(raw.pages)) continue;
       indexes.push({
         catalogId: `${match[1]}-${match[2]}`,
