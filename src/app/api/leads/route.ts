@@ -18,10 +18,14 @@ export async function POST(request: Request) {
       throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
     }
 
-    const payload = (await request.json()) as Record<string, unknown>;
-    
+    // A body that is not a JSON object is the caller's error (400), not ours (500).
+    const payload: unknown = await request.json().catch(() => null);
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new ApiError(400, "Request body must be a JSON object", "INVALID_JSON");
+    }
+
     // 2. Honeypot check
-    if (payload._honey) {
+    if ((payload as Record<string, unknown>)._honey) {
       logger.info("api.honeypot_triggered", { ip, honeypotField: "_honey" });
       // Act like it succeeded to fool bots while maintaining standard response contract
       return NextResponse.json({

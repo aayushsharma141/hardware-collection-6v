@@ -14,9 +14,10 @@ export async function POST(request: Request) {
       throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
     }
 
-    const { lead_id } = (await request.json()) as { lead_id?: string };
+    const body = (await request.json().catch(() => null)) as { lead_id?: unknown } | null;
+    const lead_id = body && typeof body === "object" ? body.lead_id : undefined;
 
-    if (!lead_id || typeof lead_id !== "string") {
+    if (!lead_id || typeof lead_id !== "string" || lead_id.length > 64) {
       return NextResponse.json(
         { success: false, error: "Invalid lead ID provided" },
         { status: 400 }
