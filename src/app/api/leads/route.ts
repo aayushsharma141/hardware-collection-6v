@@ -1,45 +1,31 @@
-import { NextResponse } from "next/server";
+import { randomBytes } from "node:crypto";
+import { after, NextResponse } from "next/server";
 import { CreateLeadSchema } from "@/lib/leads/schema";
 import { createLead, updateNotificationStatus } from "@/lib/leads/createLead";
 import { sendTelegramAlert } from "@/lib/leads/telegram";
 import { sendResendEmail } from "@/lib/leads/email";
 import { logger } from "@/lib/logger";
 import { ApiError, handleApiError } from "@/lib/api-error";
-import { Redis } from "@upstash/redis";
-import { Ratelimit } from "@upstash/ratelimit";
-
-// Distributed rate limiting via Upstash Redis.
-// Falling back to a no-op limiter if Upstash is not configured.
-let ratelimit: Ratelimit | null = null;
-if (process.env.UPSTASH_REDIS_REST_URL && process.env.UPSTASH_REDIS_REST_TOKEN) {
-  const redis = new Redis({
-    url: process.env.UPSTASH_REDIS_REST_URL,
-    token: process.env.UPSTASH_REDIS_REST_TOKEN,
-  });
-  ratelimit = new Ratelimit({
-    redis,
-    limiter: Ratelimit.slidingWindow(5, "1 m"),
-    analytics: true,
-  });
-}
+import { allowLeadRequest, clientIp } from "@/lib/leads/rateLimit";
 
 export async function POST(request: Request) {
   try {
-    const ip = request.headers.get("x-forwarded-for") || "unknown";
-    
+    const ip = clientIp(request);
+
     // 1. Rate Limiting (Redis-backed for serverless/edge environments)
-    if (ratelimit) {
-      const { success } = await ratelimit.limit(`ratelimit_leads_${ip}`);
-      if (!success) {
-        logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads" });
-        throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
-      }
+    if (!(await allowLeadRequest("leads", ip))) {
+      logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads" });
+      throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
     }
 
-    const payload = (await request.json()) as Record<string, unknown>;
-    
+    // A body that is not a JSON object is the caller's error (400), not ours (500).
+    const payload: unknown = await request.json().catch(() => null);
+    if (!payload || typeof payload !== "object" || Array.isArray(payload)) {
+      throw new ApiError(400, "Request body must be a JSON object", "INVALID_JSON");
+    }
+
     // 2. Honeypot check
-    if (payload._honey) {
+    if ((payload as Record<string, unknown>)._honey) {
       logger.info("api.honeypot_triggered", { ip, honeypotField: "_honey" });
       // Act like it succeeded to fool bots while maintaining standard response contract
       return NextResponse.json({
@@ -64,9 +50,11 @@ export async function POST(request: Request) {
 
     const data = parseResult.data;
 
-    // Generate Lead ID
+    // Generate Lead ID. The id is the primary key, so a repeat makes the insert
+    // fail and the lead is lost. Four hex digits (65,536 per year) made a repeat
+    // likely within a few hundred leads; eight make it negligible.
     const year = new Date().getFullYear();
-    const randomHex = Math.random().toString(16).substring(2, 6).toUpperCase();
+    const randomHex = randomBytes(4).toString("hex").toUpperCase();
     const leadId = `HC-${year}-${randomHex}`;
 
     // 4. Store in Postgres (Master Truth)
@@ -79,14 +67,18 @@ export async function POST(request: Request) {
       ip
     });
 
-    // 5. Trigger Email notification asynchronously without blocking
-    // Kept as a floating promise per project scale guidelines
-    sendResendEmail(leadRecord)
-      .then(() => updateNotificationStatus(leadRecord.id, "email", "sent"))
-      .catch((err) => {
+    // 5. Email notification, sent after the response so the visitor does not wait.
+    // `after` keeps the serverless function alive until it finishes; a bare
+    // floating promise can be frozen mid-send once the response is returned.
+    after(async () => {
+      try {
+        await sendResendEmail(leadRecord);
+        await updateNotificationStatus(leadRecord.id, "email", "sent");
+      } catch (err) {
         logger.error("lead.notification_failed", { leadId: leadRecord.id, channel: "email", error: (err as Error).message });
-        updateNotificationStatus(leadRecord.id, "email", "failed").catch(() => {});
-      });
+        await updateNotificationStatus(leadRecord.id, "email", "failed").catch(() => {});
+      }
+    });
 
     // 6. Attempt Telegram Alert
     try {

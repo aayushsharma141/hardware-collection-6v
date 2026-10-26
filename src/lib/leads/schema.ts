@@ -41,30 +41,51 @@ export const ConsultationModeSchema = z.enum([
   "flexible",
 ]);
 
+// Upper bounds on visitor text. Every field is stored and copied into the staff
+// email and the Telegram alert, which Telegram rejects outright past 4096
+// characters. The limits sit far above anything the form produces.
+export const LEAD_LIMITS = {
+  name: 100,
+  phone: 20,
+  email: 254,
+  short: 200,
+  message: 2000,
+  pageUrl: 2048,
+  selectedProducts: 50,
+} as const;
+
+const shortText = z.string().max(LEAD_LIMITS.short);
+
 export const SelectedProductSchema = z.object({
-  slug: z.string(),
-  name: z.string(),
-  brand: z.string(),
+  slug: shortText,
+  name: shortText,
+  brand: shortText,
 });
 
 export const BaseLeadSchema = z.object({
-  name: z.string().min(2, "Name is required"),
-  phone: z.string().min(8, "Valid phone number is required"),
-  email: z.string().email("Invalid email").optional().or(z.literal("")),
+  name: z.string().min(2, "Name is required").max(LEAD_LIMITS.name),
+  phone: z.string().min(8, "Valid phone number is required").max(LEAD_LIMITS.phone),
+  email: z.string().max(LEAD_LIMITS.email).email("Invalid email").optional().or(z.literal("")),
   source: LeadSourceSchema,
-  pageUrl: z.string().url().optional().or(z.literal("")),
+  // Truncated rather than rejected: a long tracking query string must never cost a lead.
+  pageUrl: z.preprocess(
+    (value) => (typeof value === "string" ? value.slice(0, LEAD_LIMITS.pageUrl) : value),
+    z.string().url().optional().or(z.literal(""))
+  ),
 });
+
+const messageText = z.string().max(LEAD_LIMITS.message);
 
 // Mode 1: Consultation
 export const ConsultationLeadSchema = BaseLeadSchema.extend({
   intent: z.literal("consultation"),
-  projectType: z.string().min(1, "Project type is required").optional().or(z.literal("")),
-  interest: z.string().min(1, "Primary interest is required").optional().or(z.literal("")),
-  consultationDate: z.string().optional().or(z.literal("")),
-  consultationTime: z.string().min(1, "Preferred time is required").optional().or(z.literal("")),
+  projectType: shortText.min(1, "Project type is required").optional().or(z.literal("")),
+  interest: shortText.min(1, "Primary interest is required").optional().or(z.literal("")),
+  consultationDate: shortText.optional().or(z.literal("")),
+  consultationTime: shortText.min(1, "Preferred time is required").optional().or(z.literal("")),
   consultationMode: ConsultationModeSchema.optional(),
-  message: z.string().optional().or(z.literal("")),
-  selectedProducts: z.array(SelectedProductSchema).optional(),
+  message: messageText.optional().or(z.literal("")),
+  selectedProducts: z.array(SelectedProductSchema).max(LEAD_LIMITS.selectedProducts).optional(),
 });
 
 export const CustomerTypeSchema = z.enum([
@@ -88,20 +109,20 @@ export const ProjectTypeSchema = z.enum([
 export const EnquiryLeadSchema = BaseLeadSchema.extend({
   intent: z.literal("enquiry"),
   customerType: CustomerTypeSchema.optional(),
-  location: z.string().min(2, "Location is required"),
+  location: shortText.min(2, "Location is required"),
   projectType: ProjectTypeSchema,
-  category: z.string().optional().or(z.literal("")),
-  brand: z.string().optional().or(z.literal("")),
-  product: z.string().optional().or(z.literal("")),
-  quantity: z.string().optional().or(z.literal("")),
-  message: z.string().optional().or(z.literal("")),
+  category: shortText.optional().or(z.literal("")),
+  brand: shortText.optional().or(z.literal("")),
+  product: shortText.optional().or(z.literal("")),
+  quantity: shortText.optional().or(z.literal("")),
+  message: messageText.optional().or(z.literal("")),
 });
 
 // Mode 3: Callback
 export const CallbackLeadSchema = BaseLeadSchema.extend({
   intent: z.literal("callback"),
-  consultationTime: z.string().min(1, "Preferred callback window is required"), // re-using this for the window
-  message: z.string().optional().or(z.literal("")),
+  consultationTime: shortText.min(1, "Preferred callback window is required"), // re-using this for the window
+  message: messageText.optional().or(z.literal("")),
 });
 
 // Combined union for the API to accept

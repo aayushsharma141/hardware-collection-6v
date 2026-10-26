@@ -5,7 +5,7 @@ Utility and automation scripts for the Hardware Collection project.
 | Subfolder | Purpose |
 |-----------|---------|
 | build/  | Build pipeline helpers (progressive enhancement, pipeline verification) |
-| checks/ | Page health checks, test runners, and smoke tests |
+| checks/ | Page health checks, test runners, and smoke tests. `checks/staging-smoke.mjs <url>` is the release smoke test for a deployed preview: read-only by default, `--rate-limit` and `--submit-lead` opt in to writes |
 | cms/    | Sanity content scripts — seeding, category reconciliation, copy sync |
 | db/     | Database scripts — SQL inserts, schema, migration runners |
 

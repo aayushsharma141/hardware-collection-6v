@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
-    "@prisma/adapter-pg": "^7.9.1",
-    "@prisma/client": "^7.9.1",
+    "@prisma/adapter-pg": "^7.10.1",
+    "@prisma/client": "^7.10.1",
     "@radix-ui/react-tabs": "^1.1.21",
     "@react-three/drei": "^10.7.8",
     "@react-three/fiber": "^9.7.0",
@@ -44,7 +44,7 @@
     "sanity": "^6.9.1",
     "tailwind-merge": "^3.7.0",
     "three": "^0.185.1",
-    "zod": "^4.4.3",
+    "zod": "^4.6.7",
     "zustand": "^5.0.14"
   },
   "devDependencies": {
@@ -56,11 +56,21 @@
     "eslint": "^9",
     "eslint-config-next": "^16.3.3",
     "groq-js": "^2.0.0",
-    "prisma": "^7.9.1",
+    "prisma": "^7.10.1",
     "tailwindcss": "^4",
     "tesseract.js": "^7.0.0",
     "tsx": "^4.23.15",
     "typescript": "^5",
     "vitest": "^4.1.11"
+  },
+  "overrides": {
+    "vite": "^8.3.3",
+    "source-map-js": "^1.2.2",
+    "undici": "^7.30.1",
+    "adm-zip": "^0.6.1",
+    "@vercel/frameworks": {
+      "js-yaml": "^3.15.2",
+      "smol-toml": "^1.9.1"
+    }
   }
 }
