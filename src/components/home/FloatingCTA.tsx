@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, useReducedMotion } from "motion/react";
 import { LazyImage as Image } from "@/components/ui/lazy-image";
 import { MapPin, Clock } from "lucide-react";
 import {
@@ -25,9 +26,13 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
   );
 
   const [activeReviewIndex, setActiveReviewIndex] = useState(0);
+  // +1 after "next", -1 after "previous": the cards slide in from that side.
+  const [direction, setDirection] = useState(1);
+  const shouldReduceMotion = useReducedMotion();
 
   const prevReview = () => {
     if (validReviews.length === 0) return;
+    setDirection(-1);
     setActiveReviewIndex(
       (prev) => (prev - 1 + validReviews.length) % validReviews.length
     );
@@ -35,8 +40,17 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
 
   const nextReview = () => {
     if (validReviews.length === 0) return;
+    setDirection(1);
     setActiveReviewIndex((prev) => (prev + 1) % validReviews.length);
   };
+
+  // Desktop shows three cards starting at the active review and wrapping
+  // round, so the arrows move it too (it used to be fixed to the first three,
+  // which left the arrows doing nothing above the mobile breakpoint).
+  const desktopReviews = Array.from(
+    { length: Math.min(3, validReviews.length) },
+    (_, offset) => validReviews[(activeReviewIndex + offset) % validReviews.length]
+  );
 
   return (
     <div className="w-full">
@@ -81,8 +95,14 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
             </div>
 
             {/* Review Cards Grid (Desktop: 3 cols or dynamic cols, Mobile: active card) */}
-            <div className="hidden sm:grid sm:grid-cols-3 gap-5">
-              {validReviews.slice(0, 3).map((rev, idx) => (
+            <motion.div
+              key={activeReviewIndex}
+              initial={shouldReduceMotion ? false : { opacity: 0, x: direction * 24 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="hidden sm:grid sm:grid-cols-3 gap-5"
+            >
+              {desktopReviews.map((rev, idx) => (
                 <div
                   key={rev._id || idx}
                   className="bg-white border border-[var(--border)] p-6 sm:p-7 flex flex-col justify-between rounded-2xl shadow-[0_4px_20px_rgba(26,16,23,0.03)] hover:shadow-[0_8px_30px_rgba(26,16,23,0.06)] hover:border-[var(--color-wine)]/30 transition-all duration-300"
@@ -106,7 +126,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                   </div>
                 </div>
               ))}
-            </div>
+            </motion.div>
 
             {/* Mobile View: Clean Active Card */}
             {validReviews[activeReviewIndex] && (
