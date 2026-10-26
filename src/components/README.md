@@ -17,6 +17,7 @@ again.
 | `animations/` | Motion primitives — fades, parallax, tilt, cursor |
 | `providers/` | React context providers |
 | `preview/` | Draft Mode banner shown while previewing Sanity drafts |
+| `legal/` | Shared blocks for the Terms and Privacy pages |
 
 ## Choosing a folder
 

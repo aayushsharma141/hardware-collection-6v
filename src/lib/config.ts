@@ -13,6 +13,9 @@ export const SHOWROOM_SECONDARY_PHONE_DISPLAY = "+91 70336 50739";
 
 export const SHOWROOM_WHATSAPP_NUMBER = "919835190738";
 
+/** Fallback only: the live address is Business Settings → Contact → Email in Sanity. */
+export const SHOWROOM_EMAIL = "info@hardwarecollection.co";
+
 /** Official showroom social channels fallback */
 export interface ShowroomSocialLink {
   platform: "LinkedIn" | "Pinterest" | "Instagram" | "Facebook" | string;
