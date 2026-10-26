@@ -1,10 +1,11 @@
-import { Mail, Phone, MapPin } from "lucide-react";
+import { Mail, Phone, MapPin, MessageCircle } from "lucide-react";
 import type { SiteSettings } from "@/types/catalog";
 import {
   SHOWROOM_ADDRESS,
   SHOWROOM_EMAIL,
   SHOWROOM_PHONE_DISPLAY,
   SHOWROOM_SECONDARY_PHONE_DISPLAY,
+  buildWhatsAppUrl,
 } from "@/lib/config";
 
 /**
@@ -16,9 +17,10 @@ import {
  */
 export function LegalContactCard({ settings }: { settings?: SiteSettings | null }) {
   const email = settings?.email?.trim() || SHOWROOM_EMAIL;
-  const showroomPhone = settings?.secondaryPhone?.trim() || SHOWROOM_SECONDARY_PHONE_DISPLAY;
-  const ownerPhone = settings?.primaryPhone?.trim() || SHOWROOM_PHONE_DISPLAY;
-  const ownerName = settings?.ownerName?.trim() || "mukesh khandelwal";
+  // Same numbers, labels and links as the footer's Contact column.
+  const callPhone = settings?.secondaryPhone?.trim() || SHOWROOM_SECONDARY_PHONE_DISPLAY;
+  const whatsappPhone = settings?.primaryPhone?.trim() || SHOWROOM_PHONE_DISPLAY;
+  const whatsappHref = buildWhatsAppUrl(undefined, settings?.whatsappNumber ?? undefined);
 
   return (
     <div className="mt-6 p-6 rounded-xl bg-[var(--color-pearl)] border border-[var(--color-ink)]/[0.08] space-y-3 text-sm not-prose">
@@ -29,16 +31,16 @@ export function LegalContactCard({ settings }: { settings?: SiteSettings | null 
           <span>{settings?.showroomAddress || SHOWROOM_ADDRESS}</span>
         </div>
       </div>
-      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-        <div className="flex items-center gap-3">
-          <Phone className="w-4 h-4 text-[var(--color-wine)] shrink-0" />
-          <a href={`tel:${showroomPhone.replace(/\s+/g, "")}`} className="hover:text-[var(--color-wine)] transition-colors">
-            {showroomPhone} - showroom contact
-          </a>
-        </div>
-        <span className="hidden sm:inline text-[var(--border)]">/</span>
-        <a href={`tel:${ownerPhone.replace(/\s+/g, "")}`} className="pl-7 sm:pl-0 hover:text-[var(--color-wine)] transition-colors">
-          {ownerName} no. {ownerPhone}
+      <div className="flex items-center gap-3">
+        <Phone className="w-4 h-4 text-[var(--color-wine)] shrink-0" />
+        <a href={`tel:${callPhone.replace(/\s+/g, "")}`} className="hover:text-[var(--color-wine)] transition-colors">
+          Call: {callPhone}
+        </a>
+      </div>
+      <div className="flex items-center gap-3">
+        <MessageCircle className="w-4 h-4 text-[var(--color-wine)] shrink-0" />
+        <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="hover:text-[var(--color-wine)] transition-colors">
+          Whatsapp: {whatsappPhone}
         </a>
       </div>
       <div className="flex items-center gap-3">

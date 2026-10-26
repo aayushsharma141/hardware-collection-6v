@@ -181,7 +181,6 @@ export interface SiteSettings {
   primaryPhone?: string;
   secondaryPhone?: string;
   email?: string;
-  ownerName?: string;
   showroomAddress?: string;
   showroomHours?: string;
   googleMapsUrl?: string;

@@ -280,7 +280,6 @@ export async function getSiteSettings() {
     "primaryPhone": phone,
     secondaryPhone,
     email,
-    ownerName,
     "showroomAddress": address,
     "showroomHours": openingHours,
     googleMapsUrl,
