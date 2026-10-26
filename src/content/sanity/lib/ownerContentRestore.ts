@@ -49,7 +49,22 @@ export const SET_FIELDS: Record<string, string[]> = {
 
 /** Fields present on both sides whose differing values are reported, not written. */
 export const COMPARE_ONLY: Record<string, string[]> = {
-  siteSettings: ["googleMapsEmbedUrl", "defaultWhatsappMessage", "address", "openingHours"],
+  siteSettings: [
+    "phone",
+    "secondaryPhone",
+    "whatsapp",
+    "email",
+    "googleMapsEmbedUrl",
+    "defaultWhatsappMessage",
+    "address",
+    "openingHours",
+    "businessName",
+    "ownerName",
+    "linkedinUrl",
+    "pinterestUrl",
+    "instagramUrl",
+    "facebookUrl",
+  ],
 };
 
 /**
