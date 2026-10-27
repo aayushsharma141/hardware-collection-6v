@@ -125,7 +125,7 @@ Current specs: `mobile-journeys.spec.ts`, `motion-protocol.spec.ts`, `phase12-ui
 
 ### Scripts that are not part of the suite
 
-`scripts/checks/test-*.{cjs,mjs,js}` are not Vitest or Playwright tests and do not run under `npm test`. Most of them (`test-estimator`, `test-leads`, `test-login`, `test-verify`) target a Supabase backend and an `apps/web/` directory that this repository no longer has; `test-lock` drives a CRM admin page on `127.0.0.1:8080` that this project does not have. Don't use them as examples for new tests.
+`scripts/checks/test-motion-protocol.mjs` is not a Vitest or Playwright test and does not run under `npm test`. Don't use it as an example for new tests.
 
 ## Coverage requirements
 
