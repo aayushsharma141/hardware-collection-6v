@@ -34,10 +34,6 @@ The site is configured with environment variables and a few committed config fil
 | `EVIDENCE_PUBLIC_KEY` | Optional | none | Ed25519 public key for verifying bundles without the private key. |
 | `CI` | Set by CI provider | unset | Makes Playwright stricter (`forbidOnly`, 2 retries, never reuses an existing dev server). Also enforces signing-key presence in `scripts/evidence-engine.ts`. |
 
-### Legacy script variables
-
-Some older utilities in `scripts/checks/`, `scripts/build/` and `scripts/db/` (for example `test-leads.cjs`, `verify-pipeline.cjs` and `test-schema.cjs`) read `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY` and `VITE_SUPABASE_SERVICE_ROLE_KEY`. Nothing in `src/` uses Supabase, and no `package.json` script runs these utilities, so the application does not need these variables.
-
 ## Config file format
 
 | File | Purpose |

@@ -28,6 +28,25 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # A push to main must not reach production if it would fail CI.
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
+      - name: Security audit (critical severity)
+        run: npm audit --audit-level=critical
+
+      - name: No console.log in production source
+        run: node scripts/checks/no-console-log.js
+
+      - name: Legacy design-token / button.tsx migration audit
+        run: node scripts/audit-dependencies.cjs
+
       - name: Deploy to Vercel (Production)
         id: deploy
         run: |
