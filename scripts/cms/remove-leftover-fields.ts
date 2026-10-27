@@ -7,6 +7,9 @@
  *   category.status      retired in favour of the Publish button
  *   homePage.heroSlides  the pre-Hero-Manager hero; the homepage hero now
  *                        comes from code and the offers marked "show on home"
+ *   homePage.heroTitle, heroSubtitle, legacyHeading, legacyDescription, featuresHeading,
+ *   featuresDescription, featuresList, showroomHeading, showroomDescription
+ *                        text seeded by scripts/seed-truth.ts for an older layout
  *   siteSettings.mainLogo, siteSettings.mainLogoInverse
  *                        uploaded logos nothing renders (see below)
  *
@@ -36,7 +39,20 @@ import { planLeftoverFields, type AnyDoc, type LeftoverSpec } from "../../src/co
 const SPEC: LeftoverSpec = {
   brand: ["brandName", "catalogType"],
   category: ["status"],
-  homePage: ["heroSlides"],
+  homePage: [
+    "heroSlides",
+    // Written by scripts/seed-truth.ts from an older homepage layout; no schema declares them
+    // and the site reads none of them (checked 2026-10-27).
+    "heroTitle",
+    "heroSubtitle",
+    "legacyHeading",
+    "legacyDescription",
+    "featuresHeading",
+    "featuresDescription",
+    "featuresList",
+    "showroomHeading",
+    "showroomDescription",
+  ],
   // The header and footer draw the logo from BrandLockup; no component reads these.
   siteSettings: ["mainLogo", "mainLogoInverse"],
 };

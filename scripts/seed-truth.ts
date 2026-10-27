@@ -41,39 +41,7 @@ async function seedTruth() {
     });
     console.log("✅ Site Settings seeded");
 
-    // 2. Home Page
-    await client.createOrReplace({
-      _id: "homePage",
-      _type: "homePage",
-      heroTitle: "The Art of \nthe Finish.",
-      heroSubtitle: "Architectural Hardware for Jamshedpur's Finest Homes. Where precision engineering meets unparalleled aesthetic vision.",
-      legacyHeading: "Over a Decade of \nArchitectural Expertise \nin Sakchi.",
-      legacyDescription: "Founded by Mukesh Khandelwal, Hardware Collection has spent more than 10 years curating the finest architectural hardware and modular kitchen solutions for Jamshedpur's premium residential and commercial spaces.",
-      featuresHeading: "Why Choose Hardware Collection?",
-      featuresDescription: "Building a home is a lifetime investment. We ensure that the hardware you touch every single day looks exquisite, functions flawlessly, and endures the test of time and climate.",
-      featuresList: [
-        {
-          _key: "f1",
-          title: "Authorized Dealer Network",
-          description: "Direct partnerships with global brands like Hafele, Hettich, and Godrej. We provide full warranty support and ensure product authenticity."
-        },
-        {
-          _key: "f2",
-          title: "Expert Curation & Compatibility",
-          description: "With more than 10 years of technical knowledge, we ensure your mortise locks fit your doors perfectly and your kitchen systems are engineered for the required weight."
-        },
-        {
-          _key: "f3",
-          title: "After-Sales Support",
-          description: "We don't just sell boxes. We assist with installation diagrams, technical support, and post-purchase service coordination."
-        }
-      ],
-      showroomHeading: "The Showroom Experience",
-      showroomDescription: "Premium hardware is meant to be touched. Feel the weight of solid brass, experience the smooth glide of a soft-close drawer, and test biometric locks in person at our Sakchi showroom."
-    });
-    console.log("✅ Home Page seeded");
-
-    // 3. Update Brands (Adding authorizedStatus if missing)
+    // 2. Update Brands (Adding authorizedStatus if missing)
     const brands = await client.fetch(`*[_type == "brand"]`);
     for (const brand of brands) {
       if (!brand.authorizedStatus) {
