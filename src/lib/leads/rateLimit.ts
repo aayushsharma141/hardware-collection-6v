@@ -28,18 +28,29 @@ export function clientIp(request: Request): string {
   return request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "unknown";
 }
 
-/** True when the request may proceed. */
-export async function allowLeadRequest(scope: string, ip: string): Promise<boolean> {
+/**
+ * True when the request may proceed.
+ *
+ * `failClosed` refuses the request in production when no limiter is configured.
+ * Use it for endpoints that are not the visitor-facing form (e.g. retry), where
+ * an unlimited caller gains something and a refusal costs the visitor nothing.
+ */
+export async function allowLeadRequest(
+  scope: string,
+  ip: string,
+  options: { failClosed?: boolean } = {}
+): Promise<boolean> {
   const active = getLimiter();
   if (!active) {
-    if (process.env.NODE_ENV === "production" && !reportedMissing) {
+    const production = process.env.NODE_ENV === "production";
+    if (production && !reportedMissing) {
       reportedMissing = true;
       logger.error("api.ratelimit_unconfigured", {
         route: scope,
         missing: "UPSTASH_REDIS_REST_URL/UPSTASH_REDIS_REST_TOKEN",
       });
     }
-    return true;
+    return !(production && options.failClosed);
   }
   const { success } = await active.limit(`ratelimit_${scope}_${ip}`);
   return success;

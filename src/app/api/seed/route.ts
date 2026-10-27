@@ -1,8 +1,16 @@
+import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createClient } from "next-sanity";
 import { CATEGORIES, BRANDS, PRODUCTS } from "@/content/fallback/catalog";
 import { SHOWROOM_HOURS_FALLBACK } from "@/lib/config";
 import { apiVersion, dataset, projectId, useCdn } from "@/content/sanity/env";
+
+function bearerMatches(header: string | null, secret: string): boolean {
+  if (!header?.startsWith("Bearer ")) return false;
+  const given = Buffer.from(header.slice("Bearer ".length));
+  const expected = Buffer.from(secret);
+  return given.length === expected.length && timingSafeEqual(given, expected);
+}
 
 export async function POST(request: Request) {
   try {
@@ -11,8 +19,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Seed endpoint disabled in production" }, { status: 403 });
     }
 
-    const authHeader = request.headers.get("authorization");
-    if (authHeader !== `Bearer ${process.env.SANITY_API_TOKEN}`) {
+    // Fail closed: with no token configured, `Bearer undefined` must not pass.
+    const secret = process.env.SANITY_API_TOKEN;
+    if (!secret) {
+      return NextResponse.json({ message: "Seeding is not configured" }, { status: 500 });
+    }
+    if (!bearerMatches(request.headers.get("authorization"), secret)) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
