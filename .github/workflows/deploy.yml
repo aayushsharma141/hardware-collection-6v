@@ -28,6 +28,16 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      # A push to main must not reach production if it would fail CI.
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Unit tests
+        run: npm test
+
       - name: Deploy to Vercel (Production)
         id: deploy
         run: |
