@@ -9,7 +9,7 @@ export async function POST(request: Request) {
   try {
     const ip = clientIp(request);
 
-    if (!(await allowLeadRequest("leads_retry", ip))) {
+    if (!(await allowLeadRequest("leads_retry", ip, { failClosed: true }))) {
       logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads/retry" });
       throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
     }
