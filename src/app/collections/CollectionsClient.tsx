@@ -94,7 +94,7 @@ export default function CollectionsClient({
 
   const catalogueBrands = useMemo(() => {
     const refs = settings?.authorizedBrandRefs;
-    if (!refs?.length) return brands;
+    if (!refs?.length) return [];
     const authorizedSlugs = new Set(
       refs
         .map((ref) => ref.slug)
