@@ -43,6 +43,33 @@ test.describe("Release acceptance: public routes and catalogue delivery", () => 
     expect(invalidIndexResponse.status()).toBe(404);
   });
 
+  test("mobile catalogue viewer stays within the viewport and remains usable", async ({ page }) => {
+    await page.setViewportSize({ width: 390, height: 844 });
+    await page.goto("/collections?brand=hafele#brand-catalogues");
+    const dialog = page.getByRole("dialog", { name: /Häfele|Hafele/i });
+    await expect(dialog).toBeVisible({ timeout: 15000 });
+    const box = await dialog.boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.x).toBeGreaterThanOrEqual(0);
+    expect(box!.y).toBeGreaterThanOrEqual(0);
+    expect(box!.width).toBeLessThanOrEqual(390);
+    expect(box!.height).toBeLessThanOrEqual(844);
+    await expect(dialog.getByRole("button", { name: /close/i })).toBeVisible();
+  });
+
+  test("viewer presents a recoverable message when a PDF asset request fails", async ({ page }) => {
+    await page.route("**/api/catalog/hafele/0", (route) =>
+      route.fulfill({
+        status: 502,
+        contentType: "text/plain",
+        body: "Catalogue temporarily unavailable",
+      })
+    );
+    await page.goto("/collections?brand=hafele#brand-catalogues");
+    await expect(page.getByRole("dialog", { name: /Häfele|Hafele/i })).toBeVisible({ timeout: 15000 });
+    await expect(page.getByText("Catalogue temporarily unavailable.")).toBeVisible({ timeout: 20000 });
+  });
+
   test("contact actions point to the showroom's configured phone, WhatsApp and map destinations", async ({ page }) => {
     await page.goto("/");
     const phone = page.locator('a[href^="tel:"]').first();
