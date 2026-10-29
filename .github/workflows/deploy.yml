@@ -139,6 +139,15 @@ jobs:
           fi
           echo "PASS lead endpoint limiter and honeypot (no database write)"
 
+          # Missing webhook secret returns 500; an unauthenticated request with
+          # a configured secret must be rejected as 401 before any cache action.
+          webhook_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 30 --request POST "$url/api/revalidate" --header 'Content-Type: application/json' --data '{"_type":"siteSettings"}')"
+          if [[ "$webhook_status" != "401" ]]; then
+            echo "::error::Sanity webhook guard returned HTTP $webhook_status; expected 401. A 500 commonly indicates SANITY_REVALIDATE_SECRET is missing."
+            exit 1
+          fi
+          echo "PASS Sanity webhook rejects unsigned requests"
+
       - name: Verify canonical production SEO headers and sitemap
         shell: bash
         run: |
