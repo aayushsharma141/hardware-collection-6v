@@ -114,7 +114,7 @@ export default function CollectionsClient({
     (brandName: string) => {
       const key = normalizeBrandKey({ name: brandName } as Brand);
       const brand = brands.find((b) => normalizeBrandKey(b) === key);
-      return brand?.catalogues?.length ? `/catalogues?brand=${key}` : undefined;
+      return brand?.catalogues?.length ? `/collections?brand=${key}#brand-catalogues` : undefined;
     },
     [brands]
   );
