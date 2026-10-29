@@ -1,83 +1,32 @@
-import React from "react";
-import CatalogsClient from "./CatalogsClient";
-import { getBrands, getSiteSettings, getShowroomGroups } from "@/content/sanity/queries";
-import { BRANDS } from "@/content/fallback/catalog";
-import { CANONICAL_BRANDS_BY_ID, normalizeBrandKey } from "@/content/fallback/brands";
-import { Brand } from "@/types/catalog";
-import type { Metadata } from "next";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = {
-  title: {
-    absolute: "Brands & Catalogues | Authorized Hardware in Jamshedpur",
-  },
+export const metadata = {
+  title: "Brands & Catalogues | Hardware Collection",
   description:
-    "Official architectural hardware catalogues and authorised brand directory for Häfele, Blum, Dorset, Hettich and global partners at Hardware Collection, Sakchi, Jamshedpur.",
+    "Explore authorized architectural hardware brands and view official catalogues within Hardware Collection's showroom collections.",
   alternates: {
-    canonical: 'https://www.hardwarecollection.co/catalogues',
+    canonical: "https://www.hardwarecollection.co/collections",
   },
 };
 
-export default async function CatalogsPage() {
-  const [sanityBrands, settings, showroomGroups] = await Promise.all([
-    getBrands(),
-    getSiteSettings(),
-    getShowroomGroups(),
-  ]);
+type LegacyCatalogueSearchParams = Record<string, string | string[] | undefined>;
 
-  let brands: Brand[] =
-    sanityBrands && sanityBrands.length > 0
-      ? sanityBrands
-      : (BRANDS as unknown as Brand[]);
-
-  if (settings?.authorizedBrandRefs?.length) {
-    brands = brands.filter((b) =>
-      settings.authorizedBrandRefs!.some(
-        (ab: { slug?: string | { current?: string } }) =>
-          (typeof ab.slug === "object" ? ab.slug?.current : ab.slug) === (typeof b.slug === "object" ? b.slug?.current : b.slug)
-      )
-    );
+/**
+ * Legacy route compatibility. Brand/PDF deep links are preserved as query
+ * parameters so the integrated catalogue experience on /collections can open
+ * the same brand and matched PDF page.
+ */
+export default async function LegacyCataloguesRedirect({
+  searchParams,
+}: {
+  searchParams: Promise<LegacyCatalogueSearchParams>;
+}) {
+  const params = await searchParams;
+  const query = new URLSearchParams();
+  for (const [key, value] of Object.entries(params)) {
+    if (typeof value === "string" && value.length > 0) query.set(key, value);
+    else if (Array.isArray(value)) value.forEach((item) => query.append(key, item));
   }
-
-  // Deduplicate by normalized key and inject fallback logo
-  brands = Array.from(new Map(brands.map(b => {
-    const normalizedKey = normalizeBrandKey(b);
-    const enrichedBrand = { ...b };
-    if (!enrichedBrand.logoUrl && CANONICAL_BRANDS_BY_ID[normalizedKey]?.logo) {
-      enrichedBrand.logoUrl = CANONICAL_BRANDS_BY_ID[normalizedKey].logo;
-    }
-    return [normalizedKey, enrichedBrand];
-  })).values());
-
-  const breadcrumbLd = {
-    "@context": "https://schema.org",
-    "@type": "BreadcrumbList",
-    "itemListElement": [
-      {
-        "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://www.hardwarecollection.co/"
-      },
-      {
-        "@type": "ListItem",
-        "position": 2,
-        "name": "Brands & Catalogues",
-        "item": "https://www.hardwarecollection.co/catalogues"
-      }
-    ]
-  };
-
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
-      />
-      <CatalogsClient 
-        brands={brands}
-        settings={settings}
-        showroomGroups={showroomGroups}
-      />
-    </>
-  );
+  const suffix = query.size ? `?${query.toString()}` : "";
+  redirect(`/collections${suffix}`);
 }
