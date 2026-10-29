@@ -84,13 +84,20 @@ jobs:
           SITE_INDEXABLE: "true"
         run: npx playwright test tests/e2e/release-acceptance.spec.ts
 
+      - name: Link the exact Vercel project
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx vercel link --yes --project="$VERCEL_PROJECT_ID" --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN"
+          node -e 'const fs=require("node:fs"); const p=JSON.parse(fs.readFileSync(".vercel/project.json","utf8")); if(p.projectId!==process.env.VERCEL_PROJECT_ID){console.error("Linked Vercel project ID does not match VERCEL_PROJECT_ID");process.exit(1)}; console.log("Verified linked Vercel project:",p.projectId)'
+
       - name: Deploy to Vercel (Production)
         id: deploy
         shell: bash
         run: |
           set -euo pipefail
           deploy_log="$(mktemp)"
-          if ! npx vercel --prod --archive=tgz --token="$VERCEL_TOKEN" 2>&1 | tee "$deploy_log"; then
+          if ! npx vercel deploy --prod --yes --archive=tgz --token="$VERCEL_TOKEN" 2>&1 | tee "$deploy_log"; then
             echo "::error::Vercel deployment command failed."
             exit 1
           fi
