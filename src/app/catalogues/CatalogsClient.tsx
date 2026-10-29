@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, useState } from "react";
+import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
@@ -24,10 +24,8 @@ export interface CatalogsClientProps {
 }
 
 /**
- * Resolve the `?brand=` query parameter to a displayable brand.
- * Extracted so the mount-time initializer and the on-change adjustment share one
- * implementation — the two were previously duplicated, and the copy inside a
- * useEffect tripped react-hooks/set-state-in-effect.
+ * Resolve the `?brand=` query parameter to a displayable brand. The URL query
+ * keys the viewer subtree, so this initializer runs on each relevant navigation.
  */
 function resolveBrandFromParam(
   brandParam: string | null,
