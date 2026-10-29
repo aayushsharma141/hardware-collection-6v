@@ -71,9 +71,9 @@ test.describe("Release acceptance: public routes and catalogue delivery", () => 
 
   test("contact actions point to the showroom's configured phone, WhatsApp and map destinations", async ({ page }) => {
     await page.goto("/");
-    const phone = page.locator('a[href^="tel:"]').first();
-    const whatsapp = page.locator('a[href*="wa.me"]').first();
-    const map = page.locator('a[href*="maps"]').first();
+    const phone = page.locator('a[href^="tel:"]:visible').first();
+    const whatsapp = page.locator('a[href*="wa.me"]:visible').first();
+    const map = page.locator('a[href*="maps"]:visible').first();
 
     await expect(phone).toBeVisible();
     await expect(whatsapp).toBeVisible();
