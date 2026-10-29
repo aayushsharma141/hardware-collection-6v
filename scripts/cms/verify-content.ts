@@ -30,6 +30,7 @@ type ContentHealth = {
   productsMissingImages: number;
   brands: number;
   categories: number;
+  authorizedBrandRefs: number;
   catalogues: number;
   offers: number;
   testimonials: number;
@@ -53,6 +54,7 @@ async function main() {
     ]),
     "brands": count(*[_type == "brand"]),
     "categories": count(*[_type == "category"]),
+    "authorizedBrandRefs": count(*[_type == "siteSettings" && _id == "siteSettings"][0].authorizedBrands),
     "catalogues": count(*[_type == "catalogue"]),
     "offers": count(*[_type == "offer"]),
     "testimonials": count(*[_type == "testimonial"])
@@ -81,14 +83,14 @@ async function main() {
   }
   if (health.brands === 0) errors.push("No published brand documents found.");
   if (health.categories === 0) errors.push("No published category documents found.");
+  if (health.authorizedBrandRefs === 0) errors.push("Business Settings has no authorized brand references; refusing to publish unverified brand claims.");
+  if (health.catalogues === 0) errors.push("No published catalogue documents found; view-only catalogue acceptance cannot pass.");
+  if (health.products === 0) errors.push("No published products found; the public catalogue would rely on fallback content.");
 
   if (health.productsMissingImages > 0) {
     console.warn(
       `WARNING: ${health.productsMissingImages} published product(s) have no hero image or legacy image asset. Review before publishing them prominently.`
     );
-  }
-  if (health.products === 0) {
-    console.warn("WARNING: no published products found; the website may rely on fallback catalogue content.");
   }
 
   if (errors.length) {
