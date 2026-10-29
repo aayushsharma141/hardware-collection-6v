@@ -107,3 +107,29 @@ jobs:
             fi
             echo "PASS $path HTTP $status"
           done
+
+      - name: Verify canonical production SEO headers and sitemap
+        shell: bash
+        run: |
+          set -euo pipefail
+          headers="$(mktemp)"
+          status=""
+          for attempt in {1..6}; do
+            status="$(curl --silent --show-error --location --dump-header "$headers" --output /dev/null --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/ || true)"
+            if [[ "$status" == "200" ]]; then break; fi
+            sleep 10
+          done
+          if [[ "$status" != "200" ]]; then
+            echo "::error::Canonical production homepage returned HTTP ${status:-unknown}."
+            exit 1
+          fi
+          if grep -qiE '^x-robots-tag:.*noindex' "$headers"; then
+            echo "::error::Production homepage is sending X-Robots-Tag noindex. Set SITE_INDEXABLE=true in Vercel Production and redeploy."
+            exit 1
+          fi
+          sitemap_status="$(curl --silent --show-error --location --output /dev/null --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/sitemap.xml)"
+          if [[ "$sitemap_status" != "200" ]]; then
+            echo "::error::Production sitemap returned HTTP $sitemap_status."
+            exit 1
+          fi
+          echo "PASS canonical production homepage is indexable; sitemap HTTP $sitemap_status"
