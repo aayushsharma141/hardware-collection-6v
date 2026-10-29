@@ -19,7 +19,7 @@ export function buildMatchHref(match: BrandMatch, categoryTitle: string): string
   params.set("q", categoryTitle.slice(0, MAX_QUERY));
   params.set("pages", pages.slice(0, MAX_LINK_PAGES).join(","));
   params.set("v", catalogue.version);
-  return `/collections?${params}`;
+  return `/collections?${params}#brand-catalogues`;
 }
 
 /**
