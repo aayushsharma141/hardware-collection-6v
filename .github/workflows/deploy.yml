@@ -3,32 +3,53 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - main  # Auto-deploy to production when merging to main
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
 
 jobs:
   deploy-production:
-    name: Deploy → Production
+    name: Validate & deploy production
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
     env:
-      VERCEL_TOKEN: "${{ secrets.VERCEL_TOKEN }}"
-      VERCEL_ORG_ID: "${{ secrets.VERCEL_ORG_ID }}"
-      VERCEL_PROJECT_ID: "${{ secrets.VERCEL_PROJECT_ID }}"
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      NEXT_PUBLIC_SANITY_PROJECT_ID: hoghkg00
+      NEXT_PUBLIC_SANITY_DATASET: production
+      NEXT_PUBLIC_SANITY_API_VERSION: "2024-02-12"
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 20
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           cache: "npm"
+
+      - name: Verify required deployment secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          for name in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "::error::Required GitHub environment secret $name is missing."
+              exit 1
+            fi
+          done
 
       - name: Install dependencies
         run: npm ci
 
-      # A push to main must not reach production if it would fail CI.
       - name: Type check
         run: npx tsc --noEmit
 
@@ -44,12 +65,45 @@ jobs:
       - name: No console.log in production source
         run: node scripts/checks/no-console-log.js
 
-      - name: Legacy design-token / button.tsx migration audit
+      - name: Dependency and design-token audit
         run: node scripts/audit-dependencies.cjs
+
+      # Build before deployment. The build intentionally uses the public Sanity
+      # project/dataset only; the write token and webhook secrets are not exposed
+      # to this job. Content fallback keeps the build independent of private data.
+      - name: Production build
+        run: npm run build
 
       - name: Deploy to Vercel (Production)
         id: deploy
+        shell: bash
         run: |
-          DEPLOY_URL=$(npx vercel --prod --archive=tgz --token="$VERCEL_TOKEN" 2>&1 | grep -oP 'https://[^\s]+vercel\.app' | tail -1)
-          echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
-          echo "✅ Deployed to: $DEPLOY_URL"
+          set -euo pipefail
+          deploy_log="$(mktemp)"
+          if ! npx vercel --prod --archive=tgz --token="$VERCEL_TOKEN" 2>&1 | tee "$deploy_log"; then
+            echo "::error::Vercel deployment command failed."
+            exit 1
+          fi
+
+          deploy_url="$(grep -Eo 'https://[^[:space:]]+\.vercel\.app' "$deploy_log" | tail -n 1 || true)"
+          if [[ -z "$deploy_url" ]]; then
+            echo "::error::Vercel CLI exited without a detectable deployment URL; refusing to report success."
+            exit 1
+          fi
+
+          echo "url=$deploy_url" >> "$GITHUB_OUTPUT"
+          echo "Deployment created: $deploy_url"
+
+      - name: Smoke test deployed URL
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="${{ steps.deploy.outputs.url }}"
+          for path in / /collections; do
+            status="$(curl --silent --show-error --location --output /dev/null --write-out '%{http_code}' --max-time 30 "$url$path")"
+            if [[ "$status" != "200" ]]; then
+              echo "::error::Smoke test failed for $path (HTTP $status)."
+              exit 1
+            fi
+            echo "PASS $path HTTP $status"
+          done
