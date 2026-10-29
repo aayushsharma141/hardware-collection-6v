@@ -33,6 +33,7 @@ import type { CategoryMatches } from "@/lib/catalog/search/types";
 import ProductQuickView from "@/components/collections/ProductQuickView";
 import OffersSection from "@/components/collections/OffersSection";
 import ShowroomCta from "@/components/collections/ShowroomCta";
+import CatalogsClient from "@/app/catalogues/CatalogsClient";
 
 export interface CollectionsClientProps {
   categories: Category[];
@@ -253,20 +254,21 @@ export default function CollectionsClient({
           onVisit={() => openDrawer({ source: "collections", intent: "consultation" })}
         />
 
-        {/* Contextual Cross-Link Bridge to Brands & Catalogues */}
-        <div className="border-t border-[var(--border)] py-10 px-5 sm:px-8 lg:px-12 max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-          <div>
-            <p className="text-xs uppercase tracking-widest text-[var(--accent)] font-semibold">Brand Directory</p>
-            <p className="text-lg sm:text-xl font-light text-[var(--text-primary)] mt-1">Looking for a specific manufacturer or official reference?</p>
+        <section id="brand-catalogues" className="scroll-mt-28 border-t border-[var(--border)] mt-12">
+          <div className="max-w-[1440px] mx-auto px-5 sm:px-8 lg:px-12 pt-10 sm:pt-14">
+            <p className="text-xs uppercase tracking-[0.18em] text-[var(--accent)] font-semibold">Official References</p>
+            <h2 className="hc-serif text-3xl sm:text-4xl font-normal text-[var(--text-primary)] mt-2">Brands & Catalogues</h2>
+            <p className="mt-3 max-w-2xl text-sm sm:text-base text-[var(--text-secondary)] font-light">
+              Explore our manufacturer partners and view official catalogue pages for product details. For finishes, availability and recommendations, enquire with the showroom.
+            </p>
           </div>
-          <Link
-            href="/catalogues"
-            className="text-sm font-semibold uppercase tracking-wider text-[var(--accent)] hover:underline inline-flex items-center gap-2 shrink-0"
-          >
-            <span>Explore Brands & Catalogues</span>
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
+          <CatalogsClient
+            embedded
+            brands={brands}
+            settings={settings}
+            showroomGroups={sections.map(({ group }) => ({ id: group.id, title: group.title }))}
+          />
+        </section>
       </main>
 
       <ProductQuickView
