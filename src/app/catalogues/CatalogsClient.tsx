@@ -1,6 +1,7 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { Suspense, useState } from "react";
+import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Footer from "@/components/layout/Footer";
@@ -59,29 +60,32 @@ function resolveMatchFromParams(params: URLSearchParams, brand: ResolvedBrand): 
   return { catalogue: parsed.catalogue, page: parsed.page, query: parsed.query, pages: parsed.pages };
 }
 
-export default function CatalogsClient({ brands, settings, showroomGroups, embedded = false }: CatalogsClientProps) {
+function CatalogsClientContent({ brands, settings, showroomGroups, embedded = false }: CatalogsClientProps) {
+  const searchParams = useSearchParams();
+  const searchKey = searchParams.toString();
   const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | null>(null);
   const [match, setMatch] = useState<CatalogueMatchContext | null>(null);
 
   // Synchronize ?brand= query param without triggering SSG bailout
   React.useEffect(() => {
-    if (typeof window === "undefined") return;
-    const syncBrand = () => {
-      const params = new URLSearchParams(window.location.search);
-      const brandParam = params.get("brand");
-      if (brandParam) {
-        const nextBrand = resolveBrandFromParam(brandParam, brands);
-        if (nextBrand) {
-          setSelectedCatalogBrand(nextBrand);
-          setMatch(resolveMatchFromParams(params, nextBrand));
-        }
-      }
-    };
+    const params = new URLSearchParams(searchKey);
+    const brandParam = params.get("brand");
+    if (!brandParam) {
+      setSelectedCatalogBrand(null);
+      setMatch(null);
+      return;
+    }
 
-    syncBrand();
-    window.addEventListener("popstate", syncBrand);
-    return () => window.removeEventListener("popstate", syncBrand);
-  }, [brands]);
+    const nextBrand = resolveBrandFromParam(brandParam, brands);
+    if (!nextBrand) {
+      setSelectedCatalogBrand(null);
+      setMatch(null);
+      return;
+    }
+
+    setSelectedCatalogBrand(nextBrand);
+    setMatch(resolveMatchFromParams(params, nextBrand));
+  }, [brands, searchKey]);
 
   return (
     <div className={embedded ? "w-full bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30" : "min-h-screen bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30 pt-[104px]"}>
@@ -139,3 +143,15 @@ export default function CatalogsClient({ brands, settings, showroomGroups, embed
   );
 }
 
+
+
+export default function CatalogsClient(props: CatalogsClientProps) {
+  // useSearchParams is wrapped in Suspense so this component remains safe if
+  // the parent route is statically rendered. It also handles same-route query
+  // changes, which a mount-only window.location reader misses.
+  return (
+    <Suspense fallback={null}>
+      <CatalogsClientContent {...props} />
+    </Suspense>
+  );
+}
