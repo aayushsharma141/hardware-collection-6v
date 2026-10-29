@@ -136,7 +136,15 @@ Verify phone, WhatsApp number, address, opening hours, Google Maps links, social
 3. Publish and test the in-site view-only viewer, page navigation/search if available, and WhatsApp enquiry flow.
 4. Confirm the website does not expose a download button. View-only UX discourages casual downloading but cannot prevent screenshots or all forms of copying.
 
-## 7. Publishing and cache acceptance test
+## 7. Automated published-content verification
+
+With the required environment variables available in your local shell, run:
+
+    npm run cms:verify
+
+The command uses the published perspective and checks that the fixed-ID singleton documents exist exactly once, that products have their required identity/reference fields, and that at least one brand and category are published. It reports missing product images and an empty product catalogue as warnings. It does not publish, mutate, or delete CMS data. Run it before launch and after migrations/seeding.
+
+## 8. Publishing and cache acceptance test
 
 Run these checks for at least one record of each critical type after setup and after changes to caching or GROQ queries.
 
@@ -152,7 +160,7 @@ Run these checks for at least one record of each critical type after setup and a
 - [ ] Fallback content does not silently override intended published data.
 - [ ] Home and Collections work on desktop and mobile.
 
-## 8. Data quality and migration safety
+## 9. Data quality and migration safety
 
 Before bulk seed, migration, slug repair or catalogue reindex:
 
@@ -166,7 +174,7 @@ Before bulk seed, migration, slug repair or catalogue reindex:
 
 Do not use a production write token in a browser, CI build step or public environment variable. Do not use the production seed route as a normal content editor.
 
-## 9. Production release checklist
+## 10. Production release checklist
 
 - [ ] Vercel Production has the correct Sanity project/dataset and private server token.
 - [ ] SANITY_REVALIDATE_SECRET is configured in both Vercel and the Sanity webhook.
@@ -182,7 +190,7 @@ Do not use a production write token in a browser, CI build step or public enviro
 - [ ] Owner approves business details and opening hours.
 - [ ] A manual end-to-end lead test succeeds, alerts arrive, and the test lead is removed from production data.
 
-## 10. Troubleshooting
+## 11. Troubleshooting
 
 | Symptom | Check first |
 |---|---|
