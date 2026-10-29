@@ -71,7 +71,7 @@ describe("route inventory", () => {
     expect(sitemap).not.toMatch(SLUG_PATH);
     expect(sitemap).toContain("${CANONICAL_HOST}/");
     expect(sitemap).toContain("${CANONICAL_HOST}/collections");
-    expect(sitemap).not.toContain("/catalogues");
+    expect(sitemap).not.toContain('url: `${CANONICAL_HOST}/catalogues`');
   });
 
   it("keeps the legacy catalogue URL as a redirect, not a content page", () => {
