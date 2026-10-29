@@ -120,7 +120,7 @@ describe("toCollectionsHeroSlide", () => {
 
   it("links a brand to its catalogue", () => {
     const slide = toCollectionsHeroSlide({ slideType: "brand", brand: { name: "Hafele", slug: "hafele" } }, 0, enquire);
-    expect(slide?.href).toBe("/catalogues?brand=hafele");
+    expect(slide?.href).toBe("/collections?brand=hafele");
   });
 
   it("opens an external promotional link in a new tab, an internal one in place", () => {
