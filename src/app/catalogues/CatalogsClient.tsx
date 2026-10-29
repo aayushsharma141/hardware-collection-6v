@@ -87,6 +87,7 @@ export default function CatalogsClient({ brands, settings, showroomGroups, embed
     <div className={embedded ? "w-full bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30" : "min-h-screen bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30 pt-[104px]"}>
       <main className="w-full">
         <BrandsDirectoryView 
+          embedded={embedded}
           brands={brands || []} 
           settings={settings}
           onSelectBrand={(brand) => {
