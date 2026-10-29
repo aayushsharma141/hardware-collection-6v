@@ -43,6 +43,7 @@ Set the correct values in the Vercel project's Production environment. Configure
 | NEXT_PUBLIC_SANITY_PROJECT_ID | Sanity project | Must match the project holding live content |
 | NEXT_PUBLIC_SANITY_DATASET | Dataset | Must match the live dataset |
 | NEXT_PUBLIC_SANITY_API_VERSION | API version | Keep deliberate and consistent with scripts |
+| SITE_INDEXABLE | Production indexing / X-Robots-Tag behavior | Set `true` in Vercel Production only; keep preview deployments non-indexable |
 | SANITY_API_TOKEN | Server-side reads and draft preview validation | Private; never expose to browser bundles |
 | SANITY_REVALIDATE_SECRET | Authenticate Sanity webhook | Same secret in Vercel and Sanity |
 | UPSTASH_REDIS_REST_URL | Shared lead API rate limiter | Required for production lead capture |
