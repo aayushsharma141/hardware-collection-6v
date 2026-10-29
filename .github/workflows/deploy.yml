@@ -179,8 +179,9 @@ jobs:
             echo "::error::Legacy /catalogues route should redirect to /collections (got HTTP $legacy_status)."
             exit 1
           fi
-          grep -qiF 'location: https://www.hardwarecollection.co/collections?brand=hafele' "$legacy_headers" || {
+          if ! grep -qiF 'location: https://www.hardwarecollection.co/collections?brand=hafele' "$legacy_headers" \
+            && ! grep -qiF 'location: /collections?brand=hafele' "$legacy_headers"; then
             echo "::error::Legacy catalogue redirect did not preserve the brand query parameter."
             exit 1
-          }
+          fi
           echo "PASS production indexability, canonical host, sitemap, and legacy route redirect"
