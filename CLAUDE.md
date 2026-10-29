@@ -98,13 +98,14 @@ Coding, branch and testing conventions are documented in [docs/DEVELOPMENT.md](d
 
 ## Showroom & Collections Architecture (locked — do not redesign)
 
-The catalogue has **three public content routes**:
+The public website has **two content routes**:
 
 ```
-/           → homepage (local showroom authority)
-/collections → full showroom catalogue (taxonomy & needs discovery)
-/catalogues  → brands & official catalogues (manufacturer reference)
+/            → homepage (local showroom authority)
+/collections → showroom discovery, brands and view-only catalogues
 ```
+
+Brand discovery and the PDF viewer are embedded in `/collections#brand-catalogues`. The old `/catalogues` and `/catalogs` URLs are compatibility redirects only; they are not canonical pages and must not appear in the sitemap.
 
 The seven showroom families (`door`, `smart-security`, `kitchen`, `wardrobe-furniture`, `bathroom-hardware`, `glass`, `furniture-fittings`) are **in-page sections**, not pages:
 
