@@ -92,6 +92,21 @@ export default function CollectionsClient({
     [rawBrands]
   );
 
+  const catalogueBrands = useMemo(() => {
+    const refs = settings?.authorizedBrandRefs;
+    if (!refs?.length) return brands;
+    const authorizedSlugs = new Set(
+      refs
+        .map((ref) => (typeof ref.slug === "object" ? ref.slug?.current : ref.slug))
+        .filter((slug): slug is string => Boolean(slug))
+        .map((slug) => slug.toLowerCase())
+    );
+    return brands.filter((brand) => {
+      const slug = typeof brand.slug === "object" ? brand.slug?.current : brand.slug;
+      return Boolean(slug && authorizedSlugs.has(slug.toLowerCase()));
+    });
+  }, [brands, settings?.authorizedBrandRefs]);
+
   const { openDrawer } = useConsultationStore();
 
   // Reused for the ?product= deep link (homepage product reel), focus return,
@@ -264,7 +279,7 @@ export default function CollectionsClient({
           </div>
           <CatalogsClient
             embedded
-            brands={brands}
+            brands={catalogueBrands}
             settings={settings}
             showroomGroups={sections.map(({ group }) => ({ id: group.id, title: group.title }))}
           />
