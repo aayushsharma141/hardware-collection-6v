@@ -5,7 +5,7 @@ export const MAX_LINK_PAGES = 12;
 const MAX_QUERY = 80;
 
 /**
- * `/catalogues` link that opens a brand's catalogue at the best-matching page.
+ * `/collections` link that opens a brand's catalogue at the best-matching page.
  * `?cat=` is the catalogue's index in the brand's list, `page` the best page,
  * `pages` the other matches (ascending, for prev/next), `q` the category name.
  */
@@ -47,7 +47,7 @@ function int(value: string | null, min: number, max: number): number | null {
 }
 
 /**
- * Reads the match params off a `/catalogues` URL. Everything is untrusted, so
+ * Reads the match params off a `/collections` URL. Everything is untrusted, so
  * junk is dropped rather than clamped into something plausible: no valid `page`
  * means no match context at all.
  */
