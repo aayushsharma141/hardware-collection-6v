@@ -202,19 +202,19 @@ jobs:
             echo "::error::Sitemap is missing the canonical /collections URL."
             exit 1
           }
-          grep -q 'https://www.hardwarecollection.co/catalogues' "$sitemap" || {
-            echo "::error::Sitemap is missing the canonical /catalogues URL."
+          if grep -q 'https://www.hardwarecollection.co/catalogues' "$sitemap"; then
+            echo "::error::Sitemap must not list legacy /catalogues; only / and /collections are canonical public routes."
+            exit 1
+          fi
+
+          redirect_headers="$(mktemp)"
+          redirect_status="$(curl --silent --show-error --output /dev/null --dump-header "$redirect_headers" --write-out '%{http_code}' --max-time 30 'https://www.hardwarecollection.co/catalogues?brand=hafele&cat=0&page=1')"
+          if [[ "$redirect_status" != "308" ]]; then
+            echo "::error::Legacy /catalogues route should return HTTP 308 (got $redirect_status)."
+            exit 1
+          fi
+          grep -qiE '^location: https://www\\.hardwarecollection\\.co/collections\\?brand=hafele&cat=0&page=1' "$redirect_headers" || {
+            echo "::error::Legacy /catalogues redirect did not preserve the catalogue query parameters."
             exit 1
           }
-
-          catalogues_html="$(mktemp)"
-          catalogues_status="$(curl --silent --show-error --output "$catalogues_html" --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/catalogues)"
-          if [[ "$catalogues_status" != "200" ]]; then
-            echo "::error::/catalogues must be its own page (got HTTP $catalogues_status)."
-            exit 1
-          fi
-          if ! grep -qiF 'rel="canonical" href="https://www.hardwarecollection.co/catalogues"' "$catalogues_html"; then
-            echo "::error::/catalogues canonical link does not point to https://www.hardwarecollection.co/catalogues."
-            exit 1
-          fi
-          echo "PASS production indexability, canonical host, sitemap, and /catalogues page"
+          echo "PASS production indexability, canonical host, two-route sitemap, and legacy redirect"
