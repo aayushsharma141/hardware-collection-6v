@@ -137,13 +137,14 @@ describe("Phase 16: Local Search & SEO Verification Suite", () => {
   });
 
   describe("5. Schema.org HardwareStore Entity Graph & Sitemap", () => {
-    it("layout.tsx outputs @type: HardwareStore with coordinates, hours, map link, and excludes secondary phone", () => {
+    it("layout.tsx outputs HardwareStore schema from CMS-owned business facts without guessed coordinates", () => {
       const layoutPath = path.resolve(__dirname, "../../../app/layout.tsx");
       const layoutContent = fs.readFileSync(layoutPath, "utf-8");
 
       expect(layoutContent).toContain('"@type": "HardwareStore"');
-      expect(layoutContent).toContain('"latitude": 22.8028401');
-      expect(layoutContent).toContain('"longitude": 86.2015');
+      // Coordinates are intentionally omitted until the owner verifies the exact GBP pin.
+      expect(layoutContent).not.toContain('"latitude": 22.8028401');
+      expect(layoutContent).not.toContain('"longitude": 86.2015');
       // The map link is the Studio value when set, else SHOWROOM_MAP_URL (see resolveMapUrl).
       expect(layoutContent).toContain('"hasMap": resolveMapUrl(');
       expect(layoutContent).toContain('"openingHoursSpecification"');
