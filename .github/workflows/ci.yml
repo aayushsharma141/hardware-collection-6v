@@ -74,6 +74,8 @@ jobs:
       # build falls through to src/content/fallback/, proving offline resilience.
       NEXT_PUBLIC_SANITY_PROJECT_ID: hoghkg00
       NEXT_PUBLIC_SANITY_DATASET: production
+      NEXT_PUBLIC_SANITY_API_VERSION: "2024-02-12"
+      SITE_INDEXABLE: "true"
     steps:
       - uses: actions/checkout@v4
 
@@ -90,3 +92,12 @@ jobs:
       # fails here rather than at render time if public/pdfjs has drifted.
       - name: Build
         run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Release acceptance E2E tests against production build
+        env:
+          PLAYWRIGHT_WEB_SERVER_COMMAND: npm run start
+          SITE_INDEXABLE: "true"
+        run: npx playwright test tests/e2e/release-acceptance.spec.ts --project=chromium
