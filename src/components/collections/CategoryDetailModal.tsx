@@ -281,7 +281,7 @@ export default function CategoryDetailModal({
             {/* Quick cross-link to all catalogues */}
             <div className="pt-2 text-center">
               <Link
-                href="/catalogues"
+                href="/collections#brand-catalogues"
                 className="text-[11px] font-semibold uppercase tracking-widest text-[var(--accent)] hover:underline inline-flex items-center gap-1.5"
               >
                 <span>Browse All Brand Official Catalogues</span>
