@@ -137,9 +137,40 @@ jobs:
             echo "::error::Production homepage is sending X-Robots-Tag noindex. Set SITE_INDEXABLE=true in Vercel Production and redeploy."
             exit 1
           fi
-          sitemap_status="$(curl --silent --show-error --location --output /dev/null --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/sitemap.xml)"
+          html="$(mktemp)"
+          canonical_status="$(curl --silent --show-error --location --output "$html" --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/)"
+          if [[ "$canonical_status" != "200" ]]; then
+            echo "::error::Canonical production homepage HTML returned HTTP $canonical_status."
+            exit 1
+          fi
+          if ! grep -Eqi '<link[^>]+rel=["\\x27]canonical["\\x27][^>]+href=["\\x27]https://www\\.hardwarecollection\\.co/["\\x27]' "$html"; then
+            echo "::error::Canonical homepage link does not point to https://www.hardwarecollection.co/."
+            exit 1
+          fi
+
+          sitemap="$(mktemp)"
+          sitemap_status="$(curl --silent --show-error --location --output "$sitemap" --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/sitemap.xml)"
           if [[ "$sitemap_status" != "200" ]]; then
             echo "::error::Production sitemap returned HTTP $sitemap_status."
             exit 1
           fi
-          echo "PASS canonical production homepage is indexable; sitemap HTTP $sitemap_status"
+          grep -q 'https://www.hardwarecollection.co/collections' "$sitemap" || {
+            echo "::error::Sitemap is missing the canonical /collections URL."
+            exit 1
+          }
+          if grep -q 'https://www.hardwarecollection.co/catalogues' "$sitemap"; then
+            echo "::error::Sitemap still includes retired /catalogues route."
+            exit 1
+          fi
+
+          legacy_headers="$(mktemp)"
+          legacy_status="$(curl --silent --show-error --output /dev/null --dump-header "$legacy_headers" --write-out '%{http_code}' --max-time 30 'https://www.hardwarecollection.co/catalogues?brand=hafele')"
+          if [[ "$legacy_status" != "307" && "$legacy_status" != "308" ]]; then
+            echo "::error::Legacy /catalogues route should redirect to /collections (got HTTP $legacy_status)."
+            exit 1
+          fi
+          grep -qiE '^location: https://www\\.hardwarecollection\\.co/collections\\?brand=hafele' "$legacy_headers" || {
+            echo "::error::Legacy catalogue redirect did not preserve the brand query parameter."
+            exit 1
+          }
+          echo "PASS production indexability, canonical host, sitemap, and legacy route redirect"
