@@ -177,7 +177,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://wa.me" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
       <body className="min-h-full flex flex-col font-manrope hc-root antialiased">
