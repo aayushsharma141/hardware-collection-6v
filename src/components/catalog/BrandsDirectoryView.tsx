@@ -227,6 +227,7 @@ const ALPHABET_NAV = ["B", "D", "F", "G", "H", "L", "M", "O", "P", "R", "S", "T"
 
 export default function BrandsDirectoryView({
   brands,
+  settings,
   onSelectBrand,
   embedded = false,
 }: BrandsDirectoryViewProps) {
@@ -261,6 +262,31 @@ export default function BrandsDirectoryView({
       el.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };
+
+  if (brands.length === 0) {
+    return (
+      <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
+        <section className="max-w-3xl mx-auto px-5 py-14 sm:py-20 text-center">
+          {embedded ? (
+            <h2 className="hc-serif text-3xl sm:text-4xl font-light">Brand catalogues are being updated</h2>
+          ) : (
+            <h1 className="hc-serif text-4xl sm:text-5xl font-light">Brand catalogues are being updated</h1>
+          )}
+          <p className="mt-4 text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
+            Contact our Sakchi showroom for the current authorized brand list and catalogue references.
+          </p>
+          <a
+            href={buildWhatsAppUrl("Hi, please share Hardware Collection's current authorized brand list and catalogues.", settings?.whatsappNumber)}
+            target="_blank"
+            rel="noreferrer"
+            className="mt-7 inline-flex min-h-11 items-center justify-center rounded-full bg-[var(--color-wine)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.16em] text-white hover:opacity-90 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-wine)] focus-visible:ring-offset-2"
+          >
+            Ask the showroom on WhatsApp
+          </a>
+        </section>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
