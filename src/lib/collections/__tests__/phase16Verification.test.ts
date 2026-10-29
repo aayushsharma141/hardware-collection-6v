@@ -120,7 +120,7 @@ describe("Phase 16: Local Search & SEO Verification Suite", () => {
       }
     });
 
-    it("verifies bidirectional crawlable cross-link bridges exist between collections and catalogues", () => {
+    it("embeds brand catalogue discovery in collections and keeps the legacy route as a redirect", () => {
       const collectionsClient = fs.readFileSync(
         path.resolve(__dirname, "../../../app/collections/CollectionsClient.tsx"),
         "utf-8"
@@ -130,9 +130,8 @@ describe("Phase 16: Local Search & SEO Verification Suite", () => {
         "utf-8"
       );
 
-      // Collections links to catalogues
-      expect(collectionsClient).toContain('href="/catalogues"');
-      // Catalogues links to collections
+      expect(collectionsClient).toContain('id="brand-catalogues"');
+      expect(collectionsClient).toContain("<CatalogsClient");
       expect(catalogsClient).toContain('href="/collections"');
     });
   });
@@ -153,13 +152,13 @@ describe("Phase 16: Local Search & SEO Verification Suite", () => {
       expect(layoutContent).not.toContain("SHOWROOM_SECONDARY_PHONE");
     });
 
-    it("sitemap declares canonical base URL and includes all 3 public content routes", () => {
+    it("sitemap contains only the two approved canonical public routes", () => {
       const items = sitemap();
       const urls = items.map((i) => i.url);
 
-      expect(urls).toContain("https://www.hardwarecollection.co");
+      expect(urls).toContain("https://www.hardwarecollection.co/");
       expect(urls).toContain("https://www.hardwarecollection.co/collections");
-      expect(urls).toContain("https://www.hardwarecollection.co/catalogues");
+      expect(urls).not.toContain("https://www.hardwarecollection.co/catalogues");
 
       // Privacy and terms should be excluded from search priority sitemap
       expect(urls).not.toContain("https://www.hardwarecollection.co/privacy");
