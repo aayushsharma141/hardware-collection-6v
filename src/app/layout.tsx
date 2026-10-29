@@ -163,7 +163,7 @@ export default async function RootLayout({
         "description": settings?.seo?.description || "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
         ...(settings?.authorizedBrandRefs?.length
           ? {
-              "brand": settings.authorizedBrandRefs.map((brand) => ({
+              "brand": settings.authorizedBrandRefs.map((brand: { brandName: string }) => ({
                 "@type": "Brand",
                 "name": brand.brandName,
               }))

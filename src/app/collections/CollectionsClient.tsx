@@ -1,8 +1,7 @@
 "use client";
 
 import React, { useCallback, useMemo } from "react";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+
 import Footer from "@/components/layout/Footer";
 import { Product, Category, Brand, Offer } from "@/types/catalog";
 import { useCollectionsState } from "@/hooks/useCollectionsState";

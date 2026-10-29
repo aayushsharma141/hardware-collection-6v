@@ -25,7 +25,7 @@ describe("Subcategory Pop-Up Modal Architecture & Integration Guard", () => {
     expect(content).toContain("Authorized Brand Catalogues");
     expect(content).toContain("brand.bestPage");
     expect(content).toContain("Open Catalogue");
-    expect(content).toContain("/catalogues");
+    expect(content).toContain("/collections#brand-catalogues");
   });
 
   it("CategoryDetailModal renders Showroom Guidance with WhatsApp enquiry link", () => {
