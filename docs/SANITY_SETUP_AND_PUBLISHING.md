@@ -51,6 +51,15 @@ Set the correct values in the Vercel project's Production environment. Configure
 | TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID | Lead alerts | Required if Telegram alerts are operationally required |
 | RESEND_API_KEY / STAFF_EMAIL | Email alerts | Optional only if email notifications are intentionally disabled |
 
+The GitHub Actions `production` environment must also contain these secrets:
+
+- `VERCEL_TOKEN`
+- `VERCEL_ORG_ID`
+- `VERCEL_PROJECT_ID`
+- `SANITY_API_TOKEN` (used by the pre-deploy published-content verification step)
+
+The deploy workflow deliberately fails if any of these are absent. The Sanity token must have read access to the published dataset required by `npm run cms:verify`; do not use a write token unless the same token is explicitly needed for another reviewed workflow.
+
 After changing runtime variables, redeploy Production. Build-time variables must be present for the relevant build.
 
 Important: this repository currently reuses SANITY_API_TOKEN for server-side reads, draft-mode validation and multiple CMS scripts. Treat it as a private secret with the minimum permissions compatible with those uses. A later credential-hardening change should split read/preview credentials from write/migration credentials before reducing its permissions.
@@ -71,7 +80,7 @@ Important: this repository currently reuses SANITY_API_TOKEN for server-side rea
 
 ## 4. Configure the publish revalidation webhook
 
-The site is designed to update published content immediately through POST /api/revalidate, with a five-minute revalidation window as fallback.
+The site is designed to update published content immediately through POST /api/revalidate, with a five-minute revalidation window as fallback. The production release gate sends an unsigned request and expects HTTP 401; HTTP 500 means the webhook secret is missing or the route is misconfigured.
 
 1. Generate a long, random webhook secret. Store it as SANITY_REVALIDATE_SECRET in Vercel Production.
 2. In Sanity project management, create a webhook targeting https://www.hardwarecollection.co/api/revalidate.
