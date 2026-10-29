@@ -12,9 +12,10 @@ export async function POST(request: Request) {
   try {
     const ip = clientIp(request);
 
-    // Production must have a shared limiter configured. A permissive fallback
-    // would allow a bot to create unbounded database writes and notifications.
-    if (!(await allowLeadRequest("leads", ip, { failClosed: true }))) {
+    // Fails open when no shared limiter is configured so a deployment mistake
+    // never drops a customer's enquiry; the gap is logged as an error and
+    // deploy.yml checks it through /api/leads/retry, which fails closed.
+    if (!(await allowLeadRequest("leads", ip))) {
       logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads" });
       throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
     }

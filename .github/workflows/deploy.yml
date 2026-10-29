@@ -123,7 +123,7 @@ jobs:
         run: |
           set -euo pipefail
           url="${{ steps.deploy.outputs.url }}"
-          for path in / /collections; do
+          for path in / /collections /catalogues; do
             status="$(curl --silent --show-error --location --output /dev/null --write-out '%{http_code}' --max-time 30 "$url$path")"
             if [[ "$status" != "200" ]]; then
               echo "::error::Smoke test failed for $path (HTTP $status)."
@@ -132,15 +132,26 @@ jobs:
             echo "PASS $path HTTP $status"
           done
 
-          # Exercise the lead endpoint's honeypot path. The limiter runs first,
-          # but the honeypot returns before any database write or notification.
+          # Exercise the lead endpoint's honeypot path. The honeypot returns
+          # before any database write or notification.
           lead_response="$(curl --silent --show-error --max-time 30 --request POST "$url/api/leads" --header 'Content-Type: application/json' --data '{"_honey":"release-smoke"}' --write-out '\nHTTP_STATUS:%{http_code}')"
           lead_status="$(printf '%s\n' "$lead_response" | sed -n 's/^HTTP_STATUS://p' | tail -n 1)"
           if [[ "$lead_status" != "200" ]] || ! printf '%s' "$lead_response" | grep -q 'HC-HONEYPOT'; then
-            echo "::error::Lead endpoint smoke test failed (HTTP ${lead_status:-unknown}). Verify production Upstash configuration and lead API health."
+            echo "::error::Lead endpoint smoke test failed (HTTP ${lead_status:-unknown}). Verify the lead API health."
             exit 1
           fi
-          echo "PASS lead endpoint limiter and honeypot (no database write)"
+          echo "PASS lead endpoint honeypot (no database write)"
+
+          # /api/leads deliberately stays open when the limiter is missing so a
+          # misconfiguration never drops a customer's enquiry. /api/leads/retry
+          # fails closed, so an empty body answers 400 when Upstash is configured
+          # and 429 when it is not. No lead is created either way.
+          retry_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 30 --request POST "$url/api/leads/retry" --header 'Content-Type: application/json' --data '{}')"
+          if [[ "$retry_status" != "400" ]]; then
+            echo "::error::Lead limiter check returned HTTP $retry_status; expected 400. A 429 means UPSTASH_REDIS_REST_URL/TOKEN are missing in Vercel Production."
+            exit 1
+          fi
+          echo "PASS production lead limiter is configured"
 
           # Missing webhook secret returns 500; an unauthenticated request with
           # a configured secret must be rejected as 401 before any cache action.
@@ -191,20 +202,19 @@ jobs:
             echo "::error::Sitemap is missing the canonical /collections URL."
             exit 1
           }
-          if grep -q 'https://www.hardwarecollection.co/catalogues' "$sitemap"; then
-            echo "::error::Sitemap still includes retired /catalogues route."
+          grep -q 'https://www.hardwarecollection.co/catalogues' "$sitemap" || {
+            echo "::error::Sitemap is missing the canonical /catalogues URL."
             exit 1
-          fi
+          }
 
-          legacy_headers="$(mktemp)"
-          legacy_status="$(curl --silent --show-error --output /dev/null --dump-header "$legacy_headers" --write-out '%{http_code}' --max-time 30 'https://www.hardwarecollection.co/catalogues?brand=hafele')"
-          if [[ "$legacy_status" != "307" && "$legacy_status" != "308" ]]; then
-            echo "::error::Legacy /catalogues route should redirect to /collections (got HTTP $legacy_status)."
+          catalogues_html="$(mktemp)"
+          catalogues_status="$(curl --silent --show-error --output "$catalogues_html" --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/catalogues)"
+          if [[ "$catalogues_status" != "200" ]]; then
+            echo "::error::/catalogues must be its own page (got HTTP $catalogues_status)."
             exit 1
           fi
-          if ! grep -qiF 'location: https://www.hardwarecollection.co/collections?brand=hafele' "$legacy_headers" \
-            && ! grep -qiF 'location: /collections?brand=hafele' "$legacy_headers"; then
-            echo "::error::Legacy catalogue redirect did not preserve the brand query parameter."
+          if ! grep -qiF 'rel="canonical" href="https://www.hardwarecollection.co/catalogues"' "$catalogues_html"; then
+            echo "::error::/catalogues canonical link does not point to https://www.hardwarecollection.co/catalogues."
             exit 1
           fi
-          echo "PASS production indexability, canonical host, sitemap, and legacy route redirect"
+          echo "PASS production indexability, canonical host, sitemap, and /catalogues page"

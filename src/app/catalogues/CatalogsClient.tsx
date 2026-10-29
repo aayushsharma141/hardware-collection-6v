@@ -1,7 +1,6 @@
 "use client";
 
-import { Suspense, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import React, { useState } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import Footer from "@/components/layout/Footer";
@@ -17,15 +16,13 @@ export interface CatalogsClientProps {
   settings?: SiteSettings | null;
   /** Showroom groups with products, for the footer's collection links. */
   showroomGroups?: { id: string; title: string }[];
-  /** Render only the directory/viewer section inside /collections. */
-  embedded?: boolean;
-  /** Current URL query, supplied by the Suspense boundary wrapper. */
-  searchKey?: string;
 }
 
 /**
- * Resolve the `?brand=` query parameter to a displayable brand. The URL query
- * keys the viewer subtree, so this initializer runs on each relevant navigation.
+ * Resolve the `?brand=` query parameter to a displayable brand.
+ * Extracted so the mount-time initializer and the on-change adjustment share one
+ * implementation — the two were previously duplicated, and the copy inside a
+ * useEffect tripped react-hooks/set-state-in-effect.
  */
 function resolveBrandFromParam(
   brandParam: string | null,
@@ -35,7 +32,9 @@ function resolveBrandFromParam(
   const targetKey = brandParam.toLowerCase().replace(/[^a-z0-9]/g, "");
   const matchedBrand = (brands || []).find((b) => normalizeBrandKey(b) === targetKey);
   const canonical = CANONICAL_BRANDS_BY_ID[targetKey];
-  // Never resolve a guessed/canonical brand that is absent from the CMS-approved list.\n  if (!matchedBrand) return null;
+  // `brands` is already limited to the owner-approved list, so a canonical
+  // brand that is not in it must not resolve from a guessed ?brand= value.
+  if (!matchedBrand) return null;
   return {
     ...(matchedBrand || {}),
     name: canonical?.name || matchedBrand?.name || brandParam,
@@ -60,21 +59,34 @@ function resolveMatchFromParams(params: URLSearchParams, brand: ResolvedBrand): 
   return { catalogue: parsed.catalogue, page: parsed.page, query: parsed.query, pages: parsed.pages };
 }
 
-function CatalogsClientContent({ brands, settings, showroomGroups, embedded = false, searchKey = "" }: CatalogsClientProps) {
-  const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | null>(() => {
-    return resolveBrandFromParam(new URLSearchParams(searchKey).get("brand"), brands);
-  });
-  const [match, setMatch] = useState<CatalogueMatchContext | null>(() => {
-    const params = new URLSearchParams(searchKey);
-    const initialBrand = resolveBrandFromParam(params.get("brand"), brands);
-    return initialBrand ? resolveMatchFromParams(params, initialBrand) : null;
-  });
+export default function CatalogsClient({ brands, settings, showroomGroups }: CatalogsClientProps) {
+  const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | null>(null);
+  const [match, setMatch] = useState<CatalogueMatchContext | null>(null);
+
+  // Synchronize ?brand= query param without triggering SSG bailout
+  React.useEffect(() => {
+    if (typeof window === "undefined") return;
+    const syncBrand = () => {
+      const params = new URLSearchParams(window.location.search);
+      const brandParam = params.get("brand");
+      if (brandParam) {
+        const nextBrand = resolveBrandFromParam(brandParam, brands);
+        if (nextBrand) {
+          setSelectedCatalogBrand(nextBrand);
+          setMatch(resolveMatchFromParams(params, nextBrand));
+        }
+      }
+    };
+
+    syncBrand();
+    window.addEventListener("popstate", syncBrand);
+    return () => window.removeEventListener("popstate", syncBrand);
+  }, [brands]);
 
   return (
-    <div className={embedded ? "w-full bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30" : "min-h-screen bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30 pt-[104px]"}>
+    <div className="min-h-screen bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30 pt-[104px]">
       <main className="w-full">
         <BrandsDirectoryView 
-          embedded={embedded}
           brands={brands || []} 
           settings={settings}
           onSelectBrand={(brand) => {
@@ -84,7 +96,7 @@ function CatalogsClientContent({ brands, settings, showroomGroups, embedded = fa
           selectedBrandSlug={selectedCatalogBrand ? normalizeBrandKey(selectedCatalogBrand) : null}
         />
 
-        {!embedded && <>{/* Contextual Cross-Link Bridge to Collections */}
+        {/* Contextual Cross-Link Bridge to Collections */}
         <div className="border-t border-[var(--border)] py-10 px-5 sm:px-8 lg:px-12 max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-widest text-[var(--accent)] font-semibold">Showroom Collections</p>
@@ -97,7 +109,7 @@ function CatalogsClientContent({ brands, settings, showroomGroups, embedded = fa
             <span>Explore Architectural Collections</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
-        </div></>}
+        </div>
       </main>
 
       {/* Official Catalog Viewer Modal */}
@@ -117,29 +129,13 @@ function CatalogsClientContent({ brands, settings, showroomGroups, embedded = fa
         )}
       </AnimatePresence>
 
-      {!embedded && <Footer 
+      {/* Global Footer */}
+      <Footer 
         settings={settings || undefined}
         brands={brands}
         showroomGroups={showroomGroups}
-      />}
+      />
     </div>
   );
 }
 
-
-
-function CatalogsClientWithSearchParams(props: CatalogsClientProps) {
-  const searchParams = useSearchParams();
-  const searchKey = searchParams.toString();
-  return <CatalogsClientContent key={searchKey} {...props} searchKey={searchKey} />;
-}
-
-export default function CatalogsClient(props: CatalogsClientProps) {
-  // useSearchParams is wrapped in Suspense so the static route can render; a
-  // changed query key remounts the content and initializes the correct brand.
-  return (
-    <Suspense fallback={null}>
-      <CatalogsClientWithSearchParams {...props} />
-    </Suspense>
-  );
-}

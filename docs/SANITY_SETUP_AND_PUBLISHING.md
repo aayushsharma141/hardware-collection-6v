@@ -189,14 +189,14 @@ Do not use a production write token in a browser, CI build step or public enviro
 - [ ] Vercel Production has the correct Sanity project/dataset and private server token.
 - [ ] SANITY_REVALIDATE_SECRET is configured in both Vercel and the Sanity webhook.
 - [ ] Webhook test delivery returns HTTP 200.
-- [ ] Upstash Redis variables exist; the lead endpoint fails closed if the limiter is absent.
+- [ ] Upstash Redis variables exist. `/api/leads` stays open without them so no enquiry is lost, but the deploy smoke test checks them through `/api/leads/retry` and fails the deploy if they are missing.
 - [ ] Database and notification credentials are configured and tested.
 - [ ] CI passes lint, typecheck, unit tests, dependency audit and production build.
 - [ ] Deployment URL is accepted only after a successful Vercel CLI exit.
-- [ ] Deployed / and /collections smoke tests pass.
+- [ ] Deployed /, /collections and /catalogues smoke tests pass.
 - [ ] Production has SITE_INDEXABLE=true; preview deployments remain noindex.
 - [ ] sitemap.xml, robots rules, canonical URLs and actual HTTP headers are verified after deployment.
-- [ ] Route architecture is reconciled: the repository currently contains /catalogues, while the project brief allows only / and /collections. Do not remove the catalogue viewer before moving its capability into the approved route.
+- [ ] The three public content routes are live: `/`, `/collections` and `/catalogues` (Brands & Catalogues). `/catalogues` is a real page in the sitemap, not a redirect.
 - [ ] Owner approves business details and opening hours.
 - [ ] A manual end-to-end lead test succeeds, alerts arrive, and the test lead is removed from production data.
 

@@ -41,7 +41,7 @@ Supporting truths that are separately verifiable and may be stated plainly: auth
 
 ## Capabilities and Constraints
 
-**Locked scope.** Public content routes are `/` (home) and `/collections` (catalog, brand directory and view-only catalogue viewer), plus the Sanity Studio at `/studio`. Legacy `/catalogues` and `/catalogs` URLs redirect to `/collections`. No pricing, no e-commerce, no cart. Feature development is frozen; the project is in its production launch phase.
+**Locked scope.** Public routes are `/` (home), `/collections` (catalog), `/catalogues`, `/privacy`, and `/terms`, plus the Sanity Studio at `/studio`. No pricing, no e-commerce, no cart. Feature development is frozen; the project is in its production launch phase.
 
 **Content integrity rules.** No fake, mock, or placeholder products may ever ship. Public source PDFs may not be substituted for official brand catalogs — official catalogs are an owner dependency and remain outstanding.
 

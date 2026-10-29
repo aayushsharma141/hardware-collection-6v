@@ -5,21 +5,21 @@ export const MAX_LINK_PAGES = 12;
 const MAX_QUERY = 80;
 
 /**
- * `/collections` link that opens a brand's catalogue at the best-matching page.
+ * `/catalogues` link that opens a brand's catalogue at the best-matching page.
  * `?cat=` is the catalogue's index in the brand's list, `page` the best page,
  * `pages` the other matches (ascending, for prev/next), `q` the category name.
  */
 export function buildMatchHref(match: BrandMatch, categoryTitle: string): string {
   const catalogue = match.catalogues[0];
   const params = new URLSearchParams({ brand: match.brandKey });
-  if (!catalogue) return `/collections?${params}#brand-catalogues`;
+  if (!catalogue) return `/catalogues?${params}`;
   const pages = [...new Set(catalogue.pages.map((p) => p.page))].sort((a, b) => a - b);
   params.set("cat", String(catalogue.catalogueIndex));
   params.set("page", String(catalogue.pages[0].page));
   params.set("q", categoryTitle.slice(0, MAX_QUERY));
   params.set("pages", pages.slice(0, MAX_LINK_PAGES).join(","));
   params.set("v", catalogue.version);
-  return `/collections?${params}#brand-catalogues`;
+  return `/catalogues?${params}`;
 }
 
 /**
@@ -47,7 +47,7 @@ function int(value: string | null, min: number, max: number): number | null {
 }
 
 /**
- * Reads the match params off a `/collections` URL. Everything is untrusted, so
+ * Reads the match params off a `/catalogues` URL. Everything is untrusted, so
  * junk is dropped rather than clamped into something plausible: no valid `page`
  * means no match context at all.
  */

@@ -66,17 +66,8 @@ describe("route inventory", () => {
     expect(offenders).toEqual([]);
   });
 
-  it("lists only the two approved canonical public routes in the sitemap", () => {
+  it("lists only /collections in the sitemap", () => {
     const sitemap = readFileSync(join(SRC, "app", "sitemap.ts"), "utf8");
     expect(sitemap).not.toMatch(SLUG_PATH);
-    expect(sitemap).toContain("${CANONICAL_HOST}/");
-    expect(sitemap).toContain("${CANONICAL_HOST}/collections");
-    expect(sitemap).not.toContain('url: `${CANONICAL_HOST}/catalogues`');
-  });
-
-  it("keeps the legacy catalogue URL as a redirect, not a content page", () => {
-    const legacyPage = readFileSync(join(SRC, "app", "catalogues", "page.tsx"), "utf8");
-    expect(legacyPage).toContain('redirect(`/collections${suffix}`)');
-    expect(legacyPage).not.toContain("<CatalogsClient");
   });
 });

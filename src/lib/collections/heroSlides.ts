@@ -123,7 +123,7 @@ export function toCollectionsHeroSlide(
         title: b.name,
         tagline: "Authorised brand",
         image: HERO_FALLBACK_IMAGE,
-        href: b.slug ? `/collections?brand=${b.slug}` : "/collections#brand-catalogues",
+        href: b.slug ? `/catalogues?brand=${b.slug}` : "/catalogues",
         ctaLabel: `${b.name} catalogue`,
       };
     }
@@ -200,7 +200,7 @@ export function toHomeHeroSlide(
         title: b.name,
         description: `Browse the ${b.name} catalogue, or see the range at our Sakchi showroom.`,
         primaryCta: `${b.name} catalogue`,
-        ctaTarget: b.slug ? `/collections?brand=${b.slug}` : "/collections#brand-catalogues",
+        ctaTarget: b.slug ? `/catalogues?brand=${b.slug}` : "/catalogues",
         imageUrl: HERO_FALLBACK_IMAGE,
         specimenLabel: "Brand",
         specimenCaption: b.name,

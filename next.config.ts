@@ -190,7 +190,7 @@ const nextConfig: NextConfig = {
       // UI convenience aliases
       {
         source: '/brands',
-        destination: '/collections#brand-catalogues',
+        destination: '/catalogues',
         permanent: true,
       },
       {
@@ -200,7 +200,7 @@ const nextConfig: NextConfig = {
       },
       {
         source: '/catalogs',
-        destination: '/collections#brand-catalogues',
+        destination: '/catalogues',
         permanent: true,
       },
       // Retired /collections/<slug> pages → the single catalogue route

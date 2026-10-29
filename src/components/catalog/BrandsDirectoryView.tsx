@@ -13,7 +13,6 @@ interface BrandsDirectoryViewProps {
   settings?: SiteSettings | null;
   onSelectBrand: (brand: ResolvedBrand) => void;
   selectedBrandSlug?: string | null;
-  embedded?: boolean;
 }
 
 interface BrandDirectoryMeta {
@@ -229,7 +228,6 @@ export default function BrandsDirectoryView({
   brands,
   settings,
   onSelectBrand,
-  embedded = false,
 }: BrandsDirectoryViewProps) {
   const brandLookup = useMemo(() => {
     const map = new Map<string, Brand>();
@@ -267,11 +265,7 @@ export default function BrandsDirectoryView({
     return (
       <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
         <section className="max-w-3xl mx-auto px-5 py-14 sm:py-20 text-center">
-          {embedded ? (
-            <h2 className="hc-serif text-3xl sm:text-4xl font-light">Brand catalogues are being updated</h2>
-          ) : (
-            <h1 className="hc-serif text-4xl sm:text-5xl font-light">Brand catalogues are being updated</h1>
-          )}
+          <h1 className="hc-serif text-4xl sm:text-5xl font-light">Brand catalogues are being updated</h1>
           <p className="mt-4 text-sm sm:text-base text-[var(--text-secondary)] leading-relaxed">
             Contact our Sakchi showroom for the current authorized brand list and catalogue references.
           </p>
@@ -292,15 +286,9 @@ export default function BrandsDirectoryView({
     <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
       {/* ── 01. Hero & Header Section ─────────────────────────────────── */}
       <section className="pt-12 sm:pt-16 pb-10 sm:pb-14 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        {embedded ? (
-          <h2 className="hc-serif text-4xl sm:text-5xl md:text-6xl font-light text-[var(--text-primary)] tracking-tight mb-4 text-balance">
-            Brands & Catalogues
-          </h2>
-        ) : (
-          <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4 text-balance">
-            Brands & Catalogues
-          </h1>
-        )}
+        <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4 text-balance">
+          Brands & Catalogues
+        </h1>
         <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] font-light max-w-2xl mx-auto">
           Official manufacturer catalogues, technical references and product specifications from our authorized partners.
         </p>
@@ -491,7 +479,7 @@ export default function BrandsDirectoryView({
                     {/* Right: Actions */}
                     <div className="flex flex-col sm:flex-row items-center justify-start gap-3 w-full md:w-[25%] shrink-0 mt-4 md:mt-0">
                       <Link
-                        href={`/collections?brand=${brand.id}#brand-catalogues`}
+                        href={`/catalogues?brand=${brand.id}`}
                         onClick={(e) => {
                           const resolved = brandLookup.get(brand.id) as ResolvedBrand | undefined;
                           if (resolved && onSelectBrand && !e.ctrlKey && !e.metaKey && !e.shiftKey) {

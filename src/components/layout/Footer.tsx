@@ -192,7 +192,7 @@ export default function Footer({ settings, socialLinks: customSocialLinks }: Foo
                 </Link>
               </li>
               <li>
-                <Link href="/collections#brand-catalogues" className={columnLink}>
+                <Link href="/catalogues" className={columnLink}>
                   <span>Brands &amp; Catalogues</span>
                   <span className="text-[10px]" aria-hidden="true">&rarr;</span>
                 </Link>

@@ -49,7 +49,7 @@ const useIsomorphicLayoutEffect =
 /** Default nav links — only used when Sanity navigation doc has no mainMenu */
 const NAV_LINKS_FALLBACK: NavLinkItem[] = [
   { name: "Collections", href: "/collections", id: "collections" },
-  { name: "Brands & Catalogues", href: "/collections#brand-catalogues", id: "brand-catalogues" },
+  { name: "Brands & Catalogues", href: "/catalogues", id: "catalogues" },
 ];
 
 export default function Navbar({
@@ -84,9 +84,7 @@ export default function Navbar({
   const navLinks: NavLinkItem[] =
     mainMenu && mainMenu.length > 0
       ? mainMenu.map((item) => {
-        const href = item.path === "/catalogues" || item.path === "/catalogs"
-          ? "/collections#brand-catalogues"
-          : item.path;
+        const href = item.path;
         return {
           name: item.label,
           href,

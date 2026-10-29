@@ -1,12 +1,13 @@
 import { test, expect } from "@playwright/test";
 
 /**
- * Release-critical checks for the approved two-route public experience.
+ * Release-critical checks for the three public content routes: /, /collections
+ * and /catalogues.
  * These run against the production build in CI; they intentionally avoid
  * creating a real lead in the live database.
  */
 test.describe("Release acceptance: public routes and catalogue delivery", () => {
-  test("home and collections render with the approved public route structure", async ({ page }) => {
+  test("home, collections and catalogues are separate pages", async ({ page }) => {
     const home = await page.goto("/");
     expect(home?.status()).toBe(200);
     await expect(page.locator("body")).toContainText("Hardware Collection");
@@ -14,14 +15,25 @@ test.describe("Release acceptance: public routes and catalogue delivery", () => 
     const collections = await page.goto("/collections");
     expect(collections?.status()).toBe(200);
     await expect(page.getByRole("heading", { name: "Architectural Hardware Collections" })).toBeVisible();
-    await expect(page.locator("#brand-catalogues")).toBeAttached();
+    await expect(page.locator("#brand-catalogues")).toHaveCount(0);
+
+    const catalogues = await page.goto("/catalogues");
+    expect(catalogues?.status()).toBe(200);
+    expect(new URL(page.url()).pathname).toBe("/catalogues");
+    await expect(page.getByRole("heading", { name: "Brands & Catalogues" })).toBeVisible();
   });
 
-  test("legacy catalogue URLs preserve brand and PDF deep-link parameters on redirect", async ({ page }) => {
+  test("catalogue deep links open the viewer on /catalogues", async ({ page }) => {
     await page.goto("/catalogues?brand=hafele&cat=0&page=1&pages=1&v=000000000000");
-    await expect(page).toHaveURL(/\/collections\?[^#]*brand=hafele/);
-    await expect(page.locator("#brand-catalogues")).toBeAttached();
+    expect(new URL(page.url()).pathname).toBe("/catalogues");
     await expect(page.getByRole("dialog", { name: /Häfele|Hafele/i })).toBeVisible({ timeout: 15000 });
+  });
+
+  test("an unknown ?brand= value does not open a viewer or claim a partnership", async ({ page }) => {
+    await page.goto("/catalogues?brand=not-a-real-brand");
+    await expect(page.getByRole("heading", { name: "Brands & Catalogues" })).toBeVisible();
+    await expect(page.getByRole("dialog")).toHaveCount(0);
+    await expect(page.getByText("not-a-real-brand")).toHaveCount(0);
   });
 
   test("catalogue endpoint supports byte ranges and rejects stale or unknown assets", async ({ request }) => {
@@ -45,7 +57,7 @@ test.describe("Release acceptance: public routes and catalogue delivery", () => 
 
   test("mobile catalogue viewer stays within the viewport and remains usable", async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
-    await page.goto("/collections?brand=hafele#brand-catalogues");
+    await page.goto("/catalogues?brand=hafele");
     const dialog = page.getByRole("dialog", { name: /Häfele|Hafele/i });
     await expect(dialog).toBeVisible({ timeout: 15000 });
     const box = await dialog.boundingBox();
@@ -64,7 +76,7 @@ test.describe("Release acceptance: public routes and catalogue delivery", () => 
         body: "Catalogue temporarily unavailable",
       })
     );
-    await page.goto("/collections?brand=hafele#brand-catalogues");
+    await page.goto("/catalogues?brand=hafele");
     await expect(page.getByRole("dialog", { name: /Häfele|Hafele/i })).toBeVisible({ timeout: 15000 });
     await expect(page.getByText("Catalogue temporarily unavailable.")).toBeVisible({ timeout: 20000 });
   });

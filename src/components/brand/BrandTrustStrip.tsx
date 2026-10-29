@@ -36,55 +36,55 @@ const FEATURED_BRANDS: BrandItem[] = [
     name: "Hafele",
     id: "hafele",
     logo: "/brands/Hafele.png",
-    href: "/collections?brand=hafele",
+    href: "/catalogues?brand=hafele",
   },
   {
     name: "Dorset",
     id: "dorset",
     logo: "/brands/dorset-seeklogo.svg",
-    href: "/collections?brand=dorset",
+    href: "/catalogues?brand=dorset",
   },
   {
     name: "Tattva",
     id: "tattva",
     logo: "/brands/TATTVA_cropped.png",
-    href: "/collections?brand=tattva",
+    href: "/catalogues?brand=tattva",
   },
   {
     name: "Ozone",
     id: "ozone",
     logo: "/brands/ozone.webp",
-    href: "/collections?brand=ozone",
+    href: "/catalogues?brand=ozone",
   },
   {
     name: "Blum",
     id: "blum",
     logo: "/brands/Blum_logo.svg",
-    href: "/collections?brand=blum",
+    href: "/catalogues?brand=blum",
   },
   {
     name: "Hettich",
     id: "hettich",
     logo: "/brands/Hettich.svg",
-    href: "/collections?brand=hettich",
+    href: "/catalogues?brand=hettich",
   },
   {
     name: "Godrej",
     id: "godrej",
     logo: "/brands/Godrej.png",
-    href: "/collections?brand=godrej",
+    href: "/catalogues?brand=godrej",
   },
   {
     name: "Yale",
     id: "yale",
     logo: "/brands/Yale_logo.svg",
-    href: "/collections?brand=yale",
+    href: "/catalogues?brand=yale",
   },
   {
     name: "GEZE",
     id: "geze",
     logo: "/brands/GEZE_Logo_RGB.png",
-    href: "/collections?brand=geze",
+    href: "/catalogues?brand=geze",
   },
 ];
 
@@ -101,7 +101,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
             name: brandName,
             id: key,
             logo: brandLogo,
-            href: `/collections?brand=${key}`,
+            href: `/catalogues?brand=${key}`,
             imageClass: canonical?.imageClass,
             imageStyle: canonical?.imageStyle,
           };
@@ -134,7 +134,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
               </p>
             </div>
             <Link
-              href="/collections#brand-catalogues"
+              href="/catalogues"
               className="group/btn shrink-0 self-start md:self-auto inline-flex items-center justify-center gap-2.5 min-h-11 px-6 rounded-full border border-[var(--accent)]/40 text-[var(--accent)] text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] active:scale-[0.98]"
             >
               <span>View All Brands</span>

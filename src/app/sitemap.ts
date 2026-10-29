@@ -3,9 +3,8 @@ import type { MetadataRoute } from "next";
 const CANONICAL_HOST = "https://www.hardwarecollection.co";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  // The public site intentionally has two indexable routes. Catalogue viewers
-  // and brand discovery live inside /collections; /catalogues is a legacy URL
-  // that redirects to /collections and must not be listed as a canonical page.
+  // The three public content routes (see CLAUDE.md). Showroom families are
+  // in-page anchors on /collections, never routes of their own.
   const lastModified = new Date("2026-10-29");
 
   return [
@@ -20,6 +19,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       lastModified,
       changeFrequency: "weekly",
       priority: 0.9,
+    },
+    {
+      url: `${CANONICAL_HOST}/catalogues`,
+      lastModified,
+      changeFrequency: "weekly",
+      priority: 0.8,
     },
   ];
 }

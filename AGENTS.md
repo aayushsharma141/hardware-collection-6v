@@ -17,13 +17,12 @@ Canonical instructions for AI agents working on this repository.
 
 ## Architecture Constraints (Locked — Do Not Redesign)
 
-**Two public content routes:**
+**Three public content routes:**
 ```
-/            → homepage (local showroom authority)
-/collections → showroom discovery, brands and view-only catalogues
+/           → homepage (local showroom authority)
+/collections → full showroom catalogue (taxonomy & needs discovery)
+/catalogues  → brands & official catalogues (manufacturer reference)
 ```
-
-Brand discovery and PDF viewing are embedded in `/collections#brand-catalogues`. Legacy `/catalogues` and `/catalogs` URLs redirect to `/collections`; they are not canonical pages or sitemap entries.
 
 **Seven showroom families are in-page sections, not routes:**
 ```
