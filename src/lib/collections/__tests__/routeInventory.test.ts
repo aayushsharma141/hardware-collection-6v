@@ -66,8 +66,13 @@ describe("route inventory", () => {
     expect(offenders).toEqual([]);
   });
 
-  it("lists only /collections in the sitemap", () => {
+  it("lists only the two approved public pages in the sitemap", () => {
     const sitemap = readFileSync(join(SRC, "app", "sitemap.ts"), "utf8");
     expect(sitemap).not.toMatch(SLUG_PATH);
+    expect(sitemap).toContain("url: baseUrl");
+    expect(sitemap).toContain("/collections");
+    expect(sitemap).not.toContain("/catalogues");
+    expect(sitemap).not.toContain("/brands");
+    expect(sitemap).not.toContain("/showroom");
   });
 });
