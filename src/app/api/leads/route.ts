@@ -12,8 +12,9 @@ export async function POST(request: Request) {
   try {
     const ip = clientIp(request);
 
-    // 1. Rate Limiting (Redis-backed for serverless/edge environments)
-    if (!(await allowLeadRequest("leads", ip))) {
+    // Production must have a shared limiter configured. A permissive fallback
+    // would allow a bot to create unbounded database writes and notifications.
+    if (!(await allowLeadRequest("leads", ip, { failClosed: true }))) {
       logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads" });
       throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
     }
@@ -24,10 +25,9 @@ export async function POST(request: Request) {
       throw new ApiError(400, "Request body must be a JSON object", "INVALID_JSON");
     }
 
-    // 2. Honeypot check
+    // Honeypot: return the normal response contract to avoid helping bots tune requests.
     if ((payload as Record<string, unknown>)._honey) {
       logger.info("api.honeypot_triggered", { ip, honeypotField: "_honey" });
-      // Act like it succeeded to fool bots while maintaining standard response contract
       return NextResponse.json({
         success: true,
         data: {
@@ -37,50 +37,40 @@ export async function POST(request: Request) {
       });
     }
 
-    // 3. Validation
     const parseResult = CreateLeadSchema.safeParse(payload);
-    
     if (!parseResult.success) {
-      throw new ApiError(
-        400,
-        "Validation failed",
-        "VALIDATION_ERROR"
-      );
+      throw new ApiError(400, "Validation failed", "VALIDATION_ERROR");
     }
 
     const data = parseResult.data;
-
-    // Generate Lead ID. The id is the primary key, so a repeat makes the insert
-    // fail and the lead is lost. Four hex digits (65,536 per year) made a repeat
-    // likely within a few hundred leads; eight make it negligible.
     const year = new Date().getFullYear();
     const randomHex = randomBytes(4).toString("hex").toUpperCase();
     const leadId = `HC-${year}-${randomHex}`;
 
-    // 4. Store in Postgres (Master Truth)
+    // Postgres is the master record; notification failures do not discard the lead.
     const leadRecord = await createLead(data, leadId);
-    
+
     logger.info("lead.created", {
       leadId: leadRecord.id,
       source: data.source,
       intent: data.intent,
-      ip
+      ip,
     });
 
-    // 5. Email notification, sent after the response so the visitor does not wait.
-    // `after` keeps the serverless function alive until it finishes; a bare
-    // floating promise can be frozen mid-send once the response is returned.
     after(async () => {
       try {
         await sendResendEmail(leadRecord);
         await updateNotificationStatus(leadRecord.id, "email", "sent");
       } catch (err) {
-        logger.error("lead.notification_failed", { leadId: leadRecord.id, channel: "email", error: (err as Error).message });
+        logger.error("lead.notification_failed", {
+          leadId: leadRecord.id,
+          channel: "email",
+          error: (err as Error).message,
+        });
         await updateNotificationStatus(leadRecord.id, "email", "failed").catch(() => {});
       }
     });
 
-    // 6. Attempt Telegram Alert
     try {
       await sendTelegramAlert(leadRecord);
       await updateNotificationStatus(leadRecord.id, "telegram", "sent");
@@ -90,10 +80,14 @@ export async function POST(request: Request) {
         data: {
           lead_id: leadRecord.id,
           telegram_status: "sent",
-        }
+        },
       });
     } catch (telegramError) {
-      logger.error("lead.notification_failed", { leadId: leadRecord.id, channel: "telegram", error: (telegramError as Error).message });
+      logger.error("lead.notification_failed", {
+        leadId: leadRecord.id,
+        channel: "telegram",
+        error: (telegramError as Error).message,
+      });
       await updateNotificationStatus(leadRecord.id, "telegram", "failed");
 
       return NextResponse.json({
@@ -102,7 +96,7 @@ export async function POST(request: Request) {
           lead_id: leadRecord.id,
           telegram_status: "failed",
           notification_error: "We couldn't notify our Telegram desk yet.",
-        }
+        },
       });
     }
   } catch (error) {
