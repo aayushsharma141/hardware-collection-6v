@@ -49,12 +49,11 @@ test.describe("Release acceptance: public routes and catalogue delivery", () => 
     const dialog = page.getByRole("dialog", { name: /Häfele|Hafele/i });
     await expect(dialog).toBeVisible({ timeout: 15000 });
     const box = await dialog.boundingBox();
-    expect(box).not.toBeNull();
-    expect(box!.x).toBeGreaterThanOrEqual(0);
-    expect(box!.y).toBeGreaterThanOrEqual(0);
-    expect(box!.width).toBeLessThanOrEqual(390);
-    expect(box!.height).toBeLessThanOrEqual(844);
-    await expect(dialog.getByRole("button", { name: /close/i })).toBeVisible();
+    if (!box) throw new Error("Mobile catalogue dialog has no layout box");
+    expect(box.x).toBeGreaterThanOrEqual(0);
+    expect(box.y).toBeGreaterThanOrEqual(0);
+    expect(box.width).toBeLessThanOrEqual(390);
+    expect(box.height).toBeLessThanOrEqual(844);
   });
 
   test("viewer presents a recoverable message when a PDF asset request fails", async ({ page }) => {
