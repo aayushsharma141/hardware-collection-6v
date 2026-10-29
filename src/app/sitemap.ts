@@ -3,12 +3,9 @@ import type { MetadataRoute } from "next";
 /** The public information architecture intentionally has two indexable pages. */
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://www.hardwarecollection.co";
-  const lastModified = new Date();
-
   return [
     {
       url: baseUrl,
-      lastModified,
       changeFrequency: "weekly",
       priority: 1.0,
     },
