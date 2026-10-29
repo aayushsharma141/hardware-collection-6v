@@ -77,7 +77,11 @@ export async function POST(request: Request) {
         telegram_status: "sent",
       });
     } catch (telegramError) {
-      console.error("Retry Telegram notification error:", telegramError);
+      logger.error("lead.notification_retry_failed", {
+        leadId: existingLead.id,
+        channel: "telegram",
+        error: telegramError instanceof Error ? telegramError.message : String(telegramError),
+      });
       await updateNotificationStatus(existingLead.id, "telegram", "failed");
 
       return NextResponse.json({
