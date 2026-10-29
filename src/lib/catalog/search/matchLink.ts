@@ -12,14 +12,14 @@ const MAX_QUERY = 80;
 export function buildMatchHref(match: BrandMatch, categoryTitle: string): string {
   const catalogue = match.catalogues[0];
   const params = new URLSearchParams({ brand: match.brandKey });
-  if (!catalogue) return `/catalogues?${params}`;
+  if (!catalogue) return `/collections?${params}#brand-catalogues`;
   const pages = [...new Set(catalogue.pages.map((p) => p.page))].sort((a, b) => a - b);
   params.set("cat", String(catalogue.catalogueIndex));
   params.set("page", String(catalogue.pages[0].page));
   params.set("q", categoryTitle.slice(0, MAX_QUERY));
   params.set("pages", pages.slice(0, MAX_LINK_PAGES).join(","));
   params.set("v", catalogue.version);
-  return `/catalogues?${params}`;
+  return `/collections?${params}`;
 }
 
 /**
