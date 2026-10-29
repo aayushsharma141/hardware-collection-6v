@@ -39,7 +39,7 @@ const jost = Jost({
 });
 
 import { getSiteSettings, getNavigation } from "@/content/sanity/queries";
-import { resolveMapUrl, SHOWROOM_HOURS_FALLBACK } from "@/lib/config";
+import { resolveMapUrl } from "@/lib/config";
 import { buildOpeningHoursSpecification } from "@/lib/seo/openingHours";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
@@ -109,7 +109,7 @@ export default async function RootLayout({
   const [settings, nav] = await Promise.all([getSiteSettings(), getNavigation()]);
   const { isEnabled: isDraftMode } = await draftMode();
   const openingHoursSpecification = buildOpeningHoursSpecification(
-    settings?.showroomHours || SHOWROOM_HOURS_FALLBACK
+    settings?.showroomHours
   );
 
   const jsonLd = {
@@ -156,11 +156,6 @@ export default async function RootLayout({
               }
             }
           : {}),
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 22.8028401,
-          "longitude": 86.2015
-        },
         ...(openingHoursSpecification.length > 0
           ? { "openingHoursSpecification": openingHoursSpecification }
           : {}),
