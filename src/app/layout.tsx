@@ -39,7 +39,8 @@ const jost = Jost({
 });
 
 import { getSiteSettings, getNavigation } from "@/content/sanity/queries";
-import { resolveMapUrl } from "@/lib/config";
+import { resolveMapUrl, SHOWROOM_HOURS_FALLBACK } from "@/lib/config";
+import { buildOpeningHoursSpecification } from "@/lib/seo/openingHours";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
 import Navbar from "@/components/layout/Navbar";
@@ -107,6 +108,9 @@ export default async function RootLayout({
 }>) {
   const [settings, nav] = await Promise.all([getSiteSettings(), getNavigation()]);
   const { isEnabled: isDraftMode } = await draftMode();
+  const openingHoursSpecification = buildOpeningHoursSpecification(
+    settings?.showroomHours || SHOWROOM_HOURS_FALLBACK
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -157,20 +161,9 @@ export default async function RootLayout({
           "latitude": 22.8028401,
           "longitude": 86.2015
         },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"],
-            "opens": "10:00",
-            "closes": "20:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Tuesday"],
-            "opens": "10:00",
-            "closes": "14:00"
-          }
-        ],
+        ...(openingHoursSpecification.length > 0
+          ? { "openingHoursSpecification": openingHoursSpecification }
+          : {}),
         "hasMap": resolveMapUrl(settings?.googleMapsUrl),
         "description": settings?.seo?.description || "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
         ...(settings?.authorizedBrandRefs?.length
