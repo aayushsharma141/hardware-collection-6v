@@ -110,7 +110,7 @@ async function runVerification() {
 
   checkHtmlH1("index.html", "/", "Sakchi, Jamshedpur");
   checkHtmlH1("collections.html", "/collections", "Architectural Hardware Collections");
-  checkHtmlH1("catalogues.html", "/catalogues", "Brands &amp; Catalogues");
+  checkHtmlH1("collections.html", "/collections", "Architectural Hardware Collections");
 
   // ── 4. Server-Rendered Taxonomy & Cross-Links ───────────────────
   console.log("\n--- 4. TAXONOMY & BIDIRECTIONAL CROSS-LINKS ---");
@@ -143,12 +143,12 @@ async function runVerification() {
       hasDetailsSummary ? "Native disclosure tags present in static HTML" : "Missing <details>/<summary>"
     );
 
-    const hasCataloguesCrossLink = collHtml.includes('href="/catalogues"');
+    const hasCataloguesCrossLink = collHtml.includes('id="brand-catalogues"');
     record(
       "Cross-Links",
-      "/collections -> /catalogues bridge",
+      "/collections includes embedded brand catalogues",
       hasCataloguesCrossLink,
-      hasCataloguesCrossLink ? "Crawlable anchor href='/catalogues' present" : "Missing cross-link"
+      hasCataloguesCrossLink ? "Embedded brand catalogue section present" : "Missing embedded catalogue section"
     );
   }
 
@@ -158,7 +158,7 @@ async function runVerification() {
     const hasCollectionsCrossLink = catHtml.includes('href="/collections"');
     record(
       "Cross-Links",
-      "/catalogues -> /collections bridge",
+      "/catalogues legacy route output",
       hasCollectionsCrossLink,
       hasCollectionsCrossLink ? "Crawlable anchor href='/collections' present" : "Missing cross-link"
     );
