@@ -1,4 +1,11 @@
 import { createClient } from "next-sanity";
+import path from "node:path";
+
+try {
+  process.loadEnvFile(path.resolve(process.cwd(), ".env.local"));
+} catch {
+  // CI and production provide the environment directly.
+}
 
 const projectId = process.env.NEXT_PUBLIC_SANITY_PROJECT_ID;
 const dataset = process.env.NEXT_PUBLIC_SANITY_DATASET;
