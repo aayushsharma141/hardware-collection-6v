@@ -24,7 +24,7 @@ export default defineConfig({
     { name: "mobile-iphone", use: { ...devices["iPhone 14"] } },
   ],
   webServer: {
-    command: "npm run dev",
+    command: process.env.PLAYWRIGHT_WEB_SERVER_COMMAND || "npm run dev",
     url: "http://localhost:3000",
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
