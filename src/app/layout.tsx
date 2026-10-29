@@ -158,21 +158,7 @@ export default async function RootLayout({
           "latitude": 22.8028401,
           "longitude": 86.2015
         },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"],
-            "opens": "10:00",
-            "closes": "20:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Tuesday"],
-            "opens": "10:00",
-            "closes": "14:00"
-          }
-        ],
-        "hasMap": resolveMapUrl(settings?.googleMapsUrl),
+"hasMap": resolveMapUrl(settings?.googleMapsUrl),
         "description": settings?.seo?.description || "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
         "brand": CANONICAL_BRANDS.map((brand) => ({
           "@type": "Brand",
@@ -191,7 +177,7 @@ export default async function RootLayout({
         <link rel="preconnect" href="https://wa.me" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c") }}
         />
       </head>
       <body className="min-h-full flex flex-col font-manrope hc-root antialiased">

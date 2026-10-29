@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const ip = clientIp(request);
 
     // 1. Rate Limiting (Redis-backed for serverless/edge environments)
-    if (!(await allowLeadRequest("leads", ip))) {
+    if (!(await allowLeadRequest("leads", ip, { failClosed: true }))) {
       logger.warn("api.ratelimit_exceeded", { ip, route: "/api/leads" });
       throw new ApiError(429, "Too many requests", "RATE_LIMIT_EXCEEDED");
     }

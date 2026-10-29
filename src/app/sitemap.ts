@@ -1,28 +1,18 @@
-import { MetadataRoute } from 'next';
+import type { MetadataRoute } from "next";
 
+/** The public information architecture intentionally has two indexable pages. */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = 'https://www.hardwarecollection.co';
-  // Stable content revision date matching last catalogue & architecture update
-  const lastModified = new Date('2026-10-09');
-
+  const baseUrl = "https://www.hardwarecollection.co";
   return [
     {
       url: baseUrl,
-      lastModified,
-      changeFrequency: 'weekly',
+      changeFrequency: "weekly",
       priority: 1.0,
     },
     {
       url: `${baseUrl}/collections`,
-      lastModified,
-      changeFrequency: 'weekly',
+      changeFrequency: "weekly",
       priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/catalogues`,
-      lastModified,
-      changeFrequency: 'weekly',
-      priority: 0.8,
     },
   ];
 }

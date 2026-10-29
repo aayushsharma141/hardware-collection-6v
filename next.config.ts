@@ -2,6 +2,11 @@ import type { NextConfig } from "next";
 import { SHOWROOM_GROUPS, LEGACY_FAMILY, railGroupId, showroomHref } from "./src/lib/collections/showroom";
 import { CATEGORIES } from "./src/content/fallback/catalog";
 
+// Never allow a production build to ship with the default noindex header.
+if (process.env.VERCEL_ENV === "production" && process.env.SITE_INDEXABLE !== "true") {
+  throw new Error("Production deployment blocked: set SITE_INDEXABLE=true in Vercel production environment variables.");
+}
+
 /**
  * `/collections` is the only collections route. Category, family and space
  * pages (`/collections/<slug>`) no longer exist, but the 13 categories created
