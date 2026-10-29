@@ -169,7 +169,7 @@ describe("match links", () => {
   it("builds a link carrying catalogue, best page, query and related pages", () => {
     const href = buildMatchHref(blum, "Drawer Channels");
     const url = new URL(href, "http://x");
-    expect(url.pathname).toBe("/catalogues");
+    expect(url.pathname).toBe("/collections");
     expect(url.searchParams.get("brand")).toBe("blum");
     expect(url.searchParams.get("cat")).toBe("2");
     expect(url.searchParams.get("q")).toBe("Drawer Channels");
