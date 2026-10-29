@@ -97,7 +97,7 @@ export default function CollectionsClient({
     if (!refs?.length) return brands;
     const authorizedSlugs = new Set(
       refs
-        .map((ref) => (typeof ref.slug === "object" ? ref.slug?.current : ref.slug))
+        .map((ref) => ref.slug)
         .filter((slug): slug is string => Boolean(slug))
         .map((slug) => slug.toLowerCase())
     );
