@@ -266,9 +266,15 @@ export default function BrandsDirectoryView({
     <div className="w-full bg-[var(--surface)] text-[var(--text-primary)]">
       {/* ── 01. Hero & Header Section ─────────────────────────────────── */}
       <section className="pt-12 sm:pt-16 pb-10 sm:pb-14 max-w-[1240px] mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4 text-balance">
-          Brands & Catalogues
-        </h1>
+        {embedded ? (
+          <h2 className="hc-serif text-4xl sm:text-5xl md:text-6xl font-light text-[var(--text-primary)] tracking-tight mb-4 text-balance">
+            Brands & Catalogues
+          </h2>
+        ) : (
+          <h1 className="hc-serif text-5xl sm:text-6xl md:text-7xl font-light text-[var(--text-primary)] tracking-tight mb-4 text-balance">
+            Brands & Catalogues
+          </h1>
+        )}
         <p className="text-[16px] sm:text-[18px] text-[var(--text-secondary)] font-light max-w-2xl mx-auto">
           Official manufacturer catalogues, technical references and product specifications from our authorized partners.
         </p>
