@@ -38,6 +38,9 @@ jobs:
       - name: Unit tests
         run: npm test
 
+      - name: Production build
+        run: npm run build
+
       - name: Security audit (critical severity)
         run: npm audit --audit-level=critical
 
@@ -50,6 +53,16 @@ jobs:
       - name: Deploy to Vercel (Production)
         id: deploy
         run: |
-          DEPLOY_URL=$(npx vercel --prod --archive=tgz --token="$VERCEL_TOKEN" 2>&1 | grep -oP 'https://[^\s]+vercel\.app' | tail -1)
-          echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
-          echo "✅ Deployed to: $DEPLOY_URL"
+          set -euo pipefail
+          DEPLOY_OUTPUT=$(npx vercel --prod --archive=tgz --token="$VERCEL_TOKEN" 2>&1) || {
+            printf '%s\\n' "$DEPLOY_OUTPUT"
+            exit 1
+          }
+          printf '%s\\n' "$DEPLOY_OUTPUT"
+          DEPLOY_URL=$(printf '%s\\n' "$DEPLOY_OUTPUT" | grep -oE 'https://[^[:space:]]+vercel\\.app' | tail -1 || true)
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "Vercel command completed without a deployment URL; refusing to report success."
+            exit 1
+          fi
+          echo "url=$DEPLOY_URL" >> "$GITHUB_OUTPUT"
+          echo "Deployed to: $DEPLOY_URL"
