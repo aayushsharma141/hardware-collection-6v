@@ -55,11 +55,11 @@ jobs:
         run: |
           set -euo pipefail
           DEPLOY_OUTPUT=$(npx vercel --prod --archive=tgz --token="$VERCEL_TOKEN" 2>&1) || {
-            printf '%s\\n' "$DEPLOY_OUTPUT"
+            printf '%s\n' "$DEPLOY_OUTPUT"
             exit 1
           }
-          printf '%s\\n' "$DEPLOY_OUTPUT"
-          DEPLOY_URL=$(printf '%s\\n' "$DEPLOY_OUTPUT" | grep -oE 'https://[^[:space:]]+vercel\\.app' | tail -1 || true)
+          printf '%s\n' "$DEPLOY_OUTPUT"
+          DEPLOY_URL=$(printf '%s\n' "$DEPLOY_OUTPUT" | grep -oE 'https://[^[:space:]]+vercel\.app' | tail -1 || true)
           if [ -z "$DEPLOY_URL" ]; then
             echo "Vercel command completed without a deployment URL; refusing to report success."
             exit 1
