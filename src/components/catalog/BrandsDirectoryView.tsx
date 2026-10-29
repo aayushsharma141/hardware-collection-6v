@@ -465,7 +465,7 @@ export default function BrandsDirectoryView({
                     {/* Right: Actions */}
                     <div className="flex flex-col sm:flex-row items-center justify-start gap-3 w-full md:w-[25%] shrink-0 mt-4 md:mt-0">
                       <Link
-                        href={`/catalogues?brand=${brand.id}`}
+                        href={`/collections?brand=${brand.id}#brand-catalogues`}
                         onClick={(e) => {
                           const resolved = brandLookup.get(brand.id) as ResolvedBrand | undefined;
                           if (resolved && onSelectBrand && !e.ctrlKey && !e.metaKey && !e.shiftKey) {
