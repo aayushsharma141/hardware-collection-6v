@@ -84,7 +84,9 @@ export default function Navbar({
   const navLinks: NavLinkItem[] =
     mainMenu && mainMenu.length > 0
       ? mainMenu.map((item) => {
-        const href = item.path === "/catalogues" || item.path === "/catalogs"\n          ? "/collections#brand-catalogues"\n          : item.path;
+        const href = item.path === "/catalogues" || item.path === "/catalogs"
+          ? "/collections#brand-catalogues"
+          : item.path;
         return {
           name: item.label,
           href,
