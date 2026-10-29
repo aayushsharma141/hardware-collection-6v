@@ -118,6 +118,16 @@ jobs:
             echo "PASS $path HTTP $status"
           done
 
+          # Exercise the lead endpoint's honeypot path. The limiter runs first,
+          # but the honeypot returns before any database write or notification.
+          lead_response="$(curl --silent --show-error --max-time 30 --request POST "$url/api/leads" --header 'Content-Type: application/json' --data '{"_honey":"release-smoke"}' --write-out '\nHTTP_STATUS:%{http_code}')"
+          lead_status="$(printf '%s\n' "$lead_response" | sed -n 's/^HTTP_STATUS://p' | tail -n 1)"
+          if [[ "$lead_status" != "200" ]] || ! printf '%s' "$lead_response" | grep -q 'HC-HONEYPOT'; then
+            echo "::error::Lead endpoint smoke test failed (HTTP ${lead_status:-unknown}). Verify production Upstash configuration and lead API health."
+            exit 1
+          fi
+          echo "PASS lead endpoint limiter and honeypot (no database write)"
+
       - name: Verify canonical production SEO headers and sitemap
         shell: bash
         run: |
