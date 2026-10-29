@@ -240,20 +240,20 @@ export default function BrandsDirectoryView({
   }, [brands]);
 
   const featuredBrands = useMemo(() => {
-    return DIRECTORY_ROSTER.filter((b) => b.featured);
-  }, []);
+    return DIRECTORY_ROSTER.filter((b) => b.featured && brandLookup.has(b.id));
+  }, [brandLookup]);
 
   const groupedDirectory = useMemo(() => {
     const groups: { letter: string; items: BrandDirectoryMeta[] }[] = [];
 
     ALPHABET_NAV.forEach((letter) => {
-      const items = DIRECTORY_ROSTER.filter((b) => b.letter === letter);
+      const items = DIRECTORY_ROSTER.filter((b) => b.letter === letter && brandLookup.has(b.id));
       if (items.length > 0) {
         groups.push({ letter, items });
       }
     });
     return groups;
-  }, []);
+  }, [brandLookup]);
 
   const scrollToLetter = (letter: string) => {
     const el = document.getElementById(`letter-${letter}`);
