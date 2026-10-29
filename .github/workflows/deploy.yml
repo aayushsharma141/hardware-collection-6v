@@ -213,7 +213,7 @@ jobs:
             echo "::error::Legacy /catalogues route should return HTTP 308 (got $redirect_status)."
             exit 1
           fi
-          grep -qiE '^location: https://www\\.hardwarecollection\\.co/collections\\?brand=hafele&cat=0&page=1' "$redirect_headers" || {
+          grep -qiE '^location: https://www\.hardwarecollection\.co/collections\?brand=hafele&cat=0&page=1' "$redirect_headers" || {
             echo "::error::Legacy /catalogues redirect did not preserve the catalogue query parameters."
             exit 1
           }
