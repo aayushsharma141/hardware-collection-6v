@@ -32,7 +32,7 @@ export const SHOWROOM_SOCIAL_FALLBACKS: ShowroomSocialLink[] = [
 /** Canonical showroom address — owner-chosen, GBP check pending. */
 export const SHOWROOM_ADDRESS = "1/18, Kashidih, Near Durga Puja Maidan, Sakchi, Jamshedpur, Jharkhand 831001";
 
-/** Used only when Site Settings is unreachable; Studio's showroomHours is the source of truth. */
+/** Reference only. Do not publish this schedule as verified structured data; confirm exact hours in Sanity and against the owner/GBP first. */
 export const SHOWROOM_HOURS_FALLBACK = "Wed–Mon: 10:00 AM – 8:00 PM\nTuesday: 10:00 AM – 2:00 PM";
 
 /** Owner-facing stats (Trust signals) */
