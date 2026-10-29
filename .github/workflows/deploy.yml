@@ -143,7 +143,7 @@ jobs:
             echo "::error::Canonical production homepage HTML returned HTTP $canonical_status."
             exit 1
           fi
-          if ! grep -Eqi '<link[^>]+rel=["\\x27]canonical["\\x27][^>]+href=["\\x27]https://www\\.hardwarecollection\\.co/["\\x27]' "$html"; then
+          if ! grep -qiF 'rel="canonical" href="https://www.hardwarecollection.co/"' "$html"; then
             echo "::error::Canonical homepage link does not point to https://www.hardwarecollection.co/."
             exit 1
           fi
@@ -169,7 +169,7 @@ jobs:
             echo "::error::Legacy /catalogues route should redirect to /collections (got HTTP $legacy_status)."
             exit 1
           fi
-          grep -qiE '^location: https://www\\.hardwarecollection\\.co/collections\\?brand=hafele' "$legacy_headers" || {
+          grep -qiF 'location: https://www.hardwarecollection.co/collections?brand=hafele' "$legacy_headers" || {
             echo "::error::Legacy catalogue redirect did not preserve the brand query parameter."
             exit 1
           }
