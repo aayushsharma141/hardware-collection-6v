@@ -21,6 +21,7 @@ test.describe("Release acceptance: public routes and catalogue delivery", () => 
     await page.goto("/catalogues?brand=hafele&cat=0&page=1&pages=1&v=000000000000");
     await expect(page).toHaveURL(/\/collections\?[^#]*brand=hafele/);
     await expect(page.locator("#brand-catalogues")).toBeAttached();
+    await expect(page.getByRole("dialog", { name: /Häfele|Hafele/i })).toBeVisible({ timeout: 15000 });
   });
 
   test("catalogue endpoint supports byte ranges and rejects stale or unknown assets", async ({ request }) => {
