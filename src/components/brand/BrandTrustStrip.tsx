@@ -134,7 +134,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
               </p>
             </div>
             <Link
-              href="/catalogues"
+              href="/collections#brand-catalogues"
               className="group/btn shrink-0 self-start md:self-auto inline-flex items-center justify-center gap-2.5 min-h-11 px-6 rounded-full border border-[var(--accent)]/40 text-[var(--accent)] text-[11px] font-semibold tracking-[0.18em] uppercase transition-all duration-300 hover:bg-[var(--accent)] hover:text-white hover:border-[var(--accent)] active:scale-[0.98]"
             >
               <span>View All Brands</span>
