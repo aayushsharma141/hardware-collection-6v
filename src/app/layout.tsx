@@ -161,11 +161,15 @@ export default async function RootLayout({
         "openingHoursSpecification": [
           {
             "@type": "OpeningHoursSpecification",
-            "dayOfWeek": [
-              "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"
-            ],
+            "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"],
             "opens": "10:00",
             "closes": "20:00"
+          },
+          {
+            "@type": "OpeningHoursSpecification",
+            "dayOfWeek": ["Tuesday"],
+            "opens": "10:00",
+            "closes": "14:00"
           }
         ],
         "hasMap": resolveMapUrl(settings?.googleMapsUrl),
