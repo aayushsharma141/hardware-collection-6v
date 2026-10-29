@@ -13,6 +13,7 @@ interface BrandsDirectoryViewProps {
   settings?: SiteSettings | null;
   onSelectBrand: (brand: ResolvedBrand) => void;
   selectedBrandSlug?: string | null;
+  embedded?: boolean;
 }
 
 interface BrandDirectoryMeta {
@@ -227,6 +228,7 @@ const ALPHABET_NAV = ["B", "D", "F", "G", "H", "L", "M", "O", "P", "R", "S", "T"
 export default function BrandsDirectoryView({
   brands,
   onSelectBrand,
+  embedded = false,
 }: BrandsDirectoryViewProps) {
   const brandLookup = useMemo(() => {
     const map = new Map<string, Brand>();
