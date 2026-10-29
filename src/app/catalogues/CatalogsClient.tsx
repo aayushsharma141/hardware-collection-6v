@@ -19,6 +19,8 @@ export interface CatalogsClientProps {
   showroomGroups?: { id: string; title: string }[];
   /** Render only the directory/viewer section inside /collections. */
   embedded?: boolean;
+  /** Current URL query, supplied by the Suspense boundary wrapper. */
+  searchKey?: string;
 }
 
 /**
@@ -60,32 +62,15 @@ function resolveMatchFromParams(params: URLSearchParams, brand: ResolvedBrand): 
   return { catalogue: parsed.catalogue, page: parsed.page, query: parsed.query, pages: parsed.pages };
 }
 
-function CatalogsClientContent({ brands, settings, showroomGroups, embedded = false }: CatalogsClientProps) {
-  const searchParams = useSearchParams();
-  const searchKey = searchParams.toString();
-  const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | null>(null);
-  const [match, setMatch] = useState<CatalogueMatchContext | null>(null);
-
-  // Synchronize ?brand= query param without triggering SSG bailout
-  React.useEffect(() => {
+function CatalogsClientContent({ brands, settings, showroomGroups, embedded = false, searchKey = "" }: CatalogsClientProps) {
+  const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | null>(() => {
+    return resolveBrandFromParam(new URLSearchParams(searchKey).get("brand"), brands);
+  });
+  const [match, setMatch] = useState<CatalogueMatchContext | null>(() => {
     const params = new URLSearchParams(searchKey);
-    const brandParam = params.get("brand");
-    if (!brandParam) {
-      setSelectedCatalogBrand(null);
-      setMatch(null);
-      return;
-    }
-
-    const nextBrand = resolveBrandFromParam(brandParam, brands);
-    if (!nextBrand) {
-      setSelectedCatalogBrand(null);
-      setMatch(null);
-      return;
-    }
-
-    setSelectedCatalogBrand(nextBrand);
-    setMatch(resolveMatchFromParams(params, nextBrand));
-  }, [brands, searchKey]);
+    const initialBrand = resolveBrandFromParam(params.get("brand"), brands);
+    return initialBrand ? resolveMatchFromParams(params, initialBrand) : null;
+  });
 
   return (
     <div className={embedded ? "w-full bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30" : "min-h-screen bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30 pt-[104px]"}>
@@ -145,13 +130,18 @@ function CatalogsClientContent({ brands, settings, showroomGroups, embedded = fa
 
 
 
+function CatalogsClientWithSearchParams(props: CatalogsClientProps) {
+  const searchParams = useSearchParams();
+  const searchKey = searchParams.toString();
+  return <CatalogsClientContent key={searchKey} {...props} searchKey={searchKey} />;
+}
+
 export default function CatalogsClient(props: CatalogsClientProps) {
-  // useSearchParams is wrapped in Suspense so this component remains safe if
-  // the parent route is statically rendered. It also handles same-route query
-  // changes, which a mount-only window.location reader misses.
+  // useSearchParams is wrapped in Suspense so the static route can render; a
+  // changed query key remounts the content and initializes the correct brand.
   return (
     <Suspense fallback={null}>
-      <CatalogsClientContent {...props} />
+      <CatalogsClientWithSearchParams {...props} />
     </Suspense>
   );
 }
