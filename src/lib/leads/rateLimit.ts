@@ -1,6 +1,7 @@
 import { Redis } from "@upstash/redis";
 import { Ratelimit } from "@upstash/ratelimit";
 import { logger } from "@/lib/logger";
+import { ApiError } from "@/lib/api-error";
 
 /**
  * Per-visitor limit for the lead endpoints: 5 requests a minute, shared across
@@ -50,7 +51,10 @@ export async function allowLeadRequest(
         missing: "UPSTASH_REDIS_REST_URL/UPSTASH_REDIS_REST_TOKEN",
       });
     }
-    return !(production && options.failClosed);
+    if (production && options.failClosed) {
+      throw new ApiError(503, "Service temporarily unavailable. Please try again later.", "RATE_LIMIT_UNAVAILABLE");
+    }
+    return true;
   }
   const { success } = await active.limit(`ratelimit_${scope}_${ip}`);
   return success;
