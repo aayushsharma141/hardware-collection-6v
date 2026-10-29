@@ -16,6 +16,8 @@ export interface CatalogsClientProps {
   settings?: SiteSettings | null;
   /** Showroom groups with products, for the footer's collection links. */
   showroomGroups?: { id: string; title: string }[];
+  /** Render only the directory/viewer section inside /collections. */
+  embedded?: boolean;
 }
 
 /**
@@ -57,7 +59,7 @@ function resolveMatchFromParams(params: URLSearchParams, brand: ResolvedBrand): 
   return { catalogue: parsed.catalogue, page: parsed.page, query: parsed.query, pages: parsed.pages };
 }
 
-export default function CatalogsClient({ brands, settings, showroomGroups }: CatalogsClientProps) {
+export default function CatalogsClient({ brands, settings, showroomGroups, embedded = false }: CatalogsClientProps) {
   const [selectedCatalogBrand, setSelectedCatalogBrand] = useState<ResolvedBrand | null>(null);
   const [match, setMatch] = useState<CatalogueMatchContext | null>(null);
 
@@ -82,7 +84,7 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
   }, [brands]);
 
   return (
-    <div className="min-h-screen bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30 pt-[104px]">
+    <div className={embedded ? "w-full bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30" : "min-h-screen bg-[var(--surface)] text-[var(--text-primary)] hc-root font-dmsans selection:bg-[var(--color-brass)]/30 pt-[104px]"}>
       <main className="w-full">
         <BrandsDirectoryView 
           brands={brands || []} 
@@ -94,7 +96,7 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
           selectedBrandSlug={selectedCatalogBrand ? normalizeBrandKey(selectedCatalogBrand) : null}
         />
 
-        {/* Contextual Cross-Link Bridge to Collections */}
+        {!embedded && <>{/* Contextual Cross-Link Bridge to Collections */}
         <div className="border-t border-[var(--border)] py-10 px-5 sm:px-8 lg:px-12 max-w-[1440px] mx-auto flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
           <div>
             <p className="text-xs uppercase tracking-widest text-[var(--accent)] font-semibold">Showroom Collections</p>
@@ -107,7 +109,7 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
             <span>Explore Architectural Collections</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
-        </div>
+        </div></>}
       </main>
 
       {/* Official Catalog Viewer Modal */}
@@ -127,12 +129,11 @@ export default function CatalogsClient({ brands, settings, showroomGroups }: Cat
         )}
       </AnimatePresence>
 
-      {/* Global Footer */}
-      <Footer 
+      {!embedded && <Footer 
         settings={settings || undefined}
         brands={brands}
         showroomGroups={showroomGroups}
-      />
+      />}
     </div>
   );
 }
