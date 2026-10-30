@@ -80,7 +80,7 @@ npx playwright test tests/e2e/mobile-journeys.spec.ts
 npx playwright test --project=chromium
 ```
 
-The full release gate (lint, type check, unit tests, build, `npm audit`, evidence validation) runs the unit suite as GATE-03:
+The production release workflow runs lint, type check, unit tests, build, `npm audit`, and the focused `tests/e2e/release-acceptance.spec.ts` against the production build before deployment. The full release gate (lint, type check, unit tests, build, `npm audit`, evidence validation) runs the unit suite as GATE-03:
 
 ```bash
 npx tsx scripts/release-verification.ts

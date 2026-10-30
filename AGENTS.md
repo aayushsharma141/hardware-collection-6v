@@ -168,7 +168,7 @@ NEXT_PUBLIC_SHOWROOM_MAP_URL=
 - `routeInventory.test.ts` — fails if any file links to `/collections/<slug>`
 - `schemaQueryParity.test.ts` — every GROQ field must exist on Sanity schema type
 
-**E2E tests do not run in CI.** Run locally before merging UI changes.
+The release-critical Playwright acceptance spec runs in CI against the production build before merge and again in the production deployment workflow. Run the full E2E suite locally before merging UI changes.
 
 ## CI Pipeline (`.github/workflows/ci.yml`)
 

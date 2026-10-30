@@ -10,7 +10,8 @@
     "test": "vitest run",
     "test:e2e": "playwright test",
     "postinstall": "prisma generate && node scripts/sync-pdfjs-assets.mjs",
-    "prebuild": "node scripts/sync-pdfjs-assets.mjs --check && node scripts/build-catalog-index.mjs"
+    "prebuild": "node scripts/sync-pdfjs-assets.mjs --check && node scripts/build-catalog-index.mjs",
+    "cms:verify": "tsx scripts/cms/verify-content.ts"
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",

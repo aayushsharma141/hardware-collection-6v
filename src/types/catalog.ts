@@ -191,6 +191,13 @@ export interface SiteSettings {
   pinterestUrl?: string;
   instagramUrl?: string;
   facebookUrl?: string;
+  seo?: {
+    metaTitle?: string;
+    metaDescription?: string;
+    description?: string;
+    title?: string;
+    noIndex?: boolean;
+  };
 }
 
 export interface ShowroomFamilyNav {

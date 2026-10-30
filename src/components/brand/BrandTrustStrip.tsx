@@ -96,7 +96,7 @@ export default function BrandTrustStrip({ brands, hideHeader, singleRow }: Brand
           const key = slugStr || b.id || (typeof b.name === "string" ? b.name.toLowerCase().replace(/[^a-z0-9]/g, "") : "");
           const canonical = CANONICAL_BRANDS.find((c) => c.id === key);
           const brandName = ("brandName" in b && b.brandName ? b.brandName : b.name) || "Brand";
-          const brandLogo = canonical?.logo || (typeof b.logoUrl === "string" ? b.logoUrl : undefined) || (typeof b.logo === "string" ? b.logo : undefined);
+          const brandLogo = (typeof b.logoUrl === "string" ? b.logoUrl : undefined) || (typeof b.logo === "string" ? b.logo : undefined) || canonical?.logo;
           return {
             name: brandName,
             id: key,

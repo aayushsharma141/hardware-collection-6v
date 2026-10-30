@@ -103,7 +103,7 @@ export async function generateMetadata(): Promise<Metadata> {
     title: seo?.metaTitle || siteSettings?.seo?.metaTitle || "Hardware Showroom Sakchi, Jamshedpur | Hardware Collection",
     description: seo?.metaDescription || "Hardware Collection is a premium architectural hardware showroom in Sakchi, Jamshedpur, offering door hardware, digital locks, kitchen and wardrobe systems, bathroom and glass hardware from authorized brands.",
     alternates: {
-      canonical: 'https://www.hardwarecollection.co',
+      canonical: 'https://www.hardwarecollection.co/',
     },
   };
 }
@@ -232,6 +232,10 @@ export default async function HomePage() {
             heading={homeData?.ctaHeading}
             description={homeData?.ctaDescription}
             mapUrl={resolveMapUrl(siteSettings?.googleMapsUrl)}
+            address={siteSettings?.showroomAddress}
+            hours={siteSettings?.showroomHours}
+            phone={siteSettings?.primaryPhone}
+            whatsappNumber={siteSettings?.whatsappNumber}
           />
         </div>
 

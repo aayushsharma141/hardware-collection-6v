@@ -13,10 +13,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 20
+      - name: Use Node.js 22.20
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.20.0"
           cache: "npm"
 
       - name: Install dependencies
@@ -34,10 +34,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 20
+      - name: Use Node.js 22.20
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.20.0"
           cache: "npm"
 
       - name: Install dependencies
@@ -74,13 +74,15 @@ jobs:
       # build falls through to src/content/fallback/, proving offline resilience.
       NEXT_PUBLIC_SANITY_PROJECT_ID: hoghkg00
       NEXT_PUBLIC_SANITY_DATASET: production
+      NEXT_PUBLIC_SANITY_API_VERSION: "2024-02-12"
+      SITE_INDEXABLE: "true"
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 20
+      - name: Use Node.js 22.20
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.20.0"
           cache: "npm"
 
       - name: Install dependencies
@@ -90,3 +92,12 @@ jobs:
       # fails here rather than at render time if public/pdfjs has drifted.
       - name: Build
         run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Release acceptance E2E tests against production build
+        env:
+          PLAYWRIGHT_WEB_SERVER_COMMAND: npm run start
+          SITE_INDEXABLE: "true"
+        run: npx playwright test tests/e2e/release-acceptance.spec.ts

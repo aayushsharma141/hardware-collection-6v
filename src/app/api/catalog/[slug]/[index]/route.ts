@@ -151,7 +151,22 @@ export async function GET(
 
   if (!upstream.ok && upstream.status !== 206) {
     console.error(`Catalog upstream returned ${upstream.status} for ${slug}/${i}`);
-    return new Response("Upstream error", { status: 502 });
+
+    // A catalogue asset can be replaced or deleted in Sanity while this
+    // instance still holds its 10-minute URL cache. Report a missing asset as
+    // a recoverable not-found state rather than a generic upstream outage.
+    if (upstream.status === 404 || upstream.status === 410) {
+      urlCache.delete(slug);
+      return new Response("Catalogue not found", {
+        status: 404,
+        headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" },
+      });
+    }
+
+    return new Response("Catalogue temporarily unavailable", {
+      status: 502,
+      headers: { "Cache-Control": "no-store", "X-Content-Type-Options": "nosniff" },
+    });
   }
 
   const headers = new Headers({

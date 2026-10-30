@@ -39,8 +39,8 @@ const jost = Jost({
 });
 
 import { getSiteSettings, getNavigation } from "@/content/sanity/queries";
-import { CANONICAL_BRANDS } from "@/content/fallback/brands";
 import { resolveMapUrl } from "@/lib/config";
+import { buildOpeningHoursSpecification } from "@/lib/seo/openingHours";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { ConsultationDrawer } from "@/components/consultation/ConsultationDrawer";
 import Navbar from "@/components/layout/Navbar";
@@ -108,6 +108,9 @@ export default async function RootLayout({
 }>) {
   const [settings, nav] = await Promise.all([getSiteSettings(), getNavigation()]);
   const { isEnabled: isDraftMode } = await draftMode();
+  const openingHoursSpecification = buildOpeningHoursSpecification(
+    settings?.showroomHours
+  );
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -153,31 +156,19 @@ export default async function RootLayout({
               }
             }
           : {}),
-        "geo": {
-          "@type": "GeoCoordinates",
-          "latitude": 22.8028401,
-          "longitude": 86.2015
-        },
-        "openingHoursSpecification": [
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Wednesday", "Thursday", "Friday", "Saturday", "Sunday", "Monday"],
-            "opens": "10:00",
-            "closes": "20:00"
-          },
-          {
-            "@type": "OpeningHoursSpecification",
-            "dayOfWeek": ["Tuesday"],
-            "opens": "10:00",
-            "closes": "14:00"
-          }
-        ],
+        ...(openingHoursSpecification.length > 0
+          ? { "openingHoursSpecification": openingHoursSpecification }
+          : {}),
         "hasMap": resolveMapUrl(settings?.googleMapsUrl),
         "description": settings?.seo?.description || "Premier architectural hardware, digital locks, and modular fittings showroom in Sakchi, Jamshedpur.",
-        "brand": CANONICAL_BRANDS.map((brand) => ({
-          "@type": "Brand",
-          "name": brand.name,
-        }))
+        ...(settings?.authorizedBrandRefs?.length
+          ? {
+              "brand": settings.authorizedBrandRefs.map((brand: { brandName: string }) => ({
+                "@type": "Brand",
+                "name": brand.brandName,
+              }))
+            }
+          : {})
       }
     ]
   };
@@ -200,12 +191,17 @@ export default async function RootLayout({
             primaryPhone={settings?.primaryPhone}
             whatsappNumber={settings?.whatsappNumber}
             defaultWhatsappMessage={settings?.defaultWhatsappMessage}
+            showroomHours={settings?.showroomHours}
             announcementBar={nav?.announcementBar}
             mainMenu={nav?.mainMenu}
           />
           {children}
         </MotionProvider>
-        <FloatingActionButtons />
+        <FloatingActionButtons
+          phone={settings?.primaryPhone}
+          whatsappNumber={settings?.whatsappNumber}
+          defaultMessage={settings?.defaultWhatsappMessage}
+        />
         <ConsultationDrawer />
         {isDraftMode && <VisualEditing />}
         {isDraftMode && <DraftModeBanner />}

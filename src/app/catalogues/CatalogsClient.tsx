@@ -32,7 +32,9 @@ function resolveBrandFromParam(
   const targetKey = brandParam.toLowerCase().replace(/[^a-z0-9]/g, "");
   const matchedBrand = (brands || []).find((b) => normalizeBrandKey(b) === targetKey);
   const canonical = CANONICAL_BRANDS_BY_ID[targetKey];
-  if (!matchedBrand && !canonical) return null;
+  // `brands` is already limited to the owner-approved list, so a canonical
+  // brand that is not in it must not resolve from a guessed ?brand= value.
+  if (!matchedBrand) return null;
   return {
     ...(matchedBrand || {}),
     name: canonical?.name || matchedBrand?.name || brandParam,

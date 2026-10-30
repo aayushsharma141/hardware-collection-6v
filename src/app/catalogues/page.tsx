@@ -29,14 +29,18 @@ export default async function CatalogsPage() {
       ? sanityBrands
       : (BRANDS as unknown as Brand[]);
 
-  if (settings?.authorizedBrandRefs?.length) {
-    brands = brands.filter((b) =>
-      settings.authorizedBrandRefs!.some(
-        (ab: { slug?: string | { current?: string } }) =>
-          (typeof ab.slug === "object" ? ab.slug?.current : ab.slug) === (typeof b.slug === "object" ? b.slug?.current : b.slug)
-      )
-    );
-  }
+  // Fail closed: only brands the owner approved in Business Settings are listed
+  // or reachable through ?brand=. With no approved list the directory shows its
+  // "being updated" state and a WhatsApp fallback instead of unverified claims.
+  const authorizedSlugs = new Set(
+    (settings?.authorizedBrandRefs ?? [])
+      .map((ref) => ref.slug?.toLowerCase())
+      .filter((slug): slug is string => Boolean(slug))
+  );
+  brands = brands.filter((b) => {
+    const slug = typeof b.slug === "object" ? b.slug?.current : b.slug;
+    return Boolean(slug && authorizedSlugs.has(slug.toLowerCase()));
+  });
 
   // Deduplicate by normalized key and inject fallback logo
   brands = Array.from(new Map(brands.map(b => {
@@ -73,7 +77,7 @@ export default async function CatalogsPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbLd) }}
       />
-      <CatalogsClient 
+      <CatalogsClient
         brands={brands}
         settings={settings}
         showroomGroups={showroomGroups}

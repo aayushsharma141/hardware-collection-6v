@@ -18,9 +18,20 @@ interface FloatingCTAProps {
   description?: string;
   /** "Get Directions" target; the Studio value when set, else the configured default. */
   mapUrl?: string;
+  address?: string;
+  hours?: string;
+  phone?: string;
+  whatsappNumber?: string;
 }
 
-export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) {
+export default function FloatingCTA({
+  reviews = [],
+  mapUrl,
+  address,
+  hours,
+  phone,
+  whatsappNumber,
+}: FloatingCTAProps) {
   const validReviews = (reviews || []).filter(
     (r) => r && r.quote && r.quote.trim().length > 0 && r.customerName && r.customerName.trim().length > 0
   );
@@ -220,7 +231,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                       Sakchi, Jamshedpur
                     </h3>
                     <address className="not-italic text-[11px] text-[var(--text-secondary)] font-light leading-relaxed mt-1">
-                      {SHOWROOM_ADDRESS}
+                      {address || SHOWROOM_ADDRESS}
                     </address>
                   </div>
                 </div>
@@ -228,10 +239,20 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                 <div className="border-t border-[var(--border)]/70 pt-4 flex items-start gap-3">
                   <Clock className="w-4 h-4 text-[var(--color-brass-ink)] shrink-0 mt-0.5" strokeWidth={1.5} />
                   <div className="text-[11px] text-[var(--text-secondary)] font-light leading-relaxed">
-                    <p className="font-medium text-[var(--text-primary)]">
-                      Wed - Mon: 10:00 AM - 8:00 PM
-                    </p>
-                    <p>Tuesday: 10:00 AM - 2:00 PM</p>
+                    {hours ? (
+                      hours.split(/\r?\n/).map((line, idx) => (
+                        <p key={idx} className={idx === 0 ? "font-medium text-[var(--text-primary)]" : undefined}>
+                          {line}
+                        </p>
+                      ))
+                    ) : (
+                      <>
+                        <p className="font-medium text-[var(--text-primary)]">
+                          Wed - Mon: 10:00 AM - 8:00 PM
+                        </p>
+                        <p>Tuesday: 10:00 AM - 2:00 PM</p>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
@@ -239,7 +260,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
               {/* Action Buttons Row with Pill Geometry */}
               <div className="grid grid-cols-2 gap-3 pt-6 border-t border-[var(--border)]/70 mt-6">
                 <a
-                  href={generateWhatsAppUrl("showroom-visit")}
+                  href={generateWhatsAppUrl("showroom-visit", undefined, whatsappNumber)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="py-3 px-4 rounded-full bg-[var(--color-wine)] text-white text-[11px] font-semibold uppercase tracking-[0.16em] text-center hover:bg-[var(--color-wine-deep)] shadow-[0_4px_14px_rgba(139,26,66,0.2)] hover:shadow-[0_6px_20px_rgba(139,26,66,0.28)] active:scale-[0.98] transition-all duration-200"
@@ -247,7 +268,7 @@ export default function FloatingCTA({ reviews = [], mapUrl }: FloatingCTAProps) 
                   WhatsApp
                 </a>
                 <a
-                  href={SHOWROOM_PHONE_HREF}
+                  href={phone ? `tel:${phone.replace(/[^\d+]/g, "")}` : SHOWROOM_PHONE_HREF}
                   className="py-3 px-4 rounded-full bg-white/70 hover:bg-white border border-[var(--border)] hover:border-[var(--text-primary)] text-[var(--text-primary)] text-[11px] font-semibold uppercase tracking-[0.16em] text-center active:scale-[0.98] transition-all duration-200"
                 >
                   Call

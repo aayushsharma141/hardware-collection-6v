@@ -4,7 +4,7 @@ import { Testimonial } from "@/types/testimonial";
 import { CATEGORIES, PRODUCTS } from "@/content/fallback/catalog";
 import { mergeCategories, mergeProducts } from "@/lib/collections/catalogue";
 import { categoryRails, groupProducts } from "@/lib/collections/showroom";
-import type { Category, Offer } from "@/types/catalog";
+import type { Category, Offer, SiteSettings } from "@/types/catalog";
 import { withPdfVersions, type BrandRow } from "@/lib/catalog/viewOnly";
 
 /**
@@ -273,7 +273,7 @@ export async function getHomePage() {
   }
 }
 
-export async function getSiteSettings() {
+export async function getSiteSettings(): Promise<SiteSettings | null> {
   const query = groq`*[_type == "siteSettings"][0] {
     "whatsappNumber": whatsapp,
     defaultWhatsappMessage,

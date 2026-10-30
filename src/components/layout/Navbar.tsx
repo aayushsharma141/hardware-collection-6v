@@ -15,6 +15,7 @@ interface NavbarProps {
   primaryPhone?: string;
   whatsappNumber?: string;
   defaultWhatsappMessage?: string;
+  showroomHours?: string;
   /** Optional announcement bar text from Sanity (e.g. "Showroom closed Sundays"). Hides if empty. */
   announcementBar?: string;
   /** Nav links from Sanity. Falls back to NAV_LINKS if not provided. */
@@ -56,6 +57,7 @@ export default function Navbar({
   primaryPhone = "+91 98351 90738",
   announcementBar,
   mainMenu,
+  showroomHours,
 }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOverHero, setIsOverHero] = useState(false);
@@ -429,6 +431,7 @@ export default function Navbar({
             handleLogoClick={handleLogoClick}
             primaryPhone={primaryPhone}
             cleanPhone={cleanPhone}
+            showroomHours={showroomHours}
             onConsultClick={() => openDrawer({ source: "navbar", intent: "consultation" })}
           />
         </div>

@@ -21,8 +21,8 @@ The site is configured with environment variables and a few committed config fil
 | `TELEGRAM_CHAT_ID` | Required for lead alerts | none | Telegram chat that receives new-lead alerts. |
 | `RESEND_API_KEY` | Optional | none | Resend API key for lead notification emails (`src/lib/leads/email.ts`). |
 | `STAFF_EMAIL` | Optional | none | Address that receives lead notification emails. |
-| `UPSTASH_REDIS_REST_URL` | Optional | none | Upstash Redis REST URL for the `/api/leads` rate limiter. |
-| `UPSTASH_REDIS_REST_TOKEN` | Optional | none | Upstash Redis REST token. Rate limiting is turned on only when both Upstash variables are set. |
+| `UPSTASH_REDIS_REST_URL` | **Required in production** | none | Upstash Redis REST URL for the `/api/leads` rate limiter. The public lead endpoint now fails closed in production if the limiter is not configured. |
+| `UPSTASH_REDIS_REST_TOKEN` | **Required in production** | none | Upstash Redis REST token. Rate limiting is enabled only when both Upstash variables are set. |
 | `NEXT_PUBLIC_SHOWROOM_MAP_URL` | Optional | Google Maps search URL for "Hardware Collection Jamshedpur" | Showroom map link, read in `src/lib/config.ts`. |
 | `NODE_ENV` | Set by Next.js | — | Controls the Sanity test fallbacks, the Vision tool (development only), whether `/api/seed` is disabled (production), and Prisma client caching. |
 
@@ -84,7 +84,7 @@ NEXT_PUBLIC_SHOWROOM_MAP_URL=
 **Degrade gracefully:**
 
 - `SANITY_API_TOKEN` missing: the Sanity client returns no data and the site renders from `src/content/fallback/`. CI's build job relies on this to check that the site still renders without Sanity.
-- `UPSTASH_REDIS_REST_*` missing: `/api/leads` runs without rate limiting. With both set, it allows 5 requests per minute per IP (sliding window).
+- `UPSTASH_REDIS_REST_*` missing: `/api/leads` and `/api/leads/retry` reject requests in production rather than running without rate limiting. With both set, the shared limiter allows 5 requests per minute per IP (sliding window).
 - `NEXT_PUBLIC_SANITY_PROJECT_ID` / `NEXT_PUBLIC_SANITY_DATASET` missing during `npm run build`: the `prebuild` step (`scripts/build-catalog-index.mjs`) logs `[catalog-index] Sanity project not configured; skipping.` and continues. The app import check above still applies.
 
 ## Defaults
@@ -107,5 +107,10 @@ The repository has no `.env.development`, `.env.production` or `.env.test` files
 - **Local development:** put values in `.env.local`. With `NODE_ENV=development`, the Sanity Vision tool appears in `/studio` and `/api/seed` is enabled (it still needs `Authorization: Bearer <SANITY_API_TOKEN>`). The Prisma client is cached on `global` between hot reloads.
 - **Test (`NODE_ENV=test`):** Vitest runs without real Sanity credentials. `env.ts` falls back to the `dummy-project-id` project and the `production` dataset.
 - **CI:** `.github/workflows/ci.yml` sets `NEXT_PUBLIC_SANITY_PROJECT_ID` and `NEXT_PUBLIC_SANITY_DATASET` directly in the build job. It does not set `SANITY_API_TOKEN`, so the build uses fallback content. `CI` changes Playwright and evidence-engine behaviour as described above.
-- **Production (Vercel):** runtime variables are set in the Vercel project environment. <!-- VERIFY: production env vars are managed in the Vercel dashboard for the hc-demo project --> `.github/workflows/deploy.yml` deploys on push to `main` and needs the GitHub secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID`. With `NODE_ENV=production`, `/api/seed` returns 403 and the Vision tool is excluded.
+- **Production (Vercel):** runtime variables are set in the Vercel project environment. <!-- VERIFY: production env vars are managed in the Vercel dashboard for the hc-demo project --> `.github/workflows/deploy.yml` deploys on push to `main`, runs typecheck, lint, unit tests, audits and a production build before deployment, then validates the deployment URL and smoke-tests `/` and `/collections`. It needs GitHub secrets `VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID`. With `NODE_ENV=production`, `/api/seed` returns 403 and the Vision tool is excluded.
 - **Sanity webhook:** the same `SANITY_REVALIDATE_SECRET` value must be set on the webhook in Sanity's project management console. <!-- VERIFY: revalidation webhook is configured at sanity.io/manage for this project -->
+
+
+## Sanity setup and publishing
+
+For the operational steps to configure the Studio, production environment, revalidation webhook, draft preview, product/brand/category/offer/catalogue editing and acceptance testing, follow [Sanity Setup & Publishing](./SANITY_SETUP_AND_PUBLISHING.md). The runbook is intended to be used during setup and again for every release that changes Sanity schemas, GROQ queries, cache tags or preview configuration.

@@ -3,32 +3,61 @@ name: Deploy to Vercel
 on:
   push:
     branches:
-      - main  # Auto-deploy to production when merging to main
+      - main
+
+permissions:
+  contents: read
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
 
 jobs:
   deploy-production:
-    name: Deploy → Production
+    name: Validate & deploy production
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     environment:
       name: production
       url: ${{ steps.deploy.outputs.url }}
     env:
-      VERCEL_TOKEN: "${{ secrets.VERCEL_TOKEN }}"
-      VERCEL_ORG_ID: "${{ secrets.VERCEL_ORG_ID }}"
-      VERCEL_PROJECT_ID: "${{ secrets.VERCEL_PROJECT_ID }}"
+      VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+      VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+      VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      NEXT_PUBLIC_SANITY_PROJECT_ID: hoghkg00
+      NEXT_PUBLIC_SANITY_DATASET: production
+      NEXT_PUBLIC_SANITY_API_VERSION: "2024-02-12"
+      SITE_INDEXABLE: "true"
     steps:
       - uses: actions/checkout@v4
 
-      - name: Use Node.js 20
+      - name: Use Node.js 22
         uses: actions/setup-node@v4
         with:
-          node-version: "20.x"
+          node-version: "22.x"
           cache: "npm"
+
+      - name: Verify required deployment secrets
+        shell: bash
+        env:
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+        run: |
+          set -euo pipefail
+          for name in VERCEL_TOKEN VERCEL_ORG_ID VERCEL_PROJECT_ID SANITY_API_TOKEN; do
+            if [[ -z "${!name:-}" ]]; then
+              echo "::error::Required GitHub environment secret $name is missing."
+              exit 1
+            fi
+          done
 
       - name: Install dependencies
         run: npm ci
 
-      # A push to main must not reach production if it would fail CI.
+      - name: Verify published Sanity content before build
+        env:
+          SANITY_API_TOKEN: ${{ secrets.SANITY_API_TOKEN }}
+        run: npm run cms:verify
+
       - name: Type check
         run: npx tsc --noEmit
 
@@ -44,12 +73,148 @@ jobs:
       - name: No console.log in production source
         run: node scripts/checks/no-console-log.js
 
-      - name: Legacy design-token / button.tsx migration audit
+      - name: Dependency and design-token audit
         run: node scripts/audit-dependencies.cjs
+
+      # Build before deployment. The build intentionally uses the public Sanity
+      # project/dataset only; the write token and webhook secrets are not exposed
+      # to this job. Content fallback keeps the build independent of private data.
+      - name: Production build
+        run: npm run build
+
+      - name: Install Playwright Chromium
+        run: npx playwright install --with-deps chromium webkit
+
+      - name: Release acceptance E2E tests against production build
+        env:
+          PLAYWRIGHT_WEB_SERVER_COMMAND: npm run start
+          SITE_INDEXABLE: "true"
+        run: npx playwright test tests/e2e/release-acceptance.spec.ts
+
+      - name: Link the exact Vercel project
+        shell: bash
+        run: |
+          set -euo pipefail
+          npx vercel link --yes --project="$VERCEL_PROJECT_ID" --scope="$VERCEL_ORG_ID" --token="$VERCEL_TOKEN"
+          node -e 'const fs=require("node:fs"); const p=JSON.parse(fs.readFileSync(".vercel/project.json","utf8")); if(p.projectId!==process.env.VERCEL_PROJECT_ID){console.error("Linked Vercel project ID does not match VERCEL_PROJECT_ID");process.exit(1)}; console.log("Verified linked Vercel project:",p.projectId)'
 
       - name: Deploy to Vercel (Production)
         id: deploy
+        shell: bash
         run: |
-          DEPLOY_URL=$(npx vercel --prod --archive=tgz --token="$VERCEL_TOKEN" 2>&1 | grep -oP 'https://[^\s]+vercel\.app' | tail -1)
-          echo "url=$DEPLOY_URL" >> $GITHUB_OUTPUT
-          echo "✅ Deployed to: $DEPLOY_URL"
+          set -euo pipefail
+          deploy_log="$(mktemp)"
+          if ! npx vercel deploy --prod --yes --archive=tgz --token="$VERCEL_TOKEN" 2>&1 | tee "$deploy_log"; then
+            echo "::error::Vercel deployment command failed."
+            exit 1
+          fi
+
+          deploy_url="$(grep -Eo 'https://[^[:space:]]+\.vercel\.app' "$deploy_log" | tail -n 1 || true)"
+          if [[ -z "$deploy_url" ]]; then
+            echo "::error::Vercel CLI exited without a detectable deployment URL; refusing to report success."
+            exit 1
+          fi
+
+          echo "url=$deploy_url" >> "$GITHUB_OUTPUT"
+          echo "Deployment created: $deploy_url"
+
+      - name: Smoke test deployed URL
+        shell: bash
+        run: |
+          set -euo pipefail
+          url="${{ steps.deploy.outputs.url }}"
+          for path in / /collections /catalogues; do
+            status="$(curl --silent --show-error --location --output /dev/null --write-out '%{http_code}' --max-time 30 "$url$path")"
+            if [[ "$status" != "200" ]]; then
+              echo "::error::Smoke test failed for $path (HTTP $status)."
+              exit 1
+            fi
+            echo "PASS $path HTTP $status"
+          done
+
+          # Exercise the lead endpoint's honeypot path. The honeypot returns
+          # before any database write or notification.
+          lead_response="$(curl --silent --show-error --max-time 30 --request POST "$url/api/leads" --header 'Content-Type: application/json' --data '{"_honey":"release-smoke"}' --write-out '\nHTTP_STATUS:%{http_code}')"
+          lead_status="$(printf '%s\n' "$lead_response" | sed -n 's/^HTTP_STATUS://p' | tail -n 1)"
+          if [[ "$lead_status" != "200" ]] || ! printf '%s' "$lead_response" | grep -q 'HC-HONEYPOT'; then
+            echo "::error::Lead endpoint smoke test failed (HTTP ${lead_status:-unknown}). Verify the lead API health."
+            exit 1
+          fi
+          echo "PASS lead endpoint honeypot (no database write)"
+
+          # /api/leads deliberately stays open when the limiter is missing so a
+          # misconfiguration never drops a customer's enquiry. /api/leads/retry
+          # fails closed, so an empty body answers 400 when Upstash is configured
+          # and 429 when it is not. No lead is created either way.
+          retry_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 30 --request POST "$url/api/leads/retry" --header 'Content-Type: application/json' --data '{}')"
+          if [[ "$retry_status" != "400" ]]; then
+            echo "::error::Lead limiter check returned HTTP $retry_status; expected 400. A 429 means UPSTASH_REDIS_REST_URL/TOKEN are missing in Vercel Production."
+            exit 1
+          fi
+          echo "PASS production lead limiter is configured"
+
+          # Missing webhook secret returns 500; an unauthenticated request with
+          # a configured secret must be rejected as 401 before any cache action.
+          webhook_status="$(curl --silent --show-error --output /dev/null --write-out '%{http_code}' --max-time 30 --request POST "$url/api/revalidate" --header 'Content-Type: application/json' --data '{"_type":"siteSettings"}')"
+          if [[ "$webhook_status" != "401" ]]; then
+            echo "::error::Sanity webhook guard returned HTTP $webhook_status; expected 401. A 500 commonly indicates SANITY_REVALIDATE_SECRET is missing."
+            exit 1
+          fi
+          echo "PASS Sanity webhook rejects unsigned requests"
+
+      - name: Verify canonical production SEO headers and sitemap
+        shell: bash
+        run: |
+          set -euo pipefail
+          headers="$(mktemp)"
+          status=""
+          for attempt in {1..6}; do
+            status="$(curl --silent --show-error --location --dump-header "$headers" --output /dev/null --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/ || true)"
+            if [[ "$status" == "200" ]]; then break; fi
+            sleep 10
+          done
+          if [[ "$status" != "200" ]]; then
+            echo "::error::Canonical production homepage returned HTTP ${status:-unknown}."
+            exit 1
+          fi
+          if grep -qiE '^x-robots-tag:.*noindex' "$headers"; then
+            echo "::error::Production homepage is sending X-Robots-Tag noindex. Set SITE_INDEXABLE=true in Vercel Production and redeploy."
+            exit 1
+          fi
+          html="$(mktemp)"
+          canonical_status="$(curl --silent --show-error --location --output "$html" --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/)"
+          if [[ "$canonical_status" != "200" ]]; then
+            echo "::error::Canonical production homepage HTML returned HTTP $canonical_status."
+            exit 1
+          fi
+          if ! grep -qiF 'rel="canonical" href="https://www.hardwarecollection.co/"' "$html"; then
+            echo "::error::Canonical homepage link does not point to https://www.hardwarecollection.co/."
+            exit 1
+          fi
+
+          sitemap="$(mktemp)"
+          sitemap_status="$(curl --silent --show-error --location --output "$sitemap" --write-out '%{http_code}' --max-time 30 https://www.hardwarecollection.co/sitemap.xml)"
+          if [[ "$sitemap_status" != "200" ]]; then
+            echo "::error::Production sitemap returned HTTP $sitemap_status."
+            exit 1
+          fi
+          grep -q 'https://www.hardwarecollection.co/collections' "$sitemap" || {
+            echo "::error::Sitemap is missing the canonical /collections URL."
+            exit 1
+          }
+          if grep -q 'https://www.hardwarecollection.co/catalogues' "$sitemap"; then
+            echo "::error::Sitemap must not list legacy /catalogues; only / and /collections are canonical public routes."
+            exit 1
+          fi
+
+          redirect_headers="$(mktemp)"
+          redirect_status="$(curl --silent --show-error --output /dev/null --dump-header "$redirect_headers" --write-out '%{http_code}' --max-time 30 'https://www.hardwarecollection.co/catalogues?brand=hafele&cat=0&page=1')"
+          if [[ "$redirect_status" != "308" ]]; then
+            echo "::error::Legacy /catalogues route should return HTTP 308 (got $redirect_status)."
+            exit 1
+          fi
+          grep -qiE '^location: https://www\.hardwarecollection\.co/collections\?brand=hafele&cat=0&page=1' "$redirect_headers" || {
+            echo "::error::Legacy /catalogues redirect did not preserve the catalogue query parameters."
+            exit 1
+          }
+          echo "PASS production indexability, canonical host, two-route sitemap, and legacy redirect"
