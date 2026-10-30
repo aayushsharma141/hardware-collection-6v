@@ -232,6 +232,10 @@ export default async function HomePage() {
             heading={homeData?.ctaHeading}
             description={homeData?.ctaDescription}
             mapUrl={resolveMapUrl(siteSettings?.googleMapsUrl)}
+            address={siteSettings?.showroomAddress}
+            hours={siteSettings?.showroomHours}
+            phone={siteSettings?.primaryPhone}
+            whatsappNumber={siteSettings?.whatsappNumber}
           />
         </div>
 

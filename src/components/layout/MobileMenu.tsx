@@ -17,6 +17,7 @@ interface MobileMenuProps {
   handleLogoClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
   primaryPhone?: string;
   cleanPhone?: string;
+  showroomHours?: string;
   onConsultClick: () => void;
 }
 
@@ -27,6 +28,7 @@ export function MobileMenu({
   navLinks,
   isLinkActive,
   handleNavClick,
+  showroomHours,
   onConsultClick,
 }: MobileMenuProps) {
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -274,7 +276,7 @@ export function MobileMenu({
                   Sakchi, Jamshedpur
                 </span>
                 <span className="text-[10px] uppercase tracking-[0.14em] hc-mono">
-                  {SHOWROOM_HOURS_FALLBACK}
+                  {showroomHours ? showroomHours.split(/\r?\n/)[0] : SHOWROOM_HOURS_FALLBACK}
                 </span>
               </div>
             </motion.div>

@@ -191,12 +191,17 @@ export default async function RootLayout({
             primaryPhone={settings?.primaryPhone}
             whatsappNumber={settings?.whatsappNumber}
             defaultWhatsappMessage={settings?.defaultWhatsappMessage}
+            showroomHours={settings?.showroomHours}
             announcementBar={nav?.announcementBar}
             mainMenu={nav?.mainMenu}
           />
           {children}
         </MotionProvider>
-        <FloatingActionButtons />
+        <FloatingActionButtons
+          phone={settings?.primaryPhone}
+          whatsappNumber={settings?.whatsappNumber}
+          defaultMessage={settings?.defaultWhatsappMessage}
+        />
         <ConsultationDrawer />
         {isDraftMode && <VisualEditing />}
         {isDraftMode && <DraftModeBanner />}
